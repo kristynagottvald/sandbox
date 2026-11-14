@@ -21,27 +21,28 @@ nav.back a{color:#8d8d8d;text-decoration:none}nav.back a:hover{color:#fff;text-d
 nav.back span{color:#6e6e6e}nav.back b{font-weight:500}
 .wide{display:block;width:calc(100%/1.16);transform:scaleX(1.16);transform-origin:0 0;letter-spacing:-.0174em}
 .cap{font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase}
-.btn{display:inline-block;border:1.5px solid var(--ink);background:var(--ink);color:var(--yellow);padding:13px 20px;font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;text-decoration:none;box-shadow:5px 5px 0 var(--ink);transition:transform .2s var(--ease),box-shadow .2s var(--ease)}
-.btn:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
-.btn.y{background:var(--yellow);color:var(--ink);border-color:var(--yellow);box-shadow:5px 5px 0 var(--cream)}
+.btn{display:inline-block;border:1.5px solid var(--ink);background:var(--ink);color:var(--yellow);padding:13px 20px;font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:background .2s var(--ease),color .2s var(--ease)}
+.btn:hover{background:var(--yellow);color:var(--ink)}
+.btn.y{background:var(--yellow);color:var(--ink);border-color:var(--yellow)}
+.btn.y:hover{background:var(--cream);border-color:var(--cream)}
 .btn.o{background:transparent;color:inherit;border-color:currentColor;box-shadow:none}
-.btn.o:hover{background:var(--ink);color:var(--yellow);box-shadow:none;transform:none}
+.btn.o:hover{background:var(--ink);color:var(--yellow)}
 /* header */
-header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:26px;height:60px;padding:0 var(--gut);background:var(--cream);border-bottom:1.5px solid var(--ink)}
-header.site .logo svg{height:24px;width:auto;display:block}
+header.site{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:26px;height:76px;padding:0 var(--gut);background:var(--cream);border-bottom:1.5px solid var(--ink)}
+header.site .logo svg{height:44px;width:auto;display:block}
 header.site .links{display:flex;gap:4px}
 header.site .links a{text-decoration:none;padding:9px 11px;border:1.5px solid transparent;font:700 10.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase}
 header.site .links a:hover{border-color:var(--ink)}
 header.site .r{margin-left:auto;display:flex;align-items:center;gap:14px}
 header.site .r a.t{font:700 10.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;text-decoration:none}
-header.site .btn{padding:11px 16px;box-shadow:none}
-@media (max-width:760px){header.site .links,header.site .r a.t{display:none}}
+header.site .btn{padding:11px 16px}
+@media (max-width:760px){header.site{height:64px}header.site .logo svg{height:34px}header.site .links,header.site .r a.t{display:none}}
 /* hero */
 .hero{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:clamp(14px,2vw,26px);padding:clamp(14px,2vw,26px) var(--gut)}
 .frame{border:1.5px solid var(--ink);background:var(--yellow);box-shadow:10px 10px 0 var(--ink);padding:clamp(14px,2vw,26px);display:flex;flex-direction:column;gap:clamp(14px,1.8vw,22px)}
 .art{position:relative;flex:1;min-height:260px;border:1.5px solid var(--ink);background:var(--yellow);overflow:hidden;display:grid;place-items:center}
 .art canvas{position:absolute;inset:0;width:100%;height:100%}
-.art svg{position:relative;width:min(62%,560px);height:auto;color:var(--ink);filter:drop-shadow(6px 6px 0 var(--cream))}
+.art svg{position:relative;width:min(78%,700px);height:auto;color:var(--ink);overflow:visible}
 .count{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1.5px solid var(--ink);border-left:1.5px solid var(--ink)}
 .count div{border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);background:var(--cream);padding:6px 12px 10px}
 .count b{display:block;font:400 clamp(44px,6.4vw,104px)/.95 var(--serif);letter-spacing:-.0174em;font-variant-numeric:tabular-nums}
@@ -51,11 +52,16 @@ header.site .btn{padding:11px 16px;box-shadow:none}
 .dark h1{font:400 clamp(44px,5.4vw,86px)/.92 var(--serif)}
 .dark h1 em{font-style:italic}
 .dark p{font-size:15px;max-width:26em;color:var(--cream)}
-.dark .stripes{position:absolute;right:-10px;bottom:-10px;width:55%;pointer-events:none}
+.dark .stripes{position:absolute;right:-34px;bottom:-10px;width:55%;height:auto;pointer-events:none;z-index:0}
+.dark>:not(.stripes){position:relative;z-index:1}
+.dark .stripes path{transform-box:view-box;transform-origin:0 120px;animation:sweep 4.8s var(--ease) infinite}
+.dark .stripes path:nth-child(2){animation-delay:.28s}.dark .stripes path:nth-child(3){animation-delay:.56s}.dark .stripes path:nth-child(4){animation-delay:.84s}
+@keyframes sweep{0%,100%{transform:rotate(.8deg)}50%{transform:rotate(-1.6deg)}}
+@media (prefers-reduced-motion:reduce){.dark .stripes path{animation:none}}
 .dark .btn{align-self:flex-start;position:relative}
 .trailer{position:relative;border:1.5px solid var(--ink);background:var(--yellow);min-height:240px;display:grid;place-items:center;box-shadow:8px 8px 0 var(--ink);overflow:hidden;text-decoration:none}
 .trailer img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.4);mix-blend-mode:multiply}
-.trailer .play{position:relative;width:86px;height:86px;background:var(--ink);color:var(--yellow);display:grid;place-items:center;box-shadow:5px 5px 0 var(--cream);transition:transform .25s var(--ease)}
+.trailer .play{position:relative;width:86px;height:86px;background:var(--ink);color:var(--yellow);display:grid;place-items:center;transition:transform .25s var(--ease)}
 .trailer:hover .play{transform:scale(1.08)}
 .trailer .play svg{width:30px}
 .trailer .lab{position:absolute;left:14px;top:14px;background:var(--cream);border:1.5px solid var(--ink);padding:8px 10px}
@@ -66,18 +72,25 @@ header.site .btn{padding:11px 16px;box-shadow:none}
 .live h2{font:400 clamp(40px,5.4vw,84px)/.94 var(--serif)}
 .live .more{display:inline-block;margin-top:20px}
 .sess{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,32px)}
-.ses img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;filter:grayscale(1) contrast(1.4);border:1.5px solid var(--ink);box-shadow:8px 8px 0 var(--ink);background:var(--yellow)}
+.ses .pic{aspect-ratio:16/10;border:1.5px solid var(--ink);box-shadow:8px 8px 0 var(--ink);background:var(--yellow);overflow:hidden}
+.ses img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 28%;filter:grayscale(1) contrast(1.35);mix-blend-mode:multiply;transition:opacity 1.3s var(--ease)}
+.ses .tm,.ses h3,.ses .who,.ses .acts{transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.ses.out img{opacity:0}
+.ses.out .tm,.ses.out h3,.ses.out .who,.ses.out .acts{opacity:0;transform:translateY(8px)}
+.ses.pre img{opacity:0;transition:none}
+.ses.pre .tm,.ses.pre h3,.ses.pre .who,.ses.pre .acts{opacity:0;transform:translateY(-8px);transition:none}
+.ses .who{margin-top:8px;font-size:14px;opacity:.85;min-height:1.4em}
 .ses .tm{margin:22px 0 8px}
-.ses h3{font:400 clamp(30px,3.4vw,50px)/1 var(--serif)}
+.ses h3{font:400 clamp(28px,3vw,44px)/1 var(--serif);min-height:2em}
 .ses .acts{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap}
 .ses .acts button{background:none;border:0;border-bottom:1.5px solid var(--ink);padding:0 0 3px;cursor:pointer;font:700 10.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase}
 .ses .acts button[aria-pressed=true]{background:var(--yellow)}
 @media (max-width:860px){.live,.sess{grid-template-columns:1fr}}
 /* ticker */
 .tick{background:var(--yellow);border-block:1.5px solid var(--ink);overflow:hidden;white-space:nowrap}
-.tick div{display:inline-flex;gap:34px;padding:14px 0;animation:tk 34s linear infinite;will-change:transform}
-.tick span{font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;gap:34px}
-.tick span::after{content:"";width:9px;height:9px;background:var(--ink);transform:rotate(45deg)}
+.tick div{display:inline-flex;gap:40px;padding:22px 0;animation:tk 34s linear infinite;will-change:transform}
+.tick span{font:700 20px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;display:inline-flex;align-items:center;gap:40px}
+.tick span::after{content:"";width:90px;height:2px;background:var(--ink)}
 @keyframes tk{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.tick div{animation:none}}
 /* tracks */
@@ -90,15 +103,18 @@ header.site .btn{padding:11px 16px;box-shadow:none}
 .tr{text-decoration:none;display:block}
 .tr .ph{aspect-ratio:1.25;border:1.5px solid var(--ink);display:grid;place-items:center;overflow:hidden;transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
 .tr:hover .ph,.tr:focus-visible .ph{transform:translate(-4px,-4px);box-shadow:8px 8px 0 var(--ink)}
-@property --d{syntax:"<number>";inherits:true;initial-value:1.5}
-.tr .ph{--side:var(--yellow);--line:var(--ink);--front:var(--yellow);--d:1.5;transition:transform .3s var(--ease),box-shadow .3s var(--ease),--d .5s var(--ease)}
-.tr .ph.c2{--side:var(--ink);--line:var(--yellow);--front:var(--ink)}
-.tr .ph.c3{--front:var(--cream)}
-.tr:hover .ph,.tr:focus-visible .ph{--d:2.1}
-.tr .ph svg{width:68%;height:auto;overflow:visible}
-.tr .ph svg use{stroke-linejoin:round}
+@property --d{syntax:"<number>";inherits:true;initial-value:2.8}
+.tr .ph{--side:var(--yellow);--line:var(--ink);--front:var(--ink);--d:2.8;transition:transform .3s var(--ease),box-shadow .3s var(--ease),--d .5s var(--ease)}
+.tr .ph.c2{--side:var(--ink);--line:var(--yellow);--front:var(--yellow)}
+.tr .ph.c3{--side:var(--yellow)}
+.tr:hover .ph,.tr:focus-visible .ph{--d:3.5}
+.tr .ph svg{width:70%;height:auto;overflow:visible}
+.tr .ph svg use{stroke-linejoin:round;font:400 210px/1 var(--script)}
 .tr .ph svg .x{fill:var(--side);stroke:var(--line);stroke-width:.55;transform:translate(calc(var(--d) * var(--k) * 1px),calc(var(--d) * var(--k) * 1px))}
-.tr .ph svg .f{fill:var(--front);stroke:var(--line);stroke-width:3.4}
+.tr .ph svg .f{fill:var(--front);stroke:var(--line);stroke-width:6}
+.tr .ph svg text{font:400 210px/1 var(--script);letter-spacing:0}
+.tr h3{font:400 clamp(28px,2.6vw,40px)/1 var(--serif);margin:32px 0 8px}
+.tr p{font-size:14px;opacity:.85;max-width:22em}
 .c1{background:var(--yellow)}.c2{background:var(--ink);color:var(--yellow)}.c3{background:var(--cream)}.c4{background:var(--yellow)}
 @media (max-width:760px){.hd h2 span{white-space:normal}}
 @media (max-width:900px){.tg{grid-template-columns:1fr 1fr}}
@@ -107,13 +123,13 @@ header.site .btn{padding:11px 16px;box-shadow:none}
 .two{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:clamp(14px,2vw,26px);padding:clamp(14px,2vw,26px) var(--gut) clamp(40px,5vw,70px)}
 .cd{min-height:380px;padding:clamp(22px,3vw,40px);display:flex;flex-direction:column;justify-content:space-between;gap:30px;border:1.5px solid var(--ink);position:relative;overflow:hidden}
 .cd h2{max-width:11em;font:400 clamp(38px,4.6vw,72px)/.94 var(--serif)}
-.cd p{max-width:24em;font-size:15.5px}
+.cd p{max-width:21em;font-size:15.5px}
 .cd .btn{align-self:flex-start}
+.cd .loop{position:absolute;right:-1%;bottom:-8%;height:104%;width:auto;aspect-ratio:640/780;pointer-events:none}
 .cd.k{background:var(--ink);color:var(--yellow)}.cd.k p{color:var(--cream)}
 .cd.y{background:var(--yellow);box-shadow:10px 10px 0 var(--ink)}
-.cd .grid{position:absolute;right:0;top:0;width:40%;height:100%;opacity:.55;pointer-events:none}
-.cd>*{position:relative}.cd>.grid{position:absolute}
-@media (max-width:860px){.two{grid-template-columns:1fr}.cd .grid{width:80%;opacity:.35}}
+.cd>*{position:relative}.cd>.loop{position:absolute}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
 /* footer */
 footer{display:flex;align-items:center;gap:26px;flex-wrap:wrap;padding:22px var(--gut);border-top:1.5px solid var(--ink);font:700 10.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase}
 footer svg{height:22px;width:auto}
@@ -133,7 +149,7 @@ footer .r{margin-left:auto;display:flex;gap:16px}
 <main id="top">
 <section class="hero">
   <div class="frame" aria-label="Countdown to Thread 2026">
-    <div class="art"><canvas id="bg" aria-hidden="true"></canvas><svg class="sw" viewBox="673 5 1587 918" role="img" aria-label="Thread"></svg></div>
+    <div class="art"><canvas id="bg" aria-hidden="true"></canvas><svg class="sw" viewBox="653 -15 1627 958" role="img" aria-label="Thread"></svg></div>
     <div class="count" id="count" role="timer" aria-label="Time until Thread 2026 begins">
       <div><b data-u="d">00</b><span>Days</span></div><div><b data-u="h">00</b><span>Hours</span></div>
       <div><b data-u="m">00</b><span>Minutes</span></div><div><b data-u="s">00</b><span>Seconds</span></div>
@@ -143,11 +159,11 @@ footer .r{margin-left:auto;display:flex;gap:16px}
     <div class="dark" id="register">
       <h1><span class="wide">Let’s talk.<br>It’s <em>Thread</em><br>May 12–14</span></h1>
       <p>The SMS marketing conference. Three days of talks, workshops and good company in New York, and every keynote streamed live.</p>
-      <svg class="stripes" viewBox="0 0 200 120" fill="none" stroke="#fff383" stroke-width="1.5" aria-hidden="true"><path d="M0 120 200 20M0 120 200 50M0 120 200 80M0 120 200 108"/></svg>
+      <svg class="stripes" viewBox="0 0 200 120" overflow="visible" fill="none" stroke="#fff383" stroke-width="1.5" aria-hidden="true"><path d="M0 120 260 -6"/><path d="M0 120 260 39"/><path d="M0 120 260 86"/><path d="M0 120 260 111"/></svg>
       <a class="btn y" href="#register">Register</a>
     </div>
     <a class="trailer" href="#about" aria-label="Watch Thread 2026 in under 10 minutes">
-      <img src="photos/p2.jpg" alt="" >
+      <img src="photos/keynote.jpg" alt="A speaker presenting on a lit stage in front of a large screen and a dark audience">
       <span class="lab cap">Thread 2026 in under 10 minutes</span>
       <span class="play"><svg viewBox="0 0 30 30" aria-hidden="true"><path d="M7 3v24l20-12z" fill="currentColor"/></svg></span>
     </a>
@@ -156,12 +172,10 @@ footer .r{margin-left:auto;display:flex;gap:16px}
 
 <section class="sec live" id="agenda">
   <div><h2><span class="wide">Join us online for livestreamed keynotes</span></h2><a class="cap more" href="#agenda">View all content</a></div>
-  <div class="sess">
-    <article class="ses"><img src="photos/p1.jpg" alt="Black and white photo for the opening keynote" >
-      <div class="tm cap">10:00 AM – 11:00 AM ET</div><h3>Thread keynote</h3>
+  <div class="sess" id="sess" aria-label="Livestreamed talks">
+    <article class="ses"><div class="pic"><img alt=""></div><div class="tm cap"></div><h3></h3><div class="who"></div>
       <div class="acts"><button type="button">Add to calendar</button><button type="button" aria-pressed="false" class="sv">Save to My Thread</button></div></article>
-    <article class="ses"><img src="photos/p3.jpg" alt="Black and white photo for the marketer keynote" >
-      <div class="tm cap">11:00 AM – 12:00 PM ET</div><h3>Marketer keynote</h3>
+    <article class="ses"><div class="pic"><img alt=""></div><div class="tm cap"></div><h3></h3><div class="who"></div>
       <div class="acts"><button type="button">Add to calendar</button><button type="button" aria-pressed="false" class="sv">Save to My Thread</button></div></article>
   </div>
 </section>
@@ -171,15 +185,15 @@ footer .r{margin-left:auto;display:flex;gap:16px}
 <section class="sec tracks" id="tracks">
   <div class="hd"><h2><span>What are you building for?</span></h2><a href="#tracks">View all content</a></div>
   <div class="tg">
-    <a class="tr" href="#tracks"><div class="ph c1"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><rect x="30" y="5" width="60" height="80"/><circle cx="60" cy="38" r="16"/><path fill="none" d="M42 66h36"/></svg></div><h3>Growth</h3><p>Grow a compliant list and turn first texts into first orders.</p></a>
-    <a class="tr" href="#tracks"><div class="ph c2"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><path fill="none" d="M10 45h25l12-30 18 60 12-30h33"/><circle cx="10" cy="45" r="4"/><circle cx="110" cy="45" r="4"/></svg></div><h3>Lifecycle</h3><p>Flows, triggers and timing that feel like a text from a friend.</p></a>
-    <a class="tr" href="#tracks"><div class="ph c3"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><path d="M60 5 110 45 60 85 10 45Z"/><path d="M60 22 90 45 60 68 30 45Z"/><path fill="none" d="M60 5v80M10 45h100"/></svg></div><h3>Creative</h3><p>Copy, MMS and short links that earn a reply.</p></a>
-    <a class="tr" href="#tracks"><div class="ph c4"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><rect x="8" y="8" width="104" height="74"/><path fill="none" d="M8 30h104M40 30v52"/><path fill="none" d="M52 46h46M52 58h30"/></svg></div><h3>Compliance</h3><p>Consent, carriers and the rules, explained in plain English.</p></a>
+    <a class="tr" href="#tracks"><div class="ph c1"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="0" y="0">G</text></svg></div><h3>Growth</h3><p>Grow a compliant list and turn first texts into first orders.</p></a>
+    <a class="tr" href="#tracks"><div class="ph c2"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="0" y="0">L</text></svg></div><h3>Lifecycle</h3><p>Flows, triggers and timing that feel like a text from a friend.</p></a>
+    <a class="tr" href="#tracks"><div class="ph c3"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="0" y="0">M</text></svg></div><h3>Messaging</h3><p>Copy, MMS and short links that earn a reply.</p></a>
+    <a class="tr" href="#tracks"><div class="ph c4"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="0" y="0">C</text></svg></div><h3>Compliance</h3><p>Consent, carriers and the rules, explained in plain English.</p></a>
   </div>
 </section>
 
 <section class="two" id="community">
-  <div class="cd k"><svg class="grid" viewBox="0 0 300 380" fill="none" stroke="#fff383" stroke-width="1.2" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40H300M0 120H300M0 200H300M0 280H300M0 360H300M50 0V380M130 0V380M210 0V380M290 0V380"/></svg>
+  <div class="cd k"><canvas class="loop" id="loop" aria-hidden="true"></canvas>
     <h2><span class="wide">Connect with marketers</span></h2><p>Join the Thread community of SMS marketers around the world: meetups, office hours and a very active group chat.</p><a class="btn y" href="#community">Find a community</a></div>
   <div class="cd y" id="about"><h2><span class="wide">Thread is open to everyone online</span></h2><p>Stay informed and get answers to your top questions, wherever you are.</p><a class="btn" href="#about">Learn about Thread</a></div>
 </section>
@@ -187,7 +201,7 @@ footer .r{margin-left:auto;display:flex;gap:16px}
 
 <footer>
   <svg class="wm" viewBox="673 5 2485 918" aria-label="Thread 2026"></svg>
-  <a href="#">Thread 2025</a><a href="#">Privacy &amp; terms</a><a href="#">Code of conduct</a><a href="#">FAQ</a>
+  <a href="#">Thread 2026</a><a href="#">Privacy &amp; terms</a><a href="#">Code of conduct</a><a href="#">FAQ</a>
   <div class="r"><a href="#">LinkedIn</a><a href="#">Instagram</a><a href="#">YouTube</a></div>
 </footer>
 
@@ -197,35 +211,86 @@ const LOGO_SWASH='M1297.63 203.139L1295.37 199.379C1306.9 191.357 1320.94 185.09
 const sp=d=>'<path d="'+d+'" fill="currentColor" stroke="currentColor" stroke-width="10.5" stroke-linejoin="round"/>';
 document.querySelectorAll('svg.wm').forEach(s=>s.innerHTML=sp(LOGO_SWASH)+sp(LOGO_WORD));
 document.querySelectorAll('svg.sw').forEach(s=>s.innerHTML=sp(LOGO_SWASH));
-/* countdown to the next May 12, 9:00 ET */
-const nextEvent=()=>{const n=new Date();let y=n.getFullYear(),t=Date.UTC(y,4,12,13);if(t<n)t=Date.UTC(y+1,4,12,13);return t};
-const EV=nextEvent(),cnt=document.getElementById('count'),pad=v=>String(v).padStart(2,'0');
+/* countdown to Thread 2026: May 12, 2027, 9:00 ET */
+const EV=Date.UTC(2027,4,12,13),cnt=document.getElementById('count'),pad=v=>String(v).padStart(2,'0');
 function tick(){let s=Math.max(0,Math.floor((EV-Date.now())/1000));const v={d:Math.floor(s/86400),h:Math.floor(s%86400/3600),m:Math.floor(s%3600/60),s:s%60};
  for(const k in v)cnt.querySelector('[data-u='+k+']').textContent=pad(v[k])}
 tick();setInterval(tick,1000);
-/* tracks: each illustration is stacked as stepped copies behind a heavy front, like the badge capitals */
-document.querySelectorAll('svg[data-art]').forEach((s,n)=>{const g=s.innerHTML,id='art'+n;let u='';
- for(let k=7;k>=1;k--)u+='<use href="#'+id+'" class="x" style="--k:'+k+'"/>';
- s.innerHTML='<defs><g id="'+id+'" transform="translate(-4 -4)">'+g+'</g></defs>'+u+'<use href="#'+id+'" class="f"/>'});
+/* tracks: each capital is centred by its ink box, set larger than the tile so it bleeds past the frame, and stacked as stepped copies like the badge capitals */
+(async()=>{try{await document.fonts.load('210px "Pinyon Script"')}catch(e){}
+ const cx=document.createElement('canvas').getContext('2d');cx.font='210px "Pinyon Script"';
+ document.querySelectorAll('svg[data-art]').forEach((s,n)=>{const t=s.querySelector('text'),ch=t.textContent,id='art'+n,d=parseFloat(getComputedStyle(s.parentNode).getPropertyValue('--d'))||2.2,off=7*d;
+  const m=cx.measureText(ch),mx=(m.actualBoundingBoxRight-m.actualBoundingBoxLeft)/2,my=(m.actualBoundingBoxDescent-m.actualBoundingBoxAscent)/2;
+  const tx=65-mx-off/2,ty=50-my-off/2;let u='';
+  for(let k=7;k>=1;k--)u+='<use href="#'+id+'" class="x" style="--k:'+k+'"/>';
+  s.innerHTML='<defs><g id="'+id+'" transform="translate('+tx.toFixed(2)+' '+ty.toFixed(2)+')"><text x="0" y="0">'+ch+'</text></g></defs>'+u+'<use href="#'+id+'" class="f"/>'})})();
+/* Connect card: the conference post's calligraphic flourish, mirrored into the bottom-right corner. A pen that starts thick and thins out;
+   each stroke writes itself on, then un-writes from its tail, and everything repeats every 8 s */
+(()=>{const c=document.getElementById('loop');if(!c)return;const x=c.getContext('2d'),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,PER=8,N=420;
+ const FL=[
+  { w0: 15, w1: 3, taper: 0.45, pts: [[-20,200],[60,215],[200,238],[300,248],[370,270],[412,310],[405,350],[360,370],[320,350],[295,310]] },
+  { w0: 16, w1: 3, taper: 0.3, pts: [[-20,340],[100,360],[230,385],[380,415],[500,470],[570,540],[595,610],[570,670],[500,712],[430,700],[370,665],[310,600],[262,520],[228,420],[207,320],[203,230],[195,120],[165,55],[125,32],[92,60],[92,110],[130,150],[190,170],[260,172],[340,150],[405,117]] },
+  { w0: 13, w1: 3, taper: 0.3, pts: [[-20,432],[100,448],[200,468],[290,500],[360,550],[410,610],[425,665],[400,710],[340,745],[270,740],[245,712]] },
+  { w0: 14, w1: 3, taper: 0.45, pts: [[-20,535],[60,545],[140,568],[205,605],[238,660],[235,715],[195,745],[150,752],[115,730]] },
+  { w0: 3.5, w1: 3.5, taper: 1, pts: [[85,365],[100,450],[140,550],[215,680]] },
+  { w0: 3.5, w1: 3.5, taper: 1, pts: [[15,5],[32,50],[52,130],[68,230],[70,280]] },
+  { w0: 3, w1: 3, taper: 1, pts: [[-2,350],[8,430],[18,540]] },
+  { w0: 4, w1: 4, taper: 1, pts: [[5,650],[22,680],[20,715],[2,740]] }],DEFS=FL.map(d=>({...d,pts:d.pts.map(q=>[620-q[0],q[1]])}));
+ const lerp=(a,b,t)=>a+(b-a)*t,cl=v=>Math.max(0,Math.min(1,v)),ease=u=>.5-.5*Math.cos(Math.PI*cl(u));
+ function build(def){const p=def.pts,d=[];for(let i=0;i<p.length-1;i++){const P0=p[Math.max(i-1,0)],P1=p[i],P2=p[i+1],P3=p[Math.min(i+2,p.length-1)];
+   const dist=(a,b)=>Math.pow(Math.hypot(a[0]-b[0],a[1]-b[1])||1e-3,.5),t0=0,t1=dist(P1,P0),t2=t1+dist(P2,P1),t3=t2+dist(P3,P2);
+   for(let k=0;k<24;k++){const t=lerp(t1,t2,k/24),q=[0,0];for(let e=0;e<2;e++){const A1=((t1-t)*P0[e]+(t-t0)*P1[e])/(t1-t0),A2=((t2-t)*P1[e]+(t-t1)*P2[e])/(t2-t1),A3=((t3-t)*P2[e]+(t-t2)*P3[e])/(t3-t2),B1=((t2-t)*A1+(t-t0)*A2)/(t2-t0),B2=((t3-t)*A2+(t-t1)*A3)/(t3-t1);q[e]=((t2-t)*B1+(t-t1)*B2)/(t2-t1)}d.push(q)}}
+  d.push(p[p.length-1]);const cum=[0];for(let i=1;i<d.length;i++)cum.push(cum[i-1]+Math.hypot(d[i][0]-d[i-1][0],d[i][1]-d[i-1][1]));
+  const tot=cum[cum.length-1],out=[];let j=0;for(let i=0;i<N;i++){const sd=i/(N-1)*tot;while(j<cum.length-2&&cum[j+1]<sd)j++;const u=(sd-cum[j])/(cum[j+1]-cum[j]||1),t=i/(N-1),sm=cl(t/def.taper),k=sm*sm*(3-2*sm);
+   out.push({x:lerp(d[j][0],d[j+1][0],u),y:lerp(d[j][1],d[j+1][1],u),w:lerp(def.w0,def.w1,k)})}return out}
+ const S=DEFS.map(build);let W,H;
+ function size(){const r=c.getBoundingClientRect(),dp=devicePixelRatio||1;W=c.width=Math.round(r.width*dp);H=c.height=Math.round(r.height*dp)}
+ function stroke(pts,a,b,sc,t){const i0=Math.floor(a*(N-1)),i1=Math.ceil(b*(N-1));if(i1-i0<1)return;const L=[],R=[];
+  for(let i=i0;i<=i1;i++){const p=pts[i],q=pts[Math.min(i+1,N-1)],o=pts[Math.max(i-1,0)];let dx=q.x-o.x,dy=q.y-o.y;const m=Math.hypot(dx,dy)||1;dx/=m;dy/=m;const h=p.w*sc*(1+.06*Math.sin(2*Math.PI*t/PER+i*.12))/2;L.push([p.x*sc-dy*h,p.y*sc+dx*h]);R.push([p.x*sc+dy*h,p.y*sc-dx*h])}
+  x.beginPath();x.moveTo(L[0][0],L[0][1]);for(const q of L)x.lineTo(q[0],q[1]);for(let i=R.length-1;i>=0;i--)x.lineTo(R[i][0],R[i][1]);x.closePath();x.fill()}
+ function frame(now){const t=now/1000;x.clearRect(0,0,W,H);x.fillStyle='#fff383';const sc=W/640;
+  S.forEach((pts,i)=>{if(reduce){stroke(pts,0,1,sc,0);return}const u=((((t+i*.55)%PER)+PER)%PER)/PER;stroke(pts,ease((u-.72)/.26),ease(u/.4),sc,t)});
+  if(!reduce)requestAnimationFrame(frame)}
+ addEventListener('resize',()=>{size();if(reduce)frame(0)});size();requestAnimationFrame(frame)})();
+/* agenda: five talks cycle through the two slots, one slot after the other; each swap fades the photo out and in and lifts the text */
+(()=>{const T=[
+ {t:'Thread keynote',tm:'10:00 AM – 11:00 AM ET',w:'Maya Chen · VP of Growth, Northwind',i:'photos/talk1.jpg',p:'50% 22%'},
+ {t:'Marketer keynote',tm:'11:00 AM – 12:00 PM ET',w:'Elias Brandt · Founder, Brandt &amp; Co',i:'photos/talk2.jpg',p:'50% 30%'},
+ {t:'Supercharge your list growth',tm:'1:00 PM – 1:45 PM ET',w:'Priya Raman · Head of Lifecycle, Loop',i:'photos/talk3.jpg',p:'50% 30%'},
+ {t:'What texting taught us about talking to customers',tm:'2:00 PM – 2:45 PM ET',w:'Daniel Wu · CMO, Fieldnote',i:'photos/talk4.jpg',p:'50% 24%'},
+ {t:'Compliance without the headache',tm:'3:00 PM – 3:45 PM ET',w:'Mei Tanaka · Director of Messaging, Harbor',i:'photos/talk5.jpg',p:'50% 26%'}];
+ const slots=[...document.querySelectorAll('#sess .ses')],saved=new Set(),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ const idx=[0,1];let paused=false;
+ function fill(el,n){const d=T[n];el.dataset.n=n;const im=el.querySelector('img');im.src=d.i;im.alt='Portrait of '+d.w.split(' · ')[0];im.style.objectPosition=d.p;
+  el.querySelector('.tm').textContent=d.tm;el.querySelector('h3').textContent=d.t;el.querySelector('.who').innerHTML=d.w;
+  const b=el.querySelector('.sv'),on=saved.has(n);b.setAttribute('aria-pressed',on);b.textContent=on?'Saved ✓':'Save to My Thread'}
+ slots.forEach((el,k)=>{fill(el,idx[k]);el.querySelector('.sv').addEventListener('click',e=>{const n=+el.dataset.n,on=!saved.has(n);on?saved.add(n):saved.delete(n);e.currentTarget.setAttribute('aria-pressed',on);e.currentTarget.textContent=on?'Saved ✓':'Save to My Thread'})});
+ function swap(k){const el=slots[k];idx[k]=(idx[k]+2)%T.length;el.classList.add('out');
+  setTimeout(()=>{fill(el,idx[k]);el.classList.remove('out');el.classList.add('pre');void el.offsetWidth;el.classList.remove('pre')},1400)}
+ if(reduce)return;const sec=document.getElementById('sess');sec.addEventListener('pointerenter',()=>paused=true);sec.addEventListener('pointerleave',()=>paused=false);sec.addEventListener('focusin',()=>paused=true);sec.addEventListener('focusout',()=>paused=false);
+ let step=0;setInterval(()=>{if(paused||document.hidden)return;swap(step%2);step++},3800);
+})();
 /* ticker */
 const w=['Thread 2026','May 12–14','New York','The SMS marketing conference'];
 document.getElementById('tk').innerHTML=Array(16).fill(w).flat().map(t=>'<span>'+t+'</span>').join('');
-/* save toggles */
-document.querySelectorAll('.sv').forEach(b=>b.addEventListener('click',()=>{const on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.textContent=on?'Saved ✓':'Save to My Thread'}));
-/* hairline grid behind the swash; cells under the cursor light up cream */
-(()=>{const c=document.getElementById('bg'),x=c.getContext('2d'),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;let W,H,mx=-1,my=-1,t0=performance.now();
- const N=12;
- function size(){const r=c.getBoundingClientRect(),d=devicePixelRatio||1;W=c.width=r.width*d;H=c.height=r.height*d}
- function draw(now){const t=(now-t0)/1000;x.clearRect(0,0,W,H);const cw=W/N,rows=Math.round(H/cw),ch=H/rows;
-  for(let i=0;i<N;i++)for(let j=0;j<rows;j++){const cx=(i+.5)*cw,cy=(j+.5)*ch;let a=reduce?0:Math.max(0,Math.sin(t*.9-(i+j)*.55))**8*.55;
-   if(mx>=0){const dd=Math.hypot(cx-mx,cy-my)/cw;a=Math.max(a,Math.max(0,1-dd/2.2))}
-   if(a>.02){x.fillStyle='rgba(250,244,222,'+a+')';x.fillRect(i*cw,j*ch,cw,ch)}}
+/* hairline grid behind the swash: a white block wanders cell to cell and leaves a fading trail; the cursor leaves one too */
+(()=>{const c=document.getElementById('bg'),x=c.getContext('2d'),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,N=12,FADE=1.7,STEP=.13;
+ let W,H,cw,ch,rows,heat=[],mx=-1,my=-1,hx=2,hy=1,dx=1,dy=0,last=performance.now(),acc=0;
+ const rnd=(()=>{let a=7;return()=>{a=(a*1664525+1013904223)>>>0;return a/4294967296}})();
+ function size(){const r=c.getBoundingClientRect(),d=devicePixelRatio||1;W=c.width=Math.round(r.width*d);H=c.height=Math.round(r.height*d);cw=W/N;rows=Math.max(1,Math.round(H/cw));ch=H/rows;heat=Array.from({length:N},()=>new Float32Array(rows));hx=Math.min(hx,N-1);hy=Math.min(hy,rows-1)}
+ function move(){const opts=[[1,0],[-1,0],[0,1],[0,-1]].filter(([a,b])=>!(a===-dx&&b===-dy)&&hx+a>=0&&hx+a<N&&hy+b>=0&&hy+b<rows);
+  let m=opts.find(([a,b])=>a===dx&&b===dy&&rnd()<.62)||opts[Math.floor(rnd()*opts.length)];dx=m[0];dy=m[1];hx+=dx;hy+=dy;heat[hx][hy]=1}
+ function draw(now){const dt=Math.min(.1,(now-last)/1e3);last=now;x.clearRect(0,0,W,H);
+  if(!reduce){acc+=dt;while(acc>STEP){acc-=STEP;move()}
+   if(mx>=0){const i=Math.floor(mx/cw),j=Math.floor(my/ch);if(heat[i]&&j>=0&&j<rows)heat[i][j]=1}}
+  for(let i=0;i<N;i++)for(let j=0;j<rows;j++){let v=heat[i][j];if(v>0){x.fillStyle='rgba(255,255,255,'+v.toFixed(3)+')';x.fillRect(i*cw,j*ch,cw,ch);if(!reduce)heat[i][j]=Math.max(0,v-dt/FADE)}}
   x.strokeStyle='#141414';x.lineWidth=1.5*(devicePixelRatio||1);x.beginPath();
   for(let i=1;i<N;i++){x.moveTo(i*cw,0);x.lineTo(i*cw,H)}for(let j=1;j<rows;j++){x.moveTo(0,j*ch);x.lineTo(W,j*ch)}x.stroke();
   if(!reduce)requestAnimationFrame(draw)}
  c.parentElement.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect(),d=devicePixelRatio||1;mx=(e.clientX-r.left)*d;my=(e.clientY-r.top)*d});
  c.parentElement.addEventListener('pointerleave',()=>{mx=my=-1});
- addEventListener('resize',size);size();requestAnimationFrame(draw)})();
+ addEventListener('resize',size);size();
+ if(reduce){[[3,2],[4,2],[5,3],[6,3]].forEach(([i,j],k)=>{if(heat[i]&&j<rows)heat[i][j]=.35+.2*k});draw(performance.now())}else requestAnimationFrame(draw)})();
 </script>
 </body>
 </html>

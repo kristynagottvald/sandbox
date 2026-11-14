@@ -28,7 +28,7 @@ const APPS = {
   // the finished composition, then the whole 9 s cycle at 1.4x: the query is typed, matches appear, the query and context notes fly onto the graph, the result lands
   'nlp-diagram': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
     const t0 = Date.now();
-    await at(t0, 700, () => p.evaluate(() => __rb.play({ from: 0, speed: 1.4, loop: false })));
+    await at(t0, 700, () => p.evaluate(() => __rb.play({ from: 0, speed: 1.75, loop: false })));
     await sleep(5600);
   } },
   // the finished composition, then the whole 9 s cycle at 1.4x: the picker, the search card and the worker come in, the query is typed, matches appear, the answer is picked and flies to Prep tools
@@ -37,8 +37,8 @@ const APPS = {
     await at(t0, 700, () => p.evaluate(() => __rb.play({ from: 0, speed: 1.4, loop: false })));
     await sleep(5600);
   } },
-  // the three Thread brand visuals side by side, all moving on their own: the 3D digits turning 2 0 2 6, the frame lines drawing on and re-cutting, the calligraphy writing on and off (one 8 s loop, played at 1.33x)
-  'thread-brand-visuals': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1500, q: 55, run: async (p) => { await sleep(5600); } },
+  // the three Thread brand visuals side by side, all moving on their own: the 3D characters turning 2 0 2 6 A B C, the frame lines drawing on and re-cutting, the calligraphy writing on and off (one 8 s loop, played at 1.33x)
+  'thread-brand-visuals': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#from=8.4', ready: 1500, q: 55, run: async (p) => { await sleep(5600); } },
   // the landing page: hero with the live countdown and the hairline grid lighting up, then a scroll through the keynotes, tracks and community cards and back up
   'thread-conference-landing': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1500, q: 55, run: async (p) => {
     const t0 = Date.now(), to = (sel, off) => p.evaluate(([s, o]) => window.scrollTo({ top: document.querySelector(s).getBoundingClientRect().top + scrollY - 60 + o, behavior: 'smooth' }), [sel, off]);
@@ -50,10 +50,10 @@ const APPS = {
   // starts on the tile mosaic hero, then opens the Badges tile (it grows to fill the screen), the Thread logo shrinks it back, and the Motion tile opens and shrinks back
   'thread-brand-guidelines': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1800, q: 55, run: async (p) => {
     const t0 = Date.now(), k = (sel) => domClick(p, sel);
-    await at(t0, 900, () => k('.tile[data-sec="badges"]'));
-    await at(t0, 2900, () => k('.site .logo'));
-    await at(t0, 4300, () => k('.tile[data-sec="motion"]'));
-    await at(t0, 5900, () => k('.site .logo'));
+    await at(t0, 800, () => k('.tile[data-sec="badges"]'));
+    await at(t0, 2600, () => k('.site .logo'));
+    await at(t0, 4000, () => k('.tile[data-sec="motion"]'));
+    await at(t0, 5300, () => k('.site .logo'));
   } },
   // the starting soon countdown, then the intro title, the audience question, the session title and the statement card, switched the way a visitor would with the screen chips
   'thread-live-session': { vp: [1280, 769], setup: cropOf('#cv'), ready: 1200, q: 50, run: async (p) => {

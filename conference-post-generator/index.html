@@ -58,6 +58,13 @@ input[type=text]:focus,textarea:focus,select:focus{outline:2px solid var(--yello
 .rng input{accent-color:var(--yellow);width:100%}
 .rng output{color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
 .photos{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.phc{display:flex;flex-direction:column;gap:5px;min-width:0}
+.pbtns{display:flex;gap:4px}
+.mini{flex:1;border:1px solid #444;background:#222;border-radius:6px;padding:5px 0;font-size:11.5px;font-weight:600;cursor:pointer}
+.mini:hover:not(:disabled){border-color:#888}
+.mini:disabled{opacity:.4;cursor:default}
+.ph.empty{border-style:dashed;cursor:default}
+.ph.front{border-color:var(--yellow)}
 .ph{position:relative;aspect-ratio:4/5;border-radius:8px;overflow:hidden;border:1px solid #3a3a3a;cursor:pointer;background:#222}
 .ph canvas{width:100%;height:100%;display:block}
 .ph span{position:absolute;left:0;right:0;bottom:0;background:rgba(0,0,0,.65);font-size:11px;text-align:center;padding:4px 0}
@@ -145,7 +152,8 @@ input[type=text]:focus,textarea:focus,select:focus{outline:2px solid var(--yello
     <section id="photosec">
       <h2>Photos</h2>
       <div class="photos" id="photos"></div>
-      <p class="hint">Black and white portraits from Unsplash. Click or drop your own image on a slot to replace one.</p>
+      <p class="hint">Click a photo to bring it to the front of the stack. Upload or drop your own image, delete one, or reset to the originals.</p>
+      <div class="row"><button class="btn" id="phReset">Reset photos</button></div>
       <div class="row" id="pfilter">
         <button class="chip" data-v="color">Original</button>
         <button class="chip" data-v="bw">High-contrast B&amp;W</button>
@@ -332,20 +340,19 @@ const flourCache = new Map();
 /* left set anchored to the left edge of the rect, mirrored set on the right; o: color, t, still, fw (pen scale), off (timing shift) */
 function flourish(ctx, x, y, w, h, o) {
   const s = Math.min(h / 800, w * 0.55 / 600) * (o.k || 1), copies = o.one ? 1 : Math.max(1, Math.round(h / (800 * s))), space = h - 770 * s, step = copies > 1 ? space / (copies - 1) : space / 2;
-  const key = [x, y, w, h, o.fw, o.k || 1, o.one ? 1 : 0].map((v) => Math.round(v * 100)).join('|'); let sets = flourCache.get(key);
+  const key = [x, y, w, h, o.fw, o.k || 1, o.one ? 1 : 0, o.dy || 0].map((v) => Math.round(v * 100)).join('|'); let sets = flourCache.get(key);
   if (!sets) {
     if (flourCache.size > 10) flourCache.clear(); sets = [];
-    for (let c = 0; c < copies; c++) { const y0 = y + (o.one ? 0 : copies > 1 ? c * step : step); sets.push([FDEFS.map((d) => buildStroke(d, (px) => x + px * s, (py) => y0 + py * s, o.fw)), FDEFS.map((d) => buildStroke(d, (px) => x + w - px * s, (py) => y0 + py * s, o.fw))]); }
+    for (let c = 0; c < copies; c++) { const y0 = y + (o.one ? (o.dy || 0) : copies > 1 ? c * step : step); sets.push([FDEFS.map((d) => buildStroke(d, (px) => x + px * s, (py) => y0 + py * s, o.fw)), FDEFS.map((d) => buildStroke(d, (px) => x + w - px * s, (py) => y0 + py * s, o.fw))]); }
     flourCache.set(key, sets);
   }
-  ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip(); ctx.fillStyle = o.color;
+  const cy0 = Math.max(0, Math.min(y, y + (o.dy || 0)));  // the clip grows upward when the drawing is nudged up
+  ctx.save(); ctx.beginPath(); ctx.rect(x, cy0, w, y + h - cy0 + (o.ext || 0)); ctx.clip(); ctx.fillStyle = o.color;
   sets.forEach((pair, c) => pair.forEach((set, side) => ((o.side === 'R' && !side) || (o.side === 'L' && side)) ? 0 : set.forEach((pts, i) => { const [a, b] = o.still ? [0, 1] : strokeSpan(i, o.t + (o.off || 0) + c * 2.7); drawStroke(ctx, pts, a, b, o.t); })));
   ctx.restore();
 }
 
 /* ===== photos ===== */
-const photoSrc = [null, null, null];           // user uploads (Image)
-const photoVer = [0, 0, 0];
 const photoCache = {};                           // processed canvases
 function placeholder(i) {
   const c = document.createElement('canvas'); c.width = 600; c.height = 750; const x = c.getContext('2d');
@@ -364,10 +371,13 @@ function placeholder(i) {
   return c;
 }
 const placeholders = [0, 1, 2].map(placeholder);
+let PH = [];  // photo entries in stack order: the first visible one is the front of the stack
+const vis = () => PH.filter((e) => e.on);
 function getPhoto(i) {
-  const key = i + '|' + S.photoFilter + '|' + photoVer[i];
+  const ent = vis()[i]; if (!ent) return null;
+  const key = ent.id + '|' + S.photoFilter + '|' + ent.ver;
   if (photoCache[key]) return photoCache[key];
-  const src = photoSrc[i] || placeholders[i];
+  const src = ent.img;
   const sw = src.naturalWidth || src.width, sh = src.naturalHeight || src.height, k = Math.min(1, 900 / Math.max(sw, sh));
   const c = document.createElement('canvas'); c.width = Math.round(sw * k); c.height = Math.round(sh * k);
   const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(src, 0, 0, c.width, c.height);
@@ -386,7 +396,8 @@ function getPhoto(i) {
 }
 /* an outlined print: cream mat, dark outline, optional hard shadow */
 function photoFrame(ctx, i, cx, cy, w, h, rot, th, shadow) {
-  const img = getPhoto(i), mat = Math.max(8, w * 0.04), ol = Math.max(3, w * 0.014);
+  const img = getPhoto(i); if (!img) return;
+  const mat = Math.max(8, w * 0.04), ol = Math.max(3, w * 0.014);
   ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot);
   if (shadow) { ctx.fillStyle = DARK; ctx.fillRect(-w / 2 - mat + shadow, -h / 2 - mat + shadow, w + 2 * mat, h + 2 * mat); }
   ctx.fillStyle = th.paper; ctx.fillRect(-w / 2 - mat, -h / 2 - mat, w + 2 * mat, h + 2 * mat);
@@ -405,14 +416,14 @@ function barBadges(ctx, c, pr, t) {
     for (let i = L.length - 1; i >= 0; i--) { const q = L[i], shape = i ? order[i - 1] : S.badgeShape; drawBadge(ctx, th, shape, pr.x + pr.w * q[0], pr.y + pr.h * q[1] + 5 * fu * sway(t, i * 1.3), pr.h * q[2], q[3] + 0.015 * sway(t, i), i ? SHAPE_DEFAULTS[shape] : S.badgeText, 10 * fu); }
     return;
   }
-  const spec = [[0.95, 0.4, 0.07], [0.66, 0.5, -0.05], [0.54, 0.62, 0.04]], items = []; let left = 0;  // lead badge bleeds a sliver off the top and right, the rest step back left
+  const spec = [[1.24, 0.33, 0.07], [0.86, 0.52, -0.05], [0.7, 0.6, 0.04]], items = []; let left = 0;  // bigger badges;  // lead badge bleeds a sliver off the top and right, the rest step back left
   for (let k = 0; k < 3; k++) { const shape = k ? order[k - 1] : S.badgeShape, bh = pr.h * spec[k][0], bw = bh * SHAPE_RATIO[shape], cx = k ? left - bw / 2 + bw * 0.22 : pr.x + pr.w - bw / 2 + bw * 0.08; left = cx - bw / 2; items.push([shape, cx, pr.y + pr.h * spec[k][1], bh, spec[k][2], k ? SHAPE_DEFAULTS[shape] : S.badgeText]); }
   items.reverse().forEach((q, i) => drawBadge(ctx, th, q[0], q[1], q[2] + 5 * fu * sway(t, i * 1.3), q[3], q[4] + 0.015 * sway(t, i), q[5], 10 * fu));
 }
 function photoCluster(ctx, c, r, n, t, stack) {
   if (stack) {  // wide, short bar: prints stand taller than the bar and poke out over its top edge
     const sw2 = (k) => 0.012 * Math.sin(TAU * t / PERIOD + k * 1.7);
-    const spec = [[0.95, 0.38, 0.07], [0.68, 0.52, -0.05], [0.6, 0.62, 0.04]], items = []; let left = 0;  // lead print bleeds a sliver off the top and right, the rest step back left and overlap
+    const spec = [[1.24, 0.33, 0.07], [0.88, 0.51, -0.05], [0.78, 0.56, 0.04]], items = []; let left = 0;  // bigger prints; lead print bleeds a sliver off the top and right, the rest step back left and overlap
     for (let k = 0; k < n; k++) { const ph = r.h * spec[k][0], pw = ph * 0.8, cx = k ? left - pw / 2 + pw * 0.28 : r.x + r.w * 0.87 - pw / 2; left = cx - pw / 2; items.push([n - 1 - k, cx, r.y + r.h * spec[k][1], pw, ph, spec[k][2]]); }
     items.reverse().forEach((q, i) => photoFrame(ctx, q[0], q[1], q[2], q[3], q[4], q[5] + sw2(i), c.th, c.fu * 10));
     return;
@@ -514,8 +525,8 @@ function panelRect(c, pos) {
 }
 function drawPanel(ctx, c, r, seed, plain, side, opt) {
   ctx.save(); ctx.fillStyle = c.th.accent; ctx.fillRect(r.x, r.y, r.w, r.h);
-  ctx.beginPath(); ctx.rect(r.x, r.y, r.w, r.h); ctx.clip();
-  if (!plain) flourish(ctx, r.x, r.y, r.w, r.h, { color: DARK, t: c.t, still: c.still, fw: 1.2 * S.weight / 5 * c.fu, off: seed * 0.9, side, one: opt && opt.one, k: opt && opt.k });
+  if (!(opt && opt.ext)) { ctx.beginPath(); ctx.rect(r.x, r.y, r.w, r.h); ctx.clip(); }  // no clip when the loops are meant to run on past the panel
+  if (!plain) flourish(ctx, r.x, r.y, r.w, r.h, { color: DARK, t: c.t, still: c.still, fw: 1.2 * S.weight / 5 * c.fu, off: seed * 0.9, side, one: opt && opt.one, k: opt && opt.k, dy: opt && opt.dy, ext: opt && opt.ext });
   ctx.restore();
 }
 function subLines(ctx, c, x, y, text) {
@@ -554,10 +565,10 @@ function tHeadline(ctx, c) {
   if (S.callig) {  // calligraphy in the bottom-right corner, kept inside the area above the footer so the date stays clear
     const cr = land ? pr : { x: W * 0.1, y: pr.y - H * 0.2, w: W * 0.9, h: pr.h + H * 0.2 };  // bigger than the prints so it shows around them
     ctx.save(); if (S.barOn && th.bg === DARK) { ctx.beginPath(); ctx.rect(pr.x, pr.y, pr.w, pr.h); ctx.clip(); }  // dark theme: keep it on the yellow bar
-    flourish(ctx, cr.x, cr.y, cr.w, cr.h, { color: S.barOn ? DARK : th.fg, t, still: c.still, fw: 1.2 * S.weight / 5 * fu, off: S.seed * 0.9, side: land ? null : 'R' });
+    flourish(ctx, cr.x, cr.y, cr.w, cr.h, { color: S.barOn ? DARK : th.fg, t, still: c.still, fw: 1.2 * S.weight / 5 * fu, off: S.seed * 0.9, side: land ? null : 'R', ext: !land && !S.barOn ? 215 * fu : 0 });  // bar off: let the strokes finish; bar on: stay inside it
     ctx.restore();
   }
-  const n = S.photoCount;
+  const n = Math.min(S.photoCount, vis().length);
   if (S.panelMode === 'badges') barBadges(ctx, c, pr, t);
   else if (n) photoCluster(ctx, c, pr, n, t, !land);
   frameLines(ctx, c, land ? pr.x : null);
@@ -575,12 +586,12 @@ function wrapSlide(ctx, str, fs, maxW) {
 }
 function tSpeaker(ctx, c) {
   const { W, H, fu, th, t, land } = c, pr = panelRect(c, 'top');
-  drawPanel(ctx, c, pr, S.seed + 3, false, 'L', { one: true, k: 1.3 });  // calligraphy in the top-left corner
+  drawPanel(ctx, c, pr, S.seed + 3, false, 'R', { one: true, k: 1.3, dy: -44 * fu, ext: land || th.accent !== th.bg ? 0 : 400 * fu });  // no visible bar: sized to fit and allowed to run on so the strokes finish; visible bar: clipped to it  // calligraphy in the top-right corner, on every format
   const sq = S.fmt === 'square' || S.fmt === 'portrait';  // feed and portrait: big badge on the left, the print overlaps it on the right, text stays still
   if (sq) {
-    const bh = pr.h * 0.72, bw = bh * SHAPE_RATIO[S.badgeShape], ph = pr.h * 0.66, pw = ph * 0.8, cy = pr.y + pr.h * 0.54;
-    if (S.showBadge) drawBadge(ctx, th, S.badgeShape, W * 0.36, cy + 5 * sway(t, 1.2), bh, -0.08 + 0.015 * sway(t, 0.9), S.badgeText, 10 * fu);
-    photoFrame(ctx, 0, W * 0.36 + bw / 2 + pw * 0.47, cy + pr.h * 0.05 + 4 * sway(t, 0.4), pw, ph, 0.06 + 0.012 * sway(t, 0.2), th, 12 * fu);
+    const bar = th.accent !== th.bg, bh = pr.h * 0.72, bw = bh * SHAPE_RATIO[S.badgeShape], ph = pr.h * 0.66, pw = ph * 0.8, cy = pr.y + pr.h * 0.54, bdy = bar ? pr.h * 0.13 : 0, pdy = bar ? -pr.h * 0.03 : pr.h * 0.05;  // visible bar: print moves up, badge drops to overlap the bar's bottom edge
+    if (S.showBadge) drawBadge(ctx, th, S.badgeShape, W * 0.36, cy + bdy + 5 * sway(t, 1.2), bh, -0.17 + 0.015 * sway(t, 0.9), S.badgeText, 10 * fu);
+    photoFrame(ctx, 0, W * 0.36 + bw / 2 + pw * 0.47, cy + pdy + 4 * sway(t, 0.4), pw, ph, 0.06 + 0.012 * sway(t, 0.2), th, 12 * fu);
   } else {
     const ph = pr.h * (land ? 0.56 : 0.74), pw = ph * 0.8, dx = land ? 0 : -0.045 * W, dy = land ? 0 : 0.07 * pr.h;  // stacked: print and badge sit lower and a little left
     photoFrame(ctx, 0, pr.x + pr.w / 2 + dx, pr.y + pr.h / 2 + dy + 4 * sway(t, 0.4), pw, ph, -0.05 + 0.012 * sway(t, 0.2), th, 12 * fu);
@@ -592,10 +603,10 @@ function tSpeaker(ctx, c) {
   const tagFs = 22 * fu * k, tagSp = 4 * fu * k, tagH = 58 * fu * k, tagPad = 30 * fu * k, tagFont = 'bold ' + tagFs + 'px Helvetica, Arial, sans-serif';
   ctx.save(); ctx.font = tagFont; setLS(ctx, tagSp);
   const tag = (S.chip || '').toUpperCase(), tw = ctx.measureText(tag).width - tagSp + 2 * tagPad; ctx.restore();
-  const title = (S.talk || S.speaker || ' ').trim(), roleFs = 36 * fu * (land ? 1 : 1.15), inline = !land;  // stacked: role sits on the name's line, in the same type
+  const title = (S.talk || S.speaker || ' ').trim(), roleFs = 36 * fu * (land ? 1 : 1.15), inline = true;  // role sits on the name's line, in the same type, after a comma
   let nameFs = 64 * fu * (land ? 1 : 1.15);
-  if (inline && S.speaker && S.role) { ctx.save(); ctx.font = serifFont(nameFs, false); const tot = ctx.measureText(S.speaker).width + 44 * fu + ctx.measureText(S.role).width; ctx.restore(); if (tot > rightB - mx) nameFs *= (rightB - mx) / tot; }
-  const topY = land ? 100 * fu : pr.y + pr.h * 1.18, botY = land ? H - 250 * fu : H - 240 * fu;  // the group sits just above the logos on stacked formats
+  if (inline && S.speaker && S.role) { ctx.save(); ctx.font = serifFont(nameFs, false); const tot = ctx.measureText(S.speaker + ',').width + 22 * fu + ctx.measureText(S.role).width; ctx.restore(); if (tot > rightB - mx) nameFs *= (rightB - mx) / tot; }
+  const topY = land ? 100 * fu : pr.y + pr.h * 1.18, botY = land ? H - 250 * fu : H - 240 * fu - (S.fmt === 'story' ? 0.06 * H : 0);  // the group sits just above the logos on stacked formats; 9:16 lifts it higher, logos stay
   const groupH = (fs, n) => (S.chip ? tagH + 44 * fu * k : 0) + 0.72 * fs + (n - 1) * 0.92 * fs + 0.28 * fs + 48 * fu + (S.speaker || S.role ? nameFs : 0) + (!inline && S.speaker && S.role ? 30 * fu + roleFs : 0);
   let fs = (land ? 150 : 190) * fu, lines = wrapSlide(ctx, title, fs, rightB - mx);
   for (; fs > 30; fs *= 0.97) { lines = wrapSlide(ctx, title, fs, rightB - mx); if (lines.length <= 3 && groupH(fs, lines.length) <= botY - topY) break; }
@@ -612,7 +623,7 @@ function tSpeaker(ctx, c) {
   y += (lines.length - 1) * 0.92 * fs + 0.28 * fs + 48 * fu;
   if (inline) {
     y += nameFs * 0.8; let x = mx;
-    if (S.speaker) { serifText(ctx, S.speaker, x, y, nameFs, th.fg); ctx.save(); ctx.font = serifFont(nameFs, false); x += ctx.measureText(S.speaker).width + 44 * fu; ctx.restore(); }
+    if (S.speaker) { const nm = S.speaker + (S.role ? ',' : ''); serifText(ctx, nm, x, y, nameFs, th.fg); ctx.save(); ctx.font = serifFont(nameFs, false); x += ctx.measureText(nm).width + 22 * fu; ctx.restore(); }
     if (S.role) serifText(ctx, S.role, x, y, nameFs, th.fg);
   } else {
     if (S.speaker) { y += nameFs * 0.8; serifText(ctx, S.speaker, mx, y, nameFs, th.fg); y += nameFs * 0.2; }
@@ -625,7 +636,7 @@ function tBadges(ctx, c) {
   const { W, H, fu, th, t, land } = c, pr = panelRect(c, 'bottom');
   frameLines(ctx, c, land ? pr.x : null, land);  // 16:9: no left line, the text and swash run past it
   const box = land ? { x: 0, y: 100 * fu, w: pr.x - 60 * fu, h: H - 350 * fu } : { x: 0, y: 60 * fu, w: W - 0.06 * W, h: H * 0.37 };
-  const hb = headlineBlock(ctx, c, box, land ? { maxFs: 172 * fu, text: S.bHeadline, sub: S.bSub, mx: 0.055 * W, bleed: true } : { maxFs: 172 * fu * 2, text: S.bHeadline, sub: S.bSub });  // 16:9: text moves left and the T swash bleeds off the edge
+  const hb = headlineBlock(ctx, c, box, land ? { maxFs: 172 * fu, text: S.bHeadline, sub: S.bSub, mx: 0.0975 * W, bleed: true } : { maxFs: 172 * fu * 2, text: S.bHeadline, sub: S.bSub });  // 16:9: text lines up with the left edge of the Attentive logo
   const yy = subLines(ctx, c, hb.mx, hb.bottom + 88 * fu, S.bSub);
   if (!land && S.date) sansText(ctx, dateTxt(), hb.mx, yy + 4 * fu, 38 * fu, th.fg, { wt: 700, ls: 4 * fu });  // stacked: the date sits under the sub line
   footer(ctx, c); if (land) footerDate(ctx, c, pr.x - 60 * fu);
@@ -711,26 +722,45 @@ CHECKS.forEach((k) => $('#' + k).addEventListener('change', (e) => { S[k] = e.ta
 RANGES.forEach((k) => $('#' + k).addEventListener('input', (e) => { S[k] = +e.target.value; $('#' + k + 'O').textContent = S[k]; dirty = true; }));
 $('#shuffle').addEventListener('click', () => { S.seed = Math.floor(Math.random() * 9999) + 1; dirty = true; });
 
-/* photo slots */
+/* photo slots: each photo has its own upload and delete buttons; clicking a photo brings it to the front of the stack */
 const phWrap = $('#photos');
-function thumb(i) {
-  const c = phWrap.children[i].querySelector('canvas'), x = c.getContext('2d'), s = photoSrc[i] || placeholders[i], sw = s.naturalWidth || s.width, sh = s.naturalHeight || s.height, k = Math.max(120 / sw, 150 / sh);
+const DEFAULT_URLS = ['photos/p1.jpg', 'photos/p2.jpg', 'photos/p3.jpg'], defImgs = [null, null, null];
+PH = [0, 1, 2].map((id) => ({ id, img: placeholders[id], ver: 0, on: true, custom: false }));
+function drawThumb(c, s) {
+  const x = c.getContext('2d'), sw = s.naturalWidth || s.width, sh = s.naturalHeight || s.height, k = Math.max(120 / sw, 150 / sh);
   x.clearRect(0, 0, 120, 150); x.drawImage(s, (120 - sw * k) / 2, (150 - sh * k) / 2, sw * k, sh * k);
 }
-for (let i = 0; i < 3; i++) {
-  const d = document.createElement('div'); d.className = 'ph'; d.tabIndex = 0; d.setAttribute('role', 'button'); d.setAttribute('aria-label', 'Photo ' + (i + 1));
-  d.innerHTML = '<canvas width="120" height="150"></canvas><span>Photo ' + (i + 1) + '</span><input type="file" accept="image/*" hidden>'; phWrap.appendChild(d);
-  const inp = d.querySelector('input');
-  const load = (f) => { if (!f || !f.type.startsWith('image/')) return; const im = new Image(); im.onload = () => { photoSrc[i] = im; photoVer[i]++; if (S.photoFilter === 'color') { S.photoFilter = 'bw'; syncUI(); } thumb(i); dirty = true; }; im.src = URL.createObjectURL(f); };
-  d.addEventListener('click', () => inp.click()); d.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); inp.click(); } });
-  inp.addEventListener('change', () => load(inp.files[0]));
-  d.addEventListener('dragover', (e) => { e.preventDefault(); d.classList.add('drag'); }); d.addEventListener('dragleave', () => d.classList.remove('drag'));
-  d.addEventListener('drop', (e) => { e.preventDefault(); d.classList.remove('drag'); load(e.dataTransfer.files[0]); });
-  thumb(i);
+function loadInto(ent, f) {
+  if (!f || !f.type.startsWith('image/')) return; const im = new Image();
+  im.onload = () => { ent.img = im; ent.custom = true; ent.on = true; ent.ver++; if (S.photoFilter === 'color') { S.photoFilter = 'bw'; syncUI(); } renderPhotoSlots(); dirty = true; };
+  im.src = URL.createObjectURL(f);
 }
-
+function renderPhotoSlots() {
+  phWrap.innerHTML = ''; const first = vis()[0];
+  PH.forEach((ent, pos) => {
+    const col = document.createElement('div'); col.className = 'phc';
+    const d = document.createElement('div'); d.className = 'ph' + (ent.on ? '' : ' empty') + (ent === first ? ' front' : '');
+    d.innerHTML = '<canvas width="120" height="150"></canvas><span>' + (ent.on ? (ent === first ? 'Front' : 'Photo ' + (pos + 1)) : 'Empty') + '</span>';
+    if (ent.on) { drawThumb(d.querySelector('canvas'), ent.img); d.tabIndex = 0; d.setAttribute('role', 'button'); d.setAttribute('aria-label', 'Bring photo ' + (pos + 1) + ' to the front'); }
+    const toFront = () => { if (!ent.on || ent === first) return; PH.splice(PH.indexOf(ent), 1); PH.unshift(ent); renderPhotoSlots(); dirty = true; };
+    d.addEventListener('click', toFront); d.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toFront(); } });
+    d.addEventListener('dragover', (e) => { e.preventDefault(); d.classList.add('drag'); }); d.addEventListener('dragleave', () => d.classList.remove('drag'));
+    d.addEventListener('drop', (e) => { e.preventDefault(); d.classList.remove('drag'); loadInto(ent, e.dataTransfer.files[0]); });
+    const btns = document.createElement('div'); btns.className = 'pbtns';
+    const inp = document.createElement('input'); inp.type = 'file'; inp.accept = 'image/*'; inp.hidden = true; inp.addEventListener('change', () => loadInto(ent, inp.files[0]));
+    const up = document.createElement('button'); up.className = 'mini'; up.textContent = 'Upload'; up.setAttribute('aria-label', 'Upload photo ' + (pos + 1)); up.addEventListener('click', () => inp.click());
+    const del = document.createElement('button'); del.className = 'mini'; del.textContent = 'Delete'; del.disabled = !ent.on; del.setAttribute('aria-label', 'Delete photo ' + (pos + 1));
+    del.addEventListener('click', () => { ent.on = false; renderPhotoSlots(); dirty = true; });
+    btns.append(up, del, inp); col.append(d, btns); phWrap.appendChild(col);
+  });
+}
+$('#phReset').addEventListener('click', () => {
+  PH = [0, 1, 2].map((id) => ({ id, img: defImgs[id] || placeholders[id], ver: Date.now() % 1e6 + id, on: true, custom: false }));
+  renderPhotoSlots(); dirty = true;
+});
+renderPhotoSlots();
 /* the three default portraits (Unsplash, black and white, high contrast; see photos/CREDITS.md) */
-['photos/p1.jpg', 'photos/p2.jpg', 'photos/p3.jpg'].forEach((u, i) => { const im = new Image(); im.onload = () => { if (!photoSrc[i]) { photoSrc[i] = im; photoVer[i]++; thumb(i); dirty = true; } }; im.src = u; });
+DEFAULT_URLS.forEach((u, i) => { const im = new Image(); im.onload = () => { defImgs[i] = im; const ent = PH.find((e) => e.id === i); if (ent && !ent.custom) { ent.img = im; ent.ver++; renderPhotoSlots(); dirty = true; } }; im.src = u; });
 
 /* export */
 const status = (m) => ($('#status').textContent = m);
