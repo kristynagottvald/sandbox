@@ -592,21 +592,21 @@ function drawFrameworkAB(ctx, W, H, t) {
   }
   ctx.restore();
 }
-/* scene 3, the tilt from the guidelines' motion section: six thick lines fan out of the bottom line, each swings up about its foot and settles back, one after another */
+/* scene 3, the tilt */
 function drawFrameworkTilt(ctx, W, H, t) {
   ctx.fillStyle = DARK; ctx.fillRect(0, 0, W, H);
   const u = (t % PERIOD) / PERIOD, seg = (a, b) => ease((u - a) / (b - a)), fade = 1 - ease((u - 0.9) / 0.1), lw = Math.max(1.5, W * 0.0022);
-  const L = W * 0.06, R = W * 0.95, T = H * 0.17, B = H * 0.87, rail = W * 0.16, N = 6, thick = W * 0.016;
+  const L = W * 0.06, R = W * 0.95, T = H * 0.17, B = H * 0.87, rail = W * 0.16;
   ctx.save(); ctx.globalAlpha = fade; ctx.strokeStyle = YEL; ctx.lineWidth = lw; ctx.lineCap = 'butt';
   const line = (x1, y1, x2, y2, p) => { if (p <= 0) return; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 + (x2 - x1) * p, y1 + (y2 - y1) * p); ctx.stroke(); };
   line(rail, H * 0.05, rail, H * 0.95, seg(0.02, 0.2)); line(L, T, R, T, seg(0.08, 0.28)); line(L, B, R, B, seg(0.14, 0.34));
-  ctx.save(); ctx.beginPath(); ctx.rect(L, 0, W - L, B); ctx.clip(); ctx.lineWidth = thick;
-  const on = seg(0.3, 0.42);
-  for (let i = 0; i < N; i++) {
-    const base = (3 + 31 * Math.pow(i / (N - 1), 1.15)) * Math.PI / 180, ang = base + 0.15 * (1 - Math.cos(TAU * (t - i * 0.4) / PERIOD)) / 2;
-    const dx = Math.cos(ang), dy = -Math.sin(ang), len = (W - L) / dx + 60 * W / 2000, e = on * len;
-    ctx.beginPath(); ctx.moveTo(L + dx * -thick * 3, B + dy * -thick * 3); ctx.lineTo(L + dx * e, B + dy * e); ctx.stroke();
-  }
+  // the Let's talk lines from the conference landing page: four hairlines fan from one corner point and each sweeps a couple of degrees about it, 0.28 s apart
+  ctx.save(); ctx.beginPath(); ctx.rect(L, 0, W - L, B); ctx.clip(); ctx.lineWidth = Math.max(1.5, W * 0.003);
+  const on = seg(0.3, 0.45), ends = [[260, -6], [260, 39], [260, 86], [260, 111]];
+  ends.forEach(([ex, ey], i) => {
+    const base = Math.atan2(120 - ey, ex), c = 0.5 - 0.5 * Math.cos(TAU * (((t - i * 0.28) / 4.8) % 1)), sweep = (0.8 - 2.4 * c) * Math.PI / 180, ang = base + sweep, len = W * 1.6 * on;
+    ctx.beginPath(); ctx.moveTo(L, B); ctx.lineTo(L + Math.cos(ang) * len, B - Math.sin(ang) * len); ctx.stroke();
+  });
   ctx.restore(); ctx.restore();
 }
 function drawFramework(ctx, W, H, t) { const tt = t % (PERIOD * 2); tt < PERIOD ? drawFrameworkAB(ctx, W, H, tt) : drawFrameworkTilt(ctx, W, H, tt - PERIOD); }
