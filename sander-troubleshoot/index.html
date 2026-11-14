@@ -194,9 +194,6 @@ function render(tt){
   /* front card */
   $('fc').style.transform='translate('+(-91.25*fwd)+'px,'+(25.5*fwd)+'px) scale('+(1-.09*fwd)+')';
   $('fc').style.zIndex=fwd>.5?1:2;
-  /* sparkle twinkle */
-  var tw=pre?0:pulse(2.8,.7);
-  $('spk').style.transform='rotate('+(tw*50)+'deg) scale('+(1+.35*tw)+')';
   /* typing, quantised like the robot's */
   var u=t<R0?1:t<R1?1-rst:t<3?0:clamp((t-3)/1.2);u=Math.round(u*20)/20;
   var q=$('qt');q.style.clipPath='inset(0 '+((1-u)*100)+'% 0 0)';
