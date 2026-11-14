@@ -286,10 +286,10 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 .tl canvas{display:block;width:100%;height:auto}
 .vis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,2vw,28px);margin-top:clamp(30px,4vw,56px)}
 .vis figure{display:block}
-.vis canvas,.vis .gx{display:block;width:100%;aspect-ratio:1;background:var(--ink);border:1.5px solid var(--fg)}
+.vis canvas,.vis .gx{display:block;width:100%;aspect-ratio:1;background:var(--mb,var(--ink));border:1.5px solid var(--fg)}
 .vis figcaption{margin-top:12px;font:700 11px/1.2 var(--sans);letter-spacing:.18em;text-transform:uppercase}
 .vis .gx{display:grid;grid-template-columns:repeat(6,1fr);grid-template-rows:repeat(6,1fr)}
-.gx i{border-right:1.5px solid var(--yellow);border-bottom:1.5px solid var(--yellow);transition:background 1.4s var(--ease)}
+.gx i{border-right:1.5px solid var(--mf,var(--yellow));border-bottom:1.5px solid var(--mf,var(--yellow));transition:background 1.4s var(--ease)}
 .gx i:nth-child(6n){border-right:0}.gx i:nth-last-child(-n+6){border-bottom:0}
 .gx i.lit,.gx i:hover{background:#fff;transition-duration:0s}
 @media (max-width:640px){.vis{grid-template-columns:1fr}}
@@ -448,7 +448,7 @@ footer.end .row a{text-decoration:none}
       <li><b>Sentence case</b><span>Headlines are written the way you’d say them. Capitals are for the date and the tags.</span></li>
       <li><b>Title Case</b><span>Badge names only: one line, like “Early Bird”. Short caps such as VIP stay as typed.</span></li>
       <li><b>*Italics*</b><span>Wrap a headline line in stars to set it in italics. One italic line, at most.</span></li>
-      <li><b>May 12–14 · New York</b><span>Dates and place on one line, set in tracked capitals.</span></li>
+      <li><b style="white-space:nowrap;font-size:clamp(18px,1.9vw,28px)">May 12–14 · New York</b><span>Dates and place on one line, set in tracked capitals.</span></li>
     </ul>
   </div></div>
 </section>
@@ -1431,7 +1431,7 @@ function drawTilts(ctx, W, H, t, still) {
 const mo = surface($('#moCv'), { W: 2000, H: 1125, clock: (dt) => { if (MO.play && !MO.scrub) { MO.t = (MO.t + dt) % PERIOD; moSet(); } return MO.t; },
   draw: (ctx, W, H, t, still) => (MO.style === 'tilts' ? drawTilts(ctx, W, H, t, still) : withS({ tpl: 'pattern', theme: MO.theme, weight: MO.weight, lines: MO.lines, seed: 7, anim: true }, () => render(ctx, W, H, t, still))) });
 toggle('#moPlay', MO.play, (on) => { MO.play = on; $('#moPlay').textContent = on ? 'Playing' : 'Paused'; });
-chipGroup('#moTheme', 'ink', (v) => { MO.theme = v; });
+chipGroup('#moTheme', 'ink', (v) => { MO.theme = v; const t = THEMES[v], vis = $('.vis'); vis.style.setProperty('--mb', t.bg); vis.style.setProperty('--mf', t.fg); });
 $('#moW').addEventListener('input', (e) => { MO.weight = +e.target.value; $('#moWO').textContent = MO.weight; }); $('#moWO').textContent = MO.weight;
 chipGroup('#moStyle', 'loops', (v) => { MO.style = v; $('#moTiltWrap').hidden = v !== 'tilts'; $('.tl').style.display = v === 'tilts' ? 'none' : ''; });
 chipGroup('#moTiltMode', 'redraw', (v) => { MO.tilt = v; });
@@ -1442,8 +1442,8 @@ scr.addEventListener('input', () => { MO.t = +scr.value / 100; $('#moT').textCon
 scr.addEventListener('keydown', () => { MO.scrub = true; }); scr.addEventListener('keyup', () => { MO.scrub = false; }); moSet();
 /* timeline: eight strokes, 0.55 s apart, writing on, holding and un-writing on an 8 s loop */
 surface($('#tlCv'), { W: 2000, H: 560, clock: () => MO.t, draw: (ctx, W, H, t) => {
-  const F = YEL, L = 150, R = 1260, top = 84, rh = 46, X = (s) => L + (R - L) * s / PERIOD;
-  ctx.fillStyle = DARK; ctx.fillRect(0, 0, W, H);
+  const th = THEMES[MO.theme], F = th.fg, L = 150, R = 1260, top = 84, rh = 46, X = (s) => L + (R - L) * s / PERIOD;
+  ctx.fillStyle = th.bg; ctx.fillRect(0, 0, W, H);
   const seg = (a, b, y, mode) => { for (const [p, q] of [[a, b], [a - PERIOD, b - PERIOD]]) { if (q <= 0 || p >= PERIOD) continue; const x0 = X(Math.max(0, p)), x1 = X(Math.min(PERIOD, q)), hh = rh * 0.56; ctx.save(); ctx.fillStyle = F; ctx.strokeStyle = F; ctx.lineWidth = 2;
     if (mode === 0) ctx.fillRect(x0, y - hh / 2, x1 - x0, hh); else if (mode === 1) { ctx.strokeRect(x0, y - hh / 2, x1 - x0, hh); } else { ctx.globalAlpha = 0.4; ctx.fillRect(x0, y - hh / 2, x1 - x0, hh); } ctx.restore(); } };
   for (let i = 0; i < 8; i++) { const s = (((-i * 0.55) % PERIOD) + PERIOD) % PERIOD, y = top + i * rh; sansText(ctx, 'Stroke ' + (i + 1), 40, y + 7, 21, F, { wt: 600 }); seg(s, s + 0.4 * PERIOD, y, 0); seg(s + 0.4 * PERIOD, s + 0.72 * PERIOD, y, 1); seg(s + 0.72 * PERIOD, s + 0.98 * PERIOD, y, 2); }
@@ -1455,7 +1455,7 @@ surface($('#tlCv'), { W: 2000, H: 560, clock: () => MO.t, draw: (ctx, W, H, t) =
   ctx.save(); ctx.strokeStyle = F; ctx.fillStyle = F; ctx.lineWidth = 2; ctx.strokeRect(cx0, cy0, cw, chh); ctx.globalAlpha = 0.35; ctx.beginPath(); ctx.moveTo(px(0), py(0)); ctx.lineTo(px(1), py(1)); ctx.stroke(); ctx.globalAlpha = 1;
   ctx.lineWidth = 6; ctx.beginPath(); ctx.moveTo(px(0), py(0)); ctx.bezierCurveTo(px(0.37), py(0), px(0.63), py(1), px(1), py(1)); ctx.stroke(); ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(px(0), py(0)); ctx.lineTo(px(0.37), py(0)); ctx.moveTo(px(1), py(1)); ctx.lineTo(px(0.63), py(1)); ctx.stroke();
-  [[0, 0], [1, 1]].forEach(([u, v]) => { ctx.fillStyle = DARK; ctx.fillRect(px(u) - 11, py(v) - 11, 22, 22); ctx.strokeRect(px(u) - 11, py(v) - 11, 22, 22); });
+  [[0, 0], [1, 1]].forEach(([u, v]) => { ctx.fillStyle = th.bg; ctx.fillRect(px(u) - 11, py(v) - 11, 22, 22); ctx.strokeRect(px(u) - 11, py(v) - 11, 22, 22); });
   [[0.37, 0], [0.63, 1]].forEach(([u, v]) => { ctx.fillStyle = F; ctx.fillRect(px(u) - 8, py(v) - 8, 16, 16); });
   const u = cl(((t % PERIOD) / PERIOD) / 0.4, 0, 1); ctx.fillStyle = F; ctx.beginPath(); ctx.arc(px(u), py(ease(u)), 15, 0, TAU); ctx.fill(); ctx.restore();
   sansText(ctx, 'EASE · ½ − ½ cos(πu)', cx0, cy0 - 22, 21, F, { wt: 700, ls: 3 });
@@ -1465,10 +1465,11 @@ surface($('#tlCv'), { W: 2000, H: 560, clock: () => MO.t, draw: (ctx, W, H, t) =
 
 /* ---------- motion: the framework illustration (from Thread Brand Visuals) and the grid illustration ---------- */
 function drawFrameworkIllo(ctx, W, H, t) {
-  ctx.fillStyle = DARK; ctx.fillRect(0, 0, W, H);
+  const th = THEMES[MO.theme];
+  ctx.fillStyle = th.bg; ctx.fillRect(0, 0, W, H);
   const u = (t % PERIOD) / PERIOD, seg = (a, b) => ease((u - a) / (b - a)), off = ease((u - 0.9) / 0.1), lw = Math.max(1.5, W * 0.0022);
-  const L = W * 0.06, R = W * 0.95, T = H * 0.17, B = H * 0.87, rail = W * 0.16, cream = '#faf4de';
-  ctx.strokeStyle = YEL; ctx.fillStyle = YEL; ctx.lineWidth = lw; ctx.lineCap = 'butt';
+  const L = W * 0.06, R = W * 0.95, T = H * 0.17, B = H * 0.87, rail = W * 0.16, cream = th.bg === '#faf4de' ? YEL : '#faf4de';   // the last block is the colour that is not the ground
+  ctx.strokeStyle = th.fg; ctx.fillStyle = th.fg; ctx.lineWidth = lw; ctx.lineCap = 'butt';
   const line = (x1, y1, x2, y2, p) => { if (p <= 0) return; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x1 + (x2 - x1) * p, y1 + (y2 - y1) * p); ctx.stroke(); };
   const fade = 1 - off; ctx.save(); ctx.globalAlpha = fade;
   line(rail, H * 0.05, rail, H * 0.95, seg(0.02, 0.2)); line(L, T, R, T, seg(0.08, 0.28)); line(L, B, R, B, seg(0.14, 0.34));
