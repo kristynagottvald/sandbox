@@ -97,10 +97,10 @@ header.site .btn{padding:11px 16px}
 .tr .ph.c3{--side:var(--yellow)}
 .tr:hover .ph,.tr:focus-visible .ph{--d:2.8}
 .tr .ph svg{width:70%;height:auto;overflow:visible}
-.tr .ph svg use{stroke-linejoin:round;font:400 118px/1 var(--script)}
+.tr .ph svg use{stroke-linejoin:round;font:400 175px/1 var(--script)}
 .tr .ph svg .x{fill:var(--side);stroke:var(--line);stroke-width:.55;transform:translate(calc(var(--d) * var(--k) * 1px),calc(var(--d) * var(--k) * 1px))}
-.tr .ph svg .f{fill:var(--front);stroke:var(--line);stroke-width:3.4}
-.tr .ph svg text{font:400 118px/1 var(--script);letter-spacing:0}
+.tr .ph svg .f{fill:var(--front);stroke:var(--line);stroke-width:4.6}
+.tr .ph svg text{font:400 175px/1 var(--script);letter-spacing:0}
 .tr h3{font:400 clamp(28px,2.6vw,40px)/1 var(--serif);margin:32px 0 8px}
 .tr p{font-size:14px;opacity:.85;max-width:22em}
 .c1{background:var(--yellow)}.c2{background:var(--ink);color:var(--yellow)}.c3{background:var(--cream)}.c4{background:var(--yellow)}
@@ -175,10 +175,10 @@ footer .r{margin-left:auto;display:flex;gap:16px}
 <section class="sec tracks" id="tracks">
   <div class="hd"><h2><span>What are you building for?</span></h2><a href="#tracks">View all content</a></div>
   <div class="tg">
-    <a class="tr" href="#tracks"><div class="ph c1"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="62" y="84" text-anchor="middle">G</text></svg></div><h3>Growth</h3><p>Grow a compliant list and turn first texts into first orders.</p></a>
-    <a class="tr" href="#tracks"><div class="ph c2"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="62" y="84" text-anchor="middle">L</text></svg></div><h3>Lifecycle</h3><p>Flows, triggers and timing that feel like a text from a friend.</p></a>
-    <a class="tr" href="#tracks"><div class="ph c3"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="62" y="84" text-anchor="middle">M</text></svg></div><h3>Messaging</h3><p>Copy, MMS and short links that earn a reply.</p></a>
-    <a class="tr" href="#tracks"><div class="ph c4"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="62" y="84" text-anchor="middle">C</text></svg></div><h3>Compliance</h3><p>Consent, carriers and the rules, explained in plain English.</p></a>
+    <a class="tr" href="#tracks"><div class="ph c1"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="0" y="0">G</text></svg></div><h3>Growth</h3><p>Grow a compliant list and turn first texts into first orders.</p></a>
+    <a class="tr" href="#tracks"><div class="ph c2"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="0" y="0">L</text></svg></div><h3>Lifecycle</h3><p>Flows, triggers and timing that feel like a text from a friend.</p></a>
+    <a class="tr" href="#tracks"><div class="ph c3"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="0" y="0">M</text></svg></div><h3>Messaging</h3><p>Copy, MMS and short links that earn a reply.</p></a>
+    <a class="tr" href="#tracks"><div class="ph c4"><svg viewBox="0 0 130 100" data-art role="img" aria-hidden="true"><text x="0" y="0">C</text></svg></div><h3>Compliance</h3><p>Consent, carriers and the rules, explained in plain English.</p></a>
   </div>
 </section>
 
@@ -206,30 +206,14 @@ const EV=Date.UTC(2027,4,12,13),cnt=document.getElementById('count'),pad=v=>Stri
 function tick(){let s=Math.max(0,Math.floor((EV-Date.now())/1000));const v={d:Math.floor(s/86400),h:Math.floor(s%86400/3600),m:Math.floor(s%3600/60),s:s%60};
  for(const k in v)cnt.querySelector('[data-u='+k+']').textContent=pad(v[k])}
 tick();setInterval(tick,1000);
-/* tracks: each illustration is stacked as stepped copies behind a heavy front, like the badge capitals */
-document.querySelectorAll('svg[data-art]').forEach((s,n)=>{const g=s.innerHTML,id='art'+n;let u='';
- for(let k=7;k>=1;k--)u+='<use href="#'+id+'" class="x" style="--k:'+k+'"/>';
- s.innerHTML='<defs><g id="'+id+'" transform="translate(-4 -4)">'+g+'</g></defs>'+u+'<use href="#'+id+'" class="f"/>'});
-/* calligraphic loop in the Connect card: a pen that starts thick and thins out, writes itself on and un-writes from the tail, every 7 s */
-(()=>{const c=document.getElementById('loop');if(!c)return;const x=c.getContext('2d'),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,PER=7,N=360;
- const DEFS=[{w0:15,w1:2.5,taper:.5,pts:[[430,215],[340,222],[250,228],[170,216],[110,182],[92,132],[128,92],[182,96],[202,138],[176,180],[120,198],[62,190],[20,162]]},
-  {w0:5,w1:2,taper:.6,pts:[[430,244],[340,252],[240,254],[150,246],[90,232]]}];
- const lerp=(a,b,t)=>a+(b-a)*t,cl=(v,a,b)=>Math.max(0,Math.min(1,v)),ease=u=>.5-.5*Math.cos(Math.PI*cl(u));
- function build(def){const p=def.pts,d=[];for(let i=0;i<p.length-1;i++){const P0=p[Math.max(i-1,0)],P1=p[i],P2=p[i+1],P3=p[Math.min(i+2,p.length-1)];
-   const dist=(a,b)=>Math.pow(Math.hypot(a[0]-b[0],a[1]-b[1])||1e-3,.5),t0=0,t1=dist(P1,P0),t2=t1+dist(P2,P1),t3=t2+dist(P3,P2);
-   for(let k=0;k<24;k++){const t=lerp(t1,t2,k/24),q=[0,0];for(let e=0;e<2;e++){const A1=((t1-t)*P0[e]+(t-t0)*P1[e])/(t1-t0),A2=((t2-t)*P1[e]+(t-t1)*P2[e])/(t2-t1),A3=((t3-t)*P2[e]+(t-t2)*P3[e])/(t3-t2),B1=((t2-t)*A1+(t-t0)*A2)/(t2-t0),B2=((t3-t)*A2+(t-t1)*A3)/(t3-t1);q[e]=((t2-t)*B1+(t-t1)*B2)/(t2-t1)}d.push(q)}}
-  d.push(p[p.length-1]);const cum=[0];for(let i=1;i<d.length;i++)cum.push(cum[i-1]+Math.hypot(d[i][0]-d[i-1][0],d[i][1]-d[i-1][1]));
-  const tot=cum[cum.length-1],out=[];let j=0;for(let i=0;i<N;i++){const sd=i/(N-1)*tot;while(j<cum.length-2&&cum[j+1]<sd)j++;const u=(sd-cum[j])/(cum[j+1]-cum[j]||1),t=i/(N-1),sm=cl(t/def.taper),k=sm*sm*(3-2*sm);
-   out.push({x:lerp(d[j][0],d[j+1][0],u),y:lerp(d[j][1],d[j+1][1],u),w:lerp(def.w0,def.w1,k)})}return out}
- const S=DEFS.map(build);let W,H;
- function size(){const r=c.getBoundingClientRect(),dp=devicePixelRatio||1;W=c.width=Math.round(r.width*dp);H=c.height=Math.round(r.height*dp)}
- function stroke(pts,a,b,sc){const i0=Math.floor(a*(N-1)),i1=Math.ceil(b*(N-1));if(i1-i0<1)return;const L=[],R=[];
-  for(let i=i0;i<=i1;i++){const p=pts[i],q=pts[Math.min(i+1,N-1)],o=pts[Math.max(i-1,0)];let dx=q.x-o.x,dy=q.y-o.y;const m=Math.hypot(dx,dy)||1;dx/=m;dy/=m;const h=p.w*sc/2;L.push([p.x*sc-dy*h,p.y*sc+dx*h]);R.push([p.x*sc+dy*h,p.y*sc-dx*h])}
-  x.beginPath();x.moveTo(L[0][0],L[0][1]);for(const q of L)x.lineTo(q[0],q[1]);for(let i=R.length-1;i>=0;i--)x.lineTo(R[i][0],R[i][1]);x.closePath();x.fill()}
- function frame(now){x.clearRect(0,0,W,H);x.fillStyle='#fff383';const sc=W/430;
-  S.forEach((pts,i)=>{if(reduce){stroke(pts,0,1,sc);return}const u=((((now/1000+i*.45)%PER)+PER)%PER)/PER;stroke(pts,ease((u-.72)/.26),ease(u/.4),sc)});
-  if(!reduce)requestAnimationFrame(frame)}
- addEventListener('resize',()=>{size();if(reduce)frame(0)});size();requestAnimationFrame(frame)})();
+/* tracks: each capital is centred by its ink box, set larger than the tile so it bleeds past the frame, and stacked as stepped copies like the badge capitals */
+(async()=>{try{await document.fonts.load('175px "Pinyon Script"')}catch(e){}
+ const cx=document.createElement('canvas').getContext('2d');cx.font='175px "Pinyon Script"';
+ document.querySelectorAll('svg[data-art]').forEach((s,n)=>{const t=s.querySelector('text'),ch=t.textContent,id='art'+n,d=parseFloat(getComputedStyle(s.parentNode).getPropertyValue('--d'))||2.2,off=7*d;
+  const m=cx.measureText(ch),mx=(m.actualBoundingBoxRight-m.actualBoundingBoxLeft)/2,my=(m.actualBoundingBoxDescent-m.actualBoundingBoxAscent)/2;
+  const tx=65-mx-off/2,ty=50-my-off/2;let u='';
+  for(let k=7;k>=1;k--)u+='<use href="#'+id+'" class="x" style="--k:'+k+'"/>';
+  s.innerHTML='<defs><g id="'+id+'" transform="translate('+tx.toFixed(2)+' '+ty.toFixed(2)+')"><text x="0" y="0">'+ch+'</text></g></defs>'+u+'<use href="#'+id+'" class="f"/>'})})();
 /* ticker */
 const w=['Thread 2027','May 12–14','New York','The SMS marketing conference'];
 document.getElementById('tk').innerHTML=Array(16).fill(w).flat().map(t=>'<span>'+t+'</span>').join('');
