@@ -161,11 +161,10 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 .im:hover .mini{transform:rotate(-2deg) scale(1.04)}
 .im .mini img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1) contrast(1.4)}
 .im .mini2{right:36%;bottom:22%;width:26%;transform:rotate(-7deg)}
-.us .rg{position:absolute;right:6%;bottom:12%;height:62%;aspect-ratio:1;background:var(--cream);transition:transform .8s var(--ease)}
-.us .rg::after{content:"";position:absolute;inset:29%;background:var(--ink)}
-.us .rg i{position:absolute;width:26%;aspect-ratio:1;border:2px solid var(--ink);transform:translate(-50%,-50%);z-index:1}
-.us .rg i:nth-child(1){left:50%;top:14.5%;background:var(--yellow)}.us .rg i:nth-child(2){left:80.7%;top:67.8%;background:var(--ink)}.us .rg i:nth-child(3){left:19.3%;top:67.8%;background:var(--cream)}
-.us:hover .rg{transform:rotate(90deg)}
+.us .rg{position:absolute;right:6%;bottom:14%;display:flex;align-items:center;gap:6%;padding:5%;background:var(--cream);width:50%;transition:transform .6s var(--ease)}
+.us .rg i{flex:1;aspect-ratio:1;border:2px solid var(--ink)}
+.us .rg i:nth-child(1){background:var(--yellow)}.us .rg i:nth-child(2){background:var(--ink)}.us .rg i:nth-child(3){background:var(--cream)}
+.us:hover .rg{transform:translateY(-4px)}
 .bd canvas,.mo canvas{position:absolute;display:block}
 .bd canvas{right:-4%;bottom:-6%;width:84%}
 .mo canvas{left:0;right:0;bottom:0;width:100%}
@@ -291,10 +290,9 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 
 /* ---------- In use ---------- */
 .ringwrap{display:flex;align-items:center;gap:clamp(18px,3vw,40px);flex-wrap:wrap;margin-bottom:clamp(30px,4vw,56px);justify-content:space-between}
-.ring{position:relative;width:clamp(150px,16vw,220px);aspect-ratio:1;background:var(--cream);flex:none}
-.ring::after{content:"";position:absolute;inset:29%;background:var(--ink)}
-.ring button{position:absolute;width:26%;aspect-ratio:1;border-radius:0;border:2px solid var(--ink);cursor:pointer;padding:0;transform:translate(-50%,-50%);transition:transform .5s var(--ease);z-index:2}
-.ring button:hover{transform:translate(-50%,-50%) scale(1.12)}
+.ring{display:flex;align-items:center;gap:clamp(8px,1vw,14px);padding:clamp(12px,1.4vw,20px);background:var(--cream);flex:none}
+.ring button{width:clamp(44px,4.6vw,66px);aspect-ratio:1;border-radius:0;border:2px solid var(--ink);cursor:pointer;padding:0;transition:transform .5s var(--ease)}
+.ring button:hover{transform:translateY(-4px)}
 .ring button.on{box-shadow:0 0 0 3px var(--cream),0 0 0 5px var(--ink)}
 .surf{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(12px,1.8vw,26px)}
 .surf>div{background:#222;padding:clamp(10px,1.4vw,18px);display:flex;flex-direction:column;gap:14px;border:1.5px solid var(--yellow)}
@@ -1427,7 +1425,7 @@ surface($('#tlCv'), { W: 2000, H: 560, clock: () => MO.t, draw: (ctx, W, H, t) =
 /* ---------- 09 in use ---------- */
 const THS = { yellow: ['#fff383', '#141414', 'Yellow'], ink: ['#141414', '#fff383', 'Ink'], cream: ['#faf4de', '#141414', 'Cream'] }, US = { th: 'yellow', picked: false, vis: false };
 const ring = $('#ring');
-Object.keys(THS).forEach((k, i) => { const a = (-90 + i * 120) * Math.PI / 180, b = document.createElement('button'); b.dataset.v = k; b.setAttribute('aria-label', THS[k][2]); b.title = THS[k][2]; b.style.cssText = 'left:' + (50 + 35.5 * Math.cos(a)) + '%;top:' + (50 + 35.5 * Math.sin(a)) + '%;background:' + THS[k][0]; ring.appendChild(b); });
+Object.keys(THS).forEach((k, i) => { const b = document.createElement('button'); b.dataset.v = k; b.setAttribute('aria-label', THS[k][2]); b.title = THS[k][2]; b.style.background = THS[k][0]; ring.appendChild(b); });
 function setUse(k) { US.th = k; const u = $('#use'); u.dataset.th = k; u.style.setProperty('--sbg', THS[k][0]); u.style.setProperty('--sfg', THS[k][1]); $$('#ring button').forEach((b) => b.classList.toggle('on', b.dataset.v === k)); }
 ring.addEventListener('click', (e) => { const b = e.target.closest('[data-v]'); if (b) { US.picked = true; setUse(b.dataset.v); } });
 setUse('yellow');
