@@ -42,7 +42,7 @@ header.site .btn{padding:11px 16px}
 .frame{border:1.5px solid var(--ink);background:var(--yellow);box-shadow:10px 10px 0 var(--ink);padding:clamp(14px,2vw,26px);display:flex;flex-direction:column;gap:clamp(14px,1.8vw,22px)}
 .art{position:relative;flex:1;min-height:260px;border:1.5px solid var(--ink);background:var(--yellow);overflow:hidden;display:grid;place-items:center}
 .art canvas{position:absolute;inset:0;width:100%;height:100%}
-.art svg{position:relative;width:min(92%,840px);height:auto;color:var(--ink)}
+.art svg{position:relative;width:min(78%,700px);height:auto;color:var(--ink);overflow:visible}
 .count{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1.5px solid var(--ink);border-left:1.5px solid var(--ink)}
 .count div{border-right:1.5px solid var(--ink);border-bottom:1.5px solid var(--ink);background:var(--cream);padding:6px 12px 10px}
 .count b{display:block;font:400 clamp(44px,6.4vw,104px)/.95 var(--serif);letter-spacing:-.0174em;font-variant-numeric:tabular-nums}
@@ -71,18 +71,25 @@ header.site .btn{padding:11px 16px}
 .live h2{font:400 clamp(40px,5.4vw,84px)/.94 var(--serif)}
 .live .more{display:inline-block;margin-top:20px}
 .sess{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,32px)}
-.ses img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;filter:grayscale(1) contrast(1.4);border:1.5px solid var(--ink);box-shadow:8px 8px 0 var(--ink);background:var(--yellow)}
+.ses .pic{aspect-ratio:16/10;border:1.5px solid var(--ink);box-shadow:8px 8px 0 var(--ink);background:var(--yellow);overflow:hidden}
+.ses img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 28%;filter:grayscale(1) contrast(1.35);mix-blend-mode:multiply;transition:clip-path .7s var(--ease)}
+.ses .tm,.ses h3,.ses .who,.ses .acts{transition:opacity .3s var(--ease),transform .3s var(--ease)}
+.ses.out img{clip-path:inset(0 0 0 100%)}
+.ses.out .tm,.ses.out h3,.ses.out .who,.ses.out .acts{opacity:0;transform:translateY(8px)}
+.ses.pre img{clip-path:inset(0 100% 0 0);transition:none}
+.ses.pre .tm,.ses.pre h3,.ses.pre .who,.ses.pre .acts{opacity:0;transform:translateY(-8px);transition:none}
+.ses .who{margin-top:8px;font-size:14px;opacity:.85;min-height:1.4em}
 .ses .tm{margin:22px 0 8px}
-.ses h3{font:400 clamp(30px,3.4vw,50px)/1 var(--serif)}
+.ses h3{font:400 clamp(28px,3vw,44px)/1 var(--serif);min-height:2em}
 .ses .acts{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap}
 .ses .acts button{background:none;border:0;border-bottom:1.5px solid var(--ink);padding:0 0 3px;cursor:pointer;font:700 10.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase}
 .ses .acts button[aria-pressed=true]{background:var(--yellow)}
 @media (max-width:860px){.live,.sess{grid-template-columns:1fr}}
 /* ticker */
 .tick{background:var(--yellow);border-block:1.5px solid var(--ink);overflow:hidden;white-space:nowrap}
-.tick div{display:inline-flex;gap:34px;padding:14px 0;animation:tk 34s linear infinite;will-change:transform}
-.tick span{font:700 11px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;gap:34px}
-.tick span::after{content:"";width:56px;height:1.5px;background:var(--ink)}
+.tick div{display:inline-flex;gap:40px;padding:22px 0;animation:tk 34s linear infinite;will-change:transform}
+.tick span{font:700 20px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;display:inline-flex;align-items:center;gap:40px}
+.tick span::after{content:"";width:90px;height:2px;background:var(--ink)}
 @keyframes tk{to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){.tick div{animation:none}}
 /* tracks */
@@ -141,7 +148,7 @@ footer .r{margin-left:auto;display:flex;gap:16px}
 <main id="top">
 <section class="hero">
   <div class="frame" aria-label="Countdown to Thread 2027">
-    <div class="art"><canvas id="bg" aria-hidden="true"></canvas><svg class="sw" viewBox="673 5 1587 918" role="img" aria-label="Thread"></svg></div>
+    <div class="art"><canvas id="bg" aria-hidden="true"></canvas><svg class="sw" viewBox="653 -15 1627 958" role="img" aria-label="Thread"></svg></div>
     <div class="count" id="count" role="timer" aria-label="Time until Thread 2027 begins">
       <div><b data-u="d">00</b><span>Days</span></div><div><b data-u="h">00</b><span>Hours</span></div>
       <div><b data-u="m">00</b><span>Minutes</span></div><div><b data-u="s">00</b><span>Seconds</span></div>
@@ -164,12 +171,10 @@ footer .r{margin-left:auto;display:flex;gap:16px}
 
 <section class="sec live" id="agenda">
   <div><h2><span class="wide">Join us online for livestreamed keynotes</span></h2><a class="cap more" href="#agenda">View all content</a></div>
-  <div class="sess">
-    <article class="ses"><img src="photos/p1.jpg" alt="Black and white photo for the opening keynote" >
-      <div class="tm cap">10:00 AM – 11:00 AM ET</div><h3>Thread keynote</h3>
+  <div class="sess" id="sess" aria-label="Livestreamed talks">
+    <article class="ses"><div class="pic"><img alt=""></div><div class="tm cap"></div><h3></h3><div class="who"></div>
       <div class="acts"><button type="button">Add to calendar</button><button type="button" aria-pressed="false" class="sv">Save to My Thread</button></div></article>
-    <article class="ses"><img src="photos/p3.jpg" alt="Black and white photo for the marketer keynote" >
-      <div class="tm cap">11:00 AM – 12:00 PM ET</div><h3>Marketer keynote</h3>
+    <article class="ses"><div class="pic"><img alt=""></div><div class="tm cap"></div><h3></h3><div class="who"></div>
       <div class="acts"><button type="button">Add to calendar</button><button type="button" aria-pressed="false" class="sv">Save to My Thread</button></div></article>
   </div>
 </section>
@@ -246,11 +251,27 @@ tick();setInterval(tick,1000);
   S.forEach((pts,i)=>{if(reduce){stroke(pts,0,1,sc,0);return}const u=((((t+i*.55)%PER)+PER)%PER)/PER;stroke(pts,ease((u-.72)/.26),ease(u/.4),sc,t)});
   if(!reduce)requestAnimationFrame(frame)}
  addEventListener('resize',()=>{size();if(reduce)frame(0)});size();requestAnimationFrame(frame)})();
+/* agenda: five talks cycle through the two slots, one slot after the other; each swap wipes the photo and lifts the text */
+(()=>{const T=[
+ {t:'Thread keynote',tm:'10:00 AM – 11:00 AM ET',w:'Maya Chen · VP of Growth, Northwind',i:'photos/talk1.jpg',p:'50% 22%'},
+ {t:'Marketer keynote',tm:'11:00 AM – 12:00 PM ET',w:'Elias Brandt · Founder, Brandt &amp; Co',i:'photos/talk2.jpg',p:'50% 30%'},
+ {t:'Supercharge your list growth',tm:'1:00 PM – 1:45 PM ET',w:'Priya Raman · Head of Lifecycle, Loop',i:'photos/talk3.jpg',p:'50% 30%'},
+ {t:'What texting taught us about talking to customers',tm:'2:00 PM – 2:45 PM ET',w:'Daniel Wu · CMO, Fieldnote',i:'photos/talk4.jpg',p:'50% 24%'},
+ {t:'Compliance without the headache',tm:'3:00 PM – 3:45 PM ET',w:'Mei Tanaka · Director of Messaging, Harbor',i:'photos/talk5.jpg',p:'50% 26%'}];
+ const slots=[...document.querySelectorAll('#sess .ses')],saved=new Set(),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ const idx=[0,1];let paused=false;
+ function fill(el,n){const d=T[n];el.dataset.n=n;const im=el.querySelector('img');im.src=d.i;im.alt='Portrait of '+d.w.split(' · ')[0];im.style.objectPosition=d.p;
+  el.querySelector('.tm').textContent=d.tm;el.querySelector('h3').textContent=d.t;el.querySelector('.who').innerHTML=d.w;
+  const b=el.querySelector('.sv'),on=saved.has(n);b.setAttribute('aria-pressed',on);b.textContent=on?'Saved ✓':'Save to My Thread'}
+ slots.forEach((el,k)=>{fill(el,idx[k]);el.querySelector('.sv').addEventListener('click',e=>{const n=+el.dataset.n,on=!saved.has(n);on?saved.add(n):saved.delete(n);e.currentTarget.setAttribute('aria-pressed',on);e.currentTarget.textContent=on?'Saved ✓':'Save to My Thread'})});
+ function swap(k){const el=slots[k];idx[k]=(idx[k]+2)%T.length;el.classList.add('out');
+  setTimeout(()=>{fill(el,idx[k]);el.classList.remove('out');el.classList.add('pre');void el.offsetWidth;el.classList.remove('pre')},750)}
+ if(reduce)return;const sec=document.getElementById('sess');sec.addEventListener('pointerenter',()=>paused=true);sec.addEventListener('pointerleave',()=>paused=false);sec.addEventListener('focusin',()=>paused=true);sec.addEventListener('focusout',()=>paused=false);
+ let step=0;setInterval(()=>{if(paused||document.hidden)return;swap(step%2);step++},2600);
+})();
 /* ticker */
 const w=['Thread 2027','May 12–14','New York','The SMS marketing conference'];
 document.getElementById('tk').innerHTML=Array(16).fill(w).flat().map(t=>'<span>'+t+'</span>').join('');
-/* save toggles */
-document.querySelectorAll('.sv').forEach(b=>b.addEventListener('click',()=>{const on=b.getAttribute('aria-pressed')!=='true';b.setAttribute('aria-pressed',on);b.textContent=on?'Saved ✓':'Save to My Thread'}));
 /* hairline grid behind the swash: a white block wanders cell to cell and leaves a fading trail; the cursor leaves one too */
 (()=>{const c=document.getElementById('bg'),x=c.getContext('2d'),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,N=12,FADE=1.7,STEP=.13;
  let W,H,cw,ch,rows,heat=[],mx=-1,my=-1,hx=2,hy=1,dx=1,dy=0,last=performance.now(),acc=0;
