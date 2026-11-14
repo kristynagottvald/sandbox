@@ -1412,18 +1412,19 @@ function drawTilts(ctx, W, H, t, still) {
   const th = THEMES[MO.theme], fu = Math.max(W / 2000, 0.7), N = 6, lw = MO.weight * 3 * fu, B = H - 47 * fu;
   ctx.fillStyle = th.bg; ctx.fillRect(0, 0, W, H);
   withS({ lines: MO.lines, theme: MO.theme }, () => frameLines(ctx, ctxBase(W, H, t, still), W - 131 * fu));
-  ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, B); ctx.clip();
+  const X0 = W * 0.05;   // every line grows from this one point; the clip hides the squared-off ends and the half of each line below it
+  ctx.save(); ctx.beginPath(); ctx.rect(X0, 0, W - X0, B); ctx.clip();
   sansText(ctx, 'The SMS marketing conference', 0.1 * W, 0.2 * H, 46 * fu, th.fg, { wt: 500 });
   sansText(ctx, (S.date || '').toUpperCase(), 0.1 * W, 0.2 * H + 66 * fu, 26 * fu, th.fg, { wt: 700, ls: 4 * fu });
   ctx.strokeStyle = th.fg; ctx.lineWidth = lw; ctx.lineCap = 'butt';
   for (let i = 0; i < N; i++) {
-    const x0 = W * 0.05 + i * W * 0.014, base = (3 + 31 * Math.pow(i / (N - 1), 1.15)) * Math.PI / 180;
+    const x0 = X0, base = (3 + 31 * Math.pow(i / (N - 1), 1.15)) * Math.PI / 180;
     let ang = base, a = 0, b = 1;
     if (MO.tilt === 'tilt') ang += 0.15 * (1 - Math.cos(TAU * (t - i * 0.4) / PERIOD)) / 2;
     else if (!still) [a, b] = strokeSpan(i, t);
     if (b <= a) continue;
     const dx = Math.cos(ang), dy = -Math.sin(ang), L = (W - x0) / dx + 60;
-    ctx.beginPath(); ctx.moveTo(x0 + dx * L * a, B + dy * L * a); ctx.lineTo(x0 + dx * L * b, B + dy * L * b); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(x0 + dx * (L * a - (a <= 0 ? lw * 3 : 0)), B + dy * (L * a - (a <= 0 ? lw * 3 : 0))); ctx.lineTo(x0 + dx * L * b, B + dy * L * b); ctx.stroke();
   }
   ctx.restore();
 }
