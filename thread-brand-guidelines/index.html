@@ -495,7 +495,7 @@ footer.end .row a{text-decoration:none}
       </div>
       <span class="cur"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M1 1l12 4.4-5 2.2-2.2 5z" fill="currentColor"/></svg>Type Designer</span>
       </div>
-      <div class="spec f-serif wide" id="spec" contenteditable="true" spellcheck="false" role="textbox" aria-label="Type specimen, editable">Text it out</div>
+      <div class="spec f-serif wide it" id="spec" contenteditable="true" spellcheck="false" role="textbox" aria-label="Type specimen, editable">Text it out</div>
     </div>
     <div class="tscale" id="tscale">
       <div class="r"><div>Headline<small>Instrument Serif · 172 · 116% wide · −3 tracking · 0.88 leading</small></div><div class="samp" style="font:400 var(--b)/1.05 var(--serif);letter-spacing:-.0174em"><span style="display:inline-block;transform:scaleX(1.16);transform-origin:0 0">Text it out</span></div></div>
@@ -1325,7 +1325,7 @@ $$('#dont canvas').forEach((c) => {
 const spec = $('#spec');
 $$('.tools [data-f]').forEach((b) => b.addEventListener('click', () => { ['serif', 'sans', 'script'].forEach((f) => spec.classList.toggle('f-' + f, f === b.dataset.f)); $$('.tools [data-f]').forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b); }); }));
 $('.tools [data-f=serif]').classList.add('on');
-toggle('#tIt', false, (on) => spec.classList.toggle('it', on));
+toggle('#tIt', true, (on) => spec.classList.toggle('it', on));
 toggle('#tWide', true, (on) => spec.classList.toggle('wide', on));
 toggle('#tCaps', false, (on) => spec.classList.toggle('caps', on));
 spec.addEventListener('paste', (e) => { e.preventDefault(); document.execCommand('insertText', false, (e.clipboardData.getData('text/plain') || '').replace(/\s+/g, ' ')); });
