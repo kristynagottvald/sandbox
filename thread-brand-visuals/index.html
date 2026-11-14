@@ -28,7 +28,7 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--cream);color:var(-
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Thread Brand Visuals</b></nav>
 <main>
 <div class="grid">
-  <figure><canvas id="cNum" role="img" aria-label="A calligraphic number with a yellow extrusion that turns through 2, 0, 2, 6"></canvas><figcaption>3D numbers</figcaption></figure>
+  <figure><canvas id="cNum" role="img" aria-label="A calligraphic number with a yellow extrusion that turns through 2, 0, 2, 6, A, B, C"></canvas><figcaption>3D Capital</figcaption></figure>
   <figure><canvas id="cFw" role="img" aria-label="A Thread post with its frame lines drawing on and its measurements"></canvas><figcaption>Framework illustrations</figcaption></figure>
   <figure><canvas id="cCal" role="img" aria-label="Calligraphy loops writing themselves on and un-writing, mirrored left and right"></canvas><figcaption>Looping calligraphy</figcaption></figure>
 </div>
@@ -557,10 +557,10 @@ function drawNumber3D(ctx, ch, cx, cy, size, ang, depthK) {
   ctx.fillStyle = DARK; ctx.lineWidth = size * 0.02; ctx.fillText(ch, x0, y0); ctx.strokeText(ch, x0, y0);
   ctx.restore();
 }
-const DIGITS = ['2', '0', '2', '6'];
+const DIGITS = ['2', '0', '2', '6', 'A', 'B', 'C'];
 function drawNumbers(ctx, W, H, t) {
   ctx.fillStyle = YEL; ctx.fillRect(0, 0, W, H);
-  const per = PERIOD / DIGITS.length, i = Math.floor(t / per) % 4, u = (t % per) / per;       // each digit holds 2 s
+  const per = 1.2, i = Math.floor(t / per) % DIGITS.length, u = (t % per) / per;       // each character holds 1.2 s
   const sw = ease(Math.min(1, u / 0.3)) , out = ease((u - 0.82) / 0.18);                        // grows in, then folds away
   const grow = sw * (1 - out), ang = Math.PI * 0.25 + Math.sin(TAU * t / PERIOD * 2 + i) * 0.5 + u * 0.9;
   ctx.save(); ctx.translate(0, 10 * Math.sin(TAU * t / PERIOD * 2));
