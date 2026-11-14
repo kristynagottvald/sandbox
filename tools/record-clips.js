@@ -28,7 +28,7 @@ const APPS = {
   // the finished composition, then the whole 9 s cycle at 1.4x: the query is typed, matches appear, the query and context notes fly onto the graph, the result lands
   'nlp-diagram': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
     const t0 = Date.now();
-    await at(t0, 700, () => p.evaluate(() => __rb.play({ from: 0, speed: 1.4, loop: false })));
+    await at(t0, 700, () => p.evaluate(() => __rb.play({ from: 0, speed: 1.75, loop: false })));
     await sleep(5600);
   } },
   // the finished composition, then the whole 9 s cycle at 1.4x: the picker, the search card and the worker come in, the query is typed, matches appear, the answer is picked and flies to Prep tools
