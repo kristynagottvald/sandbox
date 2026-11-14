@@ -37,7 +37,7 @@ const APPS = {
     await at(t0, 700, () => p.evaluate(() => __rb.play({ from: 0, speed: 1.4, loop: false })));
     await sleep(5600);
   } },
-  // the three Thread brand visuals side by side, all moving on their own: the 3D digits turning 2 0 2 6, the frame lines drawing on and re-cutting, the calligraphy writing on and off (one 8 s loop, played at 1.33x)
+  // the three Thread brand visuals side by side, all moving on their own: the 3D characters turning 2 0 2 6 A B C, the frame lines drawing on and re-cutting, the calligraphy writing on and off (one 8 s loop, played at 1.33x)
   'thread-brand-visuals': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1500, q: 55, run: async (p) => { await sleep(5600); } },
   // the landing page: hero with the live countdown and the hairline grid lighting up, then a scroll through the keynotes, tracks and community cards and back up
   'thread-conference-landing': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1500, q: 55, run: async (p) => {
