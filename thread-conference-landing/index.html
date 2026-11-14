@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Thread 2027 Landing Page</title>
+<title>Thread 2026 Landing Page</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -52,7 +52,7 @@ header.site .btn{padding:11px 16px}
 .dark h1{font:400 clamp(44px,5.4vw,86px)/.92 var(--serif)}
 .dark h1 em{font-style:italic}
 .dark p{font-size:15px;max-width:26em;color:var(--cream)}
-.dark .stripes{position:absolute;left:0;right:0;bottom:-6px;width:100%;height:auto;pointer-events:none;z-index:0}
+.dark .stripes{position:absolute;right:-34px;bottom:-10px;width:55%;height:auto;pointer-events:none;z-index:0}
 .dark>:not(.stripes){position:relative;z-index:1}
 .dark .stripes path{transform-box:view-box;transform-origin:0 120px;animation:sweep 4.8s var(--ease) infinite}
 .dark .stripes path:nth-child(2){animation-delay:.28s}.dark .stripes path:nth-child(3){animation-delay:.56s}.dark .stripes path:nth-child(4){animation-delay:.84s}
@@ -73,11 +73,11 @@ header.site .btn{padding:11px 16px}
 .live .more{display:inline-block;margin-top:20px}
 .sess{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,32px)}
 .ses .pic{aspect-ratio:16/10;border:1.5px solid var(--ink);box-shadow:8px 8px 0 var(--ink);background:var(--yellow);overflow:hidden}
-.ses img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 28%;filter:grayscale(1) contrast(1.35);mix-blend-mode:multiply;transition:clip-path .7s var(--ease)}
-.ses .tm,.ses h3,.ses .who,.ses .acts{transition:opacity .3s var(--ease),transform .3s var(--ease)}
-.ses.out img{clip-path:inset(0 0 0 100%)}
+.ses img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 28%;filter:grayscale(1) contrast(1.35);mix-blend-mode:multiply;transition:opacity 1.3s var(--ease)}
+.ses .tm,.ses h3,.ses .who,.ses .acts{transition:opacity .9s var(--ease),transform .9s var(--ease)}
+.ses.out img{opacity:0}
 .ses.out .tm,.ses.out h3,.ses.out .who,.ses.out .acts{opacity:0;transform:translateY(8px)}
-.ses.pre img{clip-path:inset(0 100% 0 0);transition:none}
+.ses.pre img{opacity:0;transition:none}
 .ses.pre .tm,.ses.pre h3,.ses.pre .who,.ses.pre .acts{opacity:0;transform:translateY(-8px);transition:none}
 .ses .who{margin-top:8px;font-size:14px;opacity:.85;min-height:1.4em}
 .ses .tm{margin:22px 0 8px}
@@ -138,19 +138,19 @@ footer .r{margin-left:auto;display:flex;gap:16px}
 </style>
 </head>
 <body>
-<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Thread 2027 Landing Page</b></nav>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Thread 2026 Landing Page</b></nav>
 
 <header class="site">
-  <a class="logo" href="#top" aria-label="Thread 2027"><svg class="wm" viewBox="673 5 2485 918" role="img" aria-hidden="true"></svg></a>
+  <a class="logo" href="#top" aria-label="Thread 2026"><svg class="wm" viewBox="673 5 2485 918" role="img" aria-hidden="true"></svg></a>
   <div class="links"><a href="#agenda">Agenda</a><a href="#tracks">Tracks</a><a href="#community">Community</a><a href="#about">About</a></div>
   <div class="r"><a class="t" href="#">English</a><a class="t" href="#">Sign in</a><a class="btn" href="#register">Register</a></div>
 </header>
 
 <main id="top">
 <section class="hero">
-  <div class="frame" aria-label="Countdown to Thread 2027">
+  <div class="frame" aria-label="Countdown to Thread 2026">
     <div class="art"><canvas id="bg" aria-hidden="true"></canvas><svg class="sw" viewBox="653 -15 1627 958" role="img" aria-label="Thread"></svg></div>
-    <div class="count" id="count" role="timer" aria-label="Time until Thread 2027 begins">
+    <div class="count" id="count" role="timer" aria-label="Time until Thread 2026 begins">
       <div><b data-u="d">00</b><span>Days</span></div><div><b data-u="h">00</b><span>Hours</span></div>
       <div><b data-u="m">00</b><span>Minutes</span></div><div><b data-u="s">00</b><span>Seconds</span></div>
     </div>
@@ -159,7 +159,7 @@ footer .r{margin-left:auto;display:flex;gap:16px}
     <div class="dark" id="register">
       <h1><span class="wide">Let’s talk.<br>It’s <em>Thread</em><br>May 12–14</span></h1>
       <p>The SMS marketing conference. Three days of talks, workshops and good company in New York, and every keynote streamed live.</p>
-      <svg class="stripes" viewBox="0 0 200 120" fill="none" stroke="#fff383" stroke-width="1.5" aria-hidden="true"><path d="M0 120 200 84"/><path d="M0 120 200 96"/><path d="M0 120 200 106"/><path d="M0 120 200 114"/></svg>
+      <svg class="stripes" viewBox="0 0 200 120" overflow="visible" fill="none" stroke="#fff383" stroke-width="1.5" aria-hidden="true"><path d="M0 120 260 -6"/><path d="M0 120 260 39"/><path d="M0 120 260 86"/><path d="M0 120 260 111"/></svg>
       <a class="btn y" href="#register">Register</a>
     </div>
     <a class="trailer" href="#about" aria-label="Watch Thread 2026 in under 10 minutes">
@@ -200,8 +200,8 @@ footer .r{margin-left:auto;display:flex;gap:16px}
 </main>
 
 <footer>
-  <svg class="wm" viewBox="673 5 2485 918" aria-label="Thread 2027"></svg>
-  <a href="#">Thread 2027</a><a href="#">Privacy &amp; terms</a><a href="#">Code of conduct</a><a href="#">FAQ</a>
+  <svg class="wm" viewBox="673 5 2485 918" aria-label="Thread 2026"></svg>
+  <a href="#">Thread 2026</a><a href="#">Privacy &amp; terms</a><a href="#">Code of conduct</a><a href="#">FAQ</a>
   <div class="r"><a href="#">LinkedIn</a><a href="#">Instagram</a><a href="#">YouTube</a></div>
 </footer>
 
@@ -211,7 +211,7 @@ const LOGO_SWASH='M1297.63 203.139L1295.37 199.379C1306.9 191.357 1320.94 185.09
 const sp=d=>'<path d="'+d+'" fill="currentColor" stroke="currentColor" stroke-width="10.5" stroke-linejoin="round"/>';
 document.querySelectorAll('svg.wm').forEach(s=>s.innerHTML=sp(LOGO_SWASH)+sp(LOGO_WORD));
 document.querySelectorAll('svg.sw').forEach(s=>s.innerHTML=sp(LOGO_SWASH));
-/* countdown to Thread 2027: May 12, 2027, 9:00 ET */
+/* countdown to Thread 2026: May 12, 2027, 9:00 ET */
 const EV=Date.UTC(2027,4,12,13),cnt=document.getElementById('count'),pad=v=>String(v).padStart(2,'0');
 function tick(){let s=Math.max(0,Math.floor((EV-Date.now())/1000));const v={d:Math.floor(s/86400),h:Math.floor(s%86400/3600),m:Math.floor(s%3600/60),s:s%60};
  for(const k in v)cnt.querySelector('[data-u='+k+']').textContent=pad(v[k])}
@@ -252,7 +252,7 @@ tick();setInterval(tick,1000);
   S.forEach((pts,i)=>{if(reduce){stroke(pts,0,1,sc,0);return}const u=((((t+i*.55)%PER)+PER)%PER)/PER;stroke(pts,ease((u-.72)/.26),ease(u/.4),sc,t)});
   if(!reduce)requestAnimationFrame(frame)}
  addEventListener('resize',()=>{size();if(reduce)frame(0)});size();requestAnimationFrame(frame)})();
-/* agenda: five talks cycle through the two slots, one slot after the other; each swap wipes the photo and lifts the text */
+/* agenda: five talks cycle through the two slots, one slot after the other; each swap fades the photo out and in and lifts the text */
 (()=>{const T=[
  {t:'Thread keynote',tm:'10:00 AM – 11:00 AM ET',w:'Maya Chen · VP of Growth, Northwind',i:'photos/talk1.jpg',p:'50% 22%'},
  {t:'Marketer keynote',tm:'11:00 AM – 12:00 PM ET',w:'Elias Brandt · Founder, Brandt &amp; Co',i:'photos/talk2.jpg',p:'50% 30%'},
@@ -266,12 +266,12 @@ tick();setInterval(tick,1000);
   const b=el.querySelector('.sv'),on=saved.has(n);b.setAttribute('aria-pressed',on);b.textContent=on?'Saved ✓':'Save to My Thread'}
  slots.forEach((el,k)=>{fill(el,idx[k]);el.querySelector('.sv').addEventListener('click',e=>{const n=+el.dataset.n,on=!saved.has(n);on?saved.add(n):saved.delete(n);e.currentTarget.setAttribute('aria-pressed',on);e.currentTarget.textContent=on?'Saved ✓':'Save to My Thread'})});
  function swap(k){const el=slots[k];idx[k]=(idx[k]+2)%T.length;el.classList.add('out');
-  setTimeout(()=>{fill(el,idx[k]);el.classList.remove('out');el.classList.add('pre');void el.offsetWidth;el.classList.remove('pre')},750)}
+  setTimeout(()=>{fill(el,idx[k]);el.classList.remove('out');el.classList.add('pre');void el.offsetWidth;el.classList.remove('pre')},1400)}
  if(reduce)return;const sec=document.getElementById('sess');sec.addEventListener('pointerenter',()=>paused=true);sec.addEventListener('pointerleave',()=>paused=false);sec.addEventListener('focusin',()=>paused=true);sec.addEventListener('focusout',()=>paused=false);
- let step=0;setInterval(()=>{if(paused||document.hidden)return;swap(step%2);step++},2600);
+ let step=0;setInterval(()=>{if(paused||document.hidden)return;swap(step%2);step++},3800);
 })();
 /* ticker */
-const w=['Thread 2027','May 12–14','New York','The SMS marketing conference'];
+const w=['Thread 2026','May 12–14','New York','The SMS marketing conference'];
 document.getElementById('tk').innerHTML=Array(16).fill(w).flat().map(t=>'<span>'+t+'</span>').join('');
 /* hairline grid behind the swash: a white block wanders cell to cell and leaves a fading trail; the cursor leaves one too */
 (()=>{const c=document.getElementById('bg'),x=c.getContext('2d'),reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,N=12,FADE=1.7,STEP=.13;
