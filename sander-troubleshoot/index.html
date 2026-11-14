@@ -179,7 +179,7 @@ function render(tt){
   /* picker card + tiles */
   var fwd=pre?1:eio(clamp((t-FWD)/.8));
   enter($('bc'),1.3,.6,-14,6,.97);
-  $('bc').style.transform+=' translate('+(40*fwd)+'px,'+(-26*fwd)+'px) scale('+(1+.1*fwd)+')';
+  $('bc').style.transform+=' translate('+(-4*fwd)+'px,'+(-24*fwd)+'px) scale('+(1+.1*fwd)+')';
   $('bc').style.zIndex=fwd>.4?3:0;
   for(i=0;i<tiles.length;i++){var tl=tiles[i];
     if(tl.id==='prep'){var a=pre?1:clamp((t-1.6)/.4),pr=Math.sin(Math.PI*clamp((t-PRESS)/.3));tl.style.opacity=pre?1:a;tl.style.transform=tf(0,3*(1-eio(a)),(.9+.1*eob(a))*(1-.07*pr),0);}
@@ -194,8 +194,7 @@ function render(tt){
   $('r1').style.opacity=.25+.75*(.5+.5*Math.sin(rp));$('r2').style.opacity=.25+.75*(.5+.5*Math.sin(rp+Math.PI));
   /* front card */
   enter($('fc'),2.2,.6,0,10,.96);
-  $('fc').style.opacity=$('fc').style.opacity*(1-fwd);
-  $('fc').style.transform+=' translate('+(12*fwd)+'px,'+(-4*fwd)+'px) scale('+(1-.04*fwd)+')';
+  $('fc').style.transform+=' scale('+(1-.03*fwd)+')';
   /* sparkle twinkle */
   var tw=pre?0:pulse(2.8,.7);
   $('spk').style.transform='rotate('+(tw*50)+'deg) scale('+(1+.35*tw)+')';
