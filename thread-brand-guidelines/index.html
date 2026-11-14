@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --yellow:#fff383; --ink:#141414; --cream:#faf4de; --sand:#e7dfc4; --paper:#ffffff;
+  --yellow:#fff383; --ink:#141414; --cream:#faf4de; --paper:#ffffff;
   --sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
   --serif:"Instrument Serif",Georgia,serif;
   --script:"Pinyon Script","Instrument Serif",serif;
@@ -35,7 +35,6 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 .t-yellow{--bg:var(--yellow);--fg:var(--ink)}
 .t-ink{--bg:var(--ink);--fg:var(--yellow)}
 .t-cream{--bg:var(--cream);--fg:var(--ink)}
-.t-sand{--bg:var(--sand);--fg:var(--ink)}
 .t-paper{--bg:var(--paper);--fg:var(--ink)}
 
 /* ---------- Site header ---------- */
@@ -378,7 +377,7 @@ footer.end .row a{text-decoration:none}
     <a class="tile t-yellow bd" href="#badges" data-sec="badges"><h3>Badges</h3><canvas id="tBd" aria-hidden="true"></canvas></a>
     <a class="tile t-ink co" href="#color" data-sec="color"><h3>Color</h3><div class="sqs" aria-hidden="true"><i></i><i></i><i></i></div></a>
     <a class="tile t-yellow small sm" href="#intro" data-sec="intro" aria-label="About these guidelines"><svg class="sw" aria-hidden="true" style="color:#141414"></svg></a>
-    <a class="tile t-sand im" href="#imagery" data-sec="imagery"><h3>Photography</h3><div class="mini mini2 art" aria-hidden="true"><img src="photos/p2.jpg" alt=""></div><div class="mini art" aria-hidden="true"><img src="photos/p1.jpg" alt=""></div></a>
+    <a class="tile t-cream im" href="#imagery" data-sec="imagery"><h3>Photography</h3><div class="mini mini2 art" aria-hidden="true"><img src="photos/p2.jpg" alt=""></div><div class="mini art" aria-hidden="true"><img src="photos/p1.jpg" alt=""></div></a>
     <a class="tile t-yellow mo" href="#motion" data-sec="motion"><h3>Motion</h3><canvas id="tMo" aria-hidden="true"></canvas></a>
     <a class="tile t-ink us" href="#in-use" data-sec="in-use"><h3>In use</h3><div class="rg" aria-hidden="true"><i></i><i></i><i></i></div></a>
   </div>
@@ -448,7 +447,6 @@ footer.end .row a{text-decoration:none}
       <li><b>Sentence case</b><span>Headlines are written the way you’d say them. Capitals are for the date and the tags.</span></li>
       <li><b>Title Case</b><span>Badge names only: one line, like “Early Bird”. Short caps such as VIP stay as typed.</span></li>
       <li><b>*Italics*</b><span>Wrap a headline line in stars to set it in italics. One italic line, at most.</span></li>
-      <li><b style="white-space:nowrap;font-size:clamp(18px,1.9vw,28px)">May 12–14 · New York</b><span>Dates and place on one line, set in tracked capitals.</span></li>
     </ul>
   </div></div>
 </section>
@@ -535,7 +533,7 @@ footer.end .row a{text-decoration:none}
 </section>
 
 <!-- ============ 06 IMAGERY ============ -->
-<section class="sec t-sand" id="imagery">
+<section class="sec t-cream" id="imagery">
   <i class="hl v"></i><i class="hl h top"></i><i class="hl h bot"></i>
   <div class="wrap"><div class="in">
     <span class="tag">06 · Photography</span>
@@ -817,7 +815,7 @@ const photoVer = [0, 0, 0];
 const photoCache = {};                           // processed canvases
 function placeholder(i) {
   const c = document.createElement('canvas'); c.width = 600; c.height = 750; const x = c.getContext('2d');
-  const bgs = ['#fff383', '#e7dfc4', '#fff383'], skins = ['#c98e6a', '#8a5a3c', '#e8b996'], hairs = ['#2a1a12', '#141414', '#7b4a2a'], shirts = ['#141414', '#faf4de', '#141414'];
+  const bgs = ['#fff383', '#faf4de', '#fff383'], skins = ['#c98e6a', '#8a5a3c', '#e8b996'], hairs = ['#2a1a12', '#141414', '#7b4a2a'], shirts = ['#141414', '#faf4de', '#141414'];
   x.fillStyle = bgs[i]; x.fillRect(0, 0, 600, 750);
   x.fillStyle = shirts[i]; x.beginPath(); x.ellipse(300, 790, 270, 250, 0, Math.PI, TAU); x.fill();
   x.fillStyle = skins[i]; x.fillRect(262, 470, 76, 110);
@@ -1339,13 +1337,13 @@ $('#ltIn').addEventListener('input', (e) => { LT = (e.target.value || 'T').slice
 /* ---------- 05 color ---------- */
 const COL = {
   yellow: ['Yellow', '#fff383', 'Ground and panel. The colour of the stage.'], ink: ['Ink', '#141414', 'Type, hairlines and every outline.'], cream: ['Cream', '#faf4de', 'Quiet pages, and the mat around a print.'],
-  sand: ['Sand', '#e7dfc4', 'Behind prints when yellow is too loud.'], paper: ['Paper', '#ffffff', 'The mat on a cream page.'],
+  paper: ['Paper', '#ffffff', 'The mat on a cream page.'],
 };
 const textOn = (hex) => (lum(hex) > 0.4 ? '#141414' : '#fff383');
 function lum(h) { const c = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4))); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; }
 const contrast = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); };
 const swHtml = (k) => { const c = COL[k]; return '<button style="background:' + c[1] + ';color:' + textOn(c[1]) + '" data-hex="' + c[1] + '" aria-label="Copy ' + c[0] + ' ' + c[1] + '"><b>' + c[0] + '</b><span>' + c[1].toUpperCase() + '<small>' + c[2] + '</small></span></button>'; };
-$('#swCore').innerHTML = ['yellow', 'ink', 'cream'].map(swHtml).join(''); $('#swSup').innerHTML = ['sand', 'paper'].map(swHtml).join('');
+$('#swCore').innerHTML = ['yellow', 'ink', 'cream'].map(swHtml).join(''); $('#swSup').innerHTML = ['paper'].map(swHtml).join('');
 document.addEventListener('click', (e) => { const b = e.target.closest('[data-hex]'); if (!b) return; const h = b.dataset.hex.toUpperCase(); try { navigator.clipboard.writeText(h).then(() => toast('Copied ' + h), () => toast(h)); } catch (err) { toast(h); } });
 const PK = Object.keys(COL), SHIPS = ['ink|yellow', 'yellow|ink', 'ink|cream'];
 let pSel = ['ink', 'yellow'];
