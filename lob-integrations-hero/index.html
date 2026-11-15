@@ -100,11 +100,14 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
 @keyframes sweep{0%,35%{background-position:130% 0}80%,100%{background-position:-40% 0}}
 .badge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* the extrusion layers of the raised lettering and link are one flat dark colour, the top layer carries the metal */
+.spark{pointer-events:none}
+.sp{transform-box:fill-box;transform-origin:center;animation:tw 3s ease-in-out infinite}
+@keyframes tw{0%,100%{transform:scale(.25) rotate(0deg);opacity:.15}50%{transform:scale(1) rotate(45deg);opacity:1}}
 .gl text,.gl circle{fill:var(--side)!important;stroke:none!important}
 .gl .lk path{stroke:var(--side)!important;stroke-opacity:1!important}
 
 
-@media (prefers-reduced-motion:reduce){.sweep{animation:none;background-position:60% 0;opacity:.6}.slot,.tile{transition:none}}
+@media (prefers-reduced-motion:reduce){.sp{animation:none;opacity:.9}.sweep{animation:none;background-position:60% 0;opacity:.6}.slot,.tile{transition:none}}
 </style>
 </head>
 <body>
@@ -259,7 +262,12 @@ function stack(inner,n,z0,dz,front){
    '<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#faf5ff"/><stop offset=".5" stop-color="#6a35b8"/><stop offset="1" stop-color="#e2d0ff"/></linearGradient></defs>'+
    '<circle cx="200" cy="200" r="141" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/><circle cx="200" cy="200" r="106" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/>'+
    '<circle cx="200" cy="200" r="94" fill="url(#plate)" stroke="url(#rim)" stroke-width="3.4"/><circle cx="200" cy="200" r="86" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1.5"/></svg>';
-  var side='<div class="side"><div class="face"><div class="disc"></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,8,3,.7,{vb:'0 0 400 400',defs:defs})+'</div>';
+  function flare(x,y,k,delay){
+    var st='M'+x+' '+(y-k)+'C'+(x+k*.09)+' '+(y-k*.2)+' '+(x+k*.2)+' '+(y-k*.09)+' '+(x+k)+' '+y+'C'+(x+k*.2)+' '+(y+k*.09)+' '+(x+k*.09)+' '+(y+k*.2)+' '+x+' '+(y+k)+'C'+(x-k*.09)+' '+(y+k*.2)+' '+(x-k*.2)+' '+(y+k*.09)+' '+(x-k)+' '+y+'C'+(x-k*.2)+' '+(y-k*.09)+' '+(x-k*.09)+' '+(y-k*.2)+' '+x+' '+(y-k)+'Z';
+    return '<g class="sp" style="animation-delay:'+delay+'s"><circle cx="'+x+'" cy="'+y+'" r="'+(k*.55)+'" fill="url(#fg)"/><rect x="'+(x-k*2.4)+'" y="'+(y-.7)+'" width="'+(k*4.8)+'" height="1.4" fill="url(#fs)"/><path d="'+st+'" fill="#fff"/><circle cx="'+(x+k*.9)+'" cy="'+(y+k*.9)+'" r="1.6" fill="#fff" opacity=".8"/></g>';
+  }
+  var spark='<svg class="spark" viewBox="0 0 400 400" style="transform:translateZ(9.6px)" aria-hidden="true"><defs><radialGradient id="fg"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#e8dcff" stop-opacity=".7"/><stop offset="1" stop-color="#b9a3ff" stop-opacity="0"/></radialGradient><linearGradient id="fs"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>'+flare(289,129,17,0)+flare(112,290,17,-1.5)+'</svg>';
+  var side='<div class="side"><div class="face"><div class="disc"></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,8,3,.7,{vb:'0 0 400 400',defs:defs})+spark+'</div>';
   var ext='';for(var i=1;i<=12;i++)ext+='<i class="ext" style="transform:translateZ(-'+(i*2)+'px)"></i>';
   badge.innerHTML=ext+side;
   var bk=badge.querySelector('.side').cloneNode(true);bk.classList.add('bk');badge.appendChild(bk);
