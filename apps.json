@@ -1,5 +1,14 @@
 [
   {
+    "id": "lob-integrations-hero",
+    "title": "Lob Integrations Hero",
+    "category": "Mockup",
+    "url": "lob-integrations-hero/",
+    "thumbnail": "lob-integrations-hero/thumb.png",
+    "preview": "lob-integrations-hero/thumb.webp",
+    "alt": "A black Lob App Store page with the headline 'Look for apps that are Built for Lob' on the left and, on the right, a blue panel of blurred marketing app tiles with a metallic 3D 'Built for Lob' badge with a chrome link icon tilting over them; a switcher then swaps the badge for the stand-alone shiny link icon on the grid"
+  },
+  {
     "id": "sander-troubleshoot",
     "title": "Sander Troubleshoot",
     "category": "Motion",
