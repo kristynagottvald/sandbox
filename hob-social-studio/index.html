@@ -114,7 +114,7 @@ button.go{background:#5ca0ff;color:#fff}button.go:hover{background:#4a91f5}
         <div class="row"><span>Body</span><input id="bs" type="range" min="60" max="180" value="100"><output>100</output></div>
       </section>
       <section><h2>Stretch</h2>
-        <p class="cap2">Pick up to 2 letters</p><div class="chips" id="chips"></div>
+        <p class="cap2">Pick up to 2 letters (round and diagonal ones are locked)</p><div class="chips" id="chips"></div>
         <div class="row"><span>Amount</span><input id="amt" type="range" min="10" max="30" value="18"><output>1.8×</output></div>
       </section>
       <section><h2>Image</h2>
@@ -157,7 +157,7 @@ const COMBOS=[
   {n:'Black',bg:CHAR,tx:ORANGE,ib:CHAR,ii:CREAM,br:[CREAM,TAN]}
 ];
 const LAYOUTS=[['poster','Poster'],['image','Image Top'],['bleed','Full Bleed'],['bars','Bars']];
-const S={img:-1,off:{head:[0,0],b1:[0,0],b2:[0,0],tag:[0,0]},w:1080,h:1350,combo:0,layout:'poster',head:'HOUSE OF\nBALLOONS',b1:"WE'RE A RECORDING STUDIO AND CREATIVE BRAND BUILT FOR PRODUCERS,",b2:"ENGINEERS, AND ARTISTS WHO DEFINE THEIR OWN SOUND.",zone:'bot60',tag:'HOB.COM/ARTISTS',hs:100,bs:100,amt:1.8,sel:[1,9],cell:8,sp:100,paused:false,loop:true};
+const S={img:-1,off:{head:[0,0],b1:[0,0],b2:[0,0],tag:[0,0]},w:1080,h:1350,combo:0,layout:'poster',head:'HOUSE OF\nBALLOONS',b1:"WE'RE A RECORDING STUDIO AND CREATIVE BRAND BUILT FOR PRODUCERS,",b2:"ENGINEERS, AND ARTISTS WHO DEFINE THEIR OWN SOUND.",zone:'bot60',tag:'HOB.COM/ARTISTS',hs:100,bs:100,amt:1.8,sel:[4,9],cell:8,sp:100,paused:false,loop:true};
 const $=id=>document.getElementById(id);
 const cv=$('cv'),off=document.createElement('canvas');
 let ctx=cv.getContext('2d');const mainCtx=ctx,offCtx=off.getContext('2d');
@@ -382,13 +382,15 @@ function buildGal(){
     const t=document.createElement('img');t.src=im.src;t.alt='';b.appendChild(t);
     b.onclick=()=>{imgEl=null;S.img=S.img===i?-1:i;buildGal();};g.appendChild(b);});
 }
+const NOSTRETCH='OCGQSUXZAV'; // round and diagonal letters distort badly, so they stay locked
 function buildChips(){
   const box=$('chips');box.innerHTML='';const t=S.head.toUpperCase();
-  S.sel=S.sel.filter(i=>t[i]&&/\S/.test(t[i]));
+  S.sel=S.sel.filter(i=>t[i]&&/\S/.test(t[i])&&!NOSTRETCH.includes(t[i]));
   for(let i=0;i<t.length;i++){
     if(t[i]==='\n'){box.appendChild(document.createElement('i'));continue;}
     if(t[i]===' '){box.appendChild(document.createElement('u'));continue;}
     const b=document.createElement('button');b.type='button';b.textContent=t[i];b.setAttribute('aria-pressed',S.sel.includes(i));
+    if(NOSTRETCH.includes(t[i])){b.disabled=true;b.title='This letter cannot be stretched';}
     b.onclick=()=>{const k=S.sel.indexOf(i);if(k>=0)S.sel.splice(k,1);else{S.sel.push(i);if(S.sel.length>2)S.sel.shift();}buildChips();};
     box.appendChild(b);
   }
