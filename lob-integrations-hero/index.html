@@ -5,136 +5,128 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lob Integrations Hero</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,wght@1,400&display=swap" rel="stylesheet">
 <style>
+:root{--ink:#1f2250;--lime:#e4ee5c;--sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--serif:"Newsreader",Georgia,"Times New Roman",serif}
 *{box-sizing:border-box;margin:0}
-html{background:#000}
-body{min-height:100vh;display:flex;flex-direction:column;background:#000;color:#fff;font:400 16px/1.4 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+html{background:var(--ink)}
+body{min-height:100vh;display:flex;flex-direction:column;background:var(--ink);color:#fff;font:400 16px/1.4 var(--sans);-webkit-font-smoothing:antialiased}
 /* ---------- Back nav (shared across all sandbox projects) ---------- */
 nav.back{box-sizing:border-box;flex:none;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap}
 nav.back a{color:#8d8d8d;text-decoration:none}
 nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
 nav.back span{color:#6e6e6e}
 nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
-@media (max-width:640px){nav.back{padding:0 16px}nav.back>span,nav.back>a:nth-of-type(2),nav.back>b{display:none}.switch button{padding:7px 10px}}
+@media (max-width:640px){nav.back{padding:0 16px}nav.back>span,nav.back>a:nth-of-type(2),nav.back>b{display:none}}
 
-/* ---------- Lob App Store header ---------- */
-.top{flex:none;height:60px;display:flex;align-items:center;gap:24px;padding:0 32px;border-bottom:1px solid #262626}
-.brand{display:flex;align-items:center;gap:10px;font-weight:500;font-size:17px;letter-spacing:-.01em;color:#fff;text-decoration:none;white-space:nowrap}
-.brand i{width:24px;height:26px;border-radius:7px;background:linear-gradient(160deg,#a56cf0,#5a22b0);display:grid;place-items:center;font:700 15px/1 "Inter",sans-serif;font-style:normal;color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
-.xsearch{flex:0 1 560px;margin:0 auto 0 auto;display:flex;align-items:center;gap:14px;height:66px;padding:0 24px;border-radius:99px;background:#f6f6f4;color:#616161;font-size:20px;min-width:0}
-.search svg{flex:none}
-.search span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.top .links{display:flex;align-items:center;gap:16px;margin-left:auto;white-space:nowrap;font-size:15px;font-weight:500}
+/* ---- switcher (in the top nav; same pill style as the location hero toggle) ---- */
+.switch{display:flex;gap:6px;margin-left:auto}
+.switch button{font:500 12px var(--sans);color:rgba(255,255,255,.7);background:none;border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:6px 13px;cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap}
+.switch button:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.switch button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.switch button[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff}
+.switch svg{width:14px;height:14px}
+
+/* ---------- Lob header ---------- */
+.top{flex:none;height:64px;display:flex;align-items:center;gap:24px;padding:0 32px;border-bottom:1px solid rgba(255,255,255,.12)}
+.brand{font-weight:600;font-size:20px;letter-spacing:-.02em;color:#fff;text-decoration:none}
+.top .menu{display:flex;gap:24px;font-size:15px;font-weight:500;margin-left:16px}
 .top a{color:#fff;text-decoration:none}
-.top .btn-free,.top .btn-ghost{height:38px;padding:0 18px;border-radius:99px;display:flex;align-items:center;font-size:14px}.btn-free{background:#fff;color:#000!important}
+.top .links{display:flex;align-items:center;gap:18px;margin-left:auto;white-space:nowrap;font-size:15px;font-weight:500}
 .top .links a:hover{opacity:.8}
-@media (max-width:1100px){.top .menu{display:none!important}}
-@media (max-width:820px){.top{height:64px;padding:0 20px;gap:12px}.top .menu,.top .btn-ghost,.top .links>a:first-of-type{display:none}.switch button{font:500 12px/1 "Inter",sans-serif;color:#9a9a9a;background:transparent;border:0;border-radius:99px;padding:7px 13px;cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap;transition:background .25s,color .25s}.top .links{gap:16px;font-size:16px}.top .btn-free{height:44px;padding:0 20px;font-size:16px}.brand{font-size:17px}}
-
-/* ---------- breadcrumb ---------- */
-.crumbs{flex:none;display:flex;align-items:center;gap:14px;padding:16px 32px 0;font-size:14px;white-space:nowrap;overflow:hidden}
-.crumbs a{color:#fff;text-underline-offset:3px}.crumbs{color:#fff}
-.crumbs span{color:#9a9a9a;font-size:13px}
-@media (max-width:820px){.crumbs{padding:16px 20px 0;font-size:15px}}
+.btn{display:inline-flex;align-items:center;height:42px;padding:0 22px;border-radius:99px;font:600 15px var(--sans);text-decoration:none;white-space:nowrap;cursor:pointer;border:0}
+.btn.lime{background:var(--lime);color:var(--ink)!important}
+.btn.lime:hover{filter:brightness(1.06)}
+.btn.ghost{background:none;border:1px solid rgba(255,255,255,.28);color:#fff!important;font-weight:500}
+.btn.ghost:hover{border-color:rgba(255,255,255,.6);opacity:1!important}
+@media (max-width:1000px){.top .menu{display:none!important}}
+@media (max-width:820px){.top{padding:0 20px}.top .btn.ghost,.top .links>a:first-child{display:none!important}}
 
 /* ---------- hero ---------- */
-.hero{flex:1;min-height:520px;display:grid;grid-template-columns:5fr 6fr;gap:40px;padding:32px 32px 28px}
-.copy{display:flex;flex-direction:column;justify-content:flex-start;padding-top:6px;min-width:0}
-.eyebrow{font-size:clamp(22px,2.3vw,30px);font-weight:400;color:#a3a3a3;letter-spacing:-.01em}
-h1{text-wrap:balance;margin-top:4px;font-weight:600;font-size:clamp(30px,3.4vw,46px);line-height:1.02;letter-spacing:-.035em}
-.sub{margin-top:24px;font-size:clamp(14px,1.2vw,16px);line-height:1.4;color:#c9bde0;max-width:30em}.cta{display:flex;gap:14px;margin-top:22px;flex-wrap:wrap}.cta a{height:40px;font-size:14px;font-weight:500;text-decoration:none;padding:0 20px;border-radius:99px;display:flex;align-items:center}.btn-ghost{border:1px solid rgba(255,255,255,.45);color:#fff!important}.crumbs b{font-weight:500}.top .menu{display:flex;gap:22px;font-size:15px;font-weight:500;margin-left:16px}.meta{margin-top:24px;font-size:12px;color:#a3a3a3;display:flex;gap:8px;flex-wrap:wrap}
-.meta i{font-style:normal}
-@media (max-width:900px){.hero{grid-template-columns:1fr;gap:28px;padding:32px 20px 28px}.copy{padding-top:0}.panel{height:min(112vw,540px)!important}}
+.hero{flex:1;min-height:520px;display:grid;grid-template-columns:5fr 6fr;gap:40px;padding:36px 32px 32px;align-items:start}
+.copy{padding-top:28px;min-width:0}
+h1{font-weight:400;font-size:clamp(32px,3.7vw,52px);line-height:1.04;letter-spacing:-.045em;margin:0 0 26px}
+h1 i{font-family:var(--serif);font-style:italic;letter-spacing:-.01em;font-size:1.06em;line-height:0}
+.sub{font-size:17px;line-height:1.55;color:rgba(255,255,255,.72);max-width:470px}
+.cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
+@media (max-width:900px){.hero{grid-template-columns:1fr;gap:28px;padding:28px 20px 28px}.copy{padding-top:0}.panel{height:min(112vw,540px)!important}}
 
 /* ---------- visual panel ---------- */
-.panel{position:relative;min-height:0;border-radius:22px;overflow:hidden;container-type:size;isolation:isolate;
-  background:linear-gradient(180deg,#7a3fd1 0%,#4a1d96 22%,#2e1166 52%,#12082e 88%,#0a0420 100%)}
+.panel{position:relative;height:100%;min-height:0;border-radius:32px;overflow:hidden;container-type:size;isolation:isolate;
+  background:linear-gradient(180deg,#5a33b3 0%,#3b1e86 22%,#21104e 52%,#0e0628 88%,#080318 100%)}
 .tiles{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;z-index:1}
 .lines{position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:linear-gradient(90deg,rgba(205,170,255,.16) 1px,transparent 1px),linear-gradient(0deg,rgba(205,170,255,.16) 1px,transparent 1px);
-  -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,rgba(0,0,0,.45) 100%);mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,#000 30%,rgba(0,0,0,.45) 100%)}
+  background-image:linear-gradient(90deg,rgba(205,170,255,.15) 1px,transparent 1px),linear-gradient(0deg,rgba(205,170,255,.15) 1px,transparent 1px);
+  -webkit-mask-image:radial-gradient(ellipse 85% 85% at 50% 45%,#000 35%,rgba(0,0,0,.5) 100%);mask-image:radial-gradient(ellipse 85% 85% at 50% 45%,#000 35%,rgba(0,0,0,.5) 100%)}
+.lines svg{position:absolute;inset:0;width:100%;height:100%}
 .tile{position:relative;width:var(--cell);height:var(--cell);border-radius:24%;display:grid;place-items:center;
-  background:var(--bg);opacity:calc(var(--o,1)*var(--mo,1)*.8);filter:blur(var(--b,0px));
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.28),inset 0 -8px 14px rgba(20,0,60,.25),0 12px 22px rgba(10,0,30,.4);
+  background:var(--bg);opacity:calc(var(--o,1)*var(--mo,1)*.62);filter:blur(var(--b,0px));
   transition:opacity .9s ease,filter .9s ease}
-.tile::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(155deg,rgba(255,255,255,.3),rgba(255,255,255,0) 46%)}
 .tile svg{width:62%;height:62%;position:relative;z-index:1;overflow:visible}
-.tile.ghost{background:rgba(170,120,245,.14);box-shadow:inset 0 0 0 1px rgba(205,170,255,.18)}
-.tile.ghost::after{display:none}
-body[data-mode="icon"] .tile{--mo:.2;filter:blur(1.5px)}
+.tile.ghost{background:rgba(170,120,245,.1)}
+body[data-mode="icon"] .tile{--mo:.25;filter:blur(1.5px)}
 body[data-mode="icon"] .tile.ghost{--mo:.9}
-.veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(20,8,48,0) 50%,rgba(10,4,24,.7) 100%),radial-gradient(ellipse 70% 60% at 50% 40%,rgba(140,70,220,.3),transparent 70%)}
+.veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(20,8,48,0) 45%,rgba(8,3,24,.72) 100%),radial-gradient(ellipse 70% 60% at 50% 40%,rgba(130,70,220,.26),transparent 70%)}
 
 .slot{position:absolute;inset:0;z-index:3;display:grid;place-items:center;perspective:1300px;pointer-events:none;
   transition:opacity .7s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
-.slot-icon{opacity:0;transform:scale(.6) translateY(24px)}
+.slot-icon{opacity:0;transform:scale(.6) translateY(24px);filter:drop-shadow(0 26px 22px rgba(10,0,40,.55))}
 body[data-mode="icon"] .slot-badge{opacity:0;transform:scale(.62) translateY(24px)}
 body[data-mode="icon"] .slot-icon{opacity:1;transform:none}
 
-/* ---- the badge ---- */
+/* ---- the badge: a stack of layers in 3D (rim thickness, flat metal face, raised lettering and link) ---- */
 .badge{position:relative;width:min(80cqw,88cqh,520px);aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
 .slot-badge{filter:drop-shadow(0 26px 30px rgba(10,0,30,.55))}
-.badge>.ext{position:absolute;inset:0;clip-path:url(#serr);background:linear-gradient(160deg,#d9c8f6,#9a78dc 55%,#b79ae8)}
+.ext{position:absolute;inset:0;clip-path:url(#serr);background:linear-gradient(160deg,#5a34a8,#1d0e45 60%,#3a1c7a)}
+.side{position:absolute;inset:0;transform-style:preserve-3d}
+.side.bk{transform:translateZ(-14px) rotateY(180deg)}
+.side>*{backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .face{position:absolute;inset:0;clip-path:url(#serr);overflow:hidden;
   background:
-   radial-gradient(circle,transparent 80%,rgba(255,255,255,.28) 90%,transparent 100%),
-   conic-gradient(from calc(var(--a,30deg)*2),rgba(255,172,222,.38),rgba(150,232,255,.34),rgba(255,242,170,.3),rgba(255,172,222,.38)),
-   conic-gradient(from var(--a,30deg),#e6d8fb,#c3a8f0 20%,#dccaf8 38%,#b090e6 55%,#d9c6f7 72%,#bfa3ee 88%,#e6d8fb)}
-.face::before{content:"";position:absolute;inset:0;opacity:.35;mix-blend-mode:soft-light;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .4 0 0 0 0 .7 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
+   repeating-linear-gradient(100deg,rgba(255,255,255,.07) 0 1px,rgba(0,0,0,.09) 1px 2px),
+   conic-gradient(from var(--a,30deg),#f3ecff 0,#9a6fe0 9%,#3a1a78 20%,#c4a6f4 31%,#fbf7ff 38%,#6a35b8 50%,#26104f 62%,#a67fe6 74%,#eadfff 86%,#f3ecff 100%)}
 .disc{position:absolute;inset:8.5%;border-radius:50%;
   background:
-   repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.05) 0 1px,rgba(90,50,160,.04) 1px 3px),
-   linear-gradient(150deg,#d5c2f6,#a888e4 48%,#c3a8f0);
-  box-shadow:inset 0 0 0 2px rgba(255,255,255,.5),inset 0 8px 18px rgba(255,255,255,.3),inset 0 -12px 22px rgba(86,44,156,.4),0 0 0 2px rgba(110,70,180,.45)}
-.gloss{position:absolute;inset:0;background:radial-gradient(circle at var(--gx,35%) var(--gy,25%),rgba(255,255,255,.55),rgba(255,255,255,.1) 30%,transparent 55%);mix-blend-mode:soft-light}
-.sweep{position:absolute;inset:0;background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.45) 49%,rgba(220,195,255,.1) 54%,transparent 60%);background-size:280% 100%;mix-blend-mode:screen;animation:sweep 5.5s ease-in-out infinite}
+   repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.04) 0 1px,rgba(0,0,0,.06) 1px 3px),
+   conic-gradient(from calc(var(--a,30deg)*-1 + 210deg),#34146e,#5a2aa8 12%,#170a3a 27%,#43208a 42%,#13082e 58%,#6330b6 74%,#34146e 100%);
+  box-shadow:inset 0 0 0 2px rgba(220,195,255,.4),inset 0 10px 26px rgba(0,0,0,.55),0 0 0 3px rgba(20,0,55,.65)}
+.gloss{position:absolute;inset:0;background:radial-gradient(circle at var(--gx,35%) var(--gy,25%),rgba(255,255,255,.5),rgba(255,255,255,.08) 28%,transparent 52%);mix-blend-mode:soft-light}
+.sweep{position:absolute;inset:0;background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.75) 49%,rgba(220,195,255,.15) 54%,transparent 60%);background-size:280% 100%;mix-blend-mode:screen;animation:sweep 5.5s ease-in-out infinite}
 @keyframes sweep{0%,35%{background-position:130% 0}80%,100%{background-position:-40% 0}}
-.face,.glyph{backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.face.bk{transform:translateZ(-14px) rotateY(180deg)}
-.glyph.bk{transform:translateZ(-30px) rotateY(180deg)}
-.glyph{position:absolute;inset:0;width:100%;height:100%;overflow:visible;transform:translateZ(16px);filter:drop-shadow(-.8px -.9px 0 rgba(255,255,255,.8)) drop-shadow(1.1px 1.3px .5px rgba(70,30,130,.65))}
+.badge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+/* the extrusion layers of the raised lettering and link are one flat dark colour, the top layer carries the metal */
+.gl text,.gl circle{fill:var(--side)!important}
+.gl .lk path{stroke:var(--side)!important;stroke-opacity:1!important}
 
-/* ---- the stand-alone icon ---- */
-.icon3d{position:relative;width:min(50cqw,58cqh,320px);aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
-.icon3d svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 22px 20px rgba(20,0,50,.5))}
-.floor{position:absolute;left:50%;top:50%;width:min(64cqw,420px);height:min(20cqw,130px);transform:translate(-50%,calc(min(25cqw,29cqh) + 6px));background:radial-gradient(ellipse,rgba(160,100,255,.38),transparent 68%);filter:blur(6px)}
-
-/* ---- switcher ---- */
-.switch{display:flex;gap:2px;padding:3px;margin-left:auto;border-radius:99px;border:1px solid #333;background:#0b0b0b}
-.switch button{font:500 13px/1 "Inter",sans-serif;color:#d8c4f5;background:transparent;border:0;border-radius:99px;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:background .25s,color .25s}
-.switch button:hover{color:#fff}
-.switch button:focus-visible{outline:2px solid #fff;outline-offset:2px}
-.switch button[aria-pressed="true"]{background:#fff;color:#1a0a3a}
-.switch svg{width:14px;height:14px}
+/* ---- the stand-alone icon: the same link, extruded ---- */
+.icon3d{position:relative;width:min(40cqw,48cqh,270px);aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
+.icon3d svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.floor{position:absolute;left:50%;top:50%;width:min(52cqw,360px);height:min(16cqw,110px);transform:translate(-50%,calc(min(22cqw,26cqh) + 6px));background:radial-gradient(ellipse,rgba(160,100,255,.38),transparent 68%);filter:blur(6px)}
 
 @media (prefers-reduced-motion:reduce){.sweep{animation:none;background-position:60% 0;opacity:.6}.slot,.tile{transition:none}}
 </style>
 </head>
 <body data-mode="badge">
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Lob Integrations Hero</b><div class="switch" role="group" aria-label="Visual">
-    <button type="button" id="bBadge" aria-pressed="true">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="5.6"/><circle cx="8" cy="8" r="2.4"/></svg>Badge</button>
-    <button type="button" id="bIcon" aria-pressed="false">
-      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6.8 9.2a2.6 2.6 0 0 0 3.7 0l2-2a2.6 2.6 0 0 0-3.7-3.7l-.6.6"/><path d="M9.2 6.8a2.6 2.6 0 0 0-3.7 0l-2 2a2.6 2.6 0 0 0 3.7 3.7l.6-.6"/></svg>Link icon</button>
-  </div></nav>
+  <button type="button" id="bBadge" aria-pressed="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="5.6"/><circle cx="8" cy="8" r="2.4"/></svg>Badge</button>
+  <button type="button" id="bIcon" aria-pressed="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6.8 9.2a2.6 2.6 0 0 0 3.7 0l2-2a2.6 2.6 0 0 0-3.7-3.7l-.6.6"/><path d="M9.2 6.8a2.6 2.6 0 0 0-3.7 0l-2 2a2.6 2.6 0 0 0 3.7 3.7l.6-.6"/></svg>Link icon</button>
+</div></nav>
 
 <header class="top">
   <a class="brand" href="#">Lob</a>
   <nav class="menu"><a href="#">Product</a><a href="#">Solutions</a><a href="#">Resources</a><a href="#">Pricing</a></nav>
   <div class="links">
     <a href="#">Login</a>
-    <a class="btn-ghost" href="#">Book a demo</a>
-    <a class="btn-free" href="#">Get started for free</a>
+    <a class="btn ghost" href="#">Book a demo</a>
+    <a class="btn lime" href="#">Get started for free</a>
   </div>
 </header>
 
-
 <main class="hero">
   <div class="copy">
-    <h1>Integrate direct mail, activate your audience</h1>
+    <h1>Integrate <i>direct mail</i>,<br>activate your audience</h1>
     <p class="sub">Integrate your CRM, CDP or marketing automation tool with Lob to create tailored customer experiences from the inbox to the mailbox.</p>
-    <div class="cta"><a class="btn-free" href="#">Get started</a><a class="btn-ghost" href="#">Book a demo</a></div>
+    <div class="cta"><a class="btn lime" href="#">Get started</a><a class="btn ghost" href="#">Book a demo</a></div>
   </div>
 
   <section class="panel" id="panel" aria-label="Lob integrations badge on a grid of marketing integrations">
@@ -143,18 +135,13 @@ body[data-mode="icon"] .slot-icon{opacity:1;transform:none}
     <div class="veil"></div>
 
     <div class="slot slot-badge" id="slotBadge">
-      <div class="badge" id="badge" role="img" aria-label="Lob integrations badge with a metallic link icon">
-        <i class="ext" style="transform:translateZ(-2px)"></i><i class="ext" style="transform:translateZ(-4px)"></i><i class="ext" style="transform:translateZ(-6px)"></i><i class="ext" style="transform:translateZ(-8px)"></i><i class="ext" style="transform:translateZ(-10px)"></i><i class="ext" style="transform:translateZ(-12px)"></i>
-        <div class="face"><div class="disc"></div><div class="gloss"></div><div class="sweep"></div></div>
-        <svg class="glyph" id="badgeSvg" viewBox="0 0 400 400" aria-hidden="true"></svg>
-      </div>
+      <div class="badge" id="badge" role="img" aria-label="Lob Direct Mail Delivery Engine badge with a raised metallic link icon"></div>
     </div>
 
     <div class="slot slot-icon" id="slotIcon">
       <div class="floor"></div>
-      <div class="icon3d" id="icon3d" role="img" aria-label="Metallic link icon"></div>
+      <div class="icon3d" id="icon3d" role="img" aria-label="Embossed metallic link icon"></div>
     </div>
-
   </section>
 </main>
 
@@ -163,40 +150,40 @@ body[data-mode="icon"] .slot-icon{opacity:1;transform:none}
 
 <script>
 (function(){
-/* ---------- brand tiles: simplified stand-in marks for popular marketing platforms ---------- */
-var W='#fff';
+/* ---------- brand tiles: simplified stand-in marks for popular marketing platforms, drawn white ---------- */
 var BRANDS=[
- {n:'Lob',bg:'#4B3CF0',g:'<text x="24" y="31" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="19" text-anchor="middle" fill="#fff">Lob</text>'},
- {n:'Figma',bg:'#fff',g:'<path d="M17 8h7v10h-7a5 5 0 0 1 0-10z" fill="#F24E1E"/><path d="M24 8h7a5 5 0 0 1 0 10h-7z" fill="#FF7262"/><path d="M17 18h7v10h-7a5 5 0 0 1 0-10z" fill="#A259FF"/><circle cx="29" cy="23" r="5" fill="#1ABCFE"/><path d="M17 28h7v5a5 5 0 1 1-7-4.6z" fill="#0ACF83"/>'},
- {n:'Customer.io',bg:'#fff',g:'<path d="M31 14a11 11 0 1 0 0 20" fill="none" stroke="#0F4C4A" stroke-width="6" stroke-linecap="round"/><circle cx="35" cy="24" r="3.4" fill="#00C48C"/>'},
- {n:'InDesign',bg:'#49021F',g:'<text x="24" y="31" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="20" text-anchor="middle" fill="#FF3366">Id</text>'},
- {n:'Mailchimp',bg:'#FFE01B',g:'<circle cx="24" cy="26" r="13" fill="#241C15"/><path d="M13 19c3-9 19-9 22 0" stroke="#241C15" stroke-width="3.4" fill="none" stroke-linecap="round"/><circle cx="19" cy="24" r="3.2" fill="#fff"/><circle cx="29" cy="24" r="3.2" fill="#fff"/><circle cx="19.6" cy="24.4" r="1.4" fill="#241C15"/><circle cx="29.6" cy="24.4" r="1.4" fill="#241C15"/><path d="M20 31c2.4 2 5.6 2 8 0" stroke="#FFE01B" stroke-width="2" fill="none" stroke-linecap="round"/>'},
- {n:'HubSpot',bg:'#FF7A59',g:'<circle cx="29" cy="28" r="7" fill="none" stroke="#fff" stroke-width="3.4"/><path d="M29 21V13M24 32l-9 7M35 23l5-4" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/><circle cx="29" cy="11" r="3.2" fill="#fff"/><circle cx="14" cy="40" r="3.2" fill="#fff"/>'},
- {n:'Klaviyo',bg:'#232426',g:'<path d="M12 14h24v20H12l7-10z" fill="#fff"/>'},
- {n:'Salesforce',bg:'#00A1E0',g:'<g fill="#fff"><circle cx="16.5" cy="27" r="6.5"/><circle cx="24.5" cy="21.5" r="8"/><circle cx="33" cy="26.5" r="6.5"/><rect x="16" y="27" width="17" height="6.5" rx="3"/></g>'},
- {n:'Google Ads',bg:'#fff',g:'<path d="M14 34 25 13" stroke="#FBBC04" stroke-width="9" stroke-linecap="round"/><path d="M25 13l11 21" stroke="#4285F4" stroke-width="9" stroke-linecap="round"/><circle cx="14" cy="35" r="4.8" fill="#34A853"/>'},
- {n:'Meta',bg:'#0866FF',g:'<path d="M24 24C20 17 15 15 12 17c-4 3-4 12 0 14 4 2 8-2 12-7s8-9 12-7c4 2 4 11 0 14-4 2-8-2-12-7z" fill="none" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>'},
- {n:'LinkedIn',bg:'#0A66C2',g:'<text x="24" y="33" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="25" text-anchor="middle" fill="#fff">in</text>'},
- {n:'Marketo',bg:'#5C4C9F',g:'<g fill="#fff"><rect x="12" y="23" width="6" height="13" rx="1.5"/><rect x="21" y="13" width="6" height="23" rx="1.5"/><rect x="30" y="18" width="6" height="18" rx="1.5"/></g>'},
- {n:'Braze',bg:'#0B0B0C',g:'<path d="M14 36V18a6 6 0 0 1 6-6h8a10 10 0 0 1 0 20H20z" fill="#2EE6C5"/>'},
- {n:'Segment',bg:'#52BD94',g:'<g stroke="#fff" stroke-width="4.6" stroke-linecap="round"><path d="M12 18h18M36 30H18"/></g><circle cx="36" cy="18" r="3.6" fill="#fff"/><circle cx="12" cy="30" r="3.6" fill="#fff"/>'},
- {n:'Zapier',bg:'#FF4F00',g:'<g stroke="#fff" stroke-width="5.2" stroke-linecap="round"><path d="M24 11v26M11 24h26M15 15l18 18M33 15 15 33"/></g>'},
- {n:'Adobe',bg:'#EB1000',g:'<g fill="#fff"><path d="M8 12h11L8 37z"/><path d="M40 12H29l11 25z"/><path d="M24 22l8 15h-5.4l-2.6-5.6-2.6 5.6H16z"/></g>'},
- {n:'ActiveCampaign',bg:'#356AE6',g:'<path d="M17 12l15 12-15 12" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'},
- {n:'Constant Contact',bg:'#1856ED',g:'<path d="M34 17a12 12 0 1 0 0 14" fill="none" stroke="#fff" stroke-width="5.6" stroke-linecap="round"/><circle cx="36" cy="24" r="3" fill="#fff"/>'},
- {n:'Canva',bg:'linear-gradient(135deg,#00C4CC,#7D2AE8)',g:'<text x="24" y="33" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="27" text-anchor="middle" fill="#fff">Ca</text>'},
- {n:'Iterable',bg:'#5E2CED',g:'<path d="M24 10l4.4 9.6L38 24l-9.6 4.4L24 38l-4.4-9.6L10 24l9.6-4.4z" fill="#fff"/>'}
+ {n:'Figma',g:'<path d="M17 8h7v10h-7a5 5 0 0 1 0-10z" fill="#fff"/><path d="M24 8h7a5 5 0 0 1 0 10h-7z" fill="#fff" fill-opacity=".75"/><path d="M17 18h7v10h-7a5 5 0 0 1 0-10z" fill="#fff" fill-opacity=".85"/><circle cx="29" cy="23" r="5" fill="#fff" fill-opacity=".6"/><path d="M17 28h7v5a5 5 0 1 1-7-4.6z" fill="#fff" fill-opacity=".7"/>'},
+ {n:'Customer.io',g:'<path d="M31 14a11 11 0 1 0 0 20" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"/><circle cx="35" cy="24" r="3.4" fill="#fff"/>'},
+ {n:'InDesign',g:'<text x="24" y="31" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="20" text-anchor="middle" fill="#fff">Id</text>'},
+ {n:'Mailchimp',g:'<circle cx="24" cy="26" r="13" fill="#fff"/><path d="M13 19c3-9 19-9 22 0" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round"/><circle cx="19" cy="24" r="2.5" fill="#5b3a9a"/><circle cx="29" cy="24" r="2.5" fill="#5b3a9a"/><path d="M20 31c2.4 2 5.6 2 8 0" stroke="#5b3a9a" stroke-width="2" fill="none" stroke-linecap="round"/>'},
+ {n:'HubSpot',g:'<circle cx="29" cy="28" r="7" fill="none" stroke="#fff" stroke-width="3.4"/><path d="M29 21V13M24 32l-9 7M35 23l5-4" stroke="#fff" stroke-width="3.2" stroke-linecap="round"/><circle cx="29" cy="11" r="3.2" fill="#fff"/><circle cx="14" cy="40" r="3.2" fill="#fff"/>'},
+ {n:'Klaviyo',g:'<path d="M12 14h24v20H12l7-10z" fill="#fff"/>'},
+ {n:'Salesforce',g:'<g fill="#fff"><circle cx="16.5" cy="27" r="6.5"/><circle cx="24.5" cy="21.5" r="8"/><circle cx="33" cy="26.5" r="6.5"/><rect x="16" y="27" width="17" height="6.5" rx="3"/></g>'},
+ {n:'Google Ads',g:'<path d="M14 34 25 13" stroke="#fff" stroke-opacity=".6" stroke-width="9" stroke-linecap="round"/><path d="M25 13l11 21" stroke="#fff" stroke-width="9" stroke-linecap="round"/><circle cx="14" cy="35" r="4.8" fill="#fff"/>'},
+ {n:'Meta',g:'<path d="M24 24C20 17 15 15 12 17c-4 3-4 12 0 14 4 2 8-2 12-7s8-9 12-7c4 2 4 11 0 14-4 2-8-2-12-7z" fill="none" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/>'},
+ {n:'LinkedIn',g:'<text x="24" y="33" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="25" text-anchor="middle" fill="#fff">in</text>'},
+ {n:'Marketo',g:'<g fill="#fff"><rect x="12" y="23" width="6" height="13" rx="1.5"/><rect x="21" y="13" width="6" height="23" rx="1.5"/><rect x="30" y="18" width="6" height="18" rx="1.5"/></g>'},
+ {n:'Braze',g:'<path d="M14 36V18a6 6 0 0 1 6-6h8a10 10 0 0 1 0 20H20z" fill="#fff"/>'},
+ {n:'Segment',g:'<g stroke="#fff" stroke-width="4.6" stroke-linecap="round"><path d="M12 18h18M36 30H18"/></g><circle cx="36" cy="18" r="3.6" fill="#fff"/><circle cx="12" cy="30" r="3.6" fill="#fff"/>'},
+ {n:'Zapier',g:'<g stroke="#fff" stroke-width="5.2" stroke-linecap="round"><path d="M24 11v26M11 24h26M15 15l18 18M33 15 15 33"/></g>'},
+ {n:'Adobe',g:'<g fill="#fff"><path d="M8 12h11L8 37z"/><path d="M40 12H29l11 25z"/><path d="M24 22l8 15h-5.4l-2.6-5.6-2.6 5.6H16z"/></g>'},
+ {n:'ActiveCampaign',g:'<path d="M17 12l15 12-15 12" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>'},
+ {n:'Constant Contact',g:'<path d="M34 17a12 12 0 1 0 0 14" fill="none" stroke="#fff" stroke-width="5.6" stroke-linecap="round"/><circle cx="36" cy="24" r="3" fill="#fff"/>'},
+ {n:'Canva',g:'<text x="24" y="33" font-family="Georgia,serif" font-style="italic" font-weight="700" font-size="27" text-anchor="middle" fill="#fff">Ca</text>'},
+ {n:'Iterable',g:'<path d="M24 10l4.4 9.6L38 24l-9.6 4.4L24 38l-4.4-9.6L10 24l9.6-4.4z" fill="#fff"/>'}
 ];
+var TILE='rgba(150,110,225,.34)';
 
-BRANDS.forEach(function(b){b.g=b.g.replace(/#[0-9a-fA-F]{6}\b/g,'#fff');b.g=b.g.replace(/#fff(?=")/g,'#fff');b.bg='linear-gradient(155deg,rgba(176,140,235,.55),rgba(98,54,170,.55))'});
-var CUT='#5b3a9a';
-BRANDS.forEach(function(b){
- if(b.n==='Mailchimp')b.g='<circle cx="24" cy="26" r="13" fill="#fff"/><path d="M13 19c3-9 19-9 22 0" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round"/><circle cx="19" cy="24" r="2.5" fill="'+CUT+'"/><circle cx="29" cy="24" r="2.5" fill="'+CUT+'"/><path d="M20 31c2.4 2 5.6 2 8 0" stroke="'+CUT+'" stroke-width="2" fill="none" stroke-linecap="round"/>';
- if(b.n==='Google Ads')b.g='<path d="M14 34 25 13" stroke="#fff" stroke-opacity=".6" stroke-width="9" stroke-linecap="round"/><path d="M25 13l11 21" stroke="#fff" stroke-width="9" stroke-linecap="round"/><circle cx="14" cy="35" r="4.8" fill="#fff"/>';
- if(b.n==='Figma')b.g='<path d="M17 8h7v10h-7a5 5 0 0 1 0-10z" fill="#fff"/><path d="M24 8h7a5 5 0 0 1 0 10h-7z" fill="#fff" fill-opacity=".75"/><path d="M17 18h7v10h-7a5 5 0 0 1 0-10z" fill="#fff" fill-opacity=".85"/><circle cx="29" cy="23" r="5" fill="#fff" fill-opacity=".6"/><path d="M17 28h7v5a5 5 0 1 1-7-4.6z" fill="#fff" fill-opacity=".7"/>';
- if(b.n==='Meta'||b.n==='Marketo'||b.n==='Segment')b.g=b.g;
-});
 var panel=document.getElementById('panel'), tiles=document.getElementById('tiles'), lines=document.getElementById('lines');
+/* faint triangulated mesh behind the grid, like the reference's blueprint lines */
+function mesh(w,h){
+  var step=96, cols=Math.ceil(w/step)+2, rows=Math.ceil(h/step)+2, P=[], seed=7;
+  function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647}
+  for(var j=0;j<rows;j++){P[j]=[];for(var i=0;i<cols;i++)P[j][i]=[(i-.5)*step+(rnd()-.5)*step*.7,(j-.5)*step+(rnd()-.5)*step*.7]}
+  var d='';function L(a,b){d+='M'+a[0].toFixed(0)+' '+a[1].toFixed(0)+'L'+b[0].toFixed(0)+' '+b[1].toFixed(0)}
+  for(j=0;j<rows-1;j++)for(i=0;i<cols-1;i++){L(P[j][i],P[j][i+1]);L(P[j][i],P[j+1][i]);if(rnd()<.5)L(P[j][i],P[j+1][i+1]);else L(P[j][i+1],P[j+1][i])}
+  return '<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none"><path d="'+d+'" fill="none" stroke="rgba(205,170,255,.1)" stroke-width="1"/></svg>';
+}
 function build(){
   var w=panel.clientWidth,h=panel.clientHeight; if(!w||!h) return;
   var cell=Math.max(44,Math.min(66,Math.round(Math.min(w/7,h/6)))), gap=Math.round(cell*.36), pitch=cell+gap;
@@ -210,12 +197,13 @@ function build(){
   var left=w/2-gw/2, top=h/2-gh/2;
   lines.style.backgroundSize=pitch+'px '+pitch+'px';
   lines.style.backgroundPosition=(((left+cell+gap/2)%pitch)+pitch)%pitch+'px '+(((top+cell+gap/2)%pitch)+pitch)%pitch+'px';
+  lines.innerHTML=mesh(w,h);
   var html='', half=Math.min(w,h)/2;
   for(var r=0;r<rows;r++)for(var c=0;c<cols;c++){
     var dx=(c-(cols-1)/2)*pitch, dy=(r-(rows-1)/2)*pitch, d=Math.hypot(dx,dy*1.05)/half;
     var o=Math.max(.45,1-Math.max(0,d-.45)*.5).toFixed(2), b=(Math.max(0,d-.6)*2.6).toFixed(1);
     var ghost=((r*5+c*11+3)%7===0), B=BRANDS[(c*7+r*3)%BRANDS.length];
-    html+='<div class="tile'+(ghost?' ghost':'')+'" style="--o:'+o+';--b:'+b+'px'+(ghost?'':';--bg:'+B.bg)+'"'+(ghost?'':' title="'+B.n+'"')+'>'+(ghost?'':'<svg viewBox="0 0 48 48">'+B.g+'</svg>')+'</div>';
+    html+='<div class="tile'+(ghost?' ghost':'')+'" style="--o:'+o+';--b:'+b+'px'+(ghost?'':';--bg:'+TILE)+'"'+(ghost?'':' title="'+B.n+'"')+'>'+(ghost?'':'<svg viewBox="0 0 48 48">'+B.g+'</svg>')+'</div>';
   }
   tiles.innerHTML=html;
 }
@@ -225,35 +213,65 @@ if(window.ResizeObserver){var rt;new ResizeObserver(function(){clearTimeout(rt);
 /* ---------- scalloped outline for the badge ---------- */
 (function(){var d='',N=360;for(var i=0;i<N;i++){var t=i/N*Math.PI*2,r=.468+.014*Math.cos(t*22);d+=(i?'L':'M')+(.5+r*Math.cos(t)).toFixed(4)+' '+(.5+r*Math.sin(t)).toFixed(4)}document.getElementById('serrPath').setAttribute('d',d+'Z')})();
 
-/* ---------- metallic chain link, drawn as chrome-banded strokes; the two links weave through each other ---------- */
-var CHROME=[['0','#f4ecff'],['.25','#d9c5f8'],['.5','#b999ec'],['.75','#dac7f8'],['1','#c2a6ef']];
+/* ---------- the metallic chain link: purple chrome bands with a bevelled double edge; the two links weave ---------- */
+var CHROME=[['0','#fbf7ff'],['.1','#c9a8f5'],['.2','#6a35b8'],['.3','#25104f'],['.4','#9a6fe0'],['.5','#f6f0ff'],['.6','#b08ceb'],['.7','#3d1c7a'],['.8','#a47ce6'],['.9','#efe4ff'],['1','#bb9aee']];
 function stops(){return CHROME.map(function(s){return '<stop offset="'+s[0]+'" stop-color="'+s[1]+'"/>'}).join('')}
 var LA='M-68-20H-8a20 20 0 0 1 0 40H-68a20 20 0 0 1 0-40Z', LB='M8-20H68a20 20 0 0 1 0 40H8a20 20 0 0 1 0-40Z';
-function link(id,scale){
-  function one(p){return '<path d="'+p+'" fill="none" stroke="#5c34a0" stroke-opacity=".55" stroke-width="26" stroke-linejoin="round"/><path d="'+p+'" fill="none" stroke="url(#'+id+'g)" stroke-width="21"/><path d="'+p+'" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2.6" transform="translate(0 -4.6)"/><path d="'+p+'" fill="none" stroke="#5c34a0" stroke-opacity=".35" stroke-width="3" transform="translate(0 5.6)"/>'}
-  return '<defs><linearGradient id="'+id+'g" class="gx" data-c="0 0" gradientUnits="userSpaceOnUse" x1="-95" y1="0" x2="95" y2="0">'+stops()+'</linearGradient>'+
-   '<clipPath id="'+id+'c"><rect x="-30" y="-46" width="60" height="46"/></clipPath></defs>'+
-   '<g transform="scale('+scale+') rotate(-45)">'+one(LA)+one(LB)+'<g clip-path="url(#'+id+'c)">'+one(LA)+'</g></g>';
+function linkDefs(id){return '<linearGradient id="'+id+'g" class="gx" data-c="0 0" gradientUnits="userSpaceOnUse" x1="-95" y1="0" x2="95" y2="0">'+stops()+'</linearGradient>'+
+  '<linearGradient id="'+id+'h" class="gx" data-c="0 0" gradientUnits="userSpaceOnUse" x1="95" y1="-20" x2="-95" y2="20"><stop offset="0" stop-color="#f1e8ff"/><stop offset=".3" stop-color="#8d62d8"/><stop offset=".55" stop-color="#e6d8ff"/><stop offset=".8" stop-color="#6a3fc0"/><stop offset="1" stop-color="#d4bcff"/></linearGradient>'+
+  '<clipPath id="'+id+'c"><rect x="-30" y="-46" width="60" height="46"/></clipPath>'}
+/* face=true draws the metal; otherwise the same shape as one flat colour (a slice of the extrusion) */
+function linkBody(id,face){
+  function one(p){
+    if(!face)return '<path d="'+p+'" fill="none" stroke="#000" stroke-width="28" stroke-linejoin="round"/>';
+    return '<path d="'+p+'" fill="none" stroke="#10051f" stroke-width="29" stroke-linejoin="round"/>'+
+     '<path d="'+p+'" fill="none" stroke="url(#'+id+'g)" stroke-width="25"/>'+
+     '<path d="'+p+'" fill="none" stroke="#25104f" stroke-width="16.5"/>'+
+     '<path d="'+p+'" fill="none" stroke="url(#'+id+'h)" stroke-width="12.5"/>'+
+     '<path d="'+p+'" fill="none" stroke="#fff" stroke-opacity=".75" stroke-width="2" transform="translate(0 -9.5)"/>';
+  }
+  return '<g class="lk" transform="rotate(-45)">'+one(LA)+one(LB)+'<g clip-path="url(#'+id+'c)">'+one(LA)+'</g></g>';
 }
-document.getElementById('icon3d').innerHTML='<svg viewBox="-110 -110 220 220" aria-hidden="true">'+link('ic',1)+'</svg>';
-
-/* ---------- the badge artwork: ring text, chrome letters, centre plate, link ---------- */
+/* a stack of copies at different depths: a dark shaded extrusion behind one metal front layer */
+function stack(inner,n,z0,dz,front){
+  var out='';
+  for(var i=0;i<n;i++){var t=i/(n-1),c='hsl(265,'+(52-t*8).toFixed(0)+'%,'+(10+t*20).toFixed(0)+'%)';
+    out+='<svg class="gl" viewBox="'+front.vb+'" style="--side:'+c+';transform:translateZ('+(z0+i*dz).toFixed(1)+'px)" aria-hidden="true">'+inner(false)+'</svg>'}
+  return out+'<svg class="tp" viewBox="'+front.vb+'" style="transform:translateZ('+(z0+n*dz).toFixed(1)+'px);filter:drop-shadow(0 1.5px 1px rgba(8,0,30,.6))" aria-hidden="true">'+front.defs+inner(true)+'</svg>';
+}
+/* ---- stand-alone icon: 12 layers of extrusion, the metal front on top ---- */
 (function(){
+  var vb='-110 -110 220 220', inner=function(f){return '<g transform="scale(1.12)">'+linkBody('ic',f)+'</g>'};
+  document.getElementById('icon3d').innerHTML=stack(inner,14,-9,.7,{vb:vb,defs:'<defs>'+linkDefs('ic')+'</defs>'});
+})();
+
+/* ---------- the badge: flat metal face, then the raised lettering and link on top ---------- */
+(function(){
+  var badge=document.getElementById('badge');
   var R1=114,R2=126.4;
   function circ(r,ccw){return ccw?'M200 '+(200-r)+'A'+r+' '+r+' 0 1 0 200 '+(200+r)+'A'+r+' '+r+' 0 1 0 200 '+(200-r)+'Z':'M'+(200-r)+' 200A'+r+' '+r+' 0 1 1 '+(200+r)+' 200A'+r+' '+r+' 0 1 1 '+(200-r)+' 200Z'}
-  var txt='font-family="Inter,Arial,sans-serif" font-weight="700" font-size="15.5" letter-spacing="4.4" fill="url(#bt)" stroke="none" text-anchor="middle"';
+  var txt='font-family="Inter,Arial,sans-serif" font-weight="700" font-size="15.5" letter-spacing="4.4" fill="url(#bt)" text-anchor="middle"';
   var dots='';[0,180].forEach(function(a){var t=a*Math.PI/180;dots+='<circle cx="'+(200+120*Math.cos(t)).toFixed(1)+'" cy="'+(200+120*Math.sin(t)).toFixed(1)+'" r="3.4" fill="url(#bt)"/>'});
-  document.getElementById('badgeSvg').innerHTML=
-   '<defs><linearGradient id="bt" class="gx" data-c="200 200" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="340" y2="340"><stop offset="0" stop-color="#f6efff"/><stop offset=".5" stop-color="#d4bef6"/><stop offset="1" stop-color="#eadcfb"/></linearGradient>'+
-   '<radialGradient id="plate" cx=".35" cy=".28" r=".9"><stop offset="0" stop-color="#e2d3fa"/><stop offset=".6" stop-color="#b698ea"/><stop offset="1" stop-color="#9c7ade"/></radialGradient>'+
-   '<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset=".5" stop-color="#b394e8"/><stop offset="1" stop-color="#f1e7ff"/></linearGradient>'+
-   '<path id="pTop" d="'+circ(R1,false)+'"/><path id="pCcw" d="'+circ(R2,true)+'"/></defs>'+
+  /* the raised part: ring lettering, dots and the link, shared by every layer of the stack */
+  var raised=function(f){
+    return '<text '+txt+'><textPath href="#pTop" startOffset="25%">DIRECT MAIL</textPath></text>'+
+     '<text '+txt+'><textPath href="#pCcw" startOffset="50%">DELIVERY ENGINE</textPath></text>'+dots+
+     '<g transform="translate(200 200) scale(.6)">'+linkBody('bl',f)+'</g>';
+  };
+  var defs='<defs>'+
+   '<linearGradient id="bt" class="gx" data-c="200 200" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="340" y2="340"><stop offset="0" stop-color="#ffffff"/><stop offset=".2" stop-color="#cfd3de"/><stop offset=".38" stop-color="#868c9e"/><stop offset=".55" stop-color="#f6f8fc"/><stop offset=".75" stop-color="#a7adbd"/><stop offset="1" stop-color="#e9ecf3"/></linearGradient>'+
+   linkDefs('bl').replace(/data-c="0 0"/g,'data-c="200 200"')+
+   '<path id="pTop" d="'+circ(R1,false)+'"/><path id="pCcw" d="'+circ(R2,true)+'"/></defs>';
+  /* flat engraved plate and ring lines sit on the face */
+  var art='<svg viewBox="0 0 400 400" style="transform:translateZ(1px)" aria-hidden="true"><defs>'+
+   '<radialGradient id="plate" cx=".35" cy=".28" r=".9"><stop offset="0" stop-color="#5a2aa8"/><stop offset=".55" stop-color="#26104f"/><stop offset="1" stop-color="#120626"/></radialGradient>'+
+   '<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#faf5ff"/><stop offset=".5" stop-color="#6a35b8"/><stop offset="1" stop-color="#e2d0ff"/></linearGradient></defs>'+
    '<circle cx="200" cy="200" r="141" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/><circle cx="200" cy="200" r="106" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/>'+
-   '<text '+txt+'><textPath href="#pTop" startOffset="25%">DIRECT MAIL</textPath></text>'+
-   '<text '+txt+'><textPath href="#pCcw" startOffset="50%">DELIVERY ENGINE</textPath></text>'+
-   dots+
-   '<circle cx="200" cy="200" r="94" fill="url(#plate)" stroke="url(#rim)" stroke-width="3.4"/><circle cx="200" cy="200" r="86" fill="none" stroke="#5c34a0" stroke-opacity=".3" stroke-width="1.5"/>'+
-   '<g transform="translate(200 200)">'+link('bl',.86)+'</g>';
+   '<circle cx="200" cy="200" r="94" fill="url(#plate)" stroke="url(#rim)" stroke-width="3.4"/><circle cx="200" cy="200" r="86" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1.5"/></svg>';
+  var side='<div class="side"><div class="face"><div class="disc"></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,13,3,1.15,{vb:'0 0 400 400',defs:defs})+'</div>';
+  var ext='';for(var i=1;i<=6;i++)ext+='<i class="ext" style="transform:translateZ(-'+(i*2)+'px)"></i>';
+  badge.innerHTML=ext+side;
+  var bk=badge.querySelector('.side').cloneNode(true);bk.classList.add('bk');badge.appendChild(bk);
 })();
 
 /* ---------- switcher ---------- */
@@ -267,8 +285,7 @@ bB.onclick=function(){setMode('badge')}; bI.onclick=function(){setMode('icon')};
 setMode(/icon/.test(location.hash)?'icon':'badge');
 window.__lob={setMode:setMode};
 
-/* ---------- tilt: follows the pointer, sways on its own otherwise; the reflections slide with the angle ---------- */
-(function(){var b=document.getElementById('badge'),f=b.querySelector('.face').cloneNode(true),g=b.querySelector('.glyph').cloneNode(true);f.classList.add('bk');g.classList.add('bk');b.appendChild(f);b.appendChild(g)})();
+/* ---------- motion: the badge turns about its vertical axis; the pointer tips it; reflections slide with the angle ---------- */
 var badge=document.getElementById('badge'), icon=document.getElementById('icon3d'), gx=[].slice.call(document.querySelectorAll('.gx'));
 var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
 var tx=0,ty=0,px=0,py=0,hover=false,t0=performance.now();
@@ -278,13 +295,13 @@ function frame(now){
   var t=(now-t0)/1000, wx,wy;
   if(hover){wx=tx;wy=ty}else if(calm){wx=0;wy=0}else{wx=Math.sin(t*1.05)*.5;wy=Math.cos(t*.8)*.3}
   px+=(wx-px)*.07; py+=(wy-py)*.07;
-  var spin=calm?0:t*55;   /* the badge turns about its vertical axis, a full turn in about 6.5 s */
-  icon.style.transform='rotateX('+(-py*17).toFixed(2)+'deg) rotateY('+(px*24).toFixed(2)+'deg)';
+  var spin=calm?0:t*55;   /* a full turn in about 6.5 s */
+  icon.style.transform='rotateX('+(-py*17).toFixed(2)+'deg) rotateY('+(px*28+(calm?0:Math.sin(t*.9)*20)).toFixed(2)+'deg)';
   badge.style.transform='rotateX('+(-py*14).toFixed(2)+'deg) rotateY('+(spin+px*16).toFixed(2)+'deg)';
   var sr=spin*Math.PI/180;
   badge.style.setProperty('--a',(30+Math.sin(sr)*60+px*50).toFixed(1)+'deg');
   badge.style.setProperty('--gx',(50+Math.sin(sr)*40+px*20).toFixed(1)+'%'); badge.style.setProperty('--gy',(40+py*30).toFixed(1)+'%');
-  var ang=(px*55+py*20).toFixed(1);
+  var ang=(Math.sin(sr)*40+px*55+py*20).toFixed(1);
   gx.forEach(function(g){g.setAttribute('gradientTransform','rotate('+ang+' '+(g.dataset.c||'0 0')+') translate('+(px*40).toFixed(1)+' 0)')});
   requestAnimationFrame(frame);
 }
