@@ -204,6 +204,15 @@ var BRANDS=[
 var TILE='rgba(150,110,225,.34)';
 
 var panel=document.getElementById('panel'), tiles=document.getElementById('tiles'), lines=document.getElementById('lines');
+/* faint triangulated mesh behind the grid, like the reference's blueprint lines */
+function mesh(w,h){
+  var step=96, cols=Math.ceil(w/step)+2, rows=Math.ceil(h/step)+2, P=[], seed=7;
+  function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647}
+  for(var j=0;j<rows;j++){P[j]=[];for(var i=0;i<cols;i++)P[j][i]=[(i-.5)*step+(rnd()-.5)*step*.7,(j-.5)*step+(rnd()-.5)*step*.7]}
+  var d='';function L(a,b){d+='M'+a[0].toFixed(0)+' '+a[1].toFixed(0)+'L'+b[0].toFixed(0)+' '+b[1].toFixed(0)}
+  for(j=0;j<rows-1;j++)for(i=0;i<cols-1;i++){L(P[j][i],P[j][i+1]);L(P[j][i],P[j+1][i]);if(rnd()<.5)L(P[j][i],P[j+1][i+1]);else L(P[j][i+1],P[j+1][i])}
+  return '<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none"><path d="'+d+'" fill="none" stroke="rgba(205,170,255,.1)" stroke-width="1"/></svg>';
+}
 function build(){
   var w=panel.clientWidth,h=panel.clientHeight; if(!w||!h) return;
   var cell=Math.max(44,Math.min(66,Math.round(Math.min(w/7,h/6)))), gap=Math.round(cell*.36), pitch=cell+gap;
@@ -217,6 +226,7 @@ function build(){
   var left=w/2-gw/2, top=h/2-gh/2;
   lines.style.backgroundSize=pitch+'px '+pitch+'px';
   lines.style.backgroundPosition=(((left+cell+gap/2)%pitch)+pitch)%pitch+'px '+(((top+cell+gap/2)%pitch)+pitch)%pitch+'px';
+  lines.innerHTML=mesh(w,h);
   var html='', half=Math.min(w,h)/2;
   for(var r=0;r<rows;r++)for(var c=0;c<cols;c++){
     var dx=(c-(cols-1)/2)*pitch, dy=(r-(rows-1)/2)*pitch, d=Math.hypot(dx,dy*1.05)/half;
