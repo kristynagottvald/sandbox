@@ -342,7 +342,7 @@ function frame(now){
   /* the badge rests at a fixed angle on the 135 degree diagonal; hovering over the visual tips it, and it eases back on leave */
   var wx=hover?tx:0, wy=hover?ty:0;
   px+=(wx-px)*.07; py+=(wy-py)*.07;
-  badge.style.transform='rotateZ(-45deg) rotateX('+(-py*16).toFixed(2)+'deg) rotateY('+(-35+px*24).toFixed(2)+'deg)';
+  badge.style.transform='rotateZ(-45deg) rotateX('+(-py*16).toFixed(2)+'deg) rotateY('+(35+px*24).toFixed(2)+'deg)';
   badge.style.setProperty('--a',(30+px*60+py*25).toFixed(1)+'deg');
   badge.style.setProperty('--gxn',(px*22).toFixed(1)); badge.style.setProperty('--gyn',(-10+py*18).toFixed(1));
   var ang=(px*60+py*25).toFixed(1);
