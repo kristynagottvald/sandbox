@@ -25,7 +25,7 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 .top{flex:none;height:96px;display:flex;align-items:center;gap:28px;padding:0 var(--gut)}
 .brand{isolation:isolate;display:flex;align-items:center;gap:7px;color:#16161a;text-decoration:none;white-space:nowrap}
 .brand .logo{height:30px;width:auto;display:block}
-.brand em{font:500 12px var(--sans);font-style:normal;letter-spacing:.09em;text-transform:uppercase;background:#e9e6fb;border-radius:3px;padding:6px 9px;color:#4131f1;white-space:nowrap}
+.brand em{font:italic 400 17px/1 var(--serif);background:#e9e6fb;border-radius:3px;padding:6px 10px 7px;color:#4131f1;white-space:nowrap}
 .search{flex:0 1 500px;margin:0 auto;display:flex;align-items:center;gap:12px;height:56px;padding:0 22px;border-radius:99px;background:#f1f1f1;color:#7a7a82;font-size:16px;min-width:0}
 .search svg{flex:none}
 .top .links{display:flex;align-items:center;gap:26px;white-space:nowrap;font-size:16px;font-weight:500}
@@ -245,7 +245,7 @@ function stack(inner,n,z0,dz,front){
   var R1=114,R2=126.4;
   function circ(r,ccw){return ccw?'M200 '+(200-r)+'A'+r+' '+r+' 0 1 0 200 '+(200+r)+'A'+r+' '+r+' 0 1 0 200 '+(200-r)+'Z':'M'+(200-r)+' 200A'+r+' '+r+' 0 1 1 '+(200+r)+' 200A'+r+' '+r+' 0 1 1 '+(200-r)+' 200Z'}
   var txt='font-family="Inter,Arial,sans-serif" font-weight="700" font-size="13" letter-spacing="2.8" fill="url(#bt)" stroke="#fff" stroke-opacity=".55" stroke-width=".35" paint-order="stroke" text-anchor="middle"';
-  var dots='';[0,180].forEach(function(a){var t=a*Math.PI/180;dots+='<g class="as" transform="translate('+(200+120*Math.cos(t)).toFixed(1)+' '+(200+120*Math.sin(t)).toFixed(1)+')"><path d="M0-8V8M-6.9-4 6.9 4M-6.9 4 6.9-4" fill="none" stroke="url(#bt)" stroke-width="3.2" stroke-linecap="round"/></g>'});
+  var dots='';[0,180].forEach(function(a){var t=a*Math.PI/180;dots+='<g class="as" transform="translate('+(200+120*Math.cos(t)).toFixed(1)+' '+(200+120*Math.sin(t)).toFixed(1)+')"><path d="M0-5V5M-4.3-2.5 4.3 2.5M-4.3 2.5 4.3-2.5" fill="none" stroke="url(#bt)" stroke-width="2.4" stroke-linecap="round"/></g>'});
   /* the raised part: ring lettering, dots and the link, shared by every layer of the stack */
   var raised=function(f){
     return '<text '+txt+'><textPath href="#pTop" startOffset="25%">POWER YOUR DIRECT MAIL</textPath></text>'+
