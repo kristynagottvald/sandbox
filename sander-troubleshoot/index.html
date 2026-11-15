@@ -41,14 +41,11 @@ main{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;p
 #bc .rows{position:absolute;left:11.17px;right:11.17px;top:28.86px;display:flex;flex-direction:column;gap:3.281px}
 #bc .row{display:flex;gap:3.281px;align-items:stretch}
 .tile{position:relative;background:#f2f2f3;border-radius:3.281px;padding:2.188px 2.188px 4.375px;display:flex;flex-direction:column;gap:4.375px;overflow:visible}
-.tile .im{position:relative;flex:none;width:38.83px;height:38.83px;background:#fff;border-radius:3.281px;overflow:hidden}
-.tile .im img{position:absolute;object-fit:cover;left:50%!important;translate:-50% 0}
-.tile.fl .im{width:100%}
-.tile .tt{width:auto}
-.tile .tt{padding:0 2.188px 0 1.094px;font-size:4.375px;width:38.83px}
-.tile.fix{height:60.43px}
-.tile.w1{width:43.2px;flex:none}.tile.fl{flex:1 1 0;min-width:0}
-.tile .tt.bot{margin-top:auto}
+.tile .im{position:relative;flex:none;width:100%;aspect-ratio:1/1;background:#fff;border-radius:3.281px;overflow:hidden}
+.tile .im img{position:absolute;left:50%;top:50%;translate:-50% -50%;object-fit:cover}
+.tile .tt{padding:0 2.188px 0 1.094px;font-size:4.375px;width:auto}
+.tile{height:65px}
+.tile.w1,.tile.fl{flex:1 1 0;min-width:0;width:auto}
 .tile .sel{position:absolute;inset:-.1px;border:.547px solid #397ed3;border-radius:3.281px;opacity:0}
 .tile .ok{position:absolute;right:1.37px;top:1.64px;width:4.922px;height:4.922px}
 .tile .tap{position:absolute;left:50%;top:44%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:rgba(12,52,108,.28);border:.6px solid #0c346c;opacity:0;pointer-events:none;z-index:2}
@@ -105,16 +102,16 @@ main{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;p
 <p class="ttl">What product do you have?</p>
 <div class="rows">
  <div class="row">
-  <div class="tile w1 t"><div class="im"><img src="assets/paint-sprayer.webp" alt="" style="left:3px;top:3px;width:32.8px;height:32.8px"></div><p class="tt">Paint and stain sprayer</p></div>
-  <div class="tile fl t"><div class="im"><img src="assets/polisher.webp" alt="" style="left:3px;top:1.4px;width:35.8px;height:35.8px"></div><p class="tt bot">Polisher</p></div>
+  <div class="tile w1 t"><div class="im"><img src="assets/paint-sprayer.webp" alt="" style="width:91%;height:91%"></div><p class="tt">Paint and stain sprayer</p></div>
+  <div class="tile fl t"><div class="im"><img src="assets/polisher.webp" alt="" style="width:86%;height:86%"></div><p class="tt">Polisher</p></div>
  </div>
  <div class="row">
-  <div class="tile w1 fix" id="prep"><div class="im"><img src="assets/prep-tools.webp" alt="" style="left:3px;top:3px;width:32.8px;height:32.8px"></div><p class="tt">Prep tools</p><i class="sel" id="psel"></i><img class="ok" id="pok" src="assets/success.svg" alt=""><i class="ring" id="pring"></i><i class="tap" id="tap"></i></div>
-  <div class="tile fl fix t"><div class="im"><img src="assets/roller.webp" alt="" style="left:3px;top:3.3px;width:33.3px;height:33.3px;transform:rotate(-90deg)"></div><p class="tt">Roller</p></div>
+  <div class="tile w1" id="prep"><div class="im"><img src="assets/prep-tools.webp" alt="" style="width:85%;height:85%"></div><p class="tt">Prep tools</p><i class="sel" id="psel"></i><img class="ok" id="pok" src="assets/success.svg" alt=""><i class="ring" id="pring"></i><i class="tap" id="tap"></i></div>
+  <div class="tile fl t"><div class="im"><img src="assets/roller.webp" alt="" style="width:88%;height:88%;transform:rotate(-90deg)"></div><p class="tt">Roller</p></div>
  </div>
  <div class="row">
-  <div class="tile fl fix t"><div class="im"><img src="assets/prep-find.webp" alt="" style="left:-.3px;top:-.3px;width:39.4px;height:39.4px"></div><p class="tt bot">Find the prep tool you need</p></div>
-  <div class="tile fl fix t"><div class="im"><img src="assets/heat-gun.webp" alt="" style="left:3px;top:3px;width:32.8px;height:32.8px"></div><p class="tt bot">Heat gun support</p></div>
+  <div class="tile fl t"><div class="im"><img src="assets/prep-find.webp" alt="" style="width:100%;height:100%"></div><p class="tt">Find the prep tool you need</p></div>
+  <div class="tile fl t"><div class="im"><img src="assets/heat-gun.webp" alt="" style="width:86%;height:86%"></div><p class="tt">Heat gun support</p></div>
  </div>
 </div>
 </div>
