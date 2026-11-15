@@ -25,6 +25,13 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
+  // the Built for Lob badge tilting over the grid of marketing app tiles, then the switcher flips to the stand-alone metallic link icon and back to the badge
+  'lob-integrations-hero': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, run: async (p) => {
+    const t0 = Date.now(), m = (k) => p.evaluate((k) => __lob.setMode(k), k);
+    await at(t0, 1500, () => m('icon'));
+    await at(t0, 3900, () => m('badge'));
+    await sleep(2000);
+  } },
   // the finished composition, then the whole 9 s cycle at 1.4x: the query is typed, matches appear, the query and context notes fly onto the graph, the result lands
   'nlp-diagram': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
     const t0 = Date.now();
