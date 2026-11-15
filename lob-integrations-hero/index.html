@@ -23,9 +23,10 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 /* ---------- Lob marketplace header ---------- */
 :root{--gut:clamp(20px,5.6vw,72px)}
 .top{flex:none;height:96px;display:flex;align-items:center;gap:28px;padding:0 var(--gut)}
-.brand{display:flex;align-items:center;gap:7px;color:#16161a;text-decoration:none;white-space:nowrap}
-.brand .logo{height:32px;width:auto;display:block}
-.brand em{font:500 12px var(--sans);font-style:normal;letter-spacing:.09em;text-transform:uppercase;background:#e9e6fb;border-radius:6px;padding:6px 9px;color:#3d2ff0;white-space:nowrap}
+.brand{isolation:isolate;display:flex;align-items:center;gap:7px;color:#16161a;text-decoration:none;white-space:nowrap}
+.brand .logo{height:30px;width:auto;display:block}
+.brand em{position:relative;font:500 12px var(--sans);font-style:normal;letter-spacing:.09em;text-transform:uppercase;background:#fff;border:1.5px solid #4131f1;border-radius:3px;padding:5px 9px;color:#4131f1;white-space:nowrap;margin-right:5px}
+.brand em::before{content:"";position:absolute;inset:-1.5px;border-radius:3px;transform:translate(5px,5px);z-index:-1;background:radial-gradient(circle,#4131f1 1px,transparent 1.5px) 0 0/8px 3px repeat-x,radial-gradient(circle,#4131f1 1px,transparent 1.5px) 0 100%/8px 3px repeat-x,radial-gradient(circle,#4131f1 1px,transparent 1.5px) 0 0/3px 8px repeat-y,radial-gradient(circle,#4131f1 1px,transparent 1.5px) 100% 0/3px 8px repeat-y}
 .search{flex:0 1 500px;margin:0 auto;display:flex;align-items:center;gap:12px;height:56px;padding:0 22px;border-radius:99px;background:#f1f1f1;color:#7a7a82;font-size:16px;min-width:0}
 .search svg{flex:none}
 .top .links{display:flex;align-items:center;gap:26px;white-space:nowrap;font-size:16px;font-weight:500}
@@ -43,8 +44,8 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 .hero{color:#fff;position:relative;margin:0 var(--gut);height:560px;border-radius:32px;overflow:hidden;isolation:isolate;
   background:linear-gradient(125deg,#171a42 0%,#22155c 42%,#4129b8 78%,#5a37d4 100%)}
 .copy{position:relative;z-index:4;width:50%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 0 0 clamp(24px,4.6vw,60px)}
-.chip{align-self:flex-start;display:inline-flex;align-items:center;gap:9px;background:#f6c93f;color:#2a1466;border-radius:99px;padding:4px 16px 4px 4px;font-size:14px;font-weight:600;margin-bottom:24px}
-.chip i{width:26px;height:26px;border-radius:50%;background:#2a1466;color:#f6c93f;display:grid;place-items:center;font:700 18px/1 var(--sans);font-style:normal;padding-top:6px}
+.chip{align-self:flex-start;display:inline-flex;align-items:center;gap:9px;background:#e4ee5c;color:#2a1466;border-radius:99px;padding:4px 16px 4px 4px;font-size:14px;font-weight:600;margin-bottom:24px}
+.chip i{width:26px;height:26px;border-radius:50%;background:#2a1466;color:#e4ee5c;display:grid;place-items:center;font:700 18px/1 var(--sans);font-style:normal;padding-top:6px}
 h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spacing:-.035em;margin:0 0 22px}
 .sub{font-size:17px;line-height:1.75;color:rgba(255,255,255,.72);max-width:520px}
 .more{display:inline-flex;align-items:center;gap:10px;margin-top:30px;color:#fff;text-decoration:none;font-size:16px;font-weight:500;align-self:flex-start}.more:hover{opacity:.8}
@@ -81,36 +82,39 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
 /* ---- the badge: a stack of layers in 3D (rim thickness, flat metal face, raised lettering and link) ---- */
 .badge{position:relative;width:min(80cqw,88cqh,520px);aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
 .slot-badge{filter:drop-shadow(0 26px 30px rgba(10,0,30,.55))}
-.ext{position:absolute;inset:0;clip-path:url(#serr);background:linear-gradient(160deg,#5a34a8,#1d0e45 60%,#3a1c7a)}
+.ext{position:absolute;inset:0;clip-path:url(#serr);background:linear-gradient(160deg,#5a37d4,#1d0e45 60%,#3a1c7a)}
 .side{position:absolute;inset:0;transform-style:preserve-3d}
 .side.bk{transform:translateZ(-26px) rotateY(180deg)}
 .side>*{backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .face{position:absolute;inset:0;clip-path:url(#serr);overflow:hidden;
   background:
    repeating-linear-gradient(100deg,rgba(255,255,255,.07) 0 1px,rgba(0,0,0,.09) 1px 2px),
-   conic-gradient(from var(--a,30deg),#f3ecff 0,#9a6fe0 9%,#3a1a78 20%,#c4a6f4 31%,#fbf7ff 38%,#6a35b8 50%,#26104f 62%,#a67fe6 74%,#eadfff 86%,#f3ecff 100%)}
+   conic-gradient(from var(--a,30deg),#f3ecff 0,#9a6fe0 9%,#3a1a78 20%,#c4a6f4 31%,#fbf7ff 38%,#5a37d4 50%,#26104f 62%,#a67fe6 74%,#eadfff 86%,#f3ecff 100%)}
 .disc{position:absolute;inset:8.5%;border-radius:50%;
   background:
    repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.04) 0 1px,rgba(0,0,0,.06) 1px 3px),
-   conic-gradient(from calc(var(--a,30deg)*-1 + 210deg),#34146e,#5a2aa8 12%,#170a3a 27%,#43208a 42%,#13082e 58%,#6330b6 74%,#34146e 100%);
+   conic-gradient(from calc(var(--a,30deg)*-1 + 210deg),#34146e,#5a37d4 12%,#170a3a 27%,#43208a 42%,#13082e 58%,#5a37d4 74%,#34146e 100%);
   box-shadow:inset 0 0 0 2px rgba(220,195,255,.4),inset 0 10px 26px rgba(0,0,0,.55),0 0 0 3px rgba(20,0,55,.65)}
 .gloss{position:absolute;inset:0;background:radial-gradient(circle at var(--gx,35%) var(--gy,25%),rgba(255,255,255,.5),rgba(255,255,255,.08) 28%,transparent 52%);mix-blend-mode:soft-light}
-.sweep{position:absolute;inset:0;background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.75) 49%,rgba(220,195,255,.15) 54%,transparent 60%);background-size:280% 100%;mix-blend-mode:screen;animation:sweep 5.5s ease-in-out infinite}
+.sweep{position:absolute;inset:0;background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.75) 49%,rgba(220,195,255,.15) 54%,transparent 60%);background-size:280% 100%;mix-blend-mode:screen;animation:sweep 6s ease-in-out infinite}
 @keyframes sweep{0%,35%{background-position:130% 0}80%,100%{background-position:-40% 0}}
 .badge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* the extrusion layers of the raised lettering and link are one flat dark colour, the top layer carries the metal */
+.spark{pointer-events:none}
+.sp{transform-box:fill-box;transform-origin:center;animation:tw 3s ease-in-out infinite}
+@keyframes tw{0%,100%{transform:scale(.25) rotate(0deg);opacity:.15}50%{transform:scale(1) rotate(45deg);opacity:1}}
 .gl text,.gl circle{fill:var(--side)!important;stroke:none!important}
 .gl .lk path{stroke:var(--side)!important;stroke-opacity:1!important}
 
 
-@media (prefers-reduced-motion:reduce){.sweep{animation:none;background-position:60% 0;opacity:.6}.slot,.tile{transition:none}}
+@media (prefers-reduced-motion:reduce){.sp{animation:none;opacity:.9}.sweep{animation:none;background-position:60% 0;opacity:.6}.slot,.tile{transition:none}}
 </style>
 </head>
 <body>
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Lob Integrations Hero</b></nav>
 
 <header class="top">
-  <a class="brand" href="#" aria-label="Lob Integrations"><svg class="logo" viewBox="0 0 88 40" role="img" aria-label="Lob" fill="#3d2ff0"><path d="M1.5 1.5H8V29H22.5V38.5H1.5Z" stroke="#3d2ff0" stroke-width="3" stroke-linejoin="round"/><circle cx="41.5" cy="25.5" r="10" fill="none" stroke="#3d2ff0" stroke-width="9"/><rect x="59" y="0" width="9.5" height="40" rx="2.5"/><circle cx="73.5" cy="25.5" r="10" fill="none" stroke="#3d2ff0" stroke-width="9"/></svg><em>Integrations</em></a>
+  <a class="brand" href="#" aria-label="Lob Integrations"><svg class="logo" width="114" height="50" viewBox="0 0 114 50" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lob"><path d="M113.886 29.4011C113.886 41.5261 104.676 49.2099 94.954 49.2099C89.6912 49.2099 85.0859 46.9541 82.4545 43.1474L80.7204 48.4345H72.5136L72.5119 0.000103459L82.8962 0V15.0943C85.5586 11.7125 89.7868 9.59227 94.881 9.59227C104.822 9.59227 113.886 17.2761 113.886 29.4011ZM81.9429 29.3306C81.9429 35.2521 86.6942 40.0457 92.9074 40.0457C98.9743 40.0457 103.799 35.3226 103.799 29.3306C103.799 23.3386 98.9743 18.6155 92.9074 18.6155C86.6942 18.6155 81.9429 23.4091 81.9429 29.3306Z" fill-rule="evenodd" clip-rule="evenodd" fill="#4131F1"/><path d="M0.0016883 48.4347L22.5808 48.4345L25.7235 38.7768L10.3813 38.777L10.3796 0.000103459H0L0.0016883 48.4347Z" fill="#4131F1"/><path d="M47.5044 49.2099C59.419 49.2099 68.4098 40.3276 68.4098 29.4011C68.4098 18.404 59.2729 9.59227 47.5044 9.59227C35.6629 9.59227 26.6723 18.404 26.6723 29.4011C26.6723 40.3276 35.6629 49.2099 47.5044 49.2099ZM47.5777 39.9752C41.5106 39.9752 36.7595 35.2521 36.7595 29.3306C36.7595 23.4091 41.5106 18.686 47.5777 18.686C53.5713 18.686 58.3956 23.4091 58.3956 29.3306C58.3956 35.2521 53.5713 39.9752 47.5777 39.9752Z" fill-rule="evenodd" clip-rule="evenodd" fill="#4131F1"/></svg><em>Integrations</em></a>
   <div class="search" role="search"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#7a7a82" stroke-width="2" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><span>Search apps</span></div>
   <div class="links">
     <a class="cat" href="#">Categories <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="#16161a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px"><path d="m3 5 4 4 4-4"/></svg></a>
@@ -145,7 +149,7 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
       <a class="cat" href="#" style="--c:#5a37d4" data-dk>Data<span><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></span></a>
       <a class="cat" href="#" style="--c:#ddd3fa">Design<span><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11a2.1 2.1 0 0 0-3-3L5 16l-1 4zM14 7l3 3"/></svg></span></a>
       <a class="cat" href="#" style="--c:#f8c8e3">API<span><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 5l-4 14"/></svg></span></a>
-      <a class="cat" href="#" style="--c:#f6c93f">No Code<span><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 14v6M13.5 17h6"/></svg></span></a>
+      <a class="cat" href="#" style="--c:#e4ee5c">No Code<span><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 14v6M13.5 17h6"/></svg></span></a>
     </div>
   </section>
 </main>
@@ -209,7 +213,7 @@ if(window.ResizeObserver){var rt;new ResizeObserver(function(){clearTimeout(rt);
 (function(){var d='',N=360;for(var i=0;i<N;i++){var t=i/N*Math.PI*2,r=.468+.014*Math.cos(t*22);d+=(i?'L':'M')+(.5+r*Math.cos(t)).toFixed(4)+' '+(.5+r*Math.sin(t)).toFixed(4)}document.getElementById('serrPath').setAttribute('d',d+'Z')})();
 
 /* ---------- the metallic chain link: purple chrome bands with a bevelled double edge; the two links weave ---------- */
-var CHROME=[['0','#fbf7ff'],['.1','#c9a8f5'],['.2','#6a35b8'],['.3','#25104f'],['.4','#9a6fe0'],['.5','#f6f0ff'],['.6','#b08ceb'],['.7','#3d1c7a'],['.8','#a47ce6'],['.9','#efe4ff'],['1','#bb9aee']];
+var CHROME=[['0','#fbf7ff'],['.1','#c9a8f5'],['.2','#5a37d4'],['.3','#25104f'],['.4','#9a6fe0'],['.5','#f6f0ff'],['.6','#b08ceb'],['.7','#3d1c7a'],['.8','#a47ce6'],['.9','#efe4ff'],['1','#bb9aee']];
 function stops(){return CHROME.map(function(s){return '<stop offset="'+s[0]+'" stop-color="'+s[1]+'"/>'}).join('')}
 var LA='M-68-20H-8a20 20 0 0 1 0 40H-68a20 20 0 0 1 0-40Z', LB='M8-20H68a20 20 0 0 1 0 40H8a20 20 0 0 1 0-40Z';
 function linkDefs(id){return '<linearGradient id="'+id+'g" class="gx" data-c="0 0" gradientUnits="userSpaceOnUse" x1="-95" y1="0" x2="95" y2="0">'+stops()+'</linearGradient>'+
@@ -254,11 +258,16 @@ function stack(inner,n,z0,dz,front){
    '<path id="pTop" d="'+circ(R1,false)+'"/><path id="pCcw" d="'+circ(R2,true)+'"/></defs>';
   /* flat engraved plate and ring lines sit on the face */
   var art='<svg viewBox="0 0 400 400" style="transform:translateZ(1px)" aria-hidden="true"><defs>'+
-   '<radialGradient id="plate" cx=".35" cy=".28" r=".9"><stop offset="0" stop-color="#5a2aa8"/><stop offset=".55" stop-color="#26104f"/><stop offset="1" stop-color="#120626"/></radialGradient>'+
+   '<radialGradient id="plate" cx=".35" cy=".28" r=".9"><stop offset="0" stop-color="#5a37d4"/><stop offset=".55" stop-color="#26104f"/><stop offset="1" stop-color="#120626"/></radialGradient>'+
    '<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#faf5ff"/><stop offset=".5" stop-color="#6a35b8"/><stop offset="1" stop-color="#e2d0ff"/></linearGradient></defs>'+
    '<circle cx="200" cy="200" r="141" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/><circle cx="200" cy="200" r="106" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/>'+
    '<circle cx="200" cy="200" r="94" fill="url(#plate)" stroke="url(#rim)" stroke-width="3.4"/><circle cx="200" cy="200" r="86" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1.5"/></svg>';
-  var side='<div class="side"><div class="face"><div class="disc"></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,8,3,.7,{vb:'0 0 400 400',defs:defs})+'</div>';
+  function flare(x,y,k,delay){
+    var st='M'+x+' '+(y-k)+'C'+(x+k*.09)+' '+(y-k*.2)+' '+(x+k*.2)+' '+(y-k*.09)+' '+(x+k)+' '+y+'C'+(x+k*.2)+' '+(y+k*.09)+' '+(x+k*.09)+' '+(y+k*.2)+' '+x+' '+(y+k)+'C'+(x-k*.09)+' '+(y+k*.2)+' '+(x-k*.2)+' '+(y+k*.09)+' '+(x-k)+' '+y+'C'+(x-k*.2)+' '+(y-k*.09)+' '+(x-k*.09)+' '+(y-k*.2)+' '+x+' '+(y-k)+'Z';
+    return '<g class="sp" style="animation-delay:'+delay+'s"><circle cx="'+x+'" cy="'+y+'" r="'+(k*.55)+'" fill="url(#fg)"/><rect x="'+(x-k*2.4)+'" y="'+(y-.7)+'" width="'+(k*4.8)+'" height="1.4" fill="url(#fs)"/><path d="'+st+'" fill="#fff"/><circle cx="'+(x+k*.9)+'" cy="'+(y+k*.9)+'" r="1.6" fill="#fff" opacity=".8"/></g>';
+  }
+  var spark='<svg class="spark" viewBox="0 0 400 400" style="transform:translateZ(9.6px)" aria-hidden="true"><defs><radialGradient id="fg"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#e8dcff" stop-opacity=".7"/><stop offset="1" stop-color="#b9a3ff" stop-opacity="0"/></radialGradient><linearGradient id="fs"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>'+flare(289,129,17,0)+flare(112,290,17,-1.5)+'</svg>';
+  var side='<div class="side"><div class="face"><div class="disc"></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,8,3,.7,{vb:'0 0 400 400',defs:defs})+spark+'</div>';
   var ext='';for(var i=1;i<=12;i++)ext+='<i class="ext" style="transform:translateZ(-'+(i*2)+'px)"></i>';
   badge.innerHTML=ext+side;
   var bk=badge.querySelector('.side').cloneNode(true);bk.classList.add('bk');badge.appendChild(bk);
@@ -272,9 +281,9 @@ panel.addEventListener('pointermove',function(e){var r=panel.getBoundingClientRe
 panel.addEventListener('pointerleave',function(){hover=false});
 function frame(now){
   var t=(now-t0)/1000, wx,wy;
-  if(hover){wx=tx;wy=ty}else if(calm){wx=0;wy=0}else{wx=Math.sin(t*1.05)*.5;wy=Math.cos(t*.8)*.3}
+  if(hover){wx=tx;wy=ty}else if(calm){wx=0;wy=0}else{wx=Math.sin(t*Math.PI/3)*.5;wy=Math.cos(t*Math.PI/3)*.3}
   px+=(wx-px)*.07; py+=(wy-py)*.07;
-  var spin=calm?0:t*55;   /* a full turn in about 6.5 s */
+  var spin=calm?0:(t%6)*60;   /* a full turn every 6 s, so the clip loops seamlessly */
   badge.style.transform='rotateX('+(-py*14).toFixed(2)+'deg) rotateY('+(spin+px*16).toFixed(2)+'deg)';
   var sr=spin*Math.PI/180;
   badge.style.setProperty('--a',(30+Math.sin(sr)*60+px*50).toFixed(1)+'deg');
