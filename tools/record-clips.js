@@ -73,6 +73,13 @@ const APPS = {
     await at(t0, 5300, () => scr(5));
   } },
   // a block letter on the 12x12 grid: starts on a finished S, then the cells wave through the letters of SANDBOX and back to S
+  // House of Balloons patterns: opens on Stretch, then steps through Stack and Bitmap and back to Stretch
+  'hob-pattern-generator': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#stretch&clip', ready: 600, q: 50, run: async (p) => {
+    const t0 = Date.now(), go = (k) => p.evaluate((m) => __hob.set(m), k);
+    await at(t0, 1500, () => go('stack'));
+    await at(t0, 3200, () => go('bitmap'));
+    await at(t0, 4900, () => go('stretch'));
+  } },
   'grid-alphabet': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#w=SANDBOX&clip', ready: 500, q: 55, run: async (p) => { const t0 = Date.now(); await at(t0, 700, () => p.evaluate(() => __ga.start())); await sleep(5600); } },
   'conference-post-generator': { vp: [1280, 769], setup: cropOf('#cv'), ready: 1200, q: 40, run: async (p) => {
     // it opens on the badges post (16:9, cream); step through the headline, speaker and pattern templates and come back to the badges

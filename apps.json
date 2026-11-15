@@ -1,5 +1,14 @@
 [
   {
+    "id": "hob-pattern-generator",
+    "title": "HOB Pattern Generator",
+    "category": "Generator",
+    "url": "hob-pattern-generator/",
+    "thumbnail": "hob-pattern-generator/thumb.png",
+    "preview": "hob-pattern-generator/thumb.webp",
+    "alt": "A House of Balloons pattern generator showing three motifs in turn: Stretch, cream and tan bars drifting on maroon; Stack, cream bars rising off a shared edge on orange; and Bitmap, dithered maroon dashes forming a shape on cream"
+  },
+  {
     "id": "lob-integrations-hero",
     "title": "Lob Integrations Hero",
     "category": "Mockup",

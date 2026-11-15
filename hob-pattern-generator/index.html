@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HOB Pattern Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Source+Code+Pro:wght@400&family=Syne:wght@800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:#000;color:#fff;overflow:hidden;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+body{display:flex;flex-direction:column}
+/* ---------- Back nav (shared across all sandbox projects) ---------- */
+nav.back{box-sizing:border-box;flex:none;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+nav.back a{color:#8d8d8d;text-decoration:none}
+nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav.back span{color:#6e6e6e}
+nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:640px){nav.back{padding:0 16px}nav.back>span:nth-of-type(2),nav.back>b{display:none}}
+main{flex:1;min-height:0;position:relative;overflow:hidden;background:#330F10}
+canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.lab{position:absolute;left:22px;top:18px;pointer-events:none;color:var(--ink)}
+.lab h1{font:800 28px/1 "Syne","Arial Black",sans-serif;letter-spacing:.02em;text-transform:uppercase}
+.lab p{margin-top:8px;font:400 15px/1.2 "Source Code Pro",ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+.panel{position:absolute;left:16px;right:16px;bottom:16px;max-width:900px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.seg{display:flex;gap:4px}
+button{font:inherit;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:8px;padding:6px 11px;cursor:pointer;white-space:nowrap}
+button:hover{border-color:#fff}
+button:focus-visible,input:focus-visible{outline:2px solid #fff;outline-offset:2px}
+button[aria-pressed="true"]{background:#fff;color:#000;border-color:#fff}
+label{display:flex;align-items:center;gap:8px;color:#d8d8d8}
+input[type=range]{width:96px;accent-color:#FDFEA1}
+@media (max-width:640px){.panel{left:10px;right:10px;bottom:10px}input[type=range]{width:78px}label{flex:1 1 40%}}
+.clip .panel{display:none}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>HOB Pattern Generator</b></nav>
+<main id="stage">
+  <canvas id="cv"></canvas>
+  <div class="lab" id="lab"><h1 id="t"></h1><p id="s"></p></div>
+  <div class="panel">
+    <div class="seg" id="seg" role="group" aria-label="Motif"></div>
+    <label>Vert spacing <input id="vs" type="range" min="0" max="100" value="40"></label>
+    <label>Horz spacing <input id="hs" type="range" min="0" max="100" value="30"></label>
+    <label>Density <input id="de" type="range" min="0" max="100" value="45"></label>
+    <label>Motion speed <input id="sp" type="range" min="0" max="300" value="100"></label>
+  </div>
+</main>
+<script>
+(function(){
+// Arrangement palette from the House of Balloons system
+const CREAM='#FDFEA1', TAN='#BBAE8B', MAROON='#330F10', ORANGE='#D34B1D';
+const MOTIFS={
+  stretch:{name:'Stretch',sub:'Linear, workflow',bg:MAROON,ink:TAN},
+  stack:{name:'Stack',sub:'Ascension, heightened state',bg:ORANGE,ink:CREAM},
+  bitmap:{name:'Bitmap',sub:'Noise, disruption',bg:CREAM,ink:MAROON}
+};
+const $=id=>document.getElementById(id);
+const cv=$('cv'), ctx=cv.getContext('2d');
+const S={motif:'stretch',vs:40,hs:30,de:45,sp:100};
+let W=0,H=0,u=1,T=0,last=0,src=null,sw=0,sh=0;
+const mouse={x:-9999,y:-9999}, R=40; // hover detection radius
+
+const fr=a=>a-Math.floor(a);
+const hh=(a,b)=>fr(Math.sin(a*127.1+b*311.7)*43758.5453);
+const mod=(a,n)=>((a%n)+n)%n;
+
+// closest-point rect vs circle test (collideRectCircle)
+function hit(x,y,w,h){
+  const cx=Math.min(Math.max(mouse.x,x),x+w), cy=Math.min(Math.max(mouse.y,y),y+h);
+  const dx=mouse.x-cx, dy=mouse.y-cy; return dx*dx+dy*dy<R*R;
+}
+// draw a rect, dimmed while the pointer is over it (wide bars fade more than short chips)
+function bar(x,y,w,h,col){
+  if(w<=0||x>W||x+w<0||y<88*u)return; // keep the label area clear
+  ctx.globalAlpha=hit(x,y,w,h)?(w<200*u?.78:.47):1;
+  ctx.fillStyle=col; const x0=Math.round(x); ctx.fillRect(x0,Math.round(y),Math.round(x+w)-x0,Math.round(h));
+}
+
+/* ---------- Stretch: bars drift right and breathe in width ---------- */
+function stretch(){
+  const barH=27*u, pitch=barH+(5+S.vs*.7)*u, gap=(20+S.hs*4)*u, dens=S.de/100;
+  const n=Math.ceil(H/pitch)+1, y0=(H-(n-1)*pitch)/2;
+  for(let r=0;r<n;r++){
+    const col=r%2?TAN:CREAM, v=(.55+hh(r,1)*1.7)*60*u; // px per second
+    const m=Math.ceil((W+900*u)/((275*u)+gap))+2, bw=[], pos=[]; let L=0;
+    for(let k=0;k<m;k++){bw.push((100+hh(r,k+7)*350)*u); pos.push(L); L+=bw[k]+gap;}
+    const off=hh(r,3)*L, shift=off+v*T;
+    for(let k=0;k<m;k++){
+      if(hh(r,k+40)>=dens)continue;
+      const x=mod(pos[k]+shift,L)-520*u;
+      const st=.95+.1*(1+Math.sin(T*.6+hh(r,k+90)*6.283)); // 0.95 to 1.15
+      bar(x,y0+r*pitch,bw[k]*st,barH,col);
+    }
+  }
+}
+
+/* ---------- Stack: bars rise as one column of planes off a shared edge ---------- */
+function stack(){
+  const barH=27*u, pitch=barH+(5+S.vs*.7)*u, amp=S.hs*1.6*u, dens=S.de/100;
+  const n=Math.ceil(H/pitch)+2, span=n*pitch, vy=40*u;
+  for(let r=0;r<n;r++){
+    if(hh(r,5)>=dens)continue;
+    const y=mod(r*pitch-T*vy,span)-pitch;
+    const x=W*.34+amp*Math.sin(T*.7+r*.5);
+    const len=(W-x)*(.8+.4*Math.sin(T*.5+hh(r,9)*6.283));
+    bar(x,y,len,barH,CREAM);
+  }
+}
+
+/* ---------- Bitmap: ordered-dither of a hidden image, drawn as rolling dashes ---------- */
+const BAYER=(function(){const d=(n,i,j)=>n===1?[[0,2],[3,1]][j][i]:d(n-1,i>>1,j>>1)+d(1,i&1,j&1)*4;const a=[];for(let j=0;j<8;j++)for(let i=0;i<8;i++)a.push(d(3,i,j));return a;})();
+function buildSource(){
+  sw=Math.ceil(W/4);sh=Math.ceil(H/4);
+  const c=document.createElement('canvas');c.width=sw;c.height=sh;
+  const g=c.getContext('2d');g.fillStyle='rgb(250,250,250)';g.fillRect(0,0,sw,sh);
+  let s=999;const rnd=()=>{s=(s+0x6D2B79F5)|0;let t=Math.imul(s^s>>>15,1|s);t^=t+Math.imul(t^t>>>7,61|t);return((t^t>>>14)>>>0)/4294967296;};
+  const grays=[0,60,120,180,215,245];
+  for(let i=0;i<14;i++){
+    const v=grays[Math.floor(rnd()*6)];g.fillStyle='rgb('+v+','+v+','+v+')';
+    g.save();g.translate(rnd()*(sw+25)-25,rnd()*(sh+12)-12);g.rotate(rnd()*6.283);
+    g.beginPath();const nv=3+Math.floor(rnd()*7),rad=(150+rnd()*400)/4;
+    for(let k=0;k<nv;k++){const a=6.283*k/nv,rr=rad*(.5+rnd());k?g.lineTo(Math.cos(a)*rr,Math.sin(a)*rr):g.moveTo(Math.cos(a)*rr,Math.sin(a)*rr);}
+    g.closePath();g.fill();g.restore();
+  }
+  const d=g.getImageData(0,0,sw,sh).data;src=new Uint8Array(sw*sh);
+  for(let i=0;i<src.length;i++)src[i]=d[i*4];
+}
+function bitmap(){
+  if(!src)buildSource();
+  const xs=Math.max(6,(8+S.hs*.56)*u), pitch=(27+5+S.vs*.7)*u, bh=Math.max(4,pitch*.5);
+  const bias=(S.de/100-.45)*200, tc=T*6.283/4, roll=T*.9, q=xs*.5;
+  let row=0;
+  for(let y=0;y<H;y+=pitch,row++){
+    const curve=Math.sin(y*.005/u+roll)*.45;
+    for(let x=0,col=0;x<W;x+=xs,col++){
+      const wave=Math.sin(x*.0012/u+tc+curve);
+      if(wave<=-.95)continue;
+      const b=Math.min(255,Math.max(0,src[Math.min(sh-1,y/4|0)*sw+Math.min(sw-1,x/4|0)]-bias));
+      const dv=BAYER[(row%8)*8+(col%8)];
+      if(Math.floor(b/255+dv/64)>=1)continue;
+      const base=(10+hh(row,col)*25)*u*(xs/(20*u))*1.2;
+      const len=Math.max(q,Math.round(base*(wave+.95)/1.95/q)*q);
+      bar(x,y,len,bh,MAROON);
+    }
+  }
+}
+
+/* ---------- frame loop ---------- */
+function draw(now){
+  const dt=Math.min(.05,(now-last)/1000||0);last=now;
+  T+=dt*S.sp/100;
+  const m=MOTIFS[S.motif];
+  ctx.globalAlpha=1;ctx.fillStyle=m.bg;ctx.fillRect(0,0,W,H);
+  ({stretch,stack,bitmap})[S.motif]();
+  ctx.globalAlpha=1;
+  requestAnimationFrame(draw);
+}
+function fit(){
+  const r=cv.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1);
+  W=r.width;H=r.height;u=Math.max(.6,W/1280);
+  cv.width=Math.round(W*d);cv.height=Math.round(H*d);ctx.setTransform(d,0,0,d,0,0);src=null;
+}
+function setMotif(k){
+  if(!MOTIFS[k])return;S.motif=k;const m=MOTIFS[k];
+  $('t').textContent=m.name;$('s').textContent=m.sub;$('lab').style.setProperty('--ink',m.ink);
+  $('stage').style.background=m.bg;
+  document.querySelectorAll('#seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
+  try{history.replaceState(null,'','#'+k)}catch(e){}
+}
+Object.keys(MOTIFS).forEach(k=>{const b=document.createElement('button');b.type='button';b.dataset.k=k;b.textContent=MOTIFS[k].name;b.onclick=()=>setMotif(k);$('seg').appendChild(b);});
+[['vs','vs'],['hs','hs'],['de','de'],['sp','sp']].forEach(([id,key])=>{$(id).oninput=e=>{S[key]=+e.target.value;};});
+cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});
+cv.addEventListener('pointerleave',()=>{mouse.x=mouse.y=-9999;});
+addEventListener('resize',fit);
+const h=location.hash.slice(1).split('&');
+if(h.includes('clip'))document.body.classList.add('clip');
+fit();setMotif(MOTIFS[h[0]]?h[0]:'stretch');
+requestAnimationFrame(draw);
+window.__hob={set:setMotif};
+})();
+</script>
+</body>
+</html>
