@@ -33,8 +33,8 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 .stack canvas{touch-action:none}
 #lasso{position:absolute;display:none;pointer-events:none;border:2px dashed #3d9bff;border-radius:2px}
 #lasso i{position:absolute;width:9px;height:9px;background:#fff;border:2px solid #3d9bff;border-radius:2px}
-.safe{position:absolute;left:0;right:0;display:none;pointer-events:none;background:repeating-linear-gradient(135deg,rgba(255,70,70,.16) 0 6px,rgba(255,70,70,.06) 6px 12px);color:#fff;font:600 10px/1 "Inter",sans-serif;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px}
-.safe.t{top:0;border-bottom:1px dashed rgba(255,255,255,.7)}.safe.b{bottom:0;border-top:1px dashed rgba(255,255,255,.7);display:none;align-items:flex-end}
+.safe{position:absolute;left:0;right:0;display:none;pointer-events:none;height:0}
+.safe.t{border-bottom:2px dotted #ff3b30}.safe.b{border-top:2px dotted #ff3b30}
 .clip #lasso,.clip .safe{display:none!important}
 canvas{display:block;width:100%;height:auto;background:#000}
 aside{flex:none;width:320px;background:#fff;border-left:1px solid #e6e6e6;padding:20px 20px 28px;overflow-y:auto}
@@ -404,11 +404,11 @@ $('pre').onchange=e=>{if(!e.target.value)return;const[a,b]=e.target.value.split(
 $('pause').onclick=e=>{S.paused=!S.paused;e.target.textContent=S.paused?'Resume':'Pause';};
 const lasso=document.createElement('div');lasso.id='lasso';
 ['-6px;left:-6px','-6px;right:-6px','bottom:-6px;left:-6px','bottom:-6px;right:-6px'].forEach(c=>{const i=document.createElement('i');i.style.cssText=(c.startsWith('bottom')?'':'top:')+c;lasso.appendChild(i);});
-const zt=document.createElement('div'),zb=document.createElement('div');zt.className='safe t';zb.className='safe b';zt.textContent=zb.textContent='Safe zone · keep text clear';
+const zt=document.createElement('div'),zb=document.createElement('div');zt.className='safe t';zb.className='safe b';
 $('stack').append(zt,zb,lasso);
 function ui(){
   const k=cv.clientWidth/W,show=!rec.on&&!document.body.classList.contains('clip'),sf=safe();
-  zt.style.display=show&&sf.t?'block':'none';zb.style.display=show&&sf.b?'flex':'none';zt.style.height=sf.t*k+'px';zb.style.height=sf.b*k+'px';
+  zt.style.display=show&&sf.t?'block':'none';zb.style.display=show&&sf.b?'block':'none';zt.style.top=sf.t*k+'px';zb.style.top=(H-sf.b)*k+'px';
   const b=sel&&BOX[sel];
   if(show&&b){lasso.style.display='block';lasso.style.left=(b.x-10)*k+'px';lasso.style.top=(b.y-10)*k+'px';lasso.style.width=(b.w+20)*k+'px';lasso.style.height=(b.h+20)*k+'px';}
   else lasso.style.display='none';
