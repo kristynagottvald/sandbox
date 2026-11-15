@@ -109,21 +109,14 @@ const $=id=>document.getElementById(id);
 const cv=$('cv'); let ctx=cv.getContext('2d'); const mainCtx=ctx, off=document.createElement('canvas'), offCtx=off.getContext('2d');
 const S={loop:true,motif:'stretch',vs:40,hs:30,de:45,sp:100};
 let W=0,H=0,u=1,T=0,last=0,src=null,sw=0,sh=0;
-const mouse={x:-9999,y:-9999}, R=40; // hover detection radius
 
 const fr=a=>a-Math.floor(a);
 const hh=(a,b)=>fr(Math.sin(a*127.1+b*311.7)*43758.5453);
 const mod=(a,n)=>((a%n)+n)%n;
 
-// closest-point rect vs circle test (collideRectCircle)
-function hit(x,y,w,h){
-  const cx=Math.min(Math.max(mouse.x,x),x+w), cy=Math.min(Math.max(mouse.y,y),y+h);
-  const dx=mouse.x-cx, dy=mouse.y-cy; return dx*dx+dy*dy<R*R;
-}
-// draw a rect, dimmed while the pointer is over it (wide bars fade more than short chips)
 function bar(x,y,w,h,col){
   if(w<=0||x>W||x+w<0)return;
-  ctx.globalAlpha=hit(x,y,w,h)?(w<200*u?.78:.47):1;
+  ctx.globalAlpha=1;
   ctx.fillStyle=col; const x0=Math.round(x); ctx.fillRect(x0,Math.round(y),Math.round(x+w)-x0,Math.round(h));
 }
 
@@ -229,7 +222,6 @@ function startRec(){
     $('recBtn').textContent='\u25CF Record Video';$('recBtn').disabled=false;$('expVid').disabled=false;
     const v=$('pv');v.src=lastUrl;v.loop=rec.loop;v.play().catch(()=>{});$('ov').classList.add('on');
   };
-  mouse.x=mouse.y=-9999;
   Object.assign(rec,{on:true,L,mr,loop:S.loop,t:performance.now(),t0:T});
   $('recBtn').disabled=true;mr.start();
 }
@@ -265,8 +257,6 @@ function setMotif(k){
 }
 Object.keys(MOTIFS).forEach(k=>{const b=document.createElement('button');b.type='button';b.dataset.k=k;b.textContent=MOTIFS[k].name;b.onclick=()=>setMotif(k);$('seg').appendChild(b);});
 [['vs','vs'],['hs','hs'],['de','de'],['sp','sp']].forEach(([id,key])=>{$(id).oninput=e=>{S[key]=+e.target.value;e.target.nextElementSibling.textContent=e.target.value;};});
-cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});
-cv.addEventListener('pointerleave',()=>{mouse.x=mouse.y=-9999;});
 addEventListener('resize',fit);
 const h=location.hash.slice(1).split('&');
 if(h.includes('clip'))document.body.classList.add('clip');
