@@ -17,35 +17,38 @@ nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;t
 nav.back span{color:#6e6e6e}
 nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:640px){nav.back{padding:0 16px}nav.back>span:nth-of-type(2),nav.back>b{display:none}}
-main{flex:1;min-height:0;position:relative;overflow:hidden;background:#330F10}
+main{flex:1;min-height:0;display:flex;overflow:hidden;background:#efefef}
+.stage{flex:1;min-width:0;position:relative}
 canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-.lab{position:absolute;left:22px;top:18px;pointer-events:none;color:var(--ink)}
-.lab h1{font:800 28px/1 "Syne","Arial Black",sans-serif;letter-spacing:.02em;text-transform:uppercase}
-.lab p{margin-top:8px;font:400 15px/1.2 "Source Code Pro",ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
-.panel{position:absolute;left:16px;right:16px;bottom:16px;max-width:900px;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
-.seg{display:flex;gap:4px}
-button{font:inherit;color:#fff;background:transparent;border:1px solid rgba(255,255,255,.28);border-radius:8px;padding:6px 11px;cursor:pointer;white-space:nowrap}
-button:hover{border-color:#fff}
-button:focus-visible,input:focus-visible{outline:2px solid #fff;outline-offset:2px}
-button[aria-pressed="true"]{background:#fff;color:#000;border-color:#fff}
-label{display:flex;align-items:center;gap:8px;color:#d8d8d8}
-input[type=range]{width:96px;accent-color:#FDFEA1}
-@media (max-width:640px){.panel{left:10px;right:10px;bottom:10px}input[type=range]{width:78px}label{flex:1 1 40%}}
-.clip .panel{display:none}
+aside{flex:none;width:300px;background:#fff;border-left:1px solid #e6e6e6;color:#111;padding:20px 20px 28px;overflow-y:auto}
+aside h2{font:500 13px/1 "Inter",sans-serif;margin:0 0 16px}
+aside section{padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid #ececec}
+aside section:last-child{border:0;margin:0}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+button{font:500 12px "Inter",sans-serif;color:#111;background:#f3f3f3;border:0;border-radius:8px;padding:10px 6px;cursor:pointer}
+button:hover{background:#e8e8e8}
+button:focus-visible,input:focus-visible{outline:2px solid #3d4ee0;outline-offset:2px}
+button[aria-pressed="true"]{background:#111;color:#fff}
+.row{display:grid;grid-template-columns:88px 1fr 34px;align-items:center;gap:10px;margin-bottom:14px;font-size:12px;color:#777}
+.row output{color:#111;text-align:right;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:#111}
+@media (max-width:760px){main{flex-direction:column}.stage{flex:1 1 55%}aside{width:auto;border-left:0;border-top:1px solid #e6e6e6;flex:none;max-height:45%}}
+.clip aside{display:none}
 </style>
 </head>
 <body>
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>HOB Pattern Generator</b></nav>
-<main id="stage">
-  <canvas id="cv"></canvas>
-  <div class="lab" id="lab"><h1 id="t"></h1><p id="s"></p></div>
-  <div class="panel">
-    <div class="seg" id="seg" role="group" aria-label="Motif"></div>
-    <label>Vert spacing <input id="vs" type="range" min="0" max="100" value="40"></label>
-    <label>Horz spacing <input id="hs" type="range" min="0" max="100" value="30"></label>
-    <label>Density <input id="de" type="range" min="0" max="100" value="45"></label>
-    <label>Motion speed <input id="sp" type="range" min="0" max="300" value="100"></label>
-  </div>
+<main>
+  <div class="stage" id="stage"><canvas id="cv"></canvas></div>
+  <aside>
+    <section><h2>Motif</h2><div class="seg" id="seg" role="group" aria-label="Motif"></div></section>
+    <section><h2>Pattern</h2>
+      <label class="row">Vert spacing <input id="vs" type="range" min="0" max="100" value="40"><output>40</output></label>
+      <label class="row">Horz spacing <input id="hs" type="range" min="0" max="100" value="30"><output>30</output></label>
+      <label class="row">Density <input id="de" type="range" min="0" max="100" value="45"><output>45</output></label>
+      <label class="row">Motion speed <input id="sp" type="range" min="0" max="300" value="100"><output>100</output></label>
+    </section>
+  </aside>
 </main>
 <script>
 (function(){
@@ -73,7 +76,7 @@ function hit(x,y,w,h){
 }
 // draw a rect, dimmed while the pointer is over it (wide bars fade more than short chips)
 function bar(x,y,w,h,col){
-  if(w<=0||x>W||x+w<0||y<88*u)return; // keep the label area clear
+  if(w<=0||x>W||x+w<0)return;
   ctx.globalAlpha=hit(x,y,w,h)?(w<200*u?.78:.47):1;
   ctx.fillStyle=col; const x0=Math.round(x); ctx.fillRect(x0,Math.round(y),Math.round(x+w)-x0,Math.round(h));
 }
@@ -164,13 +167,12 @@ function fit(){
 }
 function setMotif(k){
   if(!MOTIFS[k])return;S.motif=k;const m=MOTIFS[k];
-  $('t').textContent=m.name;$('s').textContent=m.sub;$('lab').style.setProperty('--ink',m.ink);
   $('stage').style.background=m.bg;
   document.querySelectorAll('#seg button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.k===k));
   try{history.replaceState(null,'','#'+k)}catch(e){}
 }
 Object.keys(MOTIFS).forEach(k=>{const b=document.createElement('button');b.type='button';b.dataset.k=k;b.textContent=MOTIFS[k].name;b.onclick=()=>setMotif(k);$('seg').appendChild(b);});
-[['vs','vs'],['hs','hs'],['de','de'],['sp','sp']].forEach(([id,key])=>{$(id).oninput=e=>{S[key]=+e.target.value;};});
+[['vs','vs'],['hs','hs'],['de','de'],['sp','sp']].forEach(([id,key])=>{$(id).oninput=e=>{S[key]=+e.target.value;e.target.nextElementSibling.textContent=e.target.value;};});
 cv.addEventListener('pointermove',e=>{const r=cv.getBoundingClientRect();mouse.x=e.clientX-r.left;mouse.y=e.clientY-r.top;});
 cv.addEventListener('pointerleave',()=>{mouse.x=mouse.y=-9999;});
 addEventListener('resize',fit);
