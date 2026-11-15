@@ -80,7 +80,8 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
 
 /* ---- the badge: a stack of layers in 3D (rim thickness, flat metal face, raised lettering and link) ---- */
 .badge{position:relative;width:min(80cqw,88cqh,520px);aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
-.slot-badge{filter:drop-shadow(0 26px 30px rgba(10,0,30,.55))}
+.slot-badge>*{grid-area:1/1}
+.bshadow{width:min(72cqw,80cqh,460px);aspect-ratio:1;border-radius:50%;transform:translateY(9%) scale(.92);background:radial-gradient(circle,rgba(10,0,40,.55),transparent 68%);filter:blur(10px)}
 .ext{position:absolute;inset:0;clip-path:url(#serr);background:linear-gradient(160deg,#5a37d4,#1d0e45 60%,#3a1c7a)}
 .side{position:absolute;inset:0;transform-style:preserve-3d}
 .side.bk{transform:translateZ(-26px) rotateY(180deg)}
@@ -93,21 +94,20 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
   box-shadow:inset 0 0 0 2px rgba(220,195,255,.4),inset 0 10px 26px rgba(0,0,0,.55),0 0 0 3px rgba(20,0,55,.65)}
 .disc .sheen2{position:absolute;inset:-21%;will-change:transform;transform:rotate(calc(var(--a,30deg)*-1 + 210deg));
   background:conic-gradient(from 0deg,#34146e,#5a37d4 12%,#240f58 27%,#43208a 42%,#1a0c40 58%,#5a37d4 74%,#34146e 100%)}
-.disc::after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.02) 0 2px,rgba(0,0,0,.03) 2px 6px);box-shadow:inset 0 0 0 2px rgba(220,195,255,.4),inset 0 10px 26px rgba(0,0,0,.55)}
-.gloss{position:absolute;inset:-30%;will-change:transform;transform:translate(calc(var(--gxn,0)*1%),calc(var(--gyn,0)*1%));background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.5),rgba(255,255,255,.08) 17%,transparent 32%);mix-blend-mode:soft-light}
-.sweep{position:absolute;top:0;bottom:0;left:0;width:280%;will-change:transform;background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.75) 49%,rgba(220,195,255,.15) 54%,transparent 60%);mix-blend-mode:screen;animation:sweep 6s ease-in-out infinite}
+.gloss{position:absolute;inset:-30%;will-change:transform;transform:translate(calc(var(--gxn,0)*1%),calc(var(--gyn,0)*1%));background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.3),rgba(255,255,255,.05) 17%,transparent 32%);}
+.sweep{position:absolute;top:0;bottom:0;left:0;width:280%;will-change:transform;background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.4) 49%,rgba(220,195,255,.08) 54%,transparent 60%);animation:sweep 6s ease-in-out infinite}
 @keyframes sweep{0%,35%{transform:translateX(-83.6%)}80%,100%{transform:translateX(25.7%)}}
 .badge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* the extrusion layers of the raised lettering and link are one flat dark colour, the top layer carries the metal */
-.spark{pointer-events:none}
-.sp{animation:tw 3s ease-in-out infinite}
+.spark{pointer-events:none;animation:tw 3s ease-in-out infinite}
+.spark.b{animation-delay:-1.5s}
 @keyframes tw{0%,100%{opacity:.3}50%{opacity:1}}
 .gl .as path{stroke:var(--side)!important}
 .gl text,.gl circle{fill:var(--side)!important;stroke:none!important}
 .gl .lk path{stroke:var(--side)!important;stroke-opacity:1!important}
 
 
-@media (prefers-reduced-motion:reduce){.sp{animation:none;opacity:.9}.sweep{animation:none;transform:translateX(-30%);opacity:.6}.slot,.tile{transition:none}}
+@media (prefers-reduced-motion:reduce){.spark{animation:none;opacity:.9}.sweep{animation:none;transform:translateX(-30%);opacity:.6}.slot,.tile{transition:none}}
 </style>
 </head>
 <body>
@@ -138,6 +138,7 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
       <div class="veil"></div>
 
       <div class="slot slot-badge" id="slotBadge">
+        <div class="bshadow"></div>
         <div class="badge" id="badge" role="img" aria-label="Power your direct mail, trusted Lob integration badge with a raised metallic link icon"></div>
       </div>
     </div>
@@ -236,7 +237,7 @@ function stack(inner,n,z0,dz,front){
   var out='';
   for(var i=0;i<n;i++){var t=i/(n-1),c='hsl(265,'+(52-t*8).toFixed(0)+'%,'+(10+t*20).toFixed(0)+'%)';
     out+='<svg class="gl" viewBox="'+front.vb+'" style="--side:'+c+';transform:translateZ('+(z0+i*dz).toFixed(1)+'px)" aria-hidden="true">'+inner(false)+'</svg>'}
-  return out+'<svg class="tp" viewBox="'+front.vb+'" style="transform:translateZ('+(z0+n*dz).toFixed(1)+'px);filter:drop-shadow(0 1.5px 1px rgba(8,0,30,.6))" aria-hidden="true">'+front.defs+inner(true)+'</svg>';
+  return out+'<svg class="tp" viewBox="'+front.vb+'" style="transform:translateZ('+(z0+n*dz).toFixed(1)+'px)" aria-hidden="true">'+front.defs+inner(true)+'</svg>';
 }
 
 /* ---------- the badge: flat metal face, then the raised lettering and link on top ---------- */
@@ -265,12 +266,17 @@ function stack(inner,n,z0,dz,front){
   var bt='font-family="Inter,Arial,sans-serif" font-weight="700" font-size="13" letter-spacing="2.8" fill="#f4edff" text-anchor="middle"';
   function bloom(id,x,y,href,off,delay){
     return '<mask id="'+id+'m" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="400"><circle cx="'+x+'" cy="'+y+'" r="62" fill="url(#bg)"/></mask>'+
-      '<g class="sp" style="animation-delay:'+delay+'s" mask="url(#'+id+'m)"><g filter="url(#bw)" opacity=".95"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g><g filter="url(#bn)" opacity=".9"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g></g>';
+      '<g mask="url(#'+id+'m)"><g filter="url(#bw)" opacity=".95"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g><g filter="url(#bn)" opacity=".9"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g></g>';
   }
-  var spark='<svg class="spark" viewBox="0 0 400 400" style="transform:translateZ(9.6px)" aria-hidden="true"><defs><radialGradient id="bg"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><filter id="bw" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8.5"/></filter><filter id="bn" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.6"/></filter></defs>'+bloom('ba',289,129,'pTop','25%',0)+bloom('bb',112,290,'pCcw','50%',-1.5)+'</svg>';
+  var spark='<svg class="spark" viewBox="0 0 400 400" style="transform:translateZ(9.6px)" aria-hidden="true"><defs><radialGradient id="bg"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><filter id="bw" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8.5"/></filter><filter id="bn" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.6"/></filter></defs>'+bloom('ba',289,129,'pTop','25%',0)+'</svg>'+'<svg class="spark b" viewBox="0 0 400 400" style="transform:translateZ(9.7px)" aria-hidden="true">'+bloom('bb',112,290,'pCcw','50%',-1.5)+'</svg>';
   var side='<div class="side"><div class="face"><div class="sheen"></div><div class="disc"><div class="sheen2"></div></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,8,3,.7,{vb:'0 0 400 400',defs:defs})+spark+'</div>';
   var ext='';for(var i=1;i<=12;i++)ext+='<i class="ext" style="transform:translateZ(-'+(i*2)+'px)"></i>';
   badge.innerHTML=ext+side;
+  function conicTex(stops,size){var c=document.createElement('canvas');c.width=c.height=size;var x=c.getContext('2d');if(!x||!x.createConicGradient)return null;var g=x.createConicGradient(-Math.PI/2,size/2,size/2);stops.forEach(function(t){g.addColorStop(t[0],t[1])});x.fillStyle=g;x.fillRect(0,0,size,size);return c.toDataURL('image/png')}
+  var faceTex=conicTex([[0,'#f3ecff'],[.10,'#a07af0'],[.22,'#4a2ab0'],[.33,'#b8a0f0'],[.40,'#f6f0ff'],[.48,'#8a68e8'],[.56,'#5a37d4'],[.66,'#2a1466'],[.76,'#6a47e0'],[.88,'#d8c8fa'],[1,'#f3ecff']],768);
+  var discTex=conicTex([[0,'#34146e'],[.12,'#5a37d4'],[.27,'#240f58'],[.42,'#43208a'],[.58,'#1a0c40'],[.74,'#5a37d4'],[1,'#34146e']],768);
+  if(faceTex)badge.querySelectorAll('.sheen').forEach(function(e){e.style.background='url('+faceTex+') center/100% 100% no-repeat'});
+  if(discTex)badge.querySelectorAll('.sheen2').forEach(function(e){e.style.background='url('+discTex+') center/100% 100% no-repeat'});
   var bk=badge.querySelector('.side').cloneNode(true);bk.classList.add('bk');badge.appendChild(bk);
 })();
 
