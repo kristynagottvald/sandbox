@@ -81,7 +81,7 @@ const APPS = {
     await at(t0, 4900, () => go('stretch'));
   } },
   // House of Balloons social studio: opens on the bars layout (1920x1080), then cycles poster, full bleed and a new colour combo and back
-  'hob-social-studio': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, q: 30, run: async (p) => {
+  'hob-social-studio': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', http: true, ready: 900, q: 30, run: async (p) => {
     const t0 = Date.now(), go = (o) => p.evaluate((x) => __hobs.set(x), o);
     await at(t0, 1500, () => go({ layout: 'poster', combo: 0 }));
     await at(t0, 3000, () => go({ layout: 'bleed', combo: 3 }));
