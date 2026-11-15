@@ -20,6 +20,14 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:640px){nav.back{padding:0 16px}nav.back>span,nav.back>a:nth-of-type(2),nav.back>b{display:none}}
 
 
+/* ---- switcher in the top nav (same pill style as the location hero toggle) ---- */
+.switch{display:flex;gap:6px;margin-left:auto}
+.switch button{font:500 12px var(--sans);color:rgba(255,255,255,.7);background:none;border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:6px 13px;cursor:pointer;white-space:nowrap}
+.switch button:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.switch button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.switch button[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff}
+@media (max-width:640px){.switch button{padding:6px 10px}}
+
 /* ---------- Lob marketplace header ---------- */
 :root{--gut:clamp(20px,5.6vw,72px)}
 .top{flex:none;height:96px;display:flex;align-items:center;gap:28px;padding:0 var(--gut)}
@@ -69,8 +77,13 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
   -webkit-mask-image:radial-gradient(ellipse 85% 85% at 50% 45%,#000 35%,rgba(0,0,0,.5) 100%);mask-image:radial-gradient(ellipse 85% 85% at 50% 45%,#000 35%,rgba(0,0,0,.5) 100%)}
 .lines svg{position:absolute;inset:0;width:100%;height:100%}
 .tile{position:relative;width:var(--cell);height:var(--cell);border-radius:24%;display:grid;place-items:center;
-  background:var(--bg);opacity:calc(var(--o,1)*var(--mo,1)*.62);filter:blur(var(--b,0px));
+  background:var(--bg);opacity:calc(var(--o,1)*var(--mo,1)*var(--k,.62));filter:blur(var(--b,0px));
   transition:opacity .9s ease,filter .9s ease}
+.tile .c{display:none}
+body[data-look="colour"] .tile{--k:.97}
+body[data-look="colour"] .tile:not(.ghost){background:var(--bgc)}
+body[data-look="colour"] .tile .m{display:none}
+body[data-look="colour"] .tile .c{display:block}
 .tile svg{width:62%;height:62%;position:relative;z-index:1;overflow:visible}
 .tile.ghost{background:rgba(170,120,245,.1)}
 .veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(130,70,220,.3),transparent 70%)}
@@ -80,7 +93,8 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
 
 /* ---- the badge: a stack of layers in 3D (rim thickness, flat metal face, raised lettering and link) ---- */
 .badge{position:relative;width:min(80cqw,88cqh,520px);aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
-.slot-badge{filter:drop-shadow(0 26px 30px rgba(10,0,30,.55))}
+.slot-badge>*{grid-area:1/1}
+.bshadow{width:min(72cqw,80cqh,460px);aspect-ratio:1;border-radius:50%;transform:translateY(9%) scale(.92);background:radial-gradient(circle,rgba(10,0,40,.55),transparent 68%);filter:blur(10px)}
 .ext{position:absolute;inset:0;clip-path:url(#serr);background:linear-gradient(160deg,#5a37d4,#1d0e45 60%,#3a1c7a)}
 .side{position:absolute;inset:0;transform-style:preserve-3d}
 .side.bk{transform:translateZ(-26px) rotateY(180deg)}
@@ -93,25 +107,27 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
   box-shadow:inset 0 0 0 2px rgba(220,195,255,.4),inset 0 10px 26px rgba(0,0,0,.55),0 0 0 3px rgba(20,0,55,.65)}
 .disc .sheen2{position:absolute;inset:-21%;will-change:transform;transform:rotate(calc(var(--a,30deg)*-1 + 210deg));
   background:conic-gradient(from 0deg,#34146e,#5a37d4 12%,#240f58 27%,#43208a 42%,#1a0c40 58%,#5a37d4 74%,#34146e 100%)}
-.disc::after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.02) 0 2px,rgba(0,0,0,.03) 2px 6px);box-shadow:inset 0 0 0 2px rgba(220,195,255,.4),inset 0 10px 26px rgba(0,0,0,.55)}
-.gloss{position:absolute;inset:-30%;will-change:transform;transform:translate(calc(var(--gxn,0)*1%),calc(var(--gyn,0)*1%));background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.5),rgba(255,255,255,.08) 17%,transparent 32%);mix-blend-mode:soft-light}
-.sweep{position:absolute;top:0;bottom:0;left:0;width:280%;will-change:transform;background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.75) 49%,rgba(220,195,255,.15) 54%,transparent 60%);mix-blend-mode:screen;animation:sweep 6s ease-in-out infinite}
+.gloss{position:absolute;inset:-30%;will-change:transform;transform:translate(calc(var(--gxn,0)*1%),calc(var(--gyn,0)*1%));background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.3),rgba(255,255,255,.05) 17%,transparent 32%);}
+.sweep{position:absolute;top:0;bottom:0;left:0;width:280%;will-change:transform;background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.4) 49%,rgba(220,195,255,.08) 54%,transparent 60%);animation:sweep 6s ease-in-out infinite}
 @keyframes sweep{0%,35%{transform:translateX(-83.6%)}80%,100%{transform:translateX(25.7%)}}
 .badge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* the extrusion layers of the raised lettering and link are one flat dark colour, the top layer carries the metal */
-.spark{pointer-events:none}
-.sp{animation:tw 3s ease-in-out infinite}
+.spark{pointer-events:none;animation:tw 3s ease-in-out infinite}
+.spark.b{animation-delay:-1.5s}
 @keyframes tw{0%,100%{opacity:.3}50%{opacity:1}}
 .gl .as path{stroke:var(--side)!important}
 .gl text,.gl circle{fill:var(--side)!important;stroke:none!important}
 .gl .lk path{stroke:var(--side)!important;stroke-opacity:1!important}
 
 
-@media (prefers-reduced-motion:reduce){.sp{animation:none;opacity:.9}.sweep{animation:none;transform:translateX(-30%);opacity:.6}.slot,.tile{transition:none}}
+@media (prefers-reduced-motion:reduce){.spark{animation:none;opacity:.9}.sweep{animation:none;transform:translateX(-30%);opacity:.6}.slot,.tile{transition:none}}
 </style>
 </head>
 <body>
-<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Lob Integrations Hero</b></nav>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Lob Integrations Hero</b><div class="switch" role="group" aria-label="Background apps">
+  <button type="button" id="bMuted" aria-pressed="true">Muted</button>
+  <button type="button" id="bColour" aria-pressed="false">Full colour</button>
+</div></nav>
 
 <header class="top">
   <a class="brand" href="#" aria-label="Lob Integrations"><svg class="logo" width="114" height="50" viewBox="0 0 114 50" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lob"><path d="M113.886 29.4011C113.886 41.5261 104.676 49.2099 94.954 49.2099C89.6912 49.2099 85.0859 46.9541 82.4545 43.1474L80.7204 48.4345H72.5136L72.5119 0.000103459L82.8962 0V15.0943C85.5586 11.7125 89.7868 9.59227 94.881 9.59227C104.822 9.59227 113.886 17.2761 113.886 29.4011ZM81.9429 29.3306C81.9429 35.2521 86.6942 40.0457 92.9074 40.0457C98.9743 40.0457 103.799 35.3226 103.799 29.3306C103.799 23.3386 98.9743 18.6155 92.9074 18.6155C86.6942 18.6155 81.9429 23.4091 81.9429 29.3306Z" fill-rule="evenodd" clip-rule="evenodd" fill="#4131F1"/><path d="M0.0016883 48.4347L22.5808 48.4345L25.7235 38.7768L10.3813 38.777L10.3796 0.000103459H0L0.0016883 48.4347Z" fill="#4131F1"/><path d="M47.5044 49.2099C59.419 49.2099 68.4098 40.3276 68.4098 29.4011C68.4098 18.404 59.2729 9.59227 47.5044 9.59227C35.6629 9.59227 26.6723 18.404 26.6723 29.4011C26.6723 40.3276 35.6629 49.2099 47.5044 49.2099ZM47.5777 39.9752C41.5106 39.9752 36.7595 35.2521 36.7595 29.3306C36.7595 23.4091 41.5106 18.686 47.5777 18.686C53.5713 18.686 58.3956 23.4091 58.3956 29.3306C58.3956 35.2521 53.5713 39.9752 47.5777 39.9752Z" fill-rule="evenodd" clip-rule="evenodd" fill="#4131F1"/></svg><em>Integrations</em></a>
@@ -138,6 +154,7 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
       <div class="veil"></div>
 
       <div class="slot slot-badge" id="slotBadge">
+        <div class="bshadow"></div>
         <div class="badge" id="badge" role="img" aria-label="Power your direct mail, trusted Lob integration badge with a raised metallic link icon"></div>
       </div>
     </div>
@@ -182,6 +199,21 @@ var BRANDS=[
  {n:'Iterable',g:'<path d="M24 10l4.4 9.6L38 24l-9.6 4.4L24 38l-4.4-9.6L10 24l9.6-4.4z" fill="#fff"/>'}
 ];
 var TILE='rgba(150,110,225,.34)';
+/* full colour versions of the same marks (simplified stand-ins, not the official artwork) */
+var COL={
+ 'Figma':['#fff','<path d="M17 8h7v10h-7a5 5 0 0 1 0-10z" fill="#F24E1E"/><path d="M24 8h7a5 5 0 0 1 0 10h-7z" fill="#FF7262"/><path d="M17 18h7v10h-7a5 5 0 0 1 0-10z" fill="#A259FF"/><circle cx="29" cy="23" r="5" fill="#1ABCFE"/><path d="M17 28h7v5a5 5 0 1 1-7-4.6z" fill="#0ACF83"/>'],
+ 'Customer.io':['#fff','<path d="M31 14a11 11 0 1 0 0 20" fill="none" stroke="#0F4C4A" stroke-width="6" stroke-linecap="round"/><circle cx="35" cy="24" r="3.4" fill="#00C48C"/>'],
+ 'InDesign':['#49021F','<text x="24" y="31" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="20" text-anchor="middle" fill="#FF3366">Id</text>'],
+ 'Mailchimp':['#FFE01B','<circle cx="24" cy="26" r="13" fill="#241C15"/><path d="M13 19c3-9 19-9 22 0" stroke="#241C15" stroke-width="3.4" fill="none" stroke-linecap="round"/><circle cx="19" cy="24" r="3.2" fill="#fff"/><circle cx="29" cy="24" r="3.2" fill="#fff"/><circle cx="19.6" cy="24.4" r="1.4" fill="#241C15"/><circle cx="29.6" cy="24.4" r="1.4" fill="#241C15"/><path d="M20 31c2.4 2 5.6 2 8 0" stroke="#FFE01B" stroke-width="2" fill="none" stroke-linecap="round"/>'],
+ 'HubSpot':['#FF7A59',null],'Klaviyo':['#232426',null],'Salesforce':['#00A1E0',null],
+ 'Google Ads':['#fff','<path d="M14 34 25 13" stroke="#FBBC04" stroke-width="9" stroke-linecap="round"/><path d="M25 13l11 21" stroke="#4285F4" stroke-width="9" stroke-linecap="round"/><circle cx="14" cy="35" r="4.8" fill="#34A853"/>'],
+ 'Meta':['#0866FF',null],'LinkedIn':['#0A66C2',null],'Marketo':['#5C4C9F',null],
+ 'Braze':['#0B0B0C','<path d="M14 36V18a6 6 0 0 1 6-6h8a10 10 0 0 1 0 20H20z" fill="#2EE6C5"/>'],
+ 'Segment':['#52BD94',null],'Zapier':['#FF4F00',null],'Adobe':['#EB1000',null],'ActiveCampaign':['#356AE6',null],'Constant Contact':['#1856ED',null],
+ 'Canva':['#7D2AE8',null],'Iterable':['#5E2CED',null]
+};
+BRANDS.forEach(function(b){var c=COL[b.n]||['#5a37d4',null];b.cbg=c[0];b.cg=c[1]||b.g});
+COL.Canva=null;BRANDS.forEach(function(b){if(b.n==='Canva')b.cbg='linear-gradient(135deg,#00C4CC,#7D2AE8)'});
 
 var panel=document.getElementById('panel'), tiles=document.getElementById('tiles'), lines=document.getElementById('lines');
 function build(){
@@ -202,7 +234,7 @@ function build(){
     var dx=(c-(cols-1)/2)*pitch, dy=(r-(rows-1)/2)*pitch, d=Math.hypot(dx,dy*1.05)/half;
     var o=Math.max(.45,1-Math.max(0,d-.45)*.5).toFixed(2), b=(Math.max(0,d-.6)*2.6).toFixed(1);
     var ghost=((r*5+c*11+3)%7===0), B=BRANDS[(c*7+r*3)%BRANDS.length];
-    html+='<div class="tile'+(ghost?' ghost':'')+'" style="--o:'+o+';--b:'+b+'px'+(ghost?'':';--bg:'+TILE)+'"'+(ghost?'':' title="'+B.n+'"')+'>'+(ghost?'':'<svg viewBox="0 0 48 48">'+B.g+'</svg>')+'</div>';
+    html+='<div class="tile'+(ghost?' ghost':'')+'" style="--o:'+o+';--b:'+b+'px'+(ghost?'':';--bg:'+TILE+';--bgc:'+B.cbg)+'"'+(ghost?'':' title="'+B.n+'"')+'>'+(ghost?'':'<svg class="m" viewBox="0 0 48 48">'+B.g+'</svg><svg class="c" viewBox="0 0 48 48">'+B.cg+'</svg>')+'</div>';
   }
   tiles.innerHTML=html;
 }
@@ -236,7 +268,7 @@ function stack(inner,n,z0,dz,front){
   var out='';
   for(var i=0;i<n;i++){var t=i/(n-1),c='hsl(265,'+(52-t*8).toFixed(0)+'%,'+(10+t*20).toFixed(0)+'%)';
     out+='<svg class="gl" viewBox="'+front.vb+'" style="--side:'+c+';transform:translateZ('+(z0+i*dz).toFixed(1)+'px)" aria-hidden="true">'+inner(false)+'</svg>'}
-  return out+'<svg class="tp" viewBox="'+front.vb+'" style="transform:translateZ('+(z0+n*dz).toFixed(1)+'px);filter:drop-shadow(0 1.5px 1px rgba(8,0,30,.6))" aria-hidden="true">'+front.defs+inner(true)+'</svg>';
+  return out+'<svg class="tp" viewBox="'+front.vb+'" style="transform:translateZ('+(z0+n*dz).toFixed(1)+'px)" aria-hidden="true">'+front.defs+inner(true)+'</svg>';
 }
 
 /* ---------- the badge: flat metal face, then the raised lettering and link on top ---------- */
@@ -265,14 +297,26 @@ function stack(inner,n,z0,dz,front){
   var bt='font-family="Inter,Arial,sans-serif" font-weight="700" font-size="13" letter-spacing="2.8" fill="#f4edff" text-anchor="middle"';
   function bloom(id,x,y,href,off,delay){
     return '<mask id="'+id+'m" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="400"><circle cx="'+x+'" cy="'+y+'" r="62" fill="url(#bg)"/></mask>'+
-      '<g class="sp" style="animation-delay:'+delay+'s" mask="url(#'+id+'m)"><g filter="url(#bw)" opacity=".95"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g><g filter="url(#bn)" opacity=".9"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g></g>';
+      '<g mask="url(#'+id+'m)"><g filter="url(#bw)" opacity=".95"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g><g filter="url(#bn)" opacity=".9"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g></g>';
   }
-  var spark='<svg class="spark" viewBox="0 0 400 400" style="transform:translateZ(9.6px)" aria-hidden="true"><defs><radialGradient id="bg"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><filter id="bw" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8.5"/></filter><filter id="bn" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.6"/></filter></defs>'+bloom('ba',289,129,'pTop','25%',0)+bloom('bb',112,290,'pCcw','50%',-1.5)+'</svg>';
+  var spark='<svg class="spark" viewBox="0 0 400 400" style="transform:translateZ(9.6px)" aria-hidden="true"><defs><radialGradient id="bg"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><filter id="bw" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8.5"/></filter><filter id="bn" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.6"/></filter></defs>'+bloom('ba',289,129,'pTop','25%',0)+'</svg>'+'<svg class="spark b" viewBox="0 0 400 400" style="transform:translateZ(9.7px)" aria-hidden="true">'+bloom('bb',112,290,'pCcw','50%',-1.5)+'</svg>';
   var side='<div class="side"><div class="face"><div class="sheen"></div><div class="disc"><div class="sheen2"></div></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,8,3,.7,{vb:'0 0 400 400',defs:defs})+spark+'</div>';
   var ext='';for(var i=1;i<=12;i++)ext+='<i class="ext" style="transform:translateZ(-'+(i*2)+'px)"></i>';
   badge.innerHTML=ext+side;
+  function conicTex(stops,size){var c=document.createElement('canvas');c.width=c.height=size;var x=c.getContext('2d');if(!x||!x.createConicGradient)return null;var g=x.createConicGradient(-Math.PI/2,size/2,size/2);stops.forEach(function(t){g.addColorStop(t[0],t[1])});x.fillStyle=g;x.fillRect(0,0,size,size);return c.toDataURL('image/png')}
+  var faceTex=conicTex([[0,'#f3ecff'],[.10,'#a07af0'],[.22,'#4a2ab0'],[.33,'#b8a0f0'],[.40,'#f6f0ff'],[.48,'#8a68e8'],[.56,'#5a37d4'],[.66,'#2a1466'],[.76,'#6a47e0'],[.88,'#d8c8fa'],[1,'#f3ecff']],768);
+  var discTex=conicTex([[0,'#34146e'],[.12,'#5a37d4'],[.27,'#240f58'],[.42,'#43208a'],[.58,'#1a0c40'],[.74,'#5a37d4'],[1,'#34146e']],768);
+  if(faceTex)badge.querySelectorAll('.sheen').forEach(function(e){e.style.background='url('+faceTex+') center/100% 100% no-repeat'});
+  if(discTex)badge.querySelectorAll('.sheen2').forEach(function(e){e.style.background='url('+discTex+') center/100% 100% no-repeat'});
   var bk=badge.querySelector('.side').cloneNode(true);bk.classList.add('bk');badge.appendChild(bk);
 })();
+
+/* ---------- switcher: muted purple tiles or full colour ---------- */
+var bM=document.getElementById('bMuted'), bC=document.getElementById('bColour');
+function setLook(l){document.body.dataset.look=l;bM.setAttribute('aria-pressed',l!=='colour');bC.setAttribute('aria-pressed',l==='colour')}
+bM.onclick=function(){setLook('muted')}; bC.onclick=function(){setLook('colour')};
+setLook(/colou?r/.test(location.hash)?'colour':'muted');
+window.__lob={setLook:setLook};
 
 /* ---------- motion: the badge turns about its vertical axis; the pointer tips it; reflections slide with the angle ---------- */
 var badge=document.getElementById('badge'), gx=[].slice.call(document.querySelectorAll('.gx'));
