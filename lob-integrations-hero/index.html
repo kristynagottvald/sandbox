@@ -9,8 +9,8 @@
 <style>
 :root{--ink:#1f2250;--lime:#e4ee5c;--sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--serif:"Newsreader",Georgia,"Times New Roman",serif}
 *{box-sizing:border-box;margin:0}
-html{background:var(--ink)}
-body{min-height:100vh;display:flex;flex-direction:column;background:var(--ink);color:#fff;font:400 16px/1.4 var(--sans);-webkit-font-smoothing:antialiased}
+html{background:#fff}
+body{min-height:100vh;display:flex;flex-direction:column;background:#fff;color:#16161a;font:400 16px/1.4 var(--sans);-webkit-font-smoothing:antialiased}
 /* ---------- Back nav (shared across all sandbox projects) ---------- */
 nav.back{box-sizing:border-box;flex:none;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap}
 nav.back a{color:#8d8d8d;text-decoration:none}
@@ -19,41 +19,50 @@ nav.back span{color:#6e6e6e}
 nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 @media (max-width:640px){nav.back{padding:0 16px}nav.back>span,nav.back>a:nth-of-type(2),nav.back>b{display:none}}
 
-/* ---- switcher (in the top nav; same pill style as the location hero toggle) ---- */
-.switch{display:flex;gap:6px;margin-left:auto}
-.switch button{font:500 12px var(--sans);color:rgba(255,255,255,.7);background:none;border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:6px 13px;cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap}
-.switch button:hover{color:#fff;border-color:rgba(255,255,255,.5)}
-.switch button:focus-visible{outline:2px solid #fff;outline-offset:2px}
-.switch button[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff}
-.switch svg{width:14px;height:14px}
 
-/* ---------- Lob header ---------- */
-.top{flex:none;height:64px;display:flex;align-items:center;gap:24px;padding:0 32px;border-bottom:1px solid rgba(255,255,255,.12)}
-.brand{font-weight:600;font-size:20px;letter-spacing:-.02em;color:#fff;text-decoration:none}
-.top .menu{display:flex;gap:24px;font-size:15px;font-weight:500;margin-left:16px}
-.top a{color:#fff;text-decoration:none}
-.top .links{display:flex;align-items:center;gap:18px;margin-left:auto;white-space:nowrap;font-size:15px;font-weight:500}
-.top .links a:hover{opacity:.8}
-.btn{display:inline-flex;align-items:center;height:42px;padding:0 22px;border-radius:99px;font:600 15px var(--sans);text-decoration:none;white-space:nowrap;cursor:pointer;border:0}
+/* ---------- Lob marketplace header ---------- */
+:root{--gut:clamp(20px,5.6vw,72px)}
+.top{flex:none;height:96px;display:flex;align-items:center;gap:28px;padding:0 var(--gut)}
+.brand{display:flex;align-items:center;gap:12px;color:#16161a;text-decoration:none;white-space:nowrap}
+.brand b{font-weight:700;font-size:34px;letter-spacing:-.04em}
+.brand em{font:italic 400 16px var(--serif);background:#ececf8;border:1px solid #dcdcec;border-radius:8px;padding:3px 10px;color:#33334d}
+.search{flex:0 1 500px;margin:0 auto;display:flex;align-items:center;gap:12px;height:56px;padding:0 22px;border-radius:99px;background:#f1f1f1;color:#7a7a82;font-size:16px;min-width:0}
+.search svg{flex:none}
+.top .links{display:flex;align-items:center;gap:26px;white-space:nowrap;font-size:16px;font-weight:500}
+.top a{color:#16161a;text-decoration:none}
+.top .links a:hover{opacity:.7}
+.btn{display:inline-flex;align-items:center;height:44px;padding:0 22px;border-radius:99px;font:600 15px var(--sans);text-decoration:none;white-space:nowrap;cursor:pointer;border:0}
+.top .btn.dark{background:#1b1b1f;color:#fff;height:48px;padding:0 20px}
 .btn.lime{background:var(--lime);color:var(--ink)!important}
 .btn.lime:hover{filter:brightness(1.06)}
-.btn.ghost{background:none;border:1px solid rgba(255,255,255,.28);color:#fff!important;font-weight:500}
-.btn.ghost:hover{border-color:rgba(255,255,255,.6);opacity:1!important}
-@media (max-width:1000px){.top .menu{display:none!important}}
-@media (max-width:820px){.top{padding:0 20px}.top .btn.ghost,.top .links>a:first-child{display:none!important}}
+.btn.ghost{background:none;border:1px solid rgba(255,255,255,.3);color:#fff!important;font-weight:500}
+.btn.ghost:hover{border-color:rgba(255,255,255,.65)}
+@media (max-width:900px){.top{height:72px}.search,.top .links .cat{display:none}.top .links>a:nth-child(2){display:none}.brand b{font-size:28px}.top .links{margin-left:auto}}
 
-/* ---------- hero ---------- */
-.hero{flex:1;min-height:520px;display:grid;grid-template-columns:5fr 6fr;gap:40px;padding:36px 32px 32px;align-items:start}
-.copy{padding-top:28px;min-width:0}
-h1{font-weight:400;font-size:clamp(32px,3.7vw,52px);line-height:1.04;letter-spacing:-.045em;margin:0 0 26px}
-h1 i{font-family:var(--serif);font-style:italic;letter-spacing:-.01em;font-size:1.06em;line-height:0}
-.sub{font-size:17px;line-height:1.55;color:rgba(255,255,255,.72);max-width:470px}
-.cta{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap}
-@media (max-width:900px){.hero{grid-template-columns:1fr;gap:28px;padding:28px 20px 28px}.copy{padding-top:0}.panel{height:min(112vw,540px)!important}}
+/* ---------- hero panel ---------- */
+.hero{color:#fff;position:relative;margin:0 var(--gut);height:560px;border-radius:32px;overflow:hidden;isolation:isolate;
+  background:linear-gradient(125deg,#171a42 0%,#22155c 42%,#3d22a0 78%,#5a33b8 100%)}
+.copy{position:relative;z-index:4;width:50%;height:100%;display:flex;flex-direction:column;justify-content:center;padding:0 0 0 clamp(24px,4.6vw,60px)}
+.chip{align-self:flex-start;display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.14);border-radius:99px;padding:4px 14px 4px 4px;font-size:14px;font-weight:600;margin-bottom:24px}
+.chip i{width:26px;height:26px;border-radius:50%;background:#c9b6ff;color:#241660;display:grid;place-items:center;font:700 14px var(--sans);font-style:normal;letter-spacing:-.04em}
+h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spacing:-.035em;margin:0 0 22px}
+.sub{font-size:17px;line-height:1.75;color:rgba(255,255,255,.72);max-width:520px}
+.more{display:inline-flex;align-items:center;gap:10px;margin-top:30px;color:#fff;text-decoration:none;font-size:16px;font-weight:500;align-self:flex-start}.more:hover{opacity:.8}
+@media (max-width:900px){.hero{height:auto;display:flex;flex-direction:column}.copy{width:100%;height:auto;padding:40px 24px 8px}.vis{position:relative!important;width:100%!important;height:min(100vw,420px)!important;-webkit-mask-image:none!important;mask-image:none!important}}
+
+/* ---------- top categories ---------- */
+.cats{padding:68px var(--gut) 80px}
+.cats h2{font-weight:500;font-size:28px;letter-spacing:-.025em;margin-bottom:28px}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.cat{display:flex;align-items:center;justify-content:space-between;gap:12px;height:104px;padding:0 20px 0 20px;border-radius:20px;color:#16161a;text-decoration:none;font-size:17px;font-weight:500;background:var(--c)}
+.cat span{width:48px;height:48px;border-radius:50%;background:rgba(0,0,0,.08);display:grid;place-items:center;flex:none}
+.cat svg{width:22px;height:22px;stroke:#50505c;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.cat:hover{filter:brightness(.97)}
+@media (max-width:900px){.cat-grid{grid-template-columns:repeat(2,1fr);gap:14px}.cat{height:84px;font-size:15px}.cats{padding-top:44px}}
 
 /* ---------- visual panel ---------- */
-.panel{position:relative;height:100%;min-height:0;border-radius:32px;overflow:hidden;container-type:size;isolation:isolate;
-  background:linear-gradient(180deg,#5a33b3 0%,#3b1e86 22%,#21104e 52%,#0e0628 88%,#080318 100%)}
+.vis{position:absolute;right:0;top:0;bottom:0;width:55%;z-index:1;container-type:size;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 24%);mask-image:linear-gradient(90deg,transparent 0,#000 24%)}
 .tiles{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;z-index:1}
 .lines{position:absolute;inset:0;z-index:0;pointer-events:none;
   background-image:linear-gradient(90deg,rgba(205,170,255,.15) 1px,transparent 1px),linear-gradient(0deg,rgba(205,170,255,.15) 1px,transparent 1px);
@@ -64,22 +73,17 @@ h1 i{font-family:var(--serif);font-style:italic;letter-spacing:-.01em;font-size:
   transition:opacity .9s ease,filter .9s ease}
 .tile svg{width:62%;height:62%;position:relative;z-index:1;overflow:visible}
 .tile.ghost{background:rgba(170,120,245,.1)}
-body[data-mode="icon"] .tile{--mo:.25;filter:blur(1.5px)}
-body[data-mode="icon"] .tile.ghost{--mo:.9}
-.veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(20,8,48,0) 45%,rgba(8,3,24,.72) 100%),radial-gradient(ellipse 70% 60% at 50% 40%,rgba(130,70,220,.26),transparent 70%)}
+.veil{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(130,70,220,.3),transparent 70%)}
 
 .slot{position:absolute;inset:0;z-index:3;display:grid;place-items:center;perspective:1300px;pointer-events:none;
   transition:opacity .7s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
-.slot-icon{opacity:0;transform:scale(.6) translateY(24px);filter:drop-shadow(0 26px 22px rgba(10,0,40,.55))}
-body[data-mode="icon"] .slot-badge{opacity:0;transform:scale(.62) translateY(24px)}
-body[data-mode="icon"] .slot-icon{opacity:1;transform:none}
 
 /* ---- the badge: a stack of layers in 3D (rim thickness, flat metal face, raised lettering and link) ---- */
 .badge{position:relative;width:min(80cqw,88cqh,520px);aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
 .slot-badge{filter:drop-shadow(0 26px 30px rgba(10,0,30,.55))}
 .ext{position:absolute;inset:0;clip-path:url(#serr);background:linear-gradient(160deg,#5a34a8,#1d0e45 60%,#3a1c7a)}
 .side{position:absolute;inset:0;transform-style:preserve-3d}
-.side.bk{transform:translateZ(-14px) rotateY(180deg)}
+.side.bk{transform:translateZ(-26px) rotateY(180deg)}
 .side>*{backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .face{position:absolute;inset:0;clip-path:url(#serr);overflow:hidden;
   background:
@@ -95,52 +99,53 @@ body[data-mode="icon"] .slot-icon{opacity:1;transform:none}
 @keyframes sweep{0%,35%{background-position:130% 0}80%,100%{background-position:-40% 0}}
 .badge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* the extrusion layers of the raised lettering and link are one flat dark colour, the top layer carries the metal */
-.gl text,.gl circle{fill:var(--side)!important}
+.gl text,.gl circle{fill:var(--side)!important;stroke:none!important}
 .gl .lk path{stroke:var(--side)!important;stroke-opacity:1!important}
 
-/* ---- the stand-alone icon: the same link, extruded ---- */
-.icon3d{position:relative;width:min(40cqw,48cqh,270px);aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
-.icon3d svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-.floor{position:absolute;left:50%;top:50%;width:min(52cqw,360px);height:min(16cqw,110px);transform:translate(-50%,calc(min(22cqw,26cqh) + 6px));background:radial-gradient(ellipse,rgba(160,100,255,.38),transparent 68%);filter:blur(6px)}
 
 @media (prefers-reduced-motion:reduce){.sweep{animation:none;background-position:60% 0;opacity:.6}.slot,.tile{transition:none}}
 </style>
 </head>
-<body data-mode="badge">
-<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Lob Integrations Hero</b><div class="switch" role="group" aria-label="Visual">
-  <button type="button" id="bBadge" aria-pressed="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="5.6"/><circle cx="8" cy="8" r="2.4"/></svg>Badge</button>
-  <button type="button" id="bIcon" aria-pressed="false"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M6.8 9.2a2.6 2.6 0 0 0 3.7 0l2-2a2.6 2.6 0 0 0-3.7-3.7l-.6.6"/><path d="M9.2 6.8a2.6 2.6 0 0 0-3.7 0l-2 2a2.6 2.6 0 0 0 3.7 3.7l.6-.6"/></svg>Link icon</button>
-</div></nav>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Lob Integrations Hero</b></nav>
 
 <header class="top">
-  <a class="brand" href="#">Lob</a>
-  <nav class="menu"><a href="#">Product</a><a href="#">Solutions</a><a href="#">Resources</a><a href="#">Pricing</a></nav>
+  <a class="brand" href="#"><b>lob.</b><em>Marketplace</em></a>
+  <div class="search" role="search"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="#7a7a82" stroke-width="2" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg><span>Search apps</span></div>
   <div class="links">
-    <a href="#">Login</a>
-    <a class="btn ghost" href="#">Book a demo</a>
-    <a class="btn lime" href="#">Get started for free</a>
+    <a class="cat" href="#">Categories <svg width="12" height="12" viewBox="0 0 14 14" fill="none" stroke="#16161a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left:2px"><path d="m3 5 4 4 4-4"/></svg></a>
+    <a href="#">Log in</a>
+    <a class="btn dark" href="#">Start for free</a>
   </div>
 </header>
 
-<main class="hero">
-  <div class="copy">
-    <h1>Integrate <i>direct mail</i>,<br>activate your audience</h1>
-    <p class="sub">Integrate your CRM, CDP or marketing automation tool with Lob to create tailored customer experiences from the inbox to the mailbox.</p>
-    <div class="cta"><a class="btn lime" href="#">Get started</a><a class="btn ghost" href="#">Book a demo</a></div>
-  </div>
-
-  <section class="panel" id="panel" aria-label="Lob integrations badge on a grid of marketing integrations">
-    <div class="lines" id="lines"></div>
-    <div class="tiles" id="tiles" aria-hidden="true"></div>
-    <div class="veil"></div>
-
-    <div class="slot slot-badge" id="slotBadge">
-      <div class="badge" id="badge" role="img" aria-label="Lob Direct Mail Delivery Engine badge with a raised metallic link icon"></div>
+<main>
+  <section class="hero">
+    <div class="copy">
+      <span class="chip"><i>l.</i>Our recommendations</span>
+      <h1>Discover the best apps<br>built to extend Lob</h1>
+      <p class="sub">Explore trusted apps that connect with Lob to power direct mail, marketing, data, and design operations.</p>
+      <a class="more" href="#">See why these shine <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 3 4 4-4 4"/></svg></a>
     </div>
 
-    <div class="slot slot-icon" id="slotIcon">
-      <div class="floor"></div>
-      <div class="icon3d" id="icon3d" role="img" aria-label="Embossed metallic link icon"></div>
+    <div class="vis" id="panel" aria-label="Lob integrations badge on a grid of marketing integrations">
+      <div class="lines" id="lines"></div>
+      <div class="tiles" id="tiles" aria-hidden="true"></div>
+      <div class="veil"></div>
+
+      <div class="slot slot-badge" id="slotBadge">
+        <div class="badge" id="badge" role="img" aria-label="Lob Direct Mail Delivery Engine badge with a raised metallic link icon"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cats">
+    <h2>Top categories</h2>
+    <div class="cat-grid">
+      <a class="cat" href="#" style="--c:#e4e4e4">Data<span><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></svg></span></a>
+      <a class="cat" href="#" style="--c:#c8e6fb">Design<span><svg viewBox="0 0 24 24"><path d="M4 20l4-1 11-11a2.1 2.1 0 0 0-3-3L5 16l-1 4zM14 7l3 3"/></svg></span></a>
+      <a class="cat" href="#" style="--c:#fae6d8">API<span><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 5l-4 14"/></svg></span></a>
+      <a class="cat" href="#" style="--c:#dbe4fb">No Code<span><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5"/><rect x="13" y="4" width="7" height="7" rx="1.5"/><rect x="4" y="13" width="7" height="7" rx="1.5"/><path d="M16.5 14v6M13.5 17h6"/></svg></span></a>
     </div>
   </section>
 </main>
@@ -175,15 +180,6 @@ var BRANDS=[
 var TILE='rgba(150,110,225,.34)';
 
 var panel=document.getElementById('panel'), tiles=document.getElementById('tiles'), lines=document.getElementById('lines');
-/* faint triangulated mesh behind the grid, like the reference's blueprint lines */
-function mesh(w,h){
-  var step=96, cols=Math.ceil(w/step)+2, rows=Math.ceil(h/step)+2, P=[], seed=7;
-  function rnd(){seed=(seed*16807)%2147483647;return seed/2147483647}
-  for(var j=0;j<rows;j++){P[j]=[];for(var i=0;i<cols;i++)P[j][i]=[(i-.5)*step+(rnd()-.5)*step*.7,(j-.5)*step+(rnd()-.5)*step*.7]}
-  var d='';function L(a,b){d+='M'+a[0].toFixed(0)+' '+a[1].toFixed(0)+'L'+b[0].toFixed(0)+' '+b[1].toFixed(0)}
-  for(j=0;j<rows-1;j++)for(i=0;i<cols-1;i++){L(P[j][i],P[j][i+1]);L(P[j][i],P[j+1][i]);if(rnd()<.5)L(P[j][i],P[j+1][i+1]);else L(P[j][i+1],P[j+1][i])}
-  return '<svg viewBox="0 0 '+w+' '+h+'" preserveAspectRatio="none"><path d="'+d+'" fill="none" stroke="rgba(205,170,255,.1)" stroke-width="1"/></svg>';
-}
 function build(){
   var w=panel.clientWidth,h=panel.clientHeight; if(!w||!h) return;
   var cell=Math.max(44,Math.min(66,Math.round(Math.min(w/7,h/6)))), gap=Math.round(cell*.36), pitch=cell+gap;
@@ -197,7 +193,6 @@ function build(){
   var left=w/2-gw/2, top=h/2-gh/2;
   lines.style.backgroundSize=pitch+'px '+pitch+'px';
   lines.style.backgroundPosition=(((left+cell+gap/2)%pitch)+pitch)%pitch+'px '+(((top+cell+gap/2)%pitch)+pitch)%pitch+'px';
-  lines.innerHTML=mesh(w,h);
   var html='', half=Math.min(w,h)/2;
   for(var r=0;r<rows;r++)for(var c=0;c<cols;c++){
     var dx=(c-(cols-1)/2)*pitch, dy=(r-(rows-1)/2)*pitch, d=Math.hypot(dx,dy*1.05)/half;
@@ -239,18 +234,13 @@ function stack(inner,n,z0,dz,front){
     out+='<svg class="gl" viewBox="'+front.vb+'" style="--side:'+c+';transform:translateZ('+(z0+i*dz).toFixed(1)+'px)" aria-hidden="true">'+inner(false)+'</svg>'}
   return out+'<svg class="tp" viewBox="'+front.vb+'" style="transform:translateZ('+(z0+n*dz).toFixed(1)+'px);filter:drop-shadow(0 1.5px 1px rgba(8,0,30,.6))" aria-hidden="true">'+front.defs+inner(true)+'</svg>';
 }
-/* ---- stand-alone icon: 12 layers of extrusion, the metal front on top ---- */
-(function(){
-  var vb='-110 -110 220 220', inner=function(f){return '<g transform="scale(1.12)">'+linkBody('ic',f)+'</g>'};
-  document.getElementById('icon3d').innerHTML=stack(inner,14,-9,.7,{vb:vb,defs:'<defs>'+linkDefs('ic')+'</defs>'});
-})();
 
 /* ---------- the badge: flat metal face, then the raised lettering and link on top ---------- */
 (function(){
   var badge=document.getElementById('badge');
   var R1=114,R2=126.4;
   function circ(r,ccw){return ccw?'M200 '+(200-r)+'A'+r+' '+r+' 0 1 0 200 '+(200+r)+'A'+r+' '+r+' 0 1 0 200 '+(200-r)+'Z':'M'+(200-r)+' 200A'+r+' '+r+' 0 1 1 '+(200+r)+' 200A'+r+' '+r+' 0 1 1 '+(200-r)+' 200Z'}
-  var txt='font-family="Inter,Arial,sans-serif" font-weight="700" font-size="15.5" letter-spacing="4.4" fill="url(#bt)" text-anchor="middle"';
+  var txt='font-family="Inter,Arial,sans-serif" font-weight="700" font-size="15.5" letter-spacing="4.4" fill="url(#bt)" stroke="#fff" stroke-opacity=".55" stroke-width=".35" paint-order="stroke" text-anchor="middle"';
   var dots='';[0,180].forEach(function(a){var t=a*Math.PI/180;dots+='<circle cx="'+(200+120*Math.cos(t)).toFixed(1)+'" cy="'+(200+120*Math.sin(t)).toFixed(1)+'" r="3.4" fill="url(#bt)"/>'});
   /* the raised part: ring lettering, dots and the link, shared by every layer of the stack */
   var raised=function(f){
@@ -259,7 +249,7 @@ function stack(inner,n,z0,dz,front){
      '<g transform="translate(200 200) scale(.6)">'+linkBody('bl',f)+'</g>';
   };
   var defs='<defs>'+
-   '<linearGradient id="bt" class="gx" data-c="200 200" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="340" y2="340"><stop offset="0" stop-color="#ffffff"/><stop offset=".2" stop-color="#cfd3de"/><stop offset=".38" stop-color="#868c9e"/><stop offset=".55" stop-color="#f6f8fc"/><stop offset=".75" stop-color="#a7adbd"/><stop offset="1" stop-color="#e9ecf3"/></linearGradient>'+
+   '<linearGradient id="bt" class="gx" data-c="200 200" gradientUnits="userSpaceOnUse" x1="60" y1="60" x2="340" y2="340"><stop offset="0" stop-color="#ffffff"/><stop offset=".14" stop-color="#b9bfce"/><stop offset=".3" stop-color="#5e6477"/><stop offset=".44" stop-color="#f4f7fd"/><stop offset=".58" stop-color="#9aa1b3"/><stop offset=".72" stop-color="#ffffff"/><stop offset=".86" stop-color="#6c7387"/><stop offset="1" stop-color="#e6eaf2"/></linearGradient>'+
    linkDefs('bl').replace(/data-c="0 0"/g,'data-c="200 200"')+
    '<path id="pTop" d="'+circ(R1,false)+'"/><path id="pCcw" d="'+circ(R2,true)+'"/></defs>';
   /* flat engraved plate and ring lines sit on the face */
@@ -268,25 +258,14 @@ function stack(inner,n,z0,dz,front){
    '<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#faf5ff"/><stop offset=".5" stop-color="#6a35b8"/><stop offset="1" stop-color="#e2d0ff"/></linearGradient></defs>'+
    '<circle cx="200" cy="200" r="141" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/><circle cx="200" cy="200" r="106" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/>'+
    '<circle cx="200" cy="200" r="94" fill="url(#plate)" stroke="url(#rim)" stroke-width="3.4"/><circle cx="200" cy="200" r="86" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1.5"/></svg>';
-  var side='<div class="side"><div class="face"><div class="disc"></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,13,3,1.15,{vb:'0 0 400 400',defs:defs})+'</div>';
-  var ext='';for(var i=1;i<=6;i++)ext+='<i class="ext" style="transform:translateZ(-'+(i*2)+'px)"></i>';
+  var side='<div class="side"><div class="face"><div class="disc"></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,8,3,.7,{vb:'0 0 400 400',defs:defs})+'</div>';
+  var ext='';for(var i=1;i<=12;i++)ext+='<i class="ext" style="transform:translateZ(-'+(i*2)+'px)"></i>';
   badge.innerHTML=ext+side;
   var bk=badge.querySelector('.side').cloneNode(true);bk.classList.add('bk');badge.appendChild(bk);
 })();
 
-/* ---------- switcher ---------- */
-var bB=document.getElementById('bBadge'), bI=document.getElementById('bIcon'), sB=document.getElementById('slotBadge'), sI=document.getElementById('slotIcon');
-function setMode(m){
-  document.body.dataset.mode=m;
-  bB.setAttribute('aria-pressed',m==='badge'); bI.setAttribute('aria-pressed',m==='icon');
-  sB.setAttribute('aria-hidden',m!=='badge'); sI.setAttribute('aria-hidden',m!=='icon');
-}
-bB.onclick=function(){setMode('badge')}; bI.onclick=function(){setMode('icon')};
-setMode(/icon/.test(location.hash)?'icon':'badge');
-window.__lob={setMode:setMode};
-
 /* ---------- motion: the badge turns about its vertical axis; the pointer tips it; reflections slide with the angle ---------- */
-var badge=document.getElementById('badge'), icon=document.getElementById('icon3d'), gx=[].slice.call(document.querySelectorAll('.gx'));
+var badge=document.getElementById('badge'), gx=[].slice.call(document.querySelectorAll('.gx'));
 var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
 var tx=0,ty=0,px=0,py=0,hover=false,t0=performance.now();
 panel.addEventListener('pointermove',function(e){var r=panel.getBoundingClientRect();tx=((e.clientX-r.left)/r.width-.5)*2;ty=((e.clientY-r.top)/r.height-.5)*2;hover=true});
@@ -296,7 +275,6 @@ function frame(now){
   if(hover){wx=tx;wy=ty}else if(calm){wx=0;wy=0}else{wx=Math.sin(t*1.05)*.5;wy=Math.cos(t*.8)*.3}
   px+=(wx-px)*.07; py+=(wy-py)*.07;
   var spin=calm?0:t*55;   /* a full turn in about 6.5 s */
-  icon.style.transform='rotateX('+(-py*17).toFixed(2)+'deg) rotateY('+(px*28+(calm?0:Math.sin(t*.9)*20)).toFixed(2)+'deg)';
   badge.style.transform='rotateX('+(-py*14).toFixed(2)+'deg) rotateY('+(spin+px*16).toFixed(2)+'deg)';
   var sr=spin*Math.PI/180;
   badge.style.setProperty('--a',(30+Math.sin(sr)*60+px*50).toFixed(1)+'deg');
