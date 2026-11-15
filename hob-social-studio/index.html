@@ -92,10 +92,12 @@ button.go{background:#5ca0ff;color:#fff}button.go:hover{background:#4a91f5}
         <div class="row sel"><span>Preset</span><select id="pre"><option value="1080x1350">Portrait 4:5 · 1080×1350</option><option value="1080x1920">Reel / Story 9:16 · 1080×1920</option><option value="1080x1080">Square 1:1 · 1080×1080</option><option value="1920x1080">Landscape 16:9 · 1920×1080</option></select></div>
       </section>
       <section><h2>Colour</h2><div class="grid g4" id="combos"></div></section>
-      <section><h2>Layout</h2><div class="grid g2" id="layouts"></div></section>
+      <section><h2>Layout</h2><div class="grid g2" id="layouts"></div>
+        <p class="cap2" id="zcap" style="margin:12px 0 6px">Bars area</p><div class="grid g2" id="zones"></div></section>
       <section><h2>Text</h2>
         <p class="cap2">Headline</p><textarea id="head" rows="2"></textarea>
-        <p class="cap2" style="margin-top:10px">Body</p><textarea id="body" rows="3"></textarea>
+        <p class="cap2" style="margin-top:10px">Sub left</p><textarea id="b1" rows="2"></textarea>
+        <p class="cap2" style="margin-top:10px">Sub right (right aligned)</p><textarea id="b2" rows="2"></textarea>
         <p class="cap2" style="margin-top:10px">Tag</p><input id="tag" type="text" style="margin-bottom:14px">
         <div class="row"><span>Headline</span><input id="hs" type="range" min="50" max="140" value="100"><output>100</output></div>
         <div class="row"><span>Body</span><input id="bs" type="range" min="60" max="180" value="100"><output>100</output></div>
@@ -143,7 +145,7 @@ const COMBOS=[
   {n:'Black',bg:CHAR,tx:ORANGE,ib:CHAR,ii:CREAM,br:[CREAM,TAN]}
 ];
 const LAYOUTS=[['poster','Poster'],['image','Image Top'],['bleed','Full Bleed'],['bars','Bars']];
-const S={w:1080,h:1350,combo:0,layout:'poster',head:'HOUSE OF\nBALLOONS',body:"WE'RE A RECORDING STUDIO AND CREATIVE BRAND BUILT FOR PRODUCERS, ENGINEERS, AND ARTISTS WHO DEFINE THEIR OWN SOUND.",tag:'HOB.COM/ARTISTS',hs:100,bs:100,amt:1.8,sel:[1,9],cell:8,sp:100,paused:false,loop:true};
+const S={w:1080,h:1350,combo:0,layout:'poster',head:'HOUSE OF\nBALLOONS',b1:"WE'RE A RECORDING STUDIO AND CREATIVE BRAND BUILT FOR PRODUCERS,",b2:"ENGINEERS, AND ARTISTS WHO DEFINE THEIR OWN SOUND.",zone:'bot60',tag:'HOB.COM/ARTISTS',hs:100,bs:100,amt:1.8,sel:[1,9],cell:8,sp:100,paused:false,loop:true};
 const $=id=>document.getElementById(id);
 const cv=$('cv'),off=document.createElement('canvas');
 let ctx=cv.getContext('2d');const mainCtx=ctx,offCtx=off.getContext('2d');
@@ -204,10 +206,10 @@ function lineData(){
   for(const L of lines){const ch=[];for(let i=0;i<L.length;i++)ch.push({c:L[i],i:pos+i,w:rw(L[i])});pos+=L.length+1;out.push(ch);}
   return out;
 }
-function headMetrics(avail){
+function headMetrics(avail,mul){
   const ld=lineData();let mx=1;
-  for(const L of ld){let w=0;for(const g of L)w+=g.w*(S.sel.includes(g.i)?S.amt:1);mx=Math.max(mx,w);}
-  const size=avail/mx*100*(S.hs/100);ctx.font=HF;ctx.textBaseline='alphabetic';
+  for(const L of ld){let w=0;for(const g of L)w+=g.w*(S.sel.includes(g.i)?1+(S.amt-1)*.5:1);mx=Math.max(mx,w);}
+  const size=avail/mx*100*(S.hs/100)*mul;ctx.font=HF;ctx.textBaseline='alphabetic';
   const cap=ctx.measureText('H').actualBoundingBoxAscent*size/100,pitch=cap*1.22;
   return{ld,size,cap,pitch,h:cap+pitch*(ld.length-1)};
 }
@@ -223,57 +225,63 @@ function drawHead(M,x0,y0,col){
 }
 
 /* ---------- mono body + tag ---------- */
-function bodyLines(w,size){
+function bodyLines(text,w,size){
   ctx.font=MONO(size);const out=[];
-  for(const para of S.body.toUpperCase().split('\n')){let cur='';
+  for(const para of text.toUpperCase().split('\n')){let cur='';
     for(const wd of para.split(/\s+/)){const t=cur?cur+' '+wd:wd;if(cur&&ctx.measureText(t).width>w){out.push(cur);cur=wd;}else cur=t;}
     out.push(cur);}
   return out;
 }
-function drawBody(x,y,w,col){
-  const size=W*.034*S.bs/100,ls=bodyLines(w,size);
-  ctx.font=MONO(size);ctx.fillStyle=col;ctx.textBaseline='top';
-  ls.forEach((l,i)=>ctx.fillText(l,x,y+i*size*1.4));
-  return ls.length*size*1.4;
+// the sub copy runs as two sections: the left one left-aligned, the right one right-aligned to the margin
+function cols(bw,size){const cw=(bw-W*.04)/2,a=bodyLines(S.b1,cw,size),b=bodyLines(S.b2,cw,size);return{a,b,h:Math.max(a.length,b.length)*size*1.4};}
+function drawCols(x,y,bw,size,col){
+  const c=cols(bw,size);ctx.font=MONO(size);ctx.fillStyle=col;ctx.textBaseline='top';
+  ctx.textAlign='left';c.a.forEach((l,i)=>ctx.fillText(l,x,y+i*size*1.4));
+  ctx.textAlign='right';c.b.forEach((l,i)=>ctx.fillText(l,x+bw,y+i*size*1.4));ctx.textAlign='left';
 }
 function tagBox(){const size=W*.03*S.bs/100;ctx.font=MONO(size);const t=S.tag.toUpperCase();return{t,size,w:ctx.measureText(t).width+size*1.6,h:size*2.1};}
 function drawTag(x,y,C){const b=tagBox();ctx.fillStyle=C.tx;ctx.fillRect(Math.round(x),Math.round(y),Math.round(b.w),Math.round(b.h));ctx.fillStyle=C.bg;ctx.font=MONO(b.size);ctx.textBaseline='middle';ctx.fillText(b.t,x+b.size*.8,y+b.h/2+b.size*.04);}
 
 /* ---------- bars (Stretch motif) ---------- */
-function bars(C){
-  const u=W/1280,barH=H*.026,pitch=barH*1.55,gap=W*.09,n=Math.ceil(H/pitch)+1;
+function bars(C,z){
+  const u=W/1280,barH=H*.026,pitch=barH*1.55,gap=W*.09,n=Math.max(1,Math.floor((z.y1-z.y0)/pitch)),oy=z.y0+((z.y1-z.y0)-n*pitch+pitch-barH)/2;
   for(let r=0;r<n;r++){
     const v=(.55+hh(r,1)*1.7)*60*u,m=Math.ceil((W*1.7)/(W*.3+gap))+2,bw=[],pos=[];let L=0;
     for(let k=0;k<m;k++){bw.push((.12+hh(r,k+7)*.38)*W);pos.push(L);L+=bw[k]+gap;}
     const sh=hh(r,3)*L+v*T;ctx.fillStyle=C.br[r%2];
     for(let k=0;k<m;k++){
-      if(hh(r,k+40)>=.32)continue;
+      if(hh(r,k+40)>=.5)continue;
       const x=mod(pos[k]+sh,L)-W*.6,st=.95+.1*(1+Math.sin(T*.6+hh(r,k+90)*6.283));
       if(x>W||x+bw[k]*st<0)continue;
-      ctx.fillRect(Math.round(x),Math.round(r*pitch),Math.round(bw[k]*st),Math.round(barH));
+      ctx.fillRect(Math.round(x),Math.round(oy+r*pitch),Math.round(bw[k]*st),Math.round(barH));
     }
   }
 }
 
 /* ---------- compose ---------- */
 function paint(tv){
-  T=tv;const C=COMBOS[S.combo],land=W>H*1.2,m=W*.035,L=S.layout;
+  T=tv;const C=COMBOS[S.combo],land=W>H*1.2,m=W*.035,L=S.layout,size=W*.034*S.bs/100;
   ctx.globalAlpha=1;ctx.fillStyle=C.bg;ctx.fillRect(0,0,W,H);
-  const tg=tagBox(),gap=m*.8;let hx=m,hy=m,hw=W-2*m,img=null,bx,bw,tx,ty;
+  const tg=tagBox(),gap=m*.8;let hx=m,hy=m,hw=W-2*m,img=null,regionH=H-2*m,zone=null;
   if(L==='poster'){if(land){hw=W*.5-1.5*m;img={x:W*.5,y:0,w:W*.5,h:H};}}
   else if(L==='image'){if(land){hx=W*.5+m;hw=W*.5-2*m;img={x:0,y:0,w:W*.5,h:H};}else{img={x:0,y:0,w:W,h:H*.6};hy=H*.6+m;}}
   else if(L==='bleed'){img={x:0,y:0,w:W,h:H};}
-  else{if(land){hx=W*.41;hw=W*.55;hy=H*.2;}else hy=H*.12;}
-  if(img&&L==='poster'&&!land)img.y=-1; // resolved below
-  const M=headMetrics(hw);bx=hx;bw=land?hw:Math.min(hw,W*.74);
+  else{ // bars live in a band at the top or bottom; the text takes the rest
+    const f=S.zone.endsWith('25')?.25:.6,top=S.zone.startsWith('top');
+    zone=top?{y0:0,y1:H*f}:{y0:H*(1-f),y1:H};hy=top?H*f+m:m;regionH=H*(1-f)-2*m-tg.h;
+  }
+  // a full-width headline runs slightly past both edges
+  const wide=hw===W-2*m,avail=wide?W*1.07:hw,hx0=wide?-W*.035:hx,bx=wide?m:hx,bw=wide?W-2*m:hw;
+  let M=headMetrics(avail,1);const c=cols(bw,size);
+  if(zone&&M.h+gap+c.h>regionH)M=headMetrics(avail,Math.min(1,Math.max(.25,(regionH-gap-c.h)/M.h)));
   const by=hy+M.h+gap;
-  if(L==='poster'&&!land){const bh=bodyLines(bw,W*.034*S.bs/100).length*W*.034*S.bs/100*1.4,top=Math.round(by+bh+gap);img={x:0,y:top,w:W,h:Math.max(m,H-top)};}
+  if(L==='poster'&&!land){const top=Math.round(by+c.h+gap);img={x:0,y:top,w:W,h:Math.max(m,H-top)};}
   if(img)drawImage({x:Math.round(img.x),y:Math.round(img.y),w:Math.round(img.w),h:Math.round(img.h)},C);
-  if(L==='bars')bars(C);
-  drawHead(M,hx,hy,C.tx);
-  drawBody(bx,by,bw,C.tx);
-  if(L==='image'&&!land||L==='bars'||L==='poster'&&!land||L==='bleed'){tx=W-m-tg.w;ty=H-m-tg.h;}else{tx=land&&L!=='bleed'?hx:W-m-tg.w;ty=H-m-tg.h;}
-  drawTag(tx,ty,C);
+  if(zone)bars(C,zone);
+  drawHead(M,hx0,hy,C.tx);
+  drawCols(bx,by,bw,size,C.tx);
+  const tx=(land&&L!=='bleed'&&L!=='bars')?hx:W-m-tg.w;
+  drawTag(tx,H-m-tg.h,C);
   ctx.globalAlpha=1;
 }
 
@@ -337,6 +345,8 @@ function fit(){
 function buildSwatches(){
   $('combos').innerHTML='';COMBOS.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.className='sw';b.title=c.n;b.textContent='Aa';b.style.background=c.bg;b.style.color=c.tx;b.setAttribute('aria-pressed',i===S.combo);b.onclick=()=>{S.combo=i;buildSwatches();};$('combos').appendChild(b);});
   $('layouts').innerHTML='';LAYOUTS.forEach(([id,n])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',id===S.layout);b.onclick=()=>{S.layout=id;buildSwatches();};$('layouts').appendChild(b);});
+  $('zones').innerHTML='';[['top25','Top 25%'],['top60','Top 60%'],['bot25','Bottom 25%'],['bot60','Bottom 60%']].forEach(([id,n])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',id===S.zone);b.onclick=()=>{S.zone=id;buildSwatches();};$('zones').appendChild(b);});
+  $('zones').style.display=$('zcap').style.display=S.layout==='bars'?'':'none';
   $('capL').textContent=LAYOUTS.find(l=>l[0]===S.layout)[1]+' · '+COMBOS[S.combo].n;
 }
 function buildChips(){
@@ -350,9 +360,9 @@ function buildChips(){
     box.appendChild(b);
   }
 }
-$('head').value=S.head;$('body').value=S.body;$('tag').value=S.tag;
+$('head').value=S.head;$('b1').value=S.b1;$('b2').value=S.b2;$('tag').value=S.tag;
 $('head').oninput=e=>{S.head=e.target.value;buildChips();};
-$('body').oninput=e=>{S.body=e.target.value;};$('tag').oninput=e=>{S.tag=e.target.value;};
+$('b1').oninput=e=>{S.b1=e.target.value;};$('b2').oninput=e=>{S.b2=e.target.value;};$('tag').oninput=e=>{S.tag=e.target.value;};
 [['hs','hs',1,''],['bs','bs',1,''],['cell','cell',1,''],['sp','sp',1,''],['amt','amt',.1,'×']].forEach(([id,k,sc,u])=>{
   $(id).oninput=e=>{S[k]=+e.target.value*sc;e.target.nextElementSibling.textContent=(sc===1?e.target.value:S[k].toFixed(1))+u;};
 });

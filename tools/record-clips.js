@@ -85,8 +85,8 @@ const APPS = {
     const t0 = Date.now(), go = (o) => p.evaluate((x) => __hobs.set(x), o);
     await at(t0, 1500, () => go({ layout: 'poster', combo: 0 }));
     await at(t0, 3000, () => go({ layout: 'bleed', combo: 3 }));
-    await at(t0, 4400, () => go({ layout: 'bars', combo: 1 }));
-    await at(t0, 5500, () => go({ layout: 'bars', combo: 4 }));
+    await at(t0, 4400, () => go({ layout: 'bars', combo: 1, zone: 'top25' }));
+    await at(t0, 5500, () => go({ layout: 'bars', combo: 4, zone: 'bot60' }));
   } },
   'grid-alphabet': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#w=SANDBOX&clip', ready: 500, q: 55, run: async (p) => { const t0 = Date.now(); await at(t0, 700, () => p.evaluate(() => __ga.start())); await sleep(5600); } },
   'conference-post-generator': { vp: [1280, 769], setup: cropOf('#cv'), ready: 1200, q: 40, run: async (p) => {
