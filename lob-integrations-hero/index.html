@@ -284,7 +284,7 @@ function frame(now){
   if(hover){wx=tx;wy=ty}else if(calm){wx=0;wy=0}else{wx=Math.sin(t*Math.PI/3)*.5;wy=Math.cos(t*Math.PI/3)*.3}
   px+=(wx-px)*.07; py+=(wy-py)*.07;
   var spin=calm?0:(t%6)*60;   /* a full turn every 6 s, so the clip loops seamlessly */
-  badge.style.transform='rotateX('+(-py*14).toFixed(2)+'deg) rotateY('+(spin+px*16).toFixed(2)+'deg)';
+  badge.style.transform='rotateZ(-45deg) rotateX('+(-py*14).toFixed(2)+'deg) rotateY('+(spin+px*16).toFixed(2)+'deg)';
   var sr=spin*Math.PI/180;
   badge.style.setProperty('--a',(30+Math.sin(sr)*60+px*50).toFixed(1)+'deg');
   badge.style.setProperty('--gx',(50+Math.sin(sr)*40+px*20).toFixed(1)+'%'); badge.style.setProperty('--gy',(40+py*30).toFixed(1)+'%');
