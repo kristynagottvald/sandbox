@@ -97,8 +97,8 @@ body[data-look="colour"] .tile .c{display:block}
 .bshadow{width:min(72cqw,80cqh,460px);aspect-ratio:1;border-radius:50%;transform:translateY(9%) scale(.92);background:radial-gradient(circle,rgba(10,0,40,.55),transparent 68%);filter:blur(10px)}
 .ext{position:absolute;inset:0;clip-path:url(#serr);background:linear-gradient(160deg,#5a37d4,#1d0e45 60%,#3a1c7a)}
 .side{position:absolute;inset:0}
-/* no 3D scene: every layer is a flat element carrying the same tilt (--pr), shifted a little along the tilt by its depth (--z), which gives the thickness and the raised look without the browser sorting 3D planes */
-.badge .ext,.badge .face,.badge .side>svg{transform:translate(calc(var(--sx,0)*var(--z,0)*1px),calc(var(--sy,0)*var(--z,0)*1px)) var(--pr,none)}
+/* one flat element carries the whole tilt; thickness and raised lettering are copies of the artwork shifted by their depth (--z) along the tilt inside it, so the browser only ever composites a single layer */
+.badge .side>svg,.rm{transform:translate(calc(var(--lx,0)*var(--z,0)*1px),calc(var(--ly,0)*var(--z,0)*1px))}
 .face{position:absolute;inset:0;clip-path:url(#serr);overflow:hidden;background:#2a1466}
 /* the gradients are painted once and only moved with transforms, so nothing is re-rasterised while the badge turns */
 .sheen{position:absolute;inset:-21%;transform:rotate(var(--a,30deg));
@@ -112,15 +112,12 @@ body[data-look="colour"] .tile .c{display:block}
 @keyframes sweep{0%,35%{transform:translateX(-83.6%)}80%,100%{transform:translateX(25.7%)}}
 .badge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* the extrusion layers of the raised lettering and link are one flat dark colour, the top layer carries the metal */
-.spark{pointer-events:none;animation:tw 3s ease-in-out infinite}
-.spark.b{animation-delay:-1.5s}
-@keyframes tw{0%,100%{opacity:.3}50%{opacity:1}}
 .gl .as path{stroke:var(--side)!important}
 .gl text,.gl circle{fill:var(--side)!important;stroke:none!important}
 .gl .lk path{stroke:var(--side)!important;stroke-opacity:1!important}
 
 
-@media (prefers-reduced-motion:reduce){.spark{animation:none;opacity:.9}.sweep{animation:none;transform:translateX(-30%);opacity:.6}.slot,.tile{transition:none}}
+@media (prefers-reduced-motion:reduce){.sweep{animation:none;transform:translateX(-30%);opacity:.6}.slot,.tile{transition:none}}
 </style>
 </head>
 <body>
@@ -308,15 +305,11 @@ function stack(inner,n,z0,dz,front){
    '<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#faf5ff"/><stop offset=".5" stop-color="#6a35b8"/><stop offset="1" stop-color="#e2d0ff"/></linearGradient></defs>'+
    '<circle cx="200" cy="200" r="141" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/><circle cx="200" cy="200" r="106" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/>'+
    '<circle cx="200" cy="200" r="94" fill="url(#plate)" stroke="url(#rim)" stroke-width="3.4"/><circle cx="200" cy="200" r="86" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1.5"/><circle cx="200" cy="200" r="86" fill="#5a37d4"/><g fill="#150836" transform="translate(200 200) scale(.235) translate(-558 -453.5)"><path d="M360 478H555V523C500 523 440 512 360 478Z" fill="#efe9ff"/><path d="M555 392C585 380 640 380 662 420C674 452 660 490 640 506C615 524 585 523 555 523Z" fill="#efe9ff"/><path d="M245 478C275 452 330 448 360 478Z" fill="#efe9ff"/><path d="M265 410C310 405 350 428 357 458L360 476Z" fill="#2a1170"/><path d="M360 478 555 405V478Z" fill="#2a1170"/><path d="M448 187H503V421C468 421 448 400 448 372Z"/><path d="M503 187A52 52 0 0 1 555 239V421H503Z" fill="#2a1170"/><path d="M448 720H503V478C468 478 448 500 448 528Z"/><path d="M503 720A52 52 0 0 0 555 668V478H503Z" fill="#2a1170"/><g fill="none" stroke="#9a80f2" stroke-width="2.2"><path d="M503 197A42 42 0 0 1 545 239V421M503 207A32 32 0 0 1 535 239V421M503 217A22 22 0 0 1 525 239V421M503 227A12 12 0 0 1 515 239V421"/><path d="M503 710A42 42 0 0 0 545 668V478M503 700A32 32 0 0 0 535 668V478M503 690A22 22 0 0 0 525 668V478M503 680A12 12 0 0 0 515 668V478"/><path d="M448 198H503M448 208H503M448 219H503M448 230H503M448 241H503M448 666H503M448 677H503M448 688H503M448 699H503M448 710H503"/></g><g transform="translate(705 450.5) scale(.84) translate(-705 -450.5)"><rect x="705" y="387" width="190" height="127" fill="#efe9ff"/><rect x="750" y="471" width="98" height="3"/><rect x="750" y="483" width="70" height="3"/><rect x="845" y="402" width="32" height="37"/></g><circle cx="621" cy="426" r="9"/><path d="M643 427.500C643 419.500 655 416.500 672 416.500C692 417 711 421.500 722 430C707 433.500 690 436 672 436.500C655 437 643 435.500 643 427.500Z"/></g></svg>';
-  /* soft bloom: blurred copies of the outer words (MAIL, TRUSTED), faded in over a small area and breathing slowly */
-  var bt='font-family="Inter,Arial,sans-serif" font-weight="700" font-size="13" letter-spacing="2.8" fill="#f4edff" text-anchor="middle"';
-  function bloom(id,x,y,href,off,delay){
-    return '<mask id="'+id+'m" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="400"><circle cx="'+x+'" cy="'+y+'" r="62" fill="url(#bg)"/></mask>'+
-      '<g mask="url(#'+id+'m)"><g filter="url(#bw)" opacity=".95"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g><g filter="url(#bn)" opacity=".9"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g></g>';
-  }
-  var spark='<svg class="spark" viewBox="0 0 400 400" style="--z:9.6" aria-hidden="true"><defs><radialGradient id="bg"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><filter id="bw" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8.5"/></filter><filter id="bn" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.6"/></filter></defs>'+bloom('ba',289,129,'pTop','25%',0)+'</svg>'+'<svg class="spark b" viewBox="0 0 400 400" style="--z:9.7" aria-hidden="true">'+bloom('bb',112,290,'pCcw','50%',-1.5)+'</svg>';
-  var side='<div class="side"><div class="face"><div class="sheen"></div><div class="disc"><div class="sheen2"></div></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,8,3,.7,{vb:'0 0 400 400',defs:defs})+spark+'</div>';
-  var ext='';for(var i=1;i<=12;i++)ext+='<i class="ext" style="--z:-'+(i*2)+'"></i>';
+  var side='<div class="side"><div class="face"><div class="sheen"></div><div class="disc"><div class="sheen2"></div></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,18,3,.3,{vb:'0 0 400 400',defs:defs})+'</div>';
+  var rd='';for(var q=0;q<360;q++){var tt=q/360*Math.PI*2,rr=(.468+.014*Math.cos(tt*22))*400;rd+=(q?'L':'M')+(200+rr*Math.cos(tt)).toFixed(1)+' '+(200+rr*Math.sin(tt)).toFixed(1)}rd+='Z';
+  var ext='<svg class="rim" viewBox="0 0 400 400" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5a37d4"/><stop offset=".6" stop-color="#1d0e45"/><stop offset="1" stop-color="#3a1c7a"/></linearGradient><path id="rimP" d="'+rd+'" fill="url(#rg)"/></defs>';
+  for(var i=50;i>=1;i--)ext+='<use class="rm" href="#rimP" style="--z:-'+(i*.4).toFixed(1)+'"/>';
+  ext+='</svg>';
   badge.innerHTML=ext+side;
   function conicTex(stops,size){var c=document.createElement('canvas');c.width=c.height=size;var x=c.getContext('2d');if(!x||!x.createConicGradient)return null;var g=x.createConicGradient(-Math.PI/2,size/2,size/2);stops.forEach(function(t){g.addColorStop(t[0],t[1])});x.fillStyle=g;x.fillRect(0,0,size,size);return c.toDataURL('image/png')}
   var faceTex=conicTex([[0,'#f3ecff'],[.10,'#a07af0'],[.22,'#4a2ab0'],[.33,'#b8a0f0'],[.40,'#f6f0ff'],[.48,'#8a68e8'],[.56,'#5a37d4'],[.66,'#2a1466'],[.76,'#6a47e0'],[.88,'#d8c8fa'],[1,'#f3ecff']],768);
@@ -342,10 +335,10 @@ function frame(now){
   /* the badge rests at a fixed angle on the 135 degree diagonal; hovering over the visual tips it, and it eases back on leave */
   var wx=hover?tx:0, wy=hover?ty:0;
   px+=(wx-px)*.07; py+=(wy-py)*.07;
-  var ax=-py*16, by=35+px*24, ra=ax*Math.PI/180, rb=by*Math.PI/180, vx=Math.sin(rb), vy=-Math.cos(rb)*Math.sin(ra), c45=Math.SQRT1_2;
-  /* where one unit of depth lands on screen once the whole badge is turned 45 degrees about its centre */
-  badge.style.setProperty('--sx',(vx*c45+vy*c45).toFixed(4)); badge.style.setProperty('--sy',(-vx*c45+vy*c45).toFixed(4));
-  badge.style.setProperty('--pr','perspective(1300px) rotateZ(-45deg) rotateX('+ax.toFixed(2)+'deg) rotateY('+by.toFixed(2)+'deg)');
+  var ax=-py*16, by=35+px*24, ra=ax*Math.PI/180, rb=by*Math.PI/180;
+  /* where one unit of depth lands inside the tilted badge, so the copies line up along the viewing direction */
+  badge.style.setProperty('--lx',Math.tan(rb).toFixed(4)); badge.style.setProperty('--ly',(-Math.tan(ra)/Math.cos(rb)).toFixed(4));
+  badge.style.transform='perspective(1300px) rotateZ(-45deg) rotateX('+ax.toFixed(2)+'deg) rotateY('+by.toFixed(2)+'deg)';
   badge.style.setProperty('--a',(30+px*60+py*25).toFixed(1)+'deg');
   badge.style.setProperty('--gxn',(px*22).toFixed(1)); badge.style.setProperty('--gyn',(-10+py*18).toFixed(1));
   var ang=(px*60+py*25).toFixed(1);
