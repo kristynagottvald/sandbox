@@ -85,18 +85,18 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
 .side{position:absolute;inset:0;transform-style:preserve-3d}
 .side.bk{transform:translateZ(-26px) rotateY(180deg)}
 .side>*{backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.face{position:absolute;inset:0;clip-path:url(#serr);overflow:hidden;
-  background:
-   repeating-linear-gradient(100deg,rgba(255,255,255,.035) 0 2px,rgba(0,0,0,.045) 2px 4px),
-   conic-gradient(from var(--a,30deg),#f3ecff 0,#9a6fe0 9%,#3a1a78 20%,#c4a6f4 31%,#fbf7ff 38%,#5a37d4 50%,#26104f 62%,#a67fe6 74%,#eadfff 86%,#f3ecff 100%)}
-.disc{position:absolute;inset:8.5%;border-radius:50%;
-  background:
-   repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.025) 0 2px,rgba(0,0,0,.035) 2px 6px),
-   conic-gradient(from calc(var(--a,30deg)*-1 + 210deg),#34146e,#5a37d4 12%,#170a3a 27%,#43208a 42%,#13082e 58%,#5a37d4 74%,#34146e 100%);
+.face{position:absolute;inset:0;clip-path:url(#serr);overflow:hidden;background:#2a1466}
+/* the gradients are painted once and only moved with transforms, so nothing is re-rasterised while the badge turns */
+.sheen{position:absolute;inset:-21%;will-change:transform;transform:rotate(var(--a,30deg));
+  background:conic-gradient(from 0deg,#f3ecff 0,#a07af0 10%,#4a2ab0 22%,#b8a0f0 33%,#f6f0ff 40%,#8a68e8 48%,#5a37d4 56%,#2a1466 66%,#6a47e0 76%,#d8c8fa 88%,#f3ecff 100%)}
+.disc{position:absolute;inset:8.5%;border-radius:50%;overflow:hidden;background:#1a0c40;
   box-shadow:inset 0 0 0 2px rgba(220,195,255,.4),inset 0 10px 26px rgba(0,0,0,.55),0 0 0 3px rgba(20,0,55,.65)}
-.gloss{position:absolute;inset:0;background:radial-gradient(circle at var(--gx,35%) var(--gy,25%),rgba(255,255,255,.5),rgba(255,255,255,.08) 28%,transparent 52%);mix-blend-mode:soft-light}
-.sweep{position:absolute;inset:0;background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.75) 49%,rgba(220,195,255,.15) 54%,transparent 60%);background-size:280% 100%;mix-blend-mode:screen;animation:sweep 6s ease-in-out infinite}
-@keyframes sweep{0%,35%{background-position:130% 0}80%,100%{background-position:-40% 0}}
+.disc .sheen2{position:absolute;inset:-21%;will-change:transform;transform:rotate(calc(var(--a,30deg)*-1 + 210deg));
+  background:conic-gradient(from 0deg,#34146e,#5a37d4 12%,#240f58 27%,#43208a 42%,#1a0c40 58%,#5a37d4 74%,#34146e 100%)}
+.disc::after{content:"";position:absolute;inset:0;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.02) 0 2px,rgba(0,0,0,.03) 2px 6px);box-shadow:inset 0 0 0 2px rgba(220,195,255,.4),inset 0 10px 26px rgba(0,0,0,.55)}
+.gloss{position:absolute;inset:-30%;will-change:transform;transform:translate(calc(var(--gxn,0)*1%),calc(var(--gyn,0)*1%));background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.5),rgba(255,255,255,.08) 17%,transparent 32%);mix-blend-mode:soft-light}
+.sweep{position:absolute;top:0;bottom:0;left:0;width:280%;will-change:transform;background:linear-gradient(112deg,transparent 40%,rgba(255,255,255,.75) 49%,rgba(220,195,255,.15) 54%,transparent 60%);mix-blend-mode:screen;animation:sweep 6s ease-in-out infinite}
+@keyframes sweep{0%,35%{transform:translateX(-83.6%)}80%,100%{transform:translateX(25.7%)}}
 .badge svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 /* the extrusion layers of the raised lettering and link are one flat dark colour, the top layer carries the metal */
 .spark{pointer-events:none}
@@ -107,7 +107,7 @@ h1{font-weight:500;font-size:clamp(27px,3.7vw,52px);line-height:1.08;letter-spac
 .gl .lk path{stroke:var(--side)!important;stroke-opacity:1!important}
 
 
-@media (prefers-reduced-motion:reduce){.sp{animation:none;opacity:.9}.sweep{animation:none;background-position:60% 0;opacity:.6}.slot,.tile{transition:none}}
+@media (prefers-reduced-motion:reduce){.sp{animation:none;opacity:.9}.sweep{animation:none;transform:translateX(-30%);opacity:.6}.slot,.tile{transition:none}}
 </style>
 </head>
 <body>
@@ -260,7 +260,7 @@ function stack(inner,n,z0,dz,front){
    '<radialGradient id="plate" cx=".35" cy=".28" r=".9"><stop offset="0" stop-color="#5a37d4"/><stop offset=".55" stop-color="#26104f"/><stop offset="1" stop-color="#120626"/></radialGradient>'+
    '<linearGradient id="rim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#faf5ff"/><stop offset=".5" stop-color="#6a35b8"/><stop offset="1" stop-color="#e2d0ff"/></linearGradient></defs>'+
    '<circle cx="200" cy="200" r="141" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/><circle cx="200" cy="200" r="106" fill="none" stroke="url(#rim)" stroke-width="1.6" opacity=".8"/>'+
-   '<circle cx="200" cy="200" r="94" fill="url(#plate)" stroke="url(#rim)" stroke-width="3.4"/><circle cx="200" cy="200" r="86" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1.5"/><circle cx="200" cy="200" r="86" fill="#5a37d4"/><g fill="#150836" transform="translate(200 200) scale(.235) translate(-570 -453.5)"><path d="M360 478H555V523C500 523 440 512 360 478Z" fill="#efe9ff"/><path d="M555 392C585 380 640 380 662 420C674 452 660 490 640 506C615 524 585 523 555 523Z" fill="#efe9ff"/><path d="M245 478C275 452 330 448 360 478Z" fill="#efe9ff"/><path d="M265 410C310 405 350 428 357 458L360 476Z" fill="#2a1170"/><path d="M360 478 555 405V478Z" fill="#2a1170"/><path d="M448 187H503V421C468 421 448 400 448 372Z"/><path d="M503 187A52 52 0 0 1 555 239V421H503Z" fill="#2a1170"/><path d="M448 720H503V478C468 478 448 500 448 528Z"/><path d="M503 720A52 52 0 0 0 555 668V478H503Z" fill="#2a1170"/><g fill="none" stroke="#9a80f2" stroke-width="2.2"><path d="M503 197A42 42 0 0 1 545 239V421M503 207A32 32 0 0 1 535 239V421M503 217A22 22 0 0 1 525 239V421M503 227A12 12 0 0 1 515 239V421"/><path d="M503 710A42 42 0 0 0 545 668V478M503 700A32 32 0 0 0 535 668V478M503 690A22 22 0 0 0 525 668V478M503 680A12 12 0 0 0 515 668V478"/><path d="M448 198H503M448 208H503M448 219H503M448 230H503M448 241H503M448 666H503M448 677H503M448 688H503M448 699H503M448 710H503"/></g><rect x="705" y="387" width="190" height="127" fill="#efe9ff"/><rect x="750" y="471" width="98" height="3"/><rect x="750" y="483" width="70" height="3"/><path d="M818 417H875M818 429H875" stroke="#5a37d4" stroke-width="2.6"/><circle cx="809" cy="423" r="13" fill="#5a37d4"/><rect x="845" y="402" width="32" height="37"/><circle cx="621" cy="426" r="9"/><path d="M643 418C670 413 705 417 721 428C700 437 665 439 643 434Z"/><path d="M700 436 721 429 714 443Z" fill="#2a1170"/></g></svg>';
+   '<circle cx="200" cy="200" r="94" fill="url(#plate)" stroke="url(#rim)" stroke-width="3.4"/><circle cx="200" cy="200" r="86" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="1.5"/><circle cx="200" cy="200" r="86" fill="#5a37d4"/><g fill="#150836" transform="translate(200 200) scale(.235) translate(-570 -453.5)"><path d="M360 478H555V523C500 523 440 512 360 478Z" fill="#efe9ff"/><path d="M555 392C585 380 640 380 662 420C674 452 660 490 640 506C615 524 585 523 555 523Z" fill="#efe9ff"/><path d="M245 478C275 452 330 448 360 478Z" fill="#efe9ff"/><path d="M265 410C310 405 350 428 357 458L360 476Z" fill="#2a1170"/><path d="M360 478 555 405V478Z" fill="#2a1170"/><path d="M448 187H503V421C468 421 448 400 448 372Z"/><path d="M503 187A52 52 0 0 1 555 239V421H503Z" fill="#2a1170"/><path d="M448 720H503V478C468 478 448 500 448 528Z"/><path d="M503 720A52 52 0 0 0 555 668V478H503Z" fill="#2a1170"/><g fill="none" stroke="#9a80f2" stroke-width="2.2"><path d="M503 197A42 42 0 0 1 545 239V421M503 207A32 32 0 0 1 535 239V421M503 217A22 22 0 0 1 525 239V421M503 227A12 12 0 0 1 515 239V421"/><path d="M503 710A42 42 0 0 0 545 668V478M503 700A32 32 0 0 0 535 668V478M503 690A22 22 0 0 0 525 668V478M503 680A12 12 0 0 0 515 668V478"/><path d="M448 198H503M448 208H503M448 219H503M448 230H503M448 241H503M448 666H503M448 677H503M448 688H503M448 699H503M448 710H503"/></g><rect x="705" y="387" width="190" height="127" fill="#efe9ff"/><rect x="750" y="471" width="98" height="3"/><rect x="750" y="483" width="70" height="3"/><path d="M818 417H875M818 429H875" stroke="#5a37d4" stroke-width="2.6"/><circle cx="809" cy="423" r="13" fill="#5a37d4"/><rect x="845" y="402" width="32" height="37"/><circle cx="621" cy="426" r="9"/><path d="M643 427.500C643 419.500 655 416.500 672 416.500C692 417 711 421.500 722 430C707 433.500 690 436 672 436.500C655 437 643 435.500 643 427.500Z"/></g></svg>';
   /* soft bloom: blurred copies of the outer words (MAIL, TRUSTED), faded in over a small area and breathing slowly */
   var bt='font-family="Inter,Arial,sans-serif" font-weight="700" font-size="13" letter-spacing="2.8" fill="#f4edff" text-anchor="middle"';
   function bloom(id,x,y,href,off,delay){
@@ -268,7 +268,7 @@ function stack(inner,n,z0,dz,front){
       '<g class="sp" style="animation-delay:'+delay+'s" mask="url(#'+id+'m)"><g filter="url(#bw)" opacity=".95"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g><g filter="url(#bn)" opacity=".9"><text '+bt+'><textPath href="#'+href+'" startOffset="'+off+'">'+(href==='pTop'?'POWER YOUR DIRECT MAIL':'TRUSTED LOB INTEGRATION')+'</textPath></text></g></g>';
   }
   var spark='<svg class="spark" viewBox="0 0 400 400" style="transform:translateZ(9.6px)" aria-hidden="true"><defs><radialGradient id="bg"><stop offset="0" stop-color="#fff"/><stop offset=".55" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><filter id="bw" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="8.5"/></filter><filter id="bn" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.6"/></filter></defs>'+bloom('ba',289,129,'pTop','25%',0)+bloom('bb',112,290,'pCcw','50%',-1.5)+'</svg>';
-  var side='<div class="side"><div class="face"><div class="disc"></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,8,3,.7,{vb:'0 0 400 400',defs:defs})+spark+'</div>';
+  var side='<div class="side"><div class="face"><div class="sheen"></div><div class="disc"><div class="sheen2"></div></div><div class="gloss"></div><div class="sweep"></div></div>'+art+stack(raised,8,3,.7,{vb:'0 0 400 400',defs:defs})+spark+'</div>';
   var ext='';for(var i=1;i<=12;i++)ext+='<i class="ext" style="transform:translateZ(-'+(i*2)+'px)"></i>';
   badge.innerHTML=ext+side;
   var bk=badge.querySelector('.side').cloneNode(true);bk.classList.add('bk');badge.appendChild(bk);
@@ -287,8 +287,8 @@ function frame(now){
   var spin=calm?0:(t%6)*60;   /* a full turn every 6 s, so the clip loops seamlessly */
   badge.style.transform='rotateZ(-45deg) rotateX('+(-py*14).toFixed(2)+'deg) rotateY('+(spin+px*16).toFixed(2)+'deg)';
   var sr=spin*Math.PI/180;
-  badge.style.setProperty('--a',(30+Math.sin(sr)*60+px*50).toFixed(1)+'deg');
-  badge.style.setProperty('--gx',(50+Math.sin(sr)*40+px*20).toFixed(1)+'%'); badge.style.setProperty('--gy',(40+py*30).toFixed(1)+'%');
+  badge.style.setProperty('--a',(30+Math.sin(sr)*40+px*40).toFixed(1)+'deg');
+  badge.style.setProperty('--gxn',(Math.sin(sr)*22+px*15).toFixed(1)); badge.style.setProperty('--gyn',(-10+py*18).toFixed(1));
   var ang=(Math.sin(sr)*40+px*55+py*20).toFixed(1);
   gx.forEach(function(g){g.setAttribute('gradientTransform','rotate('+ang+' '+(g.dataset.c||'0 0')+') translate('+(px*40).toFixed(1)+' 0)')});
   requestAnimationFrame(frame);
