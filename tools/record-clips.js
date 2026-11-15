@@ -25,8 +25,15 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
-  // the Lob integrations badge spinning over the grid of muted app tiles
-  'lob-integrations-hero': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, run: async () => { await sleep(6500); } },
+  // the badge rests at its angle over the muted tiles, then the mouse sweeps over the visual to tip it and leaves so it eases back
+  'lob-integrations-hero': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, run: async (p) => {
+    const t0 = Date.now();
+    await at(t0, 800, () => p.mouse.move(1100, 280, { steps: 14 }));
+    await at(t0, 2200, () => p.mouse.move(780, 560, { steps: 14 }));
+    await at(t0, 3500, () => p.mouse.move(1000, 300, { steps: 12 }));
+    await at(t0, 4600, () => p.mouse.move(300, 650, { steps: 10 }));
+    await sleep(1800);
+  } },
   // the finished composition, then the whole 9 s cycle at 1.4x: the query is typed, matches appear, the query and context notes fly onto the graph, the result lands
   'nlp-diagram': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
     const t0 = Date.now();

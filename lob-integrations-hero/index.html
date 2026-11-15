@@ -199,21 +199,35 @@ var BRANDS=[
  {n:'Iterable',g:'<path d="M24 10l4.4 9.6L38 24l-9.6 4.4L24 38l-4.4-9.6L10 24l9.6-4.4z" fill="#fff"/>'}
 ];
 var TILE='rgba(150,110,225,.34)';
-/* full colour versions of the same marks (simplified stand-ins, not the official artwork) */
-var COL={
- 'Figma':['#fff','<path d="M17 8h7v10h-7a5 5 0 0 1 0-10z" fill="#F24E1E"/><path d="M24 8h7a5 5 0 0 1 0 10h-7z" fill="#FF7262"/><path d="M17 18h7v10h-7a5 5 0 0 1 0-10z" fill="#A259FF"/><circle cx="29" cy="23" r="5" fill="#1ABCFE"/><path d="M17 28h7v5a5 5 0 1 1-7-4.6z" fill="#0ACF83"/>'],
- 'Customer.io':['#fff','<path d="M31 14a11 11 0 1 0 0 20" fill="none" stroke="#0F4C4A" stroke-width="6" stroke-linecap="round"/><circle cx="35" cy="24" r="3.4" fill="#00C48C"/>'],
- 'InDesign':['#49021F','<text x="24" y="31" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="20" text-anchor="middle" fill="#FF3366">Id</text>'],
- 'Mailchimp':['#FFE01B','<circle cx="24" cy="26" r="13" fill="#241C15"/><path d="M13 19c3-9 19-9 22 0" stroke="#241C15" stroke-width="3.4" fill="none" stroke-linecap="round"/><circle cx="19" cy="24" r="3.2" fill="#fff"/><circle cx="29" cy="24" r="3.2" fill="#fff"/><circle cx="19.6" cy="24.4" r="1.4" fill="#241C15"/><circle cx="29.6" cy="24.4" r="1.4" fill="#241C15"/><path d="M20 31c2.4 2 5.6 2 8 0" stroke="#FFE01B" stroke-width="2" fill="none" stroke-linecap="round"/>'],
- 'HubSpot':['#FF7A59',null],'Klaviyo':['#232426',null],'Salesforce':['#00A1E0',null],
- 'Google Ads':['#fff','<path d="M14 34 25 13" stroke="#FBBC04" stroke-width="9" stroke-linecap="round"/><path d="M25 13l11 21" stroke="#4285F4" stroke-width="9" stroke-linecap="round"/><circle cx="14" cy="35" r="4.8" fill="#34A853"/>'],
- 'Meta':['#0866FF',null],'LinkedIn':['#0A66C2',null],'Marketo':['#5C4C9F',null],
- 'Braze':['#0B0B0C','<path d="M14 36V18a6 6 0 0 1 6-6h8a10 10 0 0 1 0 20H20z" fill="#2EE6C5"/>'],
- 'Segment':['#52BD94',null],'Zapier':['#FF4F00',null],'Adobe':['#EB1000',null],'ActiveCampaign':['#356AE6',null],'Constant Contact':['#1856ED',null],
- 'Canva':['#7D2AE8',null],'Iterable':['#5E2CED',null]
-};
-BRANDS.forEach(function(b){var c=COL[b.n]||['#5a37d4',null];b.cbg=c[0];b.cg=c[1]||b.g});
-COL.Canva=null;BRANDS.forEach(function(b){if(b.n==='Canva')b.cbg='linear-gradient(135deg,#00C4CC,#7D2AE8)'});
+/* full colour set, redrawn from the app icon sheet (simplified stand-ins, not the official artwork) */
+var G='<linearGradient id="gg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EA4335"/><stop offset=".3" stop-color="#EA4335"/><stop offset=".31" stop-color="#FBBC05"/><stop offset=".55" stop-color="#FBBC05"/><stop offset=".56" stop-color="#34A853"/><stop offset=".78" stop-color="#34A853"/><stop offset=".79" stop-color="#4285F4"/><stop offset="1" stop-color="#4285F4"/></linearGradient>';
+var CB=[
+ {n:'Yotpo',bg:'#2F4FE3',g:'<text x="24" y="28" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="11.500" text-anchor="middle" fill="#fff">yotpo.</text>'},
+ {n:'QuickBooks',bg:'#fff',g:'<circle cx="24" cy="24" r="16.500" fill="#2CA01C"/><text x="24" y="29.500" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="16" text-anchor="middle" fill="#fff">qb</text>'},
+ {n:'TikTok',bg:'#0B0B0C',g:'<g fill="none" stroke-width="4.200" stroke-linecap="round" stroke-linejoin="round"><path d="M26 11v18a5.500 5.500 0 1 1-5.500-5.500M26 11c.8 4.500 3.800 7 8.500 7.200" stroke="#25F4EE" transform="translate(-1.300 -1.300)"/><path d="M26 11v18a5.500 5.500 0 1 1-5.500-5.500M26 11c.8 4.500 3.800 7 8.500 7.200" stroke="#FE2C55" transform="translate(1.300 1.300)"/><path d="M26 11v18a5.500 5.500 0 1 1-5.500-5.500M26 11c.8 4.500 3.800 7 8.500 7.200" stroke="#fff"/></g>'},
+ {n:'Snapchat',bg:'#FFFC00',g:'<path d="M24 10.500c-5 0-7.500 3.800-7.500 8v3l-3 2 3 2c-.8 2-2.500 3.200-4 3.500 3 1 4 2.500 5.500 3.500s3.500 1 6 1 4.500 0 6-1 2.500-2.500 5.500-3.500c-1.500-.3-3.200-1.500-4-3.500l3-2-3-2v-3c0-4.200-2.500-8-7.500-8z" fill="#fff" stroke="#111" stroke-width="1.800" stroke-linejoin="round"/>'},
+ {n:'Spotify',bg:'#fff',g:'<circle cx="24" cy="24" r="15.500" fill="#1ED760"/><g fill="none" stroke="#0B0B0C" stroke-width="2.600" stroke-linecap="round"><path d="M15.500 19c6.500-2 13-1 18 2"/><path d="M16.500 25c5-1.500 10.500-1 14.500 1.500"/><path d="M17.500 30.500c4-1 8-.8 11.500 1"/></g>'},
+ {n:'Pinterest',bg:'#fff',g:'<circle cx="24" cy="24" r="16" fill="#E60023"/><text x="24.500" y="31" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="21" text-anchor="middle" fill="#fff">P</text>'},
+ {n:'PayPal',bg:'#E8F1FB',g:'<text x="21" y="34" font-family="Inter,Arial,sans-serif" font-weight="800" font-style="italic" font-size="30" text-anchor="middle" fill="#009CDE">P</text><text x="24" y="31" font-family="Inter,Arial,sans-serif" font-weight="800" font-style="italic" font-size="30" text-anchor="middle" fill="#003087">P</text>'},
+ {n:'Google',bg:'#fff',g:'<defs>'+G+'</defs><text x="24" y="33" font-family="Inter,Arial,sans-serif" font-weight="700" font-size="30" text-anchor="middle" fill="url(#gg)">G</text>'},
+ {n:'Microsoft',bg:'#fff',g:'<rect x="11" y="11" width="12.500" height="12.500" fill="#F25022"/><rect x="24.500" y="11" width="12.500" height="12.500" fill="#7FBA00"/><rect x="11" y="24.500" width="12.500" height="12.500" fill="#00A4EF"/><rect x="24.500" y="24.500" width="12.500" height="12.500" fill="#FFB900"/>'},
+ {n:'Monday',bg:'#fff',g:'<g><rect x="9" y="19" width="8" height="17" rx="4" fill="#FB275D"/><rect x="20" y="13" width="8" height="23" rx="4" fill="#FFCC00"/><circle cx="35" cy="34" r="4" fill="#00CA72"/><rect x="31" y="21" width="8" height="10" rx="4" fill="#00CA72"/></g>'},
+ {n:'Loox',bg:'#0B0B0C',g:'<text x="24" y="28.500" font-family="Inter,Arial,sans-serif" font-weight="600" font-size="12" letter-spacing="1" text-anchor="middle" fill="#fff">LOOX</text>'},
+ {n:'Check',bg:'linear-gradient(160deg,#FFD23F,#FFA81A)',g:'<path d="M13 25l7.500 7.500L35 15" fill="none" stroke="#fff" stroke-width="6.500" stroke-linecap="round" stroke-linejoin="round"/>'},
+ {n:'Stopwatch',bg:'#0B0B0C',g:'<circle cx="24" cy="26" r="12" fill="none" stroke="#fff" stroke-width="2.600"/><path d="M21 9.500h6M24 9.500v4.500" stroke="#fff" stroke-width="2.600" stroke-linecap="round"/><path d="M25.500 19.500 20.500 27h4l-1.500 6 5.500-8h-4z" fill="#fff"/>'},
+ {n:'Cloud',bg:'linear-gradient(160deg,#37D9F2,#9CF2C8)',g:'<path d="M15 31a6 6 0 0 1-.5-12 8.500 8.500 0 0 1 16.500 1.500A5 5 0 0 1 32 31z" fill="none" stroke="#0B2B3A" stroke-width="2.600" stroke-linejoin="round"/><path d="M24 22v10m-4-4 4 4 4-4" fill="none" stroke="#0B2B3A" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round"/>'},
+ {n:'Code',bg:'linear-gradient(160deg,#4FD18E,#7EE6B0)',g:'<path d="M19 17l-7 7 7 7M29 17l7 7-7 7M26 14l-4 20" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>'},
+ {n:'Lines',bg:'linear-gradient(160deg,#FF4F9A,#8A2FD6)',g:'<g fill="#fff"><rect x="11" y="15" width="26" height="4.500" rx="2.250"/><rect x="11" y="22" width="19" height="4.500" rx="2.250"/><rect x="11" y="29" width="23" height="4.500" rx="2.250"/></g>'},
+ {n:'Cross',bg:'#1A1A4A',g:'<path d="M13 13l22 22" stroke="#FF8A3D" stroke-width="6" stroke-linecap="round"/><path d="M35 13 13 35" stroke="#FF4F9A" stroke-width="6" stroke-linecap="round"/>'},
+ {n:'Funnel',bg:'linear-gradient(160deg,#FF6AC1,#7B3FF2)',g:'<path d="M11 14h26L28 25v9l-8 3V25z" fill="none" stroke="#fff" stroke-width="2.800" stroke-linejoin="round"/>'},
+ {n:'Cart',bg:'#FFD54A',g:'<path d="M10 14h4l3 14h15l3-10H16" fill="none" stroke="#2A1A00" stroke-width="2.800" stroke-linecap="round" stroke-linejoin="round"/><circle cx="19" cy="34" r="2.500" fill="#2A1A00"/><circle cx="30" cy="34" r="2.500" fill="#2A1A00"/>'},
+ {n:'Arrow A',bg:'linear-gradient(160deg,#16257f,#3b6cf0)',g:'<path d="M24 11 36.500 37h-6L24 23.500 17.500 37h-6z" fill="#fff"/>'},
+ {n:'Serif F',bg:'#2B2B2E',g:'<text x="24" y="33" font-family="Georgia,serif" font-size="27" text-anchor="middle" fill="#fff">F</text>'},
+ {n:'Blue P',bg:'linear-gradient(160deg,#1FA8F0,#1478D0)',g:'<text x="24" y="33" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="26" text-anchor="middle" fill="#fff">P</text>'},
+ {n:'Purple d',bg:'linear-gradient(160deg,#7A6BF5,#4A3BC8)',g:'<text x="24" y="33" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="26" text-anchor="middle" fill="#fff">d</text>'},
+ {n:'Red P',bg:'linear-gradient(160deg,#FF7A45,#E5254B)',g:'<text x="24" y="33" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="26" text-anchor="middle" fill="#fff">P</text>'},
+ {n:'Translate',bg:'linear-gradient(160deg,#3AB0FF,#5A5AF2)',g:'<text x="19" y="27" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="17" text-anchor="middle" fill="#fff">A</text><text x="31" y="35" font-family="Inter,Arial,sans-serif" font-weight="800" font-size="14" text-anchor="middle" fill="#fff" fill-opacity=".85">文</text>'}
+];
 
 var panel=document.getElementById('panel'), tiles=document.getElementById('tiles'), lines=document.getElementById('lines');
 function build(){
@@ -233,8 +247,8 @@ function build(){
   for(var r=0;r<rows;r++)for(var c=0;c<cols;c++){
     var dx=(c-(cols-1)/2)*pitch, dy=(r-(rows-1)/2)*pitch, d=Math.hypot(dx,dy*1.05)/half;
     var o=Math.max(.45,1-Math.max(0,d-.45)*.5).toFixed(2), b=(Math.max(0,d-.6)*2.6).toFixed(1);
-    var ghost=((r*5+c*11+3)%7===0), B=BRANDS[(c*7+r*3)%BRANDS.length];
-    html+='<div class="tile'+(ghost?' ghost':'')+'" style="--o:'+o+';--b:'+b+'px'+(ghost?'':';--bg:'+TILE+';--bgc:'+B.cbg)+'"'+(ghost?'':' title="'+B.n+'"')+'>'+(ghost?'':'<svg class="m" viewBox="0 0 48 48">'+B.g+'</svg><svg class="c" viewBox="0 0 48 48">'+B.cg+'</svg>')+'</div>';
+    var ghost=((r*5+c*11+3)%7===0), B=BRANDS[(c*7+r*3)%BRANDS.length], K=CB[(c*7+r*3)%CB.length];
+    html+='<div class="tile'+(ghost?' ghost':'')+'" style="--o:'+o+';--b:'+b+'px'+(ghost?'':';--bg:'+TILE+';--bgc:'+K.bg)+'"'+'>'+(ghost?'':'<svg class="m" viewBox="0 0 48 48">'+B.g+'</svg><svg class="c" viewBox="0 0 48 48">'+K.g+'</svg>')+'</div>';
   }
   tiles.innerHTML=html;
 }
@@ -321,19 +335,17 @@ window.__lob={setLook:setLook};
 /* ---------- motion: the badge turns about its vertical axis; the pointer tips it; reflections slide with the angle ---------- */
 var badge=document.getElementById('badge'), gx=[].slice.call(document.querySelectorAll('.gx'));
 var calm=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
-var tx=0,ty=0,px=0,py=0,hover=false,t0=performance.now();
+var tx=0,ty=0,px=0,py=0,hover=false;
 panel.addEventListener('pointermove',function(e){var r=panel.getBoundingClientRect();tx=((e.clientX-r.left)/r.width-.5)*2;ty=((e.clientY-r.top)/r.height-.5)*2;hover=true});
 panel.addEventListener('pointerleave',function(){hover=false});
 function frame(now){
-  var t=(window.__T!=null?window.__T:(now-t0)/1000), wx,wy;
-  if(hover){wx=tx;wy=ty}else if(calm){wx=0;wy=0}else{wx=Math.sin(t*Math.PI/3)*.5;wy=Math.cos(t*Math.PI/3)*.3}
+  /* the badge rests at a fixed angle on the 135 degree diagonal; hovering over the visual tips it, and it eases back on leave */
+  var wx=hover?tx:0, wy=hover?ty:0;
   px+=(wx-px)*.07; py+=(wy-py)*.07;
-  var spin=calm?0:(t%6)*60;   /* a full turn every 6 s, so the clip loops seamlessly */
-  badge.style.transform='rotateZ(-45deg) rotateX('+(-py*14).toFixed(2)+'deg) rotateY('+(spin+px*16).toFixed(2)+'deg)';
-  var sr=spin*Math.PI/180;
-  badge.style.setProperty('--a',(30+Math.sin(sr)*40+px*40).toFixed(1)+'deg');
-  badge.style.setProperty('--gxn',(Math.sin(sr)*22+px*15).toFixed(1)); badge.style.setProperty('--gyn',(-10+py*18).toFixed(1));
-  var ang=(Math.sin(sr)*40+px*55+py*20).toFixed(1);
+  badge.style.transform='rotateZ(-45deg) rotateX('+(-20-py*16).toFixed(2)+'deg) rotateY('+(-25+px*24).toFixed(2)+'deg)';
+  badge.style.setProperty('--a',(30+px*60+py*25).toFixed(1)+'deg');
+  badge.style.setProperty('--gxn',(px*22).toFixed(1)); badge.style.setProperty('--gyn',(-10+py*18).toFixed(1));
+  var ang=(px*60+py*25).toFixed(1);
   gx.forEach(function(g){g.setAttribute('gradientTransform','rotate('+ang+' '+(g.dataset.c||'0 0')+') translate('+(px*40).toFixed(1)+' 0)')});
   requestAnimationFrame(frame);
 }
