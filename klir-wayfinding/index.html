@@ -38,7 +38,7 @@ header.site .links{display:flex;gap:34px;font-size:16px;margin-right:auto;margin
 #path{position:absolute;left:0;top:0;width:100%;pointer-events:none;overflow:visible}
 section{position:relative;min-height:92vh;padding:12vh 48px 12vh var(--cx);max-width:1320px;display:flex;flex-direction:column;justify-content:center}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--indigo);margin-bottom:24px;position:relative}
-.eyebrow.node::before{content:"";position:absolute;left:calc(var(--gx) - var(--cx) + 16px);width:calc(var(--cx) - var(--gx) - 32px);top:50%;height:2px;background:var(--blue)}
+.eyebrow.node::before{content:"";position:absolute;left:calc(var(--gx) - var(--cx) + 16px);width:calc(var(--cx) - var(--gx) - 32px);top:50%;height:2px;background:var(--blue);opacity:0;transition:opacity .35s}.eyebrow.seen::before{opacity:1}
 .eyebrow i{width:10px;height:10px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 5px var(--lav)}
 h2{font-weight:400;letter-spacing:-.045em;line-height:1;color:var(--navy)}
 h2{font-size:clamp(38px,5.4vw,76px);max-width:12em}
@@ -155,10 +155,12 @@ footer p{font-size:clamp(18px,1.8vw,22px);letter-spacing:-.02em;max-width:30em;m
   <defs>
     <path id="drop" d="M0-15C6-7 10-2 10 4a10 10 0 0 1-20 0C-10-2-6-7 0-15Z"/>
     <linearGradient id="fade" gradientUnits="userSpaceOnUse" x1="0" x2="0"><stop offset="0" stop-color="#0f1f6b" stop-opacity="0"/><stop offset=".08" stop-color="#14237a"/><stop offset=".55" stop-color="#3b3bef"/><stop offset=".92" stop-color="#3b3bef" stop-opacity=".9"/><stop offset="1" stop-color="#3b3bef" stop-opacity="0"/></linearGradient>
+    <linearGradient id="vg" gradientUnits="userSpaceOnUse" x1="0" x2="0" y1="0" y2="800"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".2" stop-color="#fff"/><stop offset=".8" stop-color="#fff"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+    <mask id="vm" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="20000"><rect x="0" y="0" width="200" height="20000" fill="url(#vg)"/></mask>
     <clipPath id="cw"><rect id="cwR" x="0" y="0" width="200" height="0"/></clipPath>
     <clipPath id="cb"><rect id="cbR" x="0" y="0" width="200" height="0"/></clipPath>
   </defs>
-  <line id="solid" stroke="url(#fade)" stroke-width="2"/>
+  <line id="solid" stroke="url(#fade)" stroke-width="2" mask="url(#vm)"/>
   <g id="nodes"></g>
   <g id="head" opacity="0"><g clip-path="url(#cw)"><use id="dw" href="#drop" fill="#fff"/></g><g clip-path="url(#cb)"><use id="db" href="#drop" fill="#3b3bef"/></g></g>
 </svg>
@@ -215,12 +217,14 @@ function layout(){
   svg.setAttribute('height',H);
   $('solid').setAttribute('x1',X);$('solid').setAttribute('x2',X);
   $('cwR').setAttribute('height',HB);$('cbR').setAttribute('y',HB);$('cbR').setAttribute('height',H-HB);
-  nodes=[...document.querySelectorAll('.eyebrow.node')].map(e=>{const r=e.getBoundingClientRect();return{y:r.top-m.top+r.height/2}});
-  $('nodes').innerHTML=nodes.map((n,i)=>`<use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.5)" fill="#fff" stroke="#3b3bef" stroke-width="1.2"/>`).join('');
+  nodes=[...document.querySelectorAll('.eyebrow.node')].map(e=>{const r=e.getBoundingClientRect();return{y:r.top-m.top+r.height/2,el:e}});
+  $('nodes').innerHTML=nodes.map((n,i)=>`<use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.5)" fill="#fff" stroke="#3b3bef" stroke-width="1.2" id="n${i}" opacity="0" style="transition:opacity .35s"/>`).join('');
   LT=Math.max(HB,(nodes[0]?nodes[0].y:HB)-60);$('solid').setAttribute('y1',LT);$('solid').setAttribute('y2',H);const fg=$('fade');fg.setAttribute('y1',LT);fg.setAttribute('y2',H);
   tick();
 }
 function tick(){
+  const vg=$('vg');vg.setAttribute('y1',-wrap.getBoundingClientRect().top);vg.setAttribute('y2',-wrap.getBoundingClientRect().top+innerHeight);
+  nodes.forEach((n,i)=>{const e=$('n'+i);const on=n.y<=innerHeight*.5-wrap.getBoundingClientRect().top;if(e)e.setAttribute('opacity',on?1:0);n.el.classList.toggle('seen',on)});
   const pp=Math.min(1,Math.max(0,scrollY/(HB*.8)));$('ui').style.transform=`translateY(${90-pp*190}px)`;
   const top=wrap.getBoundingClientRect().top,y=Math.max(LT,Math.min(H,innerHeight*.5-top));
   
