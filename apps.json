@@ -1,5 +1,14 @@
 [
   {
+    "id": "klir-wayfinding",
+    "title": "Klir Wayfinding",
+    "category": "Landing Page",
+    "url": "klir-wayfinding/",
+    "thumbnail": "klir-wayfinding/thumb.png",
+    "preview": "klir-wayfinding/thumb.webp",
+    "alt": "A Klir water compliance page with a blue wayfinding line and waterdrop pin that follow the scroll, marked with curves, past large headlines on a pale lavender background"
+  },
+  {
     "id": "hob-social-studio",
     "title": "HOB Social Studio",
     "category": "Generator",
