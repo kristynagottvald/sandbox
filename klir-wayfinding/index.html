@@ -145,10 +145,22 @@ footer p{font-size:clamp(18px,1.8vw,22px);letter-spacing:-.02em;max-width:30em;m
 .fx p{font-size:18px;color:var(--ink);letter-spacing:-.015em;line-height:1.45}
 @media(max-width:1000px){.feats{grid-template-columns:1fr 1fr}.fx:nth-child(3){border-left:0;padding-left:0}}
 @media(max-width:600px){.feats{grid-template-columns:1fr}.fx{border-left:0;padding-left:0;border-top:1.5px solid var(--lav)}.fx:first-child{border:0}}
+#snav{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;gap:36px;padding:14px 48px;background:rgba(250,251,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid #d8d6ee;opacity:0;transform:translateY(-8px);pointer-events:none;transition:opacity .35s,transform .35s}
+#snav.show{opacity:1;transform:none;pointer-events:auto}
+#snav .logo{color:var(--navy);font-size:30px}#snav .links{display:flex;gap:34px;font-size:16px;margin-right:auto;margin-left:40px;color:var(--ink)}#snav .links span{display:inline-flex;align-items:center;gap:7px}
+#snav .btn{background:var(--indigo);color:#fff;padding:11px 22px;font-size:16px}#snav .btn:hover{background:var(--navy)}
+@media(max-width:820px){#snav{padding:12px 20px}#snav .links{display:none}#snav .btn{margin-left:auto}}
+.enthead{display:flex;justify-content:space-between;gap:48px;align-items:flex-start}.enthead .lead{max-width:38em}
+.goo.round{flex:none;width:clamp(120px,15vw,220px);aspect-ratio:1;border-radius:50%}
+.ents{display:grid;grid-template-columns:repeat(3,1fr);margin-top:72px;max-width:1180px}
+.en{border-left:1.5px solid var(--navy);padding:28px 40px 28px 80px}.en svg{width:22px;height:22px;stroke:var(--indigo);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;margin-bottom:24px}
+.en p{font-size:20px;color:var(--ink);letter-spacing:-.015em;line-height:1.5}
+@media(max-width:900px){.ents{grid-template-columns:1fr;gap:8px}.en{padding:20px 0 20px 28px}.enthead .goo{display:none}}
 </style>
 </head>
 <body>
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Klir Landing Page</b></nav>
+<header id="snav"><a class="logo" href="#top" aria-label="Klir"><svg width="26" height="34" viewBox="-12 -16 24 32"><use href="#drop" fill="#3b3bef"/></svg>Klir</a><div class="links"><span>Products <svg class="ar" viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L10 2M4 2h6v6"/></svg></span><span>By Role <svg class="ar" viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L10 2M4 2h6v6"/></svg></span><span>Company <svg class="ar" viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L10 2M4 2h6v6"/></svg></span><span>Resources <svg class="ar" viewBox="0 0 12 12" width="11" height="11" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10L10 2M4 2h6v6"/></svg></span></div><a class="btn" href="#demo">Book A Demo</a></header>
 <div id="wrap">
 <div id="wbg"><canvas id="water" aria-hidden="true"></canvas></div>
 <div class="hero" id="top">
@@ -195,11 +207,12 @@ footer p{font-size:clamp(18px,1.8vw,22px);letter-spacing:-.02em;max-width:30em;m
   </div>
 </section>
 
-<section>
-  <div class="eyebrow node">Who we are</div>
-  <h2>Proactive insights into water quality and <em>system performance.</em></h2>
-  <p class="lead">One hub where every team works from the same compliance programs and operational data, from the lab bench to the regulator's report.</p>
-  <div class="wide"><div class="goo a43"><img src="img/drop.jpg" alt="A droplet sending ripples across still water"></div><div class="cap"><b>01</b>Every reading starts as a ripple</div></div>
+<section class="entsec">
+  <div class="eyebrow node">One water. One organization. Every team.</div>
+  <div class="enthead"><div><h2 style="max-width:none">Enterprise Ready Solutions</h2>
+  <p class="lead">Partner with Klir for your enterprise-wide compliance and operational needs, or start with just one team. Either way, you'll have:</p></div>
+  <div class="goo round"><img src="img/drop.jpg" alt="A droplet sending ripples across still water"></div></div>
+  <div class="ents"><div class="en"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6"/></svg><p>A single source of truth with seamless integrations to LIMS, GIS, SCADA, and billing details.</p></div><div class="en"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6"/></svg><p>Access anytime, anywhere through Klir's cloud-based platform, mobile inspections, and field data entry.</p></div><div class="en"><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6"/></svg><p>Value realization and change management delivered by Klir's gold standard Customer Success team.</p></div></div>
 </section>
 
 <section>
@@ -251,6 +264,7 @@ function layout(){
 function tick(){
   const vg=$('vg');vg.setAttribute('y1',-wrap.getBoundingClientRect().top);vg.setAttribute('y2',-wrap.getBoundingClientRect().top+innerHeight);
   nodes.forEach((n,i)=>{const e=$('n'+i);const on=n.y<=innerHeight*.5-wrap.getBoundingClientRect().top;if(e)e.setAttribute('opacity',on?1:0);n.el.classList.toggle('seen',on)});
+  $('snav').classList.toggle('show',$('ui').getBoundingClientRect().bottom<0);
   const pp=Math.min(1,Math.max(0,scrollY/(HB*.8)));
   if(pp>.1&&!played)play();
   heroEls.forEach(e=>{e.style.opacity=Math.max(0,1-pp*1.7);e.style.transform=`translateY(${-pp*30}px)`});$('ui').style.transform=`translateY(${90-pp*190}px)`;{const ur=$('ui').getBoundingClientRect();tail.style.height=Math.max(HB,ur.top-wrap.getBoundingClientRect().top+pp*ur.height/2)+'px'}
