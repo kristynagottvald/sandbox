@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klir Wayfinding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#17094f;--ink:#2b2a55;--blue:#3b3bef;--indigo:#3a0fc9;--cyan:#5ce1f2;--lav:#cfcaf7;--bg:#fafbff;--tint:#f0efff;--gx:48px;--cx:128px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--navy);font:400 19px/1.5 "Inter","Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+nav.back{display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;white-space:nowrap;overflow:hidden;position:relative;z-index:5}
+nav.back a{color:#8d8d8d;text-decoration:none}
+nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav.back span{color:#6e6e6e}
+nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+.promo{background:var(--navy);color:#fff;text-align:center;font-size:15px;padding:14px 16px}
+.promo b{font-weight:600;margin-left:14px;white-space:nowrap}
+header.site{display:flex;align-items:center;gap:36px;padding:20px 48px;border-bottom:1px solid #d8d6ee;background:var(--bg)}
+.logo{text-decoration:none;display:flex;align-items:center;gap:6px;font-weight:600;font-size:34px;letter-spacing:-.04em;color:var(--navy)}
+header.site .links{display:flex;gap:34px;font-size:16px;color:var(--ink);margin-right:auto;margin-left:40px}
+.btn{display:inline-block;background:var(--indigo);color:#fff;text-decoration:none;font-weight:500;font-size:17px;padding:17px 28px;transition:background .2s}
+.btn:hover{background:var(--navy)}
+.btn.ghost{background:none;color:var(--navy);border:1.5px solid var(--navy);padding:15px 24px}
+.btn.ghost:hover{background:var(--navy);color:#fff}
+main{position:relative}
+#path{position:absolute;left:0;top:0;width:100%;pointer-events:none;overflow:visible}
+section{position:relative;min-height:92vh;padding:12vh 48px 12vh var(--cx);max-width:1320px;display:flex;flex-direction:column;justify-content:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--indigo);margin-bottom:24px;position:relative}
+.eyebrow.node::before{content:"";position:absolute;left:calc(var(--gx) - var(--cx) + 16px);width:calc(var(--cx) - var(--gx) - 32px);top:50%;height:2px;background:var(--blue)}
+.eyebrow i{width:10px;height:10px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 5px var(--lav)}
+h1,h2{font-weight:500;letter-spacing:-.035em;line-height:1.02;color:var(--navy)}
+h1{font-size:clamp(46px,7.4vw,104px);max-width:11em}
+h2{font-size:clamp(38px,5.4vw,76px);max-width:12em}
+h1 em,h2 em{font-style:normal;color:var(--blue)}
+p.lead{font-size:clamp(19px,1.9vw,24px);color:var(--ink);max-width:34em;margin-top:28px;letter-spacing:-.01em}
+.cta{display:flex;gap:16px;margin-top:40px;flex-wrap:wrap}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;margin-top:44px}
+ul.ticks{list-style:none;display:grid;gap:18px}
+ul.ticks li{display:flex;gap:14px;align-items:center;color:var(--ink);font-size:20px;letter-spacing:-.01em}
+ul.ticks svg{flex:none;width:22px;height:22px;stroke:var(--indigo);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.card{background:#fff;border:1px solid #cfcdea;box-shadow:0 30px 70px -30px rgba(58,15,201,.35);font-size:14px;position:relative}
+.card .bar{background:var(--navy);height:26px}
+.card .in{padding:22px 24px 26px}
+.card h4{font-size:22px;font-weight:600;letter-spacing:-.02em}
+.row{display:flex;justify-content:space-between;align-items:center;margin:16px 0}
+.pill{background:#dff6ea;color:#1b8a57;padding:6px 12px;font-size:13px}
+.facts{border:1px solid #cfcdea;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:16px;font-size:13px}
+.facts small{display:block;font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:#6b6a93}
+.map{height:130px;margin-top:16px;background:repeating-linear-gradient(60deg,#ece9ff 0 22px,#f7f6ff 22px 26px),var(--tint);position:relative;overflow:hidden}
+.map:after{content:"";position:absolute;inset:0;background:linear-gradient(35deg,transparent 46%,#7aa2ff 46% 47%,transparent 47%)}
+.gpd{position:absolute;right:-18px;bottom:-30px;background:#fff;border:1px solid #cfcdea;padding:18px 34px;text-align:center;font-size:13px}
+.gpd b{display:block;font-size:30px;font-weight:600;letter-spacing:-.02em}
+.stats{display:grid;grid-template-columns:1fr 1fr;border-top:1.5px solid var(--lav);margin-top:44px;max-width:760px}
+.stats div{padding:26px 0;border-bottom:1.5px solid var(--lav)}
+.stats div:nth-child(odd){border-right:1.5px solid var(--lav);padding-right:24px}.stats div:nth-child(even){padding-left:28px}
+.stats b{display:block;font-size:clamp(34px,4vw,56px);font-weight:500;letter-spacing:-.04em;line-height:1.1}
+.stats span{color:var(--ink);font-size:17px}
+footer{padding:48px;color:#6b6a93;font-size:14px;text-align:center}
+@media(max-width:820px){:root{--gx:22px;--cx:56px}header.site .links{display:none}header.site{padding:16px 20px}section{padding:9vh 20px 9vh var(--cx)}.split{grid-template-columns:1fr}.eyebrow.node::before{left:calc(var(--gx) - var(--cx) + 14px);width:calc(var(--cx) - var(--gx) - 26px)}.gpd{right:0}.promo b{display:block;margin:6px 0 0}}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Klir Wayfinding</b></nav>
+<div class="promo">Join Us for the 24-Hour Data Migration: What Modern Utility Implementation Looks Like <b>Watch On Demand →</b></div>
+<header class="site">
+  <a class="logo" href="#top" aria-label="Klir"><svg width="30" height="38" viewBox="-14 -18 28 36"><use href="#drop" fill="#3a0fc9"/></svg>Klir</a>
+  <div class="links"><span>Products ⌄</span><span>By Role ⌄</span><span>Company ⌄</span><span>Resources ⌄</span></div>
+  <a class="btn" href="#demo">Book A Demo</a>
+</header>
+
+<main id="top">
+<svg id="path" aria-hidden="true">
+  <defs>
+    <path id="drop" d="M0-15C6-7 10-2 10 4a10 10 0 0 1-20 0C-10-2-6-7 0-15Z"/>
+    <path id="curve" d="M-6-3Q-3 5 0 0T6 3" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+    <clipPath id="clip"><rect id="clipR" x="0" y="0" width="200" height="0"/></clipPath>
+    <linearGradient id="dg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5a3bff"/><stop offset="1" stop-color="#2a0aa8"/></linearGradient>
+  </defs>
+  <line id="track" stroke="#b9b6f0" stroke-width="3" stroke-linecap="round" stroke-dasharray="0.1 10"/>
+  <g clip-path="url(#clip)"><line id="solid" stroke="#3b3bef" stroke-width="9" stroke-linecap="round"/><g id="marks"></g></g>
+  <g id="nodes"></g>
+  <g id="head"><circle r="24" fill="#3b3bef" opacity=".14"/><use href="#drop" fill="url(#dg)" transform="translate(0 -2) scale(1.25)"/><circle cx="-3.5" cy="-1" r="3" fill="#5ce1f2" transform="translate(0 -2)"/></g>
+</svg>
+
+<section>
+  <div class="eyebrow">Water compliance software</div>
+  <h1>One Operational Hub. All Teams. <em>Built for Water.</em></h1>
+  <p class="lead">Say goodbye to worries and hello to effortless efficiency.</p>
+  <p class="lead" style="margin-top:18px">Klir digitally transforms compliance programs and operational data, giving you proactive insights into water quality and system performance.</p>
+  <div class="cta"><a class="btn" href="#demo">Book A Demo</a></div>
+</section>
+
+<section>
+  <div class="eyebrow node"><i></i>Who we are</div>
+  <h2>Proactive insights into water quality and <em>system performance.</em></h2>
+  <p class="lead">One hub where every team works from the same compliance programs and operational data, from the lab bench to the regulator's report.</p>
+</section>
+
+<section>
+  <div class="eyebrow node"><i></i>Klir for Wastewater</div>
+  <h2>Operationally efficient processes also ensure compliance.</h2>
+  <div class="split">
+    <ul class="ticks" id="ticks"></ul>
+    <div class="card" aria-hidden="true"><div class="bar"></div><div class="in">
+      <h4>Customers</h4>
+      <div class="row"><b>Electroplating Corp</b><span class="pill">Active</span></div>
+      <div class="facts"><div><small>Facility name</small>Electroplating Corp</div><div><small>Facility compliance status</small><span class="pill">Compliant</span></div><div><small>Distribution system</small>Dalecarlia</div><div><small>Collection system</small>Mill Creek Collection System</div></div>
+      <div class="map"></div>
+      <div class="gpd"><b>5000</b>Gallons Per Day<br><br>Water usages</div>
+    </div></div>
+  </div>
+  <div class="cta"><a class="btn ghost" href="#demo">Learn More About Klir For Wastewater</a></div>
+</section>
+
+<section id="demo">
+  <div class="eyebrow node"><i></i>Get started</div>
+  <h2>One Operational Hub. <em>All Teams.</em></h2>
+  <p class="lead">See how Klir brings compliance programs and operational data together for your utility.</p>
+  <div class="cta"><a class="btn" href="#demo">Book A Demo</a></div>
+</section>
+</main>
+<footer>Klir Wayfinding · a design exploration using Klir copy and colours</footer>
+
+<script>
+const ticks=["Standardize and centralize your data","Capture information in bench sheets","Evaluate against limits","Receive alerts and notifications","Anticipate necessary changes early","Manage NPDES permit adherence","Generate accurate NetDMR reports in clicks","Manage industrial customers and enforce compliance"];
+document.getElementById('ticks').innerHTML=ticks.map(t=>`<li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6"/></svg>${t}</li>`).join('');
+const $=id=>document.getElementById(id),svg=$('path'),main=document.querySelector('main'),NS='http://www.w3.org/2000/svg';
+let H=0,X=48,nodes=[];
+function layout(){
+  const m=main.getBoundingClientRect();H=main.offsetHeight;
+  X=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gx'))||48;
+  svg.setAttribute('height',H);
+  for(const id of['track','solid'])$(id).setAttribute('x1',X),$(id).setAttribute('x2',X),$(id).setAttribute('y1',0);
+  $('track').setAttribute('y2',H);
+  $('marks').innerHTML='';for(let y=40;y<H;y+=46){const u=document.createElementNS(NS,'use');u.setAttribute('href','#curve');u.setAttribute('transform',`translate(${X} ${y})`);$('marks').appendChild(u)}
+  $('clipR').setAttribute('x',X-20);$('clipR').setAttribute('width',40);
+  nodes=[...document.querySelectorAll('.eyebrow.node')].map(e=>{const r=e.getBoundingClientRect();return{y:r.top-m.top+r.height/2}});
+  $('nodes').innerHTML=nodes.map((n,i)=>`<circle id="n${i}" cx="${X}" cy="${n.y}" r="11" fill="#fafbff" stroke="#3b3bef" stroke-width="5"/>`).join('');
+  tick();
+}
+function tick(){
+  const top=main.getBoundingClientRect().top,y=Math.max(30,Math.min(H-30,innerHeight*.5-top));
+  $('solid').setAttribute('y2',y);$('clipR').setAttribute('height',y);
+  $('head').setAttribute('transform',`translate(${X} ${y})`);
+  nodes.forEach((n,i)=>$('n'+i).setAttribute('fill',n.y<=y?'#3b3bef':'#fafbff'));
+}
+addEventListener('scroll',tick,{passive:true});addEventListener('resize',layout);
+(document.fonts?document.fonts.ready:Promise.resolve()).then(layout);layout();
+</script>
+</body>
+</html>
