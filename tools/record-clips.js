@@ -25,12 +25,12 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
-  // the Klir wayfinding line: the blue line and waterdrop travel down the page with the scroll, lighting up each section node, then back up
+  // the Klir wayfinding line: the moving blue water hero, then the waterdrop appears, crosses the hero edge (white to blue) and travels down the page with the scroll, lighting up each section node, then back up
   'klir-wayfinding': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, run: async (p) => {
     const t0 = Date.now(), to = (y) => p.evaluate((v) => window.scrollTo({ top: v, behavior: 'smooth' }), y);
-    await at(t0, 800, () => to(900));
-    await at(t0, 2200, () => to(1900));
-    await at(t0, 3600, () => to(2900));
+    await at(t0, 800, () => to(500));
+    await at(t0, 2200, () => to(1500));
+    await at(t0, 3600, () => to(2600));
     await at(t0, 4800, () => to(0));
   } },
   // the badge rests at its angle over the muted tiles, then the mouse sweeps over the visual to tip it and leaves so it eases back
