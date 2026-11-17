@@ -106,7 +106,6 @@ button.go{background:#5ca0ff;color:#fff}button.go:hover{background:#4a91f5}
       <section><h2>Layout</h2><div class="grid g2" id="layouts"></div>
         <p class="cap2" id="zcap" style="margin:12px 0 6px">Bars area</p><div class="grid g2" id="zones"></div></section>
       <section><h2>Text</h2>
-        <p class="cap2">Phrase</p><div class="grid g2" id="phr" style="margin-bottom:12px"></div>
         <p class="cap2">Headline</p><textarea id="head" rows="2"></textarea>
         <p class="cap2" style="margin-top:10px">Sub left</p><textarea id="b1" rows="2"></textarea>
         <p class="cap2" style="margin-top:10px">Sub right (right aligned)</p><textarea id="b2" rows="2"></textarea>
@@ -259,7 +258,7 @@ function drawCols(x,y,bw,size,col){
   BOX.b1={x:x+o1[0],y:y+o1[1],w:wa,h:c.a.length*lh};
   BOX.b2={x:x+bw+o2[0]-wb,y:y+o2[1]+4*lh,w:wb,h:c.b.length*lh};
 }
-function tagBox(){const size=U()*.03*S.bs/100;ctx.font=MONO(size);ls('.2em');const t=S.tag.toUpperCase();return{t,size,w:ctx.measureText(t).width+size*1.6,h:size*2.1};}
+function tagBox(){const size=W*.03*S.bs/100;ctx.font=MONO(size);ls('.2em');const t=S.tag.toUpperCase();return{t,size,w:ctx.measureText(t).width+size*1.6,h:size*2.1};}
 function drawTag(x,y,C){
   const b=tagBox();x+=S.off.tag[0];y+=S.off.tag[1];
   ctx.fillStyle=C.tx;ctx.fillRect(Math.round(x),Math.round(y),Math.round(b.w),Math.round(b.h));
@@ -284,13 +283,11 @@ function bars(C,z){
 }
 
 /* ---------- reels keep the top and bottom free for the app's own UI ---------- */
-// text scales with the short side on landscape canvases so it is not oversized
-const U=()=>W>H*1.2?H*.95:W;
 const isReel=()=>H/W>=1.7;
 function safe(){return isReel()?{t:H*.14,b:H*.2}:{t:0,b:0};}
 /* ---------- compose ---------- */
 function paint(tv){
-  T=tv;const C=COMBOS[S.combo],land=W>H*1.2,m=W*.035,L=S.layout,size=U()*.028*S.bs/100;
+  T=tv;const C=COMBOS[S.combo],land=W>H*1.2,m=W*.035,L=S.layout,size=W*.034*S.bs/100;
   ctx.globalAlpha=1;ctx.fillStyle=C.bg;ctx.fillRect(0,0,W,H);
   const tg=tagBox(),gap=m*.8,sT=safe().t,sB=safe().b;let hx=m,hy=sT+m,hw=W-2*m,img=null,regionH=H-2*m,zone=null;
   if(L==='poster'){if(land){hw=W*.5-1.5*m;img={x:W*.5,y:0,w:W*.5,h:H};}}
@@ -301,17 +298,16 @@ function paint(tv){
     zone=top?{y0:0,y1:H*f}:{y0:H*(1-f),y1:H};hy=top?H*f+m:sT+m;regionH=H*(1-f)-2*m-tg.h-(top?sB:sT);
   }
   // a full-width headline runs slightly past both edges
-  const wide=hw===W-2*m,ovl=(!wide&&land&&img&&L!=='bleed')?W*.035:0,avail=wide?W*1.04:hw+ovl,hx0=wide?-W*.012:(L==='image'?hx-ovl:hx),bx=wide?m:hx,bw=wide?W-2*m:hw;
-  // in the bars layout the sub copy gives way first, so the headline stays big
-  let M=headMetrics(avail,1),bsz=size,c=cols(bw,bsz);
-  if(zone)for(let k=1,n=0;n<12&&M.h+gap+c.h>regionH;n++){k=Math.max(.8,k*.94);M=headMetrics(avail,k);bsz=Math.max(size*.55,bsz*.92);c=cols(bw,bsz);}
+  const wide=hw===W-2*m,avail=wide?W*1.04:hw,hx0=wide?-W*.012:hx,bx=wide?m:hx,bw=wide?W-2*m:hw;
+  let M=headMetrics(avail,1);const c=cols(bw,size);
+  if(zone&&M.h+gap+c.h>regionH)M=headMetrics(avail,Math.min(1,Math.max(.25,(regionH-gap-c.h)/M.h)));
   const by=hy+M.h+gap;
   if(L==='poster'&&!land){const top=Math.round(by+c.h+gap);img={x:0,y:top,w:W,h:Math.max(m,H-top)};}
   if(img)drawImage({x:Math.round(img.x),y:Math.round(img.y),w:Math.round(img.w),h:Math.round(img.h)},C);
   if(zone)bars(C,zone);
   drawHead(M,hx0+S.off.head[0],hy+S.off.head[1],C.tx);
-  drawCols(bx,by,bw,bsz,C.tx);
-  const tx=W-m-tg.w;
+  drawCols(bx,by,bw,size,C.tx);
+  const tx=(land&&L!=='bleed'&&L!=='bars')?hx:W-m-tg.w;
   drawTag(tx,H-sB-m-tg.h,C);
   ctx.globalAlpha=1;
 }
@@ -376,7 +372,7 @@ function fit(){
 function buildSwatches(){
   $('combos').innerHTML='';COMBOS.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.className='sw';b.title=c.n;b.textContent='Aa';b.style.background=c.bg;b.style.color=c.tx;b.setAttribute('aria-pressed',i===S.combo);b.onclick=()=>{S.combo=i;buildSwatches();};$('combos').appendChild(b);});
   $('layouts').innerHTML='';LAYOUTS.forEach(([id,n])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',id===S.layout);b.onclick=()=>{S.layout=id;buildSwatches();};$('layouts').appendChild(b);});
-  $('zones').innerHTML='';[['bot25','Bottom 25%'],['bot60','Bottom 60%']].forEach(([id,n])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',id===S.zone);b.onclick=()=>{S.zone=id;buildSwatches();};$('zones').appendChild(b);});
+  $('zones').innerHTML='';[['top25','Top 25%'],['top60','Top 60%'],['bot25','Bottom 25%'],['bot60','Bottom 60%']].forEach(([id,n])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',id===S.zone);b.onclick=()=>{S.zone=id;buildSwatches();};$('zones').appendChild(b);});
   $('zones').style.display=$('zcap').style.display=S.layout==='bars'?'':'none';
   $('capL').textContent=LAYOUTS.find(l=>l[0]===S.layout)[1]+' · '+COMBOS[S.combo].n;
 }
@@ -385,24 +381,6 @@ function buildGal(){
   IMGS.forEach((im,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-pressed',!imgEl&&S.img===i);b.setAttribute('aria-label','Picture '+(i+1));
     const t=document.createElement('img');t.src=im.src;t.alt='';b.appendChild(t);
     b.onclick=()=>{imgEl=null;S.img=S.img===i?-1:i;buildGal();};g.appendChild(b);});
-}
-const PHRASES=[
-  {n:'House of Balloons',h:'HOUSE OF\nBALLOONS',a:"WE'RE A RECORDING STUDIO AND CREATIVE BRAND BUILT FOR PRODUCERS,",b:'ENGINEERS, AND ARTISTS WHO DEFINE THEIR OWN SOUND.',t:'HOB.COM/ARTISTS',sel:[4,9]},
-  {n:'Hybrid Reverb',h:'HYBRID\nREVERB',a:'A NEW SOUND FOR PRODUCERS WHO BEND THE ROOM,',b:'LAYER IT, STRETCH IT, MAKE IT YOURS.',t:'HOB.COM/REVERB'},
-  {n:'Live Sessions',h:'LIVE\nSESSIONS',a:'FRIDAY NIGHTS IN THE STUDIO. NO SET LIST,',b:'JUST ARTISTS, ENGINEERS, AND THE ROOM.',t:'HOB.COM/LIVE'},
-  {n:'Now Booking',h:'NOW\nBOOKING',a:'STUDIO TIME FOR PRODUCERS AND ARTISTS,',b:'BOOK A SESSION AND MAKE SOMETHING NEW.',t:'HOB.COM/BOOK'},
-  {n:'New Release',h:'NEW\nRELEASE',a:'FRESH OUT OF THE HOUSE. A RECORD BUILT ON IMPROVISATION,',b:'FROM FIRST TAKE TO FINAL MIX.',t:'HOB.COM/LISTEN'},
-  {n:'Rearrange',h:'REARRANGE\nTHE GRID',a:'THE GRID IS ONLY A STARTING POINT,',b:'PUSH IT UNTIL IT BREAKS.',t:'HOB.COM/ARTISTS'}
-];
-function setPhrase(i){
-  const P=PHRASES[i];S.head=P.h;S.b1=P.a;S.b2=P.b;S.tag=P.t;
-  const t=P.h.toUpperCase(),ok=[...t].map((c,k)=>k).filter(k=>/\S/.test(t[k])&&!NOSTRETCH.includes(t[k]));
-  S.sel=P.sel||[ok[1],ok[Math.floor(ok.length*.7)]].filter((v,k,a)=>v!==undefined&&a.indexOf(v)===k);
-  $('head').value=S.head;$('b1').value=S.b1;$('b2').value=S.b2;$('tag').value=S.tag;buildChips();buildPhrases();
-}
-function buildPhrases(){
-  const g=$('phr');g.innerHTML='';
-  PHRASES.forEach((P,i)=>{const b=document.createElement('button');b.type='button';b.textContent=P.n;b.setAttribute('aria-pressed',S.head===P.h);b.onclick=()=>setPhrase(i);g.appendChild(b);});
 }
 const NOSTRETCH='OCGQSUXZAV'; // round and diagonal letters distort badly, so they stay locked
 function buildChips(){
@@ -418,7 +396,7 @@ function buildChips(){
   }
 }
 $('head').value=S.head;$('b1').value=S.b1;$('b2').value=S.b2;$('tag').value=S.tag;
-$('head').oninput=e=>{S.head=e.target.value;buildChips();buildPhrases();};
+$('head').oninput=e=>{S.head=e.target.value;buildChips();};
 $('b1').oninput=e=>{S.b1=e.target.value;};$('b2').oninput=e=>{S.b2=e.target.value;};$('tag').oninput=e=>{S.tag=e.target.value;};
 [['hs','hs',1,''],['bs','bs',1,''],['cell','cell',1,''],['sp','sp',1,''],['amt','amt',.1,'×']].forEach(([id,k,sc,u])=>{
   $(id).oninput=e=>{S[k]=+e.target.value*sc;e.target.nextElementSibling.textContent=(sc===1?e.target.value:S[k].toFixed(1))+u;};
@@ -459,7 +437,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape')sel=null;});
 addEventListener('resize',fit);
 const hash=location.hash.slice(1).split('&');
 if(hash.includes('clip')){document.body.classList.add('clip');S.layout='bars';S.combo=4;}
-buildSwatches();buildChips();buildGal();buildPhrases();size(hash.includes('clip')?1920:1080,hash.includes('clip')?1080:1350);
+buildSwatches();buildChips();buildGal();size(hash.includes('clip')?1920:1080,hash.includes('clip')?1080:1350);
 Promise.all([document.fonts.load('800 100px Syne'),document.fonts.load('400 20px "Source Code Pro"')]).catch(()=>{});
 requestAnimationFrame(draw);
 window.__hobs={set:o=>{Object.assign(S,o);buildSwatches();if(o.w)size(o.w,o.h||S.h);}};
