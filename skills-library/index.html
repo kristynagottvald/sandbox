@@ -144,6 +144,22 @@ var ICON={
 };
 var SKILLS=[
   {
+    title:'soft-drifting-cursor',
+    desc:'A looping, gently drifting cursor with its own colour and name tag. It glides between points with soft easing, pauses at each one, and loops.',
+    category:'Motion', cIcon:'motion',
+    use:'Cursors in product scenes', uIcon:'mockup',
+    art:'art/soft-drifting-cursor.svg',
+    alt:'Three coloured cursors with name tags glide softly between points over a grid, pausing at each, in loops of different lengths'
+  },
+  {
+    title:'line-icon-animations',
+    desc:'Small, minimal, one-colour line icons that each do one tiny looping gesture: a globe that turns, a pencil that writes, an eye that blinks.',
+    category:'Motion', cIcon:'motion',
+    use:'Micro-animated icons', uIcon:'design',
+    art:'art/line-icon-animations.svg',
+    alt:'Three black line icons in white discs: a globe that turns, a pencil that draws a line, and an eye that blinks'
+  },
+  {
     title:'brand-audit-engine',
     desc:'Builds a brand audit system for any library of uploaded assets, checking each one against brand guidelines read from a Figma link, with a person making the final call.',
     category:'Design', cIcon:'design',
@@ -315,6 +331,12 @@ var EX={
 'asset-generator-engine':[['blog-banner-studio','Blog Banner Studio'],['conference-post-generator','Conference Post Creator'],['lifecycle-image-engine','Lifecycle Image Studio'],['hero-banner-engine','Banner Template Studio'],['postmark-ribbon-engine','Postmark Awards Ribbon Engine'],['grubclub-end-card','Grubclub End Card Maker'],['https://kristynagottvald.github.io/sketches/ribbon-text/','Postmark Awards','https://kristynagottvald.github.io/sketches/clips/ribbon-text.webp','https://kristynagottvald.github.io/sketches/ribbon-text/thumbnail.jpg'],['https://kristynagottvald.github.io/sketches/pattern-generator/','Pattern Generator','https://kristynagottvald.github.io/sketches/clips/pattern-generator.webp','https://kristynagottvald.github.io/sketches/pattern-generator/thumbnail.jpg']]};
 var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 var D={
+'soft-drifting-cursor':{saves:'Keyframing a cursor’s path by hand, over and over',work:["Plotting each point a cursor visits and moving it there frame by frame","Tuning the easing so the cursor glides instead of jerking from point to point","Offsetting several cursors so they never move in lockstep, and matching each name tag to its cursor"],
+ p:["This skill is only about the cursor. It builds a small pointer that drifts around a scene in a soft, endless loop. The pointer is a simple white arrow with a thin coloured outline, tilted so its tip points down and to the left, with a small name tag trailing up and to the right in the same colour.","Its movement is a list of stops. For each stop you give the position and how long the cursor takes to get there. It eases out of one stop and into the next so it glides rather than snaps, and repeating a position makes it pause there. When it reaches the end, it returns to where it began, so the loop has no jump.","For a more natural drift, the cursor can pick its own targets from a repeatable pattern and curve slightly on the way instead of going in a straight line. Give each cursor its own colour, name and loop length, and several of them will wander at the same time without ever moving in step."],
+ prompts:["Use soft-drifting-cursor to add three labelled cursors that drift around this screen and loop.","Give each cursor its own colour, name tag and path, with loop lengths that differ so they never move in step.","Make the cursor glide in a gentle arc between points and pause on each one."]},
+'line-icon-animations':{saves:'Designing and animating each tiny icon by hand',work:["Drawing every icon in the same stroke weight and style","Deciding what small gesture suits each icon, then keyframing it","Tuning the easing and timing so it feels calm, and offsetting each icon so a set never moves in lockstep"],
+ p:["This skill is only about small, minimal line icons that move a little. Every icon is drawn with a single dark line, in a round-capped stroke about two pixels wide, on a white disc with a lightly tinted disc offset behind it. No fills, no extra colour, nothing else on the page.","Each icon does one tiny gesture that fits what it is. A globe turns a quarter-eighth of the way, holds, then turns back, swapping direction each time. A pencil writes a line, and the lines stack up and fade as new ones arrive. An eye stays open and blinks quickly now and then.","The motion is built to feel calm. Icons spend most of the time at rest, move with gentle easing, and run on a looping counter so they repeat exactly. Each icon starts at a different point in its cycle, so a row of them never moves in step. To add a new icon, you pick a gesture that fits its meaning and give it the same stroke and timing rules."],
+ prompts:["Use line-icon-animations to make a globe, a pencil and an eye icon that each animate in a small loop.","Add a new line icon to this set, a [bell, heart, key], with a tiny gesture that fits its meaning.","Make these icons loop out of step so they don’t all move together."]},
 'brand-audit-engine':{saves:'Checking every asset against the brand guidelines by eye',work:["Opening each asset and comparing it with the guidelines, one check at a time","Copying rules out of a Figma file into a checklist, and keeping it up to date","Tracking which assets are reviewed, flagged or approved, and writing up the feedback"],
  p:["This skill builds a brand audit system for any library of assets you upload: campaign posts, ads, social tiles and other images. The library shows every asset with where it is in review, and you can search it.","The brand guidelines come from a Figma link. The skill reads the rules from that file, such as colours, type, logo use and spacing, and turns them into the checks it runs. Open an asset and it scans it against those checks, circling each problem with a numbered mark, for example a missing logo, text with too little contrast, uneven gaps at the edges, or an off-brand colour.","A results panel then shows how many checks were run and how many were flagged, along with the time taken per asset. The system flags issues but doesn’t decide: a person makes the final call, with buttons to approve the asset or request changes."],
  prompts:["Use brand-audit-engine to audit these uploaded assets against the brand guidelines in this Figma file: [link].","Read the brand guidelines from this Figma link and list the checks you will run, covering colour, type, logo and spacing.","Scan each asset, circle every issue with a number, and leave the approve or request changes decision to me."]},
@@ -413,6 +435,8 @@ var GROUPS=[
 ['feature','spot','product','short','promo','wireframe','illustration','abstract','launch','announce'],
 ['skill','learn','lesson','reflect','session','retro','capture','repeat','repeatable','mistake','correction','remember','process','write','document','reuse'],
 ['audit','review','check','compliance','guideline','approve','flag','logo','consistent','brand','qa','upload','library','asset','issue','off-brand'],
+['icon','line','stroke','mono','minimal','animated','gesture','loop','micro','globe','eye','pencil','blink','lottie','glyph','pictogram'],
+['cursor','pointer','drift','drifting','glide','mouse','path','waypoint','collaborator','multiplayer','presence','follow','arrow','tag','name'],
 ['plugin','plug-in','extension','port','figma','tool','generator','engine','layer','editable']
 ];
 function stem(w){w=w.toLowerCase().replace(/[^a-z0-9+-]/g,'');if(w.length>5&&/ing$/.test(w))w=w.slice(0,-3);else if(w.length>4&&/ed$/.test(w))w=w.slice(0,-2);else if(w.length>4&&/es$/.test(w))w=w.slice(0,-2);else if(w.length>3&&/s$/.test(w)&&!/ss$/.test(w))w=w.slice(0,-1);return w}
