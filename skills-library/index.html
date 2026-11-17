@@ -46,8 +46,9 @@ a.card:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
 body.detail{background:#f7f9fd;color:#0d0d12}
 body.detail html,html:has(body.detail){background:#f7f9fd}
 #detail{position:relative;max-width:1440px;margin:0 auto;padding:40px 40px 96px 140px}
-.back2{position:absolute;left:-120px;top:50%;transform:translateY(-50%);display:inline-flex;align-items:center;gap:8px;color:#0d0d12;text-decoration:none;font-size:15px;line-height:1;white-space:nowrap;letter-spacing:0;text-transform:none}
-.back2:hover{text-decoration:underline;text-underline-offset:4px}
+.back2{position:absolute;left:-120px;top:50%;transform:translateY(-50%);display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;box-sizing:border-box;border:1px solid #0d0d12;border-radius:6px;color:#0d0d12;text-decoration:none;background:transparent}
+.back2:hover{background:#0d0d12;color:#fff}
+.back2:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
 .back2 svg{width:16px;height:10px;flex:none}
 .dgrid{display:grid;grid-template-columns:3fr 2fr;gap:56px;align-items:start}
 .eyebrow{position:relative;display:flex;align-items:center;flex-wrap:wrap;gap:16px;margin:0 0 30px;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#6b6a78}
@@ -84,7 +85,7 @@ body.detail html,html:has(body.detail){background:#f7f9fd}
 .btn.p:hover{background:#1d4fd0}
 .btn.s{background:#fff;color:#0d0d12;border:1.5px solid #0d0d12}
 .btn.s:hover{background:#f1f0f6}
-@media (max-width:900px){#detail{padding:20px 16px 64px}.back2{position:static;transform:none;flex-basis:100%}.dgrid{grid-template-columns:1fr;gap:36px}.side{position:static}.saves{font-size:20px}}
+@media (max-width:900px){#detail{padding:20px 16px 64px}.back2{position:static;transform:none;flex:none}.dgrid{grid-template-columns:1fr;gap:36px}.side{position:static}.saves{font-size:20px}}
 </style>
 </head>
 <body>
@@ -104,6 +105,22 @@ var ICON={
   motion:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h3l2-4 2 8 2-4h3"/></svg>'
 };
 var SKILLS=[
+  {
+    title:'paid-ad-pipeline',
+    desc:'Builds a three-screen walkthrough of a paid ad: the ad in its native context, the landing page it leads to, and a sample-data performance dashboard, as one interactive page.',
+    category:'Design', cIcon:'design',
+    use:'Ad campaign walkthroughs', uIcon:'mockup',
+    art:'art/paid-ad-pipeline.svg',
+    alt:'A top toggle moves across three screens in turn: an ad in a feed, the landing page it leads to, and a performance dashboard'
+  },
+  {
+    title:'lowpoly-3d-scene',
+    desc:'Builds a low poly 3D scene in p5.js: a landmark of flat-coloured shapes, a sky dome, scattered props, and a day, sunset and night cycle with glowing windows.',
+    category:'Design', cIcon:'design',
+    use:'3D dioramas and landmarks', uIcon:'image',
+    art:'art/lowpoly-3d-scene.svg',
+    alt:'A low poly domed landmark with cacti and rocks on a desert as the sky shifts from day to sunset to night and the windows light up'
+  },
   {
     title:'metacognitive-prompt-rewriter',
     desc:'Rewrites a basic prompt so the model stops to identify, evaluate and update its own thinking. Compare the original and rewritten prompts side by side, then copy the result.',
@@ -215,10 +232,19 @@ function render(){
 tabs.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b){cur=b.dataset.c;render()}});
 render();
 var EX={
+'paid-ad-pipeline':[['paid-ad-pipeline','Paid Ad Pipeline']],
+'tile-to-fullscreen-section-transition':[['thread-brand-guidelines','Thread Brand Guidelines']],
+'cut-products-out-of-mockup-photos':[['grubclub-end-card','Grubclub End Card Maker'],['flavor-all-stars','Grubclub Offer Emails']],
 'motion-explainer':[['sander-troubleshoot','Sander Troubleshoot'],['nlp-diagram','NLP Diagram'],['agentic-storefront','Agentic Storefront'],['video-synopsis','Video Synopsis'],['clearco-attribution-guide','Clearco Attribution Guide'],['clearco-logistics-guide','Clearco Logistics Guide'],['clearco-logistics-motion','Clearco Logistics Motion']],
 'asset-generator-engine':[['blog-banner-studio','Blog Banner Studio'],['conference-post-generator','Conference Post Creator'],['lifecycle-image-engine','Lifecycle Image Studio'],['hero-banner-engine','Banner Template Studio'],['postmark-ribbon-engine','Postmark Awards Ribbon Engine'],['grubclub-end-card','Grubclub End Card Maker']]};
 var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 var D={
+'paid-ad-pipeline':{saves:'Mocking up an ad, its landing page and its results as separate designs',work:["Designing the ad in its real platform context, with the surrounding content","Building a matching landing page and keeping its headline and tracking links in step with the ad","Making a performance dashboard whose numbers all add up, then checking it on desktop and phone"],
+ p:["This skill builds a paid ad walkthrough as one interactive page, in three screens with a toggle at the top. The ad can be on LinkedIn, Google search, Instagram feed or reel, TikTok, or a display ad sitting on a related article.","The first screen shows the ad in its natural setting, with the surrounding content dimmed. Clicking the ad takes you to the second screen: the landing page in browser chrome, with the tracking parameters shown and a headline that matches the ad. The third screen is a performance dashboard marked “Sample data”, with headline numbers, a daily trend, a funnel from click to conversion, a table per variant, breakdown bars and landing page health.","You tell it the platform, the brand, the offer and goal, the audience or variants, and whether to use a real landing page or build a mock. Every number on the dashboard is worked out from impressions, click rate, cost per click and conversion rate, so the figures always agree. It checks the result at desktop width and at 390px wide, then publishes it."],
+ prompts:["Use the paid-ad-pipeline skill to build a paid ad pipeline walkthrough as one interactive Artifact. Platform: linkedin. Brand: [name]. Offer and goal: [what the ad promises, and the conversion].","Build a three-screen paid ad walkthrough for an Instagram reel ad with a mock landing page and a sample-data dashboard.","Make a display ad walkthrough on a related article page, with four audience variants in the dashboard."]},
+'lowpoly-3d-scene':{saves:'Modelling a low poly landmark and its lighting by hand',work:["Building a landmark out of flat-coloured shapes one piece at a time","Hand-colouring every surface for day, sunset and night, and blending between them","Scattering props like cacti, trees and rocks, then wiring up the camera and window lights"],
+ p:["This skill builds a low poly 3D scene in p5.js, in the style of the Integratron sketch. The scene has a landmark made of simple flat-coloured shapes, a gradient sky, a big block of ground, and props scattered at random, such as cacti, trees or rocks.","The whole scene moves through a day, sunset and night cycle. Every surface has three colours, one for each time of day, and they blend smoothly as the cycle runs. At night the windows switch to a warm glow. You can drag to orbit around the scene and scroll to zoom.","It keeps to a few rules so the look stays consistent: flat colours with no outlines, only a few parts per landmark, randomness only at setup, and a scene light enough to run smoothly. You tell it the landmark, the props, the setting and the colours, and whether you want the optional singing-bowl sound."],
+ prompts:["Make a low poly scene of a lighthouse on a rocky coast, like the Integratron sketch, with a day to night cycle.","Build a low poly diorama of a cabin in a snowy forest with glowing windows at night.","Use lowpoly-3d-scene to turn this landmark into a desert scene with cacti and rocks."]},
 'metacognitive-prompt-rewriter':{saves:'Rewriting prompts by hand to make the model check its own thinking',work:["Working out how to ask the model to question its own approach, every time","Rewriting each prompt from scratch to add steps for identifying, evaluating and updating its thinking","Comparing the old and new versions by eye to see what changed"],
  p:["This skill rewrites an ordinary prompt into a metacognitive one: a prompt that asks the model to think about its own thinking before it answers.","You paste a prompt into the input box, choose whether thinking is on, and press Transform. The rewritten prompt asks the model to identify how it is approaching the task, evaluate whether that approach is working, and update it if it isn’t.","The original and the rewrite sit side by side, so you can see exactly what was added. When you’re happy with it, one button copies the result, ready to paste into Claude."],
  prompts:["Use metacognitive-prompt-rewriter to rewrite this prompt: [your prompt].","Rewrite this prompt so the model identifies, evaluates and updates its thinking, with thinking turned on.","Show the original and rewritten prompts side by side, then give me the rewrite to copy."]},
@@ -264,7 +290,7 @@ function copy(t,btn,label){var done=function(){var o=btn.textContent;btn.textCon
   function fallback(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();done()}}
 function showDetail(s){var d=D[s.title];
   detail.innerHTML=''+
-  '<div class="dgrid"><div><div class="eyebrow"><a class="back2" href="#/"><svg viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M16 5H1M5 1L1 5l4 4"/></svg>All skills</a><span>Skill type</span><span class="tag">'+esc(s.category)+'</span></div><h1>'+esc(s.title)+'</h1>'+
+  '<div class="dgrid"><div><div class="eyebrow"><a class="back2" href="#/" aria-label="All skills" title="All skills"><svg viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M16 5H1M5 1L1 5l4 4"/></svg></a><span>Skill type</span><span class="tag">'+esc(s.category)+'</span></div><h1>'+esc(s.title)+'</h1>'+
   d.p.map(function(t){return '<p class="lead">'+esc(t)+'</p>'}).join('')+
   '<div class="time"><div class="lbl">The manual work it saves</div><ul class="work">'+d.work.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'+(EX[s.title]?'<div class="ex"><div class="lbl">Built with this skill</div><div class="exg">'+EX[s.title].map(function(e){return '<a href="../'+e[0]+'/"><div class="im"><img src="../'+e[0]+'/thumb.'+(RM?'png':'webp')+'" alt="" loading="lazy"></div><span>'+esc(e[1])+'</span></a>'}).join('')+'</div></div>':'')+'</div>'+
   '<aside class="side"><div class="art"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'"></div><div class="in">'+
