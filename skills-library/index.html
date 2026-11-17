@@ -130,6 +130,14 @@ var ICON={
 };
 var SKILLS=[
   {
+    title:'session-to-skill',
+    desc:'Asks Claude what it learned during a session, then shows how to turn those lessons into a reusable skill with a name, a trigger, steps and rules.',
+    category:'Generator', cIcon:'image',
+    use:'Capturing what worked', uIcon:'design',
+    art:'art/session-to-skill.svg',
+    alt:'A conversation on the left is distilled into a list of lessons in the middle, which becomes a SKILL.md file on the right'
+  },
+  {
     title:'generator-to-figma-plugin',
     desc:'Takes a generator, engine or design tool built in Claude and rebuilds it as a Figma plugin, so the same controls produce real, editable Figma layers.',
     category:'Design to code', cIcon:'design',
@@ -284,6 +292,9 @@ var EX={
 'asset-generator-engine':[['blog-banner-studio','Blog Banner Studio'],['conference-post-generator','Conference Post Creator'],['lifecycle-image-engine','Lifecycle Image Studio'],['hero-banner-engine','Banner Template Studio'],['postmark-ribbon-engine','Postmark Awards Ribbon Engine'],['grubclub-end-card','Grubclub End Card Maker'],['https://kristynagottvald.github.io/sketches/ribbon-text/','Postmark Awards','https://kristynagottvald.github.io/sketches/clips/ribbon-text.webp','https://kristynagottvald.github.io/sketches/ribbon-text/thumbnail.jpg'],['https://kristynagottvald.github.io/sketches/pattern-generator/','Pattern Generator','https://kristynagottvald.github.io/sketches/clips/pattern-generator.webp','https://kristynagottvald.github.io/sketches/pattern-generator/thumbnail.jpg']]};
 var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 var D={
+'session-to-skill':{saves:'Remembering what went right in a session and re-explaining it next time',work:["Looking back through a long session to work out what actually mattered","Re-explaining the same corrections and preferences to Claude in every new session","Writing a skill file from scratch and deciding what belongs in it"],
+ p:["Long sessions teach you a lot: which steps worked, what went wrong the first time, and what you kept asking Claude to fix. This skill makes that knowledge easy to keep. It starts by asking Claude a simple question: what did you learn in this session?","Claude answers by looking back over the work: the steps that worked, the mistakes that were corrected, the preferences you repeated, and the decisions you made along the way. Then it helps you decide whether those lessons are worth a skill, which is usually the case when the task will come up again and isn’t obvious.","From there it shows how to build the skill. It picks a short hyphenated name, writes when the skill should be used, lays out the steps in order, and turns your corrections into clear rules. The result is a skill file you can save with your project, so every future session starts with what this one learned."],
+ prompts:["Use session-to-skill: what did you learn in this session, and how would we build a skill around it?","Look back over this session and list the corrections I made, then turn them into rules for a skill.","Draft a SKILL.md from what we just built, with a name, when to use it, the steps and the rules."]},
 'generator-to-figma-plugin':{saves:'Rebuilding a generator’s output by hand in Figma, over and over',work:["Recreating what the generator makes as layers in Figma, shape by shape, every time","Working out how a Figma plugin is put together: the manifest, the panel and the code that edits the file","Rewriting the drawing code so it makes frames, shapes and text instead of pixels, and passing the controls’ values across"],
  p:["This skill takes a generator, engine or design tool that was built in Claude, usually as a single web page with controls and a preview, and rebuilds it as a Figma plugin. Designers can then use it without leaving Figma.","It splits the tool into two parts. The controls and live preview become the plugin’s panel. The code that makes the design is reworked so that, instead of painting pixels on a canvas, it builds real Figma layers: frames, shapes, text and images that can be edited afterwards. The two parts talk to each other by messages, so changing a control updates what is placed on the page.","It also sets up the plugin’s manifest, loads the fonts the design needs before any text is added, and explains how to test the plugin by importing it into Figma. The original tool keeps working as it did, so you end up with both."],
  prompts:["Use generator-to-figma-plugin to turn this generator into a Figma plugin: [path or paste the code].","Keep the controls as the plugin panel and add a button that places the result on the current page.","Convert this canvas engine’s output into real Figma layers (frames, shapes and text) instead of an image."]},
@@ -374,6 +385,7 @@ var GROUPS=[
 ['3d','lowpoly','poly','scene','diorama','p5','webgl','landscape','landmark','desert','night','sunset','day','orbit'],
 ['ad','ads','paid','campaign','landing','utm','linkedin','google','instagram','tiktok','metric','ctr','analytic','conversion','funnel'],
 ['feature','spot','product','short','promo','wireframe','illustration','abstract','launch','announce'],
+['skill','learn','lesson','reflect','session','retro','capture','repeat','repeatable','mistake','correction','remember','process','write','document','reuse'],
 ['plugin','plug-in','extension','port','figma','tool','generator','engine','layer','editable']
 ];
 function stem(w){w=w.toLowerCase().replace(/[^a-z0-9+-]/g,'');if(w.length>5&&/ing$/.test(w))w=w.slice(0,-3);else if(w.length>4&&/ed$/.test(w))w=w.slice(0,-2);else if(w.length>4&&/es$/.test(w))w=w.slice(0,-2);else if(w.length>3&&/s$/.test(w)&&!/ss$/.test(w))w=w.slice(0,-1);return w}
