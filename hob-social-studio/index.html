@@ -372,7 +372,7 @@ function fit(){
 function buildSwatches(){
   $('combos').innerHTML='';COMBOS.forEach((c,i)=>{const b=document.createElement('button');b.type='button';b.className='sw';b.title=c.n;b.textContent='Aa';b.style.background=c.bg;b.style.color=c.tx;b.setAttribute('aria-pressed',i===S.combo);b.onclick=()=>{S.combo=i;buildSwatches();};$('combos').appendChild(b);});
   $('layouts').innerHTML='';LAYOUTS.forEach(([id,n])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',id===S.layout);b.onclick=()=>{S.layout=id;buildSwatches();};$('layouts').appendChild(b);});
-  $('zones').innerHTML='';[['top25','Top 25%'],['top60','Top 60%'],['bot25','Bottom 25%'],['bot60','Bottom 60%']].forEach(([id,n])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',id===S.zone);b.onclick=()=>{S.zone=id;buildSwatches();};$('zones').appendChild(b);});
+  $('zones').innerHTML='';[['bot25','Bottom 25%'],['bot60','Bottom 60%']].forEach(([id,n])=>{const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',id===S.zone);b.onclick=()=>{S.zone=id;buildSwatches();};$('zones').appendChild(b);});
   $('zones').style.display=$('zcap').style.display=S.layout==='bars'?'':'none';
   $('capL').textContent=LAYOUTS.find(l=>l[0]===S.layout)[1]+' · '+COMBOS[S.combo].n;
 }
