@@ -105,6 +105,22 @@ var ICON={
 };
 var SKILLS=[
   {
+    title:'metacognitive-prompt-rewriter',
+    desc:'Rewrites a basic prompt so the model stops to identify, evaluate and update its own thinking. Compare the original and rewritten prompts side by side, then copy the result.',
+    category:'Generator', cIcon:'image',
+    use:'Better prompts for Claude', uIcon:'design',
+    art:'art/metacognitive-prompt-rewriter.svg',
+    alt:'A short prompt is transformed into a longer rewritten prompt with three thinking steps, then copied'
+  },
+  {
+    title:'industry-swapper',
+    desc:'Re-skins one template for any industry in a click. Pick a variant from a library and the copy, colours and imagery swap together, with zoom and a reset to the starting piece.',
+    category:'Generator', cIcon:'image',
+    use:'Direct mail and ad mockups', uIcon:'mockup',
+    art:'art/industry-swapper.svg',
+    alt:'A postcard mockup changes colour and copy as the selected industry moves down a library list: finance, tech, retail, health'
+  },
+  {
     title:'avoid-widows-and-orphans',
     desc:'Treats runts, widows, orphans and orphaned headings as defects: two words on a last line, two lines kept together, headings kept with text. Fixes for CSS, canvas, Figma, Word and PDF.',
     category:'Design', cIcon:'design',
@@ -203,6 +219,12 @@ var EX={
 'asset-generator-engine':[['blog-banner-studio','Blog Banner Studio'],['conference-post-generator','Conference Post Creator'],['lifecycle-image-engine','Lifecycle Image Studio'],['hero-banner-engine','Banner Template Studio'],['postmark-ribbon-engine','Postmark Awards Ribbon Engine'],['grubclub-end-card','Grubclub End Card Maker']]};
 var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 var D={
+'metacognitive-prompt-rewriter':{saves:'Rewriting prompts by hand to make the model check its own thinking',work:["Working out how to ask the model to question its own approach, every time","Rewriting each prompt from scratch to add steps for identifying, evaluating and updating its thinking","Comparing the old and new versions by eye to see what changed"],
+ p:["This skill rewrites an ordinary prompt into a metacognitive one: a prompt that asks the model to think about its own thinking before it answers.","You paste a prompt into the input box, choose whether thinking is on, and press Transform. The rewritten prompt asks the model to identify how it is approaching the task, evaluate whether that approach is working, and update it if it isn’t.","The original and the rewrite sit side by side, so you can see exactly what was added. When you’re happy with it, one button copies the result, ready to paste into Claude."],
+ prompts:["Use metacognitive-prompt-rewriter to rewrite this prompt: [your prompt].","Rewrite this prompt so the model identifies, evaluates and updates its thinking, with thinking turned on.","Show the original and rewritten prompts side by side, then give me the rewrite to copy."]},
+'industry-swapper':{saves:'Remaking the same mockup by hand for every industry',work:["Duplicating one template and rewriting the headline, offer and details for each industry","Re-picking colours and imagery so each version looks right for its sector","Keeping the layout identical across every variant, then repeating it all for the next industry"],
+ p:["Industry Swapper re-skins one template for any industry, live. It’s built from the direct mail mock-up generator: one postcard design that changes to suit whoever you’re showing it to.","On one side is a preview of the piece, with zoom controls to check the details. On the other is a library of variants grouped by industry, such as finance, tech, retail, automotive, insurance and health. Pick one and the copy, colours and imagery all swap together.","The layout never changes, only the content, so every version stays consistent. A reset button takes you back to the starting piece, and the same setup works for ads, landing pages and other mockups."],
+ prompts:["Use industry-swapper to build a postcard mockup that re-skins for any industry.","Add a library of variants grouped by industry, with copy, colours and imagery for each.","Add zoom controls and a reset button to this industry swapper."]},
 'avoid-widows-and-orphans':{saves:'Hand-checking every text block for stranded words and lines',work:["Reading every paragraph, heading and caption to spot a lone word on the last line", "Nudging line breaks and widths by hand, then re-checking after every edit", "Re-testing at narrow and wide widths, and again in print, slides or canvas renders"],
  p:["Single words left alone on a line make good layouts look unfinished. This skill spots four kinds of stranded text: a lone word on a paragraph’s last line, a last line left at the top of a page or column, a first line left at the bottom, and a heading separated from its text.", "It follows a few simple rules. A last line gets at least two words, a paragraph keeps at least two lines together at a break, a heading always stays with the text under it, and short words and numbers stay attached to their neighbours.", "It knows how to fix this in each place you work: web pages, p5.js and canvas, Figma, Word, PDFs and slides. When it’s done, it checks the last line of every block at narrow and wide widths, and looks at a render to be sure."],
  prompts:['Use avoid-widows-and-orphans to check the last line of every text block on this page.','Fix the runts and orphaned headings in this slide deck.','Apply text-wrap: balance and pretty to this stylesheet, then check narrow and wide widths.','Check the wrapped text in this p5.js sketch for widows and orphans.']},
