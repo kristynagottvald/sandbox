@@ -9,3 +9,5 @@ Also add the app's `<nav>` "Sandbox / Back to all projects" bar linking to `../`
 
 **Every new or changed app must be live.** The site is GitHub Pages served from the default branch (`claude/epic-pasteur-fsjjc8`), so pushing a feature branch is not enough:
 open a pull request into the default branch, merge it, and confirm the Pages deploy succeeded and the app and its homepage tile are on the live site (https://kristynagottvald.github.io/sandbox/).
+
+**Skills.** Repeatable procedures live in `.claude/skills/` (committed, so every session has them): `sandbox-add-app` (new app + homepage tile + clip), `sandbox-visual-check` (Playwright screenshots and interaction checks), `sandbox-ship` (commit, PR, merge, confirm live) and `brand-guidelines-site` (reusing a generator engine for a guidelines site, tile-to-section transition). Use them instead of reconstructing the steps.
