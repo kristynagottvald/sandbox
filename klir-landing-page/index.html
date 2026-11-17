@@ -269,33 +269,11 @@ footer p{font-size:clamp(18px,1.8vw,22px);letter-spacing:-.02em;max-width:30em;m
   <div class="feats"><div class="fx"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="40" height="26" fill="#3b3bef"/><path d="M16 42l8-10 8 10z" fill="#cfcaf7"/></svg><h3>Real-Time Dashboards</h3><p>Insights that were once only available in end-of-year reports are now available on demand.</p></div><div class="fx"><svg viewBox="0 0 48 48"><circle cx="12" cy="30" r="8" fill="#3b3bef"/><circle cx="26" cy="22" r="8" fill="#5a3bff"/><circle cx="38" cy="14" r="6" fill="#3b3bef"/><rect x="4" y="40" width="40" height="4" fill="#cfcaf7"/></svg><h3>Long-Term Gains</h3><p>Klir gives you a roadmap for realizing widespread efficiency gains and cost savings.</p></div><div class="fx"><svg viewBox="0 0 48 48"><circle cx="24" cy="14" r="9" fill="#5ce1f2"/><circle cx="15" cy="23" r="8" fill="#5ce1f2"/><circle cx="33" cy="23" r="8" fill="#5ce1f2"/><rect x="22" y="24" width="4" height="16" fill="#3a0fc9"/><path d="M6 44a18 8 0 0 1 36 0z" fill="#3b3bef"/></svg><h3>Go Greener</h3><p>Beyond water quality, Klir makes it easy to track and manage environmental priorities such as resource recovery and water reuse.</p></div><div class="fx"><svg viewBox="0 0 48 48"><circle cx="24" cy="12" r="6" fill="#cfcaf7"/><circle cx="13" cy="26" r="6" fill="#cfcaf7"/><circle cx="35" cy="26" r="6" fill="#cfcaf7"/><path d="M2 44a11 11 0 0 1 22 0zM24 44a11 11 0 0 1 22 0zM13 30a11 11 0 0 1 22 0z" fill="#3b3bef"/></svg><h3>Total Accountability</h3><p>Tasks can be easily assigned to team members, so you have one digital thread from top-to-bottom of the organization.</p></div></div>
 </section>
 
-<section>
-  <div class="eyebrow node">Klir for Wastewater</div>
-  <h2>Operationally efficient processes also ensure compliance.</h2>
-  <div class="row2">
-    <div><div class="goo a45"><img src="img/plant.jpg" alt="Aerial view of circular wastewater treatment tanks"></div><div class="cap"><b>02</b>Wastewater treatment, from above</div></div>
-    <div><ul class="ticks" id="ticks"></ul><div class="cta"><a class="btn ghost" href="#demo">Learn More About Klir For Wastewater</a></div></div>
-  </div>
-</section>
-
-<section>
-  <div class="eyebrow node">Built for water</div>
-  <h2>Anticipate necessary changes <em>early.</em></h2>
-  <p class="lead">Evaluate against limits, receive alerts and notifications, and generate accurate NetDMR reports in clicks.</p>
-  <div class="two">
-    <div><div class="goo a43"><img src="img/tanks.jpg" alt="Two large clarifier tanks seen from above"></div><div class="cap"><b>03</b>Manage NPDES permit adherence</div></div>
-    <div><div class="goo a43"><img src="img/teal.jpg" alt="Dark teal rippling water surface"></div><div class="cap"><b>04</b>Capture information in bench sheets</div></div>
-  </div>
-  <div class="wide"><div class="goo a43"><img src="img/waves.jpg" alt="Deep blue waves with soft light"></div><div class="cap"><b>05</b>Manage industrial customers and enforce compliance</div></div>
-</section>
-
 </main>
 </div>
 <footer id="demo"><h2>Stay compliant with Klir</h2><p>Book a demo and we'll walk you through compliance programs and operational data in one hub built for water.</p><div class="fcta"><a class="fbtn" href="#demo">Book A Demo</a><a class="flink" href="#demo">Learn more →</a></div></footer>
 
 <script>
-const ticks=["Standardize and centralize your data","Capture information in bench sheets","Evaluate against limits","Receive alerts and notifications","Anticipate necessary changes early","Manage NPDES permit adherence","Generate accurate NetDMR reports in clicks","Manage industrial customers and enforce compliance"];
-document.getElementById('ticks').innerHTML=ticks.map(t=>`<li><svg viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6"/></svg>${t}</li>`).join('');
 const $=id=>document.getElementById(id),svg=$('path'),main=document.querySelector('main'),NS='http://www.w3.org/2000/svg';
 let H=0,X=48,HB=0,LT=0,nodes=[];
 function layout(){
