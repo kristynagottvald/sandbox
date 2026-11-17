@@ -1,11 +1,11 @@
 [
   {
-    "id": "klir-wayfinding",
+    "id": "klir-landing-page",
     "title": "Klir Landing Page",
     "category": "Landing Page",
-    "url": "klir-wayfinding/",
-    "thumbnail": "klir-wayfinding/thumb.png",
-    "preview": "klir-wayfinding/thumb.webp",
+    "url": "klir-landing-page/",
+    "thumbnail": "klir-landing-page/thumb.png",
+    "preview": "klir-landing-page/thumb.webp",
     "alt": "A Klir water compliance page with a blue wayfinding line and waterdrop pin that follow the scroll, marked with curves, past large headlines on a pale lavender background"
   },
   {
