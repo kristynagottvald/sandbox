@@ -234,6 +234,11 @@ footer p{font-size:clamp(18px,1.8vw,22px);letter-spacing:-.02em;max-width:30em;m
 .tag.ok{background:#dff6ea;color:#1b8a57}.ft em.snwa{padding:8px 12px}.snwalogo{display:block;height:34px;width:auto}.ft em.snwa .snt{font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:#3a3a3a;margin:0;max-width:150px;line-height:1.3}
 .mm{gap:0}.mlist{padding-right:16px}.mfeat{border-left:1px solid #e3e2f5;padding:2px 4px 4px 22px}
 .mfeat p{margin-top:2px!important}.ml{display:inline-block;margin-top:14px;color:var(--navy);font-size:15px;text-decoration:underline;text-underline-offset:4px}
+.app{position:relative}
+.cur{position:absolute;z-index:8;left:0;top:0;width:20px;height:20px;pointer-events:none;opacity:0;transition:transform .8s cubic-bezier(.4,.1,.2,1),opacity .3s;filter:drop-shadow(0 2px 4px rgba(14,5,70,.35))}.cur.on{opacity:1}
+.rip{position:absolute;z-index:7;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:2px solid var(--blue);background:rgba(59,59,239,.16);pointer-events:none;animation:rp .75s ease-out forwards}
+@keyframes rp{from{transform:scale(.4);opacity:.9}to{transform:scale(3.4);opacity:0}}
+.press{transform:scale(.95)}.top .tab,.tabs span{transition:background .2s,color .2s,transform .12s}
 </style>
 </head>
 <body>
@@ -374,11 +379,16 @@ app.querySelectorAll('.f').forEach((e,j)=>{const[cl,t,d,w]=D.f[j];e.innerHTML=`<
 app.querySelectorAll('.er').forEach((e,j)=>{const[a,b,w,cc]=D.e[j];e.innerHTML=`<div><b>${a}</b><span>${b}</span></div><div class="bar"><i style="--w:${w};background:${cc}"></i></div>`});
 app.querySelectorAll('.tk').forEach((e,j)=>{const[a,b,ch]=D.t[j];e.innerHTML=`<input type="checkbox"${ch?' checked':''}><div><b>${a}</b><span>${b}</span></div>`});
 if(replay){app.classList.remove('in','warned');$('wlab').style.opacity=0;$('dot').setAttribute('opacity',0);$('trend').style.strokeDashoffset=1;void app.offsetWidth;app.querySelectorAll('.k').forEach((e,j)=>e.style.animationDelay=j*.1+'s');app.querySelectorAll('.f').forEach((e,j)=>e.style.animationDelay=.3+j*.12+'s');app.classList.add('in');countUp();runLine();setPane(0)}}
+const curEl=document.createElement('div');curEl.className='cur';curEl.innerHTML='<svg viewBox="0 0 20 20" width="20" height="20"><path d="M3 2l12 6-5 1.5L8 15z" fill="#17094f" stroke="#fff" stroke-width="1.2" stroke-linejoin="round"/></svg>';curEl.style.transform='translate(620px,260px)';app.appendChild(curEl);
+function ripple(x,y){const r=document.createElement('span');r.className='rip';r.style.left=x+'px';r.style.top=y+'px';app.appendChild(r);setTimeout(()=>r.remove(),800)}
+function clickOn(el,cb){const a=app.getBoundingClientRect(),b=el.getBoundingClientRect();if(!b.width){cb();return}const x=b.left-a.left+b.width/2,y=b.top-a.top+b.height/2;curEl.classList.add('on');curEl.style.transform=`translate(${x-3}px,${y-2}px)`;
+setTimeout(()=>{ripple(x,y);el.classList.add('press');setTimeout(()=>el.classList.remove('press'),170);cb();setTimeout(()=>curEl.classList.remove('on'),1500)},800)}
+app.addEventListener('pointerdown',e=>{const a=app.getBoundingClientRect();ripple(e.clientX-a.left,e.clientY-a.top)});
 /* walkthrough: Wastewater then Drinking water, each through Trends, Effluent, Tasks, looping; keeps running under the pointer, pauses only when off screen */
 let paused=false,onScreen=false;
 new IntersectionObserver(es=>es.forEach(e=>onScreen=e.isIntersecting),{threshold:.25}).observe(app);
 const STEPS=[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]];let stepI=0;
-function startLoop(){(function next(d){setTimeout(()=>{if(paused||!onScreen){next(1500);return}stepI=(stepI+1)%STEPS.length;const[h,p]=STEPS[stepI];if(h!==cur){render(h,true);next(6500)}else{setPane(p);next(4000)}},d)})(1000)}
+function startLoop(){(function next(d){setTimeout(()=>{if(paused||!onScreen){next(1500);return}stepI=(stepI+1)%STEPS.length;const[h,p]=STEPS[stepI];if(h!==cur){clickOn(app.querySelectorAll('.top .tab')[h],()=>render(h,true));next(7400)}else{clickOn(app.querySelectorAll('.tabs span')[p],()=>setPane(p));next(4800)}},d)})(1000)}
 const sw=$('sw'),flip=()=>{const off=sw.classList.toggle('off');sw.setAttribute('aria-checked',!off);$('wl').style.opacity=off?.2:1;$('tg').textContent=off?'Alerts paused':'Warning at 80%';$('tg').style.opacity=off?.6:1};
 sw.onclick=flip;sw.onkeydown=e=>{if(e.key==' '||e.key=='Enter'){e.preventDefault();flip()}};
 const tr=$('trend'),cs=tr.closest('svg');
