@@ -1,5 +1,14 @@
 [
   {
+    "id": "klir-image-styles",
+    "title": "Klir Image Styles",
+    "category": "Generator",
+    "url": "klir-image-styles/",
+    "thumbnail": "klir-image-styles/thumb.png",
+    "preview": "klir-image-styles/thumb.webp",
+    "alt": "Three Klir image styles in a row: a purple water photo with a white product UI card, an abstract blue gradient with a light streak and a headline, and a pipework photo under a violet gradient, switching size, palette colour and water images"
+  },
+  {
     "id": "klir-landing-page",
     "title": "Klir Landing Page",
     "category": "Mockup",
