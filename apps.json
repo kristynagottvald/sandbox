@@ -1,5 +1,14 @@
 [
   {
+    "id": "skills-library",
+    "title": "Skills Library",
+    "category": "Library",
+    "url": "skills-library/",
+    "thumbnail": "skills-library/thumb.png",
+    "preview": "skills-library/thumb.webp",
+    "alt": "A dark library of Claude skills: tiles with an animated rendering of each skill, a short description, and category and use chips, for cutting products out of mockup photos and turning a Figma frame into an animated page"
+  },
+  {
     "id": "klir-landing-page",
     "title": "Klir Landing Page",
     "category": "Mockup",

@@ -25,6 +25,14 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
+  // the skills library: both skill tiles with their thumbnails animating on their own, then the cursor sweeps over each tile
+  'skills-library': { vp: [960, 589], crop: [0, 49, 960, 540], ready: 900, run: async (p) => {
+    const t0 = Date.now();
+    await at(t0, 1500, () => p.mouse.move(250, 400, { steps: 12 }));
+    await at(t0, 3500, () => p.mouse.move(700, 400, { steps: 14 }));
+    await at(t0, 5200, () => p.mouse.move(900, 560, { steps: 10 }));
+    await sleep(900);
+  } },
   // the Klir wayfinding line: the moving blue water hero, then the waterdrop appears, crosses the hero edge (white to blue) and travels down the page with the scroll, lighting up each section node, then back up
   'klir-landing-page': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 4200, run: async (p) => {
     // the dashboard rises over the hero and fills in, the walkthrough clicks to the other tab, then the page scrolls on and returns to the dashboard
