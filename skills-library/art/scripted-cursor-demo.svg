@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#14141a"/><stop offset="1" stop-color="#07070a"/></linearGradient></defs>
+<rect width="960" height="540" fill="url(#bg)"/>
+<rect x="100" y="60" width="760" height="380" rx="18" fill="#1b1b24" stroke="#2c2c38"/>
+<circle cx="130" cy="88" r="6" fill="#f87171"/><circle cx="152" cy="88" r="6" fill="#fbbf24"/><circle cx="174" cy="88" r="6" fill="#4ade80"/>
+<rect x="100" y="112" width="760" height="1" fill="#2c2c38"/>
+<!-- scene 1: button; scene 2: card appears -->
+<rect x="150" y="170" width="200" height="50" rx="25" fill="#6d4cff"><animate attributeName="fill" dur="6s" repeatCount="indefinite" keyTimes="0;.30;.34;1" values="#6d4cff;#6d4cff;#4ade80;#4ade80"/></rect>
+<rect x="180" y="190" width="100" height="10" rx="5" fill="#fff"/>
+<g opacity="0"><animate attributeName="opacity" dur="6s" repeatCount="indefinite" keyTimes="0;.36;.44;.92;.97;1" values="0;0;1;1;0;0"/>
+<rect x="400" y="150" width="420" height="90" rx="14" fill="#262633"/><circle cx="445" cy="195" r="22" fill="#3b82f6"/><rect x="485" y="178" width="200" height="12" rx="6" fill="#d4d4dc"/><rect x="485" y="202" width="140" height="10" rx="5" fill="#6b6b7a"/></g>
+<g opacity="0"><animate attributeName="opacity" dur="6s" repeatCount="indefinite" keyTimes="0;.50;.58;.92;.97;1" values="0;0;1;1;0;0"/>
+<rect x="400" y="262" width="420" height="90" rx="14" fill="#262633"/><circle cx="445" cy="307" r="22" fill="#a855f7"/><rect x="485" y="290" width="170" height="12" rx="6" fill="#d4d4dc"/><rect x="485" y="314" width="200" height="10" rx="5" fill="#6b6b7a"/></g>
+<!-- click ripple -->
+<circle cx="250" cy="195" r="4" fill="none" stroke="#fff" stroke-width="3" opacity="0"><animate attributeName="r" dur="6s" repeatCount="indefinite" keyTimes="0;.30;.40;1" values="4;4;40;40"/><animate attributeName="opacity" dur="6s" repeatCount="indefinite" keyTimes="0;.30;.32;.40;1" values="0;0;.9;0;0"/></circle>
+<!-- cursor path -->
+<g><animateTransform attributeName="transform" type="translate" dur="6s" repeatCount="indefinite" calcMode="spline" keyTimes="0;.08;.28;.30;.42;.62;.90;1" keySplines="0 0 1 1;.5 0 .2 1;0 0 1 1;0 0 1 1;.5 0 .2 1;0 0 1 1;.5 0 .2 1" values="760 400;760 400;250 195;250 195;250 195;600 300;600 300;760 400"/>
+<path d="M0 0l0 24 6-6 5 12 5-2-5-12 9 0z" fill="#fff" stroke="#000" stroke-width="1.5" stroke-linejoin="round"/></g>
+<!-- scene dots, pause button, clip chip -->
+<g fill="#3a3a4a"><circle cx="400" cy="480" r="7"/><circle cx="430" cy="480" r="7"/><circle cx="460" cy="480" r="7"/><circle cx="490" cy="480" r="7"/></g>
+<circle cx="400" cy="480" r="7" fill="#fff"><animate attributeName="cx" dur="6s" repeatCount="indefinite" calcMode="discrete" keyTimes="0;.3;.5;.75" values="400;430;460;490"/></circle>
+<rect x="120" y="462" width="36" height="36" rx="18" fill="#262633"/><rect x="131" y="472" width="5" height="16" rx="2" fill="#fff"/><rect x="140" y="472" width="5" height="16" rx="2" fill="#fff"/>
+<rect x="780" y="464" width="80" height="32" rx="16" fill="#262633"/><rect x="796" y="476" width="48" height="8" rx="4" fill="#8d8d9a"/>
+</svg>

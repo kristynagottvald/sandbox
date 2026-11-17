@@ -68,11 +68,13 @@ header.site .btn{padding:11px 16px}
 @media (max-width:960px){.hero{grid-template-columns:1fr}}
 /* sections */
 .sec{padding:clamp(60px,8vw,120px) var(--gut)}
-.live{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:clamp(22px,4vw,60px);align-items:start;border-top:1.5px solid var(--ink)}
-.live h2{font:400 clamp(40px,5.4vw,84px)/.94 var(--serif)}
-.live .more{display:inline-block;margin-top:20px}
+.live{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(30px,4vw,56px);align-items:start;border-top:1.5px solid var(--ink)}
+.live .lh{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap}
+.live h2{font:400 clamp(40px,6.4vw,100px)/.94 var(--serif);width:calc(100%/1.16);flex:0 1 auto}
+.live h2 .wide{white-space:nowrap}
+.live .more{display:inline-block;margin-bottom:10px}
 .sess{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.4vw,32px)}
-.ses .pic{aspect-ratio:16/10;border:1.5px solid var(--ink);box-shadow:8px 8px 0 var(--ink);background:var(--yellow);overflow:hidden}
+.ses .pic{position:relative;aspect-ratio:16/10;border:1.5px solid var(--ink);box-shadow:8px 8px 0 var(--ink);background:var(--yellow);overflow:hidden}
 .ses img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 28%;filter:grayscale(1) contrast(1.35);mix-blend-mode:multiply;transition:opacity 1.3s var(--ease)}
 .ses .tm,.ses h3,.ses .who,.ses .acts{transition:opacity .9s var(--ease),transform .9s var(--ease)}
 .ses.out img{opacity:0}
@@ -80,12 +82,12 @@ header.site .btn{padding:11px 16px}
 .ses.pre img{opacity:0;transition:none}
 .ses.pre .tm,.ses.pre h3,.ses.pre .who,.ses.pre .acts{opacity:0;transform:translateY(-8px);transition:none}
 .ses .who{margin-top:8px;font-size:14px;opacity:.85;min-height:1.4em}
-.ses .tm{margin:22px 0 8px}
-.ses h3{font:400 clamp(28px,3vw,44px)/1 var(--serif);min-height:2em}
+.ses .tm{position:absolute;left:14px;top:14px;z-index:2;margin:0;background:var(--cream);border:1.5px solid var(--ink);padding:9px 11px}
+.ses h3{margin-top:22px;font:400 clamp(28px,3vw,44px)/1 var(--serif);min-height:2em}
 .ses .acts{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap}
 .ses .acts button{background:none;border:0;border-bottom:1.5px solid var(--ink);padding:0 0 3px;cursor:pointer;font:700 10.5px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase}
 .ses .acts button[aria-pressed=true]{background:var(--yellow)}
-@media (max-width:860px){.live,.sess{grid-template-columns:1fr}}
+@media (max-width:860px){.sess{grid-template-columns:1fr}.live h2 .wide{white-space:normal}.live h2{width:calc(100%/1.16)}}
 /* ticker */
 .tick{background:var(--yellow);border-block:1.5px solid var(--ink);overflow:hidden;white-space:nowrap}
 .tick div{display:inline-flex;gap:40px;padding:22px 0;animation:tk 34s linear infinite;will-change:transform}
@@ -171,11 +173,11 @@ footer .r{margin-left:auto;display:flex;gap:16px}
 </section>
 
 <section class="sec live" id="agenda">
-  <div><h2><span class="wide">Join us online for livestreamed keynotes</span></h2><a class="cap more" href="#agenda">View all content</a></div>
+  <div class="lh"><h2><span class="wide">Join us online<br>for livestreamed keynotes</span></h2><a class="cap more" href="#agenda">View all content</a></div>
   <div class="sess" id="sess" aria-label="Livestreamed talks">
-    <article class="ses"><div class="pic"><img alt=""></div><div class="tm cap"></div><h3></h3><div class="who"></div>
+    <article class="ses"><div class="pic"><img alt=""><div class="tm cap"></div></div><h3></h3><div class="who"></div>
       <div class="acts"><button type="button">Add to calendar</button><button type="button" aria-pressed="false" class="sv">Save to My Thread</button></div></article>
-    <article class="ses"><div class="pic"><img alt=""></div><div class="tm cap"></div><h3></h3><div class="who"></div>
+    <article class="ses"><div class="pic"><img alt=""><div class="tm cap"></div></div><h3></h3><div class="who"></div>
       <div class="acts"><button type="button">Add to calendar</button><button type="button" aria-pressed="false" class="sv">Save to My Thread</button></div></article>
   </div>
 </section>

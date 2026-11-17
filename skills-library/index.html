@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skills Library</title>
+<style>
+*{box-sizing:border-box;margin:0}
+html{background:#000}
+body{background:#000;color:#fff;font:400 16px/1.4 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
+nav.back{box-sizing:border-box;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;white-space:nowrap;overflow:hidden}
+nav.back a{color:#8d8d8d;text-decoration:none}
+nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav.back span{color:#6e6e6e}
+nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:640px){nav.back{padding:0 16px}}
+
+main{max-width:1440px;margin:0 auto;padding:28px 40px 72px}
+h1{font-size:28px;font-weight:500;letter-spacing:-.01em}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 28px}
+.tab{appearance:none;border:0;background:transparent;color:#fff;font:inherit;font-size:16px;padding:10px 16px;border-radius:10px;cursor:pointer}
+.tab:hover{background:#141414}
+.tab[aria-pressed=true]{background:#1c1c1c}
+.tab:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:22px}
+.card{display:flex;flex-direction:column;border-radius:14px;overflow:hidden;border:1px solid #232323;background:#0c0c0c}
+.card[hidden]{display:none}
+.thumb{aspect-ratio:16/9;overflow:hidden;background:#07070a}
+.card img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.card:hover img{transform:scale(1.03)}
+.info{padding:18px 20px 20px}
+.info h2{font-size:21px;font-weight:500;letter-spacing:-.01em;margin-bottom:6px}
+.info p{font-size:14px;line-height:1.5;color:#b5b5b5;margin-bottom:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 9px;border-radius:999px;background:#1c1c1c;color:#e6e6e6;font-size:14px}
+.chip svg{width:15px;height:15px;flex:none;opacity:.9}
+.empty{color:#8d8d8d;padding:40px 0}
+@media (max-width:640px){main{padding:20px 16px 56px}.grid{grid-template-columns:1fr}.info p{font-size:13px}}
+@media (prefers-reduced-motion:reduce){.card img{transition:none}.card:hover img{transform:none}}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Skills Library</b></nav>
+<main>
+  <h1>Claude Skills Library</h1>
+  <div class="tabs" id="tabs" role="group" aria-label="Skill categories"></div>
+  <div class="grid" id="grid"></div>
+</main>
+<script>
+/* Add skills here. Only skills the owner has listed. `art` is an animated SVG in ./art/ */
+var ICON={
+  image:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2.5" width="12" height="11" rx="2"/><circle cx="6" cy="6.5" r="1.2"/><path d="M2.5 12l3.5-3.5 2.5 2.5 2-2 3 3"/></svg>',
+  design:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2h3a2.5 2.5 0 010 5H5zM5 7h3a2.5 2.5 0 11-2.5 2.5M5 7v7M5 7a2.5 2.5 0 000 5"/></svg>',
+  mockup:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="1.8" width="10" height="12.4" rx="2"/><path d="M7 12h2"/></svg>',
+  motion:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h3l2-4 2 8 2-4h3"/></svg>'
+};
+var SKILLS=[
+  {
+    title:'app-store-motion-explainer',
+    desc:'For animated product explainers: layered screens that swap places, cursor and press interactions, seam-free illustration masking, a hold on the key screen, and deterministic loopable timelines.',
+    category:'Motion', cIcon:'motion',
+    use:'Product explainer apps', uIcon:'mockup',
+    art:'art/app-store-motion-explainer.svg',
+    alt:'Three layered screens swap places as a cursor presses, then the stack settles and repeats'
+  },
+  {
+    title:'asset-generator-engine',
+    desc:'One shape for asset studios: live controls beside a canvas preview, multiple aspect ratios, photo upload and reorder, reset, and export including looping animation.',
+    category:'Generator', cIcon:'image',
+    use:'Banners, posts and social assets', uIcon:'design',
+    art:'art/asset-generator-engine.svg',
+    alt:'A controls panel with sliders and aspect-ratio toggles beside a canvas preview that switches between wide and tall formats'
+  },
+  {
+    title:'Scripted demo animation with a cursor',
+    desc:'Each scene is an async timeline: the cursor moves, clicks, state changes, then the next scene starts. Includes a faster clip mode that skips scenes and a pause button.',
+    category:'Demo template', cIcon:'motion',
+    use:'Flow-style product demos', uIcon:'mockup',
+    art:'art/scripted-cursor-demo.svg',
+    alt:'A cursor glides to a button, clicks, and cards appear as scene dots advance, with a pause button and clip-speed chip below'
+  },
+  {
+    title:'Palette and brand-constraint handling',
+    desc:'Samples the exact ring colours from reference images, maps them onto only the approved brand combinations, and checks contrast against the background.',
+    category:'Brand', cIcon:'design',
+    use:'Generated artwork and themes', uIcon:'image',
+    art:'art/palette-brand-constraints.svg',
+    alt:'Colour samples taken along a radius of concentric rings are matched to approved swatches, with a muddy mid-green rejected for low contrast'
+  },
+  {
+    title:'Tile-to-fullscreen section transition',
+    desc:'A reusable UI recipe: a plain colour block grows from the tile, the real panel swaps in beneath it, then content fades up in a stagger. The reverse shrinks it back.',
+    category:'UI recipe', cIcon:'motion',
+    use:'Home tiles and detail panels', uIcon:'mockup',
+    art:'art/tile-to-fullscreen.svg',
+    alt:'A colour block grows from one tile of a grid to fill the frame, content fades up in a stagger, then the block shrinks back into the tile'
+  },
+  {
+    title:'Cut products out of mockup photos',
+    desc:'Isolates a product from its backdrop with a mask chosen for the background type, cleans the edge fringe, and exports a transparent WebP.',
+    category:'Image editing', cIcon:'image',
+    use:'Portfolio mockups', uIcon:'mockup',
+    art:'art/cut-out-products.svg',
+    alt:'A product on a lime backdrop is traced by a selection outline and then lifted onto a transparency checkerboard'
+  },
+  {
+    title:'figma-to-motion-page',
+    desc:'Turns a Figma frame into an animated HTML page: reads the design, authors the motion when none exists, and scales a fixed frame to fit.',
+    category:'Design to code', cIcon:'design',
+    use:'Animated landing frames', uIcon:'motion',
+    art:'art/figma-to-motion-page.svg',
+    alt:'A static Figma frame on the left becomes a live animated layout on the right with a timeline playhead below'
+  }
+];
+var tabs=document.getElementById('tabs'),grid=document.getElementById('grid'),cur='All';
+var cats=['All'].concat(SKILLS.map(function(s){return s.category}).filter(function(c,i,a){return a.indexOf(c)===i}));
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+grid.innerHTML=SKILLS.map(function(s){return '<article class="card" data-cat="'+esc(s.category)+'" aria-label="'+esc(s.title)+'">'+
+  '<div class="thumb"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'" loading="lazy"></div>'+
+  '<div class="info"><h2>'+esc(s.title)+'</h2><p>'+esc(s.desc)+'</p>'+
+  '<div class="chips"><span class="chip">'+ICON[s.cIcon]+esc(s.category)+'</span><span class="chip">'+ICON[s.uIcon]+esc(s.use)+'</span></div></div></article>'}).join('');
+function render(){
+  tabs.innerHTML=cats.map(function(c){return '<button class="tab" aria-pressed="'+(c===cur)+'" data-c="'+esc(c)+'">'+esc(c)+'</button>'}).join('');
+  [].forEach.call(grid.children,function(el){el.hidden=cur!=='All'&&el.dataset.cat!==cur});
+}
+tabs.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b){cur=b.dataset.c;render()}});
+render();
+</script>
+</body>
+</html>

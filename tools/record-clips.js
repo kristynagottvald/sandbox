@@ -25,6 +25,41 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
+  // the skills library: both skill tiles with their thumbnails animating on their own, then the cursor sweeps over each tile
+  'skills-library': { vp: [960, 589], crop: [0, 49, 960, 540], ready: 900, run: async (p) => {
+    const t0 = Date.now();
+    await at(t0, 1500, () => p.mouse.move(250, 400, { steps: 12 }));
+    await at(t0, 3500, () => p.mouse.move(700, 400, { steps: 14 }));
+    await at(t0, 5200, () => p.mouse.move(900, 560, { steps: 10 }));
+    await sleep(900);
+  } },
+  // three Klir image styles in a row (product UI card, abstract gradient hero, photo + gradient): switch the size 1:1 > 16:9 > 4:3, recolour all three from the palette, step the water images and turn the text on over the first
+  'klir-image-styles': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, q: 70, run: async (p) => {
+    const t0 = Date.now(), c = (s) => domClick(p, s);
+    await at(t0, 1500, () => c('[data-s="16:9"]'));
+    await at(t0, 2400, () => c('#allsw button:nth-child(5)'));
+    await at(t0, 3200, () => c('[data-s="4:3"]'));
+    await at(t0, 3900, () => { c('[data-i="0"] [data-img="1"]'); c('[data-i="1"] [data-img="1"]'); c('[data-i="2"] [data-img="1"]'); });
+    await at(t0, 4700, () => c('#allsw button:nth-child(3)'));
+    await at(t0, 5400, () => { c('[data-i="0"] [data-k=text]'); c('[data-i="2"] [data-k=card]'); });
+  } },
+  // the Klir wayfinding line: the moving blue water hero, then the waterdrop appears, crosses the hero edge (white to blue) and travels down the page with the scroll, lighting up each section node, then back up
+  'klir-landing-page': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 4200, run: async (p) => {
+    // the dashboard rises over the hero and fills in, the walkthrough clicks to the other tab, then the page scrolls on and returns to the dashboard
+    const t0 = Date.now(), to = (y) => p.evaluate((v) => window.scrollTo({ top: v, behavior: 'smooth' }), y);
+    await at(t0, 2600, () => to(1500));
+    await at(t0, 3800, () => to(2600));
+    await at(t0, 5000, () => to(600));
+  } },
+  // the badge rests at its angle over the muted tiles, then the mouse sweeps over the visual to tip it and leaves so it eases back
+  'lob-integrations-hero': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, run: async (p) => {
+    const t0 = Date.now();
+    await at(t0, 800, () => p.mouse.move(1100, 280, { steps: 14 }));
+    await at(t0, 2200, () => p.mouse.move(780, 560, { steps: 14 }));
+    await at(t0, 3500, () => p.mouse.move(1000, 300, { steps: 12 }));
+    await at(t0, 4600, () => p.mouse.move(300, 650, { steps: 10 }));
+    await sleep(1800);
+  } },
   // the finished composition, then the whole 9 s cycle at 1.4x: the query is typed, matches appear, the query and context notes fly onto the graph, the result lands
   'nlp-diagram': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
     const t0 = Date.now();
@@ -64,6 +99,21 @@ const APPS = {
     await at(t0, 5300, () => scr(5));
   } },
   // a block letter on the 12x12 grid: starts on a finished S, then the cells wave through the letters of SANDBOX and back to S
+  // House of Balloons patterns: opens on Stretch, then steps through Stack and Bitmap and back to Stretch
+  'hob-pattern-generator': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#stretch&clip', ready: 600, q: 50, run: async (p) => {
+    const t0 = Date.now(), go = (k) => p.evaluate((m) => __hob.set(m), k);
+    await at(t0, 1500, () => go('stack'));
+    await at(t0, 3200, () => go('bitmap'));
+    await at(t0, 4900, () => go('stretch'));
+  } },
+  // House of Balloons social studio: opens on the bars layout (1920x1080), then cycles poster, full bleed and a new colour combo and back
+  'hob-social-studio': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', http: true, ready: 900, q: 30, run: async (p) => {
+    const t0 = Date.now(), go = (o) => p.evaluate((x) => __hobs.set(x), o);
+    await at(t0, 1500, () => go({ layout: 'poster', combo: 0 }));
+    await at(t0, 3000, () => go({ layout: 'bleed', combo: 3 }));
+    await at(t0, 4400, () => go({ layout: 'bars', combo: 1, zone: 'bot25' }));
+    await at(t0, 5500, () => go({ layout: 'bars', combo: 4, zone: 'bot60' }));
+  } },
   'grid-alphabet': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#w=SANDBOX&clip', ready: 500, q: 55, run: async (p) => { const t0 = Date.now(); await at(t0, 700, () => p.evaluate(() => __ga.start())); await sleep(5600); } },
   'conference-post-generator': { vp: [1280, 769], setup: cropOf('#cv'), ready: 1200, q: 40, run: async (p) => {
     // it opens on the badges post (16:9, cream); step through the headline, speaker and pattern templates and come back to the badges

@@ -1,5 +1,59 @@
 [
   {
+    "id": "skills-library",
+    "title": "Skills Library",
+    "category": "Library",
+    "url": "skills-library/",
+    "thumbnail": "skills-library/thumb.png",
+    "preview": "skills-library/thumb.webp",
+    "alt": "A dark library of Claude skills: tiles with an animated rendering of each skill, a short description, and category and use chips, for cutting products out of mockup photos, turning a Figma frame into an animated page, a tile-to-fullscreen transition palette handling and a scripted cursor demo, motion explainers and asset generators"
+  },
+  {
+    "id": "klir-image-styles",
+    "title": "Klir Image Styles",
+    "category": "Generator",
+    "url": "klir-image-styles/",
+    "thumbnail": "klir-image-styles/thumb.png",
+    "preview": "klir-image-styles/thumb.webp",
+    "alt": "Three Klir image styles in a row: a purple water photo with a white product UI card, an abstract blue gradient with a light streak and a headline, and a pipework photo under a violet gradient, switching size, palette colour and water images"
+  },
+  {
+    "id": "klir-landing-page",
+    "title": "Klir Landing Page",
+    "category": "Mockup",
+    "url": "klir-landing-page/",
+    "thumbnail": "klir-landing-page/thumb.png",
+    "preview": "klir-landing-page/thumb.webp",
+    "alt": "A Klir water compliance page with a blue wayfinding line and waterdrop pin that follow the scroll, marked with curves, past large headlines on a pale lavender background"
+  },
+  {
+    "id": "hob-social-studio",
+    "title": "HOB Social Studio",
+    "category": "Generator",
+    "url": "hob-social-studio/",
+    "thumbnail": "hob-social-studio/thumb.png",
+    "preview": "hob-social-studio/thumb.webp",
+    "alt": "A House of Balloons social studio: a canvas of cream, tan and orange bars on charcoal behind a stretched wide headline and large mono body text, then switching between poster layouts with a dithered image on cream, maroon and orange colour combos"
+  },
+  {
+    "id": "hob-pattern-generator",
+    "title": "HOB Pattern Generator",
+    "category": "Generator",
+    "url": "hob-pattern-generator/",
+    "thumbnail": "hob-pattern-generator/thumb.png",
+    "preview": "hob-pattern-generator/thumb.webp",
+    "alt": "A House of Balloons pattern generator showing three motifs in turn: Stretch, cream and tan bars drifting on maroon; Stack, cream bars rising off a shared edge on orange; and Bitmap, dithered maroon dashes forming a shape on cream"
+  },
+  {
+    "id": "lob-integrations-hero",
+    "title": "Lob Integrations Hero",
+    "category": "Mockup",
+    "url": "lob-integrations-hero/",
+    "thumbnail": "lob-integrations-hero/thumb.png",
+    "preview": "lob-integrations-hero/thumb.webp",
+    "alt": "A Lob Integrations page: a dark purple hero panel with the headline 'Discover the best apps built to extend Lob' on the left and a spinning metallic purple 3D badge with a raised silver DIRECT MAIL DELIVERY ENGINE ring and a chrome link over a grid of muted app tiles on the right, then a Top categories row of Data, Design, API and No Code cards"
+  },
+  {
     "id": "sander-troubleshoot",
     "title": "Sander Troubleshoot",
     "category": "Motion",
@@ -20,7 +74,7 @@
   {
     "id": "thread-conference-landing",
     "title": "Thread Conference Landing Page",
-    "category": "Tools",
+    "category": "Mockup",
     "url": "thread-conference-landing/",
     "thumbnail": "thread-conference-landing/thumb.png",
     "preview": "thread-conference-landing/thumb.webp",
