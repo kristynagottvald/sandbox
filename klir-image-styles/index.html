@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Klir Image Styles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#17094f;--ink:#2b2a55;--blue:#3b3bef;--indigo:#3a0fc9;--lav:#cfcaf7;--line:#cfcdea;--bg:#fafbff;--mute:#6b6a93}
+*{box-sizing:border-box;margin:0}
+html,body{background:var(--bg);color:var(--navy)}
+body{min-height:100vh;display:flex;flex-direction:column;font:400 15px/1.4 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:-.01em}
+nav.back{display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;white-space:nowrap;overflow:hidden}
+nav.back a{color:#8d8d8d;text-decoration:none}
+nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav.back span{color:#6e6e6e}
+nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+main{width:100%;max-width:1760px;margin:0 auto;padding:clamp(18px,2.4vw,34px) clamp(16px,2.4vw,34px) 60px}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:14px 32px;margin-bottom:clamp(16px,2vw,28px)}
+.bar h1{font-size:22px;font-weight:500;letter-spacing:-.04em;margin-right:auto}
+.grp{display:flex;align-items:center;gap:10px}
+.lbl{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.seg{display:inline-flex;border:1.5px solid var(--line);border-radius:8px;overflow:hidden;background:#fff}
+.seg button{font:500 14px/1 inherit;font-family:inherit;border:0;background:none;color:var(--ink);padding:9px 16px;cursor:pointer}
+.seg button+button{border-left:1.5px solid var(--line)}
+.seg button[aria-pressed=true]{background:var(--blue);color:#fff}
+.seg button:not([aria-pressed=true]):hover{background:#f1f0ff}
+.sw{display:flex;gap:7px}
+.sw button{width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1.5px var(--line);cursor:pointer;padding:0}
+.sw button[aria-pressed=true]{box-shadow:0 0 0 2px var(--navy)}
+.sw button:hover{transform:scale(1.1)}
+.ghost{font:500 14px/1 inherit;font-family:inherit;border:1.5px solid var(--line);background:#fff;color:var(--navy);border-radius:8px;padding:9px 14px;cursor:pointer}
+.ghost:hover{background:#f1f0ff}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2.4vw,40px);align-items:start}
+.fr{border:1.5px solid var(--line);border-radius:14px;padding:14px 14px 18px;background:rgba(255,255,255,.55)}
+.fr canvas{display:block;width:100%;height:auto;border-radius:8px;background:var(--navy)}
+.ct{display:grid;gap:14px;margin-top:16px}
+.ct h2{font-size:17px;font-weight:500;letter-spacing:-.03em;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.row .lbl{width:58px}
+.img{display:flex;align-items:center;gap:8px;flex:1}
+.img b{font-weight:500;flex:1;text-align:center;font-size:14px}
+.img button{width:32px;height:32px;border:1.5px solid var(--line);border-radius:8px;background:#fff;cursor:pointer;font-size:16px;color:var(--navy)}
+.img button:hover{background:#f1f0ff}
+.tg{display:inline-flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;user-select:none}
+.tg input{accent-color:var(--blue);width:17px;height:17px}
+select{font:400 14px/1 inherit;font-family:inherit;border:1.5px solid var(--line);border-radius:8px;padding:7px 8px;background:#fff;color:var(--navy)}
+.txt{display:grid;gap:8px}
+.txt[hidden]{display:none}
+.txt label{display:grid;gap:3px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.txt input,.txt textarea{font:400 14px/1.35 inherit;font-family:inherit;letter-spacing:-.01em;text-transform:none;font-weight:400;color:var(--navy);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;background:#fff;resize:vertical;width:100%}
+.dl{font:500 14px/1 inherit;font-family:inherit;background:var(--blue);color:#fff;border:0;border-radius:6px;padding:10px 16px;cursor:pointer}
+.dl:hover{background:var(--indigo)}
+@media(max-width:1100px){.grid{grid-template-columns:1fr;max-width:720px;margin:0 auto}}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Klir Image Styles</b></nav>
+<main>
+  <div class="bar">
+    <h1>Klir Image Styles</h1>
+    <div class="grp"><span class="lbl" id="szl">Size</span><div class="seg" role="group" aria-labelledby="szl" id="size"></div></div>
+    <div class="grp"><span class="lbl" id="cl">All colors</span><div class="sw" role="group" aria-labelledby="cl" id="allsw"></div></div>
+    <button class="ghost" id="reset" type="button">Reset</button>
+  </div>
+  <div class="grid" id="grid"></div>
+</main>
+<script>
+/* ===== data ===== */
+const PAL = [['Navy','#17094f'],['Indigo','#3a0fc9'],['Blue','#3b3bef'],['Royal','#2f6bff'],['Violet','#7a5af0'],['Sky','#5ea8f7'],['Cyan','#5ce1f2'],['Lavender','#cfcaf7']];
+const NAVY = '#17094f', DEEP = '#0e0646';
+const SIZES = { '1:1': [1600, 1600], '4:3': [1600, 1200], '16:9': [1920, 1080] };
+const PHOTOS = { ripples: 'img/teal.jpg', waves: 'img/waves.jpg', drop: 'img/drop.jpg', drain: 'img/grate.jpg', pipes: 'img/pipes.jpg' };
+const ICONS = { wastewater: 'img/icon-wastewater.png', drinking: 'img/icon-drinking.png', environment: 'img/icon-environment.png' };
+/* bands: [angle, cx, cy, rx(of W), ry(of H), alpha]  streak: [x0,y0,cx,cy,x1,y1] as fractions */
+const GRADS = [
+  { n: 'Arc',    bands: [[28, .5, .45, .85, .24, .95], [20, .1, .05, .6, .5, .35]], streak: [.62, .47, .82, .58, 1.03, .69] },
+  { n: 'Bloom',  bands: [[0, .5, .62, .72, .5, .95]], streak: [.16, .8, .5, .96, .84, .8] },
+  { n: 'Sweep',  bands: [[-26, .45, .5, .9, .2, .95], [0, .95, .05, .5, .4, .4]], streak: [-.03, .38, .2, .3, .44, .22] },
+  { n: 'Aurora', bands: [[-38, .12, .85, .7, .22, .9], [38, .9, .18, .7, .22, .8]], streak: [.38, .52, .55, .5, .72, .36] },
+];
+const STYLES = {
+  product: { name: 'Product UI',      list: [['Ripples','ripples'],['Waves','waves'],['Drop','drop'],['Drain','drain']] },
+  hero:    { name: 'Hero abstract',   list: GRADS.map((g, i) => [g.n, i]) },
+  overlay: { name: 'Photo + gradient', list: [['Pipes','pipes'],['Waves','waves'],['Ripples','ripples'],['Drop','drop'],['Drain','drain']] },
+};
+const CARDS = {
+  wastewater:  { label: 'Wastewater',    icon: 'wastewater',  prod: 'Wastewater',    cap: 'Connected data sources', rows: [['LIMS','Synced 9:41','g'],['GIS','Synced 9:40','g'],['SCADA','Live','l'],['Billing','Synced 9:38','g']] },
+  drinking:    { label: 'Drinking Water', icon: 'drinking',    prod: 'Drinking Water', cap: 'Mobile inspection', field: ['Chlorine residual, Zone 4','0.8 mg/L'], rows: [['Hydrant flushed','Done','g'],['Photo attached','2','b']], button: 'Save to Klir' },
+  environment: { label: 'Environment',   icon: 'environment', prod: 'Environment',   cap: 'Customer success plan', rows: [['Go-live','Done','g'],['Team training','Done','g'],['Value review','Dec 12','a']], progress: .75 },
+};
+const DEF = () => ({
+  size: '1:1',
+  frames: [
+    { style: 'product', img: 0, color: '#3a0fc9', card: true,  cardType: 'wastewater', text: false, logo: false, eyebrow: 'Klir Wastewater', headline: 'Every data source, connected', sub: 'A single source of truth with integrations to LIMS, GIS, SCADA and billing.' },
+    { style: 'hero',    img: 0, color: '#3b3bef', card: false, cardType: 'drinking',   text: true,  logo: true,  eyebrow: 'Klir Platform', headline: 'Water compliance, made clear', sub: 'Permits, sampling and reporting in one place.' },
+    { style: 'overlay', img: 0, color: '#7a5af0', card: false, cardType: 'environment', text: true, logo: false, eyebrow: 'Case study', headline: '“Klir Helps Us Sleep Better at Night.”', sub: 'SNWA consolidates and manages all of its permits and sampling data in one place.' },
+  ],
+});
+let S = DEF();
+
+/* ===== helpers ===== */
+const $ = (s, r = document) => r.querySelector(s);
+const cl = (v, a, b) => Math.max(a, Math.min(b, v));
+const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+const rgba = (h, a) => { const [r, g, b] = rgb(h); return `rgba(${r},${g},${b},${a})`; };
+const mix = (a, b, t) => { const x = rgb(a), y = rgb(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join(''); };
+const FONT = (w, px) => `${w} ${px}px Inter, "Helvetica Neue", Arial, sans-serif`;
+const setLS = (ctx, px) => { if ('letterSpacing' in ctx) ctx.letterSpacing = px + 'px'; };
+const images = {};
+const load = (src) => images[src] || (images[src] = Object.assign(new Image(), { src, onload: drawAll }));
+Object.values(PHOTOS).concat(Object.values(ICONS)).forEach(load);
+
+function cover(ctx, img, W, H) {
+  if (!img.complete || !img.naturalWidth) return false;
+  const r = Math.max(W / img.naturalWidth, H / img.naturalHeight), w = img.naturalWidth * r, h = img.naturalHeight * r;
+  ctx.drawImage(img, (W - w) / 2, (H - h) / 2, w, h); return true;
+}
+const rr = (ctx, x, y, w, h, r, fill) => { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.fillStyle = fill; ctx.fill(); };
+
+/* ===== backgrounds ===== */
+function bgProduct(ctx, f, W, H) {
+  ctx.fillStyle = f.color; ctx.fillRect(0, 0, W, H);
+  const img = load(PHOTOS[STYLES.product.list[f.img][1]]);
+  ctx.save();
+  if ('filter' in ctx) { ctx.filter = 'grayscale(1) contrast(1.15) brightness(1.2)'; cover(ctx, img, W, H); ctx.filter = 'none'; }
+  else if (cover(ctx, img, W, H)) {
+    ctx.globalCompositeOperation = 'saturation'; ctx.fillStyle = '#808080'; ctx.fillRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = 'rgba(255,255,255,.15)'; ctx.fillRect(0, 0, W, H);
+  }
+  ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = .92; ctx.fillStyle = f.color; ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+}
+function bgOverlay(ctx, f, W, H) {
+  ctx.fillStyle = NAVY; ctx.fillRect(0, 0, W, H);
+  cover(ctx, load(PHOTOS[STYLES.overlay.list[f.img][1]]), W, H);
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, rgba(f.color, .5)); g.addColorStop(.52, rgba(mix(f.color, NAVY, .4), .8)); g.addColorStop(1, rgba(NAVY, .95));
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+}
+function bgHero(ctx, f, W, H, s) {
+  const glow = f.color === NAVY ? '#2a2fd6' : f.color, P = GRADS[f.img];
+  ctx.fillStyle = mix(f.color === NAVY ? glow : f.color, DEEP, .86); ctx.fillRect(0, 0, W, H);
+  for (const [a, cx, cy, rx, ry, al] of P.bands) {
+    ctx.save(); ctx.translate(cx * W, cy * H); ctx.rotate(a * Math.PI / 180); ctx.scale(1, (ry * H) / (rx * W));
+    const R = rx * W, g = ctx.createRadialGradient(0, 0, 0, 0, 0, R);
+    g.addColorStop(0, rgba(glow, al)); g.addColorStop(.45, rgba(glow, al * .55)); g.addColorStop(1, rgba(glow, 0));
+    ctx.fillStyle = g; ctx.fillRect(-R, -R, R * 2, R * 2); ctx.restore();
+  }
+  const [x0, y0, cx, cy, x1, y1] = P.streak, hi = mix(glow, '#ffffff', .62);
+  ctx.save(); ctx.lineCap = 'round';
+  const g = ctx.createLinearGradient(x0 * W, y0 * H, x1 * W, y1 * H);
+  g.addColorStop(0, rgba(hi, 0)); g.addColorStop(.7, rgba(hi, .95)); g.addColorStop(1, rgba(hi, 1));
+  ctx.strokeStyle = g; ctx.shadowColor = rgba(hi, .9); ctx.shadowBlur = 38 * s;
+  for (const lw of [26, 12, 5]) { ctx.lineWidth = lw * s; ctx.globalAlpha = lw === 26 ? .35 : lw === 12 ? .6 : .9; ctx.beginPath(); ctx.moveTo(x0 * W, y0 * H); ctx.quadraticCurveTo(cx * W, cy * H, x1 * W, y1 * H); ctx.stroke(); }
+  ctx.restore();
+}
+
+/* ===== Klir logo, drop + wordmark, white ===== */
+const DROP = new Path2D('M0-15C6-7 10-2 10 4a10 10 0 0 1-20 0C-10-2-6-7 0-15Z');
+function logo(ctx, x, y, s) {
+  const h = 46 * s; ctx.save(); ctx.fillStyle = '#fff';
+  ctx.translate(x + 10 * (h / 30), y + 15 * (h / 30)); ctx.scale(h / 30, h / 30); ctx.fill(DROP); ctx.restore();
+  ctx.save(); ctx.fillStyle = '#fff'; ctx.font = FONT(500, 52 * s); setLS(ctx, -2.6 * s); ctx.textBaseline = 'alphabetic';
+  ctx.fillText('Klir', x + 28 * s * 1.0 + 4 * s, y + h * .78); ctx.restore(); return h;
+}
+
+/* ===== text block ===== */
+function wrap(ctx, text, maxW) {
+  const out = [];
+  for (const para of text.split('\n')) {
+    let line = '';
+    for (const w of para.split(/\s+/).filter(Boolean)) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t; }
+    if (line) out.push(line);
+  }
+  return out;
+}
+function textBlock(ctx, f, maxW, maxH, s, base, wt) {
+  const eb = f.eyebrow.trim(), hd = f.headline.trim(), sb = f.sub.trim();
+  if (!eb && !hd && !sb) return { h: 0, draw() {} };
+  for (let fs = base * s; ; fs *= .94) {
+    const fe = 27 * s, fsub = Math.max(31 * s, fs * .36);
+    ctx.font = FONT(wt, fs); setLS(ctx, -.045 * fs); const hl = wrap(ctx, hd, maxW);
+    ctx.font = FONT(400, fsub); setLS(ctx, -.02 * fsub); const sl = wrap(ctx, sb, maxW);
+    const lh = fs * 1.04, lhs = fsub * 1.28;
+    const h = (eb ? fe * 1.3 + fs * .5 : 0) + hl.length * lh + (sl.length ? fs * .4 + sl.length * lhs : 0);
+    if (h <= maxH || fs < 34 * s) return { h, draw(x, y) {
+      ctx.save(); ctx.fillStyle = '#fff'; ctx.textBaseline = 'alphabetic';
+      if (eb) {
+        ctx.fillStyle = 'rgba(255,255,255,.3)'; ctx.beginPath(); ctx.arc(x + 13 * s, y + fe * .66, 13 * s, 0, 7); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(x + 13 * s, y + fe * .66, 6.5 * s, 0, 7); ctx.fill();
+        ctx.font = FONT(600, fe); setLS(ctx, .04 * fe); ctx.fillText(eb.toUpperCase(), x + 40 * s, y + fe * .98); y += fe * 1.3 + fs * .5;
+      }
+      ctx.font = FONT(wt, fs); setLS(ctx, -.045 * fs); hl.forEach((t, i) => ctx.fillText(t, x, y + lh * (i + .86)));
+      y += hl.length * lh + fs * .4;
+      ctx.font = FONT(400, fsub); setLS(ctx, -.02 * fsub); sl.forEach((t, i) => ctx.fillText(t, x, y + lhs * (i + .82)));
+      ctx.restore();
+    } };
+  }
+}
+
+/* ===== UI card (designed at ~460 wide, font 13px, scaled to fit) ===== */
+function cardItems(c) {
+  const it = [];
+  if (c.field) it.push({ t: 'field', h: 58 });
+  c.rows.forEach((r) => it.push({ t: 'row', h: 38, r }));
+  if (c.button) it.push({ t: 'btn', h: 36 });
+  if (c.progress) it.push({ t: 'prog', h: 12 });
+  return it;
+}
+const DOT = { g: '#2fa56b', b: '#3b3bef', a: '#e0a23a', l: '#3b3bef' };
+function card(ctx, f, x, top, cw, th0, H, s) {
+  const c = CARDS[f.cardType], items = cardItems(c);
+  const content = 16 + 41 + items.reduce((a, i) => a + 9 + i.h, 0) + 16;
+  const k = cl((H * 1.08 - top) / content, cw / 520, cw / 380), dw = cw / k, hh = (H * 1.1 - top) / k;
+  ctx.save(); ctx.translate(x, top); ctx.scale(k, k);
+  ctx.shadowColor = 'rgba(14,5,70,.5)'; ctx.shadowBlur = 50; ctx.shadowOffsetY = 20; rr(ctx, 0, 0, dw, hh, 12, '#fff'); ctx.shadowColor = 'transparent';
+  const P = 18, ic = load(ICONS[c.icon]); let y = 16;
+  const iw = ic.naturalWidth ? 30 * ic.naturalWidth / ic.naturalHeight : 30;
+  if (ic.complete) ctx.drawImage(ic, P, y, iw, 30);
+  ctx.textBaseline = 'alphabetic'; ctx.fillStyle = NAVY;
+  ctx.font = FONT(500, 17); setLS(ctx, -.85); ctx.fillText('Klir', P + iw + 8, y + 14);
+  ctx.font = FONT(300, 12.5); setLS(ctx, -.1); ctx.fillText(c.prod, P + iw + 8, y + 28.5);
+  ctx.textAlign = 'right'; ctx.fillStyle = '#6b6a93'; ctx.font = FONT(400, 11.5); setLS(ctx, -.1); ctx.fillText(c.cap, dw - P, y + 19); ctx.textAlign = 'left';
+  ctx.fillStyle = '#efeefa'; ctx.fillRect(P, y + 40, dw - P * 2, 1); y += 41;
+  const iW = dw - P * 2;
+  items.forEach((i) => {
+    y += 9;
+    if (i.t === 'row') {
+      rr(ctx, P, y, iW, i.h, 8, '#f6f7fd');
+      const [lab, val, d] = i.r, cy = y + i.h / 2;
+      if (d === 'l') { ctx.fillStyle = 'rgba(59,59,239,.22)'; ctx.beginPath(); ctx.arc(P + 16, cy, 8.5, 0, 7); ctx.fill(); }
+      ctx.fillStyle = DOT[d]; ctx.beginPath(); ctx.arc(P + 16, cy, 4, 0, 7); ctx.fill();
+      ctx.fillStyle = NAVY; ctx.font = FONT(500, 13); setLS(ctx, -.13); ctx.fillText(lab, P + 30, cy + 4.6);
+      ctx.textAlign = 'right'; ctx.fillStyle = '#6b6a93'; ctx.font = FONT(400, 12); ctx.fillText(val, P + iW - 12, cy + 4.3); ctx.textAlign = 'left';
+    } else if (i.t === 'field') {
+      ctx.beginPath(); ctx.roundRect(P + .5, y + .5, iW - 1, i.h - 1, 8); ctx.strokeStyle = '#cfcdea'; ctx.lineWidth = 1; ctx.stroke();
+      ctx.fillStyle = '#6b6a93'; ctx.font = FONT(400, 11.5); setLS(ctx, -.1); ctx.fillText(c.field[0], P + 12, y + 20);
+      ctx.fillStyle = NAVY; ctx.font = FONT(500, 21); setLS(ctx, -.8); ctx.fillText(c.field[1], P + 12, y + 44);
+    } else if (i.t === 'btn') {
+      rr(ctx, P, y, iW, i.h, 8, '#3b3bef'); ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.font = FONT(400, 13); setLS(ctx, -.13); ctx.fillText(c.button, P + iW / 2, y + 22.5); ctx.textAlign = 'left';
+    } else {
+      rr(ctx, P, y + 2, iW, 8, 4, '#efeefa'); rr(ctx, P, y + 2, iW * c.progress, 8, 4, '#3b3bef');
+    }
+    y += i.h;
+  });
+  ctx.restore();
+}
+
+/* ===== frame ===== */
+function draw(i) {
+  const f = S.frames[i], [W, H] = SIZES[S.size], cv = $('#c' + i), ctx = cv.getContext('2d');
+  if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; cv.style.aspectRatio = W + '/' + H; }
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0;
+  const s = Math.sqrt(W * H) / 1300, pad = 72 * s, wide = W / H > 1.5, hasT = f.text && (f.eyebrow.trim() || f.headline.trim() || f.sub.trim());
+  (f.style === 'product' ? bgProduct : f.style === 'overlay' ? bgOverlay : bgHero)(ctx, f, W, H, s);
+  if (hasT && f.style === 'product') { const g = ctx.createLinearGradient(0, 0, wide ? W * .6 : 0, wide ? 0 : H * .6); g.addColorStop(0, rgba(DEEP, .6)); g.addColorStop(1, rgba(DEEP, 0)); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); }
+  let y = pad, logoH = 0;
+  if (f.logo) { logoH = logo(ctx, pad, pad, s); y = pad + logoH + pad * .8; }
+  const wt = f.style === 'hero' ? 300 : 400, base = f.style === 'hero' ? 104 : 92;
+  if (f.card) {
+    if (wide) {
+      const cw = W * .5, top = H * .2;
+      card(ctx, f, W * .5, top, cw + W * .02, 0, H, s);
+      if (hasT) { const tb = textBlock(ctx, f, W * .4, H - pad * 2 - (f.logo ? logoH + pad * .8 : 0), s, base * .82, wt); tb.draw(pad, H - pad - tb.h); }
+    } else {
+      let tbH = 0;
+      if (hasT) { const tb = textBlock(ctx, f, W - pad * 2.4, H * .34 - (f.logo ? logoH : 0), s, base * .78, wt); tb.draw(pad, y); tbH = tb.h; }
+      const top = hasT ? Math.max(y + tbH + pad * .6, H * .42) : Math.max(y, H * .36);
+      card(ctx, f, W * .12, top, W * .92, 0, H, s);
+    }
+  } else if (hasT) {
+    const tb = textBlock(ctx, f, W - pad * (wide ? 3.5 : 2.4), H - pad * 2 - (f.logo ? logoH + pad * .8 : 0), s, base * (wide ? .85 : 1), wt);
+    tb.draw(pad, H - pad - tb.h);
+  }
+  cv.setAttribute('aria-label', `${STYLES[f.style].name} image, ${S.size}${hasT ? ': ' + f.headline : ''}`);
+}
+function drawAll() { S.frames.forEach((_, i) => $('#c' + i) && draw(i)); }
+let raf = 0; const queue = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(drawAll); };
+
+/* ===== controls ===== */
+const swatches = (cb, cur) => PAL.map(([n, c]) => `<button type="button" data-c="${c}" style="background:${c}" aria-label="${n}" title="${n}" aria-pressed="${cur === c}"></button>`).join('');
+function build() {
+  $('#size').innerHTML = Object.keys(SIZES).map((k) => `<button type="button" data-s="${k}" aria-pressed="${S.size === k}">${k}</button>`).join('');
+  $('#allsw').innerHTML = swatches();
+  $('#grid').innerHTML = S.frames.map((f, i) => `
+  <section class="fr" data-i="${i}">
+    <canvas id="c${i}" role="img"></canvas>
+    <div class="ct">
+      <h2>${STYLES[f.style].name}<button class="dl" type="button" data-dl>Download PNG</button></h2>
+      <div class="row"><span class="lbl">Image</span><div class="img"><button type="button" data-img="-1" aria-label="Previous image">‹</button><b data-name></b><button type="button" data-img="1" aria-label="Next image">›</button></div></div>
+      <div class="row"><span class="lbl">Color</span><div class="sw" data-sw>${swatches(0, f.color)}</div></div>
+      <div class="row"><span class="lbl">Add</span>
+        <label class="tg"><input type="checkbox" data-k="card"> UI card</label>
+        <select data-k="cardType" aria-label="UI card type">${Object.entries(CARDS).map(([k, c]) => `<option value="${k}">${c.label}</option>`).join('')}</select>
+        <label class="tg"><input type="checkbox" data-k="text"> Text</label>
+        <label class="tg"><input type="checkbox" data-k="logo"> Klir logo</label>
+      </div>
+      <div class="txt" data-txt>
+        <label>Eyebrow<input data-k="eyebrow" type="text"></label>
+        <label>Headline<textarea data-k="headline" rows="2"></textarea></label>
+        <label>Subheading<textarea data-k="sub" rows="2"></textarea></label>
+      </div>
+    </div>
+  </section>`).join('');
+  sync();
+}
+function sync() {
+  document.querySelectorAll('#size button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.s === S.size));
+  document.querySelectorAll('.fr').forEach((el) => {
+    const f = S.frames[el.dataset.i];
+    $('[data-name]', el).textContent = `${STYLES[f.style].list[f.img][0]} · ${f.img + 1}/${STYLES[f.style].list.length}`;
+    el.querySelectorAll('[data-sw] button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.c === f.color));
+    el.querySelectorAll('[data-k]').forEach((n) => { const k = n.dataset.k; if (n.type === 'checkbox') n.checked = f[k]; else if (document.activeElement !== n) n.value = f[k]; });
+    $('select', el).hidden = !f.card; $('[data-txt]', el).hidden = !f.text;
+  });
+}
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  const fr = b.closest('.fr'), f = fr && S.frames[fr.dataset.i];
+  if (b.dataset.s) S.size = b.dataset.s;
+  else if (b.dataset.c) { if (f) f.color = b.dataset.c; else S.frames.forEach((x) => (x.color = b.dataset.c)); }
+  else if (b.dataset.img) { const n = STYLES[f.style].list.length; f.img = (f.img + +b.dataset.img + n) % n; }
+  else if ('dl' in b.dataset) { const id = fr.dataset.i, a = document.createElement('a'); draw(+id); $('#c' + id).toBlob((bl) => { a.href = URL.createObjectURL(bl); a.download = `klir-${f.style}-${S.size.replace(':', 'x')}.png`; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }); return; }
+  else if (b.id === 'reset') { S = DEF(); }
+  else return;
+  sync(); queue();
+});
+document.addEventListener('input', (e) => {
+  const n = e.target, fr = n.closest('.fr'); if (!fr || !n.dataset.k) return;
+  S.frames[fr.dataset.i][n.dataset.k] = n.type === 'checkbox' ? n.checked : n.value;
+  if (n.type === 'checkbox' || n.tagName === 'SELECT') sync(); queue();
+});
+build(); drawAll();
+Promise.all([300, 400, 500, 600].map((w) => document.fonts.load(FONT(w, 40)))).then(drawAll).catch(() => {});
+document.fonts.ready.then(drawAll);
+</script>
+</body>
+</html>

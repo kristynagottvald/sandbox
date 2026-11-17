@@ -6,7 +6,16 @@
     "url": "skills-library/",
     "thumbnail": "skills-library/thumb.png",
     "preview": "skills-library/thumb.webp",
-    "alt": "A dark library of Claude skills: tiles with an animated rendering of each skill, a short description, and category and use chips, for cutting products out of mockup photos and turning a Figma frame into an animated page"
+    "alt": "A dark library of Claude skills: tiles with an animated rendering of each skill, a short description, and category and use chips, for cutting products out of mockup photos, turning a Figma frame into an animated page, a tile-to-fullscreen transition and palette handling"
+  },
+  {
+    "id": "klir-image-styles",
+    "title": "Klir Image Styles",
+    "category": "Generator",
+    "url": "klir-image-styles/",
+    "thumbnail": "klir-image-styles/thumb.png",
+    "preview": "klir-image-styles/thumb.webp",
+    "alt": "Three Klir image styles in a row: a purple water photo with a white product UI card, an abstract blue gradient with a light streak and a headline, and a pipework photo under a violet gradient, switching size, palette colour and water images"
   },
   {
     "id": "klir-landing-page",
