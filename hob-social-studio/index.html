@@ -106,6 +106,7 @@ button.go{background:#5ca0ff;color:#fff}button.go:hover{background:#4a91f5}
       <section><h2>Layout</h2><div class="grid g2" id="layouts"></div>
         <p class="cap2" id="zcap" style="margin:12px 0 6px">Bars area</p><div class="grid g2" id="zones"></div></section>
       <section><h2>Text</h2>
+        <p class="cap2">Phrase</p><div class="grid g2" id="phr" style="margin-bottom:12px"></div>
         <p class="cap2">Headline</p><textarea id="head" rows="2"></textarea>
         <p class="cap2" style="margin-top:10px">Sub left</p><textarea id="b1" rows="2"></textarea>
         <p class="cap2" style="margin-top:10px">Sub right (right aligned)</p><textarea id="b2" rows="2"></textarea>
@@ -385,6 +386,24 @@ function buildGal(){
     const t=document.createElement('img');t.src=im.src;t.alt='';b.appendChild(t);
     b.onclick=()=>{imgEl=null;S.img=S.img===i?-1:i;buildGal();};g.appendChild(b);});
 }
+const PHRASES=[
+  {n:'House of Balloons',h:'HOUSE OF\nBALLOONS',a:"WE'RE A RECORDING STUDIO AND CREATIVE BRAND BUILT FOR PRODUCERS,",b:'ENGINEERS, AND ARTISTS WHO DEFINE THEIR OWN SOUND.',t:'HOB.COM/ARTISTS',sel:[4,9]},
+  {n:'Hybrid Reverb',h:'HYBRID\nREVERB',a:'A NEW SOUND FOR PRODUCERS WHO BEND THE ROOM,',b:'LAYER IT, STRETCH IT, MAKE IT YOURS.',t:'HOB.COM/REVERB'},
+  {n:'Live Sessions',h:'LIVE\nSESSIONS',a:'FRIDAY NIGHTS IN THE STUDIO. NO SET LIST,',b:'JUST ARTISTS, ENGINEERS, AND THE ROOM.',t:'HOB.COM/LIVE'},
+  {n:'Now Booking',h:'NOW\nBOOKING',a:'STUDIO TIME FOR PRODUCERS AND ARTISTS,',b:'BOOK A SESSION AND MAKE SOMETHING NEW.',t:'HOB.COM/BOOK'},
+  {n:'New Release',h:'NEW\nRELEASE',a:'FRESH OUT OF THE HOUSE. A RECORD BUILT ON IMPROVISATION,',b:'FROM FIRST TAKE TO FINAL MIX.',t:'HOB.COM/LISTEN'},
+  {n:'Rearrange',h:'REARRANGE\nTHE GRID',a:'THE GRID IS ONLY A STARTING POINT,',b:'PUSH IT UNTIL IT BREAKS.',t:'HOB.COM/ARTISTS'}
+];
+function setPhrase(i){
+  const P=PHRASES[i];S.head=P.h;S.b1=P.a;S.b2=P.b;S.tag=P.t;
+  const t=P.h.toUpperCase(),ok=[...t].map((c,k)=>k).filter(k=>/\S/.test(t[k])&&!NOSTRETCH.includes(t[k]));
+  S.sel=P.sel||[ok[1],ok[Math.floor(ok.length*.7)]].filter((v,k,a)=>v!==undefined&&a.indexOf(v)===k);
+  $('head').value=S.head;$('b1').value=S.b1;$('b2').value=S.b2;$('tag').value=S.tag;buildChips();buildPhrases();
+}
+function buildPhrases(){
+  const g=$('phr');g.innerHTML='';
+  PHRASES.forEach((P,i)=>{const b=document.createElement('button');b.type='button';b.textContent=P.n;b.setAttribute('aria-pressed',S.head===P.h);b.onclick=()=>setPhrase(i);g.appendChild(b);});
+}
 const NOSTRETCH='OCGQSUXZAV'; // round and diagonal letters distort badly, so they stay locked
 function buildChips(){
   const box=$('chips');box.innerHTML='';const t=S.head.toUpperCase();
@@ -399,7 +418,7 @@ function buildChips(){
   }
 }
 $('head').value=S.head;$('b1').value=S.b1;$('b2').value=S.b2;$('tag').value=S.tag;
-$('head').oninput=e=>{S.head=e.target.value;buildChips();};
+$('head').oninput=e=>{S.head=e.target.value;buildChips();buildPhrases();};
 $('b1').oninput=e=>{S.b1=e.target.value;};$('b2').oninput=e=>{S.b2=e.target.value;};$('tag').oninput=e=>{S.tag=e.target.value;};
 [['hs','hs',1,''],['bs','bs',1,''],['cell','cell',1,''],['sp','sp',1,''],['amt','amt',.1,'×']].forEach(([id,k,sc,u])=>{
   $(id).oninput=e=>{S[k]=+e.target.value*sc;e.target.nextElementSibling.textContent=(sc===1?e.target.value:S[k].toFixed(1))+u;};
@@ -440,7 +459,7 @@ addEventListener('keydown',e=>{if(e.key==='Escape')sel=null;});
 addEventListener('resize',fit);
 const hash=location.hash.slice(1).split('&');
 if(hash.includes('clip')){document.body.classList.add('clip');S.layout='bars';S.combo=4;}
-buildSwatches();buildChips();buildGal();size(hash.includes('clip')?1920:1080,hash.includes('clip')?1080:1350);
+buildSwatches();buildChips();buildGal();buildPhrases();size(hash.includes('clip')?1920:1080,hash.includes('clip')?1080:1350);
 Promise.all([document.fonts.load('800 100px Syne'),document.fonts.load('400 20px "Source Code Pro"')]).catch(()=>{});
 requestAnimationFrame(draw);
 window.__hobs={set:o=>{Object.assign(S,o);buildSwatches();if(o.w)size(o.w,o.h||S.h);}};
