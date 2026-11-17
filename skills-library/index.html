@@ -23,16 +23,16 @@ h1{font-size:28px;font-weight:500;letter-spacing:-.01em}
 .tab[aria-pressed=true]{background:#1c1c1c}
 .tab:focus-visible{outline:2px solid #fff;outline-offset:2px}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:22px}
+.grid{display:grid;grid-auto-rows:1fr;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:22px}
 .card{display:flex;flex-direction:column;border-radius:14px;overflow:hidden;border:1px solid #232323;background:#0c0c0c}
 .card[hidden]{display:none}
 .thumb{aspect-ratio:16/9;overflow:hidden;background:#07070a}
 .card img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
 .card:hover img{transform:scale(1.03)}
-.info{padding:18px 20px 20px}
+.info{flex:1;display:flex;flex-direction:column;padding:18px 20px 20px}
 .info h2{font-size:21px;font-weight:500;letter-spacing:-.01em;margin-bottom:6px}
-.info p{font-size:14px;line-height:1.5;color:#b5b5b5;margin-bottom:14px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
+.info p{font-size:14px;line-height:1.5;color:#b5b5b5;margin-bottom:16px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;line-clamp:4;overflow:hidden;min-height:6em}
+.chips{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px}
 .chip{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 9px;border-radius:999px;background:#1c1c1c;color:#e6e6e6;font-size:14px}
 .chip svg{width:15px;height:15px;flex:none;opacity:.9}
 .empty{color:#8d8d8d;padding:40px 0}
@@ -98,7 +98,7 @@ var ICON={
 var SKILLS=[
   {
     title:'avoid-widows-and-orphans',
-    desc:'Treats runts, print widows, print orphans and orphaned headings as defects: at least two words on a last line, two lines kept together, headings kept with text, plus fixes for CSS, p5/canvas, Figma, Word, PDF and slides.',
+    desc:'Treats runts, widows, orphans and orphaned headings as defects: two words on a last line, two lines kept together, headings kept with text. Fixes for CSS, canvas, Figma, Word and PDF.',
     category:'Design', cIcon:'design',
     use:'Any text layout or render', uIcon:'image',
     art:'art/avoid-widows-and-orphans.svg',
@@ -122,7 +122,7 @@ var SKILLS=[
   },
   {
     title:'app-store-motion-explainer',
-    desc:'For animated product explainers: layered screens that swap places, cursor and press interactions, seam-free illustration masking, a hold on the key screen, and deterministic loopable timelines.',
+    desc:'For animated product explainers: layered screens that swap places, cursor presses, seam-free masking, a hold on the key screen, and loopable timelines.',
     category:'Motion', cIcon:'motion',
     use:'Product explainer apps', uIcon:'mockup',
     art:'art/app-store-motion-explainer.svg',
@@ -132,7 +132,7 @@ var SKILLS=[
     title:'asset-generator-engine',
     desc:'One shape for asset studios: live controls beside a canvas preview, multiple aspect ratios, photo upload and reorder, reset, and export including looping animation.',
     category:'Generator', cIcon:'image',
-    use:'Banners, posts and social assets', uIcon:'design',
+    use:'Banners and social posts', uIcon:'design',
     art:'art/asset-generator-engine.svg',
     alt:'A controls panel with sliders and aspect-ratio toggles beside a canvas preview that switches between wide and tall formats'
   },
