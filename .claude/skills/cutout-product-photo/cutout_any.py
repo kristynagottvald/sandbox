@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Cut products out of a mockup photo with a smooth backdrop into transparent WebP files.
 
-  python3 cutout.py SRC OUT.webp --mode hue    --hue 20 52 --sat 80      # backdrop of one hue (lime, green...), shadows included
-  python3 cutout.py SRC OUT.webp --mode chroma --tol 0.03                # backdrop that is a smooth gradient of one colour
-  python3 cutout.py SRC OUT.webp --mode circle --radius 330 390          # a round object (plate, bowl): fit the circle
+  python3 cutout_any.py SRC OUT.webp --mode hue    --hue 20 52 --sat 80      # backdrop of one hue (lime, green...), shadows included
+  python3 cutout_any.py SRC OUT.webp --mode chroma --tol 0.03                # backdrop that is a smooth gradient of one colour
+  python3 cutout_any.py SRC OUT.webp --mode circle --radius 330 390          # a round object (plate, bowl): fit the circle
 
 Common options: --keep N (largest N objects), --split (one file per object, left to right: OUT-1.webp ...),
 --min-area, --erode PX, --feather SIGMA, --defringe PX, --max-side PX, --pad PX, --preview (writes OUT.preview.png).
