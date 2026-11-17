@@ -374,9 +374,8 @@ app.querySelectorAll('.f').forEach((e,j)=>{const[cl,t,d,w]=D.f[j];e.innerHTML=`<
 app.querySelectorAll('.er').forEach((e,j)=>{const[a,b,w,cc]=D.e[j];e.innerHTML=`<div><b>${a}</b><span>${b}</span></div><div class="bar"><i style="--w:${w};background:${cc}"></i></div>`});
 app.querySelectorAll('.tk').forEach((e,j)=>{const[a,b,ch]=D.t[j];e.innerHTML=`<input type="checkbox"${ch?' checked':''}><div><b>${a}</b><span>${b}</span></div>`});
 if(replay){app.classList.remove('in','warned');$('wlab').style.opacity=0;$('dot').setAttribute('opacity',0);$('trend').style.strokeDashoffset=1;void app.offsetWidth;app.querySelectorAll('.k').forEach((e,j)=>e.style.animationDelay=j*.1+'s');app.querySelectorAll('.f').forEach((e,j)=>e.style.animationDelay=.3+j*.12+'s');app.classList.add('in');countUp();runLine();setPane(0)}}
-/* walkthrough: Wastewater then Drinking water, each through Trends, Effluent, Tasks, looping; pauses while hovered */
+/* walkthrough: Wastewater then Drinking water, each through Trends, Effluent, Tasks, looping; keeps running under the pointer, pauses only when off screen */
 let paused=false,onScreen=false;
-app.addEventListener('pointerenter',()=>paused=true);app.addEventListener('pointerleave',()=>paused=false);
 new IntersectionObserver(es=>es.forEach(e=>onScreen=e.isIntersecting),{threshold:.25}).observe(app);
 const STEPS=[[0,0],[0,1],[0,2],[1,0],[1,1],[1,2]];let stepI=0;
 function startLoop(){(function next(d){setTimeout(()=>{if(paused||!onScreen){next(1500);return}stepI=(stepI+1)%STEPS.length;const[h,p]=STEPS[stepI];if(h!==cur){render(h,true);next(6500)}else{setPane(p);next(4000)}},d)})(1000)}
