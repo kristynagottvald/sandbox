@@ -6,7 +6,7 @@
     "url": "skills-library/",
     "thumbnail": "skills-library/thumb.png",
     "preview": "skills-library/thumb.webp",
-    "alt": "A dark library of Claude skills: tiles with an animated rendering of each skill, a short description, and category and use chips, for cutting products out of mockup photos, turning a Figma frame into an animated page, a tile-to-fullscreen transition palette handling and a scripted cursor demo"
+    "alt": "A dark library of Claude skills: tiles with an animated rendering of each skill, a short description, and category and use chips, for cutting products out of mockup photos, turning a Figma frame into an animated page, a tile-to-fullscreen transition palette handling and a scripted cursor demo, motion explainers and asset generators"
   },
   {
     "id": "klir-image-styles",
