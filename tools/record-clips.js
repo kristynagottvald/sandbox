@@ -26,12 +26,12 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
   // the Klir wayfinding line: the moving blue water hero, then the waterdrop appears, crosses the hero edge (white to blue) and travels down the page with the scroll, lighting up each section node, then back up
-  'klir-landing-page': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, run: async (p) => {
+  'klir-landing-page': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 4200, run: async (p) => {
+    // the dashboard rises over the hero and fills in, the walkthrough clicks to the other tab, then the page scrolls on and returns to the dashboard
     const t0 = Date.now(), to = (y) => p.evaluate((v) => window.scrollTo({ top: v, behavior: 'smooth' }), y);
-    await at(t0, 800, () => to(500));
-    await at(t0, 2200, () => { p.mouse.move(640, 400); to(1500); });
-    await at(t0, 3600, () => to(2600));
-    await at(t0, 4800, () => to(0));
+    await at(t0, 2600, () => to(1500));
+    await at(t0, 3800, () => to(2600));
+    await at(t0, 5000, () => to(600));
   } },
   // the badge rests at its angle over the muted tiles, then the mouse sweeps over the visual to tip it and leaves so it eases back
   'lob-integrations-hero': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, run: async (p) => {
