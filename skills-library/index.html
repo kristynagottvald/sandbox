@@ -29,8 +29,7 @@ h1{font-size:28px;font-weight:500;letter-spacing:-.01em}
 .clr{position:absolute;right:8px;width:28px;height:28px;border:0;border-radius:50%;background:transparent;color:#4b4f5c;font-size:20px;line-height:1;cursor:pointer}
 .clr:hover{background:#eef1f7}
 .prob{margin-top:72px;padding-top:44px;border-top:1px solid #e3e6ee}
-.prob h2{font-size:24px;font-weight:500;letter-spacing:-.01em}
-.probsub{margin:8px 0 28px;font-size:15px;color:#4b4f5c}
+.prob h2{font-size:24px;font-weight:500;letter-spacing:-.01em;margin-bottom:28px}
 .probgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px 28px}
 .pcat h3{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#6b6f7d;margin-bottom:12px}
 .pcat h3::before{content:'';width:10px;height:10px;background:#8ec5ff;flex:none}
@@ -131,7 +130,6 @@ body.detail html,html:has(body.detail){background:#f7f9fd}
   <div class="grid" id="grid"></div>
   <section class="prob" id="prob" aria-labelledby="probh">
     <h2 id="probh">Common problems these skills solve</h2>
-    <p class="probsub">Pick a phrase to find the skill for it.</p>
     <div class="probgrid" id="probgrid"></div>
   </section>
 </main>
