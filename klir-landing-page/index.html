@@ -397,6 +397,7 @@ const pt=tr.getPointAtLength(a),tx=Math.max(84,Math.min(556,pt.x));$('tip').setA
 cs.addEventListener('pointerleave',()=>$('tip').setAttribute('opacity',0));
 
 addEventListener('scroll',tick,{passive:true});addEventListener('resize',layout);
+if(location.hash=='#clip'){document.documentElement.style.scrollBehavior='auto';scrollTo(0,600)}
 (document.fonts?document.fonts.ready:Promise.resolve()).then(layout);layout();
 new ResizeObserver(layout).observe(wrap);
 /* gooey hover: the image is pulled toward the pointer like a liquid */
