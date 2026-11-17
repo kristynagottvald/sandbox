@@ -287,7 +287,7 @@ const isReel=()=>H/W>=1.7;
 function safe(){return isReel()?{t:H*.14,b:H*.2}:{t:0,b:0};}
 /* ---------- compose ---------- */
 function paint(tv){
-  T=tv;const C=COMBOS[S.combo],land=W>H*1.2,m=W*.035,L=S.layout,size=W*.034*S.bs/100;
+  T=tv;const C=COMBOS[S.combo],land=W>H*1.2,m=W*.035,L=S.layout,size=W*.028*S.bs/100;
   ctx.globalAlpha=1;ctx.fillStyle=C.bg;ctx.fillRect(0,0,W,H);
   const tg=tagBox(),gap=m*.8,sT=safe().t,sB=safe().b;let hx=m,hy=sT+m,hw=W-2*m,img=null,regionH=H-2*m,zone=null;
   if(L==='poster'){if(land){hw=W*.5-1.5*m;img={x:W*.5,y:0,w:W*.5,h:H};}}
@@ -299,14 +299,15 @@ function paint(tv){
   }
   // a full-width headline runs slightly past both edges
   const wide=hw===W-2*m,avail=wide?W*1.04:hw,hx0=wide?-W*.012:hx,bx=wide?m:hx,bw=wide?W-2*m:hw;
-  let M=headMetrics(avail,1);const c=cols(bw,size);
-  if(zone&&M.h+gap+c.h>regionH)M=headMetrics(avail,Math.min(1,Math.max(.25,(regionH-gap-c.h)/M.h)));
+  // in the bars layout the sub copy gives way first, so the headline stays big
+  let M=headMetrics(avail,1),bsz=size,c=cols(bw,bsz);
+  if(zone)for(let k=1,n=0;n<12&&M.h+gap+c.h>regionH;n++){k=Math.max(.8,k*.94);M=headMetrics(avail,k);bsz=Math.max(size*.55,bsz*.92);c=cols(bw,bsz);}
   const by=hy+M.h+gap;
   if(L==='poster'&&!land){const top=Math.round(by+c.h+gap);img={x:0,y:top,w:W,h:Math.max(m,H-top)};}
   if(img)drawImage({x:Math.round(img.x),y:Math.round(img.y),w:Math.round(img.w),h:Math.round(img.h)},C);
   if(zone)bars(C,zone);
   drawHead(M,hx0+S.off.head[0],hy+S.off.head[1],C.tx);
-  drawCols(bx,by,bw,size,C.tx);
+  drawCols(bx,by,bw,bsz,C.tx);
   const tx=(land&&L!=='bleed'&&L!=='bars')?hx:W-m-tg.w;
   drawTag(tx,H-sB-m-tg.h,C);
   ctx.globalAlpha=1;
