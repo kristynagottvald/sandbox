@@ -144,6 +144,14 @@ var ICON={
 };
 var SKILLS=[
   {
+    title:'brand-audit-engine',
+    desc:'Builds a brand audit system for any library of uploaded assets, checking each one against brand guidelines read from a Figma link, with a person making the final call.',
+    category:'Design', cIcon:'design',
+    use:'Brand reviews at scale', uIcon:'image',
+    art:'art/brand-audit-engine.svg',
+    alt:'A scan line sweeps a campaign post chosen from an asset library, circling numbered issues while a results panel fills and approve and request-changes buttons appear'
+  },
+  {
     title:'session-to-skill',
     desc:'Asks Claude what it learned during a session, then shows how to turn those lessons into a reusable skill with a name, a trigger, steps and rules.',
     category:'Generator', cIcon:'image',
@@ -294,6 +302,7 @@ function render(){
 tabs.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b){cur=b.dataset.c;render()}});
 render();
 var EX={
+'brand-audit-engine':[['brand-audit-engine','Brand Audit Engine']],
 'fields-scan-overlay-effect':[['https://kristynagottvald.github.io/#805157303765614592','Reprise: Build better demos with AI','examples/reprise-fields-scan.webp','examples/reprise-fields-scan.webp']],
 'industry-swapper':[['https://kristynagottvald.github.io/sketches/direct-mail-engine/','Industry Swapper Plug-in','https://kristynagottvald.github.io/sketches/clips/direct-mail-engine.webp','https://kristynagottvald.github.io/sketches/direct-mail-engine/thumbnail.jpg']],
 'metacognitive-prompt-rewriter':[['https://kristynagottvald.github.io/sketches/prompt-machine/','Metacognitive Prompt Helper','https://kristynagottvald.github.io/sketches/clips/prompt-machine.webp','https://kristynagottvald.github.io/sketches/prompt-machine/thumbnail.jpg']],
@@ -306,6 +315,9 @@ var EX={
 'asset-generator-engine':[['blog-banner-studio','Blog Banner Studio'],['conference-post-generator','Conference Post Creator'],['lifecycle-image-engine','Lifecycle Image Studio'],['hero-banner-engine','Banner Template Studio'],['postmark-ribbon-engine','Postmark Awards Ribbon Engine'],['grubclub-end-card','Grubclub End Card Maker'],['https://kristynagottvald.github.io/sketches/ribbon-text/','Postmark Awards','https://kristynagottvald.github.io/sketches/clips/ribbon-text.webp','https://kristynagottvald.github.io/sketches/ribbon-text/thumbnail.jpg'],['https://kristynagottvald.github.io/sketches/pattern-generator/','Pattern Generator','https://kristynagottvald.github.io/sketches/clips/pattern-generator.webp','https://kristynagottvald.github.io/sketches/pattern-generator/thumbnail.jpg']]};
 var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 var D={
+'brand-audit-engine':{saves:'Checking every asset against the brand guidelines by eye',work:["Opening each asset and comparing it with the guidelines, one check at a time","Copying rules out of a Figma file into a checklist, and keeping it up to date","Tracking which assets are reviewed, flagged or approved, and writing up the feedback"],
+ p:["This skill builds a brand audit system for any library of assets you upload: campaign posts, ads, social tiles and other images. The library shows every asset with where it is in review, and you can search it.","The brand guidelines come from a Figma link. The skill reads the rules from that file, such as colours, type, logo use and spacing, and turns them into the checks it runs. Open an asset and it scans it against those checks, circling each problem with a numbered mark, for example a missing logo, text with too little contrast, uneven gaps at the edges, or an off-brand colour.","A results panel then shows how many checks were run and how many were flagged, along with the time taken per asset. The system flags issues but doesn’t decide: a person makes the final call, with buttons to approve the asset or request changes."],
+ prompts:["Use brand-audit-engine to audit these uploaded assets against the brand guidelines in this Figma file: [link].","Read the brand guidelines from this Figma link and list the checks you will run, covering colour, type, logo and spacing.","Scan each asset, circle every issue with a number, and leave the approve or request changes decision to me."]},
 'session-to-skill':{saves:'Remembering what went right in a session and re-explaining it next time',work:["Looking back through a long session to work out what actually mattered","Re-explaining the same corrections and preferences to Claude in every new session","Writing a skill file from scratch and deciding what belongs in it"],
  p:["Long sessions teach you a lot: which steps worked, what went wrong the first time, and what you kept asking Claude to fix. This skill makes that knowledge easy to keep. It starts by asking Claude a simple question: what did you learn in this session?","Claude answers by looking back over the work: the steps that worked, the mistakes that were corrected, the preferences you repeated, and the decisions you made along the way. Then it helps you decide whether those lessons are worth a skill, which is usually the case when the task will come up again and isn’t obvious.","From there it shows how to build the skill. It picks a short hyphenated name, writes when the skill should be used, lays out the steps in order, and turns your corrections into clear rules. The result is a skill file you can save with your project, so every future session starts with what this one learned."],
  prompts:["Use session-to-skill: what did you learn in this session, and how would we build a skill around it?","Look back over this session and list the corrections I made, then turn them into rules for a skill.","Draft a SKILL.md from what we just built, with a name, when to use it, the steps and the rules."]},
@@ -400,6 +412,7 @@ var GROUPS=[
 ['ad','ads','paid','campaign','landing','utm','linkedin','google','instagram','tiktok','metric','ctr','analytic','conversion','funnel'],
 ['feature','spot','product','short','promo','wireframe','illustration','abstract','launch','announce'],
 ['skill','learn','lesson','reflect','session','retro','capture','repeat','repeatable','mistake','correction','remember','process','write','document','reuse'],
+['audit','review','check','compliance','guideline','approve','flag','logo','consistent','brand','qa','upload','library','asset','issue','off-brand'],
 ['plugin','plug-in','extension','port','figma','tool','generator','engine','layer','editable']
 ];
 function stem(w){w=w.toLowerCase().replace(/[^a-z0-9+-]/g,'');if(w.length>5&&/ing$/.test(w))w=w.slice(0,-3);else if(w.length>4&&/ed$/.test(w))w=w.slice(0,-2);else if(w.length>4&&/es$/.test(w))w=w.slice(0,-2);else if(w.length>3&&/s$/.test(w)&&!/ss$/.test(w))w=w.slice(0,-1);return w}
