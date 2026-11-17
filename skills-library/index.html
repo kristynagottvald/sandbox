@@ -17,7 +17,22 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 
 main{max-width:1440px;margin:0 auto;padding:28px 40px 72px}
 h1{font-size:28px;font-weight:500;letter-spacing:-.01em}
+.head{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.search{position:relative;width:min(380px,100%);display:flex;align-items:center}
+.search .mag{position:absolute;left:14px;width:16px;height:16px;color:#6b6f7d;pointer-events:none}
+.search input{width:100%;height:44px;padding:0 40px 0 40px;border:1px solid #d7dbe6;border-radius:999px;background:#fff;color:#0d0d12;font:400 15px/1 Inter,Helvetica,Arial,sans-serif;outline:none;-webkit-appearance:none;appearance:none}
+.search input::-webkit-search-cancel-button{display:none}
+.search input:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.ph{position:absolute;left:40px;right:40px;top:50%;transform:translateY(-50%);color:#7b7f8d;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;transition:opacity .35s ease}
+.ph.out{opacity:0}
+.ph.gone{display:none}
+.clr{position:absolute;right:8px;width:28px;height:28px;border:0;border-radius:50%;background:transparent;color:#4b4f5c;font-size:20px;line-height:1;cursor:pointer}
+.clr:hover{background:#eef1f7}
+.hint{margin:18px 0 0;font-size:15px;color:#4b4f5c}
+.hint b{font-weight:500;color:#0d0d12}
+@media (prefers-reduced-motion:reduce){.ph{transition:none}}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 28px}
+.hint:not([hidden])+.tabs{margin-top:14px}
 .tab{appearance:none;border:0;background:transparent;color:#0d0d12;font:inherit;font-size:16px;padding:10px 16px;border-radius:10px;cursor:pointer}
 .tab:hover{background:#eef2fb}
 .tab[aria-pressed=true]{background:#2563eb;color:#fff}
@@ -91,7 +106,16 @@ body.detail html,html:has(body.detail){background:#f7f9fd}
 <body>
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Skills Library</b></nav>
 <main id="home">
-  <h1>Claude Skills Library</h1>
+  <div class="head">
+    <h1>Claude Skills Library</h1>
+    <div class="search" role="search">
+      <svg class="mag" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6L14 14"/></svg>
+      <input id="q" type="search" autocomplete="off" spellcheck="false" aria-label="Search skills">
+      <span class="ph" id="ph" aria-hidden="true"></span>
+      <button class="clr" id="clr" type="button" aria-label="Clear search" hidden>&times;</button>
+    </div>
+  </div>
+  <p class="hint" id="hint" role="status" aria-live="polite" hidden></p>
   <div class="tabs" id="tabs" role="group" aria-label="Skill categories"></div>
   <div class="grid" id="grid"></div>
 </main>
@@ -234,16 +258,16 @@ var SKILLS=[
     alt:'A static Figma frame on the left becomes a live animated layout on the right with a timeline playhead below'
   }
 ];
-var tabs=document.getElementById('tabs'),grid=document.getElementById('grid'),cur='All';
+var tabs=document.getElementById('tabs'),grid=document.getElementById('grid'),cur='All',SR=null;
 var cats=['All'].concat(SKILLS.map(function(s){return s.category}).filter(function(c,i,a){return a.indexOf(c)===i}));
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-grid.innerHTML=SKILLS.map(function(s){return '<a class="card" href="#/'+esc(s.title)+'" data-cat="'+esc(s.category)+'">'+
+grid.innerHTML=SKILLS.map(function(s){return '<a class="card" href="#/'+esc(s.title)+'" data-t="'+esc(s.title)+'" data-cat="'+esc(s.category)+'">'+
   '<div class="thumb"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'" loading="lazy"></div>'+
   '<div class="info"><h2>'+esc(s.title)+'</h2><p>'+esc(s.desc)+'</p>'+
   '<div class="chips"><span class="chip">'+ICON[s.cIcon]+esc(s.category)+'</span><span class="chip">'+ICON[s.uIcon]+esc(s.use)+'</span></div></div></a>'}).join('');
 function render(){
   tabs.innerHTML=cats.map(function(c){return '<button class="tab" aria-pressed="'+(c===cur)+'" data-c="'+esc(c)+'">'+esc(c)+'</button>'}).join('');
-  [].forEach.call(grid.children,function(el){el.hidden=cur!=='All'&&el.dataset.cat!==cur});
+  [].forEach.call(grid.children,function(el){el.hidden=(cur!=='All'&&el.dataset.cat!==cur)||(SR!==null&&!(el.dataset.t in SR))});
 }
 tabs.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b){cur=b.dataset.c;render()}});
 render();
@@ -333,6 +357,65 @@ function route(){var m=/^#\/(.+)$/.exec(location.hash),s=m&&SKILLS.filter(functi
   else{home.hidden=false;detail.hidden=true;document.body.classList.remove('detail');document.title=BASE}
   window.scrollTo(0,0)}
 window.addEventListener('hashchange',route);route();
+var STOP='a an the i my me we our you your is am are was be been it its this that these those of to for in on at by with and or but so if as do does did can could would should will how what why when where which who have has had having get got make made want need needs help trouble problem issue issues really very too much long forever take takes taking just some any into from out up down about like using use used tool thing things stuff'.split(' ');
+var GROUPS=[
+['widow','orphan','runt','stranded','lonely','hanging','wrap','wrapping','break','typography','typeset','paragraph','heading','headline','text','line','word'],
+['scan','scanner','field','form','detect','read','reading','agent','overlay','badge','highlight','screen','number','counter'],
+['mockup','mock','ui','interface','dashboard','card','kit','component','fake','placeholder','chip','toggle','calendar','window','glass'],
+['explainer','walkthrough','explain','animation','animate','animated','timeline','loop','looping','motion','screen','cursor','video','story'],
+['generator','engine','studio','banner','social','post','export','resize','aspect','format','template','photo','upload','control','blog','image','size','sizes'],
+['demo','cursor','click','flow','script','scripted','recording','record','tutorial','walkthrough','pause','clip'],
+['palette','colour','color','brand','contrast','sample','swatch','theme','approved','combination','muddy','accessible'],
+['transition','expand','tile','fullscreen','section','reveal','grow','open','page','clip-path'],
+['cutout','cut','mask','background','remove','photo','product','halo','fringe','transparent','shadow','packshot','backdrop','edge'],
+['figma','frame','implement','import','convert','design','code','handoff'],
+['industry','vertical','swap','swapper','reskin','sector','personalise','personalize','direct','mail','postcard','variant','localize','audience','market'],
+['prompt','rewrite','rewriter','metacognitive','thinking','reasoning','llm','claude','answer','better','improve','ask'],
+['3d','lowpoly','poly','scene','diorama','p5','webgl','landscape','landmark','desert','night','sunset','day','orbit'],
+['ad','ads','paid','campaign','landing','utm','linkedin','google','instagram','tiktok','metric','ctr','analytic','conversion','funnel'],
+['feature','spot','product','short','promo','wireframe','illustration','abstract','launch','announce'],
+['plugin','plug-in','extension','port','figma','tool','generator','engine','layer','editable']
+];
+function stem(w){w=w.toLowerCase().replace(/[^a-z0-9+-]/g,'');if(w.length>5&&/ing$/.test(w))w=w.slice(0,-3);else if(w.length>4&&/ed$/.test(w))w=w.slice(0,-2);else if(w.length>4&&/es$/.test(w))w=w.slice(0,-2);else if(w.length>3&&/s$/.test(w)&&!/ss$/.test(w))w=w.slice(0,-1);return w}
+function toks(t){return String(t).toLowerCase().split(/[^a-z0-9+]+/).filter(Boolean).map(stem).filter(function(w){return w.length>1})}
+var GST=GROUPS.map(function(g){return g.map(stem)});
+var IDX=SKILLS.map(function(s){var d=D[s.title]||{p:[],work:[],prompts:[]};return{s:s,title:toks(s.title.replace(/-/g,' ')),tag:toks(s.category+' '+s.use),work:toks((d.work||[]).join(' ')+' '+(d.saves||'')),desc:toks(s.desc),body:toks((d.p||[]).join(' ')+' '+(d.prompts||[]).join(' '))}});
+function hit(arr,q){for(var i=0;i<arr.length;i++)if(arr[i]===q||(q.length>3&&arr[i].indexOf(q)===0))return true;return false}
+function score(ix,qs,exp,raw){var sc=0;
+  qs.forEach(function(q){
+    if(hit(ix.title,q))sc+=10;if(hit(ix.tag,q))sc+=6;if(hit(ix.work,q))sc+=4;if(hit(ix.desc,q))sc+=3;if(hit(ix.body,q))sc+=1.5});
+  exp.forEach(function(q){
+    if(hit(ix.title,q))sc+=3;if(hit(ix.tag,q))sc+=2;if(hit(ix.work,q))sc+=1.4;if(hit(ix.desc,q))sc+=1.2;if(hit(ix.body,q))sc+=.4});
+  if(raw.length>2&&ix.s.title.replace(/-/g,' ').indexOf(raw)>-1)sc+=12;
+  return sc}
+function search(q){
+  var raw=q.toLowerCase().replace(/[^a-z0-9+ -]/g,' ').replace(/-/g,' ').replace(/\s+/g,' ').trim();
+  var qs=toks(raw).filter(function(w){return STOP.indexOf(w)<0});
+  if(!qs.length)qs=toks(raw);
+  var exp=[];
+  GST.forEach(function(g){if(qs.some(function(w){return g.indexOf(w)>-1}))g.forEach(function(w){if(qs.indexOf(w)<0&&exp.indexOf(w)<0)exp.push(w)})});
+  var res=IDX.map(function(ix){return{t:ix.s.title,sc:score(ix,qs,exp,raw)}}).filter(function(r){return r.sc>=2});
+  res.sort(function(a,b){return b.sc-a.sc});
+  if(res.length){var top=res[0].sc;res=res.filter(function(r){return r.sc>=top*.3})}
+  return res}
+var qEl=document.getElementById('q'),phEl=document.getElementById('ph'),clrEl=document.getElementById('clr'),hintEl=document.getElementById('hint');
+var ORDER=[].slice.call(grid.children);
+function runSearch(){
+  var v=qEl.value.trim();clrEl.hidden=!qEl.value;phEl.classList.toggle('gone',!!qEl.value);
+  if(!v){SR=null;ORDER.forEach(function(el){grid.appendChild(el)});hintEl.hidden=true;render();return}
+  var res=search(v);SR={};res.forEach(function(r){SR[r.t]=r.sc});
+  var byT={};ORDER.forEach(function(el){byT[el.dataset.t]=el});
+  res.forEach(function(r){grid.appendChild(byT[r.t])});
+  cur='All';render();
+  hintEl.hidden=false;
+  hintEl.innerHTML=res.length?'<b>'+res.length+'</b> '+(res.length===1?'skill matches':'skills match')+' “'+esc(v)+'”, best match first':'No skills match “'+esc(v)+'”. Try a skill name, or describe what you are trying to do, like “resize banners” or “cut a product out of a photo”.'}
+qEl.addEventListener('input',runSearch);
+qEl.addEventListener('keydown',function(e){if(e.key==='Escape'){qEl.value='';runSearch()}});
+clrEl.addEventListener('click',function(){qEl.value='';runSearch();qEl.focus()});
+var PH=['Search for skill name','Describe the skill','What problem are you having?'],pi=0;
+phEl.textContent=PH[0];
+setInterval(function(){if(qEl.value)return;phEl.classList.add('out');setTimeout(function(){pi=(pi+1)%PH.length;phEl.textContent=PH[pi];phEl.classList.remove('out')},RM?0:350)},3200);
+
 </script>
 </body>
 </html>
