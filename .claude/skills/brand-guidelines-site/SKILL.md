@@ -43,4 +43,4 @@ The hero is a colour tile mosaic; each tile opens its section.
 
 ## 4. Before you hand it over
 
-Run the `sandbox-visual-check` skill (desktop, 390px, every control clicked), then `sandbox-add-app` for the homepage tile and clip, then `sandbox-ship`.
+Run the `sandbox-visual-check` skill (desktop, 390px, every control clicked), then `sandbox-add-app` for the homepage tile and `rerecord-clip` for the clip, then `ship-to-pages`. For the colour tokens, grid and copy rules shared by the brand pages, see `brand-system-page`.
