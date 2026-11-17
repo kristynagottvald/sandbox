@@ -26,7 +26,7 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
   // the skills library: both skill tiles with their thumbnails animating on their own, then the cursor sweeps over each tile
-  'skills-library': { vp: [960, 589], crop: [0, 49, 960, 540], ready: 900, run: async (p) => {
+  'skills-library': { vp: [960, 589], crop: [0, 49, 960, 540], ready: 900, q: 36, run: async (p) => {
     const t0 = Date.now();
     await at(t0, 1500, () => p.mouse.move(250, 400, { steps: 12 }));
     await at(t0, 3500, () => p.mouse.move(700, 400, { steps: 14 }));
