@@ -38,7 +38,7 @@ header.site .links{display:flex;gap:34px;font-size:16px;margin-right:auto;margin
 #path{position:absolute;left:0;top:0;width:100%;pointer-events:none;overflow:visible}
 section{position:relative;min-height:92vh;padding:12vh 48px 12vh var(--cx);max-width:1320px;display:flex;flex-direction:column;justify-content:center}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--indigo);margin-bottom:24px;position:relative}
-.eyebrow.node::before{content:"";position:absolute;left:calc(var(--gx) - var(--cx) + 30px);width:calc(var(--cx) - var(--gx) - 46px);top:50%;height:2px;background:var(--blue);opacity:0;transition:opacity .35s}.eyebrow.seen::before{opacity:1}
+.eyebrow.node::before{content:"";position:absolute;left:calc(var(--gx) - var(--cx) + 25px);width:calc(var(--cx) - var(--gx) - 41px);top:50%;height:2px;background:var(--blue);opacity:0;transition:opacity .35s}.eyebrow.seen::before{opacity:1}
 .eyebrow i{width:10px;height:10px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 5px var(--lav)}
 h2{font-weight:400;letter-spacing:-.045em;line-height:1;color:var(--navy)}
 h2{font-size:clamp(38px,5.4vw,76px);max-width:12em}
@@ -66,7 +66,7 @@ ul.ticks svg{flex:none;width:22px;height:22px;stroke:var(--indigo);fill:none;str
 .stats div:nth-child(odd){border-right:1.5px solid var(--lav);padding-right:24px}.stats div:nth-child(even){padding-left:28px}
 .stats b{display:block;font-size:clamp(34px,4vw,56px);font-weight:500;letter-spacing:-.04em;line-height:1.1}
 .stats span{color:var(--ink);font-size:17px}
-@media(max-width:820px){:root{--gx:22px;--cx:56px}header.site .links{display:none}header.site{padding:16px 20px}.hero{padding:0 20px 32px}section{padding:9vh 20px 9vh var(--cx)}.split{grid-template-columns:1fr}.eyebrow.node::before{left:calc(var(--gx) - var(--cx) + 28px);width:calc(var(--cx) - var(--gx) - 42px)}.gpd{right:0}.promo b{display:block;margin:6px 0 0}}
+@media(max-width:820px){:root{--gx:22px;--cx:56px}header.site .links{display:none}header.site{padding:16px 20px}.hero{padding:0 20px 32px}section{padding:9vh 20px 9vh var(--cx)}.split{grid-template-columns:1fr}.eyebrow.node::before{left:calc(var(--gx) - var(--cx) + 24px);width:calc(var(--cx) - var(--gx) - 38px)}.gpd{right:0}.promo b{display:block;margin:6px 0 0}}
 .goo{position:relative;display:block;overflow:hidden;background:#dcdcf7}
 .goo img,.goo canvas{display:block;width:100%;height:100%;object-fit:cover}
 .goo canvas{position:absolute;inset:0}
@@ -305,7 +305,7 @@ function layout(){
   $('solid').setAttribute('x1',X);$('solid').setAttribute('x2',X);
   $('cwR').setAttribute('height',HB);$('cbR').setAttribute('y',HB);$('cbR').setAttribute('height',H-HB);
   nodes=[...document.querySelectorAll('.eyebrow.node')].map(e=>{const r=e.getBoundingClientRect();return{y:r.top-m.top+r.height/2,el:e}});
-  $('nodes').innerHTML=nodes.map((n,i)=>`<use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.5)" fill="#fff" stroke="#3b3bef" stroke-width="1.2" id="n${i}" opacity="0" style="transition:opacity .35s"/>`).join('');
+  $('nodes').innerHTML=nodes.map((n,i)=>`<use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.1)" fill="#fff" stroke="#3b3bef" stroke-width="1.7" id="n${i}" opacity="0" style="transition:opacity .35s"/>`).join('');
   LT=Math.max(HB,(nodes[0]?nodes[0].y:HB)-60);$('solid').setAttribute('y1',LT);$('solid').setAttribute('y2',H);const fg=$('fade');fg.setAttribute('y1',LT);fg.setAttribute('y2',H);
   tick();
 }
@@ -320,7 +320,7 @@ function tick(){
   heroEls.forEach(e=>{e.style.opacity=Math.max(0,1-pp*1.7);e.style.transform=`translateY(${-pp*30}px)`});$('ui').style.transform=`translateY(${90-pp*190}px)`;{const ur=$('ui').getBoundingClientRect();tail.style.height=Math.max(HB,ur.top-wrap.getBoundingClientRect().top+pp*ur.height/2)+'px'}
   const top=wrap.getBoundingClientRect().top,y=Math.max(LT,Math.min(H,innerHeight*.5-top));
   
-  const t=`translate(${X} ${y}) scale(1.5)`;$('dw').setAttribute('transform',t);$('db').setAttribute('transform',t);
+  const t=`translate(${X} ${y}) scale(1.1)`;$('dw').setAttribute('transform',t);$('db').setAttribute('transform',t);
   $('head').setAttribute('opacity',Math.max(0,Math.min(1,(y-LT)/80,(H-y)/80)));
 }
 const wrap=$('wrap');
