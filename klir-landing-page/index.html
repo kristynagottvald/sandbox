@@ -272,7 +272,7 @@ footer p{font-size:clamp(18px,1.8vw,22px);letter-spacing:-.02em;max-width:30em;m
   </defs>
   <line id="solid" stroke="url(#fade)" stroke-width="1.2" mask="url(#vm)"/>
   <g id="nodes"></g>
-  <g id="head" opacity="0"><g clip-path="url(#cw)"><use id="dw" href="#drop" fill="#fff"/></g><g clip-path="url(#cb)"><use id="db" href="#drop" fill="#3b3bef"/></g></g>
+  <g id="head" opacity="0"><use id="dh" href="#drop" fill="#fafbff" stroke="#fafbff" stroke-width="7" stroke-linejoin="round"/><g clip-path="url(#cw)"><use id="dw" href="#drop" fill="#fff"/></g><g clip-path="url(#cb)"><use id="db" href="#drop" fill="#3b3bef"/></g></g>
 </svg>
 <main id="top2">
 <section>
@@ -314,7 +314,7 @@ function layout(){
   $('solid').setAttribute('x1',X);$('solid').setAttribute('x2',X);
   $('cwR').setAttribute('height',HB);$('cbR').setAttribute('y',HB);$('cbR').setAttribute('height',H-HB);
   nodes=[...document.querySelectorAll('.eyebrow.node')].map(e=>{const r=e.getBoundingClientRect();return{y:r.top-m.top+r.height/2,el:e}});
-  $('nodes').innerHTML=nodes.map((n,i)=>`<use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.1)" fill="#fff" stroke="#3b3bef" stroke-width="1.7" id="n${i}" opacity="0" style="transition:opacity .35s"/>`).join('');
+  $('nodes').innerHTML=nodes.map((n,i)=>`<g id="n${i}" opacity="0" style="transition:opacity .35s"><use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.1)" fill="#fafbff" stroke="#fafbff" stroke-width="7" stroke-linejoin="round"/><use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.1)" fill="#fff" stroke="#3b3bef" stroke-width="1.7"/></g>`).join('');
   LT=Math.max(HB,(nodes[0]?nodes[0].y:HB)-60);$('solid').setAttribute('y1',LT);$('solid').setAttribute('y2',H);const fg=$('fade');fg.setAttribute('y1',LT);fg.setAttribute('y2',H);
   tick();
 }
@@ -329,7 +329,7 @@ function tick(){
   heroEls.forEach(e=>{e.style.opacity=Math.max(0,1-pp*1.7);e.style.transform=`translateY(${-pp*30}px)`});$('ui').style.transform=`translateY(${90-pp*190}px)`;{const ur=$('ui').getBoundingClientRect();tail.style.height=Math.max(HB,ur.top-wrap.getBoundingClientRect().top+pp*ur.height/2)+'px'}
   const top=wrap.getBoundingClientRect().top,y=Math.max(LT,Math.min(H,innerHeight*.5-top));
   
-  const t=`translate(${X} ${y}) scale(1.1)`;$('dw').setAttribute('transform',t);$('db').setAttribute('transform',t);
+  const t=`translate(${X} ${y}) scale(1.1)`;$('dw').setAttribute('transform',t);$('db').setAttribute('transform',t);$('dh').setAttribute('transform',t);
   $('head').setAttribute('opacity',Math.max(0,Math.min(1,(y-LT)/80,(H-y)/80)));
 }
 const wrap=$('wrap');
