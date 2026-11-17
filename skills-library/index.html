@@ -55,16 +55,23 @@ body.detail html,html:has(body.detail){background:#f7f9fd}
 .saves{font-size:24px;font-weight:400;line-height:1.3;margin-bottom:22px;max-width:30ch}
 .lead{font-size:18px;line-height:1.6;color:#2b2b36;max-width:62ch;margin-bottom:18px}
 .time{margin-top:44px;padding-top:36px;border-top:1px solid #dcdae4}
-.time .lbl{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#6b6a78;margin-bottom:10px}
+.time .lbl,.ex .lbl{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#6b6a78;margin-bottom:10px}
+.ex{margin-top:44px;padding-top:36px;border-top:1px solid #dcdae4}
+.exg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;margin-top:18px}
+.exg a{color:inherit;text-decoration:none;display:block}
+.exg .im{aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#07070a;border:1px solid #e3e6ee}
+.exg img{display:block;width:100%;height:100%;object-fit:cover}
+.exg span{display:block;margin-top:8px;font-size:15px;line-height:1.35}
+.exg a:hover span{color:#2563eb;text-decoration:underline;text-underline-offset:3px}
 .work{list-style:none;padding:0;display:grid;gap:14px}
 .work li{position:relative;padding-left:26px;font-size:18px;line-height:1.5;color:#2b2b36;max-width:62ch}
-.work li::before{content:'';position:absolute;left:0;top:.62em;width:10px;height:10px;background:#ffd400}
+.work li::before{content:'';position:absolute;left:0;top:.62em;width:10px;height:10px;background:#8ec5ff}
 .side{position:sticky;top:24px;background:#fff;border:1px solid #e3e1ec;border-radius:14px;overflow:hidden}
 .side .art{aspect-ratio:16/9;background:#07070a}
 .side .art img{display:block;width:100%;height:100%;object-fit:cover}
 .side .in{padding:26px 26px 28px}
 .how{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
-.how i{width:14px;height:14px;background:#ffd400;flex:none}
+.how i{width:14px;height:14px;background:#8ec5ff;flex:none}
 .pr{display:flex;align-items:stretch;gap:0;margin-bottom:10px;border:1.5px solid #d8d6d0;background:#fbfaf7}
 .pr code{flex:1;padding:12px 14px;font:400 13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#111;overflow-wrap:anywhere}
 .pr button{appearance:none;border:0;border-left:1.5px solid #d8d6d0;background:transparent;font:500 12px/1 Inter,Arial,sans-serif;padding:0 14px;cursor:pointer;color:#2563eb}
@@ -190,6 +197,10 @@ function render(){
 }
 tabs.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b){cur=b.dataset.c;render()}});
 render();
+var EX={
+'motion-explainer':[['sander-troubleshoot','Sander Troubleshoot'],['nlp-diagram','NLP Diagram'],['agentic-storefront','Agentic Storefront'],['video-synopsis','Video Synopsis'],['clearco-attribution-guide','Clearco Attribution Guide'],['clearco-logistics-guide','Clearco Logistics Guide'],['clearco-logistics-motion','Clearco Logistics Motion']],
+'asset-generator-engine':[['blog-banner-studio','Blog Banner Studio'],['conference-post-generator','Conference Post Creator'],['lifecycle-image-engine','Lifecycle Image Studio'],['hero-banner-engine','Banner Template Studio'],['postmark-ribbon-engine','Postmark Awards Ribbon Engine'],['grubclub-end-card','Grubclub End Card Maker']]};
+var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 var D={
 'avoid-widows-and-orphans':{saves:'Hand-checking every text block for stranded words and lines',work:["Reading every paragraph, heading and caption to spot a lone word on the last line", "Nudging line breaks and widths by hand, then re-checking after every edit", "Re-testing at narrow and wide widths, and again in print, slides or canvas renders"],
  p:['Stranded words make good layouts look unfinished. This skill defines four defects and treats all of them as bugs: runts (a single word on a paragraph’s last line), print widows (a last line stranded at the top of a page or column), print orphans (a first line stranded at the bottom) and orphaned headings.',
@@ -252,7 +263,7 @@ function showDetail(s){var d=D[s.title];
   detail.innerHTML='<a class="back2" href="#/"><svg viewBox="0 0 30 12" fill="none" stroke="currentColor" stroke-width="1"><path d="M30 6H1M6 1L1 6l5 5"/></svg>All skills</a>'+
   '<div class="dgrid"><div><div class="eyebrow">'+esc(s.category)+'</div><h1>'+esc(s.title)+'</h1>'+
   '<p class="saves">'+esc(d.saves)+'</p>'+d.p.map(function(t){return '<p class="lead">'+esc(t)+'</p>'}).join('')+
-  '<div class="time"><div class="lbl">The manual work it saves</div><ul class="work">'+d.work.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div></div>'+
+  '<div class="time"><div class="lbl">The manual work it saves</div><ul class="work">'+d.work.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'+(EX[s.title]?'<div class="ex"><div class="lbl">Built with this skill</div><div class="exg">'+EX[s.title].map(function(e){return '<a href="../'+e[0]+'/"><div class="im"><img src="../'+e[0]+'/thumb.'+(RM?'png':'webp')+'" alt="" loading="lazy"></div><span>'+esc(e[1])+'</span></a>'}).join('')+'</div></div>':'')+'</div>'+
   '<aside class="side"><div class="art"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'"></div><div class="in">'+
   '<div class="how"><i></i>Say this to activate the skill</div>'+
   d.prompts.map(function(p,i){return '<div class="pr"><code>“'+esc(p)+'”</code><button data-i="'+i+'">Copy</button></div>'}).join('')+
