@@ -38,15 +38,54 @@ h1{font-size:28px;font-weight:500;letter-spacing:-.01em}
 .empty{color:#8d8d8d;padding:40px 0}
 @media (max-width:640px){main{padding:20px 16px 56px}.grid{grid-template-columns:1fr}.info p{font-size:13px}}
 @media (prefers-reduced-motion:reduce){.card img{transition:none}.card:hover img{transform:none}}
+
+a.card{color:inherit;text-decoration:none;cursor:pointer}
+a.card:hover{border-color:#3a3a3a}
+a.card:focus-visible{outline:2px solid #fff;outline-offset:2px}
+/* detail page (light) */
+body.detail{background:#f8f7fb;color:#0d0d12}
+body.detail html,html:has(body.detail){background:#f8f7fb}
+#detail{max-width:1440px;margin:0 auto;padding:28px 40px 96px}
+.back2{display:inline-flex;align-items:center;gap:14px;color:#0d0d12;text-decoration:none;font-size:16px;margin-bottom:56px}
+.back2:hover{text-decoration:underline;text-underline-offset:4px}
+.back2 svg{width:30px;height:12px}
+.dgrid{display:grid;grid-template-columns:3fr 2fr;gap:56px;align-items:start}
+.eyebrow{font-size:16px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:#3b2ff0;margin-bottom:22px}
+.dgrid h1{font-size:clamp(34px,5vw,64px);font-weight:300;line-height:1.08;letter-spacing:-.02em;margin-bottom:40px;overflow-wrap:anywhere}
+.saves{font-size:24px;font-weight:400;line-height:1.3;margin-bottom:22px;max-width:30ch}
+.lead{font-size:18px;line-height:1.6;color:#2b2b36;max-width:62ch;margin-bottom:18px}
+.time{margin-top:44px;padding-top:36px;border-top:1px solid #dcdae4}
+.time .lbl{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#6b6a78;margin-bottom:10px}
+.time .val{font-size:34px;font-weight:300;letter-spacing:-.01em}
+.time .note{font-size:13px;color:#8a8997;margin-top:6px}
+.side{position:sticky;top:24px;background:#fff;border:1px solid #e3e1ec;border-radius:14px;overflow:hidden}
+.side .art{aspect-ratio:16/9;background:#07070a}
+.side .art img{display:block;width:100%;height:100%;object-fit:cover}
+.side .in{padding:26px 26px 28px}
+.how{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
+.how i{width:14px;height:14px;background:#ffd400;flex:none}
+.pr{display:flex;align-items:stretch;gap:0;margin-bottom:10px;border:1.5px solid #d8d6d0;background:#fbfaf7}
+.pr code{flex:1;padding:12px 14px;font:400 13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#111;overflow-wrap:anywhere}
+.pr button{appearance:none;border:0;border-left:1.5px solid #d8d6d0;background:transparent;font:500 12px/1 Inter,Arial,sans-serif;padding:0 14px;cursor:pointer;color:#3b2ff0}
+.pr button:hover{background:#efedf9}
+.meta{display:flex;align-items:center;gap:12px;margin:22px 0 4px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#6b6a78}
+.tag{display:inline-block;margin:10px 0 24px;padding:8px 14px;background:#e1f1fa;color:#3b2ff0;font-size:14px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
+.btn{display:block;width:100%;text-align:center;padding:16px;border-radius:6px;font:500 16px/1 Inter,Arial,sans-serif;cursor:pointer;margin-bottom:12px;text-decoration:none}
+.btn.p{background:#3b2ff0;color:#fff;border:1.5px solid #3b2ff0}
+.btn.p:hover{background:#2f24d0}
+.btn.s{background:#fff;color:#0d0d12;border:1.5px solid #0d0d12}
+.btn.s:hover{background:#f1f0f6}
+@media (max-width:900px){#detail{padding:20px 16px 64px}.dgrid{grid-template-columns:1fr;gap:36px}.side{position:static}.back2{margin-bottom:32px}.saves{font-size:20px}}
 </style>
 </head>
 <body>
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Skills Library</b></nav>
-<main>
+<main id="home">
   <h1>Claude Skills Library</h1>
   <div class="tabs" id="tabs" role="group" aria-label="Skill categories"></div>
   <div class="grid" id="grid"></div>
 </main>
+<section id="detail" hidden></section>
 <script>
 /* Add skills here. Only skills the owner has listed. `art` is an animated SVG in ./art/ */
 var ICON={
@@ -140,16 +179,93 @@ var SKILLS=[
 var tabs=document.getElementById('tabs'),grid=document.getElementById('grid'),cur='All';
 var cats=['All'].concat(SKILLS.map(function(s){return s.category}).filter(function(c,i,a){return a.indexOf(c)===i}));
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-grid.innerHTML=SKILLS.map(function(s){return '<article class="card" data-cat="'+esc(s.category)+'" aria-label="'+esc(s.title)+'">'+
+grid.innerHTML=SKILLS.map(function(s){return '<a class="card" href="#/'+esc(s.title)+'" data-cat="'+esc(s.category)+'">'+
   '<div class="thumb"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'" loading="lazy"></div>'+
   '<div class="info"><h2>'+esc(s.title)+'</h2><p>'+esc(s.desc)+'</p>'+
-  '<div class="chips"><span class="chip">'+ICON[s.cIcon]+esc(s.category)+'</span><span class="chip">'+ICON[s.uIcon]+esc(s.use)+'</span></div></div></article>'}).join('');
+  '<div class="chips"><span class="chip">'+ICON[s.cIcon]+esc(s.category)+'</span><span class="chip">'+ICON[s.uIcon]+esc(s.use)+'</span></div></div></a>'}).join('');
 function render(){
   tabs.innerHTML=cats.map(function(c){return '<button class="tab" aria-pressed="'+(c===cur)+'" data-c="'+esc(c)+'">'+esc(c)+'</button>'}).join('');
   [].forEach.call(grid.children,function(el){el.hidden=cur!=='All'&&el.dataset.cat!==cur});
 }
 tabs.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b){cur=b.dataset.c;render()}});
 render();
+var D={
+'avoid-widows-and-orphans':{saves:'Hand-checking every text block for stranded words and lines',time:'10–20 min per layout',
+ p:['Stranded words make good layouts look unfinished. This skill defines four defects and treats all of them as bugs: runts (a single word on a paragraph’s last line), print widows (a last line stranded at the top of a page or column), print orphans (a first line stranded at the bottom) and orphaned headings.',
+ 'It applies four rules: a last line needs at least two words, at least two lines of a paragraph stay together at a column or page break, a heading never separates from the text under it, and short connectors and numbers with their units use non-breaking spaces.',
+ 'Fixes are given per medium. In CSS: text-wrap: balance for headings, pretty for body text, plus orphans, widows and break-after: avoid. In p5.js or canvas: a manual wrap routine with a fixed wrap width so lines don’t jitter in animation. For Figma, Word, PDF and slides: the relevant settings. It finishes by checking the last line of every block at narrow and wide widths, and viewing a render.'],
+ prompts:['Use avoid-widows-and-orphans to check the last line of every text block on this page.','Fix the runts and orphaned headings in this slide deck.','Apply text-wrap: balance and pretty to this stylesheet, then check narrow and wide widths.','Check the wrapped text in this p5.js sketch for widows and orphans.']},
+'fields-scan-overlay-effect':{saves:'Hand-animating a “the agent read your screen” scene frame by frame',time:'2–3 hours per scene',
+ p:['A self-contained overlay effect for any scene where an agent reads a screen. A scan line sweeps across the interface, and as it passes each field a highlight box pops up with a numbered badge.',
+ 'Alongside the screen, a step card carries a counter that ticks up as each field is found, with a progress bar that fills in step with the scan, so the viewer sees the result of the read, not just the motion.',
+ 'Because the effect is self-contained, it drops into any motion page or explainer: point it at a different screen, change the number of fields and the timing, and the badges, boxes and counter stay in sync.'],
+ prompts:['Add the fields scan overlay effect to this screen, with a badge on every form field.','Use the fields scan overlay for the “agent reads your screen” scene in this explainer.','Make the scan run left to right in three seconds and count up to eight fields.']},
+'brand-neutral-ui-mockup-kit':{saves:'Redrawing fake dashboards, cards and chips for every new scene',time:'1–2 hours per scene',
+ p:['A reusable set of fake product UI parts that look the same in every scene: the dashboard window, the calendar day card, the DATASETS toggle card, the chip grid and the glassy card with its shadow.',
+ 'The skill holds the geometry and the token values, namely navy, cream, blue and amber, so new scenes keep the same look instead of drifting from one drawing to the next.',
+ 'Because the kit is brand-neutral, it works for explainers and motion pages where the interface only needs to suggest a product, not copy one.'],
+ prompts:['Use the brand-neutral UI mockup kit to build a dashboard scene for this explainer.','Add the calendar day card and the DATASETS toggle card to this frame.','Rebuild this mockup with the kit’s navy, cream, blue and amber tokens.']},
+'app-store-motion-explainer':{saves:'Rebuilding the layered-screen explainer timeline from scratch each time',time:'1–2 days per explainer',
+ p:['A recipe for animated product-explainer apps such as Sander Troubleshoot, NLP Diagram, Agentic Storefront, Video Synopsis and the Clearco guides.',
+ 'It covers layered screens that swap places, cursor and press interactions, seam-free masking of illustrations, and a hold time on the key screen so the viewer can read it.',
+ 'Everything runs on a deterministic, loopable timeline, so the same scene plays the same way every time and the home page clip loops without a jump.'],
+ prompts:['Use app-store-motion-explainer to build a looping explainer for this product.','Add a cursor press that swaps these two screens, then hold on the key screen.','Make this explainer’s timeline deterministic so it loops cleanly.']},
+'asset-generator-engine':{saves:'Resizing and exporting every banner and post by hand for each format',time:'Hours per campaign',
+ p:['The shared shape behind Blog Banner Studio, Conference Post Generator, Lifecycle Image Studio, Banner Template Studio and the Postmark and Grubclub engines: live controls on one side and a canvas preview on the other.',
+ 'It handles multiple aspect ratios (16:9, 9:16, stacked), photo upload, delete and reorder, reset, and export including looping animated output.',
+ 'It also records the recurring gotchas: calligraphy must finish drawing rather than cut off, text blocks stay aligned to the logo, and badges overlap the bar correctly.'],
+ prompts:['Use asset-generator-engine to build a banner studio with live controls and a canvas preview.','Add a 9:16 format and animated export to this generator.','Add photo upload with delete and reorder to this studio.']},
+'scripted-demo-animation-with-a-cursor':{saves:'Screen-recording and re-recording product demos by hand',time:'Half a day per demo',
+ p:['A scaffold for flow-style demos. Each scene is an async timeline: the cursor moves, clicks, state changes, and the scene advances to the next one.',
+ 'It includes a clip mode that runs faster and skips scenes, and a pause button, so the same demo works as a full walkthrough and as a short home page clip.',
+ 'A template skill lets a new flow-style demo start from this scaffold instead of from a blank page.'],
+ prompts:['Use the scripted cursor demo scaffold to build a four-scene demo of this flow.','Add a clip mode that skips scenes and runs faster.','Add a pause button to this scripted demo.']},
+'palette-and-brand-constraint-handling':{saves:'Eyeballing colours from references and checking contrast by hand',time:'30–60 min per theme',
+ p:['Samples exact colours instead of guessing them: it reads the ring colours along a radius of your reference images.',
+ 'It then maps those samples onto only the colour combinations you approved, so generated artwork never leaves the brand.',
+ 'Finally it checks contrast against the background. A mid-green ring that looked muddy on the green theme is exactly the kind of case it catches.'],
+ prompts:['Sample the ring colours from these reference images and map them to the approved combos.','Check the contrast of this palette against the green theme background.','Use palette and brand-constraint handling to rebuild this theme.']},
+'tile-to-fullscreen-section-transition':{saves:'Re-inventing the tile-expands-to-section transition for each page',time:'2–4 hours per page',
+ p:['A reusable UI recipe: a clip-path colour block grows from the tile, the real panel swaps in underneath it, then the content fades up in a stagger.',
+ 'The reverse shrinks the colour block back into the tile.',
+ 'The key is to animate only a plain colour block, never a clone of the tile’s content, which keeps the transition smooth and free of flicker.'],
+ prompts:['Add the tile-to-fullscreen transition to these home tiles.','Use a clip-path colour block that grows from the tile, then fade the content up in a stagger.','Add the reverse transition that shrinks back into the tile.']},
+'cut-products-out-of-mockup-photos':{saves:'Masking products by hand and fixing colour fringes',time:'20–40 min per image',
+ p:['Cuts a product out of a mockup photo with a mask chosen for the background: a flood-fill for a lime backdrop with a cast shadow, a chroma fit for a smooth green backdrop, a Hough circle for a round plate, and a saturation threshold for thin pale tape.',
+ 'It then cleans the edge: it inpaints the edge band to remove colour fringes, feathers the alpha, crops and saves as WebP.',
+ 'To verify, it composites the cut-out on dark and light backgrounds and zooms in on the tricky parts. It also locates the originals first, using the portfolio’s projects.json and a contact sheet.'],
+ prompts:['Use cut-products-out-of-mockup-photos to cut these products out of their backdrops.','Re-do the mask on this product, the old one ate the tape.','Cut out the round plate and check it on dark and light backgrounds.']},
+'figma-to-motion-page':{saves:'Rebuilding a Figma frame as an animated page by hand and guessing positions',time:'Half a day per frame',
+ p:['Turns a Figma frame into an animated page. It opens a session, then reads the design context, the motion context and a screenshot. If the motion context is empty, it authors the motion itself.',
+ 'It downloads the assets and shrinks the PNGs to about 256px WebP, and uses the mask offsets to place each element exactly where the design has it. A fixed-size frame is built in HTML and CSS and scaled to fit the stage.',
+ 'If a font is unavailable it substitutes Inter with tightened letter-spacing so lines don’t wrap, then compares the page at rest against the Figma reference and checks mid-timeline frames.'],
+ prompts:['Use figma-to-motion-page to turn this Figma frame into an animated page: [Figma link].','Build this Figma frame as a motion page and author the motion if there is none.','Compare the page at rest to the Figma reference and check the mid-timeline frames.']}
+};
+
+var detail=document.getElementById('detail'),home=document.getElementById('home'),BASE=document.title;
+function skillMd(s,d){return '---\nname: '+s.title+'\ndescription: '+s.desc+'\n---\n\n# '+s.title+'\n\n'+d.p.join('\n\n')+'\n\n## How to activate\n\n'+d.prompts.map(function(p){return '- "'+p+'"'}).join('\n')+'\n'}
+function copy(t,btn,label){var done=function(){var o=btn.textContent;btn.textContent=label||'Copied';setTimeout(function(){btn.textContent=o},1400)};
+  try{navigator.clipboard.writeText(t).then(done,function(){fallback()})}catch(e){fallback()}
+  function fallback(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();done()}}
+function showDetail(s){var d=D[s.title];
+  detail.innerHTML='<a class="back2" href="#/"><svg viewBox="0 0 30 12" fill="none" stroke="currentColor" stroke-width="1"><path d="M30 6H1M6 1L1 6l5 5"/></svg>All skills</a>'+
+  '<div class="dgrid"><div><div class="eyebrow">'+esc(s.category)+'</div><h1>'+esc(s.title)+'</h1>'+
+  '<p class="saves">'+esc(d.saves)+'</p>'+d.p.map(function(t){return '<p class="lead">'+esc(t)+'</p>'}).join('')+
+  '<div class="time"><div class="lbl">Time saved</div><div class="val">'+esc(d.time)+'</div><div class="note">Rough estimate</div></div></div>'+
+  '<aside class="side"><div class="art"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'"></div><div class="in">'+
+  '<div class="how"><i></i>Say this to activate the skill</div>'+
+  d.prompts.map(function(p,i){return '<div class="pr"><code>“'+esc(p)+'”</code><button data-i="'+i+'">Copy</button></div>'}).join('')+
+  '<div class="meta">Skill type</div><span class="tag">'+esc(s.category)+'</span>'+
+  '<button class="btn p" id="cp">Copy prompt for Claude</button><button class="btn s" id="dl">Download skill (.md)</button></div></aside></div>';
+  detail.querySelectorAll('.pr button').forEach(function(b){b.onclick=function(){copy(d.prompts[+b.dataset.i],b)}});
+  document.getElementById('cp').onclick=function(){copy(d.prompts[0],this,'Copied')};
+  document.getElementById('dl').onclick=function(){var u=URL.createObjectURL(new Blob([skillMd(s,d)],{type:'text/markdown'})),a=document.createElement('a');a.href=u;a.download=s.title+'.md';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1000)};
+  document.title=s.title+' · '+BASE}
+function route(){var m=/^#\/(.+)$/.exec(location.hash),s=m&&SKILLS.filter(function(x){return x.title===decodeURIComponent(m[1])})[0];
+  if(s){showDetail(s);home.hidden=true;detail.hidden=false;document.body.classList.add('detail')}
+  else{home.hidden=false;detail.hidden=true;document.body.classList.remove('detail');document.title=BASE}
+  window.scrollTo(0,0)}
+window.addEventListener('hashchange',route);route();
 </script>
 </body>
 </html>
