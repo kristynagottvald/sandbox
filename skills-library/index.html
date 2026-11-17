@@ -28,6 +28,17 @@ h1{font-size:28px;font-weight:500;letter-spacing:-.01em}
 .ph.gone{display:none}
 .clr{position:absolute;right:8px;width:28px;height:28px;border:0;border-radius:50%;background:transparent;color:#4b4f5c;font-size:20px;line-height:1;cursor:pointer}
 .clr:hover{background:#eef1f7}
+.prob{margin-top:72px;padding-top:44px;border-top:1px solid #e3e6ee}
+.prob h2{font-size:24px;font-weight:500;letter-spacing:-.01em}
+.probsub{margin:8px 0 28px;font-size:15px;color:#4b4f5c}
+.probgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px 28px}
+.pcat h3{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#6b6f7d;margin-bottom:12px}
+.pcat h3::before{content:'';width:10px;height:10px;background:#8ec5ff;flex:none}
+.pcat ul{list-style:none;padding:0;display:grid;gap:8px}
+.pbtn{appearance:none;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;padding:12px 14px;border:1px solid #e3e6ee;border-radius:10px;background:#fff;color:#0d0d12;font:400 15px/1.35 Inter,Helvetica,Arial,sans-serif;cursor:pointer}
+.pbtn:hover{border-color:#2563eb;background:#f5f8ff}
+.pbtn:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
+.pbtn svg{width:14px;height:14px;flex:none;color:#2563eb}
 .hint{margin:18px 0 0;font-size:15px;color:#4b4f5c}
 .hint b{font-weight:500;color:#0d0d12}
 @media (prefers-reduced-motion:reduce){.ph{transition:none}}
@@ -51,7 +62,7 @@ h1{font-size:28px;font-weight:500;letter-spacing:-.01em}
 .chip{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 9px;border-radius:999px;background:#eef1f7;color:#1c2030;font-size:14px}
 .chip svg{width:15px;height:15px;flex:none;opacity:.9}
 .empty{color:#8d8d8d;padding:40px 0}
-@media (max-width:640px){main{padding:20px 16px 56px}.grid{grid-template-columns:1fr}.info p{font-size:13px}}
+@media (max-width:640px){.prob{margin-top:56px}main{padding:20px 16px 56px}.grid{grid-template-columns:1fr}.info p{font-size:13px}}
 @media (prefers-reduced-motion:reduce){.card img{transition:none}.card:hover img{transform:none}}
 
 a.card{color:inherit;text-decoration:none;cursor:pointer}
@@ -118,6 +129,11 @@ body.detail html,html:has(body.detail){background:#f7f9fd}
   <p class="hint" id="hint" role="status" aria-live="polite" hidden></p>
   <div class="tabs" id="tabs" role="group" aria-label="Skill categories"></div>
   <div class="grid" id="grid"></div>
+  <section class="prob" id="prob" aria-labelledby="probh">
+    <h2 id="probh">Common problems these skills solve</h2>
+    <p class="probsub">Pick a phrase to find the skill for it.</p>
+    <div class="probgrid" id="probgrid"></div>
+  </section>
 </main>
 <section id="detail" hidden></section>
 <script>
@@ -424,6 +440,16 @@ function runSearch(){
 qEl.addEventListener('input',runSearch);
 qEl.addEventListener('keydown',function(e){if(e.key==='Escape'){qEl.value='';runSearch()}});
 clrEl.addEventListener('click',function(){qEl.value='';runSearch();qEl.focus()});
+
+var PROBLEMS=[
+['Design to code',[['I have a Figma frame I want as an animated page','figma-to-motion-page'],['I built a generator in Claude and want it inside Figma','generator-to-figma-plugin']]],
+['Motion',[['I need an animated explainer that loops','motion-explainer'],['I keep re-recording my product demo','scripted-demo-animation-with-a-cursor'],['I want to show an agent reading a screen','fields-scan-overlay-effect'],['A tile needs to expand into a full-screen section','tile-to-fullscreen-section-transition'],['I need a short ad spot for a product feature','product-feature-spot']]],
+['Design',[['Lonely words keep ending up on the last line','avoid-widows-and-orphans'],['Every scene needs the same fake dashboard','brand-neutral-ui-mockup-kit'],['My colours drift off brand or look muddy','palette-and-brand-constraint-handling'],['I need an ad, landing page and results walkthrough','paid-ad-pipeline'],['I want a low poly 3D scene that goes from day to night','lowpoly-3d-scene']]],
+['Generator',[['My banners take forever to resize','asset-generator-engine'],['I need one template for every industry','industry-swapper'],['My prompts don’t make Claude think carefully','metacognitive-prompt-rewriter'],['I want to keep what we learned in this session','session-to-skill']]],
+['Image editing',[['My product cut-out has a halo or colour fringe','cut-products-out-of-mockup-photos']]]
+];
+document.getElementById('probgrid').innerHTML=PROBLEMS.map(function(g){return '<div class="pcat"><h3>'+esc(g[0])+'</h3><ul>'+g[1].map(function(p){return '<li><button class="pbtn" type="button" data-q="'+esc(p[0])+'"><span>'+esc(p[0])+'</span><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h11M8 3l4 4-4 4"/></svg></button></li>'}).join('')+'</ul></div>'}).join('');
+document.getElementById('probgrid').addEventListener('click',function(e){var b=e.target.closest('.pbtn');if(!b)return;qEl.value=b.dataset.q;runSearch();window.scrollTo({top:0,behavior:RM?'auto':'smooth'});qEl.focus({preventScroll:true})});
 var PH=['Search for skill name','Describe the skill','What problem are you having?'],pi=0;
 phEl.textContent=PH[0];
 setInterval(function(){if(qEl.value)return;phEl.classList.add('out');setTimeout(function(){pi=(pi+1)%PH.length;phEl.textContent=PH[pi];phEl.classList.remove('out')},RM?0:350)},3200);
