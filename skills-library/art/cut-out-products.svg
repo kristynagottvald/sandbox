@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" width="960" height="540" role="img" aria-label="Cutting a product out of a mockup photo: a scan line sweeps, a marching-ants outline traces the bottle, then the lime backdrop becomes a transparency checkerboard with the bottle cut out and feathered">
+  <title>Cut products out of mockup photos</title>
+  <style>
+    .scan { animation: scanDown 6s linear infinite; }
+    .trace { stroke-dasharray: 100 100; animation: traceDraw 6s linear infinite; }
+    .ants { stroke-dasharray: 6 5; animation: antsMarch 0.55s linear infinite, antsFade 6s linear infinite; }
+    .lime-swap { animation: limeSwap 6s ease-in-out infinite; }
+    .cut { animation: cutIn 6s ease-in-out infinite; }
+    .flow { stroke-dasharray: 2 6; animation: flow 0.8s linear infinite; }
+
+    @keyframes scanDown {
+      0% { transform: translateY(0); opacity: 0; }
+      2% { opacity: 1; }
+      23% { transform: translateY(360px); opacity: 1; }
+      25%, 100% { transform: translateY(360px); opacity: 0; }
+    }
+    @keyframes traceDraw {
+      0% { stroke-dashoffset: 100; opacity: 1; }
+      25% { stroke-dashoffset: 0; opacity: 1; }
+      81%, 100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+    @keyframes antsMarch {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: -11; }
+    }
+    @keyframes antsFade {
+      0%, 23% { opacity: 0; }
+      26%, 80% { opacity: 1; }
+      84%, 100% { opacity: 0; }
+    }
+    @keyframes limeSwap {
+      0%, 44% { opacity: 1; }
+      60%, 79% { opacity: 0; }
+      92%, 100% { opacity: 1; }
+    }
+    @keyframes cutIn {
+      0%, 46% { opacity: 0; transform: translateY(12px); }
+      58%, 80% { opacity: 1; transform: translateY(0); }
+      88%, 100% { opacity: 0; transform: translateY(0); }
+    }
+    @keyframes flow {
+      from { stroke-dashoffset: 0; }
+      to { stroke-dashoffset: -8; }
+    }
+  </style>
+
+  <defs>
+    <radialGradient id="cutBg" cx="50%" cy="30%" r="80%">
+      <stop offset="0" stop-color="#1d2536"/>
+      <stop offset="0.6" stop-color="#0d1119"/>
+      <stop offset="1" stop-color="#05070b"/>
+    </radialGradient>
+    <linearGradient id="cutLime" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c8f764"/>
+      <stop offset="0.55" stop-color="#8fd129"/>
+      <stop offset="1" stop-color="#4a7f10"/>
+    </linearGradient>
+    <radialGradient id="cutLimeGlow" cx="50%" cy="38%" r="60%">
+      <stop offset="0" stop-color="#eaffa0" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#2f5a06" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="cutChecker" width="24" height="24" patternUnits="userSpaceOnUse">
+      <rect width="24" height="24" fill="#2a2f3a"/>
+      <rect width="12" height="12" fill="#444c5c"/>
+      <rect x="12" y="12" width="12" height="12" fill="#444c5c"/>
+    </pattern>
+    <linearGradient id="cutGlass" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#052e2b"/>
+      <stop offset="0.3" stop-color="#2dd4bf"/>
+      <stop offset="0.5" stop-color="#ccfbf1"/>
+      <stop offset="0.75" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#042f2e"/>
+    </linearGradient>
+    <linearGradient id="cutCap" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#57534e"/>
+      <stop offset="0.45" stop-color="#e7e5e4"/>
+      <stop offset="1" stop-color="#78716c"/>
+    </linearGradient>
+    <linearGradient id="cutLabel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fffbeb"/>
+      <stop offset="1" stop-color="#d6d3d1"/>
+    </linearGradient>
+    <linearGradient id="cutScan" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#f7fee7" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="cutSoft" x="-30%" y="-80%" width="160%" height="260%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+    <filter id="cutFeather" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="1.2"/>
+    </filter>
+    <clipPath id="cutLeftClip">
+      <rect x="40" y="90" width="400" height="360" rx="14"/>
+    </clipPath>
+    <clipPath id="cutRightClip">
+      <rect x="520" y="90" width="400" height="360" rx="14"/>
+    </clipPath>
+    <g id="cutBottle">
+      <path d="M226 180 L226 200 Q196 215 196 260 L196 395 Q196 412 213 412 L267 412 Q284 412 284 395 L284 260 Q284 215 254 200 L254 180 Z" fill="url(#cutGlass)"/>
+      <rect x="220" y="146" width="40" height="40" rx="6" fill="url(#cutCap)"/>
+      <rect x="196" y="262" width="88" height="92" fill="url(#cutLabel)"/>
+      <rect x="210" y="280" width="60" height="5" rx="2" fill="#78716c"/>
+      <rect x="210" y="292" width="40" height="4" rx="2" fill="#a8a29e"/>
+      <rect x="210" y="318" width="60" height="18" rx="3" fill="#0f766e" opacity="0.85"/>
+      <path d="M206 226 Q204 244 204 262 L204 384" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="5" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect width="960" height="540" fill="url(#cutBg)"/>
+
+  <!-- Left: mockup photo -->
+  <g clip-path="url(#cutLeftClip)">
+    <rect x="40" y="90" width="400" height="360" fill="url(#cutLime)"/>
+    <rect x="40" y="90" width="400" height="360" fill="url(#cutLimeGlow)"/>
+    <rect x="40" y="392" width="400" height="58" fill="#2f5a09" opacity="0.5"/>
+    <ellipse cx="240" cy="412" rx="122" ry="13" fill="#0c1a02" opacity="0.7" filter="url(#cutSoft)"/>
+    <path d="M212 410 Q300 396 372 416 Q300 432 212 418 Z" fill="#0c1a02" opacity="0.45" filter="url(#cutSoft)"/>
+    <use href="#cutBottle"/>
+    <path class="trace" pathLength="100" d="M226 180 L226 200 Q196 215 196 260 L196 395 Q196 412 213 412 L267 412 Q284 412 284 395 L284 260 Q284 215 254 200 L254 180 Z" fill="none" stroke="#ecfccb" stroke-width="2.5" stroke-linejoin="round"/>
+    <path class="ants" d="M226 180 L226 200 Q196 215 196 260 L196 395 Q196 412 213 412 L267 412 Q284 412 284 395 L284 260 Q284 215 254 200 L254 180 Z" fill="none" stroke="#ffffff" stroke-width="1.6"/>
+    <rect class="scan" x="40" y="90" width="400" height="4" fill="url(#cutScan)"/>
+  </g>
+  <rect x="40" y="90" width="400" height="360" rx="14" fill="none" stroke="#2b3445" stroke-width="1.5"/>
+
+  <!-- Right: transparency checkerboard with the cut-out product -->
+  <g clip-path="url(#cutRightClip)">
+    <rect x="520" y="90" width="400" height="360" fill="url(#cutChecker)"/>
+    <rect class="lime-swap" x="520" y="90" width="400" height="360" fill="url(#cutLime)"/>
+    <g class="cut" filter="url(#cutFeather)">
+      <use href="#cutBottle" transform="translate(480 0)"/>
+    </g>
+  </g>
+  <rect x="520" y="90" width="400" height="360" rx="14" fill="none" stroke="#2b3445" stroke-width="1.5"/>
+
+  <!-- Flow arrow between panels -->
+  <path class="flow" d="M456 270 H494" fill="none" stroke="#bef264" stroke-width="2" stroke-linecap="round"/>
+  <path d="M492 262 L504 270 L492 278 Z" fill="#bef264"/>
+
+  <!-- Tiny labels -->
+  <g font-family="system-ui, -apple-system, Segoe UI, sans-serif" font-size="11" letter-spacing="2" fill="#6b7689">
+    <text x="40" y="78">MOCKUP</text>
+    <text x="520" y="78">CUT-OUT</text>
+  </g>
+</svg>
