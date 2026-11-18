@@ -9,6 +9,15 @@
     "alt": "Three square tiles: a flat black porcupine on white with purple and red postage stamps stuck on its quills, the white POSTMARK AWARDS 2026 logotype on black with a thick red outline stamp for the O that stamps down, and 2026 repeated in four rows where the zero is a thick outline stamp that morphs between perforated stamp, flower, sparkle and starburst shapes"
   },
   {
+    "id": "lob-unwrapped",
+    "title": "Lob Unwrapped",
+    "category": "Interactive Engine",
+    "url": "lob-unwrapped/",
+    "thumbnail": "lob-unwrapped/thumb.png",
+    "preview": "lob-unwrapped/thumb.webp",
+    "alt": "A Spotify Wrapped style reel for Lob direct mail: a blue intro slide with three tilted postcards, then a lime slide counting up to 1,284,560 pieces sent, a navy slide of a postcard flying from Earth to the moon, a blue slide where a dot map of the US fills in lime to 64 percent of households, a magenta slide with a scanning QR code, and a lavender share card, with chapter links and share buttons beside the reel"
+  },
+  {
     "id": "klir-landing-page-side-reveal",
     "title": "Klir Landing Page, Side Reveal",
     "category": "Landing Page",
