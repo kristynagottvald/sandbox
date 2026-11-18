@@ -91,7 +91,7 @@ const APPS = {
     await sleep(5600);
   } },
   // the three Thread brand visuals side by side, all moving on their own: the 3D characters turning 2 0 2 6 A B C, the frame lines drawing on and re-cutting, the calligraphy writing on and off (one 8 s loop, played at 1.33x)
-  // the porcupine under perforated purple and red bands sweeping in different directions, with two whip zooms (eye, quills) per 6 s loop; starts on the wide shot
+  // the porcupine under perforated purple and red bands sweeping in different directions, with two whip zooms (eye, feet) per 6 s loop; starts on the wide shot
   'porcupine-glitch': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#from=-1.8', ready: 1000, q: 55, run: async (p) => { await sleep(5800); } },
   'postmark-awards-brand-visuals': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1500, q: 55, run: async (p) => { await sleep(5600); } },
   'thread-brand-visuals': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#from=8.4', ready: 1500, q: 55, run: async (p) => { await sleep(5600); } },
