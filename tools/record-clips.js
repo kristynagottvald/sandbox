@@ -57,7 +57,7 @@ const APPS = {
   'klir-landing-page-side-reveal': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 2500, q: 34, run: async (p) => {
     // eased scrolls of a fixed duration so the page is back at the top (the first frame) before the loop point at 6s
     const t0 = Date.now(), to = (y, ms) => p.evaluate(([v, d]) => { const a = scrollY, s = performance.now(); (function f(t) { const k = Math.min(1, (t - s) / d), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; scrollTo(0, a + (v - a) * e); if (k < 1) requestAnimationFrame(f); })(s); }, [y, ms]);
-    await at(t0, 700, () => to(620, 1700));
+    await at(t0, 700, () => to(420, 1500));
     await at(t0, 3200, () => to(1300, 900));
     await at(t0, 4200, () => to(0, 1200));
   } },
