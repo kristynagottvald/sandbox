@@ -272,7 +272,7 @@ function pieceInner(kind,p,off){var a=p[0],b=p[1],c=p[2],d=p[3],W=300,H=192,cx=o
   else if(kind==='burst'){var bx=off?96:150;g+=(off?stair(214,0,86,H,6,b,true):'')+star(bx,96,104,76,14,c)+circ(bx,96,50,b)+circ(bx,96,21,d)}
   else if(kind==='sqburst'){var qx=off?210:150;g+=rect(qx-76,16,152,160,b)+rect(qx-58,34,116,124,a)+rect(qx-40,52,80,88,b)+star(qx,96,34,16,8,c)}
   else if(kind==='checker'){g=checker(0,0,W,H,24,a,b)}
-  else if(kind==='squiggle'){for(var qi=0;qi<8;qi++)g+='<path d="M-30 '+(14+qi*24)+squig(360)+'" fill="none" stroke="'+(qi%2?c:b)+'" stroke-width="8" stroke-linecap="round"/>'}
+  else if(kind==='squiggle'){for(var qi=0;qi<7;qi++)g+='<path d="M-12 '+(22+qi*25)+squig(340,7)+'" fill="none" stroke="'+(qi%2?c:b)+'" stroke-width="6" stroke-linecap="round"/>'}
   else if(kind==='stamp'){var sx=off?168:100;g+='<path d="'+stampPath(sx,26,100,140,6,4,6,true)+'" fill="'+b+'"/>'+circ(sx+50,96,36,d)+circ(sx+50,96,15,a)+circ(sx+50,96,6,c)+(off?stair(0,0,90,H,6,b,false,false):'')}
   else if(kind==='steps'){g+=stair(0,0,104,H,6,b,false,false)+stair(196,0,104,H,6,b,true,true)+circ(off?112:150,96,56,c)+star(off?112:150,96,34,24,10,d)}
   return g}
@@ -291,7 +291,8 @@ function stampPath(x,y,w,h,r,nx,ny,all){var d='M'+x+' '+y,i,c,sx=w/nx,sy=h/ny;
 function stampSvg(cls,vw,vh,x,y,w,h,r,nx,ny,main,all){return '<svg class="burstsvg '+cls+'" viewBox="0 0 '+vw+' '+vh+'" preserveAspectRatio="none" aria-hidden="true"><path d="'+stampPath(x,y,w,h,r,nx,ny,all)+'" fill="'+main+'"/></svg>'}
 function bigStamp(main,all){return stampSvg('l',160,90,22,15,116,60,2.6,12,6,main,all)+stampSvg('p',60,100,6,9,48,82,2.2,6,10,main,all)}
 
-function squig(w){var d='',n=3,s=w/n,i;for(i=0;i<n;i++)d+='q'+f1(s/4)+' -2.2 '+f1(s/2)+' 0t'+f1(s/2)+' 0';return d}
+/* perforation squiggle: a row of semicircles, alternately above and below the line, like the stamp's perforation curves */
+function squig(w,r){var d='',n=Math.ceil(w/(4*r)),i;for(i=0;i<n;i++)d+='a'+r+' '+r+' 0 0 1 '+2*r+' 0a'+r+' '+r+' 0 0 0 '+2*r+' 0';return d}
 /* a concentric animation: rings of one shape grow outward forever; colours repeat, drawn on a canvas */
 function T(shape,cols,o,cls){o=o||{};return '<canvas class="tun'+(cls?' '+cls:'')+'" data-shape="'+shape+'" data-cols="'+cols.join('|')+'"'+Object.keys(o).map(function(k){return ' data-'+k+'="'+o[k]+'"'}).join('')+'></canvas>'}
 
