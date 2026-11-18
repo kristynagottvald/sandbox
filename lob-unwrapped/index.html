@@ -517,6 +517,7 @@ function dots(){if(DOTS)return DOTS;DOTS=[];var st=1.15;
     var h=Math.abs(Math.sin(lo*12.9898+la*78.233)*43758.5453)%1;DOTS.push({x:(lo+125)*K,y:49.6-la,s:d+h*2.6,rw:Math.round((49.6-la)/st),cl:Math.round(((lo+125)*K)/st)})}
   DOTS.sort(function(a,b){return a.s-b.s});DOTS.forEach(function(d,i){d.r=i/DOTS.length});return DOTS}
 /* the map is a checkerboard of flat white and pink squares that touch corner to corner; only the reached share of the cells is filled, and each square pops in from nothing at a random moment while the map stays where it is */
+var WSH=[[208,69,220],[255,255,255],[247,223,250],[237,184,243]];
 function drawMap(cv,tk){var ds=dots(),ctx=cv.getContext('2d'),t0=performance.now()+300,ph=cv.closest('.slide').querySelector('.map');
   function c01(v){return Math.max(0,Math.min(1,v))}
   (function f(now){if(tk!==token)return;var sz=fit(cv),W=sz[0],Hh=sz[1],cr=cv.getBoundingClientRect(),pr=ph.getBoundingClientRect(),k=W/cr.width,N=ds.length,
@@ -524,7 +525,9 @@ function drawMap(cv,tk){var ds=dots(),ctx=cv.getContext('2d'),t0=performance.now
     T=RM?9:(now-t0)/1000,i,d,h,p,side;
     ctx.clearRect(0,0,W,Hh);
     for(i=0;i<N;i++){d=ds[i];if(d.r>=D.pct/100)continue;h=((i*2654435761)>>>0)%1000/1000;p=ease(c01((T-(.2+h*2.4))/.45));if(p<=0)continue;
-      side=(cell+.6)*p;ctx.fillStyle=((d.rw+d.cl)%2)?'#ffffff':'#edb8f3';ctx.fillRect(ox+d.x*sc-side/2,oy+d.y*sc-side/2,side,side)}
+      side=(cell+.6)*p;var bc=((d.rw+d.cl)%2)?WSH[1]:WSH[3],cc=bc,m0,sp0,u0,b0,pc,nc;
+      if(T>3.2&&!RM){m0=Math.floor((T-3.2)/2);sp0=((T-3.2)%2)/2*1.5-.25;u0=d.x/MW;b0=c01((sp0-u0)/.18);pc=m0===0?bc:WSH[(m0+2)%3];nc=WSH[(m0+3)%3];cc=[0,1,2].map(function(q){return Math.round(pc[q]+(nc[q]-pc[q])*b0)})}
+      ctx.fillStyle='rgb('+cc[0]+','+cc[1]+','+cc[2]+')';ctx.fillRect(ox+d.x*sc-side/2,oy+d.y*sc-side/2,side,side)}
     if(!RM)requestAnimationFrame(f)})(performance.now())}
 
 /* ---------- sharing ---------- */
