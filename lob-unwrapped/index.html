@@ -349,7 +349,7 @@ SL.push({t:'pink',n:'QR scans',d:6500,h:
   R(3,'<div class="facts"><div class="fact"><b>'+C(D.qrRate,'p1')+'</b><span>of your pieces got scanned</span></div><div class="fact"><b>Tue 7 PM</b><span>when your audience scans most</span></div></div>','div')+'</div>'+
   '<div class="art">'+R(2,T('mix6',[PK,'diag:#4131f1:#f7dffa',MG,'check:#f7dffa:#4131f1',LAV],{n:8,per:1.9,dx:.075,dy:.075,pts:14,rot:6}),'div','')+'</div></div>'});
 /* 7 PURL: a fading trail of rectangles */
-SL.push({t:'white',n:'PURL clicks',d:7000,purl:1,bg:'<canvas class="tun bgc" data-trail="purl" data-x0=".535" data-w=".33" data-ratio="1.3"></canvas>',h:
+SL.push({t:'mag',n:'PURL clicks',d:7000,purl:1,bg:'<canvas class="tun bgc" data-trail="purl" data-x0=".535" data-w=".33" data-ratio="1.3" data-strip="65,49,241" data-pal="mag"></canvas>',h:
   '<div class="in"><div class="tx">'+R(0,'PURLs clicked','div','k')+R(1,C(D.clicks,'int'),'div','big md')+R(2,'<b>'+C(D.uniq,'int')+'</b> people landed on a page with <i>their own name</i> on it.','p','lead')+'</div></div>'});
 /* 8 results: concentric bursts around a flat stamp */
 SL.push({t:'blue',n:'Results',d:6500,bg:T('star',[PW,B,M3,B],{pts:12,n:9,per:2.6,rot:8},'bgc'),pre:bigStamp(MG,false),h:
@@ -486,9 +486,9 @@ function trail(cv,tk){var d=cv.dataset,ctx=cv.getContext('2d'),t0=performance.no
   (function f(now){if(tk!==token)return;var s=fit(cv),W=s[0],Hh=s[1],t=RM?.5:(now-t0)/1000,port=Hh>W,w,h,x0,y0,g,i,cx,cy,breathe=.85+.15*Math.sin(t*1.6),rt=+d.ratio||1.56;
     if(port){w=W*.66;x0=(W-w)/2;h=w/rt;g=h*.085*breathe;y0=Hh*(+d.py||.7)-h/2}else{w=W*fw;x0=W*fx0;h=w/rt;g=h*.075*breathe;y0=(Hh-h)/2}
     cx=x0+w/2;cy=y0+h/2;ctx.clearRect(0,0,W,Hh);
-    for(i=5;i>=1;i--){ctx.beginPath();rrect(ctx,x0,y0+i*g,w,h,h*.04);ctx.fillStyle='rgba(208,69,220,'+(op[i-1]*(RM?1:.8+.2*Math.sin(t*2.2-i*.8)))+')';ctx.fill()}
+    for(i=5;i>=1;i--){ctx.beginPath();rrect(ctx,x0,y0+i*g,w,h,h*.04);ctx.fillStyle='rgba('+(d.strip||'208,69,220')+','+(op[i-1]*(RM?1:.8+.2*Math.sin(t*2.2-i*.8)))+')';ctx.fill()}
     ctx.save();ctx.beginPath();rrect(ctx,x0,y0,w,h,h*.04);ctx.clip();
-    rings(ctx,d.trail==='purl'?'mix':'rect',d.trail==='purl'?['#4131f1','#d045dc','#f7dffa','#f5f5fe']:['#ffffff','#f5f5fe'],w,h,cx,cy,7,t/1.7,rt,0,0,10,0);
+    rings(ctx,d.trail==='purl'?'mix':'rect',d.trail==='purl'?(d.pal==='mag'?['#4131f1','#f7dffa','#f5f5fe','#e28deb']:['#4131f1','#d045dc','#f7dffa','#f5f5fe']):['#ffffff','#f5f5fe'],w,h,cx,cy,7,t/1.7,rt,0,0,10,0);
     if(d.trail==='purl'){ctx.beginPath();ctx.arc(cx,cy,h*.3,0,6.2832);ctx.fillStyle='#4131f1';ctx.fill();ringPath(ctx,'star',cx,cy,h*.25,1,10,t*.9);ctx.fillStyle='#f5f5fe';ctx.fill();ctx.beginPath();ctx.arc(cx,cy,h*.06,0,6.2832);ctx.fillStyle='#d045dc';ctx.fill()}
     ctx.restore();
     if(!RM)requestAnimationFrame(f)})(t0)}
