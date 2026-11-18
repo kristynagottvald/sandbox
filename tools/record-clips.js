@@ -25,15 +25,15 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
-  // Lob Unwrapped reel: the intro, then the reel is stepped through pieces sent, the trip to the moon, the US dot map filling in, QR scans and the share card
+  // Lob Unwrapped, a full-screen 16:9 flat-geometry reel: the intro burst, then the mail piece cascade, the abstract format pieces, the US dot map filling in, the results burst and the mandala persona
   'lob-unwrapped': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
     const t0 = Date.now(), g = (n) => p.evaluate((i) => window.__lu.go(i), n);
-    await at(t0, 900, () => g(1));
-    await at(t0, 1900, () => g(3));
-    await at(t0, 2900, () => g(4));
-    await at(t0, 4500, () => g(6));
-    await at(t0, 5400, () => g(11));
-    await sleep(900);
+    await at(t0, 1700, () => g(1));
+    await at(t0, 2600, () => g(2));
+    await at(t0, 3500, () => g(4));
+    await at(t0, 4800, () => g(8));
+    await at(t0, 5700, () => g(10));
+    await sleep(700);
   } },
   // the skills library: both skill tiles with their thumbnails animating on their own, then the cursor sweeps over each tile
   'skills-library': { vp: [960, 589], crop: [0, 49, 960, 540], ready: 900, q: 36, run: async (p) => {
@@ -57,7 +57,7 @@ const APPS = {
   'klir-landing-page-side-reveal': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 2500, q: 34, run: async (p) => {
     // eased scrolls of a fixed duration so the page is back at the top (the first frame) before the loop point at 6s
     const t0 = Date.now(), to = (y, ms) => p.evaluate(([v, d]) => { const a = scrollY, s = performance.now(); (function f(t) { const k = Math.min(1, (t - s) / d), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; scrollTo(0, a + (v - a) * e); if (k < 1) requestAnimationFrame(f); })(s); }, [y, ms]);
-    await at(t0, 700, () => to(620, 1700));
+    await at(t0, 700, () => to(420, 1500));
     await at(t0, 3200, () => to(1300, 900));
     await at(t0, 4200, () => to(0, 1200));
   } },
