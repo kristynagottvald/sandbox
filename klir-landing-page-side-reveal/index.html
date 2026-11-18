@@ -28,7 +28,7 @@ header.site{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-
 .logo{text-decoration:none;display:flex;align-items:center;gap:6px;font-weight:500;font-size:36px;letter-spacing:-.05em;color:#fff}
 header.site .links{display:flex;gap:34px;font-size:16px;margin-right:auto;margin-left:40px;letter-spacing:-.01em}
 .hero h1{color:#fff;font-weight:300;font-size:clamp(38px,5.4vw,78px);line-height:1;letter-spacing:-.045em;max-width:12em;white-space:nowrap}
-.hero .sub{font-size:clamp(19px,2vw,27px);line-height:1.12;letter-spacing:-.035em;max-width:27em;margin-top:26px}
+.hero .sub{font-size:clamp(19px,2vw,27px);line-height:1.12;letter-spacing:-.035em;max-width:min(27em,50vw);margin-top:26px}
 .hero .cta{margin-top:30px;align-items:center;gap:28px}
 .btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:400;font-size:19px;letter-spacing:-.02em;padding:15px 30px;border-radius:6px;transition:background .2s}
 .btn:hover{background:var(--indigo)}
@@ -98,7 +98,7 @@ footer p{font-size:clamp(18px,1.8vw,22px);letter-spacing:-.02em;max-width:30em;m
 .fbtn{background:#fff;color:var(--navy);text-decoration:none;font-size:19px;letter-spacing:-.02em;padding:17px 32px;border-radius:6px}
 .fbtn:hover{background:var(--lav)}
 .flink{color:#fff;font-size:19px;letter-spacing:-.02em;text-decoration:underline;text-underline-offset:5px}
-.uiwrap{position:relative;z-index:4;margin:-24px auto -120px;width:min(1120px,calc(100% - 160px));will-change:transform}
+.uiwrap{position:relative;z-index:4;margin:-24px auto -10px;width:min(1120px,calc(100% - 160px));will-change:transform}
 .app{display:grid;grid-template-columns:190px 1fr;background:#f6f7fd;border:1px solid #deddf3;border-radius:16px;box-shadow:0 50px 110px -30px rgba(23,9,79,.45);overflow:hidden;font-size:14px;letter-spacing:-.01em;color:var(--navy)}
 .app aside{background:#fff;border-right:1px solid #e6e5f6;padding:28px 18px}
 .brand{display:flex;gap:2px;align-items:center;font-weight:600;font-size:20px;letter-spacing:-.04em;margin-bottom:34px}
@@ -331,7 +331,7 @@ function layout(){
   nodes=[...document.querySelectorAll('.eyebrow.node')].map(e=>{const r=e.getBoundingClientRect();return{y:r.top-m.top+r.height/2,el:e}});
   $('nodes').innerHTML=nodes.map((n,i)=>`<g id="n${i}" opacity="0" style="transition:opacity .35s"><use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.1)" fill="#fafbff" stroke="#fafbff" stroke-width="7" stroke-linejoin="round"/><use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.1)" fill="#fff" stroke="#3b3bef" stroke-width="1.7"/></g>`).join('');
   LT=Math.max(HB,(nodes[0]?nodes[0].y:HB)-60);$('solid').setAttribute('y1',LT);$('solid').setAttribute('y2',H);const fg=$('fade');fg.setAttribute('y1',LT);fg.setAttribute('y2',H);
-  {const u=$('ui'),vw=wrap.clientWidth,sm=vw<=820;UN=wrap.offsetTop+u.offsetTop;SY=49+HB*(sm?.3:.17);EY=Math.max(sm?70:90,innerHeight*.125);TX0=vw-(sm?.3:.4)*u.offsetWidth-u.offsetLeft;BH=Math.max(EY+u.offsetHeight-90,innerHeight)}
+  {const u=$('ui'),vw=wrap.clientWidth,sm=vw<=820;UN=wrap.offsetTop+u.offsetTop;SY=49+HB*(sm?.3:.17);EY=Math.max(sm?70:90,innerHeight*.125);TX0=vw-(sm?.3:.5)*u.offsetWidth-u.offsetLeft;BH=Math.max(EY+u.offsetHeight-90,innerHeight)}
   tick();
 }
 function tick(){
