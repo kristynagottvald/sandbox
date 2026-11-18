@@ -21,7 +21,7 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background
 </head>
 <body>
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span class="x">/</span><a class="x" href="../">Back to all projects</a><span>/</span><b>Porcupine Glitch</b></nav>
-<main><canvas id="c" role="img" aria-label="A flat black porcupine with bare quills, buried under thick purple and red perforated bands that sweep fast in different directions, with whip zooms into the eye and the quills"></canvas></main>
+<main><canvas id="c" role="img" aria-label="A flat black porcupine with bare quills, buried under thick purple and red perforated bands that sweep fast in different directions, with whip zooms into the eye and the feet"></canvas></main>
 <script>
 const TAU = Math.PI * 2, PERIOD = 6, STEPS = 18; // bands re-aim 3 times a second; the camera whips twice per 6 s loop
 const PURPLE = '#7A4BFF', RED = '#F2442E', BLACK = '#0B0B0B', WHITE = '#FFFFFF';
@@ -83,11 +83,11 @@ function bandPath(ctx, L, th, pitch, r, shift) {
   ctx.closePath();
 }
 function paintBands(ctx, W, H, t, gain, open) {
-  const S = Math.min(W, H), D = Math.hypot(W, H), pitch = Math.max(16, S * 0.026), r = pitch * 0.36, f = pSpace(W, H)(FOCI[cam(t).c]);
+  const S = Math.min(W, H), D = Math.hypot(W, H), pitch = Math.max(16, S * 0.026), r = pitch * 0.36, fo = FOCI[cam(t).c], f = [...pSpace(W, H)(fo), fo[2]];
   for (let i = 0; i < BANDS.length; i++) {
     const s = bandState(i, t, W, H);
     if (open > 0) { // the opening: every band that would cover the focus is pushed sideways until it clears a circle of radius 0.13 S around it
-      const nx = -Math.sin(s.a), ny = Math.cos(s.a), dn = (f[0] - s.x) * nx + (f[1] - s.y) * ny, need = s.th * S * gain / 2 + S * 0.13 * open, sg = dn >= 0 ? 1 : -1;
+      const nx = -Math.sin(s.a), ny = Math.cos(s.a), dn = (f[0] - s.x) * nx + (f[1] - s.y) * ny, need = s.th * S * gain / 2 + S * f[2] * open, sg = dn >= 0 ? 1 : -1;
       if (Math.abs(dn) < need) { const k = (need - Math.abs(dn)); s.x -= sg * nx * k; s.y -= sg * ny * k; }
     }
     ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.a); ctx.fillStyle = BANDS[i][0];
@@ -98,7 +98,7 @@ function paintBands(ctx, W, H, t, gain, open) {
 
 /* ===== the camera: wide, whip in on a section, hold a beat, whip out, repeat on the other section (3 s cycle, two per loop; the whips take 0.12 s) ===== */
 const CYC = 3, ZMAX = 2.6, eio = (u) => { u = cl(u, 0, 1); return u < 0.5 ? 16 * u ** 5 : 1 - Math.pow(-2 * u + 2, 5) / 2; };
-const FOCI = [[647.8, 691.9], [434, 330]]; // the eye, then a fan of quills (porcupine coordinates)
+const FOCI = [[647.8, 691.9, 0.13], [505, 790, 0.2]]; // the eye, then the feet: x, y (porcupine coordinates), radius of the opening (share of the short side)
 function cam(t) {
   t = ((t % PERIOD) + PERIOD) % PERIOD; const c = Math.floor(t / CYC), u = t % CYC; let p = 0, whip = false;
   if (u >= 1.15 && u < 1.27) { p = eio((u - 1.15) / 0.12); whip = true; } else if (u >= 1.27 && u < 2.45) p = 1; else if (u >= 2.45 && u < 2.57) { p = 1 - eio((u - 2.45) / 0.12); whip = true; }
