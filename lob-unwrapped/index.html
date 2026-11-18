@@ -147,6 +147,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .scene{width:100%;height:auto;max-height:100%;display:block;overflow:visible}
 .map{position:relative;width:100%;aspect-ratio:1.85;min-height:0}
 .map canvas{position:absolute;inset:0;width:100%;height:100%}
+.rankwrap{width:100%;display:grid;gap:calc(var(--u)*7)}
 .rank{display:grid;gap:calc(var(--u)*4.4);width:100%}
 .rank .row{display:grid;grid-template-columns:calc(var(--u)*9) 1fr;gap:calc(var(--u)*2);align-items:center}
 .rank .n{font:800 calc(var(--u)*9)/1 var(--sans);letter-spacing:-.05em;color:var(--ac)}
@@ -340,8 +341,8 @@ SL.push({t:'blue',n:'% of the US',d:7000,map:1,bg:'<canvas class="tun bgc" id="c
   '<div class="art">'+R(1,'<div class="map"></div>','div','')+'</div></div>'});
 /* 5 metros */
 SL.push({t:'lav',n:'Metros',d:6500,bg:T('square',[LAV,'rgba(208,69,220,.12)'],{n:10,per:3,at:'art'},'bgc'),h:
-  '<div class="in"><div class="tx">'+R(0,'Metros delivered to','div','k')+R(1,C(D.metros,'int')+'<small style="margin-left:-.45em">of 387</small>','div','big lg')+R(2,'Your top five <i>metros</i>','div','lead')+'</div>'+
-  '<div class="art"><div class="rank">'+D.metroTop.map(function(m,i){return R(i+2,'<div class="n">'+(i+1)+'</div><div><div class="nm">'+m[0]+'<span>'+C(m[1],'int')+'</span></div><div class="t"><i style="--w:'+(100-i*13)+'%;--i:'+i+'"></i></div></div>','div','row')}).join('')+'</div></div></div>'});
+  '<div class="in"><div class="tx">'+R(0,'Metros delivered to','div','k')+R(1,C(D.metros,'int'),'div','big lg')+R(2,'of 387 <i>US Metros</i>','div','lead')+'</div>'+
+  '<div class="art"><div class="rankwrap">'+R(1,'Your top five <i>metros</i>','div','lead')+'<div class="rank">'+D.metroTop.map(function(m,i){return R(i+2,'<div class="n">'+(i+1)+'</div><div><div class="nm">'+m[0]+'<span>'+C(m[1],'int')+'</span></div><div class="t"><i style="--w:'+(100-i*13)+'%;--i:'+i+'"></i></div></div>','div','row')}).join('')+'</div></div></div></div>'});
 /* 6 QR: offset squares, repeating */
 SL.push({t:'pink',n:'QR scans',d:6500,h:
   '<div class="in"><div class="tx">'+R(0,'QR codes scanned','div','k')+R(1,C(D.scans,'int'),'div','big md')+R(2,'<i>scans</i>, one tap at a time','div','lead')+
@@ -437,13 +438,15 @@ function fit(cv){var rc=cv.getBoundingClientRect(),dpr=Math.min(1.5,window.devic
 function rings(ctx,shape,cols,W,Hh,cx,cy,n,t,asp,dx,dy,rot,pts,base){base=base||0;var L=cols.length,cyc=Math.floor(t),ph=t-cyc,Rc=Math.max(W/(2*asp),Hh/2)*(shape==='star'||shape==='scallop'?1.9:1.5),step=Rc/n,k,r,id,ang;ctx.fillStyle=cols[(((cyc-n-1)%L)+L)%L];ctx.fillRect(0,0,W,Hh);
   for(k=n;k>=(base?-3:0);k--){r=base+(k+ph)*step;if(r<=0)continue;id=cyc-k;ang=((id%2+2)%2?1:-1)*rot*(r/step)*Math.PI/180/ (n/2);
     ringPath(ctx,shape,cx+dx*r,cy+dy*r,r,asp,pts,ang);ctx.fillStyle=cols[((id%L)+L)%L];ctx.fill()}}
-function mkPat(ctx,spec,dpr){var q=spec.split(':'),sz=Math.round(14*dpr),c=document.createElement('canvas'),g;c.width=c.height=sz*2;g=c.getContext('2d');g.fillStyle=q[1];g.fillRect(0,0,sz*2,sz*2);g.fillStyle=q[2];
-  if(q[0]==='check'){g.fillRect(0,0,sz,sz);g.fillRect(sz,sz,sz,sz)}
-  else{g.beginPath();g.moveTo(sz,0);g.lineTo(sz*2,0);g.lineTo(0,sz*2);g.lineTo(0,sz);g.closePath();g.fill();g.beginPath();g.moveTo(sz*2,sz);g.lineTo(sz*2,sz*2);g.lineTo(sz,sz*2);g.closePath();g.fill()}
+function mkPat(ctx,spec,dpr,seed){var q=spec.split(':'),sz=Math.round(14*dpr),c=document.createElement('canvas'),g,i,j,h;
+  if(q[0]==='check'){c.width=c.height=sz*8;g=c.getContext('2d');g.fillStyle=q[1];g.fillRect(0,0,sz*8,sz*8);
+    for(i=0;i<8;i++)for(j=0;j<8;j++)if((i+j)%2){h=(((i*37+j*91+seed*53)*2654435761)>>>0)%100/100;g.fillStyle=h<.3?q[1]:q[2];g.fillRect(i*sz,j*sz,sz,sz)}}
+  else{c.width=c.height=sz*2;g=c.getContext('2d');g.fillStyle=q[1];g.fillRect(0,0,sz*2,sz*2);g.fillStyle=q[2];
+    g.beginPath();g.moveTo(sz,0);g.lineTo(sz*2,0);g.lineTo(0,sz*2);g.lineTo(0,sz);g.closePath();g.fill();g.beginPath();g.moveTo(sz*2,sz);g.lineTo(sz*2,sz*2);g.lineTo(sz,sz*2);g.closePath();g.fill()}
   return ctx.createPattern(c,'repeat')}
-function tunnel(cv,tk){var d=cv.dataset,ctx=cv.getContext('2d'),dpr=Math.min(1.5,window.devicePixelRatio||1),pats=[],cols=d.cols.split('|').map(function(c){if(/^(diag|check):/.test(c)){var pt=mkPat(ctx,c,dpr);pats.push(pt);return pt}return c}),per=+d.per||2.4,t0=performance.now(),slide=cv.closest('.slide'),art=d.at?slide.querySelector('.art'):null,stamps=d.press?slide.querySelectorAll('.burstsvg'):null,from=d.from?slide.querySelector(d.from):null;
+function tunnel(cv,tk){var d=cv.dataset,ctx=cv.getContext('2d'),dpr=Math.min(1.5,window.devicePixelRatio||1),pats=[],sets=[],cols=d.cols.split('|').map(function(c,ci){if(/^check:/.test(c)){var set=[0,1,2,3].map(function(sd){var pt=mkPat(ctx,c,dpr,sd);pats.push(pt);return pt});sets[ci]=set;return set[0]}if(/^diag:/.test(c)){var pd=mkPat(ctx,c,dpr,0);pats.push(pd);return pd}return c}),per=+d.per||2.4,t0=performance.now(),slide=cv.closest('.slide'),art=d.at?slide.querySelector('.art'):null,stamps=d.press?slide.querySelectorAll('.burstsvg'):null,from=d.from?slide.querySelector(d.from):null;
   (function f(now){if(tk!==token)return;var s=fit(cv),t=RM?.35:(now-t0)/1000/per,cx=s[0]/2,cy=s[1]/2,o=(now/22)%(28*dpr),asp=+d.asp||1,base=0,cr=cv.getBoundingClientRect(),k=cr.width?s[0]/cr.width:1,ph=t-Math.floor(t);
-    pats.forEach(function(pt){pt.setTransform(new DOMMatrix([1,0,0,1,o,o]))});
+    var fi=RM?0:Math.floor(now/450)%4;sets.forEach(function(st,ci){if(st)cols[ci]=st[fi]});pats.forEach(function(pt){pt.setTransform(new DOMMatrix([1,0,0,1,o,o]))});
     if(art&&cr.width){var ar=art.getBoundingClientRect();cx=(ar.left+ar.width/2-cr.left)*k;cy=(ar.top+ar.height/2-cr.top)*k}
     if(stamps){var st=stamps[0],lan=getComputedStyle(st).display!=='none';if(!lan)st=stamps[1];var sr=st.getBoundingClientRect(),fw=lan?116/160:48/60,fh=lan?60/90:82/100,hw=sr.width*fw/2*k,hh=sr.height*fh/2*k,sc=RM?1:.95-.07*Math.cos(6.2832*ph);
       cx=(sr.left+sr.width/2-cr.left)*k;cy=(sr.top+sr.height/2-cr.top)*k;asp=hw/hh;base=hh;stamps.forEach(function(e){e.style.transform='translate(-50%,-50%) scale('+sc+')'})}
