@@ -318,7 +318,7 @@ function T(shape,cols,o,cls){o=o||{};return '<canvas class="tun'+(cls?' '+cls:''
 var SL=[];
 function R(i,html,tag,cls){return '<'+(tag||'div')+' class="rise'+(cls?' '+cls:'')+'" style="--i:'+i+'">'+html+'</'+(tag||'div')+'>'}
 /* 0 hello: concentric stamps grow out from a flat stamp */
-SL.push({t:'pink',n:'Hello',d:6500,bg:T('stamp',[MG,PK,PW,PK],{n:8,per:1.7,press:'seq'},'bgc'),h:
+SL.push({t:'pink',n:'Hello',d:6500,bg:T('stamp',[MG,PK,WH,PK],{n:8,per:1.7,press:'seq'},'bgc'),h:
   '<div class="in ctr"><div class="tx" style="color:#fff">'+R(0,'<span data-logo></span>','div','stc l')+R(0,'#LobUnwrapped','div','k stc r')+R(1,'2026<br>Unwrapped','h1','hero')+R(2,esc(D.brand)+'’s year in <i style="color:#fff">direct mail</i>','p','lead')+'</div></div>'});
 /* 1 pieces sent */
 SL.push({t:'pink',n:'Pieces sent',d:6500,h:
@@ -492,11 +492,11 @@ function trail(cv,tk){var d=cv.dataset,ctx=cv.getContext('2d'),t0=performance.no
       for(bi=isSt?0:5;bi>=1;bi--){frame(bi*gg);ctx.fillStyle='rgba('+tc+','+op[bi-1]+')';ctx.fill()}
       ctx.save();frame(0);ctx.clip();ctx.fillStyle='#f7dffa';ctx.fillRect(0,0,W,Hh);
       pats2.forEach(function(pt){pt.setTransform(new DOMMatrix([1,0,0,1,(now/22)%28,(now/22)%28]))});
-      if(isSt)rings(ctx,'mix4',['#e28deb','#f5f5fe','#f7dffa',pats2[1]],W,Hh,bx,by,3,t/2.8,1,0,0,0,12,sq*1.2,null,R*.26,1);
+      if(isSt)rings(ctx,'mix4',['#e28deb','#f5f5fe','#f7dffa','#9b93f8'],W,Hh,bx,by,3,t/2.8,1,0,0,0,12,sq*1.2,null,R*.26,1);
       else rings(ctx,'mix',['#4131f1','#f7dffa','#f5f5fe','#e28deb'],W,Hh,bx,by,4,t/1.7,1,0,0,10,10,sq*1.1,null,R*.24,1);
       hs3=sq*.9;
       if(isSt){ctx.beginPath();stampRamp(ctx,bx-hs3*.62,by-hs3*.8,hs3*1.24,hs3*1.6,hs3*.32,hs3*.09);ctx.fillStyle='#4131f1';ctx.fill()}
-      ctx.beginPath();ctx.arc(bx,by,hs3*(isSt?.38:.62),0,6.2832);ctx.fillStyle=isSt?'#9b93f8':'#4131f1';ctx.fill();ringPath(ctx,'star',bx,by,hs3*(isSt?.3:.52),1,isSt?8:10,t*.7);ctx.fillStyle='#f5f5fe';ctx.fill();
+      ctx.beginPath();ctx.arc(bx,by,hs3*(isSt?.38:.62),0,6.2832);ctx.fillStyle=isSt?'#9b93f8':'#f5f5fe';ctx.fill();ringPath(ctx,'star',bx,by,hs3*(isSt?.3:.56),1,isSt?8:10,t*.7);ctx.fillStyle=isSt?'#f5f5fe':pats2[1];ctx.fill();
       ctx.beginPath();ctx.arc(bx,by,hs3*(isSt?.07:.1),0,6.2832);ctx.fillStyle='#d045dc';ctx.fill();ctx.restore();
       if(!RM)requestAnimationFrame(f);return}
     if(d.trail==='strips'){var pe=cv.closest('.slide').querySelector('.tpiece'),cr2=cv.getBoundingClientRect(),kk=cr2.width?W/cr2.width:1;if(pe){pe.style.left=(x0/kk)+'px';pe.style.top=(y0/kk)+'px';pe.style.width=(w/kk)+'px'}if(!RM)requestAnimationFrame(f);return}
