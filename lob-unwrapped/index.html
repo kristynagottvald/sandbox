@@ -131,9 +131,9 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .trw{position:relative;width:100%;max-width:calc(var(--u)*124)}
 .purl{position:absolute;left:69%;top:63%;transform:translate(-50%,-50%);background:#f5f5fe;color:#4131f1;font:600 calc(var(--u)*3.5)/1 var(--sans);padding:calc(var(--u)*2.2) calc(var(--u)*3.6);border-radius:99px;white-space:nowrap}
 .purl b{font-weight:800}
-.arts{position:relative;width:100%;max-width:calc(var(--u)*112)}
-.arts .tun{max-width:none;aspect-ratio:1.45;border-radius:calc(var(--u)*3)}
-.arts .pc{position:absolute;left:21%;top:50%;width:58%;transform:translateY(-50%)}
+.arts{position:relative;width:122%;margin:0 -11%;max-width:calc(var(--u)*150)}
+.arts .tun{max-width:none;aspect-ratio:1.04;border-radius:calc(var(--u)*3)}
+.arts .pc{position:absolute;left:17%;top:50%;width:66%;transform:translateY(-50%)}
 .cas{}
 .art .cas{max-width:calc(var(--u)*118)}
 .mixrow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:calc(var(--u)*6)}
@@ -144,8 +144,8 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .mix small{font:400 calc(var(--u)*3.2)/1.2 var(--sans);opacity:.7}
 @container (max-aspect-ratio:1/1){.mixrow{grid-template-columns:repeat(3,minmax(0,1fr));gap:calc(var(--u)*3)}.mix b{font-size:calc(var(--u)*10)}}
 .scene{width:100%;height:auto;max-height:100%;display:block;overflow:visible}
-.map{position:relative;width:134%;margin:0 -26% 0 -8%;aspect-ratio:1.85;min-height:0}
-@container (max-aspect-ratio:1/1){.map{width:112%;margin:0 -6%}}
+.map{position:relative;width:158%;margin:0 -50% 0 -8%;aspect-ratio:1.85;min-height:0}
+@container (max-aspect-ratio:1/1){.map{width:128%;margin:0 -28% 0 -2%}}
 .map canvas{position:absolute;inset:0;width:100%;height:100%}
 .rankwrap{width:100%;display:grid;gap:calc(var(--u)*7)}
 .rank{display:grid;gap:calc(var(--u)*4.4);width:100%}
@@ -324,7 +324,7 @@ SL.push({t:'pink',n:'Hello',d:6500,bg:T('stamp',[MG,PK,PW,PK],{n:8,per:1.7,press
 SL.push({t:'pink',n:'Pieces sent',d:6500,h:
   '<div class="in wide"><div class="tx">'+R(0,'You sent','div','k')+R(1,C(D.pieces,'int'),'div','big')+R(2,'pieces of <i>mail</i>','div','lead')+
   R(3,'That’s <b>'+int(D.perDay)+'</b> out the door every day, enough for about 1 in every <b>'+D.hh+'</b> US households.','p','sub')+'</div>'+
-  '<div class="art">'+R(2,'<div class="arts">'+T('mix5',[PK,M4,M3,MG],{asp:1.56,n:9,per:1.9})+piece('mandala','bl',false)+'</div>','div','')+'</div></div>'});
+  '<div class="art">'+R(2,'<div class="arts">'+T('mix5',[PK,M4,M3,MG],{asp:1.1,n:9,per:1.9})+piece('mandala','bl',false)+'</div>','div','')+'</div></div>'});
 /* 2 mix: one abstract piece per format */
 SL.push({t:'blue',n:'Your mix',d:6500,bg:T('circle',[B,'rgba(155,147,248,.3)'],{n:10,per:3},'bgc'),h:
   '<div class="in col">'+R(0,'Your mix','div','k')+R(1,'Postcards were your <i>main character</i>','h2','h sm')+
@@ -333,7 +333,7 @@ SL.push({t:'blue',n:'Your mix',d:6500,bg:T('circle',[B,'rgba(155,147,248,.3)'],{
 SL.push({t:'mag',n:'To the moon',d:7500,h:
   '<div class="in"><div class="tx">'+R(0,'Piece-miles','div','k')+R(1,'Your mail traveled <span style="color:var(--ac)">'+C(D.pieceMiles,'bil')+' billion</span> miles','h2','h sm')+
   R(2,'That’s <b>'+C(D.trips,'int')+'</b> trips to the <i>moon</i>.','p','lead')+R(3,'Piece-miles = pieces × average delivery distance ('+int(D.avgMi)+' mi). Moon: 238,855 mi one way.','p','fine')+'</div>'+
-  '<div class="art">'+R(2,T('circle',[MG,'diag:#4131f1:#f7dffa',B,'check:#f7dffa:#4131f1',PK],{n:9,per:2.4},'round'),'div','')+'</div></div>'});
+  '<div class="art">'+R(2,T('circle',[MG,'diag:#4131f1:#f7dffa',B,'check:#f7dffa:#4131f1',PK],{n:9,per:2.4,stamp:1},'round'),'div','')+'</div></div>'});
 /* 4 coverage */
 SL.push({t:'blue',n:'% of the US',d:7000,map:1,bg:'<canvas class="tun bgc" id="cv"></canvas>',h:
   '<div class="in"><div class="tx">'+R(0,'You reached','div','k')+R(1,C(D.pct,'pct'),'div','big lg')+R(2,'of US <i>households</i>','div','lead')+R(3,'<span class="pill" style="background:var(--lime);color:var(--ink)">'+D.states+' states, one mailbox at a time</span>')+'</div>'+
@@ -354,7 +354,7 @@ SL.push({t:'mag',n:'PURL clicks',d:7000,purl:1,bg:'<canvas class="tun bgc" data-
 SL.push({t:'blue',n:'Results',d:6500,bg:T('star',[PW,B,M3,B],{pts:12,n:9,per:2.6,rot:8},'bgc'),pre:bigStamp(MG,false),h:
   '<div class="in ctr"><div class="tx" style="color:#fff;gap:calc(var(--u)*2.6)">'+R(0,'What it added up to','div','k')+R(1,C(D.rev,'usd'),'div','big lg')+R(2,'in revenue from <i style="color:#f7dffa">mail</i>','div','lead')+'</div></div>'});
 /* 9 delivery */
-SL.push({t:'blue',n:'Speed & quality',d:6500,bg:'<canvas class="tun bgc" data-trail="strips" data-x0=".535" data-w=".36" data-ratio="1.5625" data-py=".8"></canvas>'+piece('stamp','pk',false).replace('<svg class="pc"','<svg class="pc tpiece"'),h:
+SL.push({t:'blue',n:'Speed & quality',d:6500,bg:T('mix4',['check:#f7dffa:#4131f1','#f5f5fe','#f7dffa','diag:#4131f1:#f7dffa'],{n:3,per:2.8,from:'.tpiece',basew:1,step:.065,pts:12},'bgc')+'<canvas class="tun bgc" data-trail="strips" data-x0=".58" data-w=".3" data-ratio="1.5625" data-py=".7"></canvas>'+piece('stamp','pk',false).replace('<svg class="pc"','<svg class="pc tpiece"'),h:
   '<div class="in"><div class="tx">'+R(0,'Delivery','div','k')+R(1,C(D.days,'d1')+'<small style="margin-left:.5em">days</small>','div','big lg')+R(2,'average time to <i>mailbox</i>','div','lead')+
   '</div></div>'});
 /* 10 persona: scalloped mandala rings turning around a big flat circle */
@@ -440,9 +440,9 @@ var MIX5=(function(){var base=['circle','rect','square','star','stamp'],o=[],rs=
 /* slide 7: every radiating step a different shape: square, mandala, circle, burst, long rectangle or stamp */
 var MIX6=(function(){var base=['square','scallop','circle','star','rect','stamp'],o=[],rs=4242,b;function rnd(){rs=(rs*16807)%2147483647;return rs/2147483647}
   while(o.length<60){b=base.slice().sort(function(){return rnd()-.5});if(o.length&&b[0]===o[o.length-1])b.push(b.shift());o=o.concat(b)}return o})();
-function rings(ctx,shape,cols,W,Hh,cx,cy,n,t,asp,dx,dy,rot,pts,base,fill0){base=base||0;var L=cols.length,cyc=Math.floor(t),ph=t-cyc,Rc=Math.max(W/(2*asp),Hh/2)*(fill0?2.1:(shape==='star'||shape==='scallop'?1.9:1.5)),step=Rc/n,k,r,id,ang,sh;ctx.fillStyle=fill0||cols[(((cyc-n-1)%L)+L)%L];ctx.fillRect(0,0,W,Hh);
+function rings(ctx,shape,cols,W,Hh,cx,cy,n,t,asp,dx,dy,rot,pts,base,fill0,stepPx){base=base||0;var L=cols.length,cyc=Math.floor(t),ph=t-cyc,Rc=Math.max(W/(2*asp),Hh/2)*(fill0?2.1:(shape==='star'||shape==='scallop'?1.9:1.5)),step=stepPx||Rc/n,k,r,id,ang,sh;if(!stepPx){ctx.fillStyle=fill0||cols[(((cyc-n-1)%L)+L)%L];ctx.fillRect(0,0,W,Hh)}else ctx.clearRect(0,0,W,Hh);
   for(k=n;k>=(base?-3:0);k--){r=base+(k+ph)*step;if(r<=0)continue;id=cyc-k;ang=((id%2+2)%2?1:-1)*rot*(r/step)*Math.PI/180/ (n/2);
-    sh=shape==='mix'?MIXSEQ[((id%64)+64)%64]:shape==='mix5'?MIX5[((id%60)+60)%60]:shape==='mix6'?MIX6[((id%60)+60)%60]:shape;ringPath(ctx,sh,cx+dx*r,cy+dy*r,r*(shape==='mix'||shape==='mix5'?({circle:1.1,star:1.28,square:1.18}[sh]||1):shape==='mix6'?({circle:1.2,star:1.35,scallop:1.15,square:1.05}[sh]||1):1),shape==='mix6'?(sh==='rect'?1.5:sh==='stamp'?1.3:1):asp,pts,ang);ctx.fillStyle=cols[((id%L)+L)%L];ctx.fill()}}
+    sh=shape==='mix'?MIXSEQ[((id%64)+64)%64]:shape==='mix5'?MIX5[((id%60)+60)%60]:shape==='mix6'?MIX6[((id%60)+60)%60]:shape==='mix4'?['scallop','circle','scallop','star'][((id%4)+4)%4]:shape;if(shape==='mix4'&&k===n)ctx.globalAlpha=1-ph;ringPath(ctx,sh,cx+dx*r,cy+dy*r,r*(shape==='mix'||shape==='mix5'?({circle:1.1,star:1.28,square:1.18}[sh]||1):shape==='mix6'?({circle:1.2,star:1.35,scallop:1.15,square:1.05}[sh]||1):1),shape==='mix6'?(sh==='rect'?1.5:sh==='stamp'?1.3:1):asp,pts,ang);ctx.fillStyle=cols[((id%L)+L)%L];ctx.fill();ctx.globalAlpha=1}}
 function mkPat(ctx,spec,dpr,seed){var q=spec.split(':'),sz=Math.round(14*dpr),c=document.createElement('canvas'),g,i,j,h;
   if(q[0]==='check'){c.width=c.height=sz*8;g=c.getContext('2d');g.fillStyle=q[1];g.fillRect(0,0,sz*8,sz*8);
     for(i=0;i<8;i++)for(j=0;j<8;j++)if((i+j)%2){h=(((i*37+j*91+seed*53)*2654435761)>>>0)%100/100;g.fillStyle=h<.3?q[1]:q[2];g.fillRect(i*sz,j*sz,sz,sz)}}
@@ -473,8 +473,9 @@ function tunnel(cv,tk){var d=cv.dataset,ctx=cv.getContext('2d'),dpr=Math.min(1.5
     if(art&&cr.width){var ar=art.getBoundingClientRect();cx=(ar.left+ar.width/2-cr.left)*k;cy=(ar.top+ar.height/2-cr.top)*k}
     if(stamps){var st=stamps[0],lan=getComputedStyle(st).display!=='none';if(!lan)st=stamps[1];var sr=st.getBoundingClientRect(),fw=lan?116/160:48/60,fh=lan?60/90:82/100,hw=sr.width*fw/2*k,hh=sr.height*fh/2*k,sc=RM?1:.95-.07*Math.cos(6.2832*ph);
       cx=(sr.left+sr.width/2-cr.left)*k;cy=(sr.top+sr.height/2-cr.top)*k;asp=hw/hh;base=hh;if(d.press==='seq')sc=pressSeq(ctx,cols,cx,cy,hw,hh,s[0],s[1],RM?2.9:((now-t0)/1000)%3);stamps.forEach(function(e){e.style.transform='translate(-50%,-50%) scale('+sc+')'});if(d.press==='seq'){if(!RM)requestAnimationFrame(f);return}}
-    else if(from){var fr=from.getBoundingClientRect();cx=(fr.left+fr.width/2-cr.left)*k;cy=(fr.top+fr.height/2-cr.top)*k;asp=fr.width/fr.height;base=fr.height/2*k}
-    rings(ctx,d.shape,cols,s[0],s[1],cx,cy,+d.n||9,t,asp,+d.dx||0,+d.dy||0,+d.rot||0,+d.pts||10,base);
+    else if(from){var fr=from.getBoundingClientRect();cx=(fr.left+fr.width/2-cr.left)*k;cy=(fr.top+fr.height/2-cr.top)*k;asp=fr.width/fr.height;base=(d.basew?fr.width:fr.height)/2*k}
+    rings(ctx,d.shape,cols,s[0],s[1],cx,cy,+d.n||9,t,asp,+d.dx||0,+d.dy||0,+d.rot||0,+d.pts||10,base,null,d.step?+d.step*s[1]:0);
+    if(d.stamp==='1'){var hs2=Math.min(s[0],s[1])*.15,ang2=RM?0:(now-t0)/1000*.26;ctx.save();ctx.translate(cx,cy);ctx.rotate(ang2);ctx.beginPath();stampRamp(ctx,-hs2,-hs2,2*hs2,2*hs2,hs2*.46,hs2*.17);ctx.fillStyle='#f5f5fe';ctx.fill();ctx.fillStyle='#d045dc';ctx.fillRect(-hs2*.5,-hs2*.5,hs2,hs2);ctx.restore()}
     if(!RM)requestAnimationFrame(f)})(t0)}
 /* the fade trail: a big lead rectangle and five magenta cards behind it at 100/60/38/19/8%, breathing */
 var PN='kristy',DOM=(D.brand.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,18)||'yourbrand');
@@ -500,19 +501,15 @@ function dots(){if(DOTS)return DOTS;DOTS=[];var st=1.15;
   for(var la=49.6;la>24.4;la-=st)for(var lo=-125;lo<-66.5;lo+=st/K*1){if(!inside(lo,la))continue;var d=1e9;MET.forEach(function(m){var dx=(lo-m[1])*K,dy=la-m[0];d=Math.min(d,Math.sqrt(dx*dx+dy*dy))});
     var h=Math.abs(Math.sin(lo*12.9898+la*78.233)*43758.5453)%1;DOTS.push({x:(lo+125)*K,y:49.6-la,s:d+h*2.6,rw:Math.round((49.6-la)/st),cl:Math.round(((lo+125)*K)/st)})}
   DOTS.sort(function(a,b){return a.s-b.s});DOTS.forEach(function(d,i){d.r=i/DOTS.length});return DOTS}
-/* the map stays exactly where it is: identical square blocks pop in from nothing at random moments, then a few flip colour in the checkerboard style */
+/* the map is a checkerboard of flat white and pink squares that touch corner to corner; only the reached share of the cells is filled, and each square pops in from nothing at a random moment while the map stays where it is */
 function drawMap(cv,tk){var ds=dots(),ctx=cv.getContext('2d'),t0=performance.now()+300,ph=cv.closest('.slide').querySelector('.map');
   function c01(v){return Math.max(0,Math.min(1,v))}
   (function f(now){if(tk!==token)return;var sz=fit(cv),W=sz[0],Hh=sz[1],cr=cv.getBoundingClientRect(),pr=ph.getBoundingClientRect(),k=W/cr.width,N=ds.length,
-    mx=(pr.left-cr.left)*k,my=(pr.top-cr.top)*k,mw=pr.width*k,mh=pr.height*k,MW=59.5*K,MH=25.4,sc=Math.min(mw/MW,mh/MH),ox=mx+(mw-MW*sc)/2,oy=my+(mh-MH*sc)/2,side0=1.15*sc*.68,
-    T=RM?9:(now-t0)/1000,i,d,h,hc,hs,p,x,y,side,lit,col,amp=RM?0:ease(c01((T-3)/.8));
+    mx=(pr.left-cr.left)*k,my=(pr.top-cr.top)*k,mw=pr.width*k,mh=pr.height*k,MW=59.5*K,MH=25.4,sc=Math.min(mw/MW,mh/MH),ox=mx+(mw-MW*sc)/2,oy=my+(mh-MH*sc)/2,cell=1.15*sc,
+    T=RM?9:(now-t0)/1000,i,d,h,p,side;
     ctx.clearRect(0,0,W,Hh);
-    for(i=0;i<N;i++){d=ds[i];h=((i*2654435761)>>>0)%1000/1000;p=ease(c01((T-(.2+h*2.4))/.45));if(p<=0)continue;
-      lit=d.r<D.pct/100;hc=((i*7919+13)*2654435761>>>0)%1000/1000;hs=((i*40503+7)>>>0)%1000/1000;x=ox+d.x*sc;y=oy+d.y*sc;side=side0*p;
-      col=lit?(hc<.55?'247,223,250':hc<.8?'255,255,255':'208,69,220'):'155,147,248';
-      if(amp>0&&((i*104729+3)*2654435761>>>0)%1000/1000<.45&&((T/4+h)%1)>=.7)col=lit?'155,147,248':'247,223,250';
-      ctx.fillStyle='rgba('+col+','+(lit?1:.55)+')';ctx.fillRect(x-side/2,y-side/2,side,side);
-      if(lit&&Math.floor(hs*5)===0){ctx.fillStyle='#4131f1';ctx.fillRect(x-side*.2,y-side*.2,side*.4,side*.4)}}
+    for(i=0;i<N;i++){d=ds[i];if(d.r>=D.pct/100)continue;h=((i*2654435761)>>>0)%1000/1000;p=ease(c01((T-(.2+h*2.4))/.45));if(p<=0)continue;
+      side=(cell+.6)*p;ctx.fillStyle=((d.rw+d.cl)%2)?'#ffffff':'#edb8f3';ctx.fillRect(ox+d.x*sc-side/2,oy+d.y*sc-side/2,side,side)}
     if(!RM)requestAnimationFrame(f)})(performance.now())}
 
 /* ---------- sharing ---------- */
