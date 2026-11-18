@@ -1,5 +1,14 @@
 [
   {
+    "id": "lob-unwrapped-reel",
+    "title": "Lob Unwrapped Reel",
+    "category": "Motion",
+    "url": "lob-unwrapped-reel/",
+    "thumbnail": "lob-unwrapped-reel/thumb.png",
+    "preview": "lob-unwrapped-reel/thumb.webp",
+    "alt": "A vertical 9:16 reel on a black page: the pink stamp title card with a blue perforated panel reading 2026 Unwrapped, then full-height blue, magenta and pink slides with big yearly direct mail numbers, the dotted US map, ranked metros and concentric flat geometry, advancing automatically under a row of progress bars"
+  },
+  {
     "id": "porcupine-glitch",
     "title": "Porcupine Glitch",
     "category": "Motion",

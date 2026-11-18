@@ -35,6 +35,15 @@ const APPS = {
     await at(t0, 5500, () => g(10));
     await sleep(1000);
   } },
+  'lob-unwrapped-reel': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
+    const t0 = Date.now(), g = (n) => p.evaluate((i) => window.__lu.go(i), n);
+    await at(t0, 1700, () => g(2));
+    await at(t0, 2600, () => g(4));
+    await at(t0, 3900, () => g(7));
+    await at(t0, 4800, () => g(6));
+    await at(t0, 5500, () => g(10));
+    await sleep(1000);
+  } },
   // the skills library: both skill tiles with their thumbnails animating on their own, then the cursor sweeps over each tile
   'skills-library': { vp: [960, 589], crop: [0, 49, 960, 540], ready: 900, q: 36, run: async (p) => {
     const t0 = Date.now();
