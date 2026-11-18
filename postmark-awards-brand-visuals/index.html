@@ -31,7 +31,7 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--white);color:var(-
 <div class="grid">
   <figure><canvas id="cMascot" role="img" aria-label="A flat black porcupine with purple and red postage stamps stuck on the tips of its quills"></canvas><figcaption>Mascot</figcaption></figure>
   <figure><canvas id="cLogo" role="img" aria-label="Postmark Awards 2026 logotype in white on black, where the O in Postmark is a thick red outline of a postage stamp that stamps down"></canvas><figcaption>Logotype</figcaption></figure>
-  <figure><canvas id="cYear" role="img" aria-label="2026 repeated in four rows, where the zero is a thick outline stamp that changes shape: perforated stamp, scalloped flower, four point sparkle and starburst"></canvas><figcaption>Stamp 2026</figcaption></figure>
+  <figure><canvas id="cYear" role="img" aria-label="2026 repeated in four rows, where the digits are outlined and the zero is a thick outline stamp that changes between portrait, square and landscape perforated stamps"></canvas><figcaption>Stamp 2026</figcaption></figure>
 </div>
 </main>
 <script>
@@ -46,13 +46,14 @@ const HP = new URLSearchParams(location.hash.slice(1));
 const SANS = '"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif', BLACKFACE = '"Archivo Black","Arial Black","Helvetica Neue",Arial,sans-serif';
 
 /* ===== stamp shapes: every shape is N points walked clockwise from the top, so two shapes can morph point by point ===== */
-const N = 540;
+const N = 1000;
+const RECT = { stamp: [0.84, 1], square: [1, 1], wide: [1, 0.86], tall: [0.7, 1] };
 function pt(kind, u) {
   const th = TAU * u - Math.PI / 2, c = Math.cos(th), s = Math.sin(th);
-  if (kind === 'stamp') { // perforated postage stamp
-    const aw = 0.84, ah = 1, kx = Math.abs(c) < 1e-9 ? 1e9 : aw / Math.abs(c), ky = Math.abs(s) < 1e-9 ? 1e9 : ah / Math.abs(s);
+  if (RECT[kind]) { // perforated postage stamp (portrait, square or landscape)
+    const [aw, ah] = RECT[kind], kx = Math.abs(c) < 1e-9 ? 1e9 : aw / Math.abs(c), ky = Math.abs(s) < 1e-9 ? 1e9 : ah / Math.abs(s);
     const k = Math.min(kx, ky); let x = c * k, y = s * k;
-    const vert = kx < ky, len = vert ? 2 * ah : 2 * aw, along = vert ? y : x, ne = vert ? 4 : 3, pitch = len / ne;
+    const vert = kx < ky, len = vert ? 2 * ah : 2 * aw, along = vert ? y : x, ne = Math.max(2, Math.round(len / 0.5)), pitch = len / ne;
     const f = ((along + len / 2) / pitch) % 1, d = (f - 0.5) * pitch, rb = 0.15, depth = Math.abs(d) < rb ? Math.sqrt(rb * rb - d * d) : 0;
     if (vert) x -= Math.sign(x) * depth; else y -= Math.sign(y) * depth;
     return [x, y];
@@ -79,8 +80,8 @@ function ringStamp(ctx, x, y, R, rot, P, color, hs = 1) {
 /* ===== 1. Mascot ===== */
 const SPIKES = 15, CX = 500, CY = 652, R0 = 232;
 const STAMPS = [ // [spike index, shape, colour, half width, half height, tilt]
-  [1, 'stamp', PURPLE, 62, 76, -0.2], [3, 'seal', RED, 80, 62, 0.3], [5, 'flower', PURPLE, 72, 72, -0.15], [7, 'stamp', RED, 64, 78, 0.12],
-  [9, 'seal', PURPLE, 80, 62, -0.35], [11, 'flower', RED, 72, 72, 0.2], [13, 'stamp', PURPLE, 62, 76, -0.1],
+  [1, 'wide', PURPLE, 84, 66, -0.2], [3, 'square', RED, 66, 66, 0.3], [5, 'tall', PURPLE, 56, 80, -0.15], [7, 'stamp', RED, 66, 80, 0.12],
+  [9, 'wide', PURPLE, 84, 66, -0.35], [11, 'square', RED, 66, 66, 0.2], [13, 'tall', PURPLE, 56, 80, -0.1],
 ];
 const TIPS = [352, 330, 368, 392, 388, 408, 396, 424, 392, 410, 388, 394, 366, 328, 350];
 const spikeAng = (k) => Math.PI - 0.1 + k * (Math.PI + 0.2) / (SPIKES - 1);
@@ -122,12 +123,12 @@ function drawMascot(ctx, W, H, t) {
 /* ===== 2. Logotype ===== */
 function drawLogo(ctx, W, H, t) {
   ctx.fillStyle = BLACK; ctx.fillRect(0, 0, W, H);
-  ctx.font = '700 100px ' + SANS; ctx.textBaseline = 'alphabetic';
+  ctx.font = '700 100px ' + SANS; ctx.textBaseline = 'alphabetic'; ctx.letterSpacing = '-3px';
   const m = (s) => ctx.measureText(s).width, cap100 = ctx.measureText('H').actualBoundingBoxAscent;
   const ow100 = cap100 * 1.06, g100 = cap100 * 0.03, total = m('P') + ow100 + 2 * g100 + m('STMARK');
   const k = (W * 0.84) / total, fs = 100 * k, cap = cap100 * k;
-  ctx.font = '700 ' + fs + 'px ' + SANS;
-  const x0 = W * 0.08, lh = cap * 1.34, y0 = (H - (cap + 2 * lh)) / 2 + cap, g = g100 * k, ow = ow100 * k;
+  ctx.font = '700 ' + fs + 'px ' + SANS; ctx.letterSpacing = (-3 * k) + 'px';
+  const x0 = W * 0.08, lh = cap * 1.14, y0 = (H - (cap + 2 * lh)) / 2 + cap, g = g100 * k, ow = ow100 * k;
   ctx.fillStyle = WHITE; ctx.fillText('P', x0, y0);
   const sx = x0 + ctx.measureText('P').width + g, stampX = sx + ow / 2, stampY = y0 - cap / 2;
   ctx.fillText('STMARK', sx + ow + g, y0); ctx.fillText('AWARDS', x0, y0 + lh);
@@ -141,23 +142,23 @@ function drawLogo(ctx, W, H, t) {
 }
 
 /* ===== 3. Repeating 2026 with a stamp for the zero ===== */
-const KINDS = ['stamp', 'flower', 'sparkle', 'burst'], ROWS = [RED, WHITE, PURPLE, WHITE];
+const KINDS = ['stamp', 'square', 'wide', 'tall'], ROWS = [RED, WHITE, PURPLE, WHITE];
 function drawYear(ctx, W, H, t) {
   ctx.fillStyle = BLACK; ctx.fillRect(0, 0, W, H);
-  const cw = 225, ch = 225, x0 = (W - cw * 4) / 2, y0 = (H - ch * 4) / 2;
-  ctx.font = '400 262px ' + BLACKFACE; ctx.textBaseline = 'alphabetic';
+  const cw = 228, ch = 196, x0 = (W - cw * 4) / 2, y0 = (H - ch * 4) / 2;
+  ctx.font = '400 250px ' + BLACKFACE; ctx.lineWidth = 6; ctx.lineJoin = 'round'; ctx.textBaseline = 'alphabetic';
   const seg = t / 1.5, fl = Math.floor(seg), fr = seg - fl, mo = ease((fr - 0.5) / 0.5);
   for (let r = 0; r < 4; r++) {
     const col = ROWS[r], cy = y0 + r * ch + ch / 2;
-    ctx.fillStyle = col;
+    ctx.fillStyle = col; ctx.strokeStyle = col;
     ['2', '0', '2', '6'].forEach((d, i) => {
       const cx = x0 + i * cw + cw / 2;
       if (d === '0') {
         const a = KINDS[(fl + r) % 4], b = KINDS[(fl + r + 1) % 4];
-        ringStamp(ctx, cx, cy, 104, 0.06 * Math.sin(TAU * t / 3 + r * 1.3), morph(a, b, mo), col);
+        ringStamp(ctx, cx, cy, 94, 0.06 * Math.sin(TAU * t / 3 + r * 1.3), morph(a, b, mo), col);
       } else {
         const mm = ctx.measureText(d), w = mm.actualBoundingBoxLeft + mm.actualBoundingBoxRight, h = mm.actualBoundingBoxAscent;
-        ctx.fillText(d, cx - w / 2 + mm.actualBoundingBoxLeft, cy + h / 2);
+        ctx.strokeText(d, cx - w / 2 + mm.actualBoundingBoxLeft, cy + h / 2);
       }
     });
   }
