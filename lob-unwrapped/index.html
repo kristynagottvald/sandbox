@@ -224,7 +224,7 @@ function logoInto(root){root.querySelectorAll('[data-logo]').forEach(function(e)
 /* ---------- data (every figure can be overridden in the link) ---------- */
 function esc(s){return String(s).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
 function num(k,d){var v=parseFloat(Q.get(k));return isFinite(v)&&v>=0?v:d}
-var brand=(Q.get('brand')||'Fieldstone Co.').slice(0,40);
+var brand=(Q.get('brand')||'Spark Dental').slice(0,40);
 var D={brand:brand,pieces:Math.round(num('pieces',1284560)),pct:Math.min(100,num('pct',64)),metros:Math.round(num('metros',187)),states:Math.min(50,Math.round(num('states',48))),
   scans:Math.round(num('scans',41872)),clicks:Math.round(num('clicks',58214)),conv:Math.round(num('conv',9128)),rev:num('rev',3900000),days:num('days',3.6),ontime:num('ontime',97.4),bad:Math.round(num('bad',41206)),avgMi:1070};
 D.uniq=Math.round(D.clicks*.54);D.engaged=D.scans+D.uniq;D.qrRate=D.scans/D.pieces*100;D.perDay=Math.round(D.pieces/365);
@@ -325,7 +325,7 @@ SL.push({t:'pink',n:'QR scans',d:6500,bg:edge([MG,B,PW,MG]),h:
 /* 7 PURL */
 SL.push({t:'white',n:'PURL clicks',d:7000,purl:1,bg:edge([B,MG,PK,PW]),h:
   '<div class="in"><div class="tx">'+R(0,'PURLs clicked','div','k')+R(1,C(D.clicks,'int'),'div','big md')+R(2,'<b>'+C(D.uniq,'int')+'</b> people landed on a page with <i>their own name</i> on it.','p','lead')+'</div>'+
-  '<div class="art">'+R(2,'<div class="browser"><div class="bar2"><i></i><i></i><i></i><div class="url">'+esc(D.brand.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,18)||'yourbrand')+'.co/<u id="pn">jordan</u><s></s></div></div><div class="pg"><b>Welcome back, <i id="pn2">Jordan</i>.</b><span>A page built for you, because the postcard in your hand said so.</span><div class="cta">Claim my offer<svg viewBox="0 0 24 28"><path d="M3 2v20l5.5-4.8 3.6 8 3.4-1.6-3.6-7.8 7.4-.6z" fill="#4131f1" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg></div></div></div>','div','')+'</div></div>'});
+  '<div class="art">'+R(2,'<div class="browser"><div class="bar2"><i></i><i></i><i></i><div class="url">'+esc(D.brand.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,18)||'yourbrand')+'.co/<u id="pn">kristy</u><s></s></div></div><div class="pg"><b>Welcome back, <i id="pn2">Kristy</i>.</b><span>A page built for you, because the postcard in your hand said so.</span><div class="cta">Claim my offer<svg viewBox="0 0 24 28"><path d="M3 2v20l5.5-4.8 3.6 8 3.4-1.6-3.6-7.8 7.4-.6z" fill="#4131f1" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg></div></div></div>','div','')+'</div></div>'});
 /* 8 results: big number in a burst, like the 22 */
 SL.push({t:'blue',n:'Results',d:6500,bg:edge([MG,PK,PW,MG]),pre:burst(MG,15),h:
   '<div class="in ctr"><div class="tx" style="color:#fff;gap:calc(var(--u)*2.6)">'+R(0,'What it added up to','div','k')+R(1,C(D.rev,'usd'),'div','big lg')+R(2,'in revenue from <i style="color:#f7dffa">mail</i>','div','lead')+
@@ -398,7 +398,7 @@ function enter(n,tk){var s=SL[n],root=els[n];counters(root,tk);
 function moon(root,tk){var path=root.querySelector('#mp'),g=root.querySelector('#mc'),L=path.getTotalLength(),t0=performance.now();
   (function s(now){if(tk!==token)return;var p=RM?.5:((now-t0)%2000)/2000,e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2,pt=path.getPointAtLength(L*e);
     g.setAttribute('transform','translate('+pt.x+' '+pt.y+')');g.style.opacity=Math.min(1,p*8,(1-p)*8);if(!RM)requestAnimationFrame(s)})(t0)}
-function purl(root,tk){var names=['jordan','priya','marcus','elena','sam'],a=root.querySelector('#pn'),b=root.querySelector('#pn2'),i=0;
+function purl(root,tk){var names=['kristy','jordan','marcus','elena','sam'],a=root.querySelector('#pn'),b=root.querySelector('#pn2'),i=0;
   (function cycle(){if(tk!==token)return;var w=names[i++%names.length],k=0;(function type(){if(tk!==token)return;a.textContent=w.slice(0,k);b.textContent=w[0].toUpperCase()+w.slice(1,Math.max(1,k));if(k++<w.length)setTimeout(type,70);else if(!RM)setTimeout(cycle,1100)})()})()}
 
 var US=[[-124.7,48.4],[-123.1,48.4],[-122.8,49],[-95.2,49],[-95.2,49.4],[-94.6,48.7],[-93,48.6],[-91.4,48.1],[-89.6,48],[-90.4,46.6],[-87.5,46.5],[-84.9,46.8],[-84.5,46.5],[-83.5,46],[-82.4,43],[-83.1,42.2],[-82.7,41.7],[-79,42.8],[-79,43.3],[-76.5,43.6],[-75,44.9],[-71.5,45],[-70.8,45.4],[-70,46.7],[-69.2,47.4],[-68.3,47.3],[-67.8,47],[-67.8,45.7],[-67,44.9],[-68.8,44.3],[-70.2,43.6],[-70.7,42.9],[-70.8,42.3],[-70,41.8],[-70,41.6],[-71.4,41.4],[-73.7,40.9],[-74,40.5],[-74,39.8],[-74.9,38.9],[-75.5,38.4],[-75.9,37.1],[-76,36.9],[-75.5,35.3],[-76.5,34.7],[-77.9,33.9],[-79,33.3],[-80.9,32],[-81.4,30.7],[-81.2,29.5],[-80.5,28.2],[-80,26.8],[-80.2,25.5],[-81.1,25.1],[-81.8,26.1],[-82.7,27.7],[-82.8,29],[-83.7,29.9],[-85,29.7],[-86.5,30.4],[-88,30.3],[-89.4,30.2],[-89.4,29],[-90.2,29.1],[-91.5,29.5],[-93.8,29.7],[-94.8,29.3],[-96.5,28.3],[-97.4,27.3],[-97.2,25.9],[-99.1,26.4],[-99.5,27.5],[-100.7,29.1],[-101.4,29.8],[-102.4,29.8],[-103.1,29],[-104.5,29.6],[-104.9,30.6],[-106.5,31.8],[-108.2,31.8],[-108.2,31.3],[-111.1,31.3],[-114.8,32.5],[-117.1,32.5],[-117.3,33.1],[-118.4,33.7],[-119.5,34.4],[-120.6,34.6],[-121.9,36.6],[-122.5,37.8],[-123.8,39.4],[-124.4,40.4],[-124.1,41.9],[-124.5,42.8],[-124.1,44],[-123.9,46.2],[-124.1,47],[-124.7,48.4]];
