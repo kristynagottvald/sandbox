@@ -156,7 +156,7 @@ function drawYear(ctx, W, H, t) {
       const cx = x0 + i * cw + cw / 2;
       if (d === '0') {
         const a = KINDS[(fl + r) % 4], b = KINDS[(fl + r + 1) % 4];
-        ringStamp(ctx, cx, cy, 94, 0.06 * Math.sin(TAU * t / 3 + r * 1.3), morph(a, b, mo), col);
+        ringStamp(ctx, cx, cy, 98, 0.06 * Math.sin(TAU * t / 3 + r * 1.3), morph(a, b, mo), col);
       } else {
         const mm = ctx.measureText(d), w = mm.actualBoundingBoxLeft + mm.actualBoundingBoxRight, h = mm.actualBoundingBoxAscent;
         ctx.strokeText(d, cx - w / 2 + mm.actualBoundingBoxLeft, cy + h / 2);
