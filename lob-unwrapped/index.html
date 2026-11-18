@@ -461,14 +461,11 @@ function stampRamp(c,x,y,w,h,sp,rn){var P=Math.PI,m=sp*.95,cx=x+w/2,cy=y+h/2,hw=
   c.lineTo(x,y+h);
   for(j=nv-1;j>=-nv;j--){pos=(j+.5)*sp;rr=rad(pos,hh);if(rr>.6){c.lineTo(x,cy+pos+rr);c.arc(x,cy+pos,rr,P/2,-P/2,true)}}
   c.closePath()}
-/* slide 1: a steady, gentle 1.7 s beat. The stamp lifts a little, presses in, and eases back out; at the press the stamp behind it is pushed out and the push travels outward through the rest as a smooth wave, with no pause between beats */
-function pressSeq(ctx,cols,cx,cy,hw,hh,W,Hh,T){var L=cols.length,N=11,gap=Hh*.065,sp=Hh*.107,rn=Hh*.029,ph=(T/1.7)%1,k,x,b,off,hwk,hhk,sc,u;
-  function sm(v){v=Math.max(0,Math.min(1,v));return v*v*(3-2*v)}
-  ctx.fillStyle=cols[(N+1)%L];ctx.fillRect(0,0,W,Hh);
-  for(k=N;k>=1;k--){x=(((ph-.25-.055*(k-1))%1)+1)%1;off=k*gap;if(x<.65){b=Math.sin(Math.PI*x/.65);off+=gap*.8*Math.pow(.75,k-1)*b*b}
-    hwk=hw+off;hhk=hh+off;ctx.beginPath();stampRamp(ctx,cx-hwk,cy-hhk,2*hwk,2*hhk,sp,rn);ctx.fillStyle=cols[k%L];ctx.fill()}
-  if(ph<.25){u=ph/.25;sc=u<.35?1+.012*sm(u/.35):1.012-.072*sm((u-.35)/.65)}else sc=.94+.06*sm((ph-.25)/.75);
-  ctx.beginPath();stampRamp(ctx,cx-hw*sc,cy-hh*sc,2*hw*sc,2*hh*sc,sp,rn);ctx.fillStyle='#4131f1';ctx.fill()}
+/* slide 1: stamps radiate outward from the central stamp in one smooth, continuous flow; the perforations keep their size and spacing */
+function pressSeq(ctx,cols,cx,cy,hw,hh,W,Hh,T){var L=cols.length,N=11,gap=Hh*.07,sp=Hh*.107,rn=Hh*.029,t=T/2.2,cyc=Math.floor(t),ph=t-cyc,k,off,hwk,hhk,id;
+  ctx.fillStyle=cols[(((cyc-N-1)%L)+L)%L];ctx.fillRect(0,0,W,Hh);
+  for(k=N;k>=0;k--){off=(k+ph)*gap;id=cyc-k;hwk=hw+off;hhk=hh+off;ctx.beginPath();stampRamp(ctx,cx-hwk,cy-hhk,2*hwk,2*hhk,sp,rn);ctx.fillStyle=cols[((id%L)+L)%L];ctx.fill()}
+  ctx.beginPath();stampRamp(ctx,cx-hw,cy-hh,2*hw,2*hh,sp,rn);ctx.fillStyle='#4131f1';ctx.fill()}
 function tunnel(cv,tk){var d=cv.dataset,ctx=cv.getContext('2d'),dpr=Math.min(1.5,window.devicePixelRatio||1),pats=[],sets=[],cols=d.cols.split('|').map(function(c,ci){if(/^check:/.test(c)){var set=[0,1,2,3].map(function(sd){var pt=mkPat(ctx,c,dpr,sd);pats.push(pt);return pt});sets[ci]=set;return set[0]}if(/^diag:/.test(c)){var pd=mkPat(ctx,c,dpr,0);pats.push(pd);return pd}return c}),per=+d.per||2.4,t0=performance.now(),slide=cv.closest('.slide'),art=d.at?slide.querySelector('.art'):null,stamps=d.press==='1'?slide.querySelectorAll('.burstsvg'):null,from=d.from?slide.querySelector(d.from):null;
   (function f(now){if(tk!==token)return;var s=fit(cv),t=RM?.35:(now-t0)/1000/per,cx=s[0]/2,cy=s[1]/2,o=(now/22)%(28*dpr),asp=+d.asp||1,base=0,cr=cv.getBoundingClientRect(),k=cr.width?s[0]/cr.width:1,ph=t-Math.floor(t);
     var fi=RM?0:Math.floor(now/450)%4;sets.forEach(function(st,ci){if(st)cols[ci]=st[fi]});pats.forEach(function(pt){pt.setTransform(new DOMMatrix([1,0,0,1,o,o]))});
