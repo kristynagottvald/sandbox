@@ -50,12 +50,12 @@ const N = 1000;
 const RECT = { stamp: [0.84, 1], square: [1, 1], wide: [1, 0.86], tall: [0.7, 1] };
 function pt(kind, u) {
   const th = TAU * u - Math.PI / 2, c = Math.cos(th), s = Math.sin(th);
-  const rd = RECT[kind] || (kind[0] === 'r' ? [parseFloat(kind.slice(1)), 1] : null);
+  const rd = RECT[kind] || (kind[0] === 'r' ? [parseFloat(kind.slice(1)), 1] : null), skip = kind[0] === 'r' ? +kind.split('k')[1] : -1; // skip: the edge the quill comes in through has no perforations, so no white shows against it
   if (rd) { // perforated postage stamp (portrait, square or landscape)
     const [aw, ah] = rd, kx = Math.abs(c) < 1e-9 ? 1e9 : aw / Math.abs(c), ky = Math.abs(s) < 1e-9 ? 1e9 : ah / Math.abs(s);
     const k = Math.min(kx, ky); let x = c * k, y = s * k;
     const vert = kx < ky, len = vert ? 2 * ah : 2 * aw, along = vert ? y : x, ne = Math.max(2, Math.round(len / 0.5)), pitch = len / ne;
-    const f = ((along + len / 2) / pitch) % 1, d = (f - 0.5) * pitch, rb = 0.15, depth = Math.abs(d) < rb ? Math.sqrt(rb * rb - d * d) : 0;
+    const f = ((along + len / 2) / pitch) % 1, d = (f - 0.5) * pitch, rb = 0.15, edge = vert ? (x > 0 ? 1 : 3) : (y < 0 ? 0 : 2), depth = Math.abs(d) < rb && edge !== skip ? Math.sqrt(rb * rb - d * d) : 0;
     if (vert) x -= Math.sign(x) * depth; else y -= Math.sign(y) * depth;
     return [x, y];
   }
@@ -90,20 +90,31 @@ const STAMPS = [
   { x: 754.8, y: 263.4, hw: 70.1, hh: 52.9, rot: -0.873, col: RED, px: 731.0, py: 270.8, notch: [742.8, 247.6, 731.8, 261.0, 718.4, 285.4, 730.2, 285.4, 740.2, 259.3] },
   { x: 874.6, y: 443.8, hw: 84.4, hh: 59.2, rot: -0.332, col: PURPLE, px: 875.1, py: 436.6, notch: [894.0, 419.8, 862.9, 439.9, 865.4, 450.9, 887.2, 429.0] },
 ];
+const STEMS = [[190.0, 610.5, 187.5, 611.3, 180.8, 613.0, 169.9, 615.5, 162.3, 617.2, 161.5, 617.2, 159.8, 616.3, 148.0, 607.1, 96.8, 565.1, 71.6, 544.1, 72.4, 543.3, 93.4, 550.0, 133.8, 564.3, 178.3, 580.2, 182.5, 581.9, 184.2, 583.6, 185.0, 586.9, 190.0, 608.8], [232.0, 408.0, 229.5, 413.1, 225.3, 420.6, 217.8, 434.1, 214.4, 439.9, 213.6, 439.9, 179.1, 369.4, 166.5, 343.3, 162.3, 334.1, 162.3, 332.4, 168.2, 337.5, 232.0, 405.5], [307.6, 341.7, 305.1, 346.7, 304.3, 347.5, 299.2, 345.0, 283.3, 335.8, 279.1, 333.3, 276.6, 324.9, 272.4, 306.4, 260.6, 254.3, 260.6, 249.3, 262.3, 250.9, 264.0, 253.5, 290.0, 304.7, 306.0, 336.6, 307.6, 340.8], [521.8, 369.4, 520.2, 370.2, 473.1, 376.9, 468.1, 376.9, 468.1, 370.2, 489.1, 249.3, 498.3, 196.3, 500.8, 182.1, 502.5, 174.5, 504.2, 187.9, 506.7, 211.5, 521.0, 355.9], [633.6, 191.3, 632.7, 201.4, 614.2, 357.6, 613.4, 359.3, 612.6, 360.1, 572.2, 363.5, 563.0, 363.5, 563.0, 362.7, 563.8, 359.3, 629.4, 193.0, 633.6, 183.7], [742.8, 250.1, 740.2, 259.3, 735.2, 273.6, 716.7, 325.7, 712.5, 337.5, 711.7, 337.5, 710.0, 336.6, 705.0, 332.4, 694.0, 323.2, 692.4, 321.5, 692.4, 320.7, 694.9, 316.5, 731.8, 261.0, 740.2, 249.3, 741.9, 247.6, 742.8, 247.6], [894.0, 420.6, 887.2, 429.0, 803.2, 520.6, 798.2, 525.6, 797.4, 523.9, 792.3, 509.7, 786.4, 492.0, 786.4, 491.2, 788.1, 489.5, 878.8, 429.0, 893.1, 419.8, 894.0, 419.8]];
+/* which edge of each stamp the quill enters by (nearest to the quill's middle), so that edge can stay unperforated */
+STAMPS.forEach((s, i) => {
+  const q = STEMS[i], cx = q.filter((_, j) => j % 2 === 0).reduce((a, b) => a + b, 0) / (q.length / 2), cy = q.filter((_, j) => j % 2).reduce((a, b) => a + b, 0) / (q.length / 2);
+  const dx = cx - s.x, dy = cy - s.y, lx = (dx * Math.cos(-s.rot) - dy * Math.sin(-s.rot)) / s.hw, ly = (dx * Math.sin(-s.rot) + dy * Math.cos(-s.rot)) / s.hh;
+  const e = Math.abs(lx) > Math.abs(ly) ? (lx > 0 ? 1 : 3) : (ly > 0 ? 2 : 0);
+  let far = 0; for (let j = 0; j < q.length; j += 2) { const d = Math.hypot(q[j] - s.x, q[j + 1] - s.y); if (d > far) { far = d; s.bx = q[j]; s.by = q[j + 1]; } } // base of the quill, where it swings from
+  s.kind = 'r' + (s.hw / s.hh).toFixed(2) + 'k' + e;
+});
 const pathFlat = (ctx, a) => { ctx.moveTo(a[0], a[1]); for (let i = 2; i < a.length; i += 2) ctx.lineTo(a[i], a[i + 1]); ctx.closePath(); };
 function drawMascot(ctx, W, H, t) {
   ctx.fillStyle = WHITE; ctx.fillRect(0, 0, W, H);
-  const ph = TAU * t / PERIOD, bob = 4 * Math.sin(ph * 2);
+  const ph = TAU * t / PERIOD, bob = 2.6 * Math.sin(ph * 2) + 1.1 * Math.sin(ph * 4 + 0.8); // a slow, slight plod
   ctx.save(); ctx.translate(0, bob);
   ctx.fillStyle = BLACK; ctx.beginPath(); pathFlat(ctx, BODY); ctx.fill();
   // eye: white oval with a pupil that looks around and a blink
   const blink = (t % 3) > 2.2 && (t % 3) < 2.36 ? 0.12 : 1;
   ctx.fillStyle = WHITE; ctx.beginPath(); ctx.ellipse(EYE.c[0], EYE.c[1], EYE.rx, EYE.ry * blink, EYE.rot * Math.PI / 180, 0, TAU); ctx.fill();
   ctx.fillStyle = BLACK; ctx.beginPath(); ctx.ellipse(PUPIL.c[0] + 8 * Math.sin(ph), PUPIL.c[1], PUPIL.rx, PUPIL.ry * blink, PUPIL.rot * Math.PI / 180, 0, TAU); ctx.fill();
-  // stamps stuck on the quills, with the quill tip poking through each one
+  // each quill, with its stamp fixed to it, swings a little about its base, irregularly (sums of whole-number cycles, so it still loops)
   STAMPS.forEach((s, i) => {
-    ctx.save(); ctx.translate(s.px, s.py); ctx.rotate(0.05 * Math.sin(ph * 2 + i * 0.9)); ctx.translate(-s.px, -s.py);
-    ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot); ctx.scale(s.hh, s.hh); ctx.fillStyle = s.col; ctx.beginPath(); poly(ctx, shape('r' + (s.hw / s.hh).toFixed(2))); ctx.fill(); ctx.restore();
+    const sw = 0.022 * Math.sin(ph * 3 + i * 2.1) + 0.015 * Math.sin(ph * 5 + i * 4.3) + 0.009 * Math.sin(ph * 8 + i * 1.7);
+    ctx.save(); ctx.translate(s.bx, s.by); ctx.rotate(sw); ctx.translate(-s.bx, -s.by);
+    ctx.fillStyle = BLACK; ctx.beginPath(); pathFlat(ctx, STEMS[i]); ctx.fill();
+    ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot); ctx.scale(s.hh, s.hh); ctx.fillStyle = s.col; ctx.beginPath(); poly(ctx, shape(s.kind)); ctx.fill(); ctx.restore();
     ctx.fillStyle = BLACK; ctx.beginPath(); pathFlat(ctx, s.notch); ctx.fill();
     ctx.restore();
   });
@@ -145,7 +156,7 @@ function drawYear(ctx, W, H, t) {
       const cx = x0 + i * cw + cw / 2;
       if (d === '0') {
         const a = KINDS[(fl + r) % 4], b = KINDS[(fl + r + 1) % 4];
-        ringStamp(ctx, cx, cy, 94, 0.06 * Math.sin(TAU * t / 3 + r * 1.3), morph(a, b, mo), col);
+        ringStamp(ctx, cx, cy, 98, 0.06 * Math.sin(TAU * t / 3 + r * 1.3), morph(a, b, mo), col);
       } else {
         const mm = ctx.measureText(d), w = mm.actualBoundingBoxLeft + mm.actualBoundingBoxRight, h = mm.actualBoundingBoxAscent;
         ctx.strokeText(d, cx - w / 2 + mm.actualBoundingBoxLeft, cy + h / 2);
