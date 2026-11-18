@@ -31,7 +31,7 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--white);color:var(-
 <div class="grid">
   <figure><canvas id="cMascot" role="img" aria-label="A flat black porcupine with purple and red postage stamps stuck on the tips of its quills"></canvas><figcaption>Mascot</figcaption></figure>
   <figure><canvas id="cLogo" role="img" aria-label="Postmark Awards 2026 logotype in white on black, where the O in Postmark is a thick red outline of a postage stamp that stamps down"></canvas><figcaption>Logotype</figcaption></figure>
-  <figure><canvas id="cYear" role="img" aria-label="2026 repeated in four rows, where the zero is a thick outline stamp that changes shape: perforated stamp, scalloped flower, four point sparkle and starburst"></canvas><figcaption>Stamp 2026</figcaption></figure>
+  <figure><canvas id="cYear" role="img" aria-label="2026 repeated in four rows, where the digits are outlined and the zero is a thick outline stamp that changes between portrait, square and landscape perforated stamps"></canvas><figcaption>Stamp 2026</figcaption></figure>
 </div>
 </main>
 <script>
@@ -46,13 +46,15 @@ const HP = new URLSearchParams(location.hash.slice(1));
 const SANS = '"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif', BLACKFACE = '"Archivo Black","Arial Black","Helvetica Neue",Arial,sans-serif';
 
 /* ===== stamp shapes: every shape is N points walked clockwise from the top, so two shapes can morph point by point ===== */
-const N = 540;
+const N = 1000;
+const RECT = { stamp: [0.84, 1], square: [1, 1], wide: [1, 0.86], tall: [0.7, 1] };
 function pt(kind, u) {
   const th = TAU * u - Math.PI / 2, c = Math.cos(th), s = Math.sin(th);
-  if (kind === 'stamp') { // perforated postage stamp
-    const aw = 0.84, ah = 1, kx = Math.abs(c) < 1e-9 ? 1e9 : aw / Math.abs(c), ky = Math.abs(s) < 1e-9 ? 1e9 : ah / Math.abs(s);
+  const rd = RECT[kind] || (kind[0] === 'r' ? [parseFloat(kind.slice(1)), 1] : null);
+  if (rd) { // perforated postage stamp (portrait, square or landscape)
+    const [aw, ah] = rd, kx = Math.abs(c) < 1e-9 ? 1e9 : aw / Math.abs(c), ky = Math.abs(s) < 1e-9 ? 1e9 : ah / Math.abs(s);
     const k = Math.min(kx, ky); let x = c * k, y = s * k;
-    const vert = kx < ky, len = vert ? 2 * ah : 2 * aw, along = vert ? y : x, ne = vert ? 4 : 3, pitch = len / ne;
+    const vert = kx < ky, len = vert ? 2 * ah : 2 * aw, along = vert ? y : x, ne = Math.max(2, Math.round(len / 0.5)), pitch = len / ne;
     const f = ((along + len / 2) / pitch) % 1, d = (f - 0.5) * pitch, rb = 0.15, depth = Math.abs(d) < rb ? Math.sqrt(rb * rb - d * d) : 0;
     if (vert) x -= Math.sign(x) * depth; else y -= Math.sign(y) * depth;
     return [x, y];
@@ -76,44 +78,33 @@ function ringStamp(ctx, x, y, R, rot, P, color, hs = 1) {
   ctx.beginPath(); poly(ctx, P); poly(ctx, shape('hole').map((q) => [q[0] * hs, q[1] * hs])); ctx.fill('evenodd'); ctx.restore();
 }
 
-/* ===== 1. Mascot ===== */
-const SPIKES = 15, CX = 500, CY = 652, R0 = 232;
-const STAMPS = [ // [spike index, shape, colour, half width, half height, tilt]
-  [1, 'stamp', PURPLE, 62, 76, -0.2], [3, 'seal', RED, 80, 62, 0.3], [5, 'flower', PURPLE, 72, 72, -0.15], [7, 'stamp', RED, 64, 78, 0.12],
-  [9, 'seal', PURPLE, 80, 62, -0.35], [11, 'flower', RED, 72, 72, 0.2], [13, 'stamp', PURPLE, 62, 76, -0.1],
+/* ===== 1. Mascot (body traced from the reference porcupine) ===== */
+const BODY = [33.0, 679.3, 136.3, 701.2, 138.0, 702.9, 167.4, 707.9, 169.0, 709.6, 179.1, 710.4, 180.8, 712.1, 190.0, 712.9, 204.3, 717.1, 222.0, 719.7, 230.4, 723.0, 229.5, 724.7, 204.3, 729.7, 203.5, 731.4, 167.4, 739.0, 156.4, 743.2, 121.2, 750.7, 119.5, 752.4, 111.1, 753.3, 109.4, 754.9, 104.4, 754.9, 33.0, 773.4, 341.2, 773.4, 342.9, 775.1, 342.1, 791.1, 344.6, 828.9, 351.3, 838.9, 359.7, 843.1, 421.9, 843.1, 437.0, 838.1, 446.2, 827.2, 447.9, 818.8, 444.6, 811.2, 425.2, 808.7, 391.6, 808.7, 385.8, 806.2, 379.0, 798.6, 376.5, 789.4, 379.0, 776.8, 381.6, 773.4, 386.6, 772.6, 565.5, 772.6, 567.2, 774.3, 567.2, 812.9, 568.9, 828.0, 573.1, 836.4, 584.0, 843.1, 646.2, 843.1, 656.2, 840.6, 665.5, 834.7, 672.2, 822.1, 670.5, 813.7, 663.8, 809.5, 615.1, 808.7, 610.0, 806.2, 603.3, 798.6, 601.6, 791.1, 602.5, 780.1, 605.8, 773.4, 968.7, 773.4, 794.0, 707.9, 794.8, 705.4, 801.6, 702.9, 938.5, 622.2, 795.7, 643.2, 787.3, 643.2, 784.8, 644.9, 766.3, 647.4, 762.1, 646.6, 925.9, 521.4, 872.1, 538.2, 871.3, 539.9, 857.8, 543.3, 857.0, 544.9, 830.1, 552.5, 829.3, 554.2, 750.3, 580.2, 749.5, 578.5, 766.3, 559.2, 779.7, 546.6, 810.0, 512.2, 800.7, 483.6, 799.0, 482.8, 755.4, 510.5, 723.4, 533.2, 713.4, 538.2, 709.2, 542.4, 699.1, 548.3, 697.4, 547.5, 834.3, 306.4, 659.6, 489.5, 658.8, 487.0, 663.0, 479.4, 666.3, 466.0, 668.0, 465.1, 670.5, 454.2, 674.7, 445.8, 675.6, 439.9, 677.2, 439.1, 700.8, 367.7, 716.7, 325.7, 714.2, 321.5, 700.8, 310.6, 699.1, 310.6, 680.6, 337.5, 675.6, 347.5, 671.4, 351.7, 670.5, 355.1, 603.3, 455.1, 602.5, 446.7, 615.1, 345.0, 607.5, 344.2, 594.9, 339.1, 579.0, 325.7, 575.6, 329.9, 570.6, 345.9, 568.9, 346.7, 559.6, 370.2, 558.8, 376.1, 554.6, 382.8, 542.0, 418.1, 540.3, 418.9, 540.3, 422.3, 535.3, 434.9, 533.6, 435.7, 532.8, 441.6, 530.2, 444.1, 528.6, 442.5, 527.7, 421.5, 526.0, 418.1, 525.2, 396.3, 523.5, 393.7, 520.2, 352.6, 516.8, 351.7, 470.6, 358.5, 463.0, 407.2, 458.8, 423.1, 458.0, 435.7, 455.5, 446.7, 453.8, 447.5, 450.4, 437.4, 448.8, 436.6, 441.2, 410.5, 437.0, 402.1, 434.5, 391.2, 425.2, 368.5, 411.0, 323.2, 409.3, 322.3, 408.4, 316.5, 365.6, 194.7, 375.7, 472.7, 374.0, 473.5, 372.3, 471.9, 371.5, 467.7, 369.8, 466.8, 285.8, 298.0, 271.5, 298.0, 276.6, 324.9, 279.1, 330.7, 279.1, 336.6, 280.8, 337.5, 281.6, 346.7, 283.3, 348.4, 284.1, 357.6, 290.8, 382.0, 290.8, 387.9, 292.5, 388.7, 293.4, 397.9, 315.2, 490.3, 313.5, 492.0, 220.3, 393.7, 204.3, 420.6, 208.5, 426.5, 213.6, 439.9, 216.1, 442.5, 225.3, 464.3, 229.5, 470.2, 237.1, 488.7, 238.8, 489.5, 260.6, 534.9, 259.8, 536.5, 101.0, 444.1, 241.3, 601.2, 239.6, 602.9, 205.2, 589.5, 164.8, 576.9, 169.0, 591.1, 169.0, 597.9, 153.1, 601.2, 145.5, 604.6, 206.0, 654.1];
+const EYE = {"c": [647.8, 691.9], "rx": 38.2, "ry": 97.8, "rot": 90.0}, PUPIL = {"c": [672.6, 707.5], "rx": 14.9, "ry": 24.2, "rot": 89.8};
+const STAMPS = [
+  { x: 99.0, y: 570.8, hw: 65.9, hh: 45.4, rot: -0.227, col: PURPLE, px: 113.9, py: 567.1, notch: [71.6, 544.1, 127.9, 590.3, 130.4, 589.5, 140.5, 570.1, 142.2, 569.3, 141.3, 567.6, 134.6, 565.9, 133.8, 564.3, 101.0, 554.2, 100.2, 552.5, 93.4, 550.0, 89.2, 550.0, 85.0, 547.5, 74.1, 544.9, 72.4, 543.3] },
+  { x: 168.8, y: 353.6, hw: 58.0, hh: 68.0, rot: -1.065, col: RED, px: 182.2, py: 363.6, notch: [162.3, 332.4, 179.1, 369.4, 191.7, 392.9, 193.4, 365.2] },
+  { x: 255.5, y: 226.8, hw: 65.5, hh: 89.0, rot: 2.094, col: PURPLE, px: 266.2, py: 264.5, notch: [260.6, 249.3, 264.8, 271.1, 266.5, 275.3, 272.4, 273.6, 272.4, 271.1] },
+  { x: 495.3, y: 293.7, hw: 57.5, hh: 65.1, rot: -0.14, col: RED, px: 500.4, py: 248.8, notch: [502.5, 174.5, 484.9, 280.3, 514.3, 292.1] },
+  { x: 609.6, y: 260.2, hw: 55.9, hh: 85.6, rot: -0.087, col: PURPLE, px: 622.6, py: 228.9, notch: [633.6, 183.7, 619.3, 222.4, 617.6, 223.2, 612.6, 240.0, 608.4, 247.6, 608.4, 252.6, 626.0, 253.5, 631.0, 204.7, 632.7, 201.4] },
+  { x: 754.8, y: 263.4, hw: 70.1, hh: 52.9, rot: -0.873, col: RED, px: 731.0, py: 270.8, notch: [742.8, 247.6, 731.8, 261.0, 718.4, 285.4, 730.2, 285.4, 740.2, 259.3] },
+  { x: 874.6, y: 443.8, hw: 84.4, hh: 59.2, rot: -0.332, col: PURPLE, px: 875.1, py: 436.6, notch: [894.0, 419.8, 862.9, 439.9, 865.4, 450.9, 887.2, 429.0] },
 ];
-const TIPS = [352, 330, 368, 392, 388, 408, 396, 424, 392, 410, 388, 394, 366, 328, 350];
-const spikeAng = (k) => Math.PI - 0.1 + k * (Math.PI + 0.2) / (SPIKES - 1);
+const pathFlat = (ctx, a) => { ctx.moveTo(a[0], a[1]); for (let i = 2; i < a.length; i += 2) ctx.lineTo(a[i], a[i + 1]); ctx.closePath(); };
 function drawMascot(ctx, W, H, t) {
   ctx.fillStyle = WHITE; ctx.fillRect(0, 0, W, H);
-  const ph = TAU * t / PERIOD, bob = 5 * Math.sin(ph * 2), half = (Math.PI + 0.2) / (SPIKES - 1) / 2;
+  const ph = TAU * t / PERIOD, bob = 4 * Math.sin(ph * 2);
   ctx.save(); ctx.translate(0, bob);
-  // legs
-  ctx.strokeStyle = BLACK; ctx.lineWidth = 40; ctx.lineJoin = 'round'; ctx.lineCap = 'butt';
-  [[400, 0], [610, Math.PI]].forEach(([x, off]) => {
-    const lift = Math.max(0, Math.sin(ph * 4 + off)) * 16;
-    ctx.beginPath(); ctx.moveTo(x, CY + 60); ctx.lineTo(x, CY + 150 - lift); ctx.lineTo(x - 60, CY + 150 - lift); ctx.stroke();
-  });
-  // body: a fan of spikes
-  ctx.fillStyle = BLACK; ctx.beginPath();
-  ctx.moveTo(CX - R0 + 4, CY + 84);
-  for (let k = 0; k < SPIKES; k++) {
-    const a = spikeAng(k), v0 = a - half, v1 = a + half;
-    ctx.lineTo(CX + Math.cos(v0) * R0, CY + Math.sin(v0) * R0);
-    ctx.lineTo(CX + Math.cos(a) * TIPS[k], CY + Math.sin(a) * TIPS[k]);
-    ctx.lineTo(CX + Math.cos(v1) * R0, CY + Math.sin(v1) * R0);
-  }
-  ctx.lineTo(CX + R0 - 4, CY + 84); ctx.closePath(); ctx.fill();
-  // eye
+  ctx.fillStyle = BLACK; ctx.beginPath(); pathFlat(ctx, BODY); ctx.fill();
+  // eye: white oval with a pupil that looks around and a blink
   const blink = (t % 3) > 2.2 && (t % 3) < 2.36 ? 0.12 : 1;
-  ctx.fillStyle = WHITE; ctx.beginPath(); ctx.ellipse(CX + 168, CY + 22, 76, 42 * blink, 0, 0, TAU); ctx.fill();
-  ctx.fillStyle = BLACK; ctx.beginPath(); ctx.ellipse(CX + 200 + 10 * Math.sin(ph), CY + 22, 23, 20 * blink, 0, 0, TAU); ctx.fill();
-  // stamps stuck on the quill tips
-  STAMPS.forEach(([k, kind, col, hw, hh, tilt], i) => {
-    const a = spikeAng(k), R = TIPS[k] - 30, sway = 0.1 * Math.sin(ph * 2 + i * 0.9);
-    ctx.save(); ctx.translate(CX + Math.cos(a) * R, CY + Math.sin(a) * R); ctx.rotate(a + Math.PI / 2 + tilt + sway);
-    ctx.save(); ctx.translate(0, -hh); ctx.scale(hw, hh); ctx.fillStyle = col; ctx.beginPath(); poly(ctx, shape(kind)); ctx.fill(); ctx.restore();
-    ctx.fillStyle = BLACK; ctx.beginPath(); ctx.moveTo(-11, 1); ctx.lineTo(11, 1); ctx.lineTo(0, -hh * 1.15); ctx.closePath(); ctx.fill();
+  ctx.fillStyle = WHITE; ctx.beginPath(); ctx.ellipse(EYE.c[0], EYE.c[1], EYE.rx, EYE.ry * blink, EYE.rot * Math.PI / 180, 0, TAU); ctx.fill();
+  ctx.fillStyle = BLACK; ctx.beginPath(); ctx.ellipse(PUPIL.c[0] + 8 * Math.sin(ph), PUPIL.c[1], PUPIL.rx, PUPIL.ry * blink, PUPIL.rot * Math.PI / 180, 0, TAU); ctx.fill();
+  // stamps stuck on the quills, with the quill tip poking through each one
+  STAMPS.forEach((s, i) => {
+    ctx.save(); ctx.translate(s.px, s.py); ctx.rotate(0.05 * Math.sin(ph * 2 + i * 0.9)); ctx.translate(-s.px, -s.py);
+    ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot); ctx.scale(s.hh, s.hh); ctx.fillStyle = s.col; ctx.beginPath(); poly(ctx, shape('r' + (s.hw / s.hh).toFixed(2))); ctx.fill(); ctx.restore();
+    ctx.fillStyle = BLACK; ctx.beginPath(); pathFlat(ctx, s.notch); ctx.fill();
     ctx.restore();
   });
   ctx.restore();
@@ -122,12 +113,12 @@ function drawMascot(ctx, W, H, t) {
 /* ===== 2. Logotype ===== */
 function drawLogo(ctx, W, H, t) {
   ctx.fillStyle = BLACK; ctx.fillRect(0, 0, W, H);
-  ctx.font = '700 100px ' + SANS; ctx.textBaseline = 'alphabetic';
+  ctx.font = '700 100px ' + SANS; ctx.textBaseline = 'alphabetic'; ctx.letterSpacing = '-3px';
   const m = (s) => ctx.measureText(s).width, cap100 = ctx.measureText('H').actualBoundingBoxAscent;
   const ow100 = cap100 * 1.06, g100 = cap100 * 0.03, total = m('P') + ow100 + 2 * g100 + m('STMARK');
   const k = (W * 0.84) / total, fs = 100 * k, cap = cap100 * k;
-  ctx.font = '700 ' + fs + 'px ' + SANS;
-  const x0 = W * 0.08, lh = cap * 1.34, y0 = (H - (cap + 2 * lh)) / 2 + cap, g = g100 * k, ow = ow100 * k;
+  ctx.font = '700 ' + fs + 'px ' + SANS; ctx.letterSpacing = (-3 * k) + 'px';
+  const x0 = W * 0.08, lh = cap * 1.14, y0 = (H - (cap + 2 * lh)) / 2 + cap, g = g100 * k, ow = ow100 * k;
   ctx.fillStyle = WHITE; ctx.fillText('P', x0, y0);
   const sx = x0 + ctx.measureText('P').width + g, stampX = sx + ow / 2, stampY = y0 - cap / 2;
   ctx.fillText('STMARK', sx + ow + g, y0); ctx.fillText('AWARDS', x0, y0 + lh);
@@ -141,23 +132,23 @@ function drawLogo(ctx, W, H, t) {
 }
 
 /* ===== 3. Repeating 2026 with a stamp for the zero ===== */
-const KINDS = ['stamp', 'flower', 'sparkle', 'burst'], ROWS = [RED, WHITE, PURPLE, WHITE];
+const KINDS = ['stamp', 'square', 'wide', 'tall'], ROWS = [RED, WHITE, PURPLE, WHITE];
 function drawYear(ctx, W, H, t) {
   ctx.fillStyle = BLACK; ctx.fillRect(0, 0, W, H);
-  const cw = 225, ch = 225, x0 = (W - cw * 4) / 2, y0 = (H - ch * 4) / 2;
-  ctx.font = '400 262px ' + BLACKFACE; ctx.textBaseline = 'alphabetic';
+  const cw = 200, ch = 196, x0 = (W - cw * 4) / 2, y0 = (H - ch * 4) / 2;
+  ctx.font = '400 250px ' + BLACKFACE; ctx.lineWidth = 6; ctx.lineJoin = 'round'; ctx.textBaseline = 'alphabetic';
   const seg = t / 1.5, fl = Math.floor(seg), fr = seg - fl, mo = ease((fr - 0.5) / 0.5);
   for (let r = 0; r < 4; r++) {
     const col = ROWS[r], cy = y0 + r * ch + ch / 2;
-    ctx.fillStyle = col;
+    ctx.fillStyle = col; ctx.strokeStyle = col;
     ['2', '0', '2', '6'].forEach((d, i) => {
       const cx = x0 + i * cw + cw / 2;
       if (d === '0') {
         const a = KINDS[(fl + r) % 4], b = KINDS[(fl + r + 1) % 4];
-        ringStamp(ctx, cx, cy, 104, 0.06 * Math.sin(TAU * t / 3 + r * 1.3), morph(a, b, mo), col);
+        ringStamp(ctx, cx, cy, 94, 0.06 * Math.sin(TAU * t / 3 + r * 1.3), morph(a, b, mo), col);
       } else {
         const mm = ctx.measureText(d), w = mm.actualBoundingBoxLeft + mm.actualBoundingBoxRight, h = mm.actualBoundingBoxAscent;
-        ctx.fillText(d, cx - w / 2 + mm.actualBoundingBoxLeft, cy + h / 2);
+        ctx.strokeText(d, cx - w / 2 + mm.actualBoundingBoxLeft, cy + h / 2);
       }
     });
   }
