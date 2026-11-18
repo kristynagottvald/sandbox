@@ -66,7 +66,8 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .t-lav{--bg:#f5f5fe;--fg:#4131f1;--ac:#d045dc}
 .t-white{--bg:#fff;--fg:#4131f1;--ac:#d045dc}
 .bg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.burstsvg{position:absolute;z-index:1;left:50%;top:50%;width:96%;height:104%;transform:translate(-50%,-50%);display:block}
+.burstsvg{position:absolute;z-index:1;left:50%;top:50%;width:100%;height:100%;transform:translate(-50%,-50%);display:block}
+.burstsvg.p{display:none}
 .in{position:relative;z-index:2;width:100%;height:100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;column-gap:calc(var(--u)*8);padding:calc(var(--u)*20) calc(var(--u)*36) calc(var(--u)*17)}
 .in.wide{grid-template-columns:minmax(0,1.3fr) minmax(0,.9fr)}
 .in.col,.in.ctr{display:flex;flex-direction:column;justify-content:center;gap:calc(var(--u)*4.4)}
@@ -85,7 +86,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
   .bg.edge{display:none}
   .slide::before,.slide::after{content:"";position:absolute;z-index:0;width:30cqw;height:30cqw;border-radius:50%;background:var(--ac);opacity:.9}
   .slide::before{right:-12cqw;top:34%}.slide::after{left:-14cqw;bottom:8%;opacity:.55}
-  .burstsvg{width:150%;height:78%}
+  .burstsvg.l{display:none}.burstsvg.p{display:block;width:100%;height:78%}
   .bg.c{left:50%;top:50%;width:205cqw;height:auto;aspect-ratio:160/90;right:auto;bottom:auto;transform:translate(-50%,-50%)}
 }
 .rise{opacity:0;transform:translateY(calc(var(--u)*3));filter:blur(calc(var(--u)*.8));transition:opacity .6s,transform .7s cubic-bezier(.2,.8,.2,1),filter .6s}
@@ -229,7 +230,7 @@ var D={brand:brand,pieces:Math.round(num('pieces',1284560)),pct:Math.min(100,num
   scans:Math.round(num('scans',41872)),clicks:Math.round(num('clicks',58214)),conv:Math.round(num('conv',9128)),rev:num('rev',3900000),days:num('days',3.6),ontime:num('ontime',97.4),bad:Math.round(num('bad',41206)),avgMi:1070};
 D.uniq=Math.round(D.clicks*.54);D.engaged=D.scans+D.uniq;D.qrRate=D.scans/D.pieces*100;D.perDay=Math.round(D.pieces/365);
 D.pieceMiles=D.pieces*D.avgMi;D.trips=D.pieceMiles/238855;D.hh=Math.max(1,Math.round(131e6/D.pieces));D.saved=D.bad*0.95;
-D.mix=[['Postcards',58,'burst'],['Letters',22,'diag'],['Self-mailers',12,'checker'],['Snap packs &amp; checks',8,'mandala']];
+D.mix=[['Postcards',58,'stamp'],['Letters',22,'diag'],['Self-mailers',12,'checker'],['Snap packs &amp; checks',8,'mandala']];
 D.metroTop=[['Dallas–Fort Worth',.073],['Atlanta',.063],['Phoenix',.06],['Chicago',.055],['Denver',.049]].map(function(m){return[m[0],Math.round(D.pieces*m[1]*D.pct/64)]});
 var persona=D.pct>=60?['The Metro','Magnet','You went wide and stayed local: every mailbox felt like a one-to-one.',['Coast to coast','Always on time','Scan magnet']]:
   D.qrRate>=3?['The Scan','Whisperer','Fewer mailboxes, more taps. Your audience loves a QR code.',['Scan magnet','Tight targeting','Repeat responders']]:
@@ -262,6 +263,7 @@ function pieceInner(kind,p,off){var a=p[0],b=p[1],c=p[2],d=p[3],W=300,H=192,cx=o
   else if(kind==='checker'){g=checker(0,0,off?176:W,H,24,a,b)+circ(cx,96,54,d)+circ(cx,96,28,a)+circ(cx,96,11,c)}
   else if(kind==='diag'){g=diag(0,0,W,H,16,a,b)+circ(off?84:150,96,58,c)+circ(off?84:150,96,28,d)}
   else if(kind==='burst'){var bx=off?96:150;g+=(off?stair(214,0,86,H,6,b,true):'')+star(bx,96,104,76,14,c)+circ(bx,96,50,b)+circ(bx,96,21,d)}
+  else if(kind==='stamp'){var sx=off?168:100,path=function(){return stampPath(sx,26,100,140,6,4,6,true)};g+='<path transform="translate(-6 6)" d="'+path()+'" fill="'+c+'"/><path d="'+path()+'" fill="'+b+'"/>'+circ(sx+50,96,36,d)+circ(sx+50,96,15,a)+(off?stair(0,0,90,H,6,b,false,false):'')}
   else if(kind==='steps'){g+=stair(0,0,104,H,6,b,false,false)+stair(196,0,104,H,6,b,true,true)+circ(off?112:150,96,56,c)+star(off?112:150,96,34,24,10,d)}
   return g}
 function piece(kind,pal,off){var id='k'+(++UID);return '<svg class="pc" viewBox="0 0 300 192"><defs><clipPath id="'+id+'"><rect width="300" height="192" rx="9"/></clipPath></defs><g clip-path="url(#'+id+')">'+pieceInner(kind,PAL[pal],off)+'</g></svg>'}
@@ -272,7 +274,19 @@ function cascade(kind,pal,off){var id='k'+(++UID),o=[1,.6,.38,.19,.08],s='';for(
 function edge(c){var L=rect(0,18,6,22,c[1])+tri(0,43,15,51,0,60,c[2])+circ(0,68,9,c[0])+rect(6,30,5,14,c[3]),
   R=rect(154,18,6,22,c[1])+tri(160,43,145,51,160,60,c[2])+circ(160,68,9,c[3])+rect(149,30,5,14,c[0]);
   return '<svg class="bg edge" viewBox="0 0 160 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true">'+L+R+'</svg>'}
-function burst(f,n){return '<svg class="burstsvg" viewBox="0 0 160 90" preserveAspectRatio="none" aria-hidden="true">'+star(80,45,78,60,n||13,f,.585)+'</svg>'}
+/* flat postage stamp: a rectangle with semicircle perforations, all four sides or top and bottom only */
+function stampPath(x,y,w,h,r,nx,ny,all){var d='M'+x+' '+y,i,c,sx=w/nx,sy=h/ny;
+  for(i=0;i<nx;i++){c=x+(i+.5)*sx;d+='H'+f1(c-r)+'A'+r+' '+r+' 0 0 0 '+f1(c+r)+' '+y}
+  d+='H'+(x+w);
+  if(all)for(i=0;i<ny;i++){c=y+(i+.5)*sy;d+='V'+f1(c-r)+'A'+r+' '+r+' 0 0 0 '+(x+w)+' '+f1(c+r)}
+  d+='V'+(y+h);
+  for(i=nx-1;i>=0;i--){c=x+(i+.5)*sx;d+='H'+f1(c+r)+'A'+r+' '+r+' 0 0 0 '+f1(c-r)+' '+(y+h)}
+  d+='H'+x;
+  if(all)for(i=ny-1;i>=0;i--){c=y+(i+.5)*sy;d+='V'+f1(c+r)+'A'+r+' '+r+' 0 0 0 '+x+' '+f1(c-r)}
+  return d+'Z'}
+function stampSvg(cls,vw,vh,x,y,w,h,r,nx,ny,main,shadow,all,off){var d=stampPath(x,y,w,h,r,nx,ny,all);
+  return '<svg class="burstsvg '+cls+'" viewBox="0 0 '+vw+' '+vh+'" preserveAspectRatio="none" aria-hidden="true"><path transform="translate(-'+off+' '+off+')" d="'+d+'" fill="'+shadow+'"/><path d="'+d+'" fill="'+main+'"/></svg>'}
+function burst(main,shadow,all){return stampSvg('l',160,90,22,15,116,60,2.6,12,6,main,shadow,all,3)+stampSvg('p',60,100,6,9,48,82,2.2,6,10,main,shadow,all,1.4)}
 
 /* ---------- slides ---------- */
 var IL={
@@ -288,7 +302,7 @@ function qrSvg(seed){return '<svg viewBox="0 0 21 21" shape-rendering="crispEdge
 var SL=[];
 function R(i,html,tag,cls){return '<'+(tag||'div')+' class="rise'+(cls?' '+cls:'')+'" style="--i:'+i+'">'+html+'</'+(tag||'div')+'>'}
 /* 0 hello: a lime burst on blue */
-SL.push({t:'blue',n:'Hello',d:6500,bg:edge([PK,MG,PW,PK]),pre:burst(PK),h:
+SL.push({t:'blue',n:'Hello',d:6500,bg:edge([PK,MG,PW,PK]),pre:burst(PK,MG,true),h:
   '<div class="in ctr"><div class="tx" style="color:#4131f1">'+R(0,'#LobUnwrapped','div','k')+R(1,'2026<br>Unwrapped','h1','hero')+R(2,esc(D.brand)+'’s year in <i style="color:#d045dc">direct mail</i>','p','lead')+R(3,'Tap or press → to begin','p','fine')+'</div></div>'});
 /* 1 pieces sent: the Figma cascade */
 SL.push({t:'pink',n:'Pieces sent',d:6500,bg:edge([B,MG,PW,B]),h:
@@ -327,7 +341,7 @@ SL.push({t:'white',n:'PURL clicks',d:7000,purl:1,bg:edge([B,MG,PK,PW]),h:
   '<div class="in"><div class="tx">'+R(0,'PURLs clicked','div','k')+R(1,C(D.clicks,'int'),'div','big md')+R(2,'<b>'+C(D.uniq,'int')+'</b> people landed on a page with <i>their own name</i> on it.','p','lead')+'</div>'+
   '<div class="art">'+R(2,'<div class="browser"><div class="bar2"><i></i><i></i><i></i><div class="url">'+esc(D.brand.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,18)||'yourbrand')+'.co/<u id="pn">kristy</u><s></s></div></div><div class="pg"><b>Welcome back, <i id="pn2">Kristy</i>.</b><span>A page built for you, because the postcard in your hand said so.</span><div class="cta">Claim my offer<svg viewBox="0 0 24 28"><path d="M3 2v20l5.5-4.8 3.6 8 3.4-1.6-3.6-7.8 7.4-.6z" fill="#4131f1" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></svg></div></div></div>','div','')+'</div></div>'});
 /* 8 results: big number in a burst, like the 22 */
-SL.push({t:'blue',n:'Results',d:6500,bg:edge([MG,PK,PW,MG]),pre:burst(MG,15),h:
+SL.push({t:'blue',n:'Results',d:6500,bg:edge([MG,PK,PW,MG]),pre:burst(MG,PW,false),h:
   '<div class="in ctr"><div class="tx" style="color:#fff;gap:calc(var(--u)*2.6)">'+R(0,'What it added up to','div','k')+R(1,C(D.rev,'usd'),'div','big lg')+R(2,'in revenue from <i style="color:#f7dffa">mail</i>','div','lead')+
   R(3,'<div class="facts three"><div class="fact"><b>'+C(D.engaged,'compact')+'</b><span>people engaged</span></div><div class="fact"><b>'+C(D.conv,'int')+'</b><span>converted</span></div><div class="fact"><b>'+F.p1(D.conv/D.engaged*100)+'</b><span>of engaged converted</span></div></div>','div')+'</div></div>'});
 /* 9 delivery */
