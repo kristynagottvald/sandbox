@@ -21,9 +21,9 @@ canvas{position:absolute;inset:0;width:100%;height:100%;display:block;background
 </head>
 <body>
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span class="x">/</span><a class="x" href="../">Back to all projects</a><span>/</span><b>Porcupine Glitch</b></nav>
-<main><canvas id="c" role="img" aria-label="A flat black porcupine with bare quills, buried under thick purple and red perforated bands that snap and slide across the screen"></canvas></main>
+<main><canvas id="c" role="img" aria-label="A flat black porcupine with bare quills, buried under thick purple and red perforated bands that sweep fast in different directions, with whip zooms into the eye and the quills"></canvas></main>
 <script>
-const TAU = Math.PI * 2, PERIOD = 6, STEPS = 24; // 24 snaps per 6 s loop, 4 a second
+const TAU = Math.PI * 2, PERIOD = 6, STEPS = 18; // bands re-aim 3 times a second; the camera whips twice per 6 s loop
 const PURPLE = '#7A4BFF', RED = '#F2442E', BLACK = '#0B0B0B', WHITE = '#FFFFFF';
 const cl = (v, a, b) => Math.max(a, Math.min(b, v));
 const lerp = (a, b, m) => a + (b - a) * m;
@@ -60,50 +60,74 @@ function drawPorcupine(ctx, W, H, t) {
   ctx.restore();
 }
 
-/* ===== the glitch: thick perforated bands that snap to a new place, angle and width 4 times a second, each on its own beat ===== */
+/* ===== the glitch: thick perforated bands that sweep across the screen in different directions, each re-aiming on its own beat ===== */
 // [colour, base angle (deg), thickness (share of the short side), beat offset]
 const BANDS = [
-  [PURPLE, -4, 0.30, 0.00], [PURPLE, -16, 0.22, 0.31], [PURPLE, 12, 0.24, 0.57], [RED, -46, 0.17, 0.13],
-  [PURPLE, -26, 0.20, 0.80], [RED, 34, 0.13, 0.44], [PURPLE, 4, 0.26, 0.68], [RED, -12, 0.11, 0.92],
+  [PURPLE, -4, 0.26, 0.00], [RED, -30, 0.16, 0.21], [PURPLE, 14, 0.22, 0.47], [RED, 52, 0.13, 0.13],
+  [PURPLE, -22, 0.20, 0.74], [RED, -8, 0.12, 0.38], [PURPLE, 32, 0.18, 0.60], [RED, 70, 0.11, 0.90],
 ];
 function bandState(i, t, W, H) {
-  const [, ang, thick, off] = BANDS[i], u = t / PERIOD * STEPS + off * 4, k = Math.floor(u), f = u - k, m = easeOut(f / 0.3);
-  const at = (n) => { n = ((n % STEPS) + STEPS) % STEPS; return {
-    x: W * (0.5 + (hash(i + 1, n) - 0.5) * 1.1), y: H * (0.5 + (hash(i + 21, n) - 0.5) * 1.15),
-    a: (ang + (hash(i + 41, n) - 0.5) * 30) * Math.PI / 180, th: thick * (0.7 + 0.7 * hash(i + 61, n)),
-  }; };
-  const A = at(k - 1), B = at(k);
-  const drift = (f - 0.5) * Math.min(W, H) * 0.14, a = lerp(A.a, B.a, m);
-  return { x: lerp(A.x, B.x, m) + Math.cos(a) * drift, y: lerp(A.y, B.y, m) + Math.sin(a) * drift, a, th: lerp(A.th, B.th, m) };
+  const [, ang, thick, off] = BANDS[i], u = t / PERIOD * STEPS + off * 3, k = Math.floor(u), f = u - k, m = easeOut(f / 0.4);
+  const at = (n) => { n = ((n % STEPS) + STEPS) % STEPS; const a = (ang + (hash(i + 41, n) - 0.5) * 50) * Math.PI / 180, ext = Math.abs(W * Math.sin(a)) + Math.abs(H * Math.cos(a));
+    return { a, d: (hash(i + 1, n) - 0.5) * ext * 1.25, al: (hash(i + 21, n) - 0.5) * W * 0.6, th: thick * (0.7 + 0.7 * hash(i + 61, n)) }; };
+  const A = at(k - 1), B = at(k), a = lerp(A.a, B.a, m), d = lerp(A.d, B.d, m), al = lerp(A.al, B.al, m) + (f - 0.5) * W * 0.3;
+  return { x: W / 2 - Math.sin(a) * d + Math.cos(a) * al, y: H / 2 + Math.cos(a) * d + Math.sin(a) * al, a, th: lerp(A.th, B.th, m) };
 }
 /* one strip, both long edges perforated: half-round bites into the band, marching along it */
-function band(ctx, L, th, pitch, r, shift) {
+function bandPath(ctx, L, th, pitch, r, shift) {
   const n = Math.ceil(L / pitch) + 2, x0 = -L / 2 - pitch + (shift % pitch);
   ctx.beginPath(); ctx.moveTo(x0, -th / 2);
   for (let j = 0; j < n; j++) { const cx = x0 + (j + 0.5) * pitch; ctx.lineTo(cx - r, -th / 2); ctx.arc(cx, -th / 2, r, Math.PI, 0, true); }
   ctx.lineTo(x0 + n * pitch, th / 2);
   for (let j = n - 1; j >= 0; j--) { const cx = x0 + (j + 0.5) * pitch + pitch * 0.5; ctx.lineTo(cx + r, th / 2); ctx.arc(cx, th / 2, r, 0, Math.PI, true); }
-  ctx.closePath(); ctx.fill();
+  ctx.closePath();
 }
-/* band thickness is scaled every frame so the bands always fill TARGET of the screen (solved on a tiny offscreen render) */
-const TARGET = 0.68, probe = document.createElement('canvas'), pc = probe.getContext('2d', { willReadFrequently: true });
-function solveGain(t, W, H) {
-  const pw = 72, ph = Math.max(24, Math.round(pw * H / W)); probe.width = pw; probe.height = ph;
-  const k = pw / W, cover = (g) => {
-    pc.setTransform(1, 0, 0, 1, 0, 0); pc.clearRect(0, 0, pw, ph); pc.setTransform(k, 0, 0, k, 0, 0); paintBands(pc, W, H, t, g, 0);
-    const d = pc.getImageData(0, 0, pw, ph).data; let n = 0; for (let i = 3; i < d.length; i += 4) if (d[i] > 127) n++; return n / (pw * ph);
-  };
-  let lo = 0.3, hi = 3; for (let j = 0; j < 7; j++) { const g = (lo + hi) / 2; if (cover(g) < TARGET) lo = g; else hi = g; } return (lo + hi) / 2;
-}
-function drawBands(ctx, W, H, t) { paintBands(ctx, W, H, t, solveGain(t, W, H), 1); }
-function paintBands(ctx, W, H, t, GAIN, perf) {
+function paintBands(ctx, W, H, t, gain) {
   const S = Math.min(W, H), D = Math.hypot(W, H), pitch = Math.max(16, S * 0.026), r = pitch * 0.36;
   for (let i = 0; i < BANDS.length; i++) {
     const s = bandState(i, t, W, H);
     ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.a); ctx.fillStyle = BANDS[i][0];
-    band(ctx, D * 2.6, s.th * S * GAIN, pitch, r, (t / PERIOD) * pitch * 12 * (i % 2 ? -1 : 1));
+    bandPath(ctx, D * 2.6, s.th * S * gain, pitch, r, t * pitch * 24 * (i % 2 ? -1 : 1)); ctx.fill();
     ctx.restore();
   }
+}
+
+/* ===== the camera: wide, whip in on a section, hold a beat, whip out, repeat on the other section (3 s cycle, two per loop) ===== */
+const CYC = 3, ZMAX = 2.6, eio = (u) => { u = cl(u, 0, 1); return u < 0.5 ? 16 * u ** 5 : 1 - Math.pow(-2 * u + 2, 5) / 2; };
+const FOCI = [[647.8, 691.9], [434, 330]]; // the eye, then a fan of quills (porcupine coordinates)
+function cam(t) {
+  t = ((t % PERIOD) + PERIOD) % PERIOD; const c = Math.floor(t / CYC), u = t % CYC; let p = 0, whip = false;
+  if (u >= 1.1 && u < 1.35) { p = eio((u - 1.1) / 0.25); whip = true; } else if (u >= 1.35 && u < 2.45) p = 1; else if (u >= 2.45 && u < 2.7) { p = 1 - eio((u - 2.45) / 0.25); whip = true; }
+  const o = easeOut((u - 1.4) / 0.15) * (1 - cl((u - 2.4) / 0.07, 0, 1)); // the perforated window that keeps the porcupine clear during the hold
+  return { c, p, o, whip };
+}
+function pSpace(W, H) { const sc = Math.min(W / 940, H / 700) * 1.02; return (q) => [W / 2 + (q[0] - 500) * sc, H / 2 + (q[1] - 508) * sc]; }
+function camXf(ctx, W, H, t) {
+  const { c, p } = cam(t), f = pSpace(W, H)(FOCI[c]), z = Math.pow(ZMAX, p);
+  ctx.translate(lerp(f[0], W / 2, p), lerp(f[1], H / 2, p)); ctx.scale(z, z); ctx.translate(-f[0], -f[1]); return f;
+}
+function scene(ctx, W, H, t, gain) {
+  const S = Math.min(W, H), { o } = cam(t);
+  ctx.save(); ctx.fillStyle = WHITE; ctx.fillRect(0, 0, W, H);
+  const f = camXf(ctx, W, H, t);
+  drawPorcupine(ctx, W, H, t); paintBands(ctx, W, H, t, gain);
+  if (o > 0.01) { // porcupine seen through a perforated stamp-shaped window, bands all round it
+    const pitch = Math.max(16, S * 0.026);
+    ctx.save(); ctx.translate(f[0], f[1]); ctx.rotate(-0.09); bandPath(ctx, S * 0.4 * o, S * 0.27 * o, pitch, pitch * 0.36, 0); ctx.rotate(0.09); ctx.translate(-f[0], -f[1]);
+    ctx.clip(); ctx.fillStyle = WHITE; ctx.fillRect(0, 0, W, H); drawPorcupine(ctx, W, H, t); ctx.restore();
+  }
+  ctx.restore();
+}
+
+/* band thickness is scaled every frame so the bands always fill TARGET of the screen (solved on a tiny offscreen render, camera included) */
+const TARGET = 0.55, probe = document.createElement('canvas'), pc = probe.getContext('2d', { willReadFrequently: true });
+function solveGain(t, W, H) {
+  const pw = 72, ph = Math.max(24, Math.round(pw * H / W)); probe.width = pw; probe.height = ph;
+  const k = pw / W, cover = (g) => {
+    pc.setTransform(1, 0, 0, 1, 0, 0); pc.clearRect(0, 0, pw, ph); pc.setTransform(k, 0, 0, k, 0, 0); pc.save(); camXf(pc, W, H, t); paintBands(pc, W, H, t, g); pc.restore();
+    const d = pc.getImageData(0, 0, pw, ph).data; let n = 0; for (let i = 3; i < d.length; i += 4) if (d[i] > 127) n++; return n / (pw * ph);
+  };
+  let lo = 0.2, hi = 3; for (let j = 0; j < 7; j++) { const g = (lo + hi) / 2; if (cover(g) < TARGET) lo = g; else hi = g; } return (lo + hi) / 2;
 }
 
 /* ===== loop ===== */
@@ -112,15 +136,16 @@ let W = 0, H = 0, dpr = 1;
 function fit() { const r = cv.getBoundingClientRect(); W = r.width; H = r.height; dpr = Math.min(devicePixelRatio || 1, 2); cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
 function render(t) {
   if (!W) return;
+  const gain = solveGain(t, W, H), n = cam(t).whip ? 8 : 1; // motion blur on the whips: average of 8 sub-frames
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.fillStyle = WHITE; ctx.fillRect(0, 0, W, H);
-  drawPorcupine(ctx, W, H, t); drawBands(ctx, W, H, t);
+  for (let j = 0; j < n; j++) { ctx.globalAlpha = 1 / (j + 1); scene(ctx, W, H, t - j * 0.005, gain); }
+  ctx.globalAlpha = 1;
 }
 let clock = HP.has('from') ? +HP.get('from') : 0, last = performance.now(), playing = true;
 function loop(now) {
   const dt = Math.max(0, Math.min(0.1, (now - last) / 1000)); last = now;
   if (playing && !reduce) clock += dt;
-  render(reduce ? 0 : clock % PERIOD);
+  render(reduce ? 0 : ((clock % PERIOD) + PERIOD) % PERIOD);
   requestAnimationFrame(loop);
 }
 /* share of the screen under a band, measured from a canvas read-back (purple or red pixels) */
@@ -129,7 +154,7 @@ function coverage() {
   for (let i = 0; i < d.length; i += 16) { tot++; const r = d[i], g = d[i + 1], b = d[i + 2]; if ((b > 200 && g < 110) || (r > 220 && g < 110 && b < 90)) n++; }
   return n / tot;
 }
-window.__pg = { seek: (t) => { playing = false; clock = t; render(t % PERIOD); }, play: () => { playing = true; }, pause: () => { playing = false; }, coverage };
+window.__pg = { seek: (t) => { playing = false; clock = t; render(((t % PERIOD) + PERIOD) % PERIOD); }, play: () => { playing = true; }, pause: () => { playing = false; }, coverage };
 addEventListener('resize', fit);
 fit(); requestAnimationFrame(loop);
 </script>
