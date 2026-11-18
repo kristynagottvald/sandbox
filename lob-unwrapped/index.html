@@ -348,13 +348,13 @@ SL.push({t:'pink',n:'QR scans',d:6500,h:
   R(3,'<div class="facts"><div class="fact"><b>'+C(D.qrRate,'p1')+'</b><span>of your pieces got scanned</span></div><div class="fact"><b>Tue 7 PM</b><span>when your audience scans most</span></div></div>','div')+'</div>'+
   '<div class="art">'+R(2,T('mix6',[PK,'diag:#4131f1:#f7dffa',MG,'check:#f7dffa:#4131f1',LAV],{n:8,per:1.9,dx:.075,dy:.075,pts:14,rot:6}),'div','')+'</div></div>'});
 /* 7 PURL: a fading trail of rectangles */
-SL.push({t:'mag',n:'PURL clicks',d:7000,purl:1,bg:'<canvas class="tun bgc" data-trail="purl" data-x0=".535" data-w=".33" data-ratio="1.3" data-strip="65,49,241" data-pal="mag"></canvas>',h:
+SL.push({t:'mag',n:'PURL clicks',d:7000,purl:1,bg:'<canvas class="tun bgc" data-trail="burst" data-frame="burst" data-strip="65,49,241"></canvas>',h:
   '<div class="in"><div class="tx">'+R(0,'PURLs clicked','div','k')+R(1,C(D.clicks,'int'),'div','big md')+R(2,'<b>'+C(D.uniq,'int')+'</b> people landed on a page with <i>their own name</i> on it.','p','lead')+'</div></div>'});
 /* 8 results: concentric bursts around a flat stamp */
 SL.push({t:'blue',n:'Results',d:6500,bg:T('star',[PW,B,M3,B],{pts:12,n:9,per:2.6,rot:8},'bgc'),pre:bigStamp(MG,false),h:
   '<div class="in ctr"><div class="tx" style="color:#fff;gap:calc(var(--u)*2.6)">'+R(0,'What it added up to','div','k')+R(1,C(D.rev,'usd'),'div','big lg')+R(2,'in revenue from <i style="color:#f7dffa">mail</i>','div','lead')+'</div></div>'});
 /* 9 delivery */
-SL.push({t:'blue',n:'Speed & quality',d:6500,bg:'<canvas class="tun bgc" data-trail="burst"></canvas>',h:
+SL.push({t:'blue',n:'Speed & quality',d:6500,bg:'<canvas class="tun bgc" data-trail="burst" data-frame="stamp"></canvas>',h:
   '<div class="in"><div class="tx">'+R(0,'Delivery','div','k')+R(1,C(D.days,'d1')+'<small style="margin-left:.5em">days</small>','div','big lg')+R(2,'average time to <i>mailbox</i>','div','lead')+
   '</div></div>'});
 /* 10 persona: scalloped mandala rings turning around a big flat circle */
@@ -485,15 +485,19 @@ function trail(cv,tk){var d=cv.dataset,ctx=cv.getContext('2d'),t0=performance.no
     if(port){w=W*.66;x0=(W-w)/2;h=w/rt;g=h*.085*breathe;y0=Hh*(+d.py||.7)-h/2}else{w=W*fw;x0=W*fx0;h=w/rt;g=h*.075*breathe;y0=(Hh-h)/2}
     cx=x0+w/2;cy=y0+h/2;ctx.clearRect(0,0,W,Hh);
     for(i=5;i>=1;i--){ctx.beginPath();rrect(ctx,x0,y0+i*g,w,h,h*.04);ctx.fillStyle='rgba('+(d.strip||'208,69,220')+','+(op[i-1]*(RM?1:.8+.2*Math.sin(t*2.2-i*.8)))+')';ctx.fill()}
-    if(d.trail==='burst'){var R=Math.min(W*.3,Hh*.4),bx=port?W/2:W*.74,by=port?Hh*.68:Hh*.46,gg=R*.09*breathe,ang=RM?0:t*.15,bi,pats2=BP||(BP=['check:#f7dffa:#4131f1','diag:#4131f1:#f7dffa'].map(function(q){return mkPat(ctx,q,Math.min(1.5,window.devicePixelRatio||1),0)})),hs3,sq=R*.3;
+    if(d.trail==='burst'){var isSt=d.frame==='stamp',R=Math.min(W*.3,Hh*.4),bx=port?W/2:W*.74,by=port?Hh*.68:Hh*.46,gg=R*.09*breathe,ang=RM?0:t*.15,bi,pats2=BP||(BP=['check:#f7dffa:#4131f1','diag:#4131f1:#f7dffa'].map(function(q){return mkPat(ctx,q,Math.min(1.5,window.devicePixelRatio||1),0)})),hs3,sq=R*.3,
+        fw=R*1.9,fh=R*1.5,tc=d.strip||'208,69,220';
+      function frame(yo){if(isSt){ctx.beginPath();stampRamp(ctx,bx-fw/2,by+yo-fh/2,fw,fh,R*.21,R*.058)}else ringPath(ctx,'star',bx,by+yo,R,1,12,ang)}
       ctx.clearRect(0,0,W,Hh);
-      for(bi=5;bi>=1;bi--){ringPath(ctx,'star',bx,by+bi*gg,R,1,12,ang);ctx.fillStyle='rgba(208,69,220,'+(op[bi-1]*(RM?1:.8+.2*Math.sin(t*2.2-bi*.8)))+')';ctx.fill()}
-      ctx.save();ringPath(ctx,'star',bx,by,R,1,12,ang);ctx.clip();ctx.fillStyle='#f7dffa';ctx.fillRect(0,0,W,Hh);
+      for(bi=5;bi>=1;bi--){frame(bi*gg);ctx.fillStyle='rgba('+tc+','+(op[bi-1]*(RM?1:.8+.2*Math.sin(t*2.2-bi*.8)))+')';ctx.fill()}
+      ctx.save();frame(0);ctx.clip();ctx.fillStyle='#f7dffa';ctx.fillRect(0,0,W,Hh);
       pats2.forEach(function(pt){pt.setTransform(new DOMMatrix([1,0,0,1,(now/22)%28,(now/22)%28]))});
-      rings(ctx,'mix4',[pats2[0],'#f5f5fe','#f7dffa',pats2[1]],W,Hh,bx,by,3,t/2.8,1,0,0,0,12,sq*1.2,null,R*.26,1);
-      hs3=sq*.9;ctx.beginPath();stampRamp(ctx,bx-hs3*.62,by-hs3*.8,hs3*1.24,hs3*1.6,hs3*.32,hs3*.09);ctx.fillStyle='#4131f1';ctx.fill();
-      ctx.beginPath();ctx.arc(bx,by,hs3*.38,0,6.2832);ctx.fillStyle='#9b93f8';ctx.fill();ringPath(ctx,'star',bx,by,hs3*.3,1,8,t*.7);ctx.fillStyle='#f5f5fe';ctx.fill();
-      ctx.beginPath();ctx.arc(bx,by,hs3*.07,0,6.2832);ctx.fillStyle='#d045dc';ctx.fill();ctx.restore();
+      if(isSt)rings(ctx,'mix4',[pats2[0],'#f5f5fe','#f7dffa',pats2[1]],W,Hh,bx,by,3,t/2.8,1,0,0,0,12,sq*1.2,null,R*.26,1);
+      else rings(ctx,'mix',['#4131f1','#f7dffa','#f5f5fe','#e28deb'],W,Hh,bx,by,4,t/1.7,1,0,0,10,10,sq*1.1,null,R*.24,1);
+      hs3=sq*.9;
+      if(isSt){ctx.beginPath();stampRamp(ctx,bx-hs3*.62,by-hs3*.8,hs3*1.24,hs3*1.6,hs3*.32,hs3*.09);ctx.fillStyle='#4131f1';ctx.fill()}
+      ctx.beginPath();ctx.arc(bx,by,hs3*(isSt?.38:.62),0,6.2832);ctx.fillStyle=isSt?'#9b93f8':'#4131f1';ctx.fill();ringPath(ctx,'star',bx,by,hs3*(isSt?.3:.52),1,isSt?8:10,t*.7);ctx.fillStyle='#f5f5fe';ctx.fill();
+      ctx.beginPath();ctx.arc(bx,by,hs3*(isSt?.07:.1),0,6.2832);ctx.fillStyle='#d045dc';ctx.fill();ctx.restore();
       if(!RM)requestAnimationFrame(f);return}
     if(d.trail==='strips'){var pe=cv.closest('.slide').querySelector('.tpiece'),cr2=cv.getBoundingClientRect(),kk=cr2.width?W/cr2.width:1;if(pe){pe.style.left=(x0/kk)+'px';pe.style.top=(y0/kk)+'px';pe.style.width=(w/kk)+'px'}if(!RM)requestAnimationFrame(f);return}
     ctx.save();ctx.beginPath();rrect(ctx,x0,y0,w,h,h*.04);ctx.clip();
