@@ -525,10 +525,10 @@ function drawMap(cv,tk){var ds=dots(),ctx=cv.getContext('2d'),t0=performance.now
     T=RM?9:(now-t0)/1000,i,d,h,p,side;
     ctx.clearRect(0,0,W,Hh);
     var hot={},slot=Math.floor(T*5),sl,kk,cnt;
-    for(sl=slot-2;sl<=slot;sl++){cnt=3+((sl*2654435761>>>0)%4);for(kk=0;kk<cnt;kk++)hot[(((sl*7919+kk*104729+17)*2654435761)>>>0)%N]=1}
+    for(sl=slot-2;sl<=slot;sl++){cnt=3+((sl*2654435761>>>0)%4)+Math.floor(Math.max(0,sl/5-2.8)*26);for(kk=0;kk<cnt;kk++)hot[(((sl*7919+kk*104729+17)*2654435761)>>>0)%N]=1}
     for(i=0;i<N;i++){d=ds[i];if(d.r>=D.pct/100)continue;h=((i*2654435761)>>>0)%1000/1000;p=T>=(.2+h*2.4)?1:0;if(p<=0)continue;
       side=(cell+.6)*p;var bc=((d.rw+d.cl)%2)?WSH[1]:WSH[3],cc=bc;
-      if(T>3.2&&!RM&&hot[i])cc=WSH[0];
+      if(T>2.8&&!RM&&hot[i])cc=WSH[0];
       ctx.fillStyle='rgb('+cc[0]+','+cc[1]+','+cc[2]+')';ctx.fillRect(ox+d.x*sc-side/2,oy+d.y*sc-side/2,side,side)}
     if(!RM)requestAnimationFrame(f)})(performance.now())}
 
