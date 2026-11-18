@@ -105,12 +105,12 @@ function drawMascot(ctx, W, H, t) {
   ctx.fillStyle = WHITE; ctx.fillRect(0, 0, W, H);
   const ph = TAU * t / PERIOD, bob = 2.6 * Math.sin(ph * 2) + 1.1 * Math.sin(ph * 4 + 0.8); // a slow, slight plod
   ctx.save(); ctx.translate(0, bob);
-  // the body plods up and down, but the feet stay planted: the legs are drawn from a still copy of the outline
-  const LEGS = [[335, 750, 120, 140], [560, 750, 120, 140]];
-  ctx.save(); ctx.beginPath(); ctx.rect(-50, -50, 1100, 1100); LEGS.forEach((r) => ctx.rect(r[0], r[1] + 8, r[2], r[3])); ctx.clip('evenodd');
+  // the body plods up and down, but the feet stay planted: the legs are drawn from a still copy of the outline and run up inside the body, so no seam shows
+  const LEGS = [[335, 775, 120, 100], [560, 775, 120, 100]], STEM = [[344, 690, 33, 96], [568, 690, 35, 96]];
+  ctx.save(); ctx.beginPath(); ctx.rect(-50, -50, 1100, 1100); LEGS.forEach((r) => ctx.rect(r[0], r[1] + 5, r[2], r[3])); ctx.clip('evenodd');
   ctx.fillStyle = BLACK; ctx.beginPath(); pathFlat(ctx, BODY); ctx.fill(); ctx.restore();
-  ctx.save(); ctx.translate(0, -bob); ctx.beginPath(); LEGS.forEach((r) => ctx.rect(...r)); ctx.clip();
-  ctx.fillStyle = BLACK; ctx.beginPath(); pathFlat(ctx, BODY); ctx.fill(); ctx.restore();
+  ctx.save(); ctx.translate(0, -bob); ctx.fillStyle = BLACK; STEM.forEach((r) => ctx.fillRect(...r));
+  ctx.beginPath(); LEGS.forEach((r) => ctx.rect(...r)); ctx.clip(); ctx.beginPath(); pathFlat(ctx, BODY); ctx.fill(); ctx.restore();
   // eye: white oval with a pupil that looks around and a blink
   const blink = (t % 3) > 2.2 && (t % 3) < 2.36 ? 0.12 : 1;
   ctx.fillStyle = WHITE; ctx.beginPath(); ctx.ellipse(EYE.c[0], EYE.c[1], EYE.rx, EYE.ry * blink, EYE.rot * Math.PI / 180, 0, TAU); ctx.fill();
