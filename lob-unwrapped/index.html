@@ -354,7 +354,7 @@ SL.push({t:'mag',n:'PURL clicks',d:7000,purl:1,bg:'<canvas class="tun bgc" data-
 SL.push({t:'blue',n:'Results',d:6500,bg:T('star',[PW,B,M3,B],{pts:12,n:9,per:2.6,rot:8},'bgc'),pre:bigStamp(MG,false),h:
   '<div class="in ctr"><div class="tx" style="color:#fff;gap:calc(var(--u)*2.6)">'+R(0,'What it added up to','div','k')+R(1,C(D.rev,'usd'),'div','big lg')+R(2,'in revenue from <i style="color:#f7dffa">mail</i>','div','lead')+'</div></div>'});
 /* 9 delivery */
-SL.push({t:'blue',n:'Speed & quality',d:6500,bg:T('mix4',['check:#f7dffa:#4131f1','#f5f5fe','#f7dffa','diag:#4131f1:#f7dffa'],{n:3,per:2.8,from:'.tpiece',basew:1,step:.065,pts:12},'bgc')+'<canvas class="tun bgc" data-trail="strips" data-x0=".58" data-w=".3" data-ratio="1.5625" data-py=".7"></canvas>'+piece('stamp','pk',false).replace('<svg class="pc"','<svg class="pc tpiece"'),h:
+SL.push({t:'blue',n:'Speed & quality',d:6500,bg:'<canvas class="tun bgc" data-trail="burst"></canvas>',h:
   '<div class="in"><div class="tx">'+R(0,'Delivery','div','k')+R(1,C(D.days,'d1')+'<small style="margin-left:.5em">days</small>','div','big lg')+R(2,'average time to <i>mailbox</i>','div','lead')+
   '</div></div>'});
 /* 10 persona: scalloped mandala rings turning around a big flat circle */
@@ -440,7 +440,7 @@ var MIX5=(function(){var base=['circle','rect','square','star','stamp'],o=[],rs=
 /* slide 7: every radiating step a different shape: square, mandala, circle, burst, long rectangle or stamp */
 var MIX6=(function(){var base=['square','scallop','circle','star','rect','stamp'],o=[],rs=4242,b;function rnd(){rs=(rs*16807)%2147483647;return rs/2147483647}
   while(o.length<60){b=base.slice().sort(function(){return rnd()-.5});if(o.length&&b[0]===o[o.length-1])b.push(b.shift());o=o.concat(b)}return o})();
-function rings(ctx,shape,cols,W,Hh,cx,cy,n,t,asp,dx,dy,rot,pts,base,fill0,stepPx){base=base||0;var L=cols.length,cyc=Math.floor(t),ph=t-cyc,Rc=Math.max(W/(2*asp),Hh/2)*(fill0?2.1:(shape==='star'||shape==='scallop'?1.9:1.5)),step=stepPx||Rc/n,k,r,id,ang,sh;if(!stepPx){ctx.fillStyle=fill0||cols[(((cyc-n-1)%L)+L)%L];ctx.fillRect(0,0,W,Hh)}else ctx.clearRect(0,0,W,Hh);
+function rings(ctx,shape,cols,W,Hh,cx,cy,n,t,asp,dx,dy,rot,pts,base,fill0,stepPx,keep){base=base||0;var L=cols.length,cyc=Math.floor(t),ph=t-cyc,Rc=Math.max(W/(2*asp),Hh/2)*(fill0?2.1:(shape==='star'||shape==='scallop'?1.9:1.5)),step=stepPx||Rc/n,k,r,id,ang,sh;if(!stepPx){ctx.fillStyle=fill0||cols[(((cyc-n-1)%L)+L)%L];ctx.fillRect(0,0,W,Hh)}else if(!keep)ctx.clearRect(0,0,W,Hh);
   for(k=n;k>=(base?-3:0);k--){r=base+(k+ph)*step;if(r<=0)continue;id=cyc-k;ang=((id%2+2)%2?1:-1)*rot*(r/step)*Math.PI/180/ (n/2);
     sh=shape==='mix'?MIXSEQ[((id%64)+64)%64]:shape==='mix5'?MIX5[((id%60)+60)%60]:shape==='mix6'?MIX6[((id%60)+60)%60]:shape==='mix4'?['scallop','circle','scallop','star'][((id%4)+4)%4]:shape;if(shape==='mix4'&&k===n)ctx.globalAlpha=1-ph;ringPath(ctx,sh,cx+dx*r,cy+dy*r,r*(shape==='mix'||shape==='mix5'?({circle:1.1,star:1.28,square:1.18}[sh]||1):shape==='mix6'?({circle:1.2,star:1.35,scallop:1.15,square:1.05}[sh]||1):1),shape==='mix6'?(sh==='rect'?1.5:sh==='stamp'?1.3:1):asp,pts,ang);ctx.fillStyle=cols[((id%L)+L)%L];ctx.fill();ctx.globalAlpha=1}}
 function mkPat(ctx,spec,dpr,seed){var q=spec.split(':'),sz=Math.round(14*dpr),c=document.createElement('canvas'),g,i,j,h;
@@ -479,11 +479,22 @@ function tunnel(cv,tk){var d=cv.dataset,ctx=cv.getContext('2d'),dpr=Math.min(1.5
     if(!RM)requestAnimationFrame(f)})(t0)}
 /* the fade trail: a big lead rectangle and five magenta cards behind it at 100/60/38/19/8%, breathing */
 var PN='kristy',DOM=(D.brand.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,18)||'yourbrand');
+var BP=null;
 function trail(cv,tk){var d=cv.dataset,ctx=cv.getContext('2d'),t0=performance.now(),op=[1,.6,.38,.19,.08],fx0=+d.x0||.54,fw=+d.w||.44;
   (function f(now){if(tk!==token)return;var s=fit(cv),W=s[0],Hh=s[1],t=RM?.5:(now-t0)/1000,port=Hh>W,w,h,x0,y0,g,i,cx,cy,breathe=.85+.15*Math.sin(t*1.6),rt=+d.ratio||1.56;
     if(port){w=W*.66;x0=(W-w)/2;h=w/rt;g=h*.085*breathe;y0=Hh*(+d.py||.7)-h/2}else{w=W*fw;x0=W*fx0;h=w/rt;g=h*.075*breathe;y0=(Hh-h)/2}
     cx=x0+w/2;cy=y0+h/2;ctx.clearRect(0,0,W,Hh);
     for(i=5;i>=1;i--){ctx.beginPath();rrect(ctx,x0,y0+i*g,w,h,h*.04);ctx.fillStyle='rgba('+(d.strip||'208,69,220')+','+(op[i-1]*(RM?1:.8+.2*Math.sin(t*2.2-i*.8)))+')';ctx.fill()}
+    if(d.trail==='burst'){var R=Math.min(W*.3,Hh*.4),bx=port?W/2:W*.74,by=port?Hh*.68:Hh*.46,gg=R*.09*breathe,ang=RM?0:t*.15,bi,pats2=BP||(BP=['check:#f7dffa:#4131f1','diag:#4131f1:#f7dffa'].map(function(q){return mkPat(ctx,q,Math.min(1.5,window.devicePixelRatio||1),0)})),hs3,sq=R*.3;
+      ctx.clearRect(0,0,W,Hh);
+      for(bi=5;bi>=1;bi--){ringPath(ctx,'star',bx,by+bi*gg,R,1,12,ang);ctx.fillStyle='rgba(208,69,220,'+(op[bi-1]*(RM?1:.8+.2*Math.sin(t*2.2-bi*.8)))+')';ctx.fill()}
+      ctx.save();ringPath(ctx,'star',bx,by,R,1,12,ang);ctx.clip();ctx.fillStyle='#f7dffa';ctx.fillRect(0,0,W,Hh);
+      pats2.forEach(function(pt){pt.setTransform(new DOMMatrix([1,0,0,1,(now/22)%28,(now/22)%28]))});
+      rings(ctx,'mix4',[pats2[0],'#f5f5fe','#f7dffa',pats2[1]],W,Hh,bx,by,3,t/2.8,1,0,0,0,12,sq*1.2,null,R*.26,1);
+      hs3=sq*.9;ctx.beginPath();stampRamp(ctx,bx-hs3*.62,by-hs3*.8,hs3*1.24,hs3*1.6,hs3*.32,hs3*.09);ctx.fillStyle='#4131f1';ctx.fill();
+      ctx.beginPath();ctx.arc(bx,by,hs3*.38,0,6.2832);ctx.fillStyle='#9b93f8';ctx.fill();ringPath(ctx,'star',bx,by,hs3*.3,1,8,t*.7);ctx.fillStyle='#f5f5fe';ctx.fill();
+      ctx.beginPath();ctx.arc(bx,by,hs3*.07,0,6.2832);ctx.fillStyle='#d045dc';ctx.fill();ctx.restore();
+      if(!RM)requestAnimationFrame(f);return}
     if(d.trail==='strips'){var pe=cv.closest('.slide').querySelector('.tpiece'),cr2=cv.getBoundingClientRect(),kk=cr2.width?W/cr2.width:1;if(pe){pe.style.left=(x0/kk)+'px';pe.style.top=(y0/kk)+'px';pe.style.width=(w/kk)+'px'}if(!RM)requestAnimationFrame(f);return}
     ctx.save();ctx.beginPath();rrect(ctx,x0,y0,w,h,h*.04);ctx.clip();
     rings(ctx,d.trail==='purl'?'mix':'rect',d.trail==='purl'?(d.pal==='mag'?['#4131f1','#f7dffa','#f5f5fe','#e28deb']:['#4131f1','#d045dc','#f7dffa','#f5f5fe']):['#ffffff','#f5f5fe'],w,h,cx,cy,d.pal==='mag'?9:7,t/1.7,rt,0,0,10,10,0,d.pal==='mag'?'#d045dc':null);
