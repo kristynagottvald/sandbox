@@ -96,22 +96,24 @@ STAMPS.forEach((s, i) => {
   const q = STEMS[i], cx = q.filter((_, j) => j % 2 === 0).reduce((a, b) => a + b, 0) / (q.length / 2), cy = q.filter((_, j) => j % 2).reduce((a, b) => a + b, 0) / (q.length / 2);
   const dx = cx - s.x, dy = cy - s.y, lx = (dx * Math.cos(-s.rot) - dy * Math.sin(-s.rot)) / s.hw, ly = (dx * Math.sin(-s.rot) + dy * Math.cos(-s.rot)) / s.hh;
   const e = Math.abs(lx) > Math.abs(ly) ? (lx > 0 ? 1 : 3) : (ly > 0 ? 2 : 0);
+  let far = 0; for (let j = 0; j < q.length; j += 2) { const d = Math.hypot(q[j] - s.x, q[j + 1] - s.y); if (d > far) { far = d; s.bx = q[j]; s.by = q[j + 1]; } } // base of the quill, where it swings from
   s.kind = 'r' + (s.hw / s.hh).toFixed(2) + 'k' + e;
 });
 const pathFlat = (ctx, a) => { ctx.moveTo(a[0], a[1]); for (let i = 2; i < a.length; i += 2) ctx.lineTo(a[i], a[i + 1]); ctx.closePath(); };
 function drawMascot(ctx, W, H, t) {
   ctx.fillStyle = WHITE; ctx.fillRect(0, 0, W, H);
-  const ph = TAU * t / PERIOD, bob = 4 * Math.sin(ph * 2);
+  const ph = TAU * t / PERIOD, bob = 2.6 * Math.sin(ph * 2) + 1.1 * Math.sin(ph * 4 + 0.8); // a slow, slight plod
   ctx.save(); ctx.translate(0, bob);
   ctx.fillStyle = BLACK; ctx.beginPath(); pathFlat(ctx, BODY); ctx.fill();
   // eye: white oval with a pupil that looks around and a blink
   const blink = (t % 3) > 2.2 && (t % 3) < 2.36 ? 0.12 : 1;
   ctx.fillStyle = WHITE; ctx.beginPath(); ctx.ellipse(EYE.c[0], EYE.c[1], EYE.rx, EYE.ry * blink, EYE.rot * Math.PI / 180, 0, TAU); ctx.fill();
   ctx.fillStyle = BLACK; ctx.beginPath(); ctx.ellipse(PUPIL.c[0] + 8 * Math.sin(ph), PUPIL.c[1], PUPIL.rx, PUPIL.ry * blink, PUPIL.rot * Math.PI / 180, 0, TAU); ctx.fill();
-  // stamps stuck on the quills, with the quill tip poking through each one
-  ctx.fillStyle = BLACK; STEMS.forEach((q) => { ctx.beginPath(); pathFlat(ctx, q); ctx.fill(); }); // each quill runs on under its stamp, so the perforations show black
+  // each quill, with its stamp fixed to it, swings a little about its base, irregularly (sums of whole-number cycles, so it still loops)
   STAMPS.forEach((s, i) => {
-    ctx.save(); ctx.translate(s.px, s.py); ctx.rotate(0.05 * Math.sin(ph * 2 + i * 0.9)); ctx.translate(-s.px, -s.py);
+    const sw = 0.022 * Math.sin(ph * 3 + i * 2.1) + 0.015 * Math.sin(ph * 5 + i * 4.3) + 0.009 * Math.sin(ph * 8 + i * 1.7);
+    ctx.save(); ctx.translate(s.bx, s.by); ctx.rotate(sw); ctx.translate(-s.bx, -s.by);
+    ctx.fillStyle = BLACK; ctx.beginPath(); pathFlat(ctx, STEMS[i]); ctx.fill();
     ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.rot); ctx.scale(s.hh, s.hh); ctx.fillStyle = s.col; ctx.beginPath(); poly(ctx, shape(s.kind)); ctx.fill(); ctx.restore();
     ctx.fillStyle = BLACK; ctx.beginPath(); pathFlat(ctx, s.notch); ctx.fill();
     ctx.restore();
