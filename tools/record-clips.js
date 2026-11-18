@@ -25,14 +25,14 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
-  // Lob Unwrapped, a full-screen 16:9 reel of concentric flat geometry: concentric stamps around the intro stamp, then rectangle rings, circle rings, offset squares, star rings and the scalloped mandala
+  // Lob Unwrapped, a full-screen 16:9 reel of concentric flat geometry: the intro stamp presses in and sends waves out, then dots stream in to build the US map, the trail of fading rectangles, the offset squares and the mandala persona
   'lob-unwrapped': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
     const t0 = Date.now(), g = (n) => p.evaluate((i) => window.__lu.go(i), n);
-    await at(t0, 1700, () => g(1));
-    await at(t0, 2600, () => g(3));
-    await at(t0, 3500, () => g(6));
-    await at(t0, 4400, () => g(8));
-    await at(t0, 5300, () => g(10));
+    await at(t0, 1700, () => g(2));
+    await at(t0, 2600, () => g(4));
+    await at(t0, 3900, () => g(7));
+    await at(t0, 4800, () => g(6));
+    await at(t0, 5500, () => g(10));
     await sleep(1000);
   } },
   // the skills library: both skill tiles with their thumbnails animating on their own, then the cursor sweeps over each tile
