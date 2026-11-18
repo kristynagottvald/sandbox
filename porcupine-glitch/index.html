@@ -82,24 +82,27 @@ function bandPath(ctx, L, th, pitch, r, shift) {
   for (let j = n - 1; j >= 0; j--) { const cx = x0 + (j + 0.5) * pitch + pitch * 0.5; ctx.lineTo(cx + r, th / 2); ctx.arc(cx, th / 2, r, 0, Math.PI, true); }
   ctx.closePath();
 }
-function paintBands(ctx, W, H, t, gain) {
-  const S = Math.min(W, H), D = Math.hypot(W, H), pitch = Math.max(16, S * 0.026), r = pitch * 0.36;
+function paintBands(ctx, W, H, t, gain, open) {
+  const S = Math.min(W, H), D = Math.hypot(W, H), pitch = Math.max(16, S * 0.026), r = pitch * 0.36, f = pSpace(W, H)(FOCI[cam(t).c]);
   for (let i = 0; i < BANDS.length; i++) {
     const s = bandState(i, t, W, H);
+    if (open > 0) { // the opening: every band that would cover the focus is pushed sideways until it clears a circle of radius 0.13 S around it
+      const nx = -Math.sin(s.a), ny = Math.cos(s.a), dn = (f[0] - s.x) * nx + (f[1] - s.y) * ny, need = s.th * S * gain / 2 + S * 0.13 * open, sg = dn >= 0 ? 1 : -1;
+      if (Math.abs(dn) < need) { const k = (need - Math.abs(dn)); s.x -= sg * nx * k; s.y -= sg * ny * k; }
+    }
     ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(s.a); ctx.fillStyle = BANDS[i][0];
     bandPath(ctx, D * 2.6, s.th * S * gain, pitch, r, t * pitch * 24 * (i % 2 ? -1 : 1)); ctx.fill();
     ctx.restore();
   }
 }
 
-/* ===== the camera: wide, whip in on a section, hold a beat, whip out, repeat on the other section (3 s cycle, two per loop) ===== */
+/* ===== the camera: wide, whip in on a section, hold a beat, whip out, repeat on the other section (3 s cycle, two per loop; the whips take 0.12 s) ===== */
 const CYC = 3, ZMAX = 2.6, eio = (u) => { u = cl(u, 0, 1); return u < 0.5 ? 16 * u ** 5 : 1 - Math.pow(-2 * u + 2, 5) / 2; };
 const FOCI = [[647.8, 691.9], [434, 330]]; // the eye, then a fan of quills (porcupine coordinates)
 function cam(t) {
   t = ((t % PERIOD) + PERIOD) % PERIOD; const c = Math.floor(t / CYC), u = t % CYC; let p = 0, whip = false;
-  if (u >= 1.1 && u < 1.35) { p = eio((u - 1.1) / 0.25); whip = true; } else if (u >= 1.35 && u < 2.45) p = 1; else if (u >= 2.45 && u < 2.7) { p = 1 - eio((u - 2.45) / 0.25); whip = true; }
-  const o = easeOut((u - 1.4) / 0.15) * (1 - cl((u - 2.4) / 0.07, 0, 1)); // the perforated window that keeps the porcupine clear during the hold
-  return { c, p, o, whip };
+  if (u >= 1.15 && u < 1.27) { p = eio((u - 1.15) / 0.12); whip = true; } else if (u >= 1.27 && u < 2.45) p = 1; else if (u >= 2.45 && u < 2.57) { p = 1 - eio((u - 2.45) / 0.12); whip = true; }
+  return { c, p, whip };
 }
 function pSpace(W, H) { const sc = Math.min(W / 940, H / 700) * 1.02; return (q) => [W / 2 + (q[0] - 500) * sc, H / 2 + (q[1] - 508) * sc]; }
 function camXf(ctx, W, H, t) {
@@ -107,24 +110,18 @@ function camXf(ctx, W, H, t) {
   ctx.translate(lerp(f[0], W / 2, p), lerp(f[1], H / 2, p)); ctx.scale(z, z); ctx.translate(-f[0], -f[1]); return f;
 }
 function scene(ctx, W, H, t, gain) {
-  const S = Math.min(W, H), { o } = cam(t);
   ctx.save(); ctx.fillStyle = WHITE; ctx.fillRect(0, 0, W, H);
-  const f = camXf(ctx, W, H, t);
-  drawPorcupine(ctx, W, H, t); paintBands(ctx, W, H, t, gain);
-  if (o > 0.01) { // porcupine seen through a perforated stamp-shaped window, bands all round it
-    const pitch = Math.max(16, S * 0.026);
-    ctx.save(); ctx.translate(f[0], f[1]); ctx.rotate(-0.09); bandPath(ctx, S * 0.4 * o, S * 0.27 * o, pitch, pitch * 0.36, 0); ctx.rotate(0.09); ctx.translate(-f[0], -f[1]);
-    ctx.clip(); ctx.fillStyle = WHITE; ctx.fillRect(0, 0, W, H); drawPorcupine(ctx, W, H, t); ctx.restore();
-  }
+  camXf(ctx, W, H, t);
+  drawPorcupine(ctx, W, H, t); paintBands(ctx, W, H, t, gain, cam(t).p); // the bands scale up with the camera, and part around the focus as it lands
   ctx.restore();
 }
 
-/* band thickness is scaled every frame so the bands always fill TARGET of the screen (solved on a tiny offscreen render, camera included) */
+/* band thickness is scaled every frame so the bands always fill TARGET of the screen (solved on a tiny offscreen render of the wide shot; the zoom then scales the bands with the picture) */
 const TARGET = 0.55, probe = document.createElement('canvas'), pc = probe.getContext('2d', { willReadFrequently: true });
 function solveGain(t, W, H) {
   const pw = 72, ph = Math.max(24, Math.round(pw * H / W)); probe.width = pw; probe.height = ph;
   const k = pw / W, cover = (g) => {
-    pc.setTransform(1, 0, 0, 1, 0, 0); pc.clearRect(0, 0, pw, ph); pc.setTransform(k, 0, 0, k, 0, 0); pc.save(); camXf(pc, W, H, t); paintBands(pc, W, H, t, g); pc.restore();
+    pc.setTransform(1, 0, 0, 1, 0, 0); pc.clearRect(0, 0, pw, ph); pc.setTransform(k, 0, 0, k, 0, 0); paintBands(pc, W, H, t, g, 0);
     const d = pc.getImageData(0, 0, pw, ph).data; let n = 0; for (let i = 3; i < d.length; i += 4) if (d[i] > 127) n++; return n / (pw * ph);
   };
   let lo = 0.2, hi = 3; for (let j = 0; j < 7; j++) { const g = (lo + hi) / 2; if (cover(g) < TARGET) lo = g; else hi = g; } return (lo + hi) / 2;
@@ -138,7 +135,7 @@ function render(t) {
   if (!W) return;
   const gain = solveGain(t, W, H), n = cam(t).whip ? 8 : 1; // motion blur on the whips: average of 8 sub-frames
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  for (let j = 0; j < n; j++) { ctx.globalAlpha = 1 / (j + 1); scene(ctx, W, H, t - j * 0.005, gain); }
+  for (let j = 0; j < n; j++) { ctx.globalAlpha = 1 / (j + 1); scene(ctx, W, H, t - j * 0.009, gain); }
   ctx.globalAlpha = 1;
 }
 let clock = HP.has('from') ? +HP.get('from') : 0, last = performance.now(), playing = true;
