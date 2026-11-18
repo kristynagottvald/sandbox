@@ -524,7 +524,7 @@ function drawMap(cv,tk){var ds=dots(),ctx=cv.getContext('2d'),t0=performance.now
     mx=(pr.left-cr.left)*k,my=(pr.top-cr.top)*k,mw=pr.width*k,mh=pr.height*k,MW=59.5*K,MH=25.4,sc=Math.min(mw/MW,mh/MH),ox=mx+(mw-MW*sc)/2,oy=my+(mh-MH*sc)/2,cell=1.15*sc,
     T=RM?9:(now-t0)/1000,i,d,h,p,side;
     ctx.clearRect(0,0,W,Hh);
-    for(i=0;i<N;i++){d=ds[i];if(d.r>=D.pct/100)continue;h=((i*2654435761)>>>0)%1000/1000;p=ease(c01((T-(.2+h*2.4))/.45));if(p<=0)continue;
+    for(i=0;i<N;i++){d=ds[i];if(d.r>=D.pct/100)continue;h=((i*2654435761)>>>0)%1000/1000;p=T>=(.2+h*2.4)?1:0;if(p<=0)continue;
       side=(cell+.6)*p;var bc=((d.rw+d.cl)%2)?WSH[1]:WSH[3],cc=bc,m0,sp0,u0,b0,pc,nc;
       if(T>3.2&&!RM){m0=Math.floor((T-3.2)/2);sp0=((T-3.2)%2)/2*1.5-.25;u0=d.x/MW;b0=c01((sp0-u0)/.18);pc=m0===0?bc:WSH[(m0+2)%3];nc=WSH[(m0+3)%3];cc=[0,1,2].map(function(q){return Math.round(pc[q]+(nc[q]-pc[q])*b0)})}
       ctx.fillStyle='rgb('+cc[0]+','+cc[1]+','+cc[2]+')';ctx.fillRect(ox+d.x*sc-side/2,oy+d.y*sc-side/2,side,side)}
