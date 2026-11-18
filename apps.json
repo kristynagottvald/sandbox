@@ -1,5 +1,14 @@
 [
   {
+    "id": "klir-landing-page-side-reveal",
+    "title": "Klir Landing Page, Side Reveal",
+    "category": "Landing Page",
+    "url": "klir-landing-page-side-reveal/",
+    "thumbnail": "klir-landing-page-side-reveal/thumb.png",
+    "preview": "klir-landing-page-side-reveal/thumb.webp",
+    "alt": "A blue water hero for Klir with the headline One Operational Hub. All Teams. Built for Water., and the product dashboard resting off the right edge with only a sliver showing; as the page scrolls the headline fades, the dashboard slides across into the centre of the hero, and the Klir pill fades in above it"
+  },
+  {
     "id": "skills-library",
     "title": "Skills Library",
     "category": "Library",
