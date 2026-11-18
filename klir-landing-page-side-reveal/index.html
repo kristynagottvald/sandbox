@@ -27,7 +27,7 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 header.site{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;gap:36px;padding:22px 48px 22px 35px}
 .logo{text-decoration:none;display:flex;align-items:center;gap:6px;font-weight:500;font-size:36px;letter-spacing:-.05em;color:#fff}
 header.site .links{display:flex;gap:34px;font-size:16px;margin-right:auto;margin-left:40px;letter-spacing:-.01em}
-.hero h1{color:#fff;font-weight:300;font-size:clamp(44px,6.6vw,96px);line-height:1;letter-spacing:-.045em;max-width:12em;white-space:nowrap}
+.hero h1{color:#fff;font-weight:300;font-size:clamp(38px,5.4vw,78px);line-height:1;letter-spacing:-.045em;max-width:12em;white-space:nowrap}
 .hero .sub{font-size:clamp(19px,2vw,27px);line-height:1.12;letter-spacing:-.035em;max-width:27em;margin-top:26px}
 .hero .cta{margin-top:30px;align-items:center;gap:28px}
 .btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:400;font-size:19px;letter-spacing:-.02em;padding:15px 30px;border-radius:6px;transition:background .2s}
@@ -331,7 +331,7 @@ function layout(){
   nodes=[...document.querySelectorAll('.eyebrow.node')].map(e=>{const r=e.getBoundingClientRect();return{y:r.top-m.top+r.height/2,el:e}});
   $('nodes').innerHTML=nodes.map((n,i)=>`<g id="n${i}" opacity="0" style="transition:opacity .35s"><use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.1)" fill="#fafbff" stroke="#fafbff" stroke-width="7" stroke-linejoin="round"/><use href="#drop" transform="translate(${X} ${n.y+1}) scale(1.1)" fill="#fff" stroke="#3b3bef" stroke-width="1.7"/></g>`).join('');
   LT=Math.max(HB,(nodes[0]?nodes[0].y:HB)-60);$('solid').setAttribute('y1',LT);$('solid').setAttribute('y2',H);const fg=$('fade');fg.setAttribute('y1',LT);fg.setAttribute('y2',H);
-  {const u=$('ui'),vw=wrap.clientWidth,sm=vw<=820;UN=wrap.offsetTop+u.offsetTop;SY=49+HB*(sm?.3:.17);EY=Math.max(sm?70:90,innerHeight*.125);TX0=vw-(sm?.24:.28)*u.offsetWidth-u.offsetLeft}
+  {const u=$('ui'),vw=wrap.clientWidth,sm=vw<=820;UN=wrap.offsetTop+u.offsetTop;SY=49+HB*(sm?.3:.17);EY=Math.max(sm?70:90,innerHeight*.125);TX0=vw-(sm?.3:.4)*u.offsetWidth-u.offsetLeft}
   tick();
 }
 function tick(){
@@ -342,10 +342,12 @@ function tick(){
   $('tip1').classList.toggle('show',pp>.75);$('tip2').classList.toggle('show',pp>.92);
   /* hero text fades out first (gone by half way), then the Klir pill fades in above the dashboard */
   {const o=Math.max(0,Math.min(1,(pp-.55)/.25)),pl=$('pill');pl.style.opacity=o;pl.style.pointerEvents=o>.5?'auto':'none'}
-  heroEls.forEach(e=>{e.style.opacity=Math.max(0,1-pp*2);e.style.transform=`translateY(${-pp*30}px)`});
-  /* the dashboard rests off to the right (a sliver visible), then slides to the centre and up to its final seat as the page scrolls */
-  {const e=pp*pp*(3-2*pp),s=Math.min(scrollY,HB*.8),vy=SY+(EY-SY)*e;$('ui').style.transform=`translate(${TX0*(1-e)}px,${vy+s-UN}px)`;
-  const ur=$('ui').getBoundingClientRect();tail.style.height=Math.max(HB,ur.top-wrap.getBoundingClientRect().top+pp*ur.height/2,s+innerHeight*(1-.38*pp)-wrap.offsetTop)+'px'}
+  heroEls.forEach(e=>{e.style.opacity=Math.max(0,1-pp*2)});
+  /* the hero stays put while the dashboard slides in (it only pulls up by the height of the black nav bar), then lets go and scrolls away with the page */
+  {const e=pp*pp*(3-2*pp),s=Math.min(scrollY,HB*.8),n=Math.min(s,49),pin=`translateY(${s-n}px)`,k=Math.max(0,Math.min(1,(pp-.6)/.4)),kk=k*k*(3-2*k);
+  document.querySelector('.hero').style.transform=pin;tail.style.transform=pin;
+  tail.style.height=(HB+n-kk*.38*innerHeight)+'px';
+  const vy=SY+(EY-SY)*e;$('ui').style.transform=`translate(${TX0*(1-e)}px,${vy+s-UN}px)`}
   const top=wrap.getBoundingClientRect().top,y=Math.max(LT,Math.min(H,innerHeight*.5-top));
   
   const t=`translate(${X} ${y}) scale(1.1)`;$('dw').setAttribute('transform',t);$('db').setAttribute('transform',t);$('dh').setAttribute('transform',t);
@@ -363,7 +365,7 @@ addEventListener('scroll',()=>mm.classList.remove('open'),{passive:true});addEve
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(!e.isIntersecting)return;const c=e.target;io.unobserve(c);c.classList.add('vis');
 c.querySelectorAll('[data-v]').forEach(n=>{const to=+n.dataset.v,t0=performance.now()+700;(function f(t){const k=Math.max(0,Math.min(1,(t-t0)/1200));n.textContent=(to*(1-Math.pow(1-k,3))).toFixed(1);if(k<1)requestAnimationFrame(f)})(t0)})}),{threshold:.35});
 cs.forEach(c=>io.observe(c))})();
-const app=document.querySelector('.app'),tail=$('wbg'),heroEls=document.querySelectorAll('.hero h1,.hero .sub,.hero .cta');let played=0;
+const app=document.querySelector('.app'),tail=$('wbg'),heroEls=document.querySelectorAll('.hero header.site,.hero h1,.hero .sub,.hero .cta');let played=0;
 function runLine(){const tr=$('trend'),TL=tr.getTotalLength(),dot=$('dot'),t0=performance.now()+300;(function f(t){const k=Math.max(0,Math.min(1,(t-t0)/1800)),e=k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2;tr.style.strokeDashoffset=1-e;const pt=tr.getPointAtLength(e*TL);dot.setAttribute('transform',`translate(${pt.x} ${pt.y})`);dot.setAttribute('opacity',k>0?1:0);if(k<1)requestAnimationFrame(f);else{$('wlab').style.opacity=1;app.classList.add('warned')}})(t0)}
 function play(){played=1;app.querySelectorAll('.k').forEach((e,i)=>e.style.animationDelay=i*.12+'s');app.querySelectorAll('.f').forEach((e,i)=>e.style.animationDelay=.5+i*.15+'s');app.classList.add('in');runLine();setTimeout(startLoop,6500);
 app.querySelectorAll('[data-n]').forEach(e=>{const to=+e.dataset.n,t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1100);e.textContent=Math.round(to*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(f)})(t0)})}
