@@ -144,7 +144,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .mix small{font:400 calc(var(--u)*3.2)/1.2 var(--sans);opacity:.7}
 @container (max-aspect-ratio:1/1){.mixrow{grid-template-columns:repeat(3,minmax(0,1fr));gap:calc(var(--u)*3)}.mix b{font-size:calc(var(--u)*10)}}
 .scene{width:100%;height:auto;max-height:100%;display:block;overflow:visible}
-.map{position:relative;width:140%;margin:0 -32% 0 -8%;aspect-ratio:1.85;min-height:0}
+.map{position:relative;width:134%;margin:0 -26% 0 -8%;aspect-ratio:1.85;min-height:0}
 @container (max-aspect-ratio:1/1){.map{width:112%;margin:0 -6%}}
 .map canvas{position:absolute;inset:0;width:100%;height:100%}
 .rankwrap{width:100%;display:grid;gap:calc(var(--u)*7)}
@@ -500,35 +500,19 @@ function dots(){if(DOTS)return DOTS;DOTS=[];var st=1.15;
   for(var la=49.6;la>24.4;la-=st)for(var lo=-125;lo<-66.5;lo+=st/K*1){if(!inside(lo,la))continue;var d=1e9;MET.forEach(function(m){var dx=(lo-m[1])*K,dy=la-m[0];d=Math.min(d,Math.sqrt(dx*dx+dy*dy))});
     var h=Math.abs(Math.sin(lo*12.9898+la*78.233)*43758.5453)%1;DOTS.push({x:(lo+125)*K,y:49.6-la,s:d+h*2.6,rw:Math.round((49.6-la)/st),cl:Math.round(((lo+125)*K)/st)})}
   DOTS.sort(function(a,b){return a.s-b.s});DOTS.forEach(function(d,i){d.r=i/DOTS.length});return DOTS}
-function drawMap(cv,tk){var ds=dots(),ctx=cv.getContext('2d'),t0=performance.now()+300,ph=cv.closest('.slide').querySelector('.map'),grid=null,gk='',rank=[],order=ds.map(function(d,i){return i}).sort(function(a,b){return Math.round(ds[a].y*1000)-Math.round(ds[b].y*1000)||ds[a].x-ds[b].x});
-  order.forEach(function(idx,k){rank[idx]=k});
+/* the map stays exactly where it is: identical square blocks pop in from nothing at random moments, then a few flip colour in the checkerboard style */
+function drawMap(cv,tk){var ds=dots(),ctx=cv.getContext('2d'),t0=performance.now()+300,ph=cv.closest('.slide').querySelector('.map');
+  function c01(v){return Math.max(0,Math.min(1,v))}
   (function f(now){if(tk!==token)return;var sz=fit(cv),W=sz[0],Hh=sz[1],cr=cv.getBoundingClientRect(),pr=ph.getBoundingClientRect(),k=W/cr.width,N=ds.length,
-    mx=(pr.left-cr.left)*k,my=(pr.top-cr.top)*k,mw=pr.width*k,mh=pr.height*k,MW=59.5*K,MH=25.4,sc=Math.min(mw/MW,mh/MH),ox=mx+(mw-MW*sc)/2,oy=my+(mh-MH*sc)/2,cell=1.15*sc,
-    T=RM?9:(now-t0)/1000,i,j,d,h,p,fx,fy,sx,sy,idx,ci,cj,side,s0,M,lit,ea,fc,a0,a1,q,gf,gg,x,y,hs,hc,q2,col,ty,lw,amp=RM?0:ease(Math.max(0,Math.min(1,(T-3)/.8)));
-    var key=W+'x'+Hh+':'+Math.round(mx/8)+','+Math.round(my/8);
-    if(gk!==key){var pt=Hh>W,cw=pt?W*.94:W*.5,ch=pt?Hh*.43:Hh*.8,ccx=ox+MW*sc/2,ccy=oy+MH*sc/2,gx=pt?(W-cw)/2:Math.max(W*.5,Math.min(W-cw,ccx-cw/2)),gy=Math.max(0,Math.min(Hh-ch,ccy-ch/2));s0=Math.sqrt(cw*ch/(N*1.12));grid={s:s0,x:gx,y:gy,cols:Math.ceil(cw/s0),rows:Math.ceil(ch/s0)};gk=key;grid.M=grid.cols*grid.rows;grid.chosen={};for(i=0;i<N;i++)grid.chosen[Math.floor(i*(grid.M/N))]=1}
-    s0=grid.s;M=grid.M;
+    mx=(pr.left-cr.left)*k,my=(pr.top-cr.top)*k,mw=pr.width*k,mh=pr.height*k,MW=59.5*K,MH=25.4,sc=Math.min(mw/MW,mh/MH),ox=mx+(mw-MW*sc)/2,oy=my+(mh-MH*sc)/2,side0=1.15*sc*.68,
+    T=RM?9:(now-t0)/1000,i,d,h,hc,hs,p,x,y,side,lit,col,amp=RM?0:ease(c01((T-3)/.8));
     ctx.clearRect(0,0,W,Hh);
-    ea=Math.max(0,Math.min(1,T/.5));
-    /* the checkerboard squares that do not become map cells fade out */
-    fc=ease(Math.max(0,Math.min(1,(T-.9)/.7)));
-    if(fc<1)for(idx=0;idx<M;idx++){if(grid.chosen[idx])continue;ci=idx%grid.cols;cj=Math.floor(idx/grid.cols);ctx.fillStyle=(ci+cj)%2?'rgba(255,255,255,'+.16*ea*(1-fc)+')':'rgba(247,223,250,'+.9*ea*(1-fc)+')';ctx.fillRect(grid.x+ci*s0,grid.y+cj*s0,s0*(1-fc*.6)+.5,s0*(1-fc*.6)+.5)}
-    for(i=0;i<N;i++){d=ds[i];idx=Math.floor(rank[i]*(M/N));ci=idx%grid.cols;cj=Math.floor(idx/grid.cols);sx=grid.x+(ci+.5)*s0;sy=grid.y+(cj+.5)*s0;
-      h=((i*2654435761)>>>0)%1000/1000;p=ease(Math.max(0,Math.min(1,(T-(.9+h*.9))/1)));
-      fx=ox+d.x*sc;fy=oy+d.y*sc;lit=d.r<D.pct/100;side=s0*(1-p)+cell*.68*p;x=sx+(fx-sx)*p;y=sy+(fy-sy)*p;
-      hs=((i*40503+7)>>>0)%1000/1000;hc=((i*7919+13)*2654435761>>>0)%1000/1000;q2=ease(Math.max(0,Math.min(1,(T-(.9+h*.9+1))/.5)));
-      if(p<1){a0=(ci+cj)%2?.16:.9;a1=lit?.95:.24;q=(ci+cj)%2?255:247;
-        ctx.fillStyle='rgba('+Math.round(q+(lit?247-q:255-q)*p)+','+Math.round((ci+cj)%2?255:223)+','+Math.round((ci+cj)%2?255:250)+','+((a0+(a1-a0)*p)*ea)+')';
-        ctx.beginPath();rrect(ctx,x-side/2,y-side/2,side,side,side*.2);ctx.fill()}
-      else{col=lit?(hc<.55?'247,223,250':hc<.8?'255,255,255':'208,69,220'):'155,147,248';
-        if(amp>0&&((i*104729+3)*2654435761>>>0)%1000/1000<.45&&((T/4+h)%1)>=.7)col=lit?'155,147,248':'247,223,250';
-        ty=Math.floor(hs*5);lw=Math.max(1,side*.12);
-        if(lit){ctx.fillStyle='rgb('+col+')';ctx.beginPath();rrect(ctx,x-side/2,y-side/2,side,side,side*.2);ctx.fill();
-          if(ty===0){ctx.fillStyle='#4131f1';ctx.beginPath();rrect(ctx,x-side*.2,y-side*.2,side*.4,side*.4,side*.1);ctx.fill()}
-          else if(ty===1){ctx.strokeStyle='#4131f1';ctx.lineWidth=lw;ctx.beginPath();rrect(ctx,x-side*.28,y-side*.28,side*.56,side*.56,side*.1);ctx.stroke()}}
-        else{ctx.fillStyle='rgba('+col+','+(.24*(1-q2))+')';ctx.beginPath();rrect(ctx,x-side/2,y-side/2,side,side,side*.2);ctx.fill();
-          ctx.strokeStyle='rgba('+col+','+(.85*q2)+')';ctx.lineWidth=lw;ctx.beginPath();rrect(ctx,x-side/2+lw/2,y-side/2+lw/2,side-lw,side-lw,side*.18);ctx.stroke();
-          if(ty<=1){ctx.fillStyle='rgba('+col+','+(.85*q2)+')';ctx.beginPath();ctx.arc(x,y,side*.12,0,6.2832);ctx.fill()}}}}
+    for(i=0;i<N;i++){d=ds[i];h=((i*2654435761)>>>0)%1000/1000;p=ease(c01((T-(.2+h*2.4))/.45));if(p<=0)continue;
+      lit=d.r<D.pct/100;hc=((i*7919+13)*2654435761>>>0)%1000/1000;hs=((i*40503+7)>>>0)%1000/1000;x=ox+d.x*sc;y=oy+d.y*sc;side=side0*p;
+      col=lit?(hc<.55?'247,223,250':hc<.8?'255,255,255':'208,69,220'):'155,147,248';
+      if(amp>0&&((i*104729+3)*2654435761>>>0)%1000/1000<.45&&((T/4+h)%1)>=.7)col=lit?'155,147,248':'247,223,250';
+      ctx.fillStyle='rgba('+col+','+(lit?1:.55)+')';ctx.fillRect(x-side/2,y-side/2,side,side);
+      if(lit&&Math.floor(hs*5)===0){ctx.fillStyle='#4131f1';ctx.fillRect(x-side*.2,y-side*.2,side*.4,side*.4)}}
     if(!RM)requestAnimationFrame(f)})(performance.now())}
 
 /* ---------- sharing ---------- */
