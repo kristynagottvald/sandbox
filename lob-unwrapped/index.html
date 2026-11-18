@@ -60,11 +60,11 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .slide{--bg:#4131f1;--fg:#fff;--ac:var(--lime);position:absolute;inset:0;z-index:1;background:var(--bg);color:var(--fg);opacity:0;visibility:hidden;transition:opacity .45s,visibility 0s .45s;overflow:hidden;pointer-events:none}
 .slide.on{opacity:1;visibility:visible;transition:opacity .45s;z-index:2}
 .slide a,.slide button{pointer-events:auto}
-.t-blue{--bg:#4131f1;--fg:#fff;--ac:#f7dffa}
-.t-pink{--bg:#f7dffa;--fg:#4131f1;--ac:#d045dc}
-.t-mag{--bg:#d045dc;--fg:#fff;--ac:#f7dffa}
-.t-lav{--bg:#f5f5fe;--fg:#4131f1;--ac:#d045dc}
-.t-white{--bg:#fff;--fg:#4131f1;--ac:#d045dc}
+.t-blue{--bg:#4131f1;--fg:#fff;--ac:#f7dffa;--em:#f7dffa}
+.t-pink{--bg:#f7dffa;--fg:#4131f1;--ac:#d045dc;--em:#4131f1}
+.t-mag{--bg:#d045dc;--fg:#fff;--ac:#f7dffa;--em:#f7dffa}
+.t-lav{--bg:#f5f5fe;--fg:#4131f1;--ac:#d045dc;--em:#4131f1}
+.t-white{--bg:#fff;--fg:#4131f1;--ac:#d045dc;--em:#4131f1}
 .bg{position:absolute;inset:0;width:100%;height:100%;display:block}
 .burstsvg{position:absolute;z-index:1;left:50%;top:50%;width:100%;height:100%;transform:translate(-50%,-50%);display:block}
 .burstsvg.p{display:none}
@@ -96,7 +96,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .h{font:800 calc(var(--u)*13)/1 var(--sans);letter-spacing:-.045em}
 .h.sm{font-size:calc(var(--u)*10.4)}
 .hero{font:800 calc(var(--u)*23)/.92 var(--sans);letter-spacing:-.05em}
-.h i,.lead i,.big i,.hero i{font-style:normal;letter-spacing:-.01em;color:var(--ac)}
+.h i,.lead i,.big i,.hero i{font-style:normal;letter-spacing:-.01em;color:var(--em)}
 .lead{font:600 calc(var(--u)*8.4)/1.1 var(--sans);letter-spacing:-.04em}
 .big{font:800 calc(var(--u)*26)/.92 var(--sans);letter-spacing:-.06em;font-variant-numeric:tabular-nums;white-space:nowrap}
 .big.md{font-size:calc(var(--u)*30)}.big.lg{font-size:calc(var(--u)*40)}
@@ -114,10 +114,18 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 /* ---------- parts ---------- */
 .pc{display:block;width:100%;height:auto}
 .tun{display:block;width:100%;height:100%}
+.spin{animation:spin 14s linear infinite;transform-box:view-box}
+@keyframes spin{to{transform:rotate(360deg)}}
+.drift{animation:drift 2.4s linear infinite}
+@keyframes drift{to{transform:translateX(-28px)}}
+@media(prefers-reduced-motion:reduce){.spin,.drift{animation:none}}
 .bgc{position:absolute;inset:0;z-index:0}
 .art .tun{aspect-ratio:1;height:auto;max-width:calc(var(--u)*112)}
 .tun.round{border-radius:50%}
 .art .tun.tr{aspect-ratio:1.2;max-width:calc(var(--u)*124)}
+.trw{position:relative;width:100%;max-width:calc(var(--u)*124)}
+.purl{position:absolute;left:69%;top:63%;transform:translate(-50%,-50%);background:#f5f5fe;color:#4131f1;font:600 calc(var(--u)*3.5)/1 var(--sans);padding:calc(var(--u)*2.2) calc(var(--u)*3.6);border-radius:99px;white-space:nowrap}
+.purl b{font-weight:800}
 .arts{position:relative;width:100%;max-width:calc(var(--u)*112)}
 .arts .tun{max-width:none;aspect-ratio:1.45;border-radius:calc(var(--u)*3)}
 .arts .pc{position:absolute;left:21%;top:50%;width:58%;transform:translateY(-50%)}
@@ -172,13 +180,14 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .fun{display:grid;gap:calc(var(--u)*5);width:100%}
 .fun .row{display:flex;align-items:center;gap:calc(var(--u)*4)}
 .fun .row>i{flex:none;font:800 calc(var(--u)*6)/1 var(--sans);font-style:normal;color:var(--bg);background:var(--ac);width:calc(var(--u)*16);height:calc(var(--u)*16);border-radius:50%;display:grid;place-items:center;letter-spacing:-.04em}
+.fun .row>i .chk{width:58%;height:58%;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:10}
 .fun .row div{font:700 calc(var(--u)*6)/1.15 var(--sans);letter-spacing:-.03em}
 .fun .row small{display:block;font:400 calc(var(--u)*3.6)/1.3 var(--sans);opacity:.7;letter-spacing:0;margin-top:3px}
 .tags{display:flex;flex-wrap:wrap;gap:calc(var(--u)*2.2);justify-content:center}
 .tags span{font:700 calc(var(--u)*3.6)/1 var(--sans);padding:calc(var(--u)*2.6) calc(var(--u)*4.4);border-radius:99px;background:#f5f5fe;color:#4131f1}
 .tags span:nth-child(2n){background:#f7dffa}
 .persona{font:800 calc(var(--u)*13)/.95 var(--sans);letter-spacing:-.055em}
-.persona i{font-style:normal;letter-spacing:-.02em;color:var(--mag)}
+.persona i{font-style:normal;letter-spacing:-.02em;color:var(--blue)}
 .pcirc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:calc(var(--u)*2.6);text-align:center;color:var(--ink);width:min(64cqh,52cqw);aspect-ratio:1;border-radius:50%;background:var(--lav);padding:calc(var(--u)*9)}
 .pcirc .lead{font-size:calc(var(--u)*5.2);font-weight:500;letter-spacing:-.02em;line-height:1.2}
 .pcirc .k{opacity:.8}
@@ -265,28 +274,29 @@ function checker(x,y,w,h,s,a,b){var o=rect(x,y,w,h,a),i,j;for(i=0;i*s<w;i++)for(
 function diag(x,y,w,h,st,a,b){var id='p'+(++UID);return '<defs><pattern id="'+id+'" patternUnits="userSpaceOnUse" width="'+st*2+'" height="'+st*2+'" patternTransform="rotate(45)"><rect width="'+st*2+'" height="'+st*2+'" fill="'+a+'"/><rect width="'+st+'" height="'+st*2+'" fill="'+b+'"/></pattern></defs><rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" fill="url(#'+id+')"/>'}
 function stair(x,y,w,h,n,f,flip,up){var o='',i;for(i=0;i<n;i++){var ww=w*(n-i)/n;o+=rect(flip?x+w-ww:x,up?y+h-(i+1)*h/n:y+i*h/n,ww,h/n+.3,f)}return o}
 /* abstract mail piece, 300x192 (the ratio of the Figma pieces), no text. off=true pushes the motif off the visual centre */
+function spin(c,x,y,dur,rev){return '<g class="spin" style="transform-origin:'+x+'px '+y+'px;animation-duration:'+dur+'s'+(rev?';animation-direction:reverse':'')+'">'+c+'</g>'}
 function pieceInner(kind,p,off){var a=p[0],b=p[1],c=p[2],d=p[3],W=300,H=192,cx=off?226:150,g=rect(0,0,W,H,a);
-  if(kind==='mandala'){g+=off?checker(0,0,92,H,23,a,b):'';g+=mand(cx,96,off?92:90,12,b,c,d)}
+  if(kind==='mandala'){g+=off?checker(0,0,92,H,23,a,b):'';g+=spin(mand(cx,96,off?92:90,12,b,c,d),cx,96,22)}
   else if(kind==='checker'){g=checker(0,0,off?176:W,H,24,a,b)+circ(cx,96,54,d)+circ(cx,96,28,a)+circ(cx,96,11,c)}
   else if(kind==='diag'){g=diag(0,0,W,H,16,a,b)+circ(off?84:150,96,58,c)+circ(off?84:150,96,28,d)}
   else if(kind==='burst'){var bx=off?96:150;g+=(off?stair(214,0,86,H,6,b,true):'')+star(bx,96,104,76,14,c)+circ(bx,96,50,b)+circ(bx,96,21,d)}
-  else if(kind==='sqburst'){var qx=off?210:150;g+=rect(qx-76,16,152,160,b)+rect(qx-58,34,116,124,a)+rect(qx-40,52,80,88,b)+star(qx,96,34,16,8,c)}
-  else if(kind==='checker'){g=checker(0,0,W,H,24,a,b)}
-  else if(kind==='squiggle'){for(var qi=0;qi<7;qi++)g+='<path d="M-12 '+(22+qi*25)+squig(340,7)+'" fill="none" stroke="'+(qi%2?c:b)+'" stroke-width="6" stroke-linecap="round"/>'}
-  else if(kind==='stamp'){var sx=off?168:100;g+='<path d="'+stampPath(sx,26,100,140,6,4,6,true)+'" fill="'+b+'"/>'+circ(sx+50,96,36,d)+circ(sx+50,96,15,a)+circ(sx+50,96,6,c)+(off?stair(0,0,90,H,6,b,false,false):'')}
+  else if(kind==='sqburst'){var qx=off?210:150;g+=rect(qx-76,16,152,160,b)+rect(qx-58,34,116,124,a)+rect(qx-40,52,80,88,b)+spin(star(qx,96,34,16,8,c),qx,96,9)}
+  else if(kind==='checker'){g=checker(0,0,W,H,24,a,b)+circ(150,96,54,d)+spin(star(150,96,44,24,10,b),150,96,12,true)+circ(150,96,12,a)}
+  else if(kind==='squiggle'){var qs='';for(var qi=0;qi<10;qi++)qs+='<path d="M-12 '+(6+qi*20.5)+squig(340,7)+'" fill="none" stroke="'+(qi%2?c:b)+'" stroke-width="6" stroke-linecap="round"/>';g+='<g class="drift">'+qs+'</g>'+circ(150,96,34,a)+spin(star(150,96,28,15,8,b),150,96,10)}
+  else if(kind==='stamp'){var sx=off?168:100;g+='<path d="'+stampPath(sx,26,100,140,6,4,6,true)+'" fill="'+b+'"/>'+circ(sx+50,96,36,d)+spin(star(sx+50,96,30,16,8,a),sx+50,96,10)+circ(sx+50,96,6,c)+(off?stair(0,0,90,H,6,b,false,false):'')}
   else if(kind==='steps'){g+=stair(0,0,104,H,6,b,false,false)+stair(196,0,104,H,6,b,true,true)+circ(off?112:150,96,56,c)+star(off?112:150,96,34,24,10,d)}
   return g}
 function piece(kind,pal,off){var id='k'+(++UID);return '<svg class="pc" viewBox="0 0 300 192"><defs><clipPath id="'+id+'"><rect width="300" height="192" rx="9"/></clipPath></defs><g clip-path="url(#'+id+')">'+pieceInner(kind,PAL[pal],off)+'</g></svg>'}
 /* the Figma cascade: a piece on top of five magenta cards at 100/60/38/19/8% */
 /* flat postage stamp: a rectangle with semicircle perforations, all four sides or top and bottom only */
-function stampPath(x,y,w,h,r,nx,ny,all){var d='M'+x+' '+y,i,c,sx=w/nx,sy=h/ny;
-  for(i=0;i<nx;i++){c=x+(i+.5)*sx;d+='H'+f1(c-r)+'A'+r+' '+r+' 0 0 0 '+f1(c+r)+' '+y}
+function stampPath(x,y,w,h,r,nx,ny,all){var K=.6,sx=w/(nx+2*K),sy=h/(ny+2*K),ox=x+K*sx,oy=y+K*sy,d='M'+x+' '+y,i,c;
+  for(i=0;i<nx;i++){c=ox+(i+.5)*sx;d+='H'+f1(c-r)+'A'+r+' '+r+' 0 0 0 '+f1(c+r)+' '+y}
   d+='H'+(x+w);
-  if(all)for(i=0;i<ny;i++){c=y+(i+.5)*sy;d+='V'+f1(c-r)+'A'+r+' '+r+' 0 0 0 '+(x+w)+' '+f1(c+r)}
+  if(all)for(i=0;i<ny;i++){c=oy+(i+.5)*sy;d+='V'+f1(c-r)+'A'+r+' '+r+' 0 0 0 '+(x+w)+' '+f1(c+r)}
   d+='V'+(y+h);
-  for(i=nx-1;i>=0;i--){c=x+(i+.5)*sx;d+='H'+f1(c+r)+'A'+r+' '+r+' 0 0 0 '+f1(c-r)+' '+(y+h)}
+  for(i=nx-1;i>=0;i--){c=ox+(i+.5)*sx;d+='H'+f1(c+r)+'A'+r+' '+r+' 0 0 0 '+f1(c-r)+' '+(y+h)}
   d+='H'+x;
-  if(all)for(i=ny-1;i>=0;i--){c=y+(i+.5)*sy;d+='V'+f1(c+r)+'A'+r+' '+r+' 0 0 0 '+x+' '+f1(c-r)}
+  if(all)for(i=ny-1;i>=0;i--){c=oy+(i+.5)*sy;d+='V'+f1(c+r)+'A'+r+' '+r+' 0 0 0 '+x+' '+f1(c-r)}
   return d+'Z'}
 function stampSvg(cls,vw,vh,x,y,w,h,r,nx,ny,main,all){return '<svg class="burstsvg '+cls+'" viewBox="0 0 '+vw+' '+vh+'" preserveAspectRatio="none" aria-hidden="true"><path d="'+stampPath(x,y,w,h,r,nx,ny,all)+'" fill="'+main+'"/></svg>'}
 function bigStamp(main,all){return stampSvg('l',160,90,22,15,116,60,2.6,12,6,main,all)+stampSvg('p',60,100,6,9,48,82,2.2,6,10,main,all)}
@@ -299,8 +309,8 @@ function T(shape,cols,o,cls){o=o||{};return '<canvas class="tun'+(cls?' '+cls:''
 var SL=[];
 function R(i,html,tag,cls){return '<'+(tag||'div')+' class="rise'+(cls?' '+cls:'')+'" style="--i:'+i+'">'+html+'</'+(tag||'div')+'>'}
 /* 0 hello: concentric stamps grow out from a flat stamp */
-SL.push({t:'blue',n:'Hello',d:6500,bg:T('stamp',[MG,B,PW,B],{asp:1.78,n:8,per:2.6},'bgc'),pre:bigStamp(PK,true),h:
-  '<div class="in ctr"><div class="tx" style="color:#4131f1">'+R(0,'#LobUnwrapped','div','k')+R(1,'2026<br>Unwrapped','h1','hero')+R(2,esc(D.brand)+'’s year in <i style="color:#883be6">direct mail</i>','p','lead')+'</div></div>'});
+SL.push({t:'pink',n:'Hello',d:6500,bg:T('stamp',[MG,PK,PW,PK],{asp:1.78,n:8,per:1.6},'bgc'),pre:bigStamp(B,true),h:
+  '<div class="in ctr"><div class="tx" style="color:#fff">'+R(0,'#LobUnwrapped','div','k')+R(1,'2026<br>Unwrapped','h1','hero')+R(2,esc(D.brand)+'’s year in <i style="color:#fff">direct mail</i>','p','lead')+'</div></div>'});
 /* 1 pieces sent */
 SL.push({t:'pink',n:'Pieces sent',d:6500,h:
   '<div class="in wide"><div class="tx">'+R(0,'You sent','div','k')+R(1,C(D.pieces,'int'),'div','big')+R(2,'pieces of <i>mail</i>','div','lead')+
@@ -314,7 +324,7 @@ SL.push({t:'blue',n:'Your mix',d:6500,bg:T('circle',[B,'rgba(155,147,248,.3)'],{
 SL.push({t:'mag',n:'To the moon',d:7500,h:
   '<div class="in"><div class="tx">'+R(0,'Piece-miles','div','k')+R(1,'Your mail traveled <span style="color:var(--ac)">'+C(D.pieceMiles,'bil')+' billion</span> miles','h2','h sm')+
   R(2,'That’s <b>'+C(D.trips,'int')+'</b> trips to the <i>moon</i>.','p','lead')+R(3,'Piece-miles = pieces × average delivery distance ('+int(D.avgMi)+' mi). Moon: 238,855 mi one way.','p','fine')+'</div>'+
-  '<div class="art">'+R(2,T('circle',[MG,B,PK,B],{n:9,per:2.4},'round'),'div','')+'</div></div>'});
+  '<div class="art">'+R(2,T('circle',[MG,'diag:#4131f1:#f7dffa',B,'check:#f7dffa:#4131f1',PK],{n:9,per:2.4},'round'),'div','')+'</div></div>'});
 /* 4 coverage */
 SL.push({t:'blue',n:'% of the US',d:7000,map:1,bg:T('circle',[B,'rgba(247,223,250,.13)'],{n:11,per:3,at:'art'},'bgc'),h:
   '<div class="in"><div class="tx">'+R(0,'You reached','div','k')+R(1,C(D.pct,'pct'),'div','big lg')+R(2,'of US <i>households</i>','div','lead')+R(3,'<span class="pill" style="background:var(--lime);color:var(--ink)">'+D.states+' states, one mailbox at a time</span>')+'</div>'+
@@ -330,9 +340,8 @@ SL.push({t:'pink',n:'QR scans',d:6500,h:
   '<div class="art">'+R(2,T('square',[PK,MG,B,LAV],{n:8,per:2.2,dx:.075,dy:.075}),'div','')+'</div></div>'});
 /* 7 PURL: a fading trail of rectangles */
 SL.push({t:'white',n:'PURL clicks',d:7000,purl:1,bg:T('circle',[WH,'rgba(208,69,220,.09)'],{n:10,per:3,at:'art'},'bgc'),h:
-  '<div class="in"><div class="tx">'+R(0,'PURLs clicked','div','k')+R(1,C(D.clicks,'int'),'div','big md')+R(2,'<b>'+C(D.uniq,'int')+'</b> people landed on a page with <i>their own name</i> on it.','p','lead')+
-  R(3,'<span class="pill">'+esc(D.brand.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,18)||'yourbrand')+'.co/<b id="pn">kristy</b></span>')+'</div>'+
-  '<div class="art">'+R(2,'<canvas class="tun tr" data-trail="1"></canvas>','div','')+'</div></div>'});
+  '<div class="in"><div class="tx">'+R(0,'PURLs clicked','div','k')+R(1,C(D.clicks,'int'),'div','big md')+R(2,'<b>'+C(D.uniq,'int')+'</b> people landed on a page with <i>their own name</i> on it.','p','lead')+'</div>'+
+  '<div class="art">'+R(2,'<div class="trw"><canvas class="tun tr" data-trail="1"></canvas><span class="purl">'+esc(D.brand.toLowerCase().replace(/[^a-z0-9]+/g,'').slice(0,18)||'yourbrand')+'.com/<b id="pn">kristy</b></span></div>','div','')+'</div></div>'});
 /* 8 results: concentric bursts around a flat stamp */
 SL.push({t:'blue',n:'Results',d:6500,bg:T('star',[PW,B,M3,B],{pts:12,n:9,per:2.6,rot:8},'bgc'),pre:bigStamp(MG,false),h:
   '<div class="in ctr"><div class="tx" style="color:#fff;gap:calc(var(--u)*2.6)">'+R(0,'What it added up to','div','k')+R(1,C(D.rev,'usd'),'div','big lg')+R(2,'in revenue from <i style="color:#f7dffa">mail</i>','div','lead')+
@@ -342,7 +351,7 @@ SL.push({t:'lav',n:'Speed & quality',d:6500,bg:T('stamp',[LAV,'rgba(65,49,241,.1
   '<div class="in"><div class="tx">'+R(0,'Delivery','div','k')+R(1,C(D.days,'d1')+' <small>days</small>','div','big lg')+R(2,'average time to <i>mailbox</i>','div','lead')+'</div>'+
   '<div class="art"><div class="fun">'+
   R(3,'<i>'+F.pct(D.ontime)+'</i><div>delivered on time<small>'+F.p1(D.ontime)+' of pieces hit their window</small></div>','div','row')+
-  R(4,'<i>✓</i><div>'+C(D.bad,'int')+' bad addresses caught<small>fixed or stopped before print</small></div>','div','row')+
+  R(4,'<i><svg class="chk" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12.8 9.6 18 19.5 7"/></svg></i><div>'+C(D.bad,'int')+' bad addresses caught<small>fixed or stopped before print</small></div>','div','row')+
   R(5,'<i>$</i><div>'+usd(D.saved)+' postage saved<small>on mail that would never have landed</small></div>','div','row')+'</div></div></div>'});
 /* 10 persona: scalloped mandala rings turning around a big flat circle */
 SL.push({t:'mag',n:'Your persona',d:6500,bg:T('scallop',[B,MG,B,M3],{pts:16,n:8,per:3,rot:10},'bgc'),h:
@@ -350,7 +359,7 @@ SL.push({t:'mag',n:'Your persona',d:6500,bg:T('scallop',[B,MG,B,M3],{pts:16,n:8,
   '<div class="ptw" style="position:absolute;z-index:3;left:0;right:0;bottom:calc(var(--u)*15)">'+R(3,persona[3].map(function(t){return '<span>'+t+'</span>'}).join(''),'div','tags')+'</div>'});
 /* 11 share */
 SL.push({t:'pink',n:'Share it',d:8000,end:1,bg:T('square',[PK,'rgba(208,69,220,.15)'],{n:10,per:3.2,at:'art'},'bgc'),h:
-  '<div class="in"><div class="art">'+R(0,'<div class="cswrap"><div class="card"><div class="top"><span data-logo></span><span>Unwrapped 2026</span></div><div class="nm">'+esc(D.brand)+', <i>in mail</i></div><div class="g">'+
+  '<div class="in"><div class="art">'+R(0,'<div class="cswrap"><div class="card"><div class="top"><span data-logo></span><span>Unwrapped 2026</span></div><div class="nm">'+esc(D.brand)+',<br><i>in direct mail</i></div><div class="g">'+
     [[compact(D.pieces),'pieces sent'],[F.pct(D.pct),'of US households'],[int(D.metros),'metros delivered to'],[compact(D.scans),'QR codes scanned'],[compact(D.clicks),'PURLs clicked'],[int(D.trips),'trips to the moon']].map(function(s){return '<div><b>'+s[0]+'</b><span>'+s[1]+'</span></div>'}).join('')+'</div></div></div>','div','')+'</div>'+
   '<div class="tx">'+R(1,'Your next chapter starts <i>here.</i>','h2','h')+
   R(2,'<button class="btn main" id="eShare"><svg viewBox="0 0 24 24"><path d="M12 15V3m0 0L7 8m5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Share your Unwrapped</button><button class="btn" id="eDl"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</button><button class="btn" id="eCopy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>Copy link</button><a class="btn" id="eLi" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M4 9v11M4 4v.5M9 20V9m0 4a4 4 0 0 1 8 0v7"/></svg>LinkedIn</a>','div','share')+
@@ -404,25 +413,29 @@ function enter(n,tk){var s=SL[n],root=els[n];counters(root,tk);
     (b=root.querySelector('#eLi'))&&(b.href='https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent(link(false)))}}
 /* ---------- hypnotic concentric rings ---------- */
 function rrect(c,x,y,w,h,r){c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath()}
-function stampC(c,x,y,w,h,nx,ny,rn){var sx=w/nx,sy=h/ny,i,m,P=Math.PI;c.moveTo(x,y);
-  for(i=0;i<nx;i++){m=x+(i+.5)*sx;c.lineTo(m-rn,y);c.arc(m,y,rn,P,0,true)}
-  c.lineTo(x+w,y);for(i=0;i<ny;i++){m=y+(i+.5)*sy;c.lineTo(x+w,m-rn);c.arc(x+w,m,rn,-P/2,P/2,true)}
-  c.lineTo(x+w,y+h);for(i=nx-1;i>=0;i--){m=x+(i+.5)*sx;c.lineTo(m+rn,y+h);c.arc(m,y+h,rn,0,P,true)}
-  c.lineTo(x,y+h);for(i=ny-1;i>=0;i--){m=y+(i+.5)*sy;c.lineTo(x,m+rn);c.arc(x,m,rn,P/2,-P/2,true)}
+function stampC(c,x,y,w,h,nx,ny,rn){var K=.6,sx=w/(nx+2*K),sy=h/(ny+2*K),ox=x+K*sx,oy=y+K*sy,i,m,P=Math.PI;c.moveTo(x,y);
+  for(i=0;i<nx;i++){m=ox+(i+.5)*sx;c.lineTo(m-rn,y);c.arc(m,y,rn,P,0,true)}
+  c.lineTo(x+w,y);for(i=0;i<ny;i++){m=oy+(i+.5)*sy;c.lineTo(x+w,m-rn);c.arc(x+w,m,rn,-P/2,P/2,true)}
+  c.lineTo(x+w,y+h);for(i=nx-1;i>=0;i--){m=ox+(i+.5)*sx;c.lineTo(m+rn,y+h);c.arc(m,y+h,rn,0,P,true)}
+  c.lineTo(x,y+h);for(i=ny-1;i>=0;i--){m=oy+(i+.5)*sy;c.lineTo(x,m+rn);c.arc(x,m,rn,P/2,-P/2,true)}
   c.closePath()}
 function ringPath(c,shape,x,y,r,asp,pts,ang){c.beginPath();var i,a,rr,w=r*asp,h=r;
   if(shape==='circle')c.arc(x,y,r,0,6.2832);
   else if(shape==='square')c.rect(x-r,y-r,2*r,2*r);
   else if(shape==='rect')rrect(c,x-w,y-h,2*w,2*h,h*.1);
-  else if(shape==='stamp'){var nx=8,ny=Math.max(3,Math.round(8/asp));stampC(c,x-w,y-h,2*w,2*h,nx,ny,Math.min(2*w/nx,2*h/ny)*.3)}
+  else if(shape==='stamp'){var nx=8,ny=Math.max(3,Math.round(8/asp));stampC(c,x-w,y-h,2*w,2*h,nx,ny,Math.min(2*w/(nx+1.2),2*h/(ny+1.2))*.3)}
   else if(shape==='star'){for(i=0;i<pts*2;i++){a=Math.PI*i/pts+ang;rr=i%2?r*.76:r;c[i?'lineTo':'moveTo'](x+rr*Math.cos(a),y+rr*Math.sin(a))}c.closePath()}
   else if(shape==='scallop'){for(i=0;i<=180;i++){a=i/180*6.2832;rr=r*(.92+.08*Math.cos(pts*a+ang));c[i?'lineTo':'moveTo'](x+rr*Math.cos(a),y+rr*Math.sin(a))}c.closePath()}}
 function fit(cv){var rc=cv.getBoundingClientRect(),dpr=Math.min(1.5,window.devicePixelRatio||1),W=Math.max(2,Math.round(rc.width*dpr)),Hh=Math.max(2,Math.round(rc.height*dpr));if(cv.width!==W||cv.height!==Hh){cv.width=W;cv.height=Hh}return[W,Hh]}
 function rings(ctx,shape,cols,W,Hh,cx,cy,n,t,asp,dx,dy,rot,pts){var L=cols.length,cyc=Math.floor(t),ph=t-cyc,Rc=Math.max(W/(2*asp),Hh/2)*(shape==='star'||shape==='scallop'?1.9:1.5),step=Rc/n,k,r,id,ang;ctx.fillStyle=cols[(((cyc-n-1)%L)+L)%L];ctx.fillRect(0,0,W,Hh);
   for(k=n;k>=0;k--){r=(k+ph)*step;id=cyc-k;ang=((id%2+2)%2?1:-1)*rot*(r/step)*Math.PI/180/ (n/2);
     ringPath(ctx,shape,cx+dx*r,cy+dy*r,r,asp,pts,ang);ctx.fillStyle=cols[((id%L)+L)%L];ctx.fill()}}
-function tunnel(cv,tk){var d=cv.dataset,cols=d.cols.split('|'),per=+d.per||2.4,t0=performance.now(),ctx=cv.getContext('2d'),art=d.at?cv.closest('.slide').querySelector('.art'):null;
-  (function f(now){if(tk!==token)return;var s=fit(cv),t=RM?.35:(now-t0)/1000/per,cx=s[0]/2,cy=s[1]/2;
+function mkPat(ctx,spec,dpr){var q=spec.split(':'),sz=Math.round(14*dpr),c=document.createElement('canvas'),g;c.width=c.height=sz*2;g=c.getContext('2d');g.fillStyle=q[1];g.fillRect(0,0,sz*2,sz*2);g.fillStyle=q[2];
+  if(q[0]==='check'){g.fillRect(0,0,sz,sz);g.fillRect(sz,sz,sz,sz)}
+  else{g.beginPath();g.moveTo(sz,0);g.lineTo(sz*2,0);g.lineTo(0,sz*2);g.lineTo(0,sz);g.closePath();g.fill();g.beginPath();g.moveTo(sz*2,sz);g.lineTo(sz*2,sz*2);g.lineTo(sz,sz*2);g.closePath();g.fill()}
+  return ctx.createPattern(c,'repeat')}
+function tunnel(cv,tk){var d=cv.dataset,ctx=cv.getContext('2d'),dpr=Math.min(1.5,window.devicePixelRatio||1),pats=[],cols=d.cols.split('|').map(function(c){if(/^(diag|check):/.test(c)){var pt=mkPat(ctx,c,dpr);pats.push(pt);return pt}return c}),per=+d.per||2.4,t0=performance.now(),art=d.at?cv.closest('.slide').querySelector('.art'):null;
+  (function f(now){if(tk!==token)return;var s=fit(cv),t=RM?.35:(now-t0)/1000/per,cx=s[0]/2,cy=s[1]/2,o=(now/22)%(28*dpr);pats.forEach(function(pt){pt.setTransform(new DOMMatrix([1,0,0,1,o,o]))});
     if(art){var cr=cv.getBoundingClientRect(),ar=art.getBoundingClientRect();if(cr.width){cx=(ar.left+ar.width/2-cr.left)/cr.width*s[0];cy=(ar.top+ar.height/2-cr.top)/cr.height*s[1]}}
     rings(ctx,d.shape,cols,s[0],s[1],cx,cy,+d.n||9,t,+d.asp||1,+d.dx||0,+d.dy||0,+d.rot||0,+d.pts||10);
     if(!RM)requestAnimationFrame(f)})(t0)}
@@ -432,7 +445,7 @@ function trail(cv,tk){var ctx=cv.getContext('2d'),t0=performance.now(),op=[1,.6,
     ctx.clearRect(0,0,W,Hh);
     for(i=5;i>=1;i--){ctx.beginPath();rrect(ctx,x0-i*g,y0,w,h,h*.05);ctx.fillStyle='rgba(208,69,220,'+op[i-1]+')';ctx.fill()}
     ctx.save();ctx.beginPath();rrect(ctx,x0,y0,w,h,h*.05);ctx.fillStyle='#4131f1';ctx.fill();ctx.clip();
-    rings(ctx,'rect',['#4131f1','#d045dc','#f7dffa','#f5f5fe'],W,Hh,x0+w/2,y0+h/2,7,t/2.2,1.56,0,0,0,0);ctx.restore();
+    rings(ctx,'rect',['#4131f1','#d045dc','#f7dffa','#f5f5fe'],W,Hh,x0+w/2,y0+h/2,7,t/2.2,1.56,0,0,0,0);ringPath(ctx,'star',x0+w/2,y0+h/2-h*.12,h*.24,1,10,t*.9);ctx.fillStyle='#f5f5fe';ctx.fill();ctx.restore();
     if(!RM)requestAnimationFrame(f)})(t0)}
 function purl(root,tk){var names=['kristy','jordan','marcus','elena','sam'],a=root.querySelector('#pn'),i=0;
   (function cycle(){if(tk!==token)return;var w=names[i++%names.length],k=0;(function type(){if(tk!==token)return;a.textContent=w.slice(0,k);if(k++<w.length)setTimeout(type,70);else if(!RM)setTimeout(cycle,1100)})()})()}
