@@ -184,23 +184,22 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .pcirc .k{opacity:.8}
 .cswrap{position:relative;width:100%;max-width:calc(var(--u)*92);margin-bottom:calc(var(--u)*16)}
 .cswrap>i{position:absolute;inset:0;border-radius:calc(var(--u)*3);background:var(--mag);transform:translateY(calc(var(--k)*var(--u)*3.2));opacity:var(--o)}
-.card{position:relative;border-radius:calc(var(--u)*3);background:var(--blue);color:#fff;padding:calc(var(--u)*6);display:grid;gap:calc(var(--u)*4.6)}
+.card{position:relative;border-radius:calc(var(--u)*3);background:var(--blue);color:#fff;padding:calc(var(--u)*9) calc(var(--u)*8);display:grid;gap:calc(var(--u)*8)}
 .card .top{display:flex;justify-content:space-between;align-items:center}
 .card .top [data-logo]{width:calc(var(--u)*15)}
 .card .top span:last-child{font:700 calc(var(--u)*3)/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--lime)}
 .card .nm{font:800 calc(var(--u)*8.4)/1 var(--sans);letter-spacing:-.05em}
 .card .nm i{font-style:normal;color:var(--lime);letter-spacing:-.01em}
-.card .g{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*4.4) calc(var(--u)*3)}
+.card .g{display:grid;grid-template-columns:repeat(3,1fr);gap:calc(var(--u)*8) calc(var(--u)*4)}
 .card .g b{display:block;font:800 calc(var(--u)*8.2)/1 var(--sans);letter-spacing:-.05em;font-variant-numeric:tabular-nums}
-.card .g span{display:block;margin-top:calc(var(--u)*1.2);font:400 calc(var(--u)*3)/1.2 var(--sans);opacity:.8}
+.card .g span{display:block;margin-top:calc(var(--u)*2.2);font:400 calc(var(--u)*3)/1.3 var(--sans);opacity:.8}
 .share{display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u)*2.6);max-width:calc(var(--u)*92)}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:calc(var(--u)*2.2);height:calc(var(--u)*13);padding:0 calc(var(--u)*5);border-radius:99px;border:0;background:var(--ink);color:#fff;font:700 calc(var(--u)*3.8)/1 var(--sans);text-decoration:none;white-space:nowrap;cursor:pointer}
 .btn svg{width:calc(var(--u)*4.6);height:calc(var(--u)*4.6);fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .btn:hover{filter:brightness(1.18)}.btn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .ctr .facts.three .fact{background:#4131f1;color:#f7dffa}
 .btn.main{background:var(--mag);grid-column:1/-1}
-.btn.talk{background:#fff;color:var(--ink);align-self:flex-start;margin-top:calc(var(--u)*2)}
-.btn.talk:hover{filter:brightness(1.05)}
+#eLi{grid-column:1/-1}
 @container (max-aspect-ratio:1/1){.hero{font-size:calc(var(--u)*14.5)}.persona{font-size:calc(var(--u)*9.4)}.pcirc{width:80cqw;gap:calc(var(--u)*2);padding:calc(var(--u)*7)}.pcirc .k{font-size:calc(var(--u)*3);letter-spacing:.1em}.pcirc .lead{font-size:calc(var(--u)*4.4)}.persona{font-size:calc(var(--u)*7.6)}.btn{height:calc(var(--u)*11)}.cswrap{margin-bottom:calc(var(--u)*11)}}
 </style>
 </head>
@@ -354,7 +353,7 @@ SL.push({t:'pink',n:'Share it',d:8000,end:1,bg:T('square',[PK,'rgba(208,69,220,.
     [[compact(D.pieces),'pieces sent'],[F.pct(D.pct),'of US households'],[int(D.metros),'metros delivered to'],[compact(D.scans),'QR codes scanned'],[compact(D.clicks),'PURLs clicked'],[int(D.trips),'trips to the moon']].map(function(s){return '<div><b>'+s[0]+'</b><span>'+s[1]+'</span></div>'}).join('')+'</div></div></div>','div','')+'</div>'+
   '<div class="tx">'+R(1,'Your next chapter starts <i>here.</i>','h2','h')+
   R(2,'<button class="btn main" id="eShare"><svg viewBox="0 0 24 24"><path d="M12 15V3m0 0L7 8m5-5 5 5M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>Share your Unwrapped</button><button class="btn" id="eDl"><svg viewBox="0 0 24 24"><path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"/></svg>Download</button><button class="btn" id="eCopy"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1"/></svg>Copy link</button><a class="btn" id="eLi" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M4 9v11M4 4v.5M9 20V9m0 4a4 4 0 0 1 8 0v7"/></svg>LinkedIn</a>','div','share')+
-  R(3,'<a class="btn talk" href="https://www.lob.com/" target="_blank" rel="noopener">Talk to Lob</a>','div')+'</div></div>'});
+  '</div></div>'});
 
 /* ---------- build ---------- */
 var stage=document.getElementById('stage'),slidesEl=document.getElementById('slides'),barsEl=document.getElementById('bars');
