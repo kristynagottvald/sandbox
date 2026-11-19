@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Clearco Paid Ad Pipeline</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@400;500&family=Instrument+Serif:ital@0;1&family=Roboto+Mono:wght@100;300&display=swap" rel="stylesheet">
+<style>
+@property --p{syntax:"<number>";inherits:true;initial-value:1}
+:root{--ink:#000;--panel:#040a10;--line:#1d2a38;--mute:#8fa0ad;--blue:#2447f5;--blue2:#3b8cff;--cyan:#62e6f3;--pale:#cdf6fb;
+--serif:"Instrument Serif","Times New Roman",serif;--sans:"Inter Tight","Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--ui:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"DM Mono",ui-monospace,Menlo,monospace;--num:"Roboto Mono",ui-monospace,Menlo,monospace;
+--grad:linear-gradient(100deg,var(--blue),var(--blue2) 45%,var(--cyan));--li:#0a66c2;--fb:#1877f2}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%}
+body{background:#000;color:#fff;font-family:var(--sans);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}
+button,select{font-family:inherit}
+nav.back{flex:none;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 var(--ui);white-space:nowrap;overflow:hidden;position:sticky;top:0;z-index:50}
+nav.back a{color:#8d8d8d;text-decoration:none}nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+.tog{margin-left:auto;display:flex;gap:6px;flex:none}
+.tog button{font:500 12px var(--ui);color:rgba(255,255,255,.7);background:none;border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:6px 13px;cursor:pointer}
+.tog button.on{background:#fff;color:#000;border-color:#fff}
+.tog button i{font-style:normal;opacity:.55;margin-right:5px}
+@media(max-width:760px){nav.back{padding:0 12px;gap:6px}nav.back .x{display:none}.tog button{padding:6px 10px}.tog button i{display:none}}
+
+/* controls under the nav: which platform shows the ad, and which marketer is looking at it */
+.ctl{position:sticky;top:49px;z-index:40;flex:none;display:flex;align-items:center;gap:12px 28px;flex-wrap:wrap;padding:9px 20px;background:#05090d;border-bottom:1px solid var(--line)}
+.ctl .grp{display:flex;align-items:center;gap:6px;min-width:0}
+.ctl .lbl{font:400 10px/1 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--mute);margin-right:8px;white-space:nowrap}
+.ctl .grp button{display:flex;align-items:center;gap:7px;font:500 12.5px var(--sans);color:#aebbc5;background:none;border:1px solid #2b3d52;border-radius:99px;padding:6px 14px 6px 11px;cursor:pointer;white-space:nowrap;transition:background .2s,color .2s,border-color .2s}
+.ctl .grp button:hover{color:#fff;border-color:#4a6178}
+.ctl .grp button.on{background:#fff;color:#000;border-color:#fff}
+.ctl .grp button i{width:8px;height:8px;border-radius:50%;background:var(--c);flex:none}
+.ctl .grp button.all i{background:var(--grad)}
+.ctl .only3{display:none}.ctl.d3 .only3{display:flex}
+.ctl select{font:500 13px var(--sans);color:#fff;background:#000;border:1px solid #2b3d52;border-radius:99px;padding:7px 34px 7px 16px;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%2362e6f3' stroke-width='1.6'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;max-width:100%}
+.ctl select:focus-visible,.ctl button:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}
+.ctl .mk{margin-left:auto}
+@media(max-width:900px){.ctl{padding:9px 12px;gap:8px 16px}.ctl .mk{margin-left:0}.ctl .plat{overflow-x:auto;max-width:100%;scrollbar-width:none}.ctl .plat::-webkit-scrollbar{display:none}}
+
+.scr{display:none;flex:1;animation:in .35s ease both}.scr.on{display:block}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+@media(prefers-reduced-motion:reduce){.scr{animation:none}}
+.pf{display:none;animation:in .35s ease both}.pf.on{display:block}
+.sw{transition:opacity .3s,transform .3s,filter .3s}
+.out{opacity:0!important;filter:blur(4px)}
+.note{text-align:center;font-size:13px;padding:6px 16px 24px}
+
+/* ---------- the creative: one element, moved into whichever platform is showing ---------- */
+.cr{display:block;position:relative;aspect-ratio:1.91;background:#000;overflow:hidden;container-type:inline-size;color:#fff;text-decoration:none;cursor:pointer;font-family:var(--sans)}
+.cr .dl{position:absolute;inset:0;pointer-events:none;-webkit-mask-image:linear-gradient(transparent,#000 40%);mask-image:linear-gradient(transparent,#000 40%)}
+.cr .dl i{position:absolute;top:0;bottom:0;border-left:1px dashed rgba(255,255,255,.2)}
+.cr .lg{position:absolute;left:5.2cqw;top:4.6cqw;width:13cqw;aspect-ratio:978.8/116.8;height:auto;fill:#fff}
+.cr .l{position:absolute;left:5.2cqw;top:0;bottom:0;width:46cqw;display:flex;flex-direction:column;justify-content:center;padding-top:3cqw}
+.cr .chip{font:400 1.5cqw/1.5 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#8fa0ad;white-space:nowrap}
+.cr .chip em{font-style:normal;color:var(--cyan)}
+.cr h4{font:400 6.5cqw/.92 var(--serif);letter-spacing:-.035em;margin:2.4cqw 0 3.4cqw;white-space:nowrap}
+.cr h4 i{color:var(--cyan)}
+.cr .go{align-self:flex-start;display:inline-flex;align-items:center;gap:1.1cqw;background:#fff;color:#000;border-radius:99px;font:500 1.5cqw/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:1.8cqw 2.8cqw;white-space:nowrap}
+.cr .go svg{width:1.7cqw;height:1.7cqw}
+.cr .stage{position:absolute;right:0;top:0;width:54cqw;height:100%;container-type:inline-size}
+.cr .stage>*{pointer-events:none}
+.cr .pp{position:absolute;right:0;height:9cqw;width:calc(var(--w) * 100% * var(--p));border-radius:99px 0 0 99px;background:linear-gradient(270deg,var(--blue),var(--blue2) 50%,var(--cyan))}
+.cr .pp::after,.cr .hd::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--grain);mix-blend-mode:overlay;opacity:.9}
+.cr .pp .hw{position:absolute;left:0;top:50%;width:17cqw;height:17cqw;margin:-8.5cqw 0 0 -8.5cqw;opacity:calc(var(--p) * 6);transform:scale(clamp(.01,var(--p) * 6,1))}
+.cr .hd{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 72% 26%,var(--cyan),var(--blue2) 62%,var(--blue));box-shadow:0 0 0 2cqw rgba(40,140,190,.3)}
+.cr .rp{position:absolute;inset:0}
+.cr .rp i{position:absolute;left:50%;top:50%;aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);animation:rip 4.8s ease-in-out infinite;-webkit-mask-image:var(--noise);mask-image:var(--noise);-webkit-mask-size:60px;mask-size:60px}
+.cr .rp i:nth-child(1){width:215%;background:rgba(98,230,243,.34)}
+.cr .rp i:nth-child(2){width:320%;background:rgba(98,230,243,.2);animation-delay:-1.6s}
+.cr .rp i:nth-child(3){width:450%;background:rgba(98,230,243,.1);animation-delay:-3.2s}
+@keyframes rip{0%,100%{transform:translate(-50%,-50%) scale(.82);opacity:.55}50%{transform:translate(-50%,-50%) scale(1.06);opacity:1}}
+.cr .bl{position:absolute;width:78%;display:flex;align-items:center;background:rgba(4,10,16,.94);border:1px solid #24465c;border-radius:3px;padding:3.4cqw 17cqw 3.4cqw 4.6cqw;color:#fff;z-index:3;opacity:0;left:6%;top:23%;transform:scale(.9);transform-origin:50% 100%;transition:left 1.9s cubic-bezier(.22,.8,.3,1),top 1.9s cubic-bezier(.22,.8,.3,1),transform .7s cubic-bezier(.34,1.56,.64,1),opacity .5s}
+.cr .bl[data-s="1"]{left:6%;top:26%;opacity:1;transform:none}
+.cr .bl[data-s="0"]{left:20%;top:7%;opacity:1;transform:none}
+.cr .bl[data-s="x"]{left:20%;top:-16%;opacity:0;transform:scale(.97);transition:left 1.9s,top 1.9s cubic-bezier(.22,.8,.3,1),transform .6s,opacity .9s .2s}
+.cr .bl[data-s="r"]{transition:none}
+@media(prefers-reduced-motion:reduce){.cr .bl{transition:none}}
+.cr .bl .ic{position:absolute;right:4cqw;top:50%;width:10.5cqw;height:10.5cqw;transform:translateY(-50%);padding:2.5cqw;border:1px solid #2b3d52;border-radius:50%;color:var(--cyan)}
+.cr .bl strong{display:block;font:400 7cqw/1 var(--serif);letter-spacing:-.02em}
+.cr .bl strong i{color:var(--cyan)}
+.cr .bl p{white-space:nowrap;font:400 3.7cqw/1.35 var(--sans);color:#aebbc5;margin-top:1.4cqw}
+.cr .bl .sw{display:block}
+.cr .l .sw,.cr .chip .sw{display:inline-block}
+
+/* ---------- 1a: LinkedIn ---------- */
+#pf-li{background:#f4f2ee;color:rgba(0,0,0,.9);font-family:var(--ui)}
+.lh{background:#fff;border-bottom:1px solid #e0dfdc;height:52px;display:flex;align-items:center;gap:14px;padding:0 max(16px,calc((100% - 1128px)/2))}
+.lh .logo{width:34px;height:34px;border-radius:4px;background:var(--li);color:#fff;font:700 20px/34px var(--ui);text-align:center;letter-spacing:-1px;flex:none}
+.lh .search{background:#edf3f8;border-radius:4px;height:34px;width:280px;max-width:40%;padding:0 12px;display:flex;align-items:center;gap:8px;font-size:14px;color:rgba(0,0,0,.6)}
+.lh .ico{margin-left:auto;display:flex;gap:26px}
+.lh .ico div{display:flex;flex-direction:column;align-items:center;font-size:11px;color:rgba(0,0,0,.6);gap:2px}
+.lh .ico svg{width:22px;height:22px;fill:rgba(0,0,0,.6)}
+.lh .ico .on{color:#000}.lh .ico .on svg{fill:#000}
+.feed{display:grid;grid-template-columns:225px minmax(0,555px) 300px;gap:24px;max-width:1128px;margin:24px auto 0;padding:0 16px;justify-content:center}
+.pn{background:#fff;border:1px solid #e0dfdc;border-radius:8px}
+.me{overflow:hidden;align-self:start}
+.me .cov{height:54px;background:linear-gradient(120deg,#a0b4b7,#d9c7a5)}
+.me .av{width:68px;height:68px;border-radius:50%;border:2px solid #fff;margin:-34px 0 0 16px;display:grid;place-items:center;font:600 24px var(--ui);color:#fff;background:var(--hue,#47607a)}
+.me h3{font:600 16px var(--ui);padding:8px 16px 0}.me p{font-size:12px;color:rgba(0,0,0,.6);padding:2px 16px 14px;line-height:1.4}
+.me .geo{border-top:1px solid #e0dfdc;padding:12px 16px 14px;font-size:12px;color:rgba(0,0,0,.6);line-height:1.4}
+.me .geo small{display:block;font:600 11px var(--ui);letter-spacing:.06em;text-transform:uppercase;color:rgba(0,0,0,.55);margin-bottom:6px}
+.me .geo b{color:#000;font-weight:600}
+.post{margin-bottom:8px;overflow:hidden}
+.post:not(.ad){opacity:.4;filter:saturate(.6)}
+.ph0{display:flex;gap:8px;padding:12px 16px 0;align-items:flex-start}
+.ph0 .ph-av{width:48px;height:48px;border-radius:50%;flex:none;display:grid;place-items:center;font:600 16px var(--ui);color:#fff}
+.av-c{background:#000;position:relative;overflow:hidden}
+.av-c::before{content:"";position:absolute;width:56%;height:56%;left:22%;top:22%;border-radius:50%;background:radial-gradient(circle at 72% 26%,var(--cyan),var(--blue2) 62%,var(--blue))}
+.ph0 b{display:block;font:600 14px/1.3 var(--ui)}.ph0 small{display:block;font-size:12px;line-height:1.35;color:rgba(0,0,0,.6)}
+.ph0 .more{margin-left:auto;color:rgba(0,0,0,.6);font-size:18px;letter-spacing:2px;line-height:1}
+.txt{padding:8px 16px 10px;font-size:14px;line-height:1.43;color:rgba(0,0,0,.9)}
+.txt .mr{color:rgba(0,0,0,.6)}
+.cnt{display:flex;justify-content:space-between;padding:6px 16px;font-size:12px;color:rgba(0,0,0,.6);border-bottom:1px solid #eee}
+.cnt .rx{display:flex;align-items:center;gap:4px}.cnt .rx i{width:16px;height:16px;border-radius:50%;background:var(--li);display:inline-block}.cnt .rx i+i{background:#df704d;margin-left:-8px;box-shadow:0 0 0 1.5px #fff}
+.act{display:flex;padding:4px 8px}
+.act button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 4px;border:0;background:none;border-radius:4px;font:600 14px var(--ui);color:rgba(0,0,0,.6);cursor:pointer}
+.act button:hover{background:#f3f2ef}.act button.on{color:var(--li)}
+.act svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+.act button.on svg{fill:currentColor}
+.ad .bar{display:flex;align-items:center;gap:12px;padding:10px 16px;background:#edf3f8}
+.ad .bar b{display:block;font:600 14px/1.3 var(--ui)}.ad .bar small{font-size:12px;color:rgba(0,0,0,.6)}
+.ad .bar a.go2{margin-left:auto;flex:none;border:1px solid var(--li);color:var(--li);font:600 14px var(--ui);padding:6px 16px;border-radius:99px;text-decoration:none;background:#fff;white-space:nowrap}
+.ad .bar a.go2:hover{background:#e8f3ff;box-shadow:inset 0 0 0 1px var(--li)}
+.ad .bar .tx{min-width:0}.ad .bar .tx b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.side .pn{padding:12px 16px;margin-bottom:8px}
+.side h5{font:600 16px var(--ui);margin-bottom:10px}
+.side li{list-style:none;margin-bottom:12px;font-size:13px;line-height:1.35}.side li b{font-weight:600;display:block}.side li small{color:rgba(0,0,0,.6);font-size:12px}
+.side ul{padding:0}
+#pf-li .note{color:rgba(0,0,0,.6);padding-top:16px}#pf-li .note b{color:#000;font-weight:600}
+@media(max-width:1000px){.feed{grid-template-columns:minmax(0,555px)}.me,.side{display:none}.lh .ico{display:none}}
+@media(max-width:560px){.feed{padding:0;margin-top:8px}.pn{border-radius:0;border-left:0;border-right:0}.ad .bar a.go2{padding:6px 12px}.lh .search{width:auto;flex:1;max-width:none}}
+
+/* ---------- 1b: Facebook ---------- */
+#pf-fb{background:#f0f2f5;color:#050505;font-family:var(--ui);min-height:700px}
+.fh{background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);height:56px;display:flex;align-items:center;gap:10px;padding:0 16px}
+.fh .logo{width:40px;height:40px;border-radius:50%;background:var(--fb);color:#fff;font:700 28px/44px var(--ui);text-align:center;flex:none;overflow:hidden}
+.fh .search{background:#f0f2f5;border-radius:99px;height:40px;width:240px;padding:0 14px;display:flex;align-items:center;font-size:15px;color:#65676b}
+.fh .tabs{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:8px}
+.fh .tabs i{width:110px;height:56px;display:grid;place-items:center}
+.fh .tabs i::before{content:"";width:26px;height:26px;border-radius:6px;background:#b0b3b8}
+.fh .tabs i.on{box-shadow:inset 0 -3px 0 var(--fb)}.fh .tabs i.on::before{background:var(--fb)}
+.fh .r{margin-left:auto;display:flex;gap:8px}.fh .r i{width:40px;height:40px;border-radius:50%;background:#e4e6eb}
+.fh{position:relative}
+.fbg{display:grid;grid-template-columns:minmax(0,300px) minmax(0,500px) minmax(0,300px);gap:24px;justify-content:center;padding:20px 16px 0}
+.fbg .col{display:flex;flex-direction:column;gap:2px;font-size:15px;font-weight:500}
+.fbg .col .row{display:flex;align-items:center;gap:12px;padding:8px;border-radius:8px}
+.fbg .col .row .a{width:36px;height:36px;border-radius:50%;background:var(--hue,#8a6f5a);color:#fff;display:grid;place-items:center;font:600 13px var(--ui);flex:none}
+.fbg .col .row .b{width:36px;height:36px;border-radius:50%;background:#d8dadf;flex:none}
+.fbg .col small{display:block;font-weight:400;font-size:12px;color:#65676b}
+.fbg .col h6{font:600 17px var(--ui);color:#65676b;padding:8px 8px 4px}
+.fcard{background:#fff;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,.2);margin-bottom:16px;overflow:hidden}
+.fcard:not(.ad){opacity:.45}
+.fcard .ph0{padding:12px 16px 0}
+.fcard .ph-av{width:40px;height:40px}
+.fcard .ph0 b{font-size:15px}.fcard .ph0 small{color:#65676b;font-size:13px}
+.fcard .txt{font-size:15px;line-height:1.33;padding:12px 16px 14px;color:#050505}
+.fcard .lk{display:flex;align-items:center;gap:12px;background:#f0f2f5;padding:10px 16px;border-top:1px solid #e4e6eb}
+.fcard .lk .t{min-width:0;flex:1}
+.fcard .lk small{display:block;font-size:12px;text-transform:uppercase;color:#65676b;letter-spacing:.02em}
+.fcard .lk b{display:block;font:600 16px/1.25 var(--ui);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fcard .lk span.d{display:block;font-size:13px;color:#65676b;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fcard .lk a{flex:none;background:#e4e6eb;color:#050505;font:600 15px var(--ui);padding:8px 14px;border-radius:6px;text-decoration:none}
+.fcard .lk a:hover{background:#d8dadf}
+.fcard .cnt{padding:10px 16px;border-bottom:1px solid #ced0d4;margin:0 16px;padding-left:0;padding-right:0;color:#65676b;font-size:15px}
+.fcard .cnt .rx i{width:18px;height:18px;background:var(--fb)}.fcard .cnt .rx i+i{background:#f33e58}
+.fcard .act{padding:4px 12px}.fcard .act button{color:#65676b;font:600 15px var(--ui)}.fcard .act button.on{color:var(--fb)}
+#pf-fb .note{color:#65676b;padding-top:4px}#pf-fb .note b{color:#050505}
+@media(max-width:1000px){.fbg{grid-template-columns:minmax(0,500px)}.fbg .col{display:none}.fh .tabs,.fh .r{display:none}}
+@media(max-width:560px){.fbg{padding:8px 0 0}.fcard{border-radius:0}}
+
+/* ---------- 1c: Google Search ---------- */
+#pf-gg{background:#fff;color:#202124;font-family:Arial,var(--ui);min-height:700px}
+.gh{display:flex;align-items:center;gap:28px;padding:20px 20px 0 28px}
+.gh .wm{font:500 26px/1 "Product Sans",Arial,var(--ui);letter-spacing:-.5px;flex:none}
+.gh .wm span:nth-child(1){color:#4285f4}.gh .wm span:nth-child(2){color:#ea4335}.gh .wm span:nth-child(3){color:#fbbc05}.gh .wm span:nth-child(4){color:#4285f4}.gh .wm span:nth-child(5){color:#34a853}.gh .wm span:nth-child(6){color:#ea4335}
+.gh .box{flex:1;max-width:692px;height:44px;border:1px solid #dfe1e5;border-radius:99px;display:flex;align-items:center;padding:0 20px;font-size:16px;box-shadow:0 1px 6px rgba(32,33,36,.18);border-color:transparent;gap:12px}
+.gh .box span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gh .box svg{width:20px;height:20px;fill:#4285f4;flex:none}
+.gtabs{display:flex;gap:26px;padding:14px 28px 0 156px;font-size:14px;color:#5f6368;border-bottom:1px solid #ebebeb;margin-top:4px}
+.gtabs span{padding-bottom:12px}.gtabs .on{color:#1a73e8;box-shadow:inset 0 -3px 0 #1a73e8}
+.gres{max-width:680px;margin:18px 0 0 156px;padding:0 16px 0 0}
+.gres .cnt2{font-size:14px;color:#70757a;margin-bottom:18px}
+.gad{margin-bottom:30px}
+.gad .u{display:flex;align-items:center;gap:12px;font-size:14px;line-height:1.3}
+.gad .u .fv{width:26px;height:26px;border-radius:50%;background:#000;position:relative;flex:none;overflow:hidden;border:1px solid #dadce0}
+.gad .u .fv::before{content:"";position:absolute;width:56%;height:56%;left:22%;top:22%;border-radius:50%;background:radial-gradient(circle at 72% 26%,var(--cyan),var(--blue2) 62%,var(--blue))}
+.gad .u b{display:block;font-weight:400;color:#202124}.gad .u small{display:block;color:#4d5156;font-size:12px}
+.gad .sp{font-weight:700;color:#202124;font-size:14px;margin-right:6px}
+.gad a.t{display:block;font:400 20px/1.3 Arial,var(--ui);color:#1a0dab;text-decoration:none;margin:6px 0 4px;cursor:pointer}
+.gad a.t:hover{text-decoration:underline}
+.gad .d{font-size:14px;line-height:1.58;color:#4d5156}
+.gad .sl{display:grid;grid-template-columns:1fr 1fr;gap:8px 28px;margin-top:12px;max-width:520px}
+.gad .sl a{font-size:14px;color:#1a0dab;text-decoration:none;border-top:1px solid #ebebeb;padding-top:8px}
+.gad .sl a small{display:block;color:#4d5156;font-size:12.5px;margin-top:2px}
+.gor{opacity:.4;margin-bottom:26px}
+.gor i{display:block;font-style:normal;font-size:12px;color:#202124;margin-bottom:4px}
+.gor b{display:block;font:400 20px/1.3 Arial,var(--ui);color:#1a0dab}
+.gor span{display:block;font-size:14px;line-height:1.58;color:#4d5156;margin-top:4px}
+#pf-gg .note{color:#70757a;text-align:left;padding:0 0 24px 156px}#pf-gg .note b{color:#202124}
+@media(max-width:900px){.gh{padding:16px 12px 0;gap:14px}.gh .wm{font-size:22px}.gtabs{padding:12px 16px 0;gap:18px;overflow:hidden}.gres{margin:16px 0 0 0;padding:0 16px}#pf-gg .note{padding:0 16px 24px}}
+
+/* ---------- 1d: YouTube ---------- */
+#pf-yt{background:#0f0f0f;color:#fff;font-family:Roboto,var(--ui);min-height:700px}
+.yh{height:56px;display:flex;align-items:center;gap:20px;padding:0 16px}
+.yh .mn{width:24px;height:16px;border-top:2px solid #fff;border-bottom:2px solid #fff;position:relative;flex:none}.yh .mn::after{content:"";position:absolute;left:0;right:0;top:5px;border-top:2px solid #fff}
+.yh .wm{display:flex;align-items:center;gap:5px;font:700 20px/1 var(--ui);letter-spacing:-1.2px;flex:none}
+.yh .wm i{width:30px;height:21px;border-radius:6px;background:#f00;position:relative}.yh .wm i::after{content:"";position:absolute;left:12px;top:5.5px;border-left:8px solid #fff;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.yh .search{flex:1;max-width:560px;margin:0 auto;height:40px;border:1px solid #303030;border-radius:99px;padding:0 16px;display:flex;align-items:center;color:#aaa;font-size:15px}
+.yh .me{width:32px;height:32px;border-radius:50%;background:var(--hue,#5a7a8a);display:grid;place-items:center;font:600 12px var(--ui);flex:none}
+.yg{display:grid;grid-template-columns:minmax(0,1fr) 402px;gap:24px;max-width:1700px;margin:0 auto;padding:24px 24px 0}
+.pw{position:relative}
+.pw .cr{border-radius:12px;aspect-ratio:16/9}
+.yo{position:absolute;inset:0;pointer-events:none;border-radius:12px;overflow:hidden;font-family:var(--ui)}
+.yo .ad1{position:absolute;left:14px;bottom:46px;font-size:12px;background:rgba(0,0,0,.75);color:#fff;padding:5px 8px;border-radius:2px;display:flex;gap:6px}
+.yo .ad1 b{font-weight:600;background:#fbc02d;color:#000;padding:0 4px;border-radius:2px}
+.yo .skip{position:absolute;right:0;bottom:46px;pointer-events:auto;background:rgba(0,0,0,.72);border:1px solid rgba(255,255,255,.5);border-right:0;color:#fff;font:500 14px var(--ui);padding:12px 18px 12px 20px;cursor:pointer;display:flex;gap:8px;align-items:center}
+.yo .skip:hover{background:rgba(30,30,30,.95)}
+.yo .skip svg{width:14px;height:14px;fill:#fff}
+.yo .vis{position:absolute;left:14px;top:14px;background:rgba(0,0,0,.72);color:#fff;font:500 12px var(--ui);padding:6px 10px;border-radius:2px}
+.yo .pg{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.3)}
+.yo .pg i{display:block;height:100%;width:0;background:#fc0;animation:ytp 15s linear infinite}
+@keyframes ytp{to{width:100%}}
+@media(prefers-reduced-motion:reduce){.yo .pg i{animation:none;width:40%}}
+.ytt{padding:14px 0}
+.ytt h1{font:600 20px/1.4 var(--ui)}
+.ytt .ch{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.ytt .ch .ph-av{width:40px;height:40px;border-radius:50%;flex:none}
+.ytt .ch b{display:block;font:600 16px/1.3 var(--ui)}.ytt .ch small{font-size:12px;color:#aaa}
+.ytt .ch a{margin-left:auto;background:#f1f1f1;color:#0f0f0f;font:500 14px var(--ui);padding:9px 18px;border-radius:99px;text-decoration:none;white-space:nowrap}
+.ytt .ch a:hover{background:#d9d9d9}
+.ytt .dsc{margin-top:14px;background:rgba(255,255,255,.1);border-radius:12px;padding:12px;font:400 14px/1.45 var(--ui);color:#f1f1f1}
+.ytn{display:flex;flex-direction:column;gap:10px;opacity:.45}
+.ytn .v{display:flex;gap:8px}.ytn .th{width:168px;aspect-ratio:16/9;border-radius:8px;background:#272727;flex:none}
+.ytn .v b{font:500 14px/1.35 var(--ui);display:block}.ytn .v small{display:block;color:#aaa;font:400 12px/1.5 var(--ui)}
+#pf-yt .note{color:#aaa}#pf-yt .note b{color:#fff}
+.toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#fff;color:#000;font:500 14px var(--sans);padding:12px 20px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:80;max-width:calc(100vw - 32px);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:1000px){.yg{grid-template-columns:minmax(0,1fr);padding:0}.pw .cr,.yo{border-radius:0}.ytt{padding:14px 16px}.ytn{display:none}}
+
+/* ---------- screen 2: the guide ---------- */
+#s2{position:relative;background:#000;padding:24px 20px 40px}
+.wrap{max-width:1280px;margin:0 auto}
+.crumb{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.crumb h2{font:400 34px/1 var(--serif);letter-spacing:-.02em}
+.btn{display:inline-flex;align-items:center;gap:12px;border:1px solid #fff;border-radius:99px;padding:15px 24px;font:500 11px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background .2s,color .2s}
+.btn.solid{background:#fff;color:#000}.btn.solid:hover{background:var(--pale);border-color:var(--pale)}
+.btn.ghost{background:none;color:#fff;border-color:#3a4c60}.btn.ghost:hover{border-color:#fff}
+.browser{background:#0b1620;border:1px solid #1f2d3d;overflow:hidden}
+.chrome{display:flex;align-items:center;gap:12px;padding:10px 14px;background:#0b1620;border-bottom:1px solid #1f2d3d}
+.chrome .dots{display:flex;gap:6px}.chrome .dots i{width:11px;height:11px;border-radius:50%;background:#26394c}
+.chrome .url{flex:1;min-width:0;background:#000;border:1px solid #26394c;border-radius:99px;padding:6px 14px;font:400 12.5px var(--ui);color:#aebbc5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chrome .url b{font-weight:500;color:#fff}.chrome .url u{text-decoration:none;color:#5d7285}
+.chrome .url svg{width:11px;height:11px;fill:#5d7285;margin-right:7px;vertical-align:-1px}
+.vp{position:relative;overflow:hidden;background:#000}
+.vp iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;background:#000}
+.utm{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.utm span{font:400 10.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:9px 13px;border-radius:99px;border:1px solid #26394c;color:#aebbc5}
+.utm span b{color:var(--cyan);font-weight:500;margin-left:8px}
+.next{display:flex;justify-content:space-between;gap:12px;margin-top:24px;flex-wrap:wrap}
+
+/* ---------- screen 3: performance ---------- */
+#s3{position:relative;background:#000;padding:24px 20px 56px}
+#s3 .wrap.wide{max-width:1500px}
+.dh{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.dh h2{font:400 48px/.95 var(--serif);letter-spacing:-.035em}.dh h2 i{color:var(--cyan)}
+.dh p{font:400 10.5px/1.5 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--mute);margin-top:12px}
+.dh .samp{margin-left:auto;font:400 10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--cyan);border:1px solid #1f5560;border-radius:99px;padding:8px 13px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:28px}
+.kpi,.box2{background:var(--panel);border:1px solid #1f2d3d;padding:16px 18px}
+.kpi small{display:block;font:400 10px/1.3 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.kpi b{display:block;font:300 34px/1.1 var(--num);letter-spacing:-.05em;margin:12px 0 8px;font-variant-numeric:tabular-nums}
+.kpi span{font-size:12px;color:#8fa0ad}.kpi span em{font-style:normal;font-weight:500;color:var(--cyan)}
+.kpi.hl{background:linear-gradient(120deg,#1a35c8,#2a6fe0 60%,#3fb8e8);border-color:transparent}.kpi.hl small,.kpi.hl span,.kpi.hl span em{color:#fff}
+.row{display:grid;gap:12px;margin-bottom:28px}
+.r2{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}.r3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.box2 h3{font:400 10.5px/1.4 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#fff;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.box2 h3 small{font:400 11px var(--sans);letter-spacing:0;text-transform:none;color:#8fa0ad;margin-left:auto}
+.mt{display:flex;gap:4px;margin-left:auto}
+.mt button{font:500 12px var(--sans);letter-spacing:0;text-transform:none;color:#8fa0ad;background:none;border:0;border-radius:99px;padding:4px 10px;cursor:pointer}
+.mt button.on{background:rgba(255,255,255,.14);color:#fff}
+.chart{position:relative;margin-top:14px}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.chart text{font:400 11px var(--sans);fill:#6b7c8b}
+.tip{position:absolute;top:0;pointer-events:none;background:#000;border:1px solid #2b3d52;padding:7px 10px;font:500 12px/1.4 var(--sans);white-space:nowrap;opacity:0;transform:translate(-50%,-110%);transition:opacity .12s}
+.tip small{display:block;color:#8fa0ad;font-size:11px}
+.fun{margin-top:14px;display:flex;flex-direction:column;gap:9px}
+.fun div{display:grid;grid-template-columns:118px 1fr 92px;align-items:center;gap:10px;font-size:12.5px}
+.fun div span:first-child{color:#aebbc5}
+.fun i{display:block;height:18px;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--blue2));min-width:6px;transition:width .5s}
+.fun div:last-child i{background:linear-gradient(90deg,var(--blue2),var(--cyan))}
+.fun b{font:300 13px var(--num);text-align:right;font-variant-numeric:tabular-nums}
+.fun em{white-space:nowrap;font:400 11px var(--sans);font-style:normal;color:#6b7c8b;display:block}
+table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px;font-variant-numeric:tabular-nums}
+th{font:400 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:#6b7c8b;text-align:right;padding:6px 10px;white-space:nowrap}
+td{text-align:right;padding:12px 10px;border-top:1px solid #14202b;white-space:nowrap;color:#d6dde3}
+th:first-child,td:first-child{text-align:left}
+tbody tr{cursor:pointer;transition:background .15s}tbody tr:hover{background:rgba(255,255,255,.04)}
+tbody tr.on{background:rgba(98,230,243,.09)}
+td:first-child b{font-weight:500;color:#fff}td:first-child small{display:block;color:#6b7c8b;font-size:11.5px;margin-top:1px}
+td .bgbar{display:inline-block;height:6px;border-radius:3px;background:var(--cyan);vertical-align:middle;margin-left:8px;opacity:.85}
+tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
+.tw{overflow-x:auto}
+.bars{margin-top:14px;display:flex;flex-direction:column;gap:11px}
+.bars div{display:grid;grid-template-columns:96px 1fr auto;align-items:center;gap:10px;font-size:12.5px}
+.bars div span:first-child{color:#aebbc5;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bars i{display:block;height:8px;border-radius:99px;background:#2d4156;min-width:3px;transition:width .6s cubic-bezier(.3,.85,.2,1)}
+.bars div.on i{background:linear-gradient(90deg,var(--blue2),var(--cyan))}.bars div.on span:first-child{color:#fff}
+.bars b{white-space:nowrap;text-align:right;font:300 12.5px var(--num);font-variant-numeric:tabular-nums}
+.bars em{font-style:normal;color:#6b7c8b;font:400 11px var(--sans)}
+.models{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:12px}
+.models button{font:500 11.5px var(--sans);color:#8fa0ad;background:none;border:1px solid #1f2d3d;border-radius:99px;padding:5px 4px;cursor:pointer;white-space:nowrap}
+.models button.on{background:#fff;color:#000;border-color:#fff}
+.health{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px;margin-top:14px}
+.health div small{display:block;font-size:11.5px;color:#8fa0ad}.health div b{font:300 26px var(--num);letter-spacing:-.05em}
+.health div b u{text-decoration:none;font-size:13px;color:#8fa0ad;margin-left:2px}
+.split{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,6fr);gap:24px;align-items:start}
+.split .left{position:sticky;top:116px}
+.dash{container-type:inline-size;min-width:0}
+@container (max-width:900px){.r3{grid-template-columns:1fr}}@container (max-width:620px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.r2{grid-template-columns:1fr}}
+@media(max-width:1000px){.split{grid-template-columns:1fr}.split .left{position:static}}
+@media(max-width:980px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.r2,.r3{grid-template-columns:1fr}}
+@media(max-width:520px){#s2,#s3{padding:16px 12px 32px}.fun div{grid-template-columns:90px 1fr 62px}.kpi b{font-size:28px}.dh h2{font-size:38px}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="clearco" viewBox="-489.3 -58.1 978.8 116.8"><circle cx="-481.7" cy="-13.1" r="7.63"/><circle cx="-481.7" cy="14.1" r="7.63"/><circle cx="-468.7" cy="-34.5" r="7.63"/><circle cx="-468.7" cy="36.5" r="7.63"/><circle cx="-445.2" cy="-47.1" r="7.63"/><circle cx="-445.2" cy="47.6" r="7.63"/><circle cx="-419.1" cy="-50.5" r="7.63"/><circle cx="-419.1" cy="51.0" r="7.63"/><circle cx="-395.3" cy="-45.6" r="7.63"/><circle cx="-395.3" cy="46.7" r="7.63"/><circle cx="-374.7" cy="-32.9" r="7.63"/><circle cx="-374.7" cy="34.3" r="7.63"/><circle cx="-334.8" cy="-47.6" r="7.63"/><circle cx="-334.8" cy="-23.8" r="7.63"/><circle cx="-334.8" cy="-0.4" r="7.63"/><circle cx="-334.8" cy="23.7" r="7.63"/><circle cx="-334.8" cy="46.7" r="7.63"/><circle cx="-310.3" cy="47.6" r="7.63"/><circle cx="-286.6" cy="47.6" r="7.63"/><circle cx="-263.5" cy="47.6" r="7.63"/><circle cx="-239.7" cy="47.6" r="7.63"/><circle cx="-206.0" cy="-47.6" r="7.63"/><circle cx="-206.0" cy="-23.8" r="7.63"/><circle cx="-206.0" cy="-0.4" r="7.63"/><circle cx="-206.0" cy="23.7" r="7.63"/><circle cx="-206.0" cy="47.6" r="7.63"/><circle cx="-181.3" cy="-47.6" r="7.63"/><circle cx="-181.3" cy="-0.4" r="7.63"/><circle cx="-181.3" cy="47.6" r="7.63"/><circle cx="-158.0" cy="-47.6" r="7.63"/><circle cx="-158.0" cy="-0.4" r="7.63"/><circle cx="-158.0" cy="47.6" r="7.63"/><circle cx="-134.5" cy="-47.6" r="7.63"/><circle cx="-134.5" cy="-0.4" r="7.63"/><circle cx="-134.5" cy="47.6" r="7.63"/><circle cx="-111.2" cy="-47.6" r="7.63"/><circle cx="-111.2" cy="47.6" r="7.63"/><circle cx="-76.2" cy="49.9" r="7.63"/><circle cx="-63.7" cy="28.1" r="7.63"/><circle cx="-52.1" cy="7.7" r="7.63"/><circle cx="-40.1" cy="-13.1" r="7.63"/><circle cx="-40.1" cy="28.1" r="7.63"/><circle cx="-28.5" cy="-32.9" r="7.63"/><circle cx="-17.0" cy="-50.5" r="7.63"/><circle cx="-17.0" cy="28.1" r="7.63"/><circle cx="-6.2" cy="-32.9" r="7.63"/><circle cx="5.2" cy="-13.1" r="7.63"/><circle cx="6.8" cy="28.1" r="7.63"/><circle cx="16.9" cy="7.7" r="7.63"/><circle cx="28.7" cy="28.1" r="7.63"/><circle cx="40.6" cy="47.6" r="7.63"/><circle cx="76.9" cy="-47.1" r="7.63"/><circle cx="76.9" cy="-23.8" r="7.63"/><circle cx="76.9" cy="0.4" r="7.63"/><circle cx="76.9" cy="23.7" r="7.63"/><circle cx="76.9" cy="47.6" r="7.63"/><circle cx="101.3" cy="-47.6" r="7.63"/><circle cx="101.3" cy="-0.4" r="7.63"/><circle cx="124.8" cy="-47.6" r="7.63"/><circle cx="124.8" cy="-0.4" r="7.63"/><circle cx="148.2" cy="-47.6" r="7.63"/><circle cx="148.2" cy="-0.4" r="7.63"/><circle cx="163.6" cy="23.7" r="7.63"/><circle cx="171.0" cy="-45.6" r="7.63"/><circle cx="172.6" cy="-2.5" r="7.63"/><circle cx="181.5" cy="-23.8" r="7.63"/><circle cx="181.5" cy="47.6" r="7.63"/><circle cx="218.0" cy="-13.1" r="7.63"/><circle cx="218.0" cy="14.1" r="7.63"/><circle cx="231.4" cy="-34.5" r="7.63"/><circle cx="231.4" cy="35.4" r="7.63"/><circle cx="254.8" cy="-47.1" r="7.63"/><circle cx="254.8" cy="47.6" r="7.63"/><circle cx="280.8" cy="-50.5" r="7.63"/><circle cx="280.8" cy="51.0" r="7.63"/><circle cx="304.4" cy="-45.6" r="7.63"/><circle cx="304.4" cy="46.7" r="7.63"/><circle cx="325.4" cy="-32.9" r="7.63"/><circle cx="325.4" cy="35.4" r="7.63"/><circle cx="362.0" cy="-11.6" r="7.63"/><circle cx="362.0" cy="14.1" r="7.63"/><circle cx="375.2" cy="-32.9" r="7.63"/><circle cx="375.2" cy="35.4" r="7.63"/><circle cx="398.8" cy="-45.6" r="7.63"/><circle cx="398.8" cy="46.7" r="7.63"/><circle cx="424.6" cy="-47.6" r="7.63"/><circle cx="424.6" cy="49.9" r="7.63"/><circle cx="448.3" cy="-44.0" r="7.63"/><circle cx="448.3" cy="46.7" r="7.63"/><circle cx="469.0" cy="-31.9" r="7.63"/><circle cx="469.0" cy="34.3" r="7.63"/><circle cx="481.8" cy="-11.6" r="7.63"/><circle cx="481.8" cy="14.1" r="7.63"/></symbol></svg>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span class="x">/</span><a class="x" href="../">Back to all projects</a><span>/</span><b>Clearco Paid Ad Pipeline</b>
+<div class="tog" id="tog" role="group" aria-label="Pipeline screens"><button data-s="1"><i>1</i>Ad</button><button data-s="2"><i>2</i>Guide page</button><button data-s="3"><i>3</i>Performance</button></div></nav>
+<div class="ctl" id="ctl"><div class="grp plat" id="plat" role="group" aria-label="Ad platform"><span class="lbl">Platform</span></div><label class="grp mk"><span class="lbl">Marketer</span><select id="mk" aria-label="Marketer viewing the ad"></select></label></div>
+
+<!-- 1: the ad, on four platforms -->
+<section class="scr" id="s1" aria-label="The ad in a platform feed">
+
+ <div class="pf" id="pf-li" aria-label="LinkedIn feed with the sponsored ad">
+  <header class="lh"><div class="logo">in</div><div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(0,0,0,.6)"><path d="M21 19.6l-5.2-5.2a7 7 0 1 0-1.4 1.4l5.2 5.2zM4 10a6 6 0 1 1 12 0 6 6 0 0 1-12 0z"/></svg>Search</div>
+   <div class="ico"><div class="on"><svg viewBox="0 0 24 24"><path d="M23 9v2h-2v7a3 3 0 0 1-3 3h-4v-6h-4v6H6a3 3 0 0 1-3-3v-7H1V9l11-7z"/></svg>Home</div><div><svg viewBox="0 0 24 24"><path d="M12 16v6H3v-6a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3zm5.5-3A3.5 3.5 0 1 0 14 9.5a3.5 3.5 0 0 0 3.5 3.5zm1 2h-2a2.5 2.5 0 0 0-2.5 2.5V22h7v-4.5a2.5 2.5 0 0 0-2.5-2.5zM7.5 2A4.5 4.5 0 1 0 12 6.5 4.49 4.49 0 0 0 7.5 2z"/></svg>My Network</div><div><svg viewBox="0 0 24 24"><path d="M3 3h18a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H8l-5 4z"/></svg>Messaging</div><div><svg viewBox="0 0 24 24"><path d="M22 19h-8.28a2 2 0 0 1-3.44 0H2v-1l1.7-1.7A1 1 0 0 0 4 15.6V11a8 8 0 0 1 5-7.4V3a3 3 0 0 1 6 0v.6A8 8 0 0 1 20 11v4.6a1 1 0 0 0 .3.7L22 18z"/></svg>Notifications</div></div></header>
+  <div class="feed">
+   <aside class="pn me"><div class="cov"></div><div class="av" data-t="init">MO</div><h3 data-t="name">Maya Okafor</h3><p data-t="role"></p>
+    <div class="geo"><small>Viewer</small><span data-t="seg"></span></div></aside>
+   <main>
+    <article class="pn post ad"><div class="ph0"><div class="ph-av av-c"></div><div><b>Clearco</b><small>48,210 followers<br>Promoted</small></div><span class="more">··· &nbsp;✕</span></div>
+     <p class="txt"><span class="sw" data-t="intro"></span></p>
+     <div class="slot" data-pf="li"></div>
+     <div class="bar"><div class="tx"><b><span class="sw" data-t="bar"></span></b><small>clear.co</small></div><a class="go2" data-go="1" href="#">Download</a></div>
+     <div class="cnt"><span class="rx"><i></i><i></i>&nbsp;<span class="likes">184</span></span><span>12 comments · 9 reposts</span></div>
+     <div class="act"><button class="like"><svg viewBox="0 0 24 24"><path d="M7 11v10H3V11zm0 0l4-8a2 2 0 0 1 2 2v4h6.5a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 18.3 21H7"/></svg>Like</button><button><svg viewBox="0 0 24 24"><path d="M3 4h18v13H8l-5 4z"/></svg>Comment</button><button><svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4M21 13v2a3 3 0 0 1-3 3H3"/></svg>Repost</button><button><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>Send</button></div></article>
+    <article class="pn post"><div class="ph0"><div class="ph-av" style="background:#b5651d">DM</div><div><b>Dana Mehta</b><small>VP Marketing at Cobalt Plumbing Co.<br>5h · 🌐</small></div><span class="more">···</span></div>
+     <p class="txt">Reminder that every channel in my dashboard claims the same order. Anyone else comparing first-touch and last-touch this quarter? <span class="mr">…more</span></p>
+     <div class="cnt"><span class="rx"><i></i><i></i>&nbsp;96</span><span>14 comments</span></div></article>
+   </main>
+   <aside class="side"><div class="pn"><h5>LinkedIn News</h5><ul><li><b>Marketers rethink last-click reporting</b><small>2d ago · 8,214 readers</small></li><li><b>Ad budgets shift to video</b><small>1d ago · 5,602 readers</small></li><li><b>Why first-party data is back on the roadmap</b><small>3d ago · 3,977 readers</small></li></ul></div></aside>
+  </div>
+  <p class="note"><b>Click the ad</b> (the image or "Download") to follow the visitor to the guide.</p>
+ </div>
+
+ <div class="pf" id="pf-fb" aria-label="Facebook feed with the sponsored ad">
+  <header class="fh"><div class="logo">f</div><div class="search">Search Facebook</div><div class="tabs"><i class="on"></i><i></i><i></i><i></i></div><div class="r"><i></i><i></i><i></i></div></header>
+  <div class="fbg">
+   <div class="col"><div class="row"><span class="a" data-t="init">MO</span><span><span data-t="name"></span><small data-t="seg"></small></span></div><div class="row"><span class="b"></span>Friends</div><div class="row"><span class="b"></span>Groups</div><div class="row"><span class="b"></span>Marketplace</div><div class="row"><span class="b"></span>Pages</div></div>
+   <main>
+    <article class="fcard ad"><div class="ph0"><div class="ph-av av-c"></div><div><b>Clearco</b><small>Sponsored · 🌐</small></div><span class="more">··· &nbsp;✕</span></div>
+     <p class="txt"><span class="sw" data-t="intro"></span></p>
+     <div class="slot" data-pf="fb"></div>
+     <div class="lk"><div class="t"><small>clear.co</small><b><span class="sw" data-t="bar"></span></b><span class="d"><span class="sw" data-t="fbd"></span></span></div><a data-go="1" href="#">Download</a></div>
+     <div class="cnt"><span class="rx"><i></i><i></i>&nbsp;<span class="likes">342</span></span><span>41 comments · 18 shares</span></div>
+     <div class="act"><button class="like"><svg viewBox="0 0 24 24"><path d="M7 11v10H3V11zm0 0l4-8a2 2 0 0 1 2 2v4h6.5a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 18.3 21H7"/></svg>Like</button><button><svg viewBox="0 0 24 24"><path d="M3 4h18v13H8l-5 4z"/></svg>Comment</button><button><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>Share</button></div></article>
+    <article class="fcard"><div class="ph0"><div class="ph-av" style="background:#6b8f71">JE</div><div><b>Jordan Ellis</b><small>3h · 🌐</small></div></div><p class="txt">Spent the morning comparing time-decay and linear on the same quarter. The email channel looks very different.</p></article>
+   </main>
+   <div class="col"><h6>Sponsored</h6><div class="row"><span class="b" style="border-radius:8px;width:90px;height:90px"></span><span>Ad accounts, simplified<small>example.com</small></span></div><h6>Contacts</h6><div class="row"><span class="b"></span>Priya Nair</div><div class="row"><span class="b"></span>Sam Torres</div></div>
+  </div>
+  <p class="note"><b>Click the ad</b> (the image or "Download") to follow the visitor to the guide.</p>
+ </div>
+
+ <div class="pf" id="pf-gg" aria-label="Google search results with the sponsored ad">
+  <header class="gh"><div class="wm" aria-label="Search"><span>S</span><span>e</span><span>a</span><span>r</span><span>c</span><span>h</span></div><div class="box"><span data-t="q"></span><svg viewBox="0 0 24 24"><path d="M15.5 14h-.8l-.3-.3A6.5 6.5 0 1 0 14 15.5l.3.3v.8l5 5 1.5-1.5zm-6 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z"/></svg></div></header>
+  <div class="gtabs"><span class="on">All</span><span>Videos</span><span>Images</span><span>News</span><span>Shopping</span></div>
+  <div class="gres"><p class="cnt2">About 1,240,000 results (0.41 seconds)</p>
+   <div class="gad"><div class="u"><span class="fv"></span><span><b>Clearco</b><small><span class="sp">Sponsored</span>https://clear.co › attribution-guide</small></span></div>
+    <a class="t" data-go="1" href="#"><span class="sw" data-t="gt"></span></a>
+    <p class="d"><span class="sw" data-t="gd"></span></p>
+    <div class="sl"><a data-go="1" href="#">First-touch vs last-touch<small>Where single-touch models fall short</small></a><a data-go="1" href="#">Time-decay and W-shaped<small>Credit the journey, not the click</small></a><a data-go="1" href="#">Six models, one journey<small>See the credit move in the explorer</small></a><a data-go="1" href="#">Download the guide<small>Free for founders and marketers</small></a></div></div>
+   <div class="gor"><i>https://example.com › blog</i><b>What is marketing attribution? A beginner's overview</b><span>Marketing attribution is how you decide which touchpoints get credit for a conversion, from a first click to a final purchase.</span></div>
+   <div class="gor"><i>https://example.org › guides</i><b>Single-touch attribution models explained</b><span>First-touch and last-touch models give all of the credit to one interaction. Here is how to choose between them.</span></div>
+  </div>
+  <p class="note"><b>Click the ad</b> (the headline, a sitelink or "Download") to follow the visitor to the guide.</p>
+ </div>
+
+ <div class="pf" id="pf-yt" aria-label="YouTube watch page with the ad playing in the player">
+  <header class="yh"><span class="mn"></span><div class="wm"><i></i>Video</div><div class="search">Search</div><span class="me" data-t="init">MO</span></header>
+  <div class="yg">
+   <main>
+    <div class="pw"><div class="slot" data-pf="yt"></div>
+     <div class="yo"><span class="vis">Visit advertiser · clear.co</span><span class="ad1"><b>Ad</b> 1 of 2 · 0:15</span><button class="skip" id="skip">Skip<svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zM16 6v12h2V6z"/></svg></button><div class="pg"><i></i></div></div></div>
+    <div class="ytt"><h1><span class="sw" data-t="yt"></span></h1>
+     <div class="ch"><div class="ph-av av-c" style="width:40px;height:40px;border-radius:50%"></div><div><b>Clearco</b><small>Sponsored</small></div><a data-go="1" href="#">Download the guide</a></div>
+     <p class="dsc"><span class="sw" data-t="intro"></span></p></div>
+   </main>
+   <aside class="ytn"><div class="v"><span class="th"></span><div><b>How we scaled a store from 0 to 10k orders</b><small>Growth Notes · 212K views</small></div></div><div class="v"><span class="th"></span><div><b>Meta ads, explained in 12 minutes</b><small>Ad School · 88K views</small></div></div><div class="v"><span class="th"></span><div><b>Is last-click attribution lying to you?</b><small>Marketing Weekly · 41K views</small></div></div><div class="v"><span class="th"></span><div><b>Email flows that actually convert</b><small>Inbox Lab · 63K views</small></div></div></aside>
+  </div>
+  <p class="note"><b>Click the ad</b> (the video or "Download the guide") to follow the viewer to the guide. Or skip it: it still counts as a touchpoint.</p>
+ </div>
+
+ <!-- the creative lives here and is moved into the active platform's slot -->
+ <a class="cr" id="cr" href="#" aria-label="Marketing attribution guide from Clearco. Opens the guide">
+  <div class="dl" aria-hidden="true"></div>
+  <svg class="lg" role="img" aria-label="Clearco"><use href="#clearco"/></svg>
+  <div class="l"><div class="chip"><span class="sw">Attribution guide for <em id="crFor"></em></span></div>
+   <h4><span class="sw" id="crH"></span></h4>
+   <span class="go"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M2.5 14h11"/></svg>Download the guide</span></div>
+  <div class="stage" aria-hidden="true">
+   <div class="pp" data-i="0" style="top:55%;--w:.5"></div>
+   <div class="pp" data-i="1" style="top:69%;--w:.92"><span class="hw"><span class="rp"><i></i><i></i><i></i></span><span class="hd"></span></span></div>
+   <div class="pp" data-i="2" style="top:83%;--w:.66"></div>
+   <div class="bl" id="bl1" data-s="h"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="17" r="2"/><circle cx="12" cy="7" r="2"/><circle cx="19" cy="14" r="2"/><path d="M6.2 15.3l4.6-6.6M13.8 8.4l4 4.1"/></svg><div><strong class="sw" id="b1h"></strong><p class="sw" id="b1p"></p></div></div>
+   <div class="bl" id="bl2" data-s="h"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg><div><strong class="sw" id="b2h"></strong><p class="sw" id="b2p"></p></div></div>
+   <div class="bl" id="bl3" data-s="h"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><div><strong class="sw" id="b3h"></strong><p class="sw" id="b3p"></p></div></div>
+  </div>
+ </a>
+</section>
+
+<!-- 2: the guide -->
+<section class="scr" id="s2" aria-label="The guide the ad links to"><div class="wrap">
+ <div class="crumb"><h2>Where the click lands</h2></div>
+ <div class="browser"><div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 0 0-5 5v3H5v14h14V9h-2V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3z"/></svg><b>clear.co</b><u id="urlq"></u></div></div>
+  <div class="vp" id="vp"><iframe id="fr" title="Clearco Marketing Attribution Guide" loading="lazy"></iframe></div></div>
+ <div class="utm" aria-label="Tracking parameters"><span>utm_source<b id="uSrc"></b></span><span>utm_medium<b id="uMed"></b></span><span>utm_campaign<b>attribution_guide</b></span><span>utm_content<b id="uCon"></b></span></div>
+ <div class="next"><button class="btn ghost" data-go="1">← Back to the ad</button><button class="btn solid" data-go="3">See how it performed →</button></div>
+</div></section>
+
+<!-- 3: performance -->
+<section class="scr" id="s3" aria-label="Campaign performance"><div class="wrap wide"><div class="split">
+ <aside class="left"><div class="crumb" style="margin-bottom:12px"><h2 style="font-size:24px">The guide</h2></div>
+  <div class="browser"><div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url"><b>clear.co</b></div></div><div class="vp" id="vp2" data-split="1"><iframe id="fr2" title="Clearco Marketing Attribution Guide" loading="lazy"></iframe></div></div></aside>
+ <div class="dash">
+ <div class="dh"><div><h2>Attribution Guide <i>Performance</i></h2><p id="dsub"></p></div><span class="samp">Sample data</span></div>
+ <div class="kpis" id="kpis"></div>
+ <div class="row r2">
+  <div class="box2"><h3><span id="chT">Clicks per day</span><span class="mt" id="mt"></span></h3><div class="chart" id="chart"><div class="tip" id="tip"></div></div></div>
+  <div class="box2"><h3>Click to download funnel<small id="funS"></small></h3><div class="fun" id="fun"></div></div>
+ </div>
+ <div class="box2" style="margin-bottom:28px"><h3>Marketer metrics<small>Click a row to filter the whole page</small></h3><div class="tw"><table id="tbl"></table></div></div>
+ <div class="row r3">
+  <div class="box2"><h3>Downloads credited<small id="crS"></small></h3><div class="models" id="models" role="group" aria-label="Attribution model"></div><div class="bars" id="cred"></div></div>
+  <div class="box2"><h3>Click-through by platform<small>CTR</small></h3><div class="bars" id="ctrp"></div></div>
+  <div class="box2"><h3>Guide page health</h3><div class="health" id="hl"></div></div>
+ </div>
+ </div></div>
+ <div class="next"><button class="btn ghost" data-go="2">← Guide page</button><button class="btn solid" data-go="1">Replay from the ad ↺</button></div>
+</div></section>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const $=id=>document.getElementById(id);
+const GUIDE=new URL('../clearco-attribution-guide/',location.href).href;
+
+/* ---------- the audience: one entry per marketer (ad copy, the guide's intro and the sample numbers) ---------- */
+const M=[
+ {k:'dtc_founder',label:'DTC founders',name:'Maya Okafor',init:'MO',hue:'#8a6f5a',role:'Founder at Oat & Ember, a DTC skincare brand',seg:'DTC founder',
+  q:'how to know which ad led to a sale',
+  h:['Find the ad','behind every','order'],
+  intro:'Every channel claims the sale. Which ad actually earned it? Clearco’s attribution guide shows founders how to credit every touchpoint.',
+  gt:'Marketing Attribution Guide for DTC Founders | Clearco',gd:'Find out which ad earned each order. Compare single-touch and multi-touch models and put your budget where it moves the needle.',
+  fbd:'A free attribution guide for founders',yt:'Which ad actually earned the sale? A founder’s guide to attribution',
+  lede:'You sell across a handful of channels, and every one of them claims the order. Here’s how to see which ad actually earned it.',
+  b:[['6 <i>models</i> explained','From first-touch to W-shaped'],['4 <i>touchpoints</i> per order','Video, search, email and social'],['<i>Scale</i> what works','Spend a founder’s budget with proof']],
+  impr:96000,ctr:.011,cpc:2.9,lp:.87,cv:.26},
+ {k:'growth_lead',label:'growth teams',name:'Jordan Ellis',init:'JE',hue:'#4f7a62',role:'Head of Growth at Fieldnote, a B2B SaaS company',seg:'Head of Growth',
+  q:'multi touch attribution models for b2b growth',
+  h:['Credit every','channel in the','funnel'],
+  intro:'Last-click reports hide the channels that start the journey. Compare six attribution models and show which spend drives pipeline.',
+  gt:'Multi-Touch Attribution Guide for Growth Teams | Clearco',gd:'Last-click hides the channels that start deals. Compare six attribution models side by side and show what drives pipeline.',
+  fbd:'Compare six attribution models',yt:'Last-click is hiding your best channels. Here’s how to see them',
+  lede:'Last-click reports hide the channels that start the journey. Here’s how to compare six models and show which spend drives pipeline.',
+  b:[['<i>Pipeline</i>, not last clicks','Credit the channels that start deals'],['6 <i>models</i> compared','Single-touch to W-shaped, side by side'],['<i>Lead creation</i> counts','W-shaped gives it 30% of the credit']],
+  impr:118000,ctr:.0086,cpc:5.2,lp:.9,cv:.21},
+ {k:'paid_media',label:'media buyers',name:'Sam Torres',init:'ST',hue:'#3d6f9e',role:'Paid Media Manager at Halcyon Outdoors',seg:'Paid media manager',
+  q:'first touch vs last touch vs time decay attribution',
+  h:['Stop giving','last click all','the credit'],
+  intro:'Every platform dashboard takes credit for the same order. Compare first-touch, linear and time-decay models on one journey.',
+  gt:'First-Touch vs Time-Decay Attribution | Clearco Guide',gd:'Your platform dashboards each claim the same order. Compare six attribution models on one customer journey.',
+  fbd:'First-touch, linear and time-decay, compared',yt:'Why every ad platform claims the same sale (and what to do)',
+  lede:'Every platform dashboard takes credit for the same order. Here’s the same journey shared six ways, so you can defend your spend.',
+  b:[['<i>6</i> ways to share credit','Same journey, six different answers'],['<i>Time-decay</i> in one view','50% to the closer, 5% to the opener'],['<i>Defend</i> your budget','Show what the upper funnel is worth']],
+  impr:84000,ctr:.0121,cpc:3.8,lp:.88,cv:.29},
+ {k:'ecommerce',label:'e-commerce teams',name:'Dana Mehta',init:'DM',hue:'#b5651d',role:'E-commerce Manager at Cobalt Home',seg:'E-commerce manager',
+  q:'which marketing channel gets credit for a purchase',
+  h:['See every step','before the','checkout'],
+  intro:'A shopper watches a video, searches, ignores an email, then buys. Learn which touchpoints deserve the credit before you move budget.',
+  gt:'Which Channel Gets Credit for a Purchase? | Clearco',gd:'A shopper meets four touchpoints before checkout. See which ones deserve the credit before you move budget.',
+  fbd:'Which touchpoint earned the purchase?',yt:'Four touchpoints before checkout: who gets the credit?',
+  lede:'A shopper watches a video, searches, ignores an email, then buys. Here’s how to see which touchpoints deserve the credit.',
+  b:[['<i>4</i> stops before checkout','Video, search, email, then a social ad'],['<i>Linear</i> or time-decay?','Pick the model that fits your cycle'],['<i>Move</i> budget with proof','See which channels earn their spend']],
+  impr:102000,ctr:.0098,cpc:3.1,lp:.86,cv:.24},
+ {k:'agency_owner',label:'agencies',name:'Chris Lee',init:'CL',hue:'#7b5ea7',role:'Founder at North Studio, a performance marketing agency',seg:'Agency owner',
+  q:'explain marketing attribution to clients',
+  h:['Show clients','which ads','earn credit'],
+  intro:'Clients ask which ads earned the sale. Give them a clear answer with the multi-touch models in Clearco’s attribution guide.',
+  gt:'Explain Attribution to Clients | Clearco Marketing Guide',gd:'Give clients a clear answer on which ads earn the credit. Six models, explained in plain language.',
+  fbd:'Six models, explained in plain language',yt:'How to explain attribution to a client in five minutes',
+  lede:'Clients keep asking which ads earned the sale. Here’s a plain-language answer, with six models you can show them side by side.',
+  b:[['<i>Client-ready</i> reporting','Explain credit in plain language'],['6 <i>models</i> to compare','Show clients how the credit moves'],['<i>Prove</i> the upper funnel','Win the budget conversation']],
+  impr:61000,ctr:.0079,cpc:4.4,lp:.89,cv:.19}];
+/* the platforms: where the ad can run. journey order (first touch to last) is the order of this list's `j` */
+const P=[
+ {k:'li',n:'LinkedIn',c:'#0a66c2',src:'linkedin',med:'paid_social',j:2,imp:.8,ctr:.85,cpc:1.65,lp:.9,cv:1.05},
+ {k:'fb',n:'Facebook',c:'#1877f2',src:'facebook',med:'paid_social',j:3,imp:1.2,ctr:1,cpc:.7,lp:.82,cv:.85},
+ {k:'gg',n:'Google Search',c:'#ea4335',src:'google',med:'cpc',j:1,imp:.6,ctr:3.2,cpc:1.1,lp:.9,cv:1.2},
+ {k:'yt',n:'YouTube',c:'#ff0000',src:'youtube',med:'paid_video',j:0,imp:1.9,ctr:.28,cpc:.45,lp:.75,cv:.7}];
+/* attribution models, as in the guide: credit for [YouTube, Google Search, LinkedIn, Facebook] in journey order */
+const MODELS=[['First-touch',[100,0,0,0]],['Last-touch',[0,0,0,100]],['Linear',[25,25,25,25]],['Time-decay',[5,15,30,50]],['U-shaped',[40,10,10,40]],['W-shaped',[30,30,10,30]]];
+const state={s:1,m:0,p:0,metric:'clicks',model:3}; // m: marketer (-1 = all, performance screen only), p: platform index (-1 = all, performance screen only)
+
+/* film grain for the pills and ripples, made once */
+function tile(n,fn){const c=document.createElement('canvas');c.width=c.height=n;const g=c.getContext('2d'),d=g.createImageData(n,n);for(let i=0;i<n*n;i++)fn(d.data,i*4,Math.random());g.putImageData(d,0,0);return c}
+{const rs=document.documentElement.style;
+ rs.setProperty('--noise','url('+tile(96,(p,i,v)=>{p[i]=p[i+1]=p[i+2]=0;p[i+3]=70+Math.round(v*185)}).toDataURL()+')');
+ rs.setProperty('--grain','url('+tile(128,(p,i,v)=>{const w=v>.5;p[i]=p[i+1]=p[i+2]=w?255:0;p[i+3]=Math.round(Math.abs(v-.5)*2*120)}).toDataURL()+')')}
+$('cr').querySelector('.dl').innerHTML=[...Array(11)].map((_,i)=>`<i style="left:${(i+1)*100/12}%"></i>`).join('');
+
+/* ---------- controls ---------- */
+$('plat').insertAdjacentHTML('beforeend',P.map((p,i)=>`<button type="button" data-p="${i}" style="--c:${p.c}"><i></i>${p.n}</button>`).join('')+'<button type="button" class="all only3" data-p="-1"><i></i>All platforms</button>');
+$('mk').innerHTML=M.map((m,i)=>`<option value="${i}">${m.seg} · ${m.name}</option>`).join('')+'<option value="-1" class="only3">All marketers</option>';
+$('plat').querySelectorAll('button').forEach(b=>b.onclick=()=>setPlatform(+b.dataset.p,true));
+$('mk').onchange=e=>setMarketer(+e.target.value);
+function syncCtl(){
+ $('plat').querySelectorAll('button').forEach(b=>{const on=+b.dataset.p===state.p;b.classList.toggle('on',on);if(on&&$('plat').scrollWidth>$('plat').clientWidth)$('plat').scrollLeft=b.offsetLeft-60});
+ $('mk').value=state.m;$('ctl').classList.toggle('d3',state.s===3);
+ [...$('mk').options].forEach(o=>{if(o.value==='-1')o.hidden=o.disabled=state.s!==3})}
+
+/* ---------- navigation ---------- */
+function go(n,quiet){
+ state.s=n;if(n<3){if(state.m<0)state.m=0;if(state.p<0)state.p=0}
+ document.querySelectorAll('.scr').forEach(e=>e.classList.toggle('on',e.id==='s'+n));
+ document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',+b.dataset.s===n));
+ if(!quiet)history.replaceState(null,'','#'+['ad','guide','perf'][n-1]);
+ syncCtl();paintAll(true);mount();
+ if(n===2)loadPage(FR[0]);if(n===3){loadPage(FR[1]);drawDash()}
+ scrollTo(0,0);
+}
+document.querySelectorAll('#tog button').forEach(b=>b.onclick=()=>go(+b.dataset.s));
+document.querySelectorAll('[data-go]').forEach(b=>b.onclick=e=>{if(b.tagName==='A'){if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault()}go(+b.dataset.go)});
+
+/* ---------- 1: the ad ---------- */
+const cr=$('cr');
+function mount(){const pf=P[Math.max(0,state.p)].k;document.querySelectorAll('.pf').forEach(e=>e.classList.toggle('on',e.id==='pf-'+pf));
+ const slot=document.querySelector('#pf-'+pf+' .slot');if(slot&&cr.parentNode!==slot)slot.appendChild(cr);
+ cr.href=adUrl()}
+function adUrl(){const p=P[Math.max(0,state.p)],m=M[Math.max(0,state.m)];return GUIDE+'?'+utmQ(p,m)}
+function utmQ(p,m){return `utm_source=${p.src}&utm_medium=${p.med}&utm_campaign=attribution_guide&utm_content=${m.k}`}
+const TXT={init:m=>m.init,name:m=>m.name,role:m=>m.role,seg:m=>m.seg,intro:m=>m.intro,bar:m=>m.h.join(' '),fbd:m=>m.fbd,q:m=>m.q,gt:m=>m.gt,gd:m=>m.gd,yt:m=>m.yt};
+function paintAd(){const m=M[Math.max(0,state.m)];
+ document.querySelectorAll('[data-t]').forEach(e=>{e.innerHTML=TXT[e.dataset.t](m)});
+ document.querySelectorAll('.av,.a,.me').forEach(e=>e.style.setProperty('--hue',m.hue));
+ $('crFor').textContent=m.label;$('crH').innerHTML=`${m.h[0]}<br>${m.h[1]}<br><i>${m.h[2]}</i>`;
+ m.b.forEach((b,i)=>{$('b'+(i+1)+'h').innerHTML=b[0];$('b'+(i+1)+'p').textContent=b[1]});
+ const p=P[Math.max(0,state.p)];$('urlq').textContent='/attribution-guide?'+utmQ(p,m);$('uSrc').textContent=p.src;$('uMed').textContent=p.med;$('uCon').textContent=m.k;cr.href=adUrl()}
+const swEls=()=>[...document.querySelectorAll('.sw')];
+function paintAll(instant){if(instant){paintAd();return}
+ swEls().forEach(e=>e.classList.add('out'));setTimeout(()=>{paintAd();swEls().forEach(e=>e.classList.remove('out'))},300)}
+function setMarketer(i,instant){state.m=i;syncCtl();if(state.s===3){drawDash();return}
+ paintAll(instant);if(state.s===2)syncFrame(FR[0])}
+function setPlatform(i,user){state.p=i;syncCtl();if(state.s===3){drawDash();return}
+ mount();paintAd();
+ if(state.s===1){const r=cr.getBoundingClientRect();scrollTo(0,Math.max(0,scrollY+r.top-170))}
+ void user}
+$('toast').textContent='';
+document.querySelectorAll('.like').forEach(b=>b.onclick=function(){const on=this.classList.toggle('on');document.querySelectorAll('.likes').forEach(l=>{if(l.closest('#pf-li')===b.closest('#pf-li'))l.textContent=(+l.textContent.replace(/\D/g,''))+(on?1:-1)})});
+let tt;function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),2600)}
+$('skip').onclick=()=>toast('Skipped. It still counts as a touchpoint.');
+/* a plain click on the creative follows the visitor to the guide; modified clicks open the real URL */
+cr.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();go(2)});
+
+/* ---------- 2: the guide, the real page in an iframe scaled to fit ---------- */
+const FR=[{fr:$('fr'),vp:$('vp'),on:false},{fr:$('fr2'),vp:$('vp2'),on:false}];
+function fit(o){const w=o.vp.clientWidth,mob=w<760,vw=mob?(o.vp.dataset.split?380:420):1280,vh=mob?(o.vp.dataset.split?700:820):720,sc=w/vw;
+ o.fr.style.width=vw+'px';o.fr.style.height=vh+'px';o.fr.style.transform=`scale(${sc})`;o.vp.style.height=(vh*sc)+'px'}
+function syncFrame(o){try{const d=o.fr.contentDocument;if(!d||!d.head||!d.querySelector('.hero'))return;
+ if(!d.getElementById('ppx')){const s=d.createElement('style');s.id='ppx';s.textContent='nav.back{display:none!important}';d.head.appendChild(s)}
+ const m=M[Math.max(0,state.m)],l=d.querySelector('.hero .lede'),e=d.querySelector('.hero .copy .mono');
+ if(l)l.textContent=m.lede;if(e)e.textContent='Marketing attribution guide · for '+m.label}catch(e){/* cross-origin (file://): leave the page as it is */}}
+function loadPage(o){fit(o);if(!o.on){o.on=true;o.fr.onload=()=>{syncFrame(o);setTimeout(()=>syncFrame(o),400)};o.fr.src=adUrl()}else syncFrame(o)}
+addEventListener('resize',()=>{if(state.s===2)fit(FR[0]);if(state.s===3){fit(FR[1]);drawDash()}});
+
+/* ---------- 3: performance ---------- */
+const DAYS=14,DOW=[.45,1.1,1.2,1.15,1.1,.9,.5]; // Nov 1 2026 is a Sunday
+const rnd=(a,b)=>{const x=Math.sin(a*127.1+b*311.7)*43758.5453;return x-Math.floor(x)};
+const D=M.map((m,mi)=>P.map((p,pi)=>{const w=[...Array(DAYS)].map((_,d)=>DOW[d%7]*(1+d*.012)*(1+(rnd(mi*4+pi+1,d)-.5)*.16));const sw=w.reduce((a,b)=>a+b,0),c=mi*4+pi;
+ return w.map((x,d)=>{const impr=Math.round(m.impr*p.imp*x/sw),clicks=Math.round(impr*m.ctr*p.ctr*(1+(rnd(c+9,d)-.5)*.14)),lpv=Math.round(clicks*m.lp*p.lp*(1+(rnd(c+3,d)-.5)*.04)),leads=Math.round(lpv*m.cv*p.cv*(1+(rnd(c+5,d)-.5)*.4));
+  return{impr,clicks,lpv,leads,spend:clicks*m.cpc*p.cpc}})}));
+const sum=(arr,k)=>arr.reduce((a,x)=>a+x[k],0);
+function agg(ms,ps){const days=[...Array(DAYS)].map((_,d)=>{const o={impr:0,clicks:0,lpv:0,leads:0,spend:0};ms.forEach(i=>ps.forEach(q=>{for(const k in o)o[k]+=D[i][q][d][k]}));return o});
+ const t={};['impr','clicks','lpv','leads','spend'].forEach(k=>t[k]=sum(days,k));return{days,t}}
+const fmt=n=>Math.round(n).toLocaleString('en-US'),usd=n=>'$'+(n<100?n.toFixed(2):Math.round(n).toLocaleString('en-US')),pct=(n,d=2)=>(n*100).toFixed(d)+'%';
+const dayLbl=d=>'Nov '+(d+1);
+const METRICS={impr:['Impressions per day',fmt],clicks:['Clicks per day',fmt],leads:['Downloads per day',fmt],spend:['Spend per day',usd]};
+const ALLP=[0,1,2,3];
+function drawDash(){
+ const ms=state.m<0?M.map((_,i)=>i):[state.m],ps=state.p<0?ALLP:[state.p],{days,t}=agg(ms,ps),
+  plab=state.p<0?'All platforms':P[state.p].n,mlab=state.m<0?'All marketers':M[state.m].seg,lab=mlab+' · '+plab;
+ $('dsub').textContent=lab+' · Nov 1 – 14, 2026';
+ const ctr=t.clicks/t.impr,cpc=t.spend/t.clicks,cvr=t.leads/t.lpv,cpl=t.spend/t.leads;
+ const K=[['Impressions',fmt(t.impr),'+9.1%',0,''],['Clicks',fmt(t.clicks),'+12.4%',0,''],['Click-through rate',pct(ctr),'+0.06 pts',0,''],['Cost per click',usd(cpc),'−4.8%',0,''],
+  ['Guide page views',fmt(t.lpv),'+11.7%',0,''],['Guide downloads',fmt(t.leads),'+18.3%',1,'hl'],['Conversion rate',pct(cvr,1),'+0.4 pts',0,''],['Cost per download',usd(cpl),'−11.2%',0,'']];
+ $('kpis').innerHTML=K.map(k=>`<div class="kpi ${k[4]}"><small>${k[0]}</small><b>${k[1]}</b><span><em>${k[2]}</em> vs. prior 14 days</span></div>`).join('')+`<div class="kpi" style="grid-column:1/-1;display:flex;gap:28px;flex-wrap:wrap;padding:12px 18px"><small style="align-self:center">Spend</small><b style="margin:0;font-size:22px">${usd(t.spend)}</b><span style="align-self:center">${lab}</span></div>`;
+ $('mt').innerHTML=Object.keys(METRICS).map(k=>`<button data-k="${k}" class="${state.metric===k?'on':''}">${{impr:'Impressions',clicks:'Clicks',leads:'Downloads',spend:'Spend'}[k]}</button>`).join('');
+ $('mt').querySelectorAll('button').forEach(b=>b.onclick=()=>{state.metric=b.dataset.k;drawDash()});
+ $('chT').textContent=METRICS[state.metric][0];drawChart(days);
+ const eng=Math.round(t.lpv*.58),st=Math.round(t.lpv*.38),F=[['Ad clicks',t.clicks],['Guide page views',t.lpv],['Reached the models',eng],['Started the form',st],['Downloaded the guide',t.leads]];
+ $('funS').textContent=plab;
+ $('fun').innerHTML=F.map((f,i)=>`<div><span>${f[0]}</span><span><i style="width:${Math.max(.8,f[1]/F[0][1]*100)}%"></i></span><b>${fmt(f[1])}<em>${i?pct(f[1]/F[i-1][1],0)+' of prev.':'click-through '+pct(ctr)}</em></b></div>`).join('');
+ // marketer table
+ const rows=M.map((m,i)=>{const a=agg([i],ps).t,byP=ALLP.map(q=>agg([i],[q]).t.leads),top=P[byP.indexOf(Math.max(...byP))].n;return{m,i,a,top,ctr:a.clicks/a.impr,cpc:a.spend/a.clicks,cvr:a.leads/a.lpv,cpl:a.spend/a.leads}}),maxL=Math.max(...rows.map(r=>r.a.leads));
+ const all=agg(M.map((_,i)=>i),ps).t;
+ $('tbl').innerHTML=`<thead><tr><th>Marketer</th><th>Impr.</th><th>Clicks</th><th>CTR</th><th>CPC</th><th>Downloads</th><th>Conv. rate</th><th>Cost / download</th><th>Top platform</th></tr></thead><tbody>`+
+  rows.map(r=>`<tr data-i="${r.i}" class="${state.m===r.i?'on':''}"><td><b>${r.m.seg}</b><small>${r.m.name}</small></td><td>${fmt(r.a.impr)}</td><td>${fmt(r.a.clicks)}</td><td>${pct(r.ctr)}</td><td>${usd(r.cpc)}</td><td>${fmt(r.a.leads)}<span class="bgbar" style="width:${r.a.leads/maxL*48}px"></span></td><td>${pct(r.cvr,1)}</td><td>${usd(r.cpl)}</td><td>${r.top}</td></tr>`).join('')+
+  `</tbody><tfoot><tr><td>All marketers</td><td>${fmt(all.impr)}</td><td>${fmt(all.clicks)}</td><td>${pct(all.clicks/all.impr)}</td><td>${usd(all.spend/all.clicks)}</td><td>${fmt(all.leads)}</td><td>${pct(all.leads/all.lpv,1)}</td><td>${usd(all.spend/all.leads)}</td><td></td></tr></tfoot>`;
+ $('tbl').querySelectorAll('tbody tr').forEach(r=>r.onclick=()=>{const i=+r.dataset.i;state.m=state.m===i?-1:i;syncCtl();drawDash();if(FR[1].on&&state.m>=0)syncFrame(FR[1])});
+ // credit by platform under the chosen attribution model, over every platform in the journey
+ $('models').innerHTML=MODELS.map((m,i)=>`<button type="button" data-i="${i}" class="${state.model===i?'on':''}">${m[0]}</button>`).join('');
+ $('models').querySelectorAll('button').forEach(b=>b.onclick=()=>{state.model=+b.dataset.i;drawDash()});
+ const tot=agg(ms,ALLP).t.leads,w=MODELS[state.model][1],cred=P.map((p,i)=>({p,i,v:tot*w[p.j]/100,w:w[p.j]})).sort((a,b)=>a.p.j-b.p.j),mxc=Math.max(...cred.map(c=>c.w),1);
+ $('crS').textContent=MODELS[state.model][0];
+ $('cred').innerHTML=cred.map(c=>`<div class="${state.p===c.i?'on':''}"><span>${c.p.n}</span><span><i style="width:${c.w/mxc*100}%;${c.w?'':'min-width:3px'}"></i></span><b>${fmt(c.v)} <em>${c.w}%</em></b></div>`).join('');
+ const cp=P.map((p,i)=>({p,i,c:agg(ms,[i]).t})).map(o=>({...o,r:o.c.clicks/o.c.impr})),mxr=Math.max(...cp.map(o=>o.r));
+ $('ctrp').innerHTML=cp.map(o=>`<div class="${state.p===o.i?'on':''}"><span>${o.p.n}</span><span><i style="width:${o.r/mxr*100}%"></i></span><b>${pct(o.r,2)}</b></div>`).join('');
+ const H=[['Avg. time on page','2:48',''],['Avg. scroll depth','71','%'],['Bounce rate','34','%'],['Largest paint','1.3','s'],['Used the model explorer','46','%'],['Returning visitors','12','%']];
+ $('hl').innerHTML=H.map(h=>`<div><small>${h[0]}</small><b>${h[1]}<u>${h[2]}</u></b></div>`).join('');
+}
+function drawChart(days){
+ const k=state.metric,f=METRICS[k][1],v=days.map(d=>d[k]),W=720,Ht=250,pl=44,pr=10,pt=14,pb=26,mx=Math.max(...v),nice=(x=>{const p=Math.pow(10,Math.floor(Math.log10(x))),n=x/p;return(n<=1?1:n<=2?2:n<=2.5?2.5:n<=5?5:10)*p})(mx*1.05);
+ const X=i=>pl+i*(W-pl-pr)/(DAYS-1),Y=y=>pt+(1-y/nice)*(Ht-pt-pb);
+ const grid=[0,.25,.5,.75,1].map(g=>`<line x1="${pl}" x2="${W-pr}" y1="${Y(nice*g)}" y2="${Y(nice*g)}" stroke="rgba(255,255,255,.09)"/><text x="${pl-8}" y="${Y(nice*g)+4}" text-anchor="end">${k==='spend'?'$'+Math.round(nice*g).toLocaleString('en-US'):nice*g>=1000?Math.round(nice*g/1000)+'k':Math.round(nice*g*10)/10}</text>`).join('');
+ const xs=[0,3,6,9,13].map(i=>`<text x="${X(i)}" y="${Ht-6}" text-anchor="middle">${dayLbl(i)}</text>`).join('');
+ const pts=v.map((y,i)=>`${X(i)},${Y(y)}`).join(' ');
+ $('chart').innerHTML=`<svg viewBox="0 0 ${W} ${Ht}" role="img" aria-label="${METRICS[k][0]}, Nov 1 to 14">${grid}${xs}<defs><linearGradient id="ag" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#62e6f3" stop-opacity=".3"/><stop offset="1" stop-color="#62e6f3" stop-opacity="0"/></linearGradient><linearGradient id="al" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#2447f5"/><stop offset=".5" stop-color="#3b8cff"/><stop offset="1" stop-color="#62e6f3"/></linearGradient></defs>
+  <polygon points="${X(0)},${Y(0)} ${pts} ${X(DAYS-1)},${Y(0)}" fill="url(#ag)"/><polyline points="${pts}" fill="none" stroke="url(#al)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <line id="cur" y1="${pt}" y2="${Y(0)}" stroke="rgba(255,255,255,.4)" stroke-dasharray="3 3" opacity="0"/><circle id="dot" r="6" fill="#62e6f3" stroke="#000" stroke-width="2" opacity="0"/><rect x="${pl}" y="0" width="${W-pl-pr}" height="${Ht}" fill="transparent" id="hit"/></svg><div class="tip" id="tip"></div>`;
+ const hit=$('hit'),tip=$('tip'),svg=hit.ownerSVGElement;
+ const mv=e=>{const r=svg.getBoundingClientRect(),px=(e.clientX-r.left)/r.width*W,i=Math.max(0,Math.min(DAYS-1,Math.round((px-pl)/((W-pl-pr)/(DAYS-1)))));
+  $('cur').setAttribute('x1',X(i));$('cur').setAttribute('x2',X(i));$('cur').setAttribute('opacity',1);$('dot').setAttribute('cx',X(i));$('dot').setAttribute('cy',Y(v[i]));$('dot').setAttribute('opacity',1);
+  tip.innerHTML=`<small>${dayLbl(i)}</small>${f(v[i])}`;tip.style.left=(X(i)/W*r.width)+'px';tip.style.top=(Y(v[i])/Ht*r.height-6)+'px';tip.style.opacity=1};
+ hit.addEventListener('pointermove',mv);hit.addEventListener('pointerleave',()=>{tip.style.opacity=0;$('cur').setAttribute('opacity',0);$('dot').setAttribute('opacity',0)});
+}
+
+/* ---------- the creative's motion: pills that extend and withdraw, and the three blurbs drifting up ---------- */
+const clamp01=v=>Math.min(1,Math.max(0,v)),eo=t=>1-Math.pow(1-t,3),eio=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const PILLS=[...cr.querySelectorAll('.pp')],T=8.4,DELAY=[.5,0,1],reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const pills={t:null,raf:0,
+ set(t){PILLS.forEach((p,i)=>{const u=t-DELAY[i],v=eo(clamp01(u/1.9))*(1-eio(clamp01((u-(T-2.7))/1.3)));p.style.setProperty('--p',v.toFixed(4))})},
+ freeze(t){this.stop();this.set(t==null?3.6:t)},
+ start(){if(reduce){this.set(3.6);return}const f=n=>{this.set(n/1000%T);this.raf=requestAnimationFrame(f)};this.stop();this.raf=requestAnimationFrame(f)},
+ stop(){cancelAnimationFrame(this.raf)}};
+const BL=[1,2,3].map(n=>$('bl'+n));
+const bl={timer:null,st:null,order:[0,1,2],
+ reset(e){e.dataset.s='r';void e.offsetWidth;e.dataset.s='h';void e.offsetWidth},
+ instant(){BL.forEach(e=>{e.dataset.s='r'});void BL[0].offsetWidth;this.order=[0,1,2];BL[0].dataset.s='0';BL[1].dataset.s='1';BL[2].dataset.s='h'},
+ step(){const [top,low,nxt]=this.order;BL[top].dataset.s='x';BL[low].dataset.s='0';this.reset(BL[nxt]);BL[nxt].dataset.s='1';
+  const gone=top;this.order=[low,nxt,gone];setTimeout(()=>{if(this.order[2]===gone)this.reset(BL[gone])},2200)},
+ intro(){this.order=[0,1,2];BL.forEach(e=>{e.dataset.s='h'});setTimeout(()=>{BL[0].dataset.s='0'},150);setTimeout(()=>{BL[1].dataset.s='1'},650)},
+ start(first){this.stop();this.st=setTimeout(()=>{this.step();this.timer=setInterval(()=>this.step(),3400)},first)},
+ stop(){clearTimeout(this.st);clearInterval(this.timer)}};
+
+/* ---------- start ---------- */
+const q=new URLSearchParams(location.search);
+if(q.has('hold')){pills.freeze();bl.instant()}else{pills.start();bl.intro();bl.start(2600)}
+window.__pp={go,setMarketer:i=>setMarketer(i),setPlatform:i=>setPlatform(i),bl,pills};
+const h=location.hash.slice(1),start={ad:1,guide:2,perf:3}[h]||1;
+go(start,true);
+</script>
+</body>
+</html>
