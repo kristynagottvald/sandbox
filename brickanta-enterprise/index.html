@@ -250,7 +250,7 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 
 /* closing */
 .cta{overflow:hidden}
-.cta h2{font-size:clamp(40px,7.4vw,112px);color:#fff;max-width:9ch;position:relative}
+.cta h2{font-size:clamp(40px,7.4vw,112px);color:#fff;white-space:nowrap;position:relative}
 .cta{--s:clamp(320px,46vw,740px);min-height:clamp(560px,50vw,780px);display:flex;align-items:center}.cta .wrap{width:100%;position:static}
 .cta .mk{position:absolute;right:calc(var(--s)*-.16);bottom:calc(var(--s)*-.24);width:var(--s);aspect-ratio:1;overflow:hidden}
 .cta p{margin-top:22px;font-size:19px;max-width:34ch}
@@ -260,7 +260,7 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 footer{background:var(--plum);color:var(--ice);padding:clamp(48px,6vw,88px) 0 28px}
 .fgrid{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(4,minmax(0,1fr));gap:32px;padding-bottom:48px}
 footer .brand{color:#fff;font-size:30px}footer .brand svg{width:40px;height:40px}
-footer .tag{margin-top:18px;font-size:22px;font-weight:300;letter-spacing:-.01em;color:#fff;max-width:14ch;line-height:1.15}
+footer .tag{margin-top:18px;font-size:20px;font-weight:500;letter-spacing:-.01em;color:#fff;max-width:20ch;line-height:1.3}
 footer h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.6;margin-bottom:16px;display:flex;gap:10px}
 footer ul{list-style:none;padding:0;display:grid;gap:10px;font-size:15px}
 footer a{text-decoration:none;opacity:.88}footer a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
@@ -269,8 +269,8 @@ footer a{text-decoration:none;opacity:.88}footer a:hover{opacity:1;text-decorati
 
 
 /* type: Tektur for display, IBM Plex Sans for reading. Tektur starts at 400, so the light weights become 400 and tracking opens up */
-h1,h2,h3,.btn,.eyebrow,.cost .n,.cost q,.tabs .t,.tabs .n,.card .big,.card .hd,.edge .big,.stats .v,.role .num,.plan .price,.faq summary,footer .tag,footer h4,.step .bar b,.stack div b,.msg small,.tile .tag,.facts b,.chips span{font-family:var(--display)}
-h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{font-weight:400;letter-spacing:-.01em}
+h1,h2,h3,.btn,.eyebrow,.cost .n,.cost q,.tabs .t,.tabs .n,.card .big,.card .hd,.edge .big,.stats .v,.role .num,.plan .price,.faq summary,footer h4,.step .bar b,.stack div b,.msg small,.tile .tag,.facts b,.chips span{font-family:var(--display)}
+h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary{font-weight:400;letter-spacing:-.01em}
 h1{font-size:clamp(34px,4.7vw,70px);line-height:1.05}
 h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
 .cta h2{font-size:clamp(36px,6vw,92px)}
@@ -295,13 +295,14 @@ h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
 /* softer cut corners on the one-system block */
 .sys{--cut:clamp(14px,1.6vw,24px)}
 /* Tektur runs wide, so tighten it a little */
-h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.03em}
+h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary{letter-spacing:-.03em}
 .brand{font-family:var(--sans);font-weight:600;letter-spacing:-.02em}
 .panel a.more,.chips span{font-family:var(--sans);letter-spacing:0}.panel a.more{font-weight:500}.btn{letter-spacing:0}
 .cost .n,.edge .big,.stats .v,.role .num,.plan .price{letter-spacing:-.055em}
 .eyebrow,footer h4,.card .hd,.tile .tag,.msg small{letter-spacing:.1em}
 .rail button{letter-spacing:.04em}.facts b,.chips span,.stack div b{letter-spacing:-.01em}
 
+footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 /* clip mode: no auto cycling, everything already in */
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.hl,.step .bar::before{transform:none}.tile .in-a,.tile .in-b{transform:none}}
 </style>
@@ -520,7 +521,7 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
 <section class="sec coral cta" id="demo">
   <div class="wrap">
     <div class="eyebrow rv"><svg class="bp"><use href="#bp"/></svg>See it on your project</div>
-    <h2 class="rv" style="margin-top:22px">See Brickanta in action</h2>
+    <h2 class="rv" style="margin-top:22px">See Brickanta<br>in action</h2>
     <p class="lede rv" style="--d:.1s;opacity:1;color:var(--navy)">Get a closer look at the platform built for construction teams.</p>
     <div class="row-btns rv" style="--d:.2s"><a class="btn light" href="#demo">Request demo</a><a class="btn alt" href="#pricing">Explore pricing</a></div>
     <svg class="mk morph" id="morph" viewBox="0 0 6 6" aria-hidden="true"><defs><clipPath id="mkc"><polygon id="mA"/><polygon id="mB"/><polygon id="mC"/><polygon id="mD"/></clipPath></defs><g clip-path="url(#mkc)"><use href="#ill3" width="6" height="6"/></g><g fill="none" stroke="none"><polygon id="oA"/><polygon id="oB"/><polygon id="oC"/><polygon id="oD"/></g></svg>
@@ -531,7 +532,7 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
 <footer>
   <div class="wrap">
     <div class="fgrid">
-      <div><a class="brand" href="#top" aria-label="Brickanta"><svg style="color:var(--coral)"><use href="#mark"/></svg>brıckanta</a><p class="tag">Run your construction projects like craft.</p></div>
+      <div><a class="brand" href="#top" aria-label="Brickanta"><svg style="color:var(--coral)"><use href="#mark"/></svg>brıckanta</a><p class="tag">Keep every project’s knowledge in one place.</p></div>
       <div><h4><span>01</span>Product</h4><ul><li><a href="#system">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#live">Integrations</a></li><li><a href="#results">Customers</a></li><li><a href="#">Changelog</a></li></ul></div>
       <div><h4><span>02</span>Teams</h4><ul><li><a href="#roles">Estimating &amp; Bid</a></li><li><a href="#roles">Procurement</a></li><li><a href="#roles">Project leads</a></li><li><a href="#roles">Leadership</a></li></ul></div>
       <div><h4><span>03</span>Company</h4><ul><li><a href="#">About us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Brickanta Summit</a></li><li><a href="#">Academy</a></li></ul></div>
