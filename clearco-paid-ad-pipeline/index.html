@@ -61,6 +61,13 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .cr .stage>*{pointer-events:none}
 .cr .stage{display:flex;flex-direction:column;justify-content:center;gap:2.2cqw;padding:0 5cqw 0 0}
 .cr .bl{position:relative;display:flex;align-items:center;background:rgba(4,10,16,.94);border:1px solid #24465c;border-radius:3px;padding:3.4cqw 17cqw 3.4cqw 4.6cqw;color:#fff}
+.cr .bl:nth-child(2){--i:1}.cr .bl:nth-child(3){--i:2}
+.cr.play .bl{animation:cardin .8s cubic-bezier(.2,.8,.2,1) calc(var(--i,0) * .2s) backwards,hl 6s ease-in-out calc(1.4s + var(--i,0) * 2s) infinite}
+.cr.play .bl .ic{animation:icp 6s ease-in-out calc(1.4s + var(--i,0) * 2s) infinite}
+@keyframes cardin{from{opacity:0;transform:translateX(7cqw)}}
+@keyframes hl{0%,34%,100%{border-color:#24465c;background:rgba(4,10,16,.94);transform:none}8%,26%{border-color:var(--cyan);background:rgba(10,30,44,.96);transform:translateX(-1.6cqw)}}
+@keyframes icp{0%,34%,100%{transform:translateY(-50%) scale(1);border-color:#2b3d52}8%,26%{transform:translateY(-50%) scale(1.14);border-color:var(--cyan)}}
+@media(prefers-reduced-motion:reduce){.cr.play .bl,.cr.play .bl .ic{animation:none}}
 .cr .bl .ic{position:absolute;right:4cqw;top:50%;width:10.5cqw;height:10.5cqw;transform:translateY(-50%);padding:2.5cqw;border:1px solid #2b3d52;border-radius:50%;color:var(--cyan)}
 .cr .bl strong{display:block;font:400 7cqw/1 var(--serif);letter-spacing:-.02em}
 .cr .bl strong i{color:var(--cyan)}
@@ -520,7 +527,7 @@ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=e=>{if(b.tagName==='
 const cr=$('cr');
 function mount(){const pf=P[Math.max(0,state.p)].k;document.querySelectorAll('.pf').forEach(e=>e.classList.toggle('on',e.id==='pf-'+pf));
  const slot=document.querySelector('#pf-'+pf+' .slot');if(slot&&cr.parentNode!==slot)slot.appendChild(cr);
- cr.href=adUrl()}
+ cr.href=adUrl();cr.classList.remove('play');void cr.offsetWidth;cr.classList.add('play')}
 function adUrl(){const p=P[Math.max(0,state.p)],m=M[Math.max(0,state.m)];return GUIDE+'?'+utmQ(p,m)}
 function utmQ(p,m){return `utm_source=${p.src}&utm_medium=${p.med}&utm_campaign=attribution_guide&utm_content=${m.k}`}
 const TXT={init:m=>m.init,name:m=>m.name,role:m=>m.role,seg:m=>m.seg,intro:m=>m.intro,bar:m=>m.h.join(' '),fbd:m=>m.fbd,q:m=>m.q,gt:m=>m.gt,gd:m=>m.gd,yt:m=>m.yt};
