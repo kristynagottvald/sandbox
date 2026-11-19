@@ -502,7 +502,7 @@ $('mk').innerHTML=M.map((m,i)=>`<option value="${i}">${m.seg} · ${m.name}</opti
 $('plat').querySelectorAll('button').forEach(b=>b.onclick=()=>setPlatform(+b.dataset.p,true));
 $('mk').onchange=e=>setMarketer(+e.target.value);
 function syncCtl(){
- $('plat').querySelectorAll('button').forEach(b=>{const on=+b.dataset.p===state.p;b.classList.toggle('on',on);if(on&&$('plat').scrollWidth>$('plat').clientWidth)$('plat').scrollLeft=b.offsetLeft-60});
+ $('plat').querySelectorAll('button').forEach(b=>{const on=+b.dataset.p===state.p;b.classList.toggle('on',on);if(on)$('plat').scrollLeft=b.offsetLeft+b.offsetWidth>$('plat').clientWidth?b.offsetLeft-60:0});
  $('mk').value=state.m;$('ctl').classList.toggle('d3',state.s===3);
  [...$('mk').options].forEach(o=>{if(o.value==='-1')o.hidden=o.disabled=state.s!==3})}
 
