@@ -157,7 +157,7 @@ function stampPath(w,h,n,m){const pw=w/n,ph=h/m;
 function bigText(str,y,maxW,ex){const f='900 200px "Archivo Black","Arial Black",Arial,sans-serif';x.save();x.font=f;x.letterSpacing='-8px';x.textAlign='left';x.textBaseline='alphabetic';
   x.letterSpacing='-8px';let sz=170;titles.forEach(t=>{const w=x.measureText(t.toLowerCase()).width;sz=Math.min(sz,200*maxW/w*1.0)});x.font=f.replace('200px',sz+'px');x.letterSpacing=(-.04*sz)+'px';
   const cw=[...str].map(c=>x.measureText(c).width),tot=cw.reduce((a,b)=>a+b,0);let cx=540-tot/2;
-  [...str].forEach((c,i)=>{const pp=eob(cl((lt-.5-i*.045)/.5))*ex;x.save();x.globalAlpha=cl(pp*1.4);x.translate(cx,y+(1-pp)*70);x.fillStyle=NAVY;x.fillText(c,0,0);x.restore();cx+=cw[i]});x.restore()}
+  [...str].forEach((c,i)=>{const pp=eob(cl((lt-.5-i*.045)/.5))*ex;x.save();x.globalAlpha=cl(pp*1.4);x.translate(cx,y+(1-pp)*70);x.lineJoin='round';x.strokeStyle=CREAM;x.lineWidth=sz*.17;x.strokeText(c,0,0);x.fillStyle=NAVY;x.fillText(c,0,0);x.restore();cx+=cw[i]});x.restore()}
 function smallText(str,y,size,delay,ex,col){const p=eio(cl((lt-delay)/.4))*ex,ls=size*.3;x.save();x.globalAlpha=p;x.font='700 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign='center';x.fillStyle=col;x.fillText(str.toUpperCase(),540+ls/2,y+(1-p)*18);x.restore()}
 function draw(){
   x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,S,S);
@@ -173,8 +173,8 @@ function draw(){
   x.translate(-540,-572);
   const scene=front=>{x.save();x.translate(540,572);x.scale(.6,.6);x.translate(-750,-590);sceneDraw(front,ex);x.restore()};
   scene(false);
-  bigText(titles[day].toLowerCase(),596,640,ex);
-  scene(true);smallText('day '+(day+1),497,24,.4,ex,'#fff');
+  scene(true);
+  bigText(titles[day].toLowerCase(),596,640,ex);smallText('day '+(day+1),497,24,.4,ex,'#fff');
   x.restore();
   logo(64,66,128,NAVY);
   x.save();x.font='700 22px "Inter",Arial,sans-serif';x.letterSpacing='7px';x.textAlign='right';x.fillStyle=NAVY;x.fillText('12 DAYS OF LOB',S-64+7,100);x.restore();
