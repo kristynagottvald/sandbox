@@ -16,7 +16,7 @@ The home page is the best way to browse. Every project is a tile that plays a 6 
 | **Interactive Engine** | Generators with live controls for producing on-brand assets and motion variants | Grubclub Holiday Grid, Postmark Awards Motion Engine, Postmark Awards Ribbon Engine, Grubclub End Card Maker, Brand Guidelines Settings, Lifecycle Image Studio, Banner Template Studio, Blog Banner Studio |
 | **Mini Site** | Multi-screen, shareable story pages | Lob Unwrapped |
 | **Tools** | Small utilities for brand and marketing production | Clearco Paid Ad Pipeline, Thread Brand Guidelines, Thread Conference Landing Page, Location Hero, Conference Post Generator |
-| **Landing Page** | Campaign landing page concepts | Klir Landing Page, Side Reveal, Clearco Attribution Guide, Clearco Logistics Guide |
+| **Landing Page** | Campaign landing page concepts | Brickanta Enterprise, Klir Landing Page, Side Reveal, Clearco Attribution Guide, Clearco Logistics Guide |
 | **Email** | Email design concepts | Grubclub Offer Emails |
 | **Mockup** | Product and analytics UI mockups | Video Synopsis, A/B Test: PSC Page Variants |
 

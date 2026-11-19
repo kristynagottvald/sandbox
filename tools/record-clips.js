@@ -25,6 +25,16 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
+  // Brickanta Enterprise, a long landing page: the coral tile opens along the logo's 45 degree line, then the page scrolls to the tabbed showcase whose example card changes colour and content, on to the big numerals and the trust numbers
+  'brickanta-enterprise': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1500, q: 62, run: async (p) => {
+    const t0 = Date.now(), b = (f, a) => p.evaluate(([f, a]) => window.__bk[f](a), [f, a]);
+    await at(t0, 1700, () => b('sec', 'system'));
+    await at(t0, 3000, () => b('go', 2));
+    await at(t0, 3900, () => b('go', 3));
+    await at(t0, 4600, () => b('sec', 'edge'));
+    await at(t0, 5600, () => b('sec', 'results'));
+    await sleep(1000);
+  } },
   // Lob 12 Days advent, a 1:1 motion post: the wrapped door pops in, the bow lifts away, the doors swing open on the day's illustration and title, then close on the next day's number
   'lob-12-days': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 600, q: 62, run: async (p) => { await sleep(6500); } },
   // Lob Unwrapped, a full-screen 16:9 reel of concentric flat geometry: the intro stamp presses in and sends waves out, then dots stream in to build the US map, the trail of fading rectangles, the offset squares and the mandala persona

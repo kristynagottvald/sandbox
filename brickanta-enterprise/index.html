@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brickanta Enterprise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Tektur:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --plum:#3c222e; --coral:#e8584f; --coral2:#ee6a64; --navy:#0e1f4c; --deep:#122230; --ice:#d4e0ee; --paper:#f7f4f0; --white:#fff;
+  --sans:"IBM Plex Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --display:"Tektur","IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --u:60px;            /* the logo's grid unit; every cut is 45deg */
+  --cut:clamp(28px,4vw,60px);
+  --ease:cubic-bezier(.22,.8,.3,1);
+  --pad:clamp(20px,4.4vw,64px);
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--plum);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;line-height:1.5;overflow-x:hidden}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--coral);outline-offset:3px}
+
+/* sandbox back bar */
+nav.back{display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 var(--sans);white-space:nowrap;overflow:hidden}
+nav.back a{color:#8d8d8d;text-decoration:none}nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:640px){nav.back{padding:0 16px}nav.back .x{display:none}}
+
+/* shared pieces */
+.wrap{max-width:1360px;margin:0 auto;padding:0 var(--pad)}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.eyebrow svg{width:16px;height:16px;flex:none}
+h1,h2,h3{font-weight:300;letter-spacing:-.025em;line-height:1.04}
+h2{font-size:clamp(34px,4.6vw,66px)}
+h3{font-weight:400;letter-spacing:-.015em;line-height:1.15}
+p{max-width:60ch}
+.lede{font-size:clamp(17px,1.4vw,20px);line-height:1.5;opacity:.82}
+.hl{display:block;height:1px;background:currentColor;opacity:.3;transform-origin:left;transform:scaleX(0);transition:transform 1.1s var(--ease)}
+.in>.hl,.hl.in,.in .hl{transform:scaleX(1)}
+.vl{background-image:repeating-linear-gradient(90deg,currentColor 0 1px,transparent 1px 12px)}
+.btn{display:inline-flex;align-items:center;gap:10px;border:0;text-decoration:none;font-weight:500;font-size:15px;padding:16px 28px 16px 24px;background:var(--plum);color:#fff;
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);transition:background .25s,color .25s,padding .3s var(--ease)}
+.btn:hover{background:var(--coral);padding-right:34px}
+.btn.alt{background:transparent;color:inherit;box-shadow:none;position:relative}
+.btn.alt::before{content:"";position:absolute;inset:0;border:1px solid currentColor;opacity:.4}
+.btn.alt:hover{background:rgba(127,127,127,.14);color:inherit}
+.btn.light{background:#fff;color:var(--plum)}.btn.light:hover{background:var(--plum);color:#fff}
+.row-btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .9s var(--ease);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+.sec{padding:clamp(64px,9vw,128px) 0;position:relative}
+.sec.plum{background:var(--plum);color:var(--ice)}
+.sec.coral{background:var(--coral);color:var(--navy)}
+.sec.navy{background:var(--navy);color:var(--ice)}
+.sec.ice{background:var(--ice);color:var(--navy)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:end;margin-bottom:clamp(36px,5vw,72px)}
+.sec-head .eyebrow{grid-column:1/-1;margin-bottom:6px}
+@media(max-width:860px){.sec-head{grid-template-columns:1fr}}
+
+/* header */
+header.site{position:sticky;top:0;z-index:30;background:rgba(247,244,240,.94);backdrop-filter:blur(8px);border-bottom:1px solid rgba(60,34,46,.22)}
+header.site .wrap{display:flex;align-items:center;gap:28px;height:68px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:500;font-size:22px;letter-spacing:-.03em}
+.brand svg{width:28px;height:28px}
+header nav{display:flex;gap:26px;margin-left:24px;font-size:14px}
+header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-decoration:underline;text-underline-offset:4px}
+.hdr-r{margin-left:auto;display:flex;align-items:center;gap:22px;font-size:14px}
+.hdr-r .btn{padding:12px 22px 12px 18px;font-size:14px}
+@media(max-width:900px){header nav,.hdr-r>a:first-child{display:none}}
+
+/* hero */
+.hero{padding:clamp(40px,6vw,88px) 0 clamp(56px,7vw,100px);position:relative}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,5vw,80px);align-items:center}
+.hero h1{font-size:clamp(44px,6.6vw,100px);margin:22px 0 26px}
+.hero h1 em{font-style:normal;color:var(--coral)}
+.facts{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(32px,4vw,56px);font-size:13px;line-height:1.4}
+.facts div{padding:16px 16px 0 0;position:relative}
+.facts div+div{padding-left:16px;border-left:1px solid rgba(60,34,46,.25)}
+.facts b{display:block;font-weight:500;font-size:15px;margin-bottom:2px}
+.hl.top{position:absolute;left:0;right:0;top:0}
+
+/* the mark as a window: coral tile, the logo's two shapes cut out, a scene seen through them */
+.tile{position:relative;aspect-ratio:1;background:var(--coral);width:100%;max-width:560px;justify-self:end}
+.tile .win{position:absolute;inset:0;overflow:hidden}
+.tile .winA{clip-path:url(#markA)}.tile .winB{clip-path:url(#markB)}
+.tile .in-a,.tile .in-b{position:absolute;inset:-12%;background:var(--ice);transition:transform 1.6s var(--ease)}
+.tile .in-a{transform:translate(-34%,-34%)}.tile .in-b{transform:translate(34%,34%)}
+.tile.go .in-a,.tile.go .in-b{transform:none}
+.tile .lines{position:absolute;inset:0;color:var(--navy);opacity:.16;background-size:auto}
+.msg{position:absolute;font-size:clamp(11px,1.45vw,17px);line-height:1.3;color:var(--plum)}
+.msg small{display:block;font-size:.66em;letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.6;margin-bottom:.4em}
+.msg .src{display:inline-block;margin-top:.5em;padding:.15em .6em;background:var(--coral);color:#fff;font-size:.72em;font-weight:500}
+.mA{left:6%;top:6%;width:42%}
+.mB{left:30%;top:56%;width:44%}
+.tile .tag{position:absolute;right:5%;bottom:4%;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#fff;opacity:.9}
+@media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.tile{justify-self:start;max-width:440px}.facts{grid-template-columns:1fr}.facts div+div{border-left:0;padding-left:0;border-top:1px solid rgba(60,34,46,.25);margin-top:16px}}
+
+/* the real cost */
+.cost-list{border-top:1px solid rgba(212,224,238,.3)}
+.cost{display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,1fr);gap:clamp(16px,3vw,48px);padding:clamp(28px,3.4vw,48px) 0;border-bottom:1px solid rgba(212,224,238,.3)}
+.cost .n{font-size:clamp(40px,5vw,72px);font-weight:200;line-height:.9;color:var(--coral2)}
+.cost .lbl{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:12px}
+.cost q{display:block;quotes:none;font-size:clamp(20px,2vw,28px);font-weight:300;line-height:1.25;letter-spacing:-.01em;color:#fff}
+.cost h3{font-size:clamp(20px,2vw,28px);color:#fff;margin-bottom:10px}
+.cost p{opacity:.78;font-size:16px}
+@media(max-width:860px){.cost{grid-template-columns:1fr}.cost .n{font-size:40px}}
+
+/* one system: tabbed showcase */
+.sys{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(24px,4vw,72px);align-items:start}
+.tabs{list-style:none;padding:0;border-top:1px solid rgba(60,34,46,.3)}
+.tabs li{border-bottom:1px solid rgba(60,34,46,.3)}
+.tabs button{display:grid;grid-template-columns:44px 1fr;width:100%;text-align:left;background:none;border:0;padding:20px 0;align-items:baseline}
+.tabs .n{font-size:13px;font-weight:500;opacity:.5;letter-spacing:.06em}
+.tabs .t{font-size:clamp(20px,2vw,28px);font-weight:300;letter-spacing:-.015em;transition:transform .35s var(--ease),color .2s}
+.tabs button:hover .t{transform:translateX(6px)}
+.tabs li.on .t{color:var(--coral);font-weight:400}
+.tabs li.on .n{opacity:1;color:var(--coral)}
+.tabs .body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease);padding-left:44px}
+.tabs li.on .body{grid-template-rows:1fr}
+.tabs .body>div{overflow:hidden}
+.tabs .body p{font-size:16px;opacity:.85;padding-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px}
+.chips span{font-size:12px;font-weight:500;padding:5px 12px;border:1px solid rgba(60,34,46,.35)}
+.tabs a.more{display:inline-block;margin-bottom:22px;font-weight:500;font-size:14px;text-underline-offset:4px}
+.stage{position:sticky;top:92px;aspect-ratio:1/.92;transition:background .35s;clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,var(--cut) 100%,0 calc(100% - var(--cut)));overflow:hidden}
+.stage .lines{position:absolute;inset:0;opacity:.18;transition:color .6s}
+.stage .card{position:absolute;left:9%;right:9%;top:11%;background:var(--paper);color:var(--plum);padding:clamp(16px,2.2vw,30px);box-shadow:none}
+.card .hd{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding-bottom:14px;margin-bottom:6px;border-bottom:1px solid rgba(60,34,46,.25)}
+.card .hd i{font-style:normal;font-weight:500;letter-spacing:.06em;opacity:.55;text-transform:none}
+.card .big{font-size:clamp(19px,2.3vw,32px);font-weight:300;letter-spacing:-.02em;line-height:1.15;padding:14px 0 10px}
+.card .r{display:grid;grid-template-columns:96px 1fr;gap:12px;padding:12px 0;border-top:1px solid rgba(60,34,46,.16);font-size:clamp(12px,1.15vw,15px);line-height:1.35;opacity:0;transform:translateY(10px);animation:rin .6s var(--ease) forwards;animation-delay:calc(var(--i)*.12s + .15s)}
+.card .r:first-of-type{border-top:0}
+.card .r b{font-weight:600;font-size:.82em;letter-spacing:.1em;text-transform:uppercase;opacity:.55;padding-top:.2em}
+.card .r em{display:inline-block;margin-top:6px;font-style:normal;font-size:.8em;font-weight:500;padding:2px 9px;background:var(--plum);color:#fff;margin-right:6px}
+.card .r em.hot{background:var(--coral)}
+@keyframes rin{to{opacity:1;transform:none}}
+.stage .ex{position:absolute;left:9%;bottom:6%;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.75}
+@media(max-width:860px){.sys{grid-template-columns:1fr}.stage{position:relative;top:0}}
+
+/* operational edge: big numerals on coral */
+.edge{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(14,31,76,.5)}
+.edge>div{padding:clamp(24px,3vw,44px) clamp(18px,2.6vw,40px) clamp(28px,3.4vw,56px) 0;position:relative}
+.edge>div+div{padding-left:clamp(18px,2.6vw,40px);border-left:1px solid rgba(14,31,76,.5)}
+.edge .big{font-size:clamp(80px,11vw,170px);font-weight:200;line-height:.85;letter-spacing:-.05em;color:#fff;margin-bottom:clamp(20px,3vw,44px)}
+.edge h3{font-size:clamp(22px,2.2vw,32px);margin-bottom:12px;font-weight:500}
+.edge p{font-size:17px}
+@media(max-width:860px){.edge{grid-template-columns:1fr}.edge>div+div{padding-left:0;border-left:0;border-top:1px solid rgba(14,31,76,.5)}.edge .big{font-size:84px}}
+
+/* results */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border-top:1px solid rgba(212,224,238,.3)}
+.stats>div{padding:clamp(24px,3vw,44px) 24px clamp(24px,3vw,44px) 0;position:relative;overflow:hidden}
+.stats>div+div{padding-left:clamp(18px,2.6vw,40px);border-left:1px solid rgba(212,224,238,.3)}
+.stats .v{font-size:clamp(56px,8vw,128px);font-weight:200;line-height:.95;letter-spacing:-.05em;color:#fff}
+.stats h3{font-size:20px;margin:16px 0 8px;color:#fff;font-weight:500}
+.stats p{font-size:16px;opacity:.78}
+.stats .vl{position:absolute;right:0;top:0;bottom:0;width:30%;opacity:.12;clip-path:polygon(40% 0,100% 0,100% 100%,0 100%);color:var(--ice)}
+.badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px}
+.badges span{font-size:13px;font-weight:500;padding:8px 16px;border:1px solid rgba(212,224,238,.4)}
+@media(max-width:860px){.stats{grid-template-columns:1fr}.stats>div+div{padding-left:0;border-left:0;border-top:1px solid rgba(212,224,238,.3)}}
+
+/* roles */
+.roles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.role{display:flex;flex-direction:column}
+.role .blk{aspect-ratio:1.1;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,0 100%);transition:clip-path .6s var(--ease)}
+.role:hover .blk{clip-path:polygon(0 0,calc(100% - 2*var(--cut)) 0,100% calc(2*var(--cut)),100% 100%,0 100%)}
+.role .blk .vl{position:absolute;inset:0;opacity:.2}
+.role .blk .num{position:absolute;left:18px;bottom:8px;font-size:clamp(56px,6vw,96px);font-weight:200;letter-spacing:-.05em;line-height:1}
+.role .blk .mk{position:absolute;right:16px;bottom:18px;width:34px;height:34px}
+.role h3{font-size:24px;margin:20px 0 8px;font-weight:500}
+.role p{font-size:16px;opacity:.82}
+.role .hl{margin-bottom:16px}
+@media(max-width:1000px){.roles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.roles{grid-template-columns:1fr}}
+
+/* different */
+.diff{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,88px);align-items:start}
+.diff ul{list-style:none;padding:0;border-top:1px solid rgba(14,31,76,.4)}
+.diff li{padding:28px 0;border-bottom:1px solid rgba(14,31,76,.4)}
+.diff h3{font-size:clamp(22px,2.2vw,30px);font-weight:500;margin-bottom:8px}
+.diff li p{font-size:17px}
+.stack{display:grid;gap:0;position:relative}
+.stack div{padding:20px 24px;color:#fff;font-size:15px;display:flex;justify-content:space-between;gap:16px;align-items:baseline;transition:transform .5s var(--ease)}
+.stack div b{font-weight:500;font-size:17px}
+.stack div span{opacity:.8;text-align:right;font-size:14px}
+.stack div:nth-child(1){background:var(--plum);clip-path:polygon(0 0,calc(100% - 50px) 0,100% 50px,100% 100%,0 100%);margin-left:0}
+.stack div:nth-child(2){background:var(--navy);margin-left:30px}
+.stack div:nth-child(3){background:var(--coral);margin-left:60px;color:var(--navy)}
+.stack div:nth-child(4){background:var(--deep);margin-left:90px}
+.stack div:nth-child(5){background:var(--plum);margin-left:120px}
+.stack div:nth-child(6){background:var(--navy);margin-left:150px;clip-path:polygon(0 0,100% 0,100% calc(100% - 30px),calc(100% - 30px) 100%,0 100%)}
+.stack div:hover{transform:translateX(10px)}
+@media(max-width:860px){.diff{grid-template-columns:1fr}.stack div{margin-left:0!important}}
+
+/* how we get you live */
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));counter-reset:s}
+.step{position:relative;padding:0 18px 0 0}
+.step .bar{height:52px;position:relative;margin-bottom:24px;color:var(--coral2)}
+.step .bar::before{content:"";position:absolute;left:0;right:0;top:0;height:30px;background:currentColor;opacity:.9;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%);transform:scaleX(0);transform-origin:left;transition:transform .9s var(--ease);transition-delay:var(--d,0s)}
+.step.in .bar::before{transform:scaleX(1)}
+.step .bar b{position:absolute;left:12px;top:5px;font-size:14px;font-weight:600;color:var(--plum)}
+.step h3{font-size:21px;font-weight:500;color:#fff;margin-bottom:10px}
+.step p{font-size:15px;opacity:.78}
+@media(max-width:1000px){.steps{grid-template-columns:1fr;gap:32px}.step{padding:0}}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.plan{padding:clamp(24px,3vw,44px);position:relative;display:flex;flex-direction:column}
+.plan.q{background:var(--ice);color:var(--navy);clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,0 100%)}
+.plan.e{background:var(--navy);color:var(--ice);clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,0 100%)}
+.plan h3{font-size:28px;font-weight:500}
+.plan .for{font-size:16px;opacity:.8;margin:8px 0 26px;min-height:3em}
+.plan .price{font-size:clamp(48px,6vw,84px);font-weight:200;letter-spacing:-.04em;line-height:1}
+.plan .per{font-size:14px;opacity:.7;margin:6px 0 26px}
+.plan ul{list-style:none;padding:0;margin:0 0 30px;border-top:1px solid currentColor}
+.plan li{padding:12px 0;border-bottom:1px solid currentColor;font-size:16px;display:flex;gap:12px;align-items:center}
+.plan li{border-color:rgba(127,127,127,.4)}.plan ul{border-color:rgba(127,127,127,.4)}
+.plan li::before{content:"";width:14px;height:14px;flex:none;background:var(--coral);clip-path:polygon(0 0,60% 0,100% 40%,100% 100%,40% 100%,0 60%)}
+.plan .btn{align-self:flex-start;margin-top:auto}
+.plan.e .btn{background:#fff;color:var(--navy)}.plan.e .btn:hover{background:var(--coral);color:#fff}
+.note{margin-top:22px;font-size:15px;opacity:.75}
+@media(max-width:760px){.plans{grid-template-columns:1fr}}
+
+/* faq */
+.faq{border-top:1px solid rgba(60,34,46,.3)}
+.faq details{border-bottom:1px solid rgba(60,34,46,.3)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:24px;align-items:center;padding:26px 0;font-size:clamp(19px,2vw,26px);font-weight:300;letter-spacing:-.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{flex:none;width:22px;height:22px;position:relative}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;background:var(--coral);left:0;right:0;top:50%;height:2px;margin-top:-1px;transition:transform .35s var(--ease)}
+.faq summary i::after{transform:rotate(90deg)}
+.faq details[open] summary i::after{transform:rotate(0)}
+.faq details[open] summary{color:var(--coral)}
+.faq details p{padding:0 48px 28px 0;font-size:17px;opacity:.85}
+.faqgrid{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:clamp(24px,5vw,88px)}
+@media(max-width:860px){.faqgrid{grid-template-columns:1fr}}
+
+/* closing */
+.cta{overflow:hidden}
+.cta h2{font-size:clamp(40px,7.4vw,112px);color:#fff;max-width:14ch;position:relative}
+.cta .wrap{position:relative}
+.cta .mk{position:absolute;right:var(--pad);top:50%;width:clamp(160px,26vw,380px);transform:translateY(-50%);opacity:.95}
+.cta p{margin-top:22px;font-size:19px}
+@media(max-width:860px){.cta .mk{opacity:.18}}
+
+/* footer */
+footer{background:var(--plum);color:var(--ice);padding:clamp(48px,6vw,88px) 0 28px}
+.fgrid{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(4,minmax(0,1fr));gap:32px;padding-bottom:48px}
+footer .brand{color:#fff;font-size:30px}footer .brand svg{width:40px;height:40px}
+footer .tag{margin-top:18px;font-size:22px;font-weight:300;letter-spacing:-.01em;color:#fff;max-width:14ch;line-height:1.15}
+footer h4{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.6;margin-bottom:16px;display:flex;gap:10px}
+footer ul{list-style:none;padding:0;display:grid;gap:10px;font-size:15px}
+footer a{text-decoration:none;opacity:.88}footer a:hover{opacity:1;text-decoration:underline;text-underline-offset:3px}
+.legal{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;padding-top:22px;border-top:1px solid rgba(212,224,238,.3);font-size:13px;opacity:.7}
+@media(max-width:900px){.fgrid{grid-template-columns:1fr 1fr}.fgrid>div:first-child{grid-column:1/-1}}
+
+
+/* type: Tektur for display, IBM Plex Sans for reading. Tektur starts at 400, so the light weights become 400 and tracking opens up */
+h1,h2,h3,.brand,.btn,.eyebrow,.cost .n,.cost q,.tabs .t,.tabs .n,.card .big,.card .hd,.edge .big,.stats .v,.role .num,.plan .price,.faq summary,footer .tag,footer h4,.step .bar b,.stack div b,.msg small,.tile .tag,.facts b,.chips span{font-family:var(--display)}
+h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{font-weight:400;letter-spacing:-.01em}
+h1{font-size:clamp(38px,5.4vw,82px);line-height:1.04}
+h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
+.cta h2{font-size:clamp(36px,6vw,92px)}
+.cost .n,.edge .big,.stats .v,.role .num,.plan .price{font-weight:400;letter-spacing:-.03em}
+.edge .big{font-size:clamp(70px,9.5vw,150px)}.stats .v{font-size:clamp(48px,6.6vw,104px)}.plan .price{font-size:clamp(40px,5vw,68px)}
+.brand{font-weight:600;letter-spacing:-.01em}.btn{letter-spacing:.01em}
+.cost q{font-size:clamp(18px,1.8vw,25px)}.tabs .t{font-size:clamp(18px,1.8vw,25px)}.faq summary{font-size:clamp(17px,1.8vw,23px)}
+
+/* clip mode: no auto cycling, everything already in */
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.hl,.step .bar::before{transform:none}.tile .in-a,.tile .in-b{transform:none}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- the logo on a 4 x 4 grid: two bars with 45 degree turns that meet at one point -->
+    <clipPath id="markA" clipPathUnits="objectBoundingBox"><polygon points="0,0 .5,0 .75,.25 .75,.5 .5,.25 0,.25"/></clipPath>
+    <clipPath id="markB" clipPathUnits="objectBoundingBox"><polygon points=".25,.5 .75,.5 1,.75 1,1 .75,.75 .25,.75"/></clipPath>
+    <symbol id="mark" viewBox="0 0 4 4"><polygon fill="currentColor" points="0,0 2,0 3,1 3,2 2,1 0,1"/><polygon fill="currentColor" points="1,2 3,2 4,3 4,4 3,3 1,3"/></symbol>
+  </defs>
+</svg>
+
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span class="x">/</span><a class="x" href="../">Back to all projects</a><span>/</span><b>Brickanta Enterprise</b></nav>
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Brickanta"><svg style="color:var(--coral)"><use href="#mark"/></svg>brickanta</a>
+    <nav aria-label="Main"><a href="#system">Product</a><a href="#pricing">Pricing</a><a href="#live">Integrations</a><a href="#results">Customer stories</a><a href="#faq">Resources</a></nav>
+    <div class="hdr-r"><a href="#" onclick="return false">Log in</a><a class="btn" href="#demo">Request demo</a></div>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow rv"><svg style="color:var(--coral)"><use href="#mark"/></svg>Brickanta for Enterprise</div>
+      <h1 class="rv" style="--d:.08s">One project record. Every team. <em>Full control.</em></h1>
+      <p class="lede rv" style="--d:.16s">You don’t need another tool. You need one place that remembers every agreement, decision and open question, so your teams see the full picture and the work moves faster.</p>
+      <div class="row-btns rv" style="--d:.24s"><a class="btn" href="#demo">Request demo</a><a class="btn alt" href="#pricing">See pricing</a></div>
+      <div class="facts rv" style="--d:.32s">
+        <div><span class="hl top"></span><b>ISO/IEC 27001:2022</b>Certified</div>
+        <div><span class="hl top"></span><b>Your data stays yours</b>Never used to train AI</div>
+        <div><span class="hl top"></span><b>Every answer has a source</b>Linked to the page it came from</div>
+      </div>
+    </div>
+    <div class="tile" id="tile" role="img" aria-label="A coral tile with two angled windows. One shows a question about retention, the other the answer with its source.">
+      <div class="win winA"><div class="in-a"><div class="lines vl"></div></div>
+        <div class="msg mA"><small>You ask</small>What did we agree on retention for the electrical package?</div></div>
+      <div class="win winB"><div class="in-b"><div class="lines vl"></div></div>
+        <div class="msg mB"><small>Brickanta</small>5% until handover. Changed to 3% in variation 2.<br><span class="src">Contract §4.2</span> <span class="src">Variation 2, p.3</span></div></div>
+      <div class="tag">Ask your project</div>
+    </div>
+  </div>
+</section>
+
+<!-- THE REAL COST -->
+<section class="sec plum" id="cost">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow rv" style="color:var(--coral2)">The real cost</div>
+      <h2 class="rv">You can’t run a big project on lost knowledge</h2>
+      <p class="lede rv" style="--d:.1s">When what you agreed lives in inboxes and in people’s heads, it’s gone the moment they move on.</p>
+    </div>
+    <div class="cost-list">
+      <div class="cost rv"><div class="n">01</div><div><div class="lbl">The problem</div><q>“Every project keeps its facts somewhere different. Nobody knows which version is right.”</q></div><div><div class="lbl">The solution</div><h3>One record for the whole team</h3><p>Everyone works from the same project. A problem shows up early, on the work package it affects.</p></div></div>
+      <div class="cost rv"><div class="n">02</div><div><div class="lbl">The problem</div><q>“We only saw the invoice didn’t match the contract after it was paid.”</q></div><div><div class="lbl">The solution</div><h3>Catch it while there’s time</h3><p>An invoice that differs from the contract, or a delivery that puts the schedule at risk, is flagged as soon as the files arrive.</p></div></div>
+      <div class="cost rv"><div class="n">03</div><div><div class="lbl">The problem</div><q>“When people leave, what they agreed leaves with them.”</q></div><div><div class="lbl">The solution</div><h3>Keep what you learn</h3><p>Decisions, suppliers and lessons stay with the project and are there for the next one, even when people move on.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ONE SYSTEM -->
+<section class="sec" id="system">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow rv"><svg style="color:var(--coral)"><use href="#mark"/></svg>One system, every workflow</div>
+      <h2 class="rv">Everything your team knows, in one place</h2>
+      <p class="lede rv" style="--d:.1s">Brickanta reads your project files and keeps track of agreements, decisions and open questions, from tender to production and on to the next project.</p>
+    </div>
+    <div class="sys">
+      <ul class="tabs" id="tabs"></ul>
+      <div class="stage" id="stage" aria-live="polite"><div class="lines vl"></div><div class="card" id="card"></div><div class="ex">Example</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- OPERATIONAL EDGE -->
+<section class="sec coral" id="edge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow rv">The everyday edge</div>
+      <h2 class="rv" style="color:#fff">Reclaim your time and your margin</h2>
+      <p class="lede rv" style="--d:.1s;opacity:1">Less hunting through folders. More time to decide.</p>
+    </div>
+    <div class="edge">
+      <div class="rv"><div class="big">01</div><h3>Walk into every meeting ready</h3><p>Before a subcontractor meeting, pull together open questions, overdue commitments and quality requirements, with sources.</p></div>
+      <div class="rv" style="--d:.1s"><div class="big">02</div><h3>See problems on day one</h3><p>A wrong invoice or a late delivery shows up on the work package it hits, not in the final review.</p></div>
+      <div class="rv" style="--d:.2s"><div class="big">03</div><h3>Keep it for the next job</h3><p>Lessons from design problems and past suppliers stay available for the next project.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="sec navy" id="results">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow rv" style="color:var(--coral2)">Built to be trusted</div>
+      <h2 class="rv">Your data stays yours</h2>
+      <p class="lede rv" style="--d:.1s">Security isn’t an add-on. Review our controls, policies and compliance status any time in the Trust Center.</p>
+    </div>
+    <div class="stats">
+      <div class="rv"><div class="v">27001</div><h3>ISO/IEC certified</h3><p>Brickanta is certified to ISO/IEC 27001:2022.</p><div class="vl"></div></div>
+      <div class="rv" style="--d:.1s"><div class="v">0</div><h3>Files used to train AI</h3><p>Your tender documents, drawings and contracts never train a model.</p><div class="vl"></div></div>
+      <div class="rv" style="--d:.2s"><div class="v">All</div><h3>The AI you need, included</h3><p>Every plan comes with unlimited AI usage and no hidden fees.</p><div class="vl"></div></div>
+    </div>
+    <div class="badges rv"><span>GDPR compliant</span><span>EU AI Act status published</span><span>Nothing leaves your environment</span><a class="btn light" style="margin-left:auto" href="#demo">Visit the Trust Center</a></div>
+  </div>
+</section>
+
+<!-- ROLES -->
+<section class="sec" id="roles">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow rv"><svg style="color:var(--coral)"><use href="#mark"/></svg>By team</div>
+      <h2 class="rv">Built for the whole project team</h2>
+      <p class="lede rv" style="--d:.1s">From the first tender to the final inspection, everyone works from the same project. What one team decides is there for the next.</p>
+    </div>
+    <div class="roles">
+      <article class="role rv"><div class="blk" style="background:var(--coral);color:var(--plum)"><div class="vl"></div><span class="num">01</span><svg class="mk"><use href="#mark"/></svg></div><h3>Estimating &amp; Bid</h3><p>Check requirements, contract differences and risks before you price a tender. Every finding links to its source and carries on into delivery.</p></article>
+      <article class="role rv" style="--d:.08s"><div class="blk" style="background:var(--navy);color:var(--ice)"><div class="vl"></div><span class="num">02</span><svg class="mk"><use href="#mark"/></svg></div><h3>Procurement</h3><p>Prepare work packages with contract requirements and flagged clauses, using suppliers and prices from your past projects.</p></article>
+      <article class="role rv" style="--d:.16s"><div class="blk" style="background:var(--plum);color:var(--ice)"><div class="vl"></div><span class="num">03</span><svg class="mk"><use href="#mark"/></svg></div><h3>Project leads</h3><p>See agreements, changes and decisions before every project meeting, with the documents behind each point.</p></article>
+      <article class="role rv" style="--d:.24s"><div class="blk" style="background:var(--ice);color:var(--navy)"><div class="vl"></div><span class="num">04</span><svg class="mk"><use href="#mark"/></svg></div><h3>Leadership</h3><p>Keep project lessons available across regions and business units, even when people move on.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- DIFFERENT -->
+<section class="sec ice" id="different">
+  <div class="wrap diff">
+    <div>
+      <div class="eyebrow rv"><svg style="color:var(--coral)"><use href="#mark"/></svg>Why Brickanta</div>
+      <h2 class="rv" style="margin:22px 0 22px">Made for construction, not stretched to fit</h2>
+      <p class="lede rv" style="--d:.1s">Brickanta connects the best AI models to your project documents, your standards and your way of working.</p>
+      <div class="stack rv" style="margin-top:40px;--d:.2s" aria-label="How Brickanta is built">
+        <div><b>Brickanta</b><span>Chat, workflows and project memory</span></div>
+        <div><b>Capabilities</b><span>Bid review, contracts, procurement</span></div>
+        <div><b>Agents</b><span>Plan, use tools, ask before acting</span></div>
+        <div><b>Document intelligence</b><span>Reads drawings and specs</span></div>
+        <div><b>AI models</b><span>The best one for each task</span></div>
+        <div><b>Your data</b><span>Stays in your environment</span></div>
+      </div>
+    </div>
+    <ul>
+      <li class="rv"><h3>Construction know-how, written down</h3><p>Our construction engineers and in-house lawyer build the checks, so you don’t have to write the prompts.</p></li>
+      <li class="rv"><h3>It works where your files already are</h3><p>SharePoint, OneDrive, Google Drive, Dropbox and the project systems you run today. Your tools stay exactly where they are.</p></li>
+      <li class="rv"><h3>You stay in charge</h3><p>Brickanta drafts and you decide. You review every draft before anything is sent.</p></li>
+      <li class="rv"><h3>Better with every new model</h3><p>We bring newer AI into the work your team already does. What you’ve taught Brickanta stays, so it keeps getting more useful.</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- HOW WE GET YOU LIVE -->
+<section class="sec plum" id="live">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow rv" style="color:var(--coral2)">Hands-on setup</div>
+      <h2 class="rv">We set it up with you, on site</h2>
+      <p class="lede rv" style="--d:.1s">Our engineers work next to your teams and your IT, from the first workshop to the first live project and beyond.</p>
+    </div>
+    <div class="steps" id="steps">
+      <div class="step rv"><div class="bar" style="--d:.1s"><b>1</b></div><h3>See how you work</h3><p>We spend time with estimators, buyers and project leads to find where knowledge gets lost.</p></div>
+      <div class="step rv" style="--d:.1s"><div class="bar" style="--d:.2s"><b>2</b></div><h3>Plan it together</h3><p>In workshops we map your phases and decision points, using your own templates and checklists.</p></div>
+      <div class="step rv" style="--d:.2s"><div class="bar" style="--d:.3s"><b>3</b></div><h3>Connect your files</h3><p>With your IT, we link Brickanta to where files already live and go through security and access rights.</p></div>
+      <div class="step rv" style="--d:.3s"><div class="bar" style="--d:.4s"><b>4</b></div><h3>Go live on one project</h3><p>One project, one team, one clear goal. Our engineers sit beside them from day one.</p></div>
+      <div class="step rv" style="--d:.4s"><div class="bar" style="--d:.5s"><b>5</b></div><h3>Grow from there</h3><p>Once the first project delivers, we roll out to more projects, regions and business units.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="sec" id="pricing">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow rv"><svg style="color:var(--coral)"><use href="#mark"/></svg>Pricing</div>
+      <h2 class="rv">Start building with Brickanta</h2>
+      <p class="lede rv" style="--d:.1s">Every plan includes unlimited AI usage, a dedicated implementation expert, user training, system integrations and direct input into the product.</p>
+    </div>
+    <div class="plans">
+      <div class="plan q rv"><h3>Quickstart</h3><p class="for">For mid-sized builders that want to get going quickly with single users.</p><div class="price">~€890</div><div class="per">per user, per month</div><ul><li>Unlimited AI agents</li><li>System integrations</li><li>A dedicated implementation expert</li></ul><a class="btn" href="#demo">Get started</a></div>
+      <div class="plan e rv" style="--d:.1s"><h3>Enterprise</h3><p class="for">For large and growing companies with bigger plans for AI and data.</p><div class="price">Custom</div><div class="per">based on your needs</div><ul><li>Unlimited AI agents</li><li>System integrations</li><li>Dedicated implementation experts</li></ul><a class="btn" href="#demo">Talk to us</a></div>
+    </div>
+    <p class="note rv">No hidden fees.</p>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec ice" id="faq">
+  <div class="wrap faqgrid">
+    <div><div class="eyebrow rv"><svg style="color:var(--coral)"><use href="#mark"/></svg>Common questions</div><h2 class="rv" style="margin-top:22px">Questions about Brickanta, answered</h2></div>
+    <div class="faq rv">
+      <details open><summary>Where do my files stay?<i></i></summary><p>Where they already are. Brickanta connects to SharePoint, OneDrive, Google Drive, Dropbox and your project systems, reads from the source and keeps up as it changes. Nothing leaves your environment and nothing trains a model.</p></details>
+      <details><summary>Do we have to change our tools?<i></i></summary><p>No. Your existing systems stay exactly where they are. Brickanta sits on top of them.</p></details>
+      <details><summary>How do we get started?<i></i></summary><p>We begin with one live project, one team and a clear goal. Our engineers set it up with your team and your IT, then we roll out to more projects once the first one delivers.</p></details>
+      <details><summary>Does Brickanta make the decisions?<i></i></summary><p>No, you do. Brickanta reads, links and drafts. You review each draft, and every finding links back to the page it came from.</p></details>
+      <details><summary>Which AI models do you use?<i></i></summary><p>The same models everyone can buy. We pick the best one for each task, so you’re never locked in and never a generation behind.</p></details>
+      <details><summary>Is it secure?<i></i></summary><p>Brickanta is ISO/IEC 27001:2022 certified and GDPR compliant. Controls, policies and subprocessors are published in our Trust Center.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec coral cta" id="demo">
+  <div class="wrap">
+    <div class="eyebrow rv">See it on your project</div>
+    <h2 class="rv" style="margin-top:22px">See Brickanta in action</h2>
+    <p class="lede rv" style="--d:.1s;opacity:1;color:var(--navy)">Get a closer look at the platform built for construction teams.</p>
+    <div class="row-btns rv" style="--d:.2s"><a class="btn light" href="#demo">Request demo</a><a class="btn alt" href="#pricing">Explore pricing</a></div>
+    <svg class="mk" style="color:#fff"><use href="#mark"/></svg>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><a class="brand" href="#top"><svg style="color:var(--coral)"><use href="#mark"/></svg>brickanta</a><p class="tag">Run your construction projects like craft.</p></div>
+      <div><h4><span>01</span>Product</h4><ul><li><a href="#system">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#live">Integrations</a></li><li><a href="#results">Customers</a></li><li><a href="#">Changelog</a></li></ul></div>
+      <div><h4><span>02</span>Teams</h4><ul><li><a href="#roles">Estimating &amp; Bid</a></li><li><a href="#roles">Procurement</a></li><li><a href="#roles">Project leads</a></li><li><a href="#roles">Leadership</a></li></ul></div>
+      <div><h4><span>03</span>Company</h4><ul><li><a href="#">About us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Brickanta Summit</a></li><li><a href="#">Academy</a></li></ul></div>
+      <div><h4><span>04</span>Trust</h4><ul><li><a href="#results">Trust Center</a></li><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li><li><a href="#">Cookie settings</a></li></ul></div>
+    </div>
+    <div class="legal"><span>© 2026 Brickanta</span><span>Concept page built from the Brickanta brand</span></div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var CLIP=/clip/.test(location.hash);
+  if(CLIP)document.documentElement.classList.add('clip');
+  var $=function(s,r){return (r||document).querySelector(s)};
+
+  /* ---- showcase data: one entry per workflow ---- */
+  var TABS=[
+    {t:'Ask your project',d:'Connect your project folders and ask about the work. Brickanta brings together requirements, quantities, risks and decisions, with links to the documents behind them.',c:['Requirements','Quantities','Risks','Decisions'],bg:'var(--coral)',ln:'var(--plum)',
+     hd:['Ask your project','Live'],big:'What did we agree on retention for the electrical package?',
+     rows:[['Answer','5% held until handover. Changed to 3% in variation 2.<br><em>Contract §4.2</em><em>Variation 2, p.3</em>'],['Also found','2 open questions on the same package.']]},
+    {t:'One record for the whole team',d:'Everyone works from the same project, so problems show up early on the work package they affect.',c:['Invoices','Deliveries','Schedule'],bg:'var(--navy)',ln:'var(--ice)',
+     hd:['Project record','3 flags'],big:'Two things need a look today.',
+     rows:[['Facade','Invoice 0412 is higher than the contract price.<br><em class="hot">Differs from contract</em>'],['Roofing','Delivery moved to 14 March.<br><em class="hot">Puts the schedule at risk</em>'],['Electrical','All documents up to date.<br><em>OK</em>']]},
+    {t:'Decide whether to bid',d:'Brickanta checks a tender’s legal, commercial and technical risks and gives a clear recommendation. Each finding links to its source.',c:['Legal','Commercial','Technical'],bg:'var(--plum)',ln:'var(--coral)',
+     hd:['Bid review','Tender 2026-14'],big:'Worth bidding on, with three reservations.',
+     rows:[['Legal','Delay damages have no cap.<br><em>Contract §11</em>'],['Commercial','No price index for materials.<br><em>Tender terms, p.8</em>'],['Technical','Fire spec conflicts with drawing A-204.<br><em>Spec 07 · A-204</em>']]},
+    {t:'Review new drawings as they arrive',d:'Brickanta reads each new drawing, links it to the right work package, tells the person responsible and drafts questions for you to review.',c:['Read','Link','Notify','Draft'],bg:'var(--ice)',ln:'var(--navy)',
+     hd:['New drawing','E-117'],big:'Drawing E-117 just arrived.',
+     rows:[['Linked to','Electrical work package'],['Told','Site lead, Anna'],['Draft','“Please confirm the cable route on level 3.” <em class="hot">Review &amp; send</em>']]},
+    {t:'Work packages that follow your process',d:'We set up work packages with your team for procurement, quality, environment and safety. Ask for a subcontract draft and Brickanta marks the points you still need to decide.',c:['Procurement','Quality','Environment','Safety'],bg:'var(--deep)',ln:'var(--coral2)',
+     hd:['Subcontract draft','Electrical'],big:'Draft ready. Two points are yours.',
+     rows:[['Scope','Pulled from the tender documents.<br><em>Done</em>'],['Terms','Requirements and contract documents added.<br><em>Done</em>'],['To decide','Payment terms. Insurance level.<br><em class="hot">Your call</em>']]},
+    {t:'Take project experience with you',d:'What you agreed in procurement stays at hand in production. Lessons from design problems and past suppliers stay available for the next project, even when people leave.',c:['Open questions','Commitments','Lessons'],bg:'var(--coral)',ln:'var(--plum)',
+     hd:['Meeting prep','Subcontractor'],big:'Ready for Thursday’s meeting.',
+     rows:[['Open','4 open questions, with sources.'],['Overdue','2 commitments past their date.<br><em class="hot">Follow up</em>'],['Quality','7 requirements to check.']]}
+  ];
+  var tabs=$('#tabs'),stage=$('#stage'),card=$('#card'),cur=-1,auto=!CLIP,timer;
+  TABS.forEach(function(x,i){
+    var li=document.createElement('li');
+    li.innerHTML='<button type="button" aria-expanded="false"><span class="n">0'+(i+1)+'</span><span class="t">'+x.t+'</span></button>'+
+      '<div class="body"><div><p>'+x.d+'</p><div class="chips">'+x.c.map(function(c){return '<span>'+c+'</span>'}).join('')+'</div><a class="more" href="#demo">Request demo</a></div></div>';
+    li.firstChild.addEventListener('click',function(){auto=false;go(i)});
+    tabs.appendChild(li);
+  });
+  function go(i){
+    if(i===cur)return; cur=i; var x=TABS[i];
+    [].forEach.call(tabs.children,function(li,k){li.classList.toggle('on',k===i);li.firstChild.setAttribute('aria-expanded',k===i)});
+    stage.style.background=x.bg;stage.style.color=x.ln;
+    card.innerHTML='<div class="hd"><span>'+x.hd[0]+'</span><i>'+x.hd[1]+'</i></div><div class="big">'+x.big+'</div>'+
+      x.rows.map(function(r,k){return '<div class="r" style="--i:'+k+'"><b>'+r[0]+'</b><span>'+r[1]+'</span></div>'}).join('');
+  }
+  go(0);
+  function cycle(){clearInterval(timer);timer=setInterval(function(){if(auto&&visible)go((cur+1)%TABS.length)},4200)}
+  var visible=false;
+  new IntersectionObserver(function(e){visible=e[0].isIntersecting},{threshold:.35}).observe(stage);
+  cycle();
+
+  /* ---- reveals ---- */
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15,rootMargin:'0px 0px -6% 0px'});
+  [].forEach.call(document.querySelectorAll('.rv,.hl'),function(el){io.observe(el)});
+  /* the hero tile opens like the logo: both bars slide in along the 45 degree line */
+  var tile=$('#tile');requestAnimationFrame(function(){requestAnimationFrame(function(){tile.classList.add('go')})});
+  /* hairlines in the hero facts and steps */
+  [].forEach.call(document.querySelectorAll('.hl.top'),function(h,i){h.style.transitionDelay=(.5+i*.15)+'s';setTimeout(function(){h.classList.add('in')},100)});
+
+  /* ---- recorder hooks ---- */
+  window.__bk={go:function(i){auto=false;go(i)},scroll:function(y){window.scrollTo({top:y,behavior:'smooth'})},sec:function(id){var e=document.getElementById(id);window.scrollTo({top:e.getBoundingClientRect().top+scrollY-70,behavior:'smooth'})}};
+})();
+</script>
+</body>
+</html>

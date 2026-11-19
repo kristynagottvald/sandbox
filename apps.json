@@ -1,5 +1,14 @@
 [
   {
+    "id": "brickanta-enterprise",
+    "title": "Brickanta Enterprise",
+    "category": "Landing Page",
+    "url": "brickanta-enterprise/",
+    "thumbnail": "brickanta-enterprise/thumb.png",
+    "preview": "brickanta-enterprise/thumb.webp",
+    "alt": "A coral tile cut by two angled windows in the shape of the Brickanta logo opens to show a question about retention and its sourced answer, then the page scrolls to a tabbed showcase where a cream card of example findings changes between coral, plum and ice colour blocks, on to three huge thin numerals on a coral band and the navy trust numbers 27001, 0 and All"
+  },
+  {
     "id": "lob-12-days",
     "title": "Lob 12 Days Advent",
     "category": "Motion",
