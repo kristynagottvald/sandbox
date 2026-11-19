@@ -28,9 +28,9 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 
 .app{flex:1;min-height:0;display:flex}
 /* sidebar */
-.side{flex:none;width:250px;background:#101035;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 12px;gap:4px;overflow:auto}
-.side h2{font:600 11px var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:2px 10px 10px}
-.nv{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:9px 10px;color:var(--muted);font-weight:500;font-size:14px}
+.side{flex:none;width:270px;background:#101035;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:32px 16px;gap:8px;overflow:auto}
+.side h2{font:600 11px var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:2px 12px 16px}
+.nv{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:13px 14px;color:var(--muted);font-weight:500;font-size:14px}
 .nv:hover{background:var(--navy);color:var(--text)}
 .nv.on{background:var(--navy);color:var(--text);box-shadow:inset 3px 0 0 var(--lime)}
 .nv i{font:500 11px var(--mono);font-style:normal;color:var(--muted);width:18px}
@@ -42,17 +42,17 @@ nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 
 /* main */
 .main{flex:1;min-width:0;overflow:auto;scroll-behavior:smooth}
-.pg{max-width:1080px;margin:0 auto;padding:30px 36px 80px;display:none}
+.pg{max-width:1120px;margin:0 auto;padding:72px 64px 140px;display:none}
 .pg.on{display:block;animation:in .35s ease both}
 @keyframes in{from{opacity:0;transform:translateY(8px)}}
 .tag{display:inline-block;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--muted)}
-.pg h1{font:600 38px/1.05 var(--font);letter-spacing:-.02em;margin:14px 0 8px}
-.lead{color:var(--muted);font-size:15px;max-width:640px}
-h3.sub{font:600 12px var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+.pg h1{font:600 44px/1.05 var(--font);letter-spacing:-.02em;margin:24px 0 20px}
+.lead{color:var(--muted);font-size:16px;line-height:1.6;max-width:620px}
+h3.sub{font:600 12px var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:72px 0 28px;display:flex;align-items:center;gap:16px}
 h3.sub::after{content:"";flex:1;height:1px;background:var(--line)}
 
-.card{background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:18px}
-.row{display:flex;gap:14px;flex-wrap:wrap}
+.card{background:var(--navy);border:1px solid var(--line);border-radius:14px;padding:32px}
+.row{display:flex;gap:16px;flex-wrap:wrap}
 .btn{background:var(--lime);color:var(--ink);border:0;border-radius:8px;padding:10px 14px;font-weight:600;font-size:13px;transition:transform .12s,background .2s}
 .btn:hover{background:#fff}.btn:active{transform:scale(.96)}
 .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
@@ -60,44 +60,44 @@ h3.sub::after{content:"";flex:1;height:1px;background:var(--line)}
 .btn.sm{padding:6px 10px;font-size:12px;border-radius:6px}
 
 /* import */
-.drop{border:2px dashed var(--line);border-radius:12px;padding:26px;text-align:center;background:#101035;transition:.2s}
+.drop{border:2px dashed var(--line);border-radius:12px;padding:48px 40px;text-align:center;background:#101035;transition:.2s}
 .drop.over{border-color:var(--lime);background:var(--panel)}
 .drop b{display:block;font-size:16px;font-weight:600;margin-bottom:4px}
-.drop p{color:var(--muted);font-size:13px;margin-bottom:14px}
+.drop p{color:var(--muted);font-size:13px;margin-bottom:24px}
 .drop .row{justify-content:center}
-.url{display:flex;gap:8px;margin-top:12px}
+.url{display:flex;gap:10px;margin-top:28px}
 .url input{flex:1}
 .src{display:none;align-items:center;gap:14px}
 .src.on{display:flex}
 .file{width:42px;height:54px;border-radius:5px;background:var(--lime);color:var(--ink);display:grid;place-items:center;font:700 11px var(--mono);flex:none}
 .src .nm{font:600 14px var(--mono);word-break:break-all}
 .src small{color:var(--muted);font-size:12.5px}
-.steps{display:grid;gap:9px;margin-top:16px}
+.steps{display:grid;gap:14px;margin-top:28px}
 .steps div{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
 .steps b{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:10px;flex:none}
 .steps .done{color:var(--text)}.steps .done b{background:var(--lime);border-color:var(--lime);color:var(--ink)}
 .steps .cur{color:var(--text);font-weight:600}.steps .cur b{border-color:var(--coral);animation:pulse 1s infinite}
 @keyframes pulse{50%{opacity:.3}}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
-.stat{background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
-.stat big{display:block;font:600 30px/1 var(--font);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:20px}
+.stat{background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:24px}
+.stat big{display:block;margin-bottom:10px;font:600 30px/1 var(--font);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .stat span{font-size:12.5px;color:var(--muted)}
 .hint{font-size:12px;color:var(--muted)}
-pre.brief{background:#08081f;border:1px solid var(--line);border-radius:10px;padding:16px;font:12px/1.55 var(--mono);color:#C9C6F2;white-space:pre-wrap;max-height:340px;overflow:auto}
+pre.brief{background:#08081f;border:1px solid var(--line);border-radius:10px;padding:28px;font:12px/1.8 var(--mono);color:#C9C6F2;white-space:pre-wrap;max-height:340px;overflow:auto}
 
 /* fields */
-input[type=text],input[type=url],select,textarea,input[type=number]{width:100%;background:#0b0b26;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13.5px;color:var(--text)}
-textarea{resize:vertical;min-height:62px;line-height:1.4}
+input[type=text],input[type=url],select,textarea,input[type=number]{width:100%;background:#0b0b26;border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:13.5px;color:var(--text)}
+textarea{resize:vertical;min-height:84px;line-height:1.5}
 input:hover,select:hover,textarea:hover{border-color:#41418a}
 input:focus,select:focus,textarea:focus{border-color:var(--lime);outline:none}
-label.f{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-bottom:5px}
+label.f{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-bottom:8px}
 input[type=range]{accent-color:#E6EA9C;width:100%}
 .ctx{position:relative}
 .ctx label.f{color:var(--lav)}
 .ctx textarea{border-color:#3a3a80;background:#10103a}
 
 /* ai learned */
-.ai{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#C9C6F2;background:rgba(161,139,255,.1);border-radius:8px;padding:8px 10px;line-height:1.35}
+.ai{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#C9C6F2;background:rgba(161,139,255,.1);border-radius:8px;padding:12px 14px;line-height:1.5}
 .ai::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--lav);margin-top:5px}
 .ai em{font:500 11px var(--mono);font-style:normal;color:var(--muted);margin-left:6px;white-space:nowrap}
 .chip{display:inline-flex;align-items:center;gap:6px;font:600 11px var(--font);padding:3px 9px;border-radius:10px;background:color-mix(in srgb,var(--c) 17%,transparent);color:var(--c);white-space:nowrap}
@@ -105,25 +105,25 @@ input[type=range]{accent-color:#E6EA9C;width:100%}
 .empty-note{color:var(--muted);font-size:13px;padding:18px;border:1px dashed var(--line);border-radius:12px;text-align:center}
 body:not(.learned) .gated{display:none}
 body.learned .gate{display:none}
-.gate{margin-top:26px}
+.gate{margin-top:56px}
 
 /* colour cards */
-.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
-.cc{display:flex;flex-direction:column;gap:11px;padding:0;overflow:hidden}
-.cc .sw{height:92px;position:relative;display:flex;align-items:flex-end;justify-content:space-between;padding:10px 14px;font:600 20px var(--font);letter-spacing:-.01em;transition:background .2s}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:28px}
+.cc{display:flex;flex-direction:column;gap:20px;padding:0;overflow:hidden}
+.cc .sw{height:120px;position:relative;display:flex;align-items:flex-end;justify-content:space-between;padding:16px 24px;font:600 22px var(--font);letter-spacing:-.01em;transition:background .2s}
 .cc .sw small{font:500 12px var(--mono)}
-.cc .bd{padding:0 16px 16px;display:flex;flex-direction:column;gap:11px}
-.cc .hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.pairs{display:flex;gap:6px;flex-wrap:wrap}
+.cc .bd{padding:4px 28px 32px;display:flex;flex-direction:column;gap:20px}
+.cc .hd{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pairs{display:flex;gap:8px;flex-wrap:wrap}
 .pair{font:600 12px var(--font);padding:5px 9px;border-radius:5px;border:1px solid rgba(255,255,255,.12)}
-.bar{display:flex;height:46px;border-radius:8px;overflow:hidden;margin:6px 0}
+.bar{display:flex;height:56px;border-radius:8px;overflow:hidden;margin:0 0 16px}
 .bar i{display:block;height:100%;transition:flex .3s}
 
 /* parameter rows */
-.prm{display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:8px 12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
-.prm .cx{grid-column:1/3}.prm .st{justify-self:end}.prm .val input[type=range]{min-width:90px;flex:1}
-@media (max-width:760px){.prm{grid-template-columns:minmax(0,1fr) auto}.prm .nm{grid-column:1/-1}.prm .cx{grid-column:1/-1}.prm .st{grid-column:1/-1;justify-self:start}}
+.prm{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px 24px;align-items:center;padding:28px 0;border-bottom:1px solid var(--line)}
+.prm>:nth-child(1){grid-column:1;grid-row:1}.prm>:nth-child(2){grid-column:2;grid-row:1}.prm .rd{grid-column:1;grid-row:2}.prm .cx{grid-column:2;grid-row:2}.prm .st{grid-column:1/-1;grid-row:3;justify-self:start}.prm .val input[type=range]{min-width:90px;flex:1}
+@media (max-width:760px){.prm{grid-template-columns:minmax(0,1fr)}.prm>*{grid-column:1!important;grid-row:auto!important}}
 .prm:last-child{border:0}
 .prm .nm{font-weight:600;font-size:13.5px}
 .prm .nm small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
@@ -132,37 +132,37 @@ body.learned .gate{display:none}
 .prm .val output{font:500 12px var(--mono);min-width:44px;text-align:right;color:var(--text)}
 .prm input[type=text].cx{font-size:12.5px;border-color:#3a3a80;background:#10103a}
 
-.split{margin-top:30px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.9fr);gap:18px;align-items:start}
+.split{margin-top:0;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.9fr);gap:48px;align-items:start}
 .split .stick{position:sticky;top:0}
-@media (max-width:1100px){.split{grid-template-columns:1fr}.split .stick{position:static}}
+@media (max-width:1100px){.split{grid-template-columns:1fr;gap:40px}.split .stick{position:static}}
 .pv{background:#fff;color:#0D0D2B;border-radius:12px;overflow:hidden;position:relative}
 .pv.dark{background:var(--ink)}
 .pvh{display:flex;justify-content:space-between;font:500 11px var(--mono);color:var(--muted);padding:0 2px 8px}
 
 /* questions */
-.q{display:grid;gap:6px;padding:14px 0;border-bottom:1px solid var(--line)}
+.q{display:grid;gap:14px;padding:28px 0;border-bottom:1px solid var(--line)}
 .q:last-child{border:0}
 .q p{font-size:13.5px;font-weight:500}
 .q p::before{content:"AI asks";font:600 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--lav);color:var(--ink);padding:2px 6px;border-radius:4px;margin-right:8px;vertical-align:1px}
 
 /* type table */
-.ts{display:grid;gap:14px;margin-top:30px}
-.tcard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px;align-items:start}
-.tcard .smp{background:#fff;color:#0D0D2B;border-radius:8px;padding:18px;overflow:hidden;min-height:100px;display:flex;align-items:center}
+.ts{display:grid;gap:28px;margin-top:56px}
+.tcard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:40px;align-items:start}
+.tcard .smp{background:#fff;color:#0D0D2B;border-radius:8px;padding:28px;overflow:hidden;min-height:120px;display:flex;align-items:center}
 .tcard .smp span{display:block;overflow-wrap:anywhere}
-.tcard .ctl{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tcard .ctl{display:grid;grid-template-columns:repeat(3,1fr);gap:20px 16px}
 .tcard .ctl .w2{grid-column:span 3}
 @media (max-width:820px){.tcard{grid-template-columns:1fr}}
 
 /* grid preview */
-.gp{position:relative;background:#101035;border-radius:10px;padding:14px 0;overflow:hidden}
+.gp{position:relative;background:#101035;border-radius:10px;padding:24px 0;overflow:hidden}
 .gp .fr{margin:0 auto;position:relative;background:rgba(255,255,255,.03);outline:1px dashed #4a4a90}
 .gp .cols{position:absolute;inset:0;display:grid}
 .gp .cols i{background:rgba(232,93,244,.22)}
 .gp .mk{position:absolute;font:600 10px var(--mono);color:var(--red);background:#0D0D2B;padding:0 3px;border-radius:2px}
-.sp{background:#fff;color:#0D0D2B;border-radius:12px;padding:22px;position:relative}
-.sp .gapbar{position:absolute;left:22px;right:22px;background:rgba(255,45,45,.18);border-top:1px solid var(--red);border-bottom:1px solid var(--red);color:var(--red);font:600 10px var(--mono);display:flex;align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none}
-.scalerow{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap;margin-top:10px}
+.sp{background:#fff;color:#0D0D2B;border-radius:12px;padding:32px;position:relative}
+.sp .gapbar{position:absolute;left:32px;right:32px;background:rgba(255,45,45,.18);border-top:1px solid var(--red);border-bottom:1px solid var(--red);color:var(--red);font:600 10px var(--mono);display:flex;align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none}
+.scalerow{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-top:24px}
 .scalerow div{text-align:center;font:500 10.5px var(--mono);color:var(--muted)}
 .scalerow i{display:block;background:var(--indigo);margin:0 auto 4px;border-radius:2px}
 .toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:var(--lime);color:var(--ink);font-weight:600;font-size:13px;padding:10px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:.25s;z-index:9}
@@ -172,8 +172,8 @@ body.learned .gate{display:none}
   body{overflow:auto}.app{flex-direction:column}
   .side{width:auto;flex-direction:row;overflow-x:auto;padding:8px 10px;gap:2px;border-right:0;border-bottom:1px solid var(--line)}
   .side h2,.sidefoot{display:none}.nv{width:auto;white-space:nowrap;padding:8px 10px}.nv .pc{display:none}
-  .main{overflow:visible}.pg{padding:22px 16px 60px}.pg h1{font-size:30px}
-  .cgrid{grid-template-columns:1fr}.two{grid-template-columns:1fr}
+  .main{overflow:visible}.pg h1{font-size:30px}
+  .cgrid{grid-template-columns:1fr}.two{grid-template-columns:1fr}.card{padding:22px}.cc{padding:0}.pg{padding:40px 20px 100px}h3.sub{margin-top:52px}.cc .bd{padding:4px 20px 24px}.drop{padding:32px 20px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -207,15 +207,15 @@ body.learned .gate{display:none}
           <input type="file" id="file" hidden accept=".pdf,.png,.jpg,.jpeg,.webp,.svg,.css,.json,.txt,.md,.html">
           <form class="url" id="urlf"><input type="url" id="urlin" placeholder="…or paste a link to an online guide, e.g. https://brand.example.com" aria-label="Guide link"><button class="btn ghost" type="submit">Import link</button></form>
         </div>
-        <div class="src" id="src" style="margin-top:16px"><div class="file" id="srcExt">PDF</div><div><div class="nm" id="srcName"></div><small id="srcMeta"></small></div><button class="btn ghost sm" id="bClear" style="margin-left:auto">Remove</button></div>
+        <div class="src" id="src" style="margin-top:32px"><div class="file" id="srcExt">PDF</div><div><div class="nm" id="srcName"></div><small id="srcMeta"></small></div><button class="btn ghost sm" id="bClear" style="margin-left:auto">Remove</button></div>
         <div class="steps" id="steps" hidden></div>
       </div>
       <div class="gated">
         <h3 class="sub">What the AI learned</h3>
         <div class="stats" id="stats"></div>
         <h3 class="sub">Brief for the AI</h3>
-        <p class="hint" style="margin-bottom:10px">Everything you confirm and every note you write is combined here. Paste it into any prompt, or download the JSON.</p>
-        <div class="row" style="margin-bottom:10px"><button class="btn" id="bCopy">Copy brief</button><button class="btn ghost" id="bJson">Download JSON</button><button class="btn ghost" id="bReset">Reset to what the AI learned</button></div>
+        <p class="hint" style="margin-bottom:20px;line-height:1.6">Everything you confirm and every note you write is combined here. Paste it into any prompt, or download the JSON.</p>
+        <div class="row" style="margin-bottom:24px"><button class="btn" id="bCopy">Copy brief</button><button class="btn ghost" id="bJson">Download JSON</button><button class="btn ghost" id="bReset">Reset to what the AI learned</button></div>
         <pre class="brief" id="brief"></pre>
       </div>
       <p class="empty-note gate">Nothing imported yet. Choose a file, paste a link, or try the sample guide.</p>
@@ -462,7 +462,7 @@ function propRow(k, p, i) {
     <input type="text" class="cx" data-path="${base}.ctx" value="${esc(p.ctx)}" placeholder="Add context…" aria-label="Context for ${esc(p.name)}">
     <div class="st" style="display:flex;gap:6px;align-items:center">${chip(p)}<button class="btn ghost sm" data-confirm="${base}">Confirm</button></div></div>`;
 }
-const propsCard = (k, list, startAt = 0) => `<div class="card" style="padding:4px 18px">${list.map((p, i) => propRow(k, p, i + startAt)).join('')}</div>`;
+const propsCard = (k, list, startAt = 0) => `<div class="card" style="padding:4px 32px">${list.map((p, i) => propRow(k, p, i + startAt)).join('')}</div>`;
 
 /* ---------- COLOURS ---------- */
 function renderColours() {
@@ -470,7 +470,7 @@ function renderColours() {
   $('#colBody').innerHTML = `
    <h3 class="sub">Palette · ${c.items.length} colours found</h3>
    <div class="cgrid">${c.items.map((x, i) => colCard(x, i)).join('')}</div>
-   <div class="row" style="margin-top:12px"><button class="btn ghost sm" id="addCol">+ Add a colour</button></div>
+   <div class="row" style="margin-top:28px"><button class="btn ghost sm" id="addCol">+ Add a colour</button></div>
    <h3 class="sub">Proportions</h3><div class="bar" id="mixbar"></div><div class="hint" id="mixhint"></div>
    <h3 class="sub">Rules</h3>${propsCard('colours', c.props)}
    ${qBlock('colours')}`;
@@ -512,8 +512,8 @@ function paintColours() {
 /* ---------- LAYOUT ---------- */
 const P = (k, id) => D[k].props.find((p) => p.id === id).v;
 function renderLayout() {
-  $('#layBody').innerHTML = `<div class="split"><div><h3 class="sub" style="margin-top:0">Settings</h3>${propsCard('layout', D.layout.props)}</div>
-   <div class="stick"><h3 class="sub" style="margin-top:0">Preview</h3><div class="gp" id="gp"></div><p class="hint" style="margin-top:8px" id="gpnote"></p></div></div>${qBlock('layout')}`;
+  $('#layBody').innerHTML = `<div class="split"><div><h3 class="sub">Settings</h3>${propsCard('layout', D.layout.props)}</div>
+   <div class="stick"><h3 class="sub">Preview</h3><div class="gp" id="gp"></div><p class="hint" style="margin-top:20px;line-height:1.6" id="gpnote"></p></div></div>${qBlock('layout')}`;
   paintLayout();
 }
 function paintLayout() {
@@ -531,8 +531,8 @@ function paintLayout() {
 
 /* ---------- STYLING ---------- */
 function renderStyling() {
-  $('#styBody').innerHTML = `<div class="split"><div><h3 class="sub" style="margin-top:0">Settings</h3>${propsCard('styling', D.styling.props)}</div>
-   <div class="stick"><h3 class="sub" style="margin-top:0">Preview</h3><div class="pv dark" id="spv" style="padding:22px"></div></div></div>${qBlock('styling')}`;
+  $('#styBody').innerHTML = `<div class="split"><div><h3 class="sub">Settings</h3>${propsCard('styling', D.styling.props)}</div>
+   <div class="stick"><h3 class="sub">Preview</h3><div class="pv dark" id="spv" style="padding:22px"></div></div></div>${qBlock('styling')}`;
   paintStyling();
 }
 function paintStyling() {
@@ -548,7 +548,7 @@ function paintStyling() {
     <div style="font-size:13.5px;opacity:.8;margin-bottom:14px">Corners, border and shadow follow the settings.</div>
     <input type="text" placeholder="Input field" style="background:#fff;color:${ink};border:${bw}px solid ${bc};border-radius:${r}px;margin-bottom:12px">
     <div style="display:flex;gap:10px;flex-wrap:wrap"><button style="${btn};border-radius:${br}px;padding:10px 18px;font-weight:600;font-size:13px">Primary</button><span style="border:${bw}px solid ${bc};border-radius:${br}px;padding:9px 14px;font-size:13px">Tag</span></div></div>
-    <p style="font-size:12px;color:var(--muted);margin-top:12px">Imagery: ${esc(P('styling', 'img'))}<br>Icons: ${esc(P('styling', 'icon'))}</p>
+    <p style="font-size:12px;line-height:1.7;color:var(--muted);margin-top:24px">Imagery: ${esc(P('styling', 'img'))}<br>Icons: ${esc(P('styling', 'icon'))}</p>
     <svg width="120" height="28" viewBox="0 0 120 28" style="margin-top:8px" fill="none" stroke="${lime}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="22" height="16" rx="2"/><path d="M3 5l10 8 10-8"/><circle cx="52" cy="12" r="9"/><path d="M52 7v5l3 2"/><path d="M82 20l8-14 8 14z"/></svg>`;
 }
 
@@ -561,7 +561,7 @@ function typeCard(s, i) {
   const b = `type.items.${i}`;
   const sel = (key, opts) => `<select data-path="${b}.${key}">${opts.map((o) => `<option${String(o) === String(s[key]) ? ' selected' : ''}>${o}</option>`).join('')}</select>`;
   return `<div class="card tcard" data-base="${b}"><div><div class="hd st" style="display:flex;gap:8px;align-items:center;margin-bottom:10px"><b style="font-size:16px;font-weight:600">${esc(s.name)}</b>${chip(s)}<button class="btn ghost sm" data-confirm="${b}">Confirm</button><button class="btn ghost sm" data-undo="${b}">Undo</button></div>
-    <div class="smp"><span data-smp>${esc(s.smp)}</span></div><div class="ai" style="margin-top:10px">${esc(s.ai)}<em>${s.src} · ${s.conf}%</em></div></div>
+    <div class="smp"><span data-smp>${esc(s.smp)}</span></div><div class="ai" style="margin-top:20px">${esc(s.ai)}<em>${s.src} · ${s.conf}%</em></div></div>
    <div><div class="ctl">
     <div><label class="f">Font</label>${sel('font', Object.keys(FONTS))}</div><div><label class="f">Weight</label>${sel('w', [300, 400, 500, 600, 700])}</div><div><label class="f">Case</label>${sel('caps', ['None', 'Sentence', 'Title', 'Upper'])}</div>
     <div><label class="f">Size px</label><input type="number" data-path="${b}.size" data-num min="8" max="160" value="${s.size}"></div><div><label class="f">Leading</label><input type="number" data-path="${b}.lh" data-num step=".05" min=".8" max="2.5" value="${s.lh}"></div><div><label class="f">Tracking</label><input type="number" data-path="${b}.tr" data-num step="1" min="-10" max="40" value="${s.tr}" title="thousandths of an em"></div>
@@ -580,12 +580,12 @@ function paintType() {
 /* ---------- SPACING ---------- */
 function renderSpacing() {
   const sc = D.spacing;
-  $('#spaBody').innerHTML = `<div class="split"><div><h3 class="sub" style="margin-top:0">Scale</h3>
+  $('#spaBody').innerHTML = `<div class="split"><div><h3 class="sub">Scale</h3>
     <div class="card"><label class="f" for="scale">Spacing scale in px, comma separated</label><input type="text" id="scale" data-path="spacing.scale" value="${esc(sc.scale)}"><div class="scalerow" id="scalerow"></div>
-     <div class="row" style="margin-top:12px;align-items:center" id="scst"><span class="chip" style="--c:var(--lav)">AI suggested</span><button class="btn ghost sm" id="scConfirm">Confirm</button><span class="hint">AI read: ${esc(sc.scaleAi)}</span></div>
-     <div class="ctx" style="margin-top:12px"><label class="f">Your context</label><textarea data-path="spacing.scaleCtx" rows="2" placeholder="Which steps are allowed where, off-scale exceptions…">${esc(sc.scaleCtx)}</textarea></div></div>
+     <div class="row" style="margin-top:24px;align-items:center" id="scst"><span class="chip" style="--c:var(--lav)">AI suggested</span><button class="btn ghost sm" id="scConfirm">Confirm</button><span class="hint">AI read: ${esc(sc.scaleAi)}</span></div>
+     <div class="ctx" style="margin-top:24px"><label class="f">Your context</label><textarea data-path="spacing.scaleCtx" rows="2" placeholder="Which steps are allowed where, off-scale exceptions…">${esc(sc.scaleCtx)}</textarea></div></div>
     <h3 class="sub">Gaps between elements</h3>${propsCard('spacing', sc.props)}</div>
-   <div class="stick"><h3 class="sub" style="margin-top:0">Preview</h3><div class="sp" id="spp"></div></div></div>${qBlock('spacing')}`;
+   <div class="stick"><h3 class="sub">Preview</h3><div class="sp" id="spp"></div></div></div>${qBlock('spacing')}`;
   $('#scConfirm').onclick = () => { sc.scaleSt = 'ok'; paintSpacing(); progress(); save(); };
   paintSpacing();
 }
@@ -693,7 +693,11 @@ window.addEventListener('resize', () => { if (D) { paintLayout(); paintSpacing()
 if (load()) {
   document.body.classList.add('learned'); $('#src').classList.add('on'); $('#srcExt').textContent = SRC.ext; $('#srcName').textContent = SRC.name; $('#srcMeta').textContent = SRC.meta + (SRC.note ? ' · ' + SRC.note : '');
   renderAll();
-} else progress();
+} else {
+  D = SAMPLE(); SRC = { name: 'Lob Brand Guide v4.pdf', ext: 'PDF', meta: '38 pages · sample guide', real: false };
+  document.body.classList.add('learned'); $('#src').classList.add('on'); $('#srcExt').textContent = SRC.ext; $('#srcName').textContent = SRC.name; $('#srcMeta').textContent = SRC.meta;
+  renderAll();
+}
 const h = /go=(\w+)/.exec(location.hash); if (h && SECS.concat('import').includes(h[1])) go(h[1]);
 window.__bg = { go, sample, ready: () => !!D && !busy };
 })();
