@@ -74,7 +74,8 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 /* hero */
 .hero{padding:clamp(40px,6vw,88px) 0 clamp(56px,7vw,100px);position:relative;overflow-x:clip}
 .hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(24px,5vw,80px);align-items:center}
-.hero h1{font-size:clamp(38px,5.7vw,88px);margin:22px 0 26px}
+.hero h1{font-size:clamp(30px,4.4vw,68px);margin:22px 0 26px}
+.hero h1 span{display:block;white-space:nowrap}
 .hero h1 em{font-style:normal;color:var(--coral)}
 .facts{display:grid;grid-template-columns:repeat(3,1fr);margin-top:clamp(32px,4vw,56px);font-size:13px;line-height:1.4}
 .facts div{padding:16px 16px 0 0;position:relative}
@@ -100,14 +101,20 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 @media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.tile{justify-self:start;max-width:440px}.facts{grid-template-columns:1fr}.facts div+div{border-left:0;padding-left:0;border-top:1px solid rgba(60,34,46,.25);margin-top:16px}}
 
 /* the real cost */
-.cost-list{border-top:1px solid rgba(212,224,238,.3)}
-.cost{display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,1fr);gap:clamp(16px,3vw,48px);padding:clamp(28px,3.4vw,48px) 0;border-bottom:1px solid rgba(212,224,238,.3)}
+.cost-list{border-top:1px solid rgba(212,224,238,.55)}
+.cost-head{display:grid;grid-template-columns:118px minmax(0,1fr) minmax(0,1fr);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--coral2)}
+.cost-head span{padding-bottom:12px}
+.cost-head .hs{padding-left:clamp(24px,3vw,48px)}
+.cost{display:grid;grid-template-columns:118px minmax(0,1fr) minmax(0,1fr);border-bottom:1px solid rgba(212,224,238,.3)}
+.cost>div{padding:clamp(28px,3.4vw,48px) 0}
+.cost .cp{padding-right:clamp(24px,3vw,48px)}
+.cost .cs{padding-left:clamp(24px,3vw,48px);border-left:1px solid rgba(212,224,238,.4)}
 .cost .n{font-size:clamp(40px,5vw,72px);font-weight:200;line-height:.9;color:var(--coral2)}
-.cost .lbl{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:12px}
 .cost q{display:block;quotes:none;font-size:clamp(20px,2vw,28px);font-weight:300;line-height:1.25;letter-spacing:-.01em;color:#fff}
 .cost h3{font-size:clamp(20px,2vw,28px);color:#fff;margin-bottom:10px}
 .cost p{opacity:.78;font-size:16px}
-@media(max-width:860px){.cost{grid-template-columns:1fr}.cost .n{font-size:40px}}
+@media(max-width:860px){.cost-head{display:none}.cost{grid-template-columns:1fr;padding:28px 0}.cost>div{padding:0}.cost>div+div{margin-top:20px}.cost .cs{border-left:0;padding-left:0}.cost .n{font-size:40px}
+.cost>div[data-l]::before{content:attr(data-l);display:block;font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--coral2);margin-bottom:10px}}
 
 /* one system: tabbed showcase */
 .sys{display:grid;grid-template-columns:minmax(190px,.62fr) minmax(0,2.2fr) minmax(0,1.7fr);min-height:clamp(560px,50vw,700px)}
@@ -339,7 +346,7 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
   <div class="wrap">
     <div>
       <div class="eyebrow rv"><svg class="bp"><use href="#bp"/></svg>Brickanta for Enterprise</div>
-      <h1 class="rv" style="--d:.08s">One project record. Every team. <em>Full control.</em></h1>
+      <h1 class="rv" style="--d:.08s"><span>One project record.</span> <span>Every team.</span> <span><em>Full control.</em></span></h1>
       <p class="lede rv" style="--d:.16s">You don’t need another tool. You need one place that remembers every agreement, decision and open question, so your teams see the full picture and the work moves faster.</p>
       <div class="row-btns rv" style="--d:.24s"><a class="btn" href="#demo">Request demo</a><a class="btn alt" href="#pricing">See pricing</a></div>
       <div class="facts rv" style="--d:.32s">
@@ -365,10 +372,11 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
       <h2 class="rv">You can’t run a big project on lost knowledge</h2>
       <p class="lede rv" style="--d:.1s">When what you agreed lives in inboxes and in people’s heads, it’s gone the moment they move on.</p>
     </div>
+    <div class="cost-head" aria-hidden="true"><span></span><span class="hp">The problem</span><span class="hs">The solution</span></div>
     <div class="cost-list">
-      <div class="cost rv"><div class="n">01</div><div><div class="lbl">The problem</div><q>“Every project keeps its facts somewhere different. Nobody knows which version is right.”</q></div><div><div class="lbl">The solution</div><h3>One record for the whole team</h3><p>Everyone works from the same project. A problem shows up early, on the work package it affects.</p></div></div>
-      <div class="cost rv"><div class="n">02</div><div><div class="lbl">The problem</div><q>“We only saw the invoice didn’t match the contract after it was paid.”</q></div><div><div class="lbl">The solution</div><h3>Catch it while there’s time</h3><p>An invoice that differs from the contract, or a delivery that puts the schedule at risk, is flagged as soon as the files arrive.</p></div></div>
-      <div class="cost rv"><div class="n">03</div><div><div class="lbl">The problem</div><q>“When people leave, what they agreed leaves with them.”</q></div><div><div class="lbl">The solution</div><h3>Keep what you learn</h3><p>Decisions, suppliers and lessons stay with the project and are there for the next one, even when people move on.</p></div></div>
+      <div class="cost rv"><div class="n">01</div><div class="cp" data-l="The problem"><q>“Every project keeps its facts somewhere different. Nobody knows which version is right.”</q></div><div class="cs" data-l="The solution"><h3>One record for the whole team</h3><p>Everyone works from the same project. A problem shows up early, on the work package it affects.</p></div></div>
+      <div class="cost rv"><div class="n">02</div><div class="cp" data-l="The problem"><q>“We only saw the invoice didn’t match the contract after it was paid.”</q></div><div class="cs" data-l="The solution"><h3>Catch it while there’s time</h3><p>An invoice that differs from the contract, or a delivery that puts the schedule at risk, is flagged as soon as the files arrive.</p></div></div>
+      <div class="cost rv"><div class="n">03</div><div class="cp" data-l="The problem"><q>“When people leave, what they agreed leaves with them.”</q></div><div class="cs" data-l="The solution"><h3>Keep what you learn</h3><p>Decisions, suppliers and lessons stay with the project and are there for the next one, even when people move on.</p></div></div>
     </div>
   </div>
 </section>
