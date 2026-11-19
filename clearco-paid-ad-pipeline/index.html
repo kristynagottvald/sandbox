@@ -86,22 +86,22 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 
 
 /* the Facebook creative: a square, white, with rising bars and circles */
-.cr.sq{aspect-ratio:1;background:#fff;color:#000}
-.cr.sq .lg2{position:absolute;right:6cqw;top:5.4cqw;width:25.7cqw;aspect-ratio:978.8/116.8;height:auto;fill:#000;z-index:2}
-.cr.sq h4{position:absolute;left:11.4cqw;top:15.6cqw;margin:0;z-index:2;font:400 13.4cqw/.915 var(--serif);letter-spacing:-.04em;white-space:nowrap;color:#000}
+.cr.sq{aspect-ratio:1;background:#000;color:#fff}
+.cr.sq .lg2{position:absolute;right:6cqw;top:5.4cqw;width:25.7cqw;aspect-ratio:978.8/116.8;height:auto;fill:#fff;z-index:2}
+.cr.sq h4{position:absolute;left:11.4cqw;top:15.6cqw;margin:0;z-index:2;font:400 13.4cqw/.915 var(--serif);letter-spacing:-.04em;white-space:nowrap;color:#fff}
 .cr.sq h4 i{font-style:italic}
-.cr.sq .go2{position:absolute;left:11.7cqw;top:80.6cqw;z-index:2;display:flex;flex-direction:column;gap:1.6cqw;font:400 2cqw/1.5 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#000}
+.cr.sq .go2{position:absolute;left:11.7cqw;top:80.6cqw;z-index:2;display:flex;flex-direction:column;gap:1.6cqw;font:400 2cqw/1.5 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#fff}
 .cr.sq .go2 svg{width:2cqw;height:2cqw}
 .fp{position:absolute;left:var(--x);top:0;width:12.1cqw;height:150cqw;transform:translateY(var(--y));animation:fp var(--T) ease-in-out var(--o) infinite;will-change:transform}
 @keyframes fp{0%,100%{transform:translateY(var(--y))}50%{transform:translateY(calc(var(--y) + var(--d)))}}
-.fp .bd{position:absolute;inset:0;border-radius:99px 99px 0 0;background:linear-gradient(180deg,#5aa6f5 0,#7fbaf3 8cqw,#a6dff8 40cqw,#cffbfc 100%)}
-.fp .hd2{position:absolute;left:0;top:0;width:100%;aspect-ratio:1;border-radius:50%;background:linear-gradient(180deg,#2f86ee,#43c8f1 70%,#4fe6f1)}
+.fp .bd{position:absolute;inset:0;border-radius:99px 99px 0 0;background:linear-gradient(180deg,#3b8cff 0,#3b8cff 10cqw,rgba(98,230,243,.55) 45cqw,rgba(98,230,243,.06) 100%)}
+.fp .hd2{position:absolute;left:0;top:0;width:100%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 28% 26%,#62e6f3,#3b8cff 62%,#2447f5)}
 .fp .bd::after,.fp .hd2::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--grain);mix-blend-mode:overlay;opacity:.55}
 .fp .rg{position:absolute;left:50%;top:6.05cqw;width:0;height:0}
 .fp .rg i{position:absolute;left:0;top:0;border-radius:50%;transform:translate(-50%,-50%);animation:rg 5s ease-in-out infinite}
-.fp .rg i:nth-child(1){width:19.5cqw;height:19.5cqw;background:rgba(110,175,245,.30)}
-.fp .rg i:nth-child(2){width:27cqw;height:27cqw;background:rgba(120,190,250,.18);animation-delay:-1.6s}
-.fp .rg i:nth-child(3){width:35cqw;height:35cqw;background:rgba(140,205,252,.10);animation-delay:-3.2s}
+.fp .rg i:nth-child(1){width:19.5cqw;height:19.5cqw;background:rgba(60,160,200,.34)}
+.fp .rg i:nth-child(2){width:27cqw;height:27cqw;background:rgba(60,160,200,.22);animation-delay:-1.6s}
+.fp .rg i:nth-child(3){width:35cqw;height:35cqw;background:rgba(60,160,200,.12);animation-delay:-3.2s}
 @keyframes rg{0%,100%{transform:translate(-50%,-50%) scale(.9)}50%{transform:translate(-50%,-50%) scale(1.08)}}
 @media(prefers-reduced-motion:reduce){.fp,.fp .rg i{animation:none}}
 /* ---------- 1a: LinkedIn ---------- */
