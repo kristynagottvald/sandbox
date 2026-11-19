@@ -200,7 +200,9 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .yh .me{width:32px;height:32px;border-radius:50%;background:var(--hue,#5a7a8a);display:grid;place-items:center;font:600 12px var(--ui);flex:none}
 .yg{display:grid;grid-template-columns:minmax(0,1fr) 402px;gap:24px;max-width:1700px;margin:0 auto;padding:24px 24px 0}
 .pw{position:relative}
-.pw .cr{border-radius:12px;aspect-ratio:16/9}
+.pw .vid{display:block;position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;cursor:pointer}
+.pw .vid video{width:100%;height:100%;object-fit:cover;display:block}
+#park{display:none}
 .yo{position:absolute;inset:0;pointer-events:none;border-radius:12px;overflow:hidden;font-family:var(--ui)}
 .yo .ad1{position:absolute;left:14px;bottom:46px;font-size:12px;background:rgba(0,0,0,.75);color:#fff;padding:5px 8px;border-radius:2px;display:flex;gap:6px}
 .yo .ad1 b{font-weight:600;background:#fbc02d;color:#000;padding:0 4px;border-radius:2px}
@@ -209,9 +211,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .yo .skip svg{width:14px;height:14px;fill:#fff}
 .yo .vis{position:absolute;right:14px;top:14px;background:rgba(0,0,0,.72);color:#fff;font:500 12px var(--ui);padding:6px 10px;border-radius:2px}
 .yo .pg{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(255,255,255,.3)}
-.yo .pg i{display:block;height:100%;width:0;background:#fc0;animation:ytp 15s linear infinite}
-@keyframes ytp{to{width:100%}}
-@media(prefers-reduced-motion:reduce){.yo .pg i{animation:none;width:40%}}
+.yo .pg i{display:block;height:100%;width:0;background:#fc0}
 .ytt{padding:14px 0}
 .ytt h1{font:600 20px/1.4 var(--ui)}
 .ytt .ch{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
@@ -226,7 +226,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 #pf-yt .note{color:#aaa}#pf-yt .note b{color:#fff}
 .toast{position:fixed;left:50%;bottom:28px;transform:translate(-50%,20px);background:#fff;color:#000;font:500 14px var(--sans);padding:12px 20px;border-radius:99px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:80;max-width:calc(100vw - 32px);text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
-@media(max-width:1000px){.yg{grid-template-columns:minmax(0,1fr);padding:0}.pw .cr,.yo{border-radius:0}.ytt{padding:14px 16px}.ytn{display:none}}
+@media(max-width:1000px){.yg{grid-template-columns:minmax(0,1fr);padding:0}.pw .vid,.yo{border-radius:0}.ytt{padding:14px 16px}.ytn{display:none}}
 
 /* ---------- screen 2: the guide ---------- */
 #s2{position:relative;background:#000;padding:24px 20px 40px}
@@ -380,8 +380,8 @@ tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
   <header class="yh"><span class="mn"></span><div class="wm"><i></i>Video</div><div class="search">Search</div><span class="me" data-t="init">MO</span></header>
   <div class="yg">
    <main>
-    <div class="pw"><div class="slot" data-pf="yt"></div>
-     <div class="yo"><span class="vis">Visit advertiser · clear.co</span><span class="ad1"><b>Ad</b> 1 of 2 · 0:15</span><button class="skip" id="skip">Skip<svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zM16 6v12h2V6z"/></svg></button><div class="pg"><i></i></div></div></div>
+    <div class="pw"><a class="vid" id="vid" href="#" aria-label="Track every touchpoint. Clearco video ad. Opens the guide"><video id="ytv" muted playsinline loop preload="auto" src="track-every-touchpoint.mp4"></video></a>
+     <div class="yo"><span class="vis">Visit advertiser · clear.co</span><span class="ad1"><b>Ad</b> 1 of 2 · <span id="adt">0:16</span></span><button class="skip" id="skip">Skip<svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zM16 6v12h2V6z"/></svg></button><div class="pg"><i></i></div></div></div>
     <div class="ytt"><h1><span class="sw" data-t="yt"></span></h1>
      <div class="ch"><div class="ph-av av-c" style="width:40px;height:40px;border-radius:50%"></div><div><b>Clearco</b><small>Sponsored</small></div></div>
      <p class="dsc"><span class="sw" data-t="intro"></span></p></div>
@@ -435,6 +435,7 @@ tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
  </div></div>
  <div class="next"><button class="btn ghost" data-go="2">← Guide page</button><button class="btn solid" data-go="1">Replay from the ad ↺</button></div>
 </div></section>
+<div id="park"></div>
 <div class="toast" id="toast" role="status"></div>
 
 <script>
@@ -526,8 +527,9 @@ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=e=>{if(b.tagName==='
 /* ---------- 1: the ad ---------- */
 const cr=$('cr');
 function mount(){const pf=P[Math.max(0,state.p)].k;document.querySelectorAll('.pf').forEach(e=>e.classList.toggle('on',e.id==='pf-'+pf));
- const slot=document.querySelector('#pf-'+pf+' .slot');if(slot&&cr.parentNode!==slot)slot.appendChild(cr);
- cr.href=adUrl();cr.classList.remove('play');void cr.offsetWidth;cr.classList.add('play')}
+ const slot=(pf!=='yt'&&document.querySelector('#pf-'+pf+' .slot'))||$('park');if(cr.parentNode!==slot)slot.appendChild(cr);
+ const v=$('ytv');if(pf==='yt'&&state.s===1){v.play().catch(()=>{})}else v.pause();
+ cr.href=$('vid').href=adUrl();cr.classList.remove('play');void cr.offsetWidth;cr.classList.add('play')}
 function adUrl(){const p=P[Math.max(0,state.p)],m=M[Math.max(0,state.m)];return GUIDE+'?'+utmQ(p,m)}
 function utmQ(p,m){return `utm_source=${p.src}&utm_medium=${p.med}&utm_campaign=attribution_guide&utm_content=${m.k}`}
 const TXT={init:m=>m.init,name:m=>m.name,role:m=>m.role,seg:m=>m.seg,intro:m=>m.intro,bar:m=>m.h.join(' '),fbd:m=>m.fbd,q:m=>m.q,gt:m=>m.gt,gd:m=>m.gd,yt:m=>m.yt};
@@ -550,8 +552,10 @@ $('toast').textContent='';
 document.querySelectorAll('.like').forEach(b=>b.onclick=function(){const on=this.classList.toggle('on');document.querySelectorAll('.likes').forEach(l=>{if(l.closest('#pf-li')===b.closest('#pf-li'))l.textContent=(+l.textContent.replace(/\D/g,''))+(on?1:-1)})});
 let tt;function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),2600)}
 $('skip').onclick=()=>toast('Skipped. It still counts as a touchpoint.');
+{const v=$('ytv'),f=n=>'0:'+String(Math.max(0,Math.ceil(n))).padStart(2,'0');
+ v.addEventListener('timeupdate',()=>{if(!v.duration)return;document.querySelector('.yo .pg i').style.width=(v.currentTime/v.duration*100)+'%';$('adt').textContent=f(v.duration-v.currentTime)})}
 /* a plain click on the creative follows the visitor to the guide; modified clicks open the real URL */
-cr.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();go(2)});
+[cr,$('vid')].forEach(a=>a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();go(2)}));
 
 /* ---------- 2: the guide, the real page in an iframe scaled to fit ---------- */
 const FR=[{fr:$('fr'),vp:$('vp'),on:false},{fr:$('fr2'),vp:$('vp2'),on:false}];
