@@ -61,6 +61,13 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .cr .stage>*{pointer-events:none}
 .cr .stage{display:flex;flex-direction:column;justify-content:center;gap:2.2cqw;padding:0 5cqw 0 0}
 .cr .bl{position:relative;display:flex;align-items:center;background:rgba(4,10,16,.94);border:1px solid #24465c;border-radius:3px;padding:3.4cqw 17cqw 3.4cqw 4.6cqw;color:#fff}
+.cr .bl:nth-child(2){--i:1}.cr .bl:nth-child(3){--i:2}
+.cr.play .bl{animation:cardin .8s cubic-bezier(.2,.8,.2,1) calc(var(--i,0) * .2s) backwards,hl 6s ease-in-out calc(1.4s + var(--i,0) * 2s) infinite}
+.cr.play .bl .ic{animation:icp 6s ease-in-out calc(1.4s + var(--i,0) * 2s) infinite}
+@keyframes cardin{from{opacity:0;transform:translateX(7cqw)}}
+@keyframes hl{0%,34%,100%{border-color:#24465c;background:rgba(4,10,16,.94);transform:none}8%,26%{border-color:var(--cyan);background:rgba(10,30,44,.96);transform:translateX(-1.6cqw)}}
+@keyframes icp{0%,34%,100%{transform:translateY(-50%) scale(1);border-color:#2b3d52}8%,26%{transform:translateY(-50%) scale(1.14);border-color:var(--cyan)}}
+@media(prefers-reduced-motion:reduce){.cr.play .bl,.cr.play .bl .ic{animation:none}}
 .cr .bl .ic{position:absolute;right:4cqw;top:50%;width:10.5cqw;height:10.5cqw;transform:translateY(-50%);padding:2.5cqw;border:1px solid #2b3d52;border-radius:50%;color:var(--cyan)}
 .cr .bl strong{display:block;font:400 7cqw/1 var(--serif);letter-spacing:-.02em}
 .cr .bl strong i{color:var(--cyan)}
@@ -90,8 +97,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .post:not(.ad){opacity:.4;filter:saturate(.6)}
 .ph0{display:flex;gap:8px;padding:12px 16px 0;align-items:flex-start}
 .ph0 .ph-av{width:48px;height:48px;border-radius:50%;flex:none;display:grid;place-items:center;font:600 16px var(--ui);color:#fff}
-.av-c{background:#000;position:relative;overflow:hidden}
-.av-c::before{content:"";position:absolute;width:56%;height:56%;left:22%;top:22%;border-radius:50%;background:radial-gradient(circle at 72% 26%,var(--cyan),var(--blue2) 62%,var(--blue))}
+.av-c,.gad .u .fv{background:#000 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-543 -115 230 230' fill='%23fff'%3E%3Ccircle cx='-481.7' cy='-13.1' r='7.63'/%3E%3Ccircle cx='-481.7' cy='14.1' r='7.63'/%3E%3Ccircle cx='-468.7' cy='-34.5' r='7.63'/%3E%3Ccircle cx='-468.7' cy='36.5' r='7.63'/%3E%3Ccircle cx='-445.2' cy='-47.1' r='7.63'/%3E%3Ccircle cx='-445.2' cy='47.6' r='7.63'/%3E%3Ccircle cx='-419.1' cy='-50.5' r='7.63'/%3E%3Ccircle cx='-419.1' cy='51.0' r='7.63'/%3E%3Ccircle cx='-395.3' cy='-45.6' r='7.63'/%3E%3Ccircle cx='-395.3' cy='46.7' r='7.63'/%3E%3Ccircle cx='-374.7' cy='-32.9' r='7.63'/%3E%3Ccircle cx='-374.7' cy='34.3' r='7.63'/%3E%3C/svg%3E") center/100% 100% no-repeat}
 .ph0 b{display:block;font:600 14px/1.3 var(--ui)}.ph0 small{display:block;font-size:12px;line-height:1.35;color:rgba(0,0,0,.6)}
 .ph0 .more{margin-left:auto;color:rgba(0,0,0,.6);font-size:18px;letter-spacing:2px;line-height:1}
 .txt{padding:8px 16px 10px;font-size:14px;line-height:1.43;color:rgba(0,0,0,.9)}
@@ -168,8 +174,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .gres .cnt2{font-size:14px;color:#70757a;margin-bottom:18px}
 .gad{margin-bottom:30px}
 .gad .u{display:flex;align-items:center;gap:12px;font-size:14px;line-height:1.3}
-.gad .u .fv{width:26px;height:26px;border-radius:50%;background:#000;position:relative;flex:none;overflow:hidden;border:1px solid #dadce0}
-.gad .u .fv::before{content:"";position:absolute;width:56%;height:56%;left:22%;top:22%;border-radius:50%;background:radial-gradient(circle at 72% 26%,var(--cyan),var(--blue2) 62%,var(--blue))}
+.gad .u .fv{width:26px;height:26px;border-radius:50%;flex:none;border:1px solid #dadce0}
 .gad .u b{display:block;font-weight:400;color:#202124}.gad .u small{display:block;color:#4d5156;font-size:12px}
 .gad .sp{font-weight:700;color:#202124;font-size:14px;margin-right:6px}
 .gad a.t{display:block;font:400 20px/1.3 Arial,var(--ui);color:#1a0dab;text-decoration:none;margin:6px 0 4px;cursor:pointer}
@@ -378,12 +383,12 @@ tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
     <div class="pw"><div class="slot" data-pf="yt"></div>
      <div class="yo"><span class="vis">Visit advertiser · clear.co</span><span class="ad1"><b>Ad</b> 1 of 2 · 0:15</span><button class="skip" id="skip">Skip<svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zM16 6v12h2V6z"/></svg></button><div class="pg"><i></i></div></div></div>
     <div class="ytt"><h1><span class="sw" data-t="yt"></span></h1>
-     <div class="ch"><div class="ph-av av-c" style="width:40px;height:40px;border-radius:50%"></div><div><b>Clearco</b><small>Sponsored</small></div><a data-go="1" href="#">Download the guide</a></div>
+     <div class="ch"><div class="ph-av av-c" style="width:40px;height:40px;border-radius:50%"></div><div><b>Clearco</b><small>Sponsored</small></div></div>
      <p class="dsc"><span class="sw" data-t="intro"></span></p></div>
    </main>
    <aside class="ytn"><div class="v"><span class="th"></span><div><b>How we scaled a store from 0 to 10k orders</b><small>Growth Notes · 212K views</small></div></div><div class="v"><span class="th"></span><div><b>Meta ads, explained in 12 minutes</b><small>Ad School · 88K views</small></div></div><div class="v"><span class="th"></span><div><b>Is last-click attribution lying to you?</b><small>Marketing Weekly · 41K views</small></div></div><div class="v"><span class="th"></span><div><b>Email flows that actually convert</b><small>Inbox Lab · 63K views</small></div></div></aside>
   </div>
-  <p class="note"><b>Click the ad</b> (the video or "Download the guide") to follow the viewer to the guide. Or skip it: it still counts as a touchpoint.</p>
+  <p class="note"><b>Click the ad</b> (the video) to follow the viewer to the guide. Or skip it: it still counts as a touchpoint.</p>
  </div>
 
  <!-- the creative lives here and is moved into the active platform's slot -->
@@ -522,7 +527,7 @@ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=e=>{if(b.tagName==='
 const cr=$('cr');
 function mount(){const pf=P[Math.max(0,state.p)].k;document.querySelectorAll('.pf').forEach(e=>e.classList.toggle('on',e.id==='pf-'+pf));
  const slot=document.querySelector('#pf-'+pf+' .slot');if(slot&&cr.parentNode!==slot)slot.appendChild(cr);
- cr.href=adUrl()}
+ cr.href=adUrl();cr.classList.remove('play');void cr.offsetWidth;cr.classList.add('play')}
 function adUrl(){const p=P[Math.max(0,state.p)],m=M[Math.max(0,state.m)];return GUIDE+'?'+utmQ(p,m)}
 function utmQ(p,m){return `utm_source=${p.src}&utm_medium=${p.med}&utm_campaign=attribution_guide&utm_content=${m.k}`}
 const TXT={init:m=>m.init,name:m=>m.name,role:m=>m.role,seg:m=>m.seg,intro:m=>m.intro,bar:m=>m.h.join(' '),fbd:m=>m.fbd,q:m=>m.q,gt:m=>m.gt,gd:m=>m.gd,yt:m=>m.yt};
