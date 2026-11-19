@@ -51,25 +51,29 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .cr .dl{position:absolute;inset:0;pointer-events:none;-webkit-mask-image:linear-gradient(transparent,#000 40%);mask-image:linear-gradient(transparent,#000 40%)}
 .cr .dl i{position:absolute;top:0;bottom:0;border-left:1px dashed rgba(255,255,255,.2)}
 .cr .lg{position:absolute;left:5.2cqw;top:4.6cqw;width:18cqw;aspect-ratio:978.8/116.8;height:auto;fill:#fff}
-.cr .l{position:absolute;left:5.2cqw;top:0;bottom:0;width:46cqw;display:flex;flex-direction:column;justify-content:center;padding-top:3cqw}
-.cr .chip{font:400 1.5cqw/1.5 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#8fa0ad;white-space:nowrap}
+.cr .l{position:absolute;left:5.2cqw;top:0;bottom:0;width:47cqw;display:flex;flex-direction:column;justify-content:center;padding-top:3cqw}
+.cr .chip{font:400 1.7cqw/1.5 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#8fa0ad;white-space:nowrap}
 .cr .chip em{font-style:normal;color:var(--cyan)}
-.cr h4{font:400 6.5cqw/.92 var(--serif);letter-spacing:-.035em;margin:2.4cqw 0 3.4cqw;white-space:nowrap}
-.cr .go{align-self:flex-start;display:inline-flex;align-items:center;gap:1.1cqw;color:#fff;font:500 1.5cqw/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
-.cr .go svg{width:1.7cqw;height:1.7cqw}
+.cr h4{font:400 8cqw/.9 var(--serif);letter-spacing:-.035em;margin:2.4cqw 0 3.4cqw;white-space:nowrap}
+.cr .go{align-self:flex-start;display:inline-flex;align-items:center;gap:1.1cqw;color:#fff;font:500 1.8cqw/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+.cr .go svg{width:2cqw;height:2cqw}
 .cr .stage{position:absolute;right:0;top:0;width:50cqw;height:100%;container-type:inline-size}
 .cr .stage>*{pointer-events:none}
 .cr .stage{display:flex;flex-direction:column;justify-content:center;gap:2.2cqw;padding:0 5cqw 0 0}
-.cr .bl{position:relative;display:flex;align-items:center;background:rgba(4,10,16,.94);border:1px solid #24465c;border-radius:3px;padding:3.4cqw 17cqw 3.4cqw 4.6cqw;color:#fff}
+.cr .bl{position:relative;display:flex;align-items:center;background:rgba(4,10,16,.94);border:1px solid #24465c;border-radius:3px;padding:4.6cqw 17cqw 4.6cqw 5cqw;color:#fff}
 .cr .bl:nth-child(2){--i:1}.cr .bl:nth-child(3){--i:2}
+.cr .bl::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;background:linear-gradient(90deg,var(--blue),var(--cyan),var(--blue2),var(--blue),var(--cyan)) 0 0/300% 100%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;pointer-events:none}
 .cr.play .bl{animation:cardin .8s cubic-bezier(.2,.8,.2,1) calc(var(--i,0) * .2s) backwards,hl 6s ease-in-out calc(1.4s + var(--i,0) * 2s) infinite}
+.cr.play .bl::before{animation:hs 6s ease-in-out calc(1.4s + var(--i,0) * 2s) infinite,flow 1.8s linear infinite}
 .cr.play .bl .ic{animation:icp 6s ease-in-out calc(1.4s + var(--i,0) * 2s) infinite}
 @keyframes cardin{from{opacity:0;transform:translateX(7cqw)}}
-@keyframes hl{0%,34%,100%{border-color:#24465c;background:rgba(4,10,16,.94);transform:none}8%,26%{border-color:var(--cyan);background:rgba(10,30,44,.96);transform:translateX(-1.6cqw)}}
+@keyframes hl{0%,34%,100%{background:rgba(4,10,16,.94);transform:none}8%,26%{background:rgba(10,30,44,.96);transform:translateX(-1.6cqw)}}
+@keyframes hs{0%,34%,100%{opacity:0}8%,26%{opacity:1}}
+@keyframes flow{to{background-position:-300% 0}}
 @keyframes icp{0%,34%,100%{transform:translateY(-50%) scale(1);border-color:#2b3d52}8%,26%{transform:translateY(-50%) scale(1.14);border-color:var(--cyan)}}
 @media(prefers-reduced-motion:reduce){.cr.play .bl,.cr.play .bl .ic{animation:none}}
 .cr .bl .ic{position:absolute;right:4cqw;top:50%;width:10.5cqw;height:10.5cqw;transform:translateY(-50%);padding:2.5cqw;border:1px solid #2b3d52;border-radius:50%;color:var(--cyan)}
-.cr .bl strong{display:block;font:400 7cqw/1 var(--serif);letter-spacing:-.02em}
+.cr .bl strong{display:block;font:400 8.6cqw/1.02 var(--serif);letter-spacing:-.02em}
 .cr .bl strong i{color:var(--cyan)}
 .cr .bl p{white-space:nowrap;font:400 3.7cqw/1.35 var(--sans);color:#aebbc5;margin-top:1.4cqw}
 .cr .bl .sw{display:block}
@@ -399,9 +403,9 @@ tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
    <h4><span class="sw" id="crH"></span></h4>
    <span class="go"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M2.5 14h11"/></svg>Download the guide</span></div>
   <div class="stage" aria-hidden="true">
-   <div class="bl" id="bl1"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="17" r="2"/><circle cx="12" cy="7" r="2"/><circle cx="19" cy="14" r="2"/><path d="M6.2 15.3l4.6-6.6M13.8 8.4l4 4.1"/></svg><div><strong class="sw" id="b1h"></strong><p class="sw" id="b1p"></p></div></div>
-   <div class="bl" id="bl2"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg><div><strong class="sw" id="b2h"></strong><p class="sw" id="b2p"></p></div></div>
-   <div class="bl" id="bl3"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><div><strong class="sw" id="b3h"></strong><p class="sw" id="b3p"></p></div></div>
+   <div class="bl" id="bl1"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="17" r="2"/><circle cx="12" cy="7" r="2"/><circle cx="19" cy="14" r="2"/><path d="M6.2 15.3l4.6-6.6M13.8 8.4l4 4.1"/></svg><div><strong class="sw" id="b1h"></strong></div></div>
+   <div class="bl" id="bl2"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg><div><strong class="sw" id="b2h"></strong></div></div>
+   <div class="bl" id="bl3"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><div><strong class="sw" id="b3h"></strong></div></div>
   </div>
  </a>
 </section>
@@ -537,7 +541,7 @@ function paintAd(){const m=M[Math.max(0,state.m)];
  document.querySelectorAll('[data-t]').forEach(e=>{e.innerHTML=TXT[e.dataset.t](m)});
  document.querySelectorAll('.av,.a,.me').forEach(e=>e.style.setProperty('--hue',m.hue));
  $('crH').innerHTML=`${m.h[0]}<br>${m.h[1]}<br><i>${m.h[2]}</i>`;
- m.b.forEach((b,i)=>{$('b'+(i+1)+'h').innerHTML=b[0];$('b'+(i+1)+'p').textContent=b[1]});
+ m.b.forEach((b,i)=>{$('b'+(i+1)+'h').innerHTML=b[0]});
  const p=P[Math.max(0,state.p)];$('urlq').textContent='/attribution-guide?'+utmQ(p,m);$('uSrc').textContent=p.src;$('uMed').textContent=p.med;$('uCon').textContent=m.k;cr.href=adUrl()}
 const swEls=()=>[...document.querySelectorAll('.sw')];
 function paintAll(instant){if(instant){paintAd();return}
