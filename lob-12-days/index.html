@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lob 12 Days Advent</title>
-<meta name="description" content="A 1:1 social motion post for the 12 Days of Lob advent calendar: a dense airbrushed botanical bouquet of Christmas plants grows in around heavy white type for each day.">
+<meta name="description" content="A 1:1 social motion post for the 12 Days of Lob advent calendar: a dense airbrushed botanical bouquet of Christmas plants on a square perforated stamp, over a green, purple, pink and orange background that changes each day.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@500&display=swap" rel="stylesheet">
 <style>
 :root{--sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--navy:#1F2149;--pink:#F8E0F9;--mag:#B042C2;--btn:#4534F2}
@@ -17,7 +17,7 @@ nav.back a{color:#8d8d8d;text-decoration:none}nav.back a:hover,nav.back a:focus-
 nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:640px){nav.back{padding:0 16px}nav.back .x{display:none}}
 .wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:12px}
-canvas{display:block;aspect-ratio:1/1;width:min(100%,calc(100dvh - 49px - 120px));max-width:100%;height:auto;background:#FCE8DF}
+canvas{display:block;aspect-ratio:1/1;width:min(100%,calc(100dvh - 49px - 120px));max-width:100%;height:auto;background:#27C45A}
 .ctl{flex:none;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:10px 16px 16px}
 .days{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
 .days button,.ctl .b{min-width:34px;height:34px;padding:0 12px;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:none;cursor:pointer;font-weight:600}
@@ -111,7 +111,7 @@ function items(){const H=hero[day],pl=pals[day],mx=day===11,hf=(k)=>mx?[poin,hol
   [()=>blob(),610,440,-.12,.0,.01,0],
   [()=>{x.scale(1.5,.6);orb(110,'#4CE600','#7DF000')},750,745,0,.08,.01,0],
   [()=>orb(70,'#E8FF00','#4CE600'),740,272,0,.05,.02,0],
-  [()=>orb(122,'#004C25','#00391B'),757,432,0,.1,.01,0],
+  [()=>orb(150,'#004C25','#00391B'),757,440,0,.1,.01,0],
   [()=>orb(60,'#005A2A','#00391B'),300,592,0,.1,.01,0],
   [()=>orb(70,'#004C25','#0A7A1E',true),532,372,0,.15,.01,0],
   [()=>orb(34,'#004C25','#0A7A1E',true),927,456,.3,.2,.02,0],
@@ -137,20 +137,36 @@ function sceneDraw(front,gm){const its=items(),ex=gm;
   its.forEach((it,i)=>{if(!!it[6]!==front)return;const pp=Math.max(.0001,eob(cl((lt-.1-it[4]*1.6)/.6))*ex);
     x.save();x.translate(it[1],it[2]);x.rotate(it[3]+it[5]*Math.sin(T*1.3+i)*1.0+(1-cl((lt-.1-it[4]*1.6)/.6))*-.5);const br=1+.018*Math.sin(T*2+i*1.7);x.scale(pp*br,pp*br);
     if(front)x.globalAlpha=.8;it[0]();x.restore()})}
+const NAVY='#1F2149',BGS=['#27C45A','#7A5CFA','#FF8FC8','#FF7A2E'];
+function mixc(a,b,k){const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),A=p(a),B=p(b);return'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*k)).join(',')+')'}
+function stampPath(w,h,n,m){
+  const edge=(x0,y0,x1,y1,nx,ny,cnt)=>{for(let i=0;i<cnt;i++){const ax=x0+(x1-x0)*i/cnt,ay=y0+(y1-y0)*i/cnt,bx=x0+(x1-x0)*(i+1)/cnt,by=y0+(y1-y0)*(i+1)/cnt,cx=(ax+bx)/2,cy=(ay+by)/2,rr=Math.hypot(bx-ax,by-ay)/2*.8;
+    const ta=Math.atan2(ay-cy,ax-cx),tb=Math.atan2(by-cy,bx-cx),tn=Math.atan2(ny,nx);const cw=((tn-ta+Math.PI*2)%(Math.PI*2))<Math.PI;x.lineTo(ax,ay);x.lineTo(cx+Math.cos(ta)*rr,cy+Math.sin(ta)*rr);x.arc(cx,cy,rr,ta,tb,!cw)}};
+  x.beginPath();x.moveTo(-w/2,-h/2);edge(-w/2,-h/2,w/2,-h/2,0,1,n);edge(w/2,-h/2,w/2,h/2,-1,0,m);edge(w/2,h/2,-w/2,h/2,0,-1,n);edge(-w/2,h/2,-w/2,-h/2,1,0,m);x.closePath()}
 function bigText(str,y,maxW,ex){const f='900 200px "Archivo Black","Arial Black",Arial,sans-serif';x.save();x.font=f;x.letterSpacing='-8px';x.textAlign='left';x.textBaseline='alphabetic';
-  let w=x.measureText(str).width,sz=Math.min(170,200*maxW/w);x.font=f.replace('200px',sz+'px');x.letterSpacing=(-.04*sz)+'px';
+  let w=x.measureText(str).width,sz=Math.min(124,200*maxW/w);x.font=f.replace('200px',sz+'px');x.letterSpacing=(-.04*sz)+'px';
   const cw=[...str].map(c=>x.measureText(c).width),tot=cw.reduce((a,b)=>a+b,0);let cx=540-tot/2;
-  [...str].forEach((c,i)=>{const pp=eob(cl((lt-.5-i*.045)/.5))*ex;x.save();x.globalAlpha=cl(pp*1.4);x.translate(cx,y+(1-pp)*90);x.fillStyle='#fff';x.fillText(c,0,0);x.restore();cx+=cw[i]});x.restore()}
-function smallText(str,y,size,delay,ex){const p=eio(cl((lt-delay)/.4))*ex;x.save();x.globalAlpha=p;x.font='500 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing='0px';x.textAlign='center';x.fillStyle='#fff';x.fillText(str,540,y+(1-p)*24);x.restore()}
+  [...str].forEach((c,i)=>{const pp=eob(cl((lt-.5-i*.045)/.5))*ex;x.save();x.globalAlpha=cl(pp*1.4);x.translate(cx,y+(1-pp)*70);x.fillStyle=NAVY;x.fillText(c,0,0);x.restore();cx+=cw[i]});x.restore()}
+function smallText(str,y,size,delay,ex,col){const p=eio(cl((lt-delay)/.4))*ex,ls=size*.3;x.save();x.globalAlpha=p;x.font='700 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign='center';x.fillStyle=col;x.fillText(str.toUpperCase(),540+ls/2,y+(1-p)*18);x.restore()}
 function draw(){
-  x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,S,S);x.fillStyle=CREAM;x.fillRect(0,0,S,S);
-  const ex=1-eio(cl((lt-(D-.7))/.5)),flip=1;
-  const scene=front=>{x.save();x.translate(540,562);x.scale(.86*flip,.86);x.translate(-750,-590);sceneDraw(front,ex);x.restore()};
+  x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,S,S);
+  x.fillStyle=mixc(BGS[(day+3)%4],BGS[day%4],eio(cl(lt/.5)));x.fillRect(0,0,S,S);
+  const ex=1-eio(cl((lt-(D-.7))/.5));
+  /* square perforated stamp the bouquet sits on */
+  const W=830,pop=Math.max(.0001,eob(cl(lt/.6))),sk2=1+.012*Math.sin(T*1.4);
+  x.save();x.translate(540,548);x.scale(pop*sk2,pop*sk2);x.rotate((1-pop)*-.2+Math.sin(T*1.2)*.004);
+  x.save();x.translate(14,16);stampPath(W,W,34,34);x.fillStyle='rgba(31,33,73,.2)';x.fill();x.restore();
+  stampPath(W,W,34,34);x.fillStyle=CREAM;x.fill();
+  x.beginPath();x.roundRect(-W/2+30,-W/2+30,W-60,W-60,4);x.strokeStyle='rgba(31,33,73,.35)';x.lineWidth=2.5;x.stroke();
+  x.beginPath();x.roundRect(-W/2+36,-W/2+36,W-72,W-72,2);x.clip();
+  x.translate(-540,-548);
+  const scene=front=>{x.save();x.translate(540,548);x.scale(.62,.62);x.translate(-750,-590);sceneDraw(front,ex);x.restore()};
   scene(false);
-  bigText(titles[day].toLowerCase(),598,610,ex);
-  scene(true);smallText('day '+(day+1),452,56,.4,ex);smallText('12 days of lob',676,56,.9,ex);
-  txt('Lob',64,108,62,DG,{ls:-3});
-  for(let i=0;i<12;i++){const cur=i===day;pill(64+i*38,1012,cur?30:22,10,i<day?DG:cur?'#FF2D8B':'#F2C6D6')}
+  bigText(titles[day].toLowerCase(),572,440,ex);
+  scene(true);smallText('day '+(day+1),476,25,.4,ex,'#fff');smallText('12 days of lob',626,28,.9,ex,NAVY);
+  x.restore();
+  txt('Lob',64,108,62,NAVY,{ls:-3});
+  for(let i=0;i<12;i++){const cur=i===day;pill(64+i*38,1012,cur?30:22,10,i<day?NAVY:cur?'#fff':'rgba(255,255,255,.5)')}
 }
 
 /* ---------- loop ---------- */
