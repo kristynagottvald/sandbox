@@ -109,25 +109,33 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 @media(max-width:860px){.cost{grid-template-columns:1fr}.cost .n{font-size:40px}}
 
 /* one system: tabbed showcase */
-.sys{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(24px,4vw,72px);align-items:start}
-.tabs{list-style:none;padding:0;border-top:1px solid rgba(60,34,46,.3)}
-.tabs li{border-bottom:1px solid rgba(60,34,46,.3)}
-.tabs button{display:grid;grid-template-columns:44px 1fr;width:100%;text-align:left;background:none;border:0;padding:20px 0;align-items:baseline}
-.tabs .n{font-size:13px;font-weight:500;opacity:.5;letter-spacing:.06em}
-.tabs .t{font-size:clamp(20px,2vw,28px);font-weight:300;letter-spacing:-.015em;transition:transform .35s var(--ease),color .2s}
-.tabs button:hover .t{transform:translateX(6px)}
-.tabs li.on .t{color:var(--coral);font-weight:400}
-.tabs li.on .n{opacity:1;color:var(--coral)}
-.tabs .body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease);padding-left:44px}
-.tabs li.on .body{grid-template-rows:1fr}
-.tabs .body>div{overflow:hidden}
-.tabs .body p{font-size:16px;opacity:.85;padding-bottom:6px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 22px}
-.chips span{font-size:12px;font-weight:500;padding:5px 12px;border:1px solid rgba(60,34,46,.35)}
-.tabs a.more{display:inline-block;margin-bottom:22px;font-weight:500;font-size:14px;text-underline-offset:4px}
-.stage{position:sticky;top:92px;aspect-ratio:1/.92;transition:background .35s;clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,var(--cut) 100%,0 calc(100% - var(--cut)));overflow:hidden}
+.sys{display:grid;grid-template-columns:minmax(190px,.62fr) minmax(0,2.2fr) minmax(0,1.7fr);min-height:clamp(560px,50vw,700px)}
+.rail{list-style:none;padding:0;background:var(--ice);color:var(--navy);display:flex;flex-direction:column;clip-path:polygon(var(--cut) 0,100% 0,100% 100%,0 100%,0 var(--cut))}
+.rail li{border-bottom:1px solid rgba(14,31,76,.2)}
+.rail li:first-child button{padding-top:calc(var(--cut) * .7 + 24px)}
+.rail button{display:block;width:100%;text-align:left;background:none;border:0;padding:30px 26px;font-family:var(--display);font-size:14px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;line-height:1.3;color:inherit;transition:background .25s,color .25s,padding .35s var(--ease)}
+.rail button:hover{padding-left:34px}
+.rail li.on button{background:var(--plum);color:var(--coral2)}
+.panel{background:var(--plum);color:var(--ice);padding:clamp(26px,4vw,56px);display:flex;flex-direction:column;position:relative}
+.pin{display:flex;flex-direction:column;flex:1;animation:pin .55s var(--ease)}
+@keyframes pin{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.panel h3{font-size:clamp(26px,3.2vw,46px);color:#fff;line-height:1.08;max-width:14ch}
+.panel p{margin:clamp(18px,2.4vw,30px) 0;font-size:clamp(16px,1.35vw,19px);line-height:1.5;opacity:.88;max-width:46ch}
+.panel a.more{align-self:flex-start;color:#fff;font-family:var(--display);font-weight:500;font-size:17px;text-decoration:none;padding-bottom:6px;border-bottom:2px dashed rgba(212,224,238,.7)}
+.panel a.more:hover{border-bottom-color:var(--coral2)}
+.chips{margin-top:auto;padding-top:28px;display:flex;flex-wrap:wrap;gap:10px;position:relative}
+.chips::before{content:"";position:absolute;left:0;right:0;top:0;border-top:1px dashed rgba(212,224,238,.4)}
+.chips{padding-top:36px}.pin>a.more{margin-bottom:28px}
+.chips span{display:inline-flex;align-items:center;gap:10px;background:rgba(212,224,238,.1);color:#fff;font-size:15px;padding:13px 16px;transition:background .25s}
+.chips span:hover{background:rgba(212,224,238,.2)}
+.chips svg{width:18px;height:18px;color:var(--coral2);flex:none}
+.chips span::after{content:"\2197";font-size:13px;opacity:.8;margin-left:4px}
+.stage{position:relative;overflow:hidden;transition:background .35s;clip-path:polygon(0 0,calc(100% - var(--cut)) 0,100% var(--cut),100% 100%,0 100%)}
+.stage::before,.stage::after{content:"";position:absolute;left:18px;width:18px;height:12px;border-left:2px solid currentColor;opacity:.7}
+.stage::before{top:18px;border-top:2px solid currentColor}.stage::after{bottom:18px;border-bottom:2px solid currentColor}
+.stage .ruler{position:absolute;left:18px;top:56px;bottom:56px;width:12px;opacity:.5;background:repeating-linear-gradient(0deg,currentColor 0 2px,transparent 2px 31px)}
 .stage .lines{position:absolute;inset:0;opacity:.18;transition:color .6s}
-.stage .card{position:absolute;left:9%;right:9%;top:11%;background:var(--paper);color:var(--plum);padding:clamp(16px,2.2vw,30px);box-shadow:none}
+.stage .card{position:absolute;left:14%;right:7%;top:50%;transform:translateY(-50%);background:var(--paper);color:var(--plum);padding:clamp(16px,2.2vw,30px);box-shadow:none}
 .card .hd{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding-bottom:14px;margin-bottom:6px;border-bottom:1px solid rgba(60,34,46,.25)}
 .card .hd i{font-style:normal;font-weight:500;letter-spacing:.06em;opacity:.55;text-transform:none}
 .card .big{font-size:clamp(19px,2.3vw,32px);font-weight:300;letter-spacing:-.02em;line-height:1.15;padding:14px 0 10px}
@@ -137,8 +145,7 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 .card .r em{display:inline-block;margin-top:6px;font-style:normal;font-size:.8em;font-weight:500;padding:2px 9px;background:var(--plum);color:#fff;margin-right:6px}
 .card .r em.hot{background:var(--coral)}
 @keyframes rin{to{opacity:1;transform:none}}
-.stage .ex{position:absolute;left:9%;bottom:6%;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.75}
-@media(max-width:860px){.sys{grid-template-columns:1fr}.stage{position:relative;top:0}}
+.stage .ex{position:absolute;left:14%;bottom:5%;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.75}
 
 /* operational edge: big numerals on coral */
 .edge{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(14,31,76,.5)}
@@ -274,6 +281,8 @@ h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
 .sec.ice .faq summary i::before,.sec.ice .faq summary i::after{background:var(--plum)}
 .plan.q li::before{background:var(--plum)}
 
+@media(max-width:980px){.sys{grid-template-columns:1fr}.rail{flex-direction:row;overflow-x:auto;clip-path:none}.rail li{flex:none;border-bottom:0;border-right:1px solid rgba(14,31,76,.2)}.rail li:first-child button{padding-top:30px}.rail button{white-space:nowrap}.stage{min-height:440px;clip-path:none}.panel h3{max-width:none}}
+.sec-head.center{grid-template-columns:1fr;gap:18px;justify-items:center;text-align:center}.sec-head.center .eyebrow{justify-content:center}.sec-head.center h2{max-width:20ch}
 /* clip mode: no auto cycling, everything already in */
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.hl,.step .bar::before{transform:none}.tile .in-a,.tile .in-b{transform:none}}
 </style>
@@ -343,14 +352,15 @@ h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
 <!-- ONE SYSTEM -->
 <section class="sec" id="system">
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head center">
       <div class="eyebrow rv"><svg style="color:var(--coral)"><use href="#mark"/></svg>One system, every workflow</div>
       <h2 class="rv">Everything your team knows, in one place</h2>
       <p class="lede rv" style="--d:.1s">Brickanta reads your project files and keeps track of agreements, decisions and open questions, from tender to production and on to the next project.</p>
     </div>
-    <div class="sys">
-      <ul class="tabs" id="tabs"></ul>
-      <div class="stage" id="stage" aria-live="polite"><div class="lines vl"></div><div class="card" id="card"></div><div class="ex">Example</div></div>
+    <div class="sys rv" id="sysblock">
+      <ul class="rail" id="tabs" role="tablist" aria-label="Workflows"></ul>
+      <div class="panel"><div class="pin" id="pin"></div></div>
+      <div class="stage" id="stage" aria-live="polite"><div class="lines vl"></div><div class="ruler"></div><div class="card" id="card"></div><div class="ex">Example</div></div>
     </div>
   </div>
 </section>
@@ -518,7 +528,7 @@ h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
     {t:'One record for the whole team',d:'Everyone works from the same project, so problems show up early on the work package they affect.',c:['Invoices','Deliveries','Schedule'],bg:'var(--navy)',ln:'var(--ice)',
      hd:['Project record','3 flags'],big:'Two things need a look today.',
      rows:[['Facade','Invoice 0412 is higher than the contract price.<br><em class="hot">Differs from contract</em>'],['Roofing','Delivery moved to 14 March.<br><em class="hot">Puts the schedule at risk</em>'],['Electrical','All documents up to date.<br><em>OK</em>']]},
-    {t:'Decide whether to bid',d:'Brickanta checks a tender’s legal, commercial and technical risks and gives a clear recommendation. Each finding links to its source.',c:['Legal','Commercial','Technical'],bg:'var(--plum)',ln:'var(--coral)',
+    {t:'Decide whether to bid',d:'Brickanta checks a tender’s legal, commercial and technical risks and gives a clear recommendation. Each finding links to its source.',c:['Legal','Commercial','Technical'],bg:'var(--coral2)',ln:'var(--plum)',
      hd:['Bid review','Tender 2026-14'],big:'Worth bidding on, with three reservations.',
      rows:[['Legal','Delay damages have no cap.<br><em>Contract §11</em>'],['Commercial','No price index for materials.<br><em>Tender terms, p.8</em>'],['Technical','Fire spec conflicts with drawing A-204.<br><em>Spec 07 · A-204</em>']]},
     {t:'Review new drawings as they arrive',d:'Brickanta reads each new drawing, links it to the right work package, tells the person responsible and drafts questions for you to review.',c:['Read','Link','Notify','Draft'],bg:'var(--ice)',ln:'var(--navy)',
@@ -531,17 +541,19 @@ h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
      hd:['Meeting prep','Subcontractor'],big:'Ready for Thursday’s meeting.',
      rows:[['Open','4 open questions, with sources.'],['Overdue','2 commitments past their date.<br><em class="hot">Follow up</em>'],['Quality','7 requirements to check.']]}
   ];
-  var tabs=$('#tabs'),stage=$('#stage'),card=$('#card'),cur=-1,auto=!CLIP,timer;
+  var LBL=['Ask your project','Project record','Bid review','New drawings','Work packages','Project memory'];
+  var tabs=$('#tabs'),pin=$('#pin'),stage=$('#stage'),card=$('#card'),cur=-1,auto=!CLIP,timer;
   TABS.forEach(function(x,i){
-    var li=document.createElement('li');
-    li.innerHTML='<button type="button" aria-expanded="false"><span class="n">0'+(i+1)+'</span><span class="t">'+x.t+'</span></button>'+
-      '<div class="body"><div><p>'+x.d+'</p><div class="chips">'+x.c.map(function(c){return '<span>'+c+'</span>'}).join('')+'</div><a class="more" href="#demo">Request demo</a></div></div>';
+    var li=document.createElement('li');li.setAttribute('role','presentation');
+    li.innerHTML='<button type="button" role="tab" aria-selected="false">'+LBL[i]+'</button>';
     li.firstChild.addEventListener('click',function(){auto=false;go(i)});
     tabs.appendChild(li);
   });
   function go(i){
     if(i===cur)return; cur=i; var x=TABS[i];
-    [].forEach.call(tabs.children,function(li,k){li.classList.toggle('on',k===i);li.firstChild.setAttribute('aria-expanded',k===i)});
+    [].forEach.call(tabs.children,function(li,k){li.classList.toggle('on',k===i);li.firstChild.setAttribute('aria-selected',k===i)});
+    pin.style.animation='none';void pin.offsetWidth;pin.style.animation='';
+    pin.innerHTML='<h3>'+x.t+'</h3><p>'+x.d+'</p><a class="more" href="#demo">Explore '+LBL[i].toLowerCase()+'</a><div class="chips">'+x.c.map(function(c){return '<span><svg><use href="#mark"/></svg>'+c+'</span>'}).join('')+'</div>';
     stage.style.background=x.bg;stage.style.color=x.ln;
     card.innerHTML='<div class="hd"><span>'+x.hd[0]+'</span><i>'+x.hd[1]+'</i></div><div class="big">'+x.big+'</div>'+
       x.rows.map(function(r,k){return '<div class="r" style="--i:'+k+'"><b>'+r[0]+'</b><span>'+r[1]+'</span></div>'}).join('');
