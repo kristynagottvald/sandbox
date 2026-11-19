@@ -521,7 +521,7 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
     <h2 class="rv" style="margin-top:22px">See Brickanta in action</h2>
     <p class="lede rv" style="--d:.1s;opacity:1;color:var(--navy)">Get a closer look at the platform built for construction teams.</p>
     <div class="row-btns rv" style="--d:.2s"><a class="btn light" href="#demo">Request demo</a><a class="btn alt" href="#pricing">Explore pricing</a></div>
-    <svg class="mk morph" id="morph" viewBox="0 0 6 6" aria-hidden="true"><defs><clipPath id="mkc"><polygon id="mA"/><polygon id="mB"/><polygon id="mC"/><polygon id="mD"/></clipPath></defs><rect width="6" height="6" fill="#0e1f4c"/><g clip-path="url(#mkc)"><use href="#ill3" width="6" height="6"/></g></svg>
+    <svg class="mk morph" id="morph" viewBox="0 0 6 6" aria-hidden="true"><defs><clipPath id="mkc"><polygon id="mA"/><polygon id="mB"/><polygon id="mC"/><polygon id="mD"/></clipPath></defs><g clip-path="url(#mkc)"><use href="#ill3" width="6" height="6"/></g><g fill="none" stroke="#3c222e" stroke-width=".05" stroke-linejoin="miter"><polygon id="oA"/><polygon id="oB"/><polygon id="oC"/><polygon id="oD"/></g></svg>
   </div>
 </section>
 </main>
@@ -657,9 +657,9 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
       [[[5,0],[6,0],[6,1]],[[0,3],[1,3],[0,4]]]
     ];
     var COMBOS=BARS.map(function(c,i){return c.map(function(a){return shape.apply(null,a)}).concat(SHARDS[i].map(pad))});
-    var POLYS=[$('#mA'),$('#mB'),$('#mC'),$('#mD')],cur=0,tw=null;
+    var POLYS=[$('#mA'),$('#mB'),$('#mC'),$('#mD')],OUTL=[$('#oA'),$('#oB'),$('#oC'),$('#oD')],cur=0,tw=null;
     function put(poly,pts){poly.setAttribute('points',pts.map(function(q){return q[0].toFixed(3)+','+q[1].toFixed(3)}).join(' '))}
-    function draw(c){POLYS.forEach(function(el,k){put(el,c[k])})}
+    function draw(c){POLYS.forEach(function(el,k){put(el,c[k]);put(OUTL[k],c[k])})}
     draw(COMBOS[0]);
     var ease=function(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
     function to(i,dur){
