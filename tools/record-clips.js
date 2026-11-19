@@ -28,7 +28,7 @@ const APPS = {
   // Brickanta Enterprise, a long landing page: the coral tile opens along the logo's 45 degree line, then the page scrolls to the tabbed showcase whose example card changes colour and content, on to the big numerals and the trust numbers
   'brickanta-enterprise': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1500, q: 62, run: async (p) => {
     const t0 = Date.now(), b = (f, a) => p.evaluate(([f, a]) => window.__bk[f](a), [f, a]);
-    await at(t0, 1700, () => b('sec', 'system'));
+    await at(t0, 1700, () => b('sec', 'sysblock'));
     await at(t0, 3000, () => b('go', 2));
     await at(t0, 3900, () => b('go', 3));
     await at(t0, 4600, () => b('sec', 'edge'));
