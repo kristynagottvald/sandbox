@@ -59,26 +59,45 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .cr .go svg{width:2cqw;height:2cqw}
 .cr .stage{position:absolute;right:0;top:0;width:50cqw;height:100%;container-type:inline-size}
 .cr .stage>*{pointer-events:none}
-.cr .stage{display:flex;flex-direction:column;justify-content:center;gap:2.2cqw;padding:0 5cqw 0 0}
-.cr .bl{position:relative;display:flex;align-items:center;background:rgba(4,10,16,.94);border:1px solid #24465c;border-radius:3px;padding:4.6cqw 17cqw 4.6cqw 5cqw;color:#fff}
-.cr .bl:nth-child(2){--i:1}.cr .bl:nth-child(3){--i:2}
-.cr .bl::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;background:linear-gradient(90deg,#2447f5,#3b8cff 25%,#62e6f3 50%,#3b8cff 75%,#2447f5) 0 0/200% 100%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;pointer-events:none}
-.cr.play .bl{animation:cardin .8s cubic-bezier(.2,.8,.2,1) calc(var(--i,0) * .2s) backwards,hl 6s ease-in-out calc(1.4s + var(--i,0) * 2s) infinite}
-.cr.play .bl::before{animation:hs 6s ease-in-out calc(1.4s + var(--i,0) * 2s) infinite,flow 6s linear infinite}
-.cr.play .bl .ic{animation:icp 6s ease-in-out calc(1.4s + var(--i,0) * 2s) infinite}
-@keyframes cardin{from{opacity:0;transform:translateX(7cqw)}}
-@keyframes hl{0%,34%,100%{background:rgba(4,10,16,.94);transform:none}8%,26%{background:rgba(10,30,44,.96);transform:translateX(-1.6cqw)}}
-@keyframes hs{0%,36%,100%{opacity:0}12%,24%{opacity:1}}
+/* the three cards as a rolodex: the middle one is the prominent one; each step the bottom card moves up to the middle, the middle to the top, and the top fades out and returns at the bottom */
+.cr .bl{position:absolute;left:0;right:5cqw;top:50%;height:27cqw;margin-top:-13.5cqw;display:flex;align-items:center;background:rgba(4,10,16,.94);border:1px solid #24465c;border-radius:3px;padding:0 17cqw 0 5cqw;color:#fff;opacity:0;transform:translateY(38cqw) scale(.84);transition:transform 1.1s cubic-bezier(.45,0,.15,1),opacity .9s ease,background .9s}
+.cr .bl[data-p="0"]{transform:translateY(-28.5cqw) scale(.88);opacity:.5}
+.cr .bl[data-p="1"]{transform:scale(1.0);opacity:1;background:rgba(10,30,44,.97);z-index:2}
+.cr .bl[data-p="2"]{transform:translateY(28.5cqw) scale(.88);opacity:.5}
+.cr .bl[data-p="x"]{transform:translateY(-38cqw) scale(.82);opacity:0}
+.cr .bl[data-p="r"]{transition:none}
+.cr .bl::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;background:linear-gradient(90deg,#2447f5,#3b8cff 25%,#62e6f3 50%,#3b8cff 75%,#2447f5) 0 0/200% 100%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;transition:opacity .9s ease;pointer-events:none;animation:flow 6s linear infinite}
+.cr .bl[data-p="1"]::before{opacity:1}
 @keyframes flow{to{background-position:-200% 0}}
-@keyframes icp{0%,34%,100%{transform:translateY(-50%) scale(1);border-color:#2b3d52}8%,26%{transform:translateY(-50%) scale(1.14);border-color:var(--cyan)}}
-@media(prefers-reduced-motion:reduce){.cr.play .bl,.cr.play .bl .ic{animation:none}}
-.cr .bl .ic{position:absolute;right:4cqw;top:50%;width:10.5cqw;height:10.5cqw;transform:translateY(-50%);padding:2.5cqw;border:1px solid #2b3d52;border-radius:50%;color:var(--cyan)}
+.cr .bl[data-p="1"] .ic{border-color:var(--cyan)}
+@media(prefers-reduced-motion:reduce){.cr .bl,.cr .bl::before{transition:none;animation:none}}
+.cr .bl .ic{position:absolute;right:4cqw;top:50%;width:10.5cqw;height:10.5cqw;transform:translateY(-50%);padding:2.5cqw;border:1px solid #2b3d52;border-radius:50%;transition:border-color .9s;color:var(--cyan)}
 .cr .bl strong{display:block;font:400 8.6cqw/1.02 var(--serif);letter-spacing:-.02em}
 .cr .bl strong i{color:var(--cyan)}
 .cr .bl p{white-space:nowrap;font:400 3.7cqw/1.35 var(--sans);color:#aebbc5;margin-top:1.4cqw}
 .cr .bl .sw{display:block}
 .cr .l .sw,.cr .chip .sw{display:inline-block}
 
+
+/* the Facebook creative: a square, white, with rising bars and circles */
+.cr.sq{aspect-ratio:1;background:#fff;color:#000}
+.cr.sq .lg2{position:absolute;right:6cqw;top:5.4cqw;width:25.7cqw;aspect-ratio:978.8/116.8;height:auto;fill:#000;z-index:2}
+.cr.sq h4{position:absolute;left:11.4cqw;top:15.6cqw;margin:0;z-index:2;font:400 13.4cqw/.915 var(--serif);letter-spacing:-.04em;white-space:nowrap;color:#000}
+.cr.sq h4 i{font-style:italic}
+.cr.sq .go2{position:absolute;left:11.7cqw;top:80.6cqw;z-index:2;display:flex;flex-direction:column;gap:1.6cqw;font:400 2cqw/1.5 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#000}
+.cr.sq .go2 svg{width:2cqw;height:2cqw}
+.fp{position:absolute;left:var(--x);top:0;width:12.1cqw;height:150cqw;transform:translateY(var(--y));animation:fp var(--T) ease-in-out var(--o) infinite;will-change:transform}
+@keyframes fp{0%,100%{transform:translateY(var(--y))}50%{transform:translateY(calc(var(--y) + var(--d)))}}
+.fp .bd{position:absolute;inset:0;border-radius:99px 99px 0 0;background:linear-gradient(180deg,#5aa6f5 0,#7fbaf3 8cqw,#a6dff8 40cqw,#cffbfc 100%)}
+.fp .hd2{position:absolute;left:0;top:0;width:100%;aspect-ratio:1;border-radius:50%;background:linear-gradient(180deg,#2f86ee,#43c8f1 70%,#4fe6f1)}
+.fp .bd::after,.fp .hd2::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--grain);mix-blend-mode:overlay;opacity:.55}
+.fp .rg{position:absolute;left:50%;top:6.05cqw;width:0;height:0}
+.fp .rg i{position:absolute;left:0;top:0;border-radius:50%;transform:translate(-50%,-50%);animation:rg 5s ease-in-out infinite}
+.fp .rg i:nth-child(1){width:19.5cqw;height:19.5cqw;background:rgba(110,175,245,.30)}
+.fp .rg i:nth-child(2){width:27cqw;height:27cqw;background:rgba(120,190,250,.18);animation-delay:-1.6s}
+.fp .rg i:nth-child(3){width:35cqw;height:35cqw;background:rgba(140,205,252,.10);animation-delay:-3.2s}
+@keyframes rg{0%,100%{transform:translate(-50%,-50%) scale(.9)}50%{transform:translate(-50%,-50%) scale(1.08)}}
+@media(prefers-reduced-motion:reduce){.fp,.fp .rg i{animation:none}}
 /* ---------- 1a: LinkedIn ---------- */
 #pf-li{background:#f4f2ee;color:rgba(0,0,0,.9);font-family:var(--ui)}
 .lh{background:#fff;border-bottom:1px solid #e0dfdc;height:52px;display:flex;align-items:center;gap:14px;padding:0 max(16px,calc((100% - 1128px)/2))}
@@ -253,6 +272,26 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .utm span b{color:var(--cyan);font-weight:500;margin-left:8px}
 .next{display:flex;justify-content:space-between;gap:12px;margin-top:24px;flex-wrap:wrap}
 
+
+/* the download confirmation over the guide page */
+.dlp{position:absolute;left:36.5%;bottom:24px;z-index:5;display:flex;align-items:center;gap:16px;background:#040a10;border:1px solid #24465c;padding:16px 26px 16px 16px;opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1);box-shadow:0 18px 50px rgba(0,0,0,.6)}
+.dlp.on{opacity:1;transform:none}
+.dlp .dic{position:relative;width:56px;height:56px;flex:none}
+.dlp svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.dlp .ring{stroke:#2b3d52;stroke-width:1.5}
+.dlp .arc{stroke:url(#dlg);stroke-width:1.5;stroke-dasharray:44 120;transform-origin:50% 50%;animation:dlspin 1s linear infinite;transition:stroke-dasharray .6s ease}
+.dlp.done .arc{animation:none;stroke-dasharray:163 0;stroke:var(--cyan)}
+@keyframes dlspin{to{transform:rotate(360deg)}}
+.dlp .doc{stroke:var(--cyan);stroke-width:1.5}
+.dlp .doc path{stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset .7s ease}
+.dlp .doc .ck{stroke-dasharray:20;stroke-dashoffset:20}
+.dlp.done .doc path{stroke-dashoffset:0}
+.dlp.done .doc .ck{transition-delay:.55s;stroke-dashoffset:0}
+.dlp b{display:block;font:400 24px/1.05 var(--serif);letter-spacing:-.01em}
+.dlp small{display:block;font:400 10.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-top:6px}
+.dlp small span{color:var(--cyan)}
+@media(max-width:760px){.dlp{left:12px;right:12px;bottom:12px}.dlp b{font-size:20px}}
+@media(prefers-reduced-motion:reduce){.dlp .arc{animation:none}}
 /* ---------- screen 3: performance ---------- */
 #s3{position:relative;background:#000;padding:24px 20px 56px}
 #s3 .wrap.wide{max-width:1500px}
@@ -396,6 +435,14 @@ tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
  </div>
 
  <!-- the creative lives here and is moved into the active platform's slot -->
+ <a class="cr sq" id="cr2" href="#" aria-label="Do you actually know where your orders are coming from? Learn more from the attribution guide. Opens the guide">
+  <div class="fp" style="--x:45%;--y:67.7cqw;--d:-9cqw;--T:6.2s;--o:-1.2s"><span class="bd"></span><span class="hd2"></span></div>
+  <div class="fp" style="--x:64.2%;--y:35.7cqw;--d:7cqw;--T:7.4s;--o:-3.5s"><span class="bd"></span><span class="rg"><i></i><i></i><i></i></span><span class="hd2"></span></div>
+  <div class="fp" style="--x:83.2%;--y:74.4cqw;--d:-12cqw;--T:5.6s;--o:-2.4s"><span class="bd"></span><span class="hd2"></span></div>
+  <svg class="lg2" role="img" aria-label="Clearco"><use href="#clearco"/></svg>
+  <h4>Do you <i>actually</i><br>know where<br>your orders<br>are coming from?</h4>
+  <span class="go2"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M2.5 14h11"/></svg><span>Learn more from<br>the attribution guide</span></span>
+ </a>
  <a class="cr" id="cr" href="#" aria-label="Marketing attribution guide from Clearco. Opens the guide">
   <div class="dl" aria-hidden="true"></div>
   <svg class="lg" role="img" aria-label="Clearco"><use href="#clearco"/></svg>
@@ -414,7 +461,7 @@ tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
 <section class="scr" id="s2" aria-label="The guide the ad links to"><div class="wrap">
  <div class="crumb"><h2>Where the click lands</h2></div>
  <div class="browser"><div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 0 0-5 5v3H5v14h14V9h-2V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3z"/></svg><b>clear.co</b><u id="urlq"></u></div></div>
-  <div class="vp" id="vp"><iframe id="fr" title="Clearco Marketing Attribution Guide" loading="lazy"></iframe></div></div>
+  <div class="vp" id="vp"><iframe id="fr" title="Clearco Marketing Attribution Guide" loading="lazy"></iframe><div class="dlp" id="dlp" role="status"><div class="dic"><svg viewBox="0 0 56 56" aria-hidden="true"><defs><linearGradient id="dlg" x1="0" x2="1"><stop offset="0" stop-color="#2447f5"/><stop offset="1" stop-color="#62e6f3"/></linearGradient></defs><circle class="ring" cx="28" cy="28" r="26"/><circle class="arc" cx="28" cy="28" r="26"/></svg><svg class="doc" viewBox="0 0 24 24" aria-hidden="true" style="inset:14px;width:28px;height:28px"><path d="M6 2.5h8l4.5 4.5v14.5H6z"/><path d="M14 2.5V7h4.5"/><path class="ck" d="M9.2 14.6l2.2 2.2 4-4.4"/></svg></div><div><b>Guide will download shortly</b><small>Sent to <span id="dlTo"></span></small></div></div></div></div>
  <div class="utm" aria-label="Tracking parameters"><span>utm_source<b id="uSrc"></b></span><span>utm_medium<b id="uMed"></b></span><span>utm_campaign<b>attribution_guide</b></span><span>utm_content<b id="uCon"></b></span></div>
  <div class="next"><button class="btn ghost" data-go="1">← Back to the ad</button><button class="btn solid" data-go="3">See how it performed →</button></div>
 </div></section>
@@ -448,7 +495,7 @@ const GUIDE=new URL('../clearco-attribution-guide/',location.href).href;
 
 /* ---------- the audience: one entry per marketer (ad copy, the guide's intro and the sample numbers) ---------- */
 const M=[
- {k:'dtc_founder',label:'DTC founders',name:'Maya Okafor',init:'MO',hue:'#8a6f5a',role:'Founder at Oat & Ember, a DTC skincare brand',seg:'DTC founder',
+ {k:'dtc_founder',email:'maya@oatandember.com',label:'DTC founders',name:'Maya Okafor',init:'MO',hue:'#8a6f5a',role:'Founder at Oat & Ember, a DTC skincare brand',seg:'DTC founder',
   q:'how to know which ad led to a sale',
   h:['Find the ad','behind every','order'],
   intro:'Every channel claims the sale. Which ad actually earned it? Clearco’s attribution guide shows founders how to credit every touchpoint.',
@@ -457,7 +504,7 @@ const M=[
   lede:'You sell across a handful of channels, and every one of them claims the order. Here’s how to see which ad actually earned it.',
   b:[['6 <i>models</i> explained','From first-touch to W-shaped'],['4 <i>touchpoints</i> per order','Video, search, email and social'],['<i>Scale</i> what works','Spend a founder’s budget with proof']],
   impr:96000,ctr:.011,cpc:2.9,lp:.87,cv:.26},
- {k:'growth_lead',label:'growth teams',name:'Jordan Ellis',init:'JE',hue:'#4f7a62',role:'Head of Growth at Fieldnote, a B2B SaaS company',seg:'Head of Growth',
+ {k:'growth_lead',email:'jordan.ellis@fieldnote.io',label:'growth teams',name:'Jordan Ellis',init:'JE',hue:'#4f7a62',role:'Head of Growth at Fieldnote, a B2B SaaS company',seg:'Head of Growth',
   q:'multi touch attribution models for b2b growth',
   h:['Credit every','channel in the','funnel'],
   intro:'Last-click reports hide the channels that start the journey. Compare six attribution models and show which spend drives pipeline.',
@@ -466,7 +513,7 @@ const M=[
   lede:'Last-click reports hide the channels that start the journey. Here’s how to compare six models and show which spend drives pipeline.',
   b:[['<i>Pipeline</i>, not last clicks','Credit the channels that start deals'],['6 <i>models</i> compared','Single-touch to W-shaped, side by side'],['<i>Lead creation</i> counts','W-shaped gives it 30% of the credit']],
   impr:118000,ctr:.0086,cpc:5.2,lp:.9,cv:.21},
- {k:'paid_media',label:'media buyers',name:'Sam Torres',init:'ST',hue:'#3d6f9e',role:'Paid Media Manager at Halcyon Outdoors',seg:'Paid media manager',
+ {k:'paid_media',email:'sam.torres@halcyonoutdoors.com',label:'media buyers',name:'Sam Torres',init:'ST',hue:'#3d6f9e',role:'Paid Media Manager at Halcyon Outdoors',seg:'Paid media manager',
   q:'first touch vs last touch vs time decay attribution',
   h:['Stop giving','last click all','the credit'],
   intro:'Every platform dashboard takes credit for the same order. Compare first-touch, linear and time-decay models on one journey.',
@@ -475,7 +522,7 @@ const M=[
   lede:'Every platform dashboard takes credit for the same order. Here’s the same journey shared six ways, so you can defend your spend.',
   b:[['<i>6</i> ways to share credit','Same journey, six different answers'],['<i>Time-decay</i> in one view','50% to the closer, 5% to the opener'],['<i>Defend</i> your budget','Show what the upper funnel is worth']],
   impr:84000,ctr:.0121,cpc:3.8,lp:.88,cv:.29},
- {k:'ecommerce',label:'e-commerce teams',name:'Dana Mehta',init:'DM',hue:'#b5651d',role:'E-commerce Manager at Cobalt Home',seg:'E-commerce manager',
+ {k:'ecommerce',email:'dana.mehta@cobalthome.com',label:'e-commerce teams',name:'Dana Mehta',init:'DM',hue:'#b5651d',role:'E-commerce Manager at Cobalt Home',seg:'E-commerce manager',
   q:'which marketing channel gets credit for a purchase',
   h:['See every step','before the','checkout'],
   intro:'A shopper watches a video, searches, ignores an email, then buys. Learn which touchpoints deserve the credit before you move budget.',
@@ -484,7 +531,7 @@ const M=[
   lede:'A shopper watches a video, searches, ignores an email, then buys. Here’s how to see which touchpoints deserve the credit.',
   b:[['<i>4</i> stops before checkout','Video, search, email, then a social ad'],['<i>Linear</i> or time-decay?','Pick the model that fits your cycle'],['<i>Move</i> budget with proof','See which channels earn their spend']],
   impr:102000,ctr:.0098,cpc:3.1,lp:.86,cv:.24},
- {k:'agency_owner',label:'agencies',name:'Chris Lee',init:'CL',hue:'#7b5ea7',role:'Founder at North Studio, a performance marketing agency',seg:'Agency owner',
+ {k:'agency_owner',email:'chris@northstudio.co',label:'agencies',name:'Chris Lee',init:'CL',hue:'#7b5ea7',role:'Founder at North Studio, a performance marketing agency',seg:'Agency owner',
   q:'explain marketing attribution to clients',
   h:['Show clients','which ads','earn credit'],
   intro:'Clients ask which ads earned the sale. Give them a clear answer with the multi-touch models in Clearco’s attribution guide.',
@@ -503,6 +550,8 @@ const P=[
 const MODELS=[['First-touch',[100,0,0,0]],['Last-touch',[0,0,0,100]],['Linear',[25,25,25,25]],['Time-decay',[5,15,30,50]],['U-shaped',[40,10,10,40]],['W-shaped',[30,30,10,30]]];
 const state={s:1,m:0,p:0,metric:'clicks',model:3}; // m: marketer (-1 = all, performance screen only), p: platform index (-1 = all, performance screen only)
 
+function tile(n,fn){const c=document.createElement('canvas');c.width=c.height=n;const g=c.getContext('2d'),d=g.createImageData(n,n);for(let i=0;i<n*n;i++)fn(d.data,i*4,Math.random());g.putImageData(d,0,0);return c}
+document.documentElement.style.setProperty('--grain','url('+tile(128,(p,i,v)=>{const w=v>.5;p[i]=p[i+1]=p[i+2]=w?255:0;p[i+3]=Math.round(Math.abs(v-.5)*2*120)}).toDataURL()+')');
 $('cr').querySelector('.dl').innerHTML=[...Array(11)].map((_,i)=>`<i style="left:${(i+1)*100/12}%"></i>`).join('');
 
 /* ---------- controls ---------- */
@@ -522,6 +571,7 @@ function go(n,quiet){
  document.querySelectorAll('#tog button').forEach(b=>b.classList.toggle('on',+b.dataset.s===n));
  if(!quiet)history.replaceState(null,'','#'+['ad','guide','perf'][n-1]);
  syncCtl();paintAll(true);mount();
+ if(n!==2){dlTk++;$('dlp').classList.remove('on','done')}
  if(n===2)loadPage(FR[0]);if(n===3){loadPage(FR[1]);drawDash()}
  scrollTo(0,0);
 }
@@ -531,9 +581,10 @@ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=e=>{if(b.tagName==='
 /* ---------- 1: the ad ---------- */
 const cr=$('cr');
 function mount(){const pf=P[Math.max(0,state.p)].k;document.querySelectorAll('.pf').forEach(e=>e.classList.toggle('on',e.id==='pf-'+pf));
- const slot=(pf!=='yt'&&document.querySelector('#pf-'+pf+' .slot'))||$('park');if(cr.parentNode!==slot)slot.appendChild(cr);
+ const slot=(pf==='li'&&document.querySelector('#pf-li .slot'))||$('park');if(cr.parentNode!==slot)slot.appendChild(cr);
+ const slot2=(pf==='fb'&&document.querySelector('#pf-fb .slot'))||$('park');if($('cr2').parentNode!==slot2)slot2.appendChild($('cr2'));
  const v=$('ytv');if(pf==='yt'&&state.s===1){v.play().catch(()=>{})}else v.pause();
- cr.href=$('vid').href=adUrl();cr.classList.remove('play');void cr.offsetWidth;cr.classList.add('play')}
+ cr.href=$('cr2').href=$('vid').href=adUrl();rolo.start()}
 function adUrl(){const p=P[Math.max(0,state.p)],m=M[Math.max(0,state.m)];return GUIDE+'?'+utmQ(p,m)}
 function utmQ(p,m){return `utm_source=${p.src}&utm_medium=${p.med}&utm_campaign=attribution_guide&utm_content=${m.k}`}
 const TXT={init:m=>m.init,name:m=>m.name,role:m=>m.role,seg:m=>m.seg,intro:m=>m.intro,bar:m=>m.h.join(' '),fbd:m=>m.fbd,q:m=>m.q,gt:m=>m.gt,gd:m=>m.gd,yt:m=>m.yt};
@@ -547,7 +598,7 @@ const swEls=()=>[...document.querySelectorAll('.sw')];
 function paintAll(instant){if(instant){paintAd();return}
  swEls().forEach(e=>e.classList.add('out'));setTimeout(()=>{paintAd();swEls().forEach(e=>e.classList.remove('out'))},300)}
 function setMarketer(i,instant){state.m=i;syncCtl();if(state.s===3){drawDash();return}
- paintAll(instant);if(state.s===2)syncFrame(FR[0])}
+ paintAll(instant);if(state.s===2){syncFrame(FR[0]);playDownload()}}
 function setPlatform(i,user){state.p=i;syncCtl();if(state.s===3){drawDash();return}
  mount();paintAd();
  if(state.s===1){const r=cr.getBoundingClientRect();scrollTo(0,Math.max(0,scrollY+r.top-170))}
@@ -559,7 +610,7 @@ $('skip').onclick=()=>toast('Skipped. It still counts as a touchpoint.');
 {const v=$('ytv'),f=n=>'0:'+String(Math.max(0,Math.ceil(n))).padStart(2,'0');
  v.addEventListener('timeupdate',()=>{if(!v.duration)return;document.querySelector('.yo .pg i').style.width=(v.currentTime/v.duration*100)+'%';$('adt').textContent=f(v.duration-v.currentTime)})}
 /* a plain click on the creative follows the visitor to the guide; modified clicks open the real URL */
-[cr,$('vid')].forEach(a=>a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();go(2)}));
+[cr,$('cr2'),$('vid')].forEach(a=>a.addEventListener('click',e=>{if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();go(2)}));
 
 /* ---------- 2: the guide, the real page in an iframe scaled to fit ---------- */
 const FR=[{fr:$('fr'),vp:$('vp'),on:false},{fr:$('fr2'),vp:$('vp2'),on:false}];
@@ -568,8 +619,27 @@ function fit(o){const w=o.vp.clientWidth,mob=w<760,vw=mob?(o.vp.dataset.split?38
 function syncFrame(o){try{const d=o.fr.contentDocument;if(!d||!d.head||!d.querySelector('.hero'))return;
  if(!d.getElementById('ppx')){const s=d.createElement('style');s.id='ppx';s.textContent='nav.back{display:none!important}';d.head.appendChild(s)}
  const m=M[Math.max(0,state.m)],l=d.querySelector('.hero .lede');
- if(l)l.textContent=m.lede}catch(e){/* cross-origin (file://): leave the page as it is */}}
-function loadPage(o){fit(o);if(!o.on){o.on=true;o.fr.onload=()=>{syncFrame(o);setTimeout(()=>syncFrame(o),400)};o.fr.src=adUrl()}else syncFrame(o)}
+ if(l)l.textContent=m.lede;if(o===FR[1])lockForms(o,true)}catch(e){/* cross-origin (file://): leave the page as it is */}}
+/* the form on the guide is filled in for the marketer (read-only), then the download confirmation plays */
+let dlTk=0;const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function lockForms(o,fill){try{const d=o.fr.contentDocument,m=M[Math.max(0,state.m)];if(!d||!d.head)return;
+ if(!d.getElementById('ppl')){const s=d.createElement('style');s.id='ppl';s.textContent='.signup input{pointer-events:none;caret-color:transparent}.signup .btn.press{transform:scale(.96)}';d.head.appendChild(s)}
+ d.querySelectorAll('.signup').forEach(f=>{const i=f.querySelector('input');i.readOnly=true;i.tabIndex=-1;const b=f.querySelector('button');if(b)b.tabIndex=-1;
+  f.addEventListener('submit',e=>e.stopImmediatePropagation(),true);if(fill)i.value=m.email})}catch(e){}}
+async function playDownload(){const tk=++dlTk,dl=$('dlp'),o=FR[0];dl.classList.remove('on','done');
+ {const r=$('vp').getBoundingClientRect();if(r.bottom>innerHeight)scrollBy({top:r.bottom-innerHeight+20,behavior:'smooth'})}
+ try{const d=o.fr.contentDocument,m=M[Math.max(0,state.m)];if(!d||!d.querySelector('.hero'))return;lockForms(o,false);
+  const fs=[...d.querySelectorAll('.signup')],f=fs[0],i=f.querySelector('input'),b=f.querySelector('button');
+  d.querySelectorAll('.signup input').forEach(x=>x.value='');
+  await wait(900);if(tk!==dlTk)return;
+  for(const c of m.email){i.value+=c;await wait(38);if(tk!==dlTk)return}
+  fs.slice(1).forEach(s=>s.querySelector('input').value=m.email);
+  await wait(500);if(tk!==dlTk)return;b.classList.add('press');await wait(160);b.classList.remove('press');
+  $('dlTo').textContent=m.email;
+  {const vw=$('vp').clientWidth;if(vw>=760){const sc=vw/1280,r=f.getBoundingClientRect();dl.style.minWidth=Math.round(r.width*sc)+'px';dl.style.left=Math.round(r.left*sc)+'px';dl.style.bottom='auto';dl.style.top=Math.round((r.top+r.height/2)*sc-dl.offsetHeight/2)+'px'}else{dl.style.minWidth=dl.style.left=dl.style.top=dl.style.bottom=''}}
+  dl.classList.add('on');
+  await wait(2000);if(tk!==dlTk)return;dl.classList.add('done')}catch(e){}}
+function loadPage(o){fit(o);if(!o.on){o.on=true;o.fr.onload=()=>{syncFrame(o);setTimeout(()=>syncFrame(o),400);if(o===FR[0]&&state.s===2)playDownload();if(o===FR[1])lockForms(o,true)};o.fr.src=adUrl()}else{syncFrame(o);if(o===FR[0])playDownload()}}
 addEventListener('resize',()=>{if(state.s===2)fit(FR[0]);if(state.s===3){fit(FR[1]);drawDash()}});
 
 /* ---------- 3: performance ---------- */
@@ -634,7 +704,15 @@ function drawChart(days){
 }
 
 /* ---------- start ---------- */
-window.__pp={go,setMarketer:i=>setMarketer(i),setPlatform:i=>setPlatform(i)};
+/* the rolodex: bottom card up to the middle, middle up to the top, top fades out and comes back at the bottom */
+const BL=[1,2,3].map(n=>$('bl'+n));
+const rolo={order:[0,1,2],timer:0,tk:0,
+ set(){this.order.forEach((c,p)=>{BL[c].dataset.p='r'});void BL[0].offsetWidth;this.order.forEach((c,p)=>{BL[c].dataset.p=p})},
+ step(){const [top,mid,bot]=this.order,tk=this.tk;BL[top].dataset.p='x';BL[mid].dataset.p=0;BL[bot].dataset.p=1;this.order=[mid,bot,top];
+  setTimeout(()=>{if(tk!==this.tk)return;BL[top].dataset.p='r';void BL[top].offsetWidth;BL[top].dataset.p=2},700)},
+ start(){this.stop();this.order=[2,0,1];this.set();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)this.timer=setInterval(()=>this.step(),3400)},
+ stop(){clearInterval(this.timer);this.tk++}};
+window.__pp={rolo,go,setMarketer:i=>setMarketer(i),setPlatform:i=>setPlatform(i)};
 const h=location.hash.slice(1),start={ad:1,guide:2,perf:3}[h]||1;
 go(start,true);
 </script>
