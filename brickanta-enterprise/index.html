@@ -83,7 +83,7 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 .hl.top{position:absolute;left:0;right:0;top:0}
 
 /* the mark as a window: coral tile, the logo's two shapes cut out, a scene seen through them */
-.tile{position:relative;aspect-ratio:1;background:var(--navy);width:100%;max-width:560px;justify-self:end}
+.tile{align-self:start;margin-top:-18px;position:relative;aspect-ratio:1;background:var(--navy);width:100%;max-width:560px;justify-self:end}
 .tile .win{position:absolute;inset:0;overflow:hidden}
 .tile .winA{clip-path:url(#markA)}.tile .winB{clip-path:url(#markB)}
 .tile .in-a,.tile .in-b{position:absolute;inset:-12%;background:var(--ice);transition:transform 1.6s var(--ease)}
@@ -91,11 +91,11 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 .tile.go .in-a,.tile.go .in-b{transform:none}
 .tile .lines{position:absolute;inset:0;color:var(--navy);opacity:.16;background-size:auto}
 .tile .scene{position:absolute;left:9.68%;top:9.68%;width:80.64%;height:80.64%}
-.msg{position:absolute;font-size:clamp(11px,1.45vw,17px);line-height:1.3;color:var(--plum)}
+.msg{z-index:3;background:var(--paper);padding:.85em 1.05em;position:absolute;font-size:clamp(11px,1.45vw,17px);line-height:1.3;color:var(--plum)}
 .msg small{display:block;font-size:.66em;letter-spacing:.14em;text-transform:uppercase;font-weight:600;opacity:.6;margin-bottom:.4em}
 .msg .src{display:inline-block;margin-top:.5em;padding:.15em .6em;background:var(--coral);color:#fff;font-size:.72em;font-weight:500}
-.mA{left:6%;top:6%;width:42%}
-.mB{left:30%;top:56%;width:44%}
+.mA{left:5%;top:5%;width:44%}
+.mB{left:27%;top:57%;width:48%}
 .tile .tag{position:absolute;right:5%;bottom:4%;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#fff;opacity:.9}
 @media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.tile{justify-self:start;max-width:440px}.facts{grid-template-columns:1fr}.facts div+div{border-left:0;padding-left:0;border-top:1px solid rgba(60,34,46,.25);margin-top:16px}}
 
@@ -249,7 +249,8 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 .cta{overflow:hidden}
 .cta h2{font-size:clamp(40px,7.4vw,112px);color:#fff;max-width:14ch;position:relative}
 .cta .wrap{position:relative}
-.cta .mk{position:absolute;right:var(--pad);top:50%;width:clamp(160px,26vw,380px);transform:translateY(-50%);opacity:.95}
+.cta{min-height:clamp(520px,46vw,700px);display:flex;align-items:center}.cta .wrap{width:100%}
+.cta .mk{position:absolute;right:var(--pad);top:50%;width:clamp(240px,42vw,640px);aspect-ratio:1;transform:translateY(-50%);overflow:visible}
 .cta p{margin-top:22px;font-size:19px}
 @media(max-width:860px){.cta .mk{opacity:.18}}
 
@@ -293,7 +294,7 @@ h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
 .sys{--cut:clamp(14px,1.6vw,24px)}
 /* Tektur runs wide, so tighten it a little */
 h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.03em}
-.brand{font-family:var(--sans);font-weight:500;letter-spacing:-.02em}
+.brand{font-family:var(--sans);font-weight:600;letter-spacing:-.02em}
 .panel a.more,.chips span{font-family:var(--sans);letter-spacing:0}.panel a.more{font-weight:500}.btn{letter-spacing:0}
 .cost .n,.edge .big,.stats .v,.role .num,.plan .price{letter-spacing:-.055em}
 .eyebrow,footer h4,.card .hd,.tile .tag,.msg small{letter-spacing:.1em}
@@ -324,7 +325,7 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
 
 <header class="site">
   <div class="wrap">
-    <a class="brand" href="#top" aria-label="Brickanta"><svg style="color:var(--coral)"><use href="#mark"/></svg>brickanta</a>
+    <a class="brand" href="#top" aria-label="Brickanta"><svg style="color:var(--coral)"><use href="#mark"/></svg>brıckanta</a>
     <nav aria-label="Main"><a href="#system">Product</a><a href="#pricing">Pricing</a><a href="#live">Integrations</a><a href="#results">Customer stories</a><a href="#faq">Resources</a></nav>
     <div class="hdr-r"><a href="#" onclick="return false">Log in</a><a class="btn" href="#demo">Request demo</a></div>
   </div>
@@ -345,9 +346,11 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
         <div><span class="hl top"></span><b>Every answer has a source</b>Linked to the page it came from</div>
       </div>
     </div>
-    <div class="tile" id="tile" role="img" aria-label="A coral tile with two angled windows in the shape of the Brickanta logo, showing a tower seen from below in maroon and coral.">
+    <div class="tile" id="tile" role="img" aria-label="A coral tile with two angled windows in the shape of the Brickanta logo, showing a tower seen from below in maroon and coral, with a question about retention and its sourced answer.">
       <div class="win winA"><div class="in-a"><svg class="scene"><use href="#ill"/></svg></div></div>
       <div class="win winB"><div class="in-b"><svg class="scene"><use href="#ill"/></svg></div></div>
+      <div class="msg mA"><small>You ask</small>What did we agree on retention for the electrical package?</div>
+      <div class="msg mB"><small>Brickanta</small>5% until handover. Changed to 3% in variation 2.<br><span class="src">Contract §4.2</span> <span class="src">Variation 2, p.3</span></div>
     </div>
   </div>
 </section>
@@ -516,7 +519,7 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
     <h2 class="rv" style="margin-top:22px">See Brickanta in action</h2>
     <p class="lede rv" style="--d:.1s;opacity:1;color:var(--navy)">Get a closer look at the platform built for construction teams.</p>
     <div class="row-btns rv" style="--d:.2s"><a class="btn light" href="#demo">Request demo</a><a class="btn alt" href="#pricing">Explore pricing</a></div>
-    <svg class="mk" style="color:#fff"><use href="#mark"/></svg>
+    <svg class="mk morph" id="morph" viewBox="0 0 6 6" aria-hidden="true"><polygon id="mA" fill="#fff"/><polygon id="mB" fill="#0e1f4c"/></svg>
   </div>
 </section>
 </main>
@@ -524,7 +527,7 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
 <footer>
   <div class="wrap">
     <div class="fgrid">
-      <div><a class="brand" href="#top"><svg style="color:var(--coral)"><use href="#mark"/></svg>brickanta</a><p class="tag">Run your construction projects like craft.</p></div>
+      <div><a class="brand" href="#top" aria-label="Brickanta"><svg style="color:var(--coral)"><use href="#mark"/></svg>brıckanta</a><p class="tag">Run your construction projects like craft.</p></div>
       <div><h4><span>01</span>Product</h4><ul><li><a href="#system">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#live">Integrations</a></li><li><a href="#results">Customers</a></li><li><a href="#">Changelog</a></li></ul></div>
       <div><h4><span>02</span>Teams</h4><ul><li><a href="#roles">Estimating &amp; Bid</a></li><li><a href="#roles">Procurement</a></li><li><a href="#roles">Project leads</a></li><li><a href="#roles">Leadership</a></li></ul></div>
       <div><h4><span>03</span>Company</h4><ul><li><a href="#">About us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Brickanta Summit</a></li><li><a href="#">Academy</a></li></ul></div>
@@ -591,6 +594,47 @@ h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary,footer .tag{letter-spacing:-.0
   var tile=$('#tile');requestAnimationFrame(function(){requestAnimationFrame(function(){tile.classList.add('go')})});
   /* hairlines in the hero facts and steps */
   [].forEach.call(document.querySelectorAll('.hl.top'),function(h,i){h.style.transitionDelay=(.5+i*.15)+'s';setTimeout(function(){h.classList.add('in')},100)});
+
+
+  /* ---- footer morph: two bars with 45 degree turns on a 6 x 6 grid, every second a new combination ---- */
+  (function(){
+    var svg=$('#morph');if(!svg)return;
+    var base=function(w,d){return [[0,0],[w,0],[w+d,d],[w+d,d+1],[w,1],[0,1]]};
+    /* x,y = top-left on the grid, w = length of the flat part, d = length of the diagonal, r = quarter turns, m = mirrored */
+    function shape(x,y,w,d,r,m){
+      var bw=w+d,bh=d+1,pts=base(w,d);
+      if(m){pts=pts.map(function(q){return [bw-q[0],q[1]]}).reverse()}
+      for(var k=0;k<r;k++){var H=(k%2?bw:bh);pts=pts.map(function(q){return [H-q[1],q[0]]});var t=bw;bw=bh;bh=t}
+      return pts.map(function(q){return [q[0]+x,q[1]+y]});
+    }
+    var COMBOS=[
+      [[0,0,3,2,0,0],[1,3,3,2,0,0]],
+      [[1,0,3,2,0,1],[0,3,3,2,0,1]],
+      [[0,0,3,2,1,0],[3,1,3,2,1,0]],
+      [[3,0,3,2,1,1],[0,1,3,2,1,1]],
+      [[1,0,3,2,2,0],[0,3,3,2,2,0]],
+      [[0,1,3,2,3,0],[3,0,3,2,3,0]],
+      [[0,0,4,2,0,0],[0,3,4,2,0,1]],
+      [[0,1,4,1,0,0],[1,4,4,1,0,0]]
+    ].map(function(c){return c.map(function(a){return shape.apply(null,a)})});
+    var A=$('#mA'),B=$('#mB'),cur=0,tw=null;
+    function put(poly,pts){poly.setAttribute('points',pts.map(function(q){return q[0].toFixed(3)+','+q[1].toFixed(3)}).join(' '))}
+    function draw(c){put(A,c[0]);put(B,c[1])}
+    draw(COMBOS[0]);
+    var ease=function(t){return t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2};
+    function to(i,dur){
+      var from=COMBOS[cur],dest=COMBOS[i];cur=i;
+      if(!dur){draw(dest);return}
+      cancelAnimationFrame(tw);var t0=performance.now();
+      (function f(now){var u=Math.min(1,(now-t0)/dur),e=ease(u);
+        draw([0,1].map(function(s){return from[s].map(function(q,k){return [q[0]+(dest[s][k][0]-q[0])*e,q[1]+(dest[s][k][1]-q[1])*e]})}));
+        if(u<1)tw=requestAnimationFrame(f)})(t0);
+    }
+    var seen=false,reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    new IntersectionObserver(function(e){seen=e[0].isIntersecting},{threshold:.2}).observe(svg);
+    if(!reduce&&!CLIP)setInterval(function(){if(seen)to((cur+1)%COMBOS.length,700)},1000);
+    window.__mk={n:COMBOS.length,show:function(i){to(i,0)}};
+  })();
 
   /* ---- recorder hooks ---- */
   window.__bk={go:function(i){auto=false;go(i)},scroll:function(y){window.scrollTo({top:y,behavior:'smooth'})},sec:function(id){var e=document.getElementById(id);window.scrollTo({top:e.getBoundingClientRect().top+scrollY-70,behavior:'smooth'})}};
