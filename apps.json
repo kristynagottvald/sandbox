@@ -1,5 +1,14 @@
 [
   {
+    "id": "lob-12-days",
+    "title": "Lob 12 Days Advent",
+    "category": "Motion",
+    "url": "lob-12-days/",
+    "thumbnail": "lob-12-days/thumb.png",
+    "preview": "lob-12-days/thumb.webp",
+    "alt": "A square 12 Days of Lob advent calendar post on pink with falling confetti: a navy wrapped door with a magenta bow and a big day number pops in, the bow lifts away, the doors swing open on a flat illustration like a postcard, QR code or mailbox with the day's title, and a row of twelve progress pills fills along the bottom"
+  },
+  {
     "id": "brand-guidelines-settings",
     "title": "Brand Guidelines Settings",
     "category": "Interactive Engine",
