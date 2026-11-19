@@ -268,6 +268,12 @@ h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
 .brand{font-weight:600;letter-spacing:-.01em}.btn{letter-spacing:.01em}
 .cost q{font-size:clamp(18px,1.8vw,25px)}.tabs .t{font-size:clamp(18px,1.8vw,25px)}.faq summary{font-size:clamp(17px,1.8vw,23px)}
 
+/* on the blue (ice) background the accent is maroon, never coral */
+.sec.ice .eyebrow svg{color:var(--plum)!important}
+.sec.ice .faq details[open] summary{color:var(--plum)}
+.sec.ice .faq summary i::before,.sec.ice .faq summary i::after{background:var(--plum)}
+.plan.q li::before{background:var(--plum)}
+
 /* clip mode: no auto cycling, everything already in */
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.hl,.step .bar::before{transform:none}.tile .in-a,.tile .in-b{transform:none}}
 </style>
@@ -494,7 +500,7 @@ h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
       <div><h4><span>03</span>Company</h4><ul><li><a href="#">About us</a></li><li><a href="#">Careers</a></li><li><a href="#">Blog</a></li><li><a href="#">Brickanta Summit</a></li><li><a href="#">Academy</a></li></ul></div>
       <div><h4><span>04</span>Trust</h4><ul><li><a href="#results">Trust Center</a></li><li><a href="#">Terms</a></li><li><a href="#">Privacy</a></li><li><a href="#">Cookie settings</a></li></ul></div>
     </div>
-    <div class="legal"><span>© 2026 Brickanta</span><span>Concept page built from the Brickanta brand</span></div>
+    <div class="legal"><span>© 2026 Brickanta</span></div>
   </div>
 </footer>
 
