@@ -1,0 +1,702 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Brand Guidelines Settings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0D0D2B; --navy:#15153A; --panel:#1B1B4A; --line:#2B2B60; --indigo:#3F30F2; --magenta:#E85DF4;
+  --lime:#E6EA9C; --lav:#A18BFF; --coral:#FF6F5B; --text:#F3F2FF; --muted:#9E9BCB; --red:#FF2D2D;
+  --font:"Inter Tight","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--ink);color:var(--text);font:400 14px/1.4 var(--font);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;overflow:hidden}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+nav.back{box-sizing:border-box;flex:none;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+nav.back a{color:#8d8d8d;text-decoration:none}
+nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav.back span{color:#6e6e6e}
+nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:640px){nav.back{padding:0 16px}nav.back .x{display:none}}
+:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+
+.app{flex:1;min-height:0;display:flex}
+/* sidebar */
+.side{flex:none;width:250px;background:#101035;border-right:1px solid var(--line);display:flex;flex-direction:column;padding:18px 12px;gap:4px;overflow:auto}
+.side h2{font:600 11px var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:2px 10px 10px}
+.nv{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;border-radius:8px;padding:9px 10px;color:var(--muted);font-weight:500;font-size:14px}
+.nv:hover{background:var(--navy);color:var(--text)}
+.nv.on{background:var(--navy);color:var(--text);box-shadow:inset 3px 0 0 var(--lime)}
+.nv i{font:500 11px var(--mono);font-style:normal;color:var(--muted);width:18px}
+.nv .pc{margin-left:auto;font:500 11px var(--mono);color:var(--muted)}
+.nv .pc.full{color:var(--lime)}
+.sidefoot{margin-top:auto;padding:14px 10px 0;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
+.meter{height:4px;border-radius:2px;background:var(--line);margin:8px 0 6px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--lime);transition:width .4s}
+
+/* main */
+.main{flex:1;min-width:0;overflow:auto;scroll-behavior:smooth}
+.pg{max-width:1080px;margin:0 auto;padding:30px 36px 80px;display:none}
+.pg.on{display:block;animation:in .35s ease both}
+@keyframes in{from{opacity:0;transform:translateY(8px)}}
+.tag{display:inline-block;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--line);border-radius:999px;padding:4px 10px;color:var(--muted)}
+.pg h1{font:600 38px/1.05 var(--font);letter-spacing:-.02em;margin:14px 0 8px}
+.lead{color:var(--muted);font-size:15px;max-width:640px}
+h3.sub{font:600 12px var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:30px 0 12px;display:flex;align-items:center;gap:10px}
+h3.sub::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.card{background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:18px}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.btn{background:var(--lime);color:var(--ink);border:0;border-radius:8px;padding:10px 14px;font-weight:600;font-size:13px;transition:transform .12s,background .2s}
+.btn:hover{background:#fff}.btn:active{transform:scale(.96)}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--muted);background:var(--panel)}
+.btn.sm{padding:6px 10px;font-size:12px;border-radius:6px}
+
+/* import */
+.drop{border:2px dashed var(--line);border-radius:12px;padding:26px;text-align:center;background:#101035;transition:.2s}
+.drop.over{border-color:var(--lime);background:var(--panel)}
+.drop b{display:block;font-size:16px;font-weight:600;margin-bottom:4px}
+.drop p{color:var(--muted);font-size:13px;margin-bottom:14px}
+.drop .row{justify-content:center}
+.url{display:flex;gap:8px;margin-top:12px}
+.url input{flex:1}
+.src{display:none;align-items:center;gap:14px}
+.src.on{display:flex}
+.file{width:42px;height:54px;border-radius:5px;background:var(--lime);color:var(--ink);display:grid;place-items:center;font:700 11px var(--mono);flex:none}
+.src .nm{font:600 14px var(--mono);word-break:break-all}
+.src small{color:var(--muted);font-size:12.5px}
+.steps{display:grid;gap:9px;margin-top:16px}
+.steps div{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.steps b{width:18px;height:18px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:10px;flex:none}
+.steps .done{color:var(--text)}.steps .done b{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.steps .cur{color:var(--text);font-weight:600}.steps .cur b{border-color:var(--coral);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px}
+.stat{background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.stat big{display:block;font:600 30px/1 var(--font);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--muted)}
+.hint{font-size:12px;color:var(--muted)}
+pre.brief{background:#08081f;border:1px solid var(--line);border-radius:10px;padding:16px;font:12px/1.55 var(--mono);color:#C9C6F2;white-space:pre-wrap;max-height:340px;overflow:auto}
+
+/* fields */
+input[type=text],input[type=url],select,textarea,input[type=number]{width:100%;background:#0b0b26;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:13.5px;color:var(--text)}
+textarea{resize:vertical;min-height:62px;line-height:1.4}
+input:hover,select:hover,textarea:hover{border-color:#41418a}
+input:focus,select:focus,textarea:focus{border-color:var(--lime);outline:none}
+label.f{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-bottom:5px}
+input[type=range]{accent-color:#E6EA9C;width:100%}
+.ctx{position:relative}
+.ctx label.f{color:var(--lav)}
+.ctx textarea{border-color:#3a3a80;background:#10103a}
+
+/* ai learned */
+.ai{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#C9C6F2;background:rgba(161,139,255,.1);border-radius:8px;padding:8px 10px;line-height:1.35}
+.ai::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:var(--lav);margin-top:5px}
+.ai em{font:500 11px var(--mono);font-style:normal;color:var(--muted);margin-left:6px;white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:6px;font:600 11px var(--font);padding:3px 9px;border-radius:10px;background:color-mix(in srgb,var(--c) 17%,transparent);color:var(--c);white-space:nowrap}
+.chip::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c)}
+.empty-note{color:var(--muted);font-size:13px;padding:18px;border:1px dashed var(--line);border-radius:12px;text-align:center}
+body:not(.learned) .gated{display:none}
+body.learned .gate{display:none}
+.gate{margin-top:26px}
+
+/* colour cards */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:14px}
+.cc{display:flex;flex-direction:column;gap:11px;padding:0;overflow:hidden}
+.cc .sw{height:92px;position:relative;display:flex;align-items:flex-end;justify-content:space-between;padding:10px 14px;font:600 20px var(--font);letter-spacing:-.01em;transition:background .2s}
+.cc .sw small{font:500 12px var(--mono)}
+.cc .bd{padding:0 16px 16px;display:flex;flex-direction:column;gap:11px}
+.cc .hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pairs{display:flex;gap:6px;flex-wrap:wrap}
+.pair{font:600 12px var(--font);padding:5px 9px;border-radius:5px;border:1px solid rgba(255,255,255,.12)}
+.bar{display:flex;height:46px;border-radius:8px;overflow:hidden;margin:6px 0}
+.bar i{display:block;height:100%;transition:flex .3s}
+
+/* parameter rows */
+.prm{display:grid;grid-template-columns:130px minmax(0,1fr) auto;gap:8px 12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.prm .cx{grid-column:1/3}.prm .st{justify-self:end}.prm .val input[type=range]{min-width:90px;flex:1}
+@media (max-width:760px){.prm{grid-template-columns:minmax(0,1fr) auto}.prm .nm{grid-column:1/-1}.prm .cx{grid-column:1/-1}.prm .st{grid-column:1/-1;justify-self:start}}
+.prm:last-child{border:0}
+.prm .nm{font-weight:600;font-size:13.5px}
+.prm .nm small{display:block;font-weight:400;color:var(--muted);font-size:11.5px}
+.prm .rd{font:500 11.5px var(--mono);color:var(--lav)}
+.prm .val{display:flex;align-items:center;gap:10px}
+.prm .val output{font:500 12px var(--mono);min-width:44px;text-align:right;color:var(--text)}
+.prm input[type=text].cx{font-size:12.5px;border-color:#3a3a80;background:#10103a}
+
+.split{margin-top:30px;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(300px,.9fr);gap:18px;align-items:start}
+.split .stick{position:sticky;top:0}
+@media (max-width:1100px){.split{grid-template-columns:1fr}.split .stick{position:static}}
+.pv{background:#fff;color:#0D0D2B;border-radius:12px;overflow:hidden;position:relative}
+.pv.dark{background:var(--ink)}
+.pvh{display:flex;justify-content:space-between;font:500 11px var(--mono);color:var(--muted);padding:0 2px 8px}
+
+/* questions */
+.q{display:grid;gap:6px;padding:14px 0;border-bottom:1px solid var(--line)}
+.q:last-child{border:0}
+.q p{font-size:13.5px;font-weight:500}
+.q p::before{content:"AI asks";font:600 10px var(--mono);letter-spacing:.06em;text-transform:uppercase;background:var(--lav);color:var(--ink);padding:2px 6px;border-radius:4px;margin-right:8px;vertical-align:1px}
+
+/* type table */
+.ts{display:grid;gap:14px;margin-top:30px}
+.tcard{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px;align-items:start}
+.tcard .smp{background:#fff;color:#0D0D2B;border-radius:8px;padding:18px;overflow:hidden;min-height:100px;display:flex;align-items:center}
+.tcard .smp span{display:block;overflow-wrap:anywhere}
+.tcard .ctl{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tcard .ctl .w2{grid-column:span 3}
+@media (max-width:820px){.tcard{grid-template-columns:1fr}}
+
+/* grid preview */
+.gp{position:relative;background:#101035;border-radius:10px;padding:14px 0;overflow:hidden}
+.gp .fr{margin:0 auto;position:relative;background:rgba(255,255,255,.03);outline:1px dashed #4a4a90}
+.gp .cols{position:absolute;inset:0;display:grid}
+.gp .cols i{background:rgba(232,93,244,.22)}
+.gp .mk{position:absolute;font:600 10px var(--mono);color:var(--red);background:#0D0D2B;padding:0 3px;border-radius:2px}
+.sp{background:#fff;color:#0D0D2B;border-radius:12px;padding:22px;position:relative}
+.sp .gapbar{position:absolute;left:22px;right:22px;background:rgba(255,45,45,.18);border-top:1px solid var(--red);border-bottom:1px solid var(--red);color:var(--red);font:600 10px var(--mono);display:flex;align-items:center;justify-content:flex-end;padding-right:4px;pointer-events:none}
+.scalerow{display:flex;align-items:flex-end;gap:8px;flex-wrap:wrap;margin-top:10px}
+.scalerow div{text-align:center;font:500 10.5px var(--mono);color:var(--muted)}
+.scalerow i{display:block;background:var(--indigo);margin:0 auto 4px;border-radius:2px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);background:var(--lime);color:var(--ink);font-weight:600;font-size:13px;padding:10px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:.25s;z-index:9}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:760px){
+  body{overflow:auto}.app{flex-direction:column}
+  .side{width:auto;flex-direction:row;overflow-x:auto;padding:8px 10px;gap:2px;border-right:0;border-bottom:1px solid var(--line)}
+  .side h2,.sidefoot{display:none}.nv{width:auto;white-space:nowrap;padding:8px 10px}.nv .pc{display:none}
+  .main{overflow:visible}.pg{padding:22px 16px 60px}.pg h1{font-size:30px}
+  .cgrid{grid-template-columns:1fr}.two{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span class="x">/</span><a class="x" href="../">Back to all projects</a><span>/</span><b>Brand Guidelines Settings</b></nav>
+<div class="app">
+  <aside class="side" id="side">
+    <h2>Brand guide</h2>
+    <button class="nv on" data-sec="import"><i>00</i>Import<span class="pc" id="pc-import"></span></button>
+    <button class="nv" data-sec="colours"><i>01</i>Colours<span class="pc" id="pc-colours"></span></button>
+    <button class="nv" data-sec="layout"><i>02</i>Layout<span class="pc" id="pc-layout"></span></button>
+    <button class="nv" data-sec="styling"><i>03</i>Styling<span class="pc" id="pc-styling"></span></button>
+    <button class="nv" data-sec="type"><i>04</i>Typography<span class="pc" id="pc-type"></span></button>
+    <button class="nv" data-sec="spacing"><i>05</i>Spacing<span class="pc" id="pc-spacing"></span></button>
+    <div class="sidefoot"><span id="overall">Nothing imported yet</span><div class="meter"><i id="meter"></i></div><span class="hint">Confirmed or edited items count as reviewed.</span></div>
+  </aside>
+  <main class="main" id="main">
+
+    <!-- IMPORT -->
+    <section class="pg on" id="pg-import" aria-label="Import">
+      <span class="tag">00 · Source</span>
+      <h1>Brand guidelines</h1>
+      <p class="lead">Upload or link your brand guide. The AI reads it, fills in colours, layout, styling, type and spacing, then asks you what it could not tell. Review each item and add the context only you know.</p>
+      <h3 class="sub">Import</h3>
+      <div class="card">
+        <div class="drop" id="drop">
+          <b>Drop a brand guide here</b>
+          <p>PDF, image, CSS, JSON, SVG or text. Images and text files are read in your browser; nothing is uploaded.</p>
+          <div class="row"><button class="btn" id="bPick">Choose file</button><button class="btn ghost" id="bSample">Use sample guide</button></div>
+          <input type="file" id="file" hidden accept=".pdf,.png,.jpg,.jpeg,.webp,.svg,.css,.json,.txt,.md,.html">
+          <form class="url" id="urlf"><input type="url" id="urlin" placeholder="…or paste a link to an online guide, e.g. https://brand.example.com" aria-label="Guide link"><button class="btn ghost" type="submit">Import link</button></form>
+        </div>
+        <div class="src" id="src" style="margin-top:16px"><div class="file" id="srcExt">PDF</div><div><div class="nm" id="srcName"></div><small id="srcMeta"></small></div><button class="btn ghost sm" id="bClear" style="margin-left:auto">Remove</button></div>
+        <div class="steps" id="steps" hidden></div>
+      </div>
+      <div class="gated">
+        <h3 class="sub">What the AI learned</h3>
+        <div class="stats" id="stats"></div>
+        <h3 class="sub">Brief for the AI</h3>
+        <p class="hint" style="margin-bottom:10px">Everything you confirm and every note you write is combined here. Paste it into any prompt, or download the JSON.</p>
+        <div class="row" style="margin-bottom:10px"><button class="btn" id="bCopy">Copy brief</button><button class="btn ghost" id="bJson">Download JSON</button><button class="btn ghost" id="bReset">Reset to what the AI learned</button></div>
+        <pre class="brief" id="brief"></pre>
+      </div>
+      <p class="empty-note gate">Nothing imported yet. Choose a file, paste a link, or try the sample guide.</p>
+    </section>
+
+    <!-- COLOURS -->
+    <section class="pg" id="pg-colours"><span class="tag">01 · Colour</span><h1>Colours</h1>
+      <p class="lead">The palette the AI found, with the role and rule it inferred for each colour. Edit a value, change its role, and add context the guide did not say.</p>
+      <div class="gate empty-note">Import a guide first.</div><div class="gated" id="colBody"></div></section>
+
+    <!-- LAYOUT -->
+    <section class="pg" id="pg-layout"><span class="tag">02 · Layout</span><h1>Layout</h1>
+      <p class="lead">Grid, margins and formats. The preview redraws as you change the values.</p>
+      <div class="gate empty-note">Import a guide first.</div><div class="gated" id="layBody"></div></section>
+
+    <!-- STYLING -->
+    <section class="pg" id="pg-styling"><span class="tag">03 · Styling</span><h1>Styling</h1>
+      <p class="lead">Corners, borders, shadows and the look of components and imagery.</p>
+      <div class="gate empty-note">Import a guide first.</div><div class="gated" id="styBody"></div></section>
+
+    <!-- TYPE -->
+    <section class="pg" id="pg-type"><span class="tag">04 · Typography</span><h1>Typographic styles</h1>
+      <p class="lead">Each style the AI detected, with font, weight, size, leading, tracking and case. Say where each one is used.</p>
+      <div class="gate empty-note">Import a guide first.</div><div class="gated" id="typBody"></div></section>
+
+    <!-- SPACING -->
+    <section class="pg" id="pg-spacing"><span class="tag">05 · Spacing</span><h1>Spacing between elements</h1>
+      <p class="lead">The spacing scale and the gaps the AI measured between headings, text, fields and cards. Red marks show the measurement.</p>
+      <div class="gate empty-note">Import a guide first.</div><div class="gated" id="spaBody"></div></section>
+  </main>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const CLIP = /clip/.test(location.hash);
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const KEY = 'brand-guidelines-settings-v1';
+
+/* ---------- colour maths ---------- */
+const hex2rgb = (h) => { h = h.replace('#', ''); if (h.length === 3) h = [...h].map((c) => c + c).join(''); const n = parseInt(h, 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
+const lum = (h) => { const [r, g, b] = hex2rgb(h).map((v) => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * r + .7152 * g + .0722 * b; };
+const contrast = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+const rgb2hex = (r, g, b) => '#' + [r, g, b].map((v) => v.toString(16).padStart(2, '0')).join('').toUpperCase();
+const okHex = (h) => /^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(h);
+const FONTS = { 'Inter Tight': '"Inter Tight",Arial,sans-serif', 'Inter': '"Inter",Arial,sans-serif', 'Georgia': 'Georgia,serif', 'Mono': 'ui-monospace,Menlo,monospace' };
+
+/* ---------- what the AI "learned" from the sample guide ---------- */
+const SAMPLE = () => ({
+  colours: {
+    notes: '', q: [
+      { q: 'Coral only appears on annotations and warnings. Is it ever allowed in marketing layouts?', a: '' },
+      { q: 'Lime is used on dark grounds only. Should it ever sit on white?', a: '' }],
+    items: [
+      { id: 'ink', name: 'Ink', role: 'Text and dark ground', hex: '#0D0D2B', ai: 'Body text and dark backgrounds on 9 of 12 sampled pages.', src: 'p.12', conf: 96, ctx: '', st: 'ai', ai0: '#0D0D2B' },
+      { id: 'indigo', name: 'Indigo', role: 'Primary', hex: '#3F30F2', ai: 'Lead brand colour: hero grounds, links and large shapes.', src: 'p.12', conf: 94, ctx: '', st: 'ai', ai0: '#3F30F2' },
+      { id: 'magenta', name: 'Magenta', role: 'Secondary', hex: '#E85DF4', ai: 'Appears beside indigo in graphics. Never used as text on white.', src: 'p.13', conf: 81, ctx: '', st: 'ai', ai0: '#E85DF4' },
+      { id: 'lime', name: 'Lime', role: 'Accent', hex: '#E6EA9C', ai: 'Primary buttons and highlights on dark grounds.', src: 'p.14', conf: 88, ctx: '', st: 'ai', ai0: '#E6EA9C' },
+      { id: 'lav', name: 'Lavender', role: 'Support', hex: '#A18BFF', ai: 'Secondary text on dark, charts and illustration fills.', src: 'p.14', conf: 78, ctx: '', st: 'ai', ai0: '#A18BFF' },
+      { id: 'coral', name: 'Coral', role: 'Alert', hex: '#FF6F5B', ai: 'Flags, errors and annotations only.', src: 'p.15', conf: 72, ctx: '', st: 'ai', ai0: '#FF6F5B' },
+      { id: 'paper', name: 'Paper', role: 'Background', hex: '#F3F2FF', ai: 'Light page ground and card fill.', src: 'p.12', conf: 90, ctx: '', st: 'ai', ai0: '#F3F2FF' }],
+    props: [
+      { id: 'mix', name: 'Proportions', hint: 'How much of each colour', type: 'text', v: 'Ink 50, Indigo 25, Paper 15, Accents 10', ai0: 'Ink 50, Indigo 25, Paper 15, Accents 10', ctx: '', st: 'ai' },
+      { id: 'no', name: 'Never combine', hint: 'Forbidden pairings', type: 'text', v: 'Magenta on Lime, Coral on Indigo', ai0: 'Magenta on Lime, Coral on Indigo', ctx: '', st: 'ai' }]
+  },
+  layout: {
+    notes: '', q: [
+      { q: 'The guide shows 12 columns on web but 4 on social posts. Which should apply to a new email template?', a: '' },
+      { q: 'Posts have a wide margin on the left. Is that a rule or a one-off?', a: '' }],
+    props: [
+      { id: 'cols', name: 'Columns', hint: 'Grid columns', type: 'range', min: 1, max: 16, step: 1, unit: '', v: 12, ai0: 12, ctx: '', st: 'ai', src: 'p.20' },
+      { id: 'margin', name: 'Outer margin', hint: 'Edge to content', type: 'range', min: 0, max: 160, step: 4, unit: 'px', v: 64, ai0: 64, ctx: '', st: 'ai', src: 'p.20' },
+      { id: 'gutter', name: 'Gutter', hint: 'Between columns', type: 'range', min: 0, max: 64, step: 4, unit: 'px', v: 24, ai0: 24, ctx: '', st: 'ai', src: 'p.20' },
+      { id: 'maxw', name: 'Max width', hint: 'Widest content area', type: 'range', min: 600, max: 1600, step: 20, unit: 'px', v: 1200, ai0: 1200, ctx: '', st: 'ai', src: 'p.21' },
+      { id: 'align', name: 'Alignment', hint: 'Default text and blocks', type: 'select', opts: ['Left', 'Centre', 'Right'], v: 'Left', ai0: 'Left', ctx: '', st: 'ai', src: 'p.22' },
+      { id: 'ratios', name: 'Formats', hint: 'Allowed aspect ratios', type: 'text', v: '1:1, 4:5, 16:9, 9:16', ai0: '1:1, 4:5, 16:9, 9:16', ctx: '', st: 'ai', src: 'p.24' },
+      { id: 'safe', name: 'Safe zone', hint: 'Keep clear at edges', type: 'range', min: 0, max: 15, step: 1, unit: '%', v: 6, ai0: 6, ctx: '', st: 'ai', src: 'p.24' }]
+  },
+  styling: {
+    notes: '', q: [
+      { q: 'Corners are sharp on cards but rounded on buttons. Should every component follow one radius?', a: '' },
+      { q: 'Shadows appear on only two pages. Are they part of the system?', a: '' }],
+    props: [
+      { id: 'radius', name: 'Corner radius', hint: 'Cards, inputs', type: 'range', min: 0, max: 32, step: 1, unit: 'px', v: 8, ai0: 8, ctx: '', st: 'ai', src: 'p.30' },
+      { id: 'btnr', name: 'Button radius', hint: 'Pill is 999', type: 'range', min: 0, max: 999, step: 1, unit: 'px', v: 999, ai0: 999, ctx: '', st: 'ai', src: 'p.31' },
+      { id: 'bw', name: 'Border width', hint: 'Outlines and dividers', type: 'range', min: 0, max: 6, step: 1, unit: 'px', v: 1, ai0: 1, ctx: '', st: 'ai', src: 'p.30' },
+      { id: 'bc', name: 'Border colour', hint: 'From the palette', type: 'colour', v: 'lav', ai0: 'lav', ctx: '', st: 'ai', src: 'p.30' },
+      { id: 'shadow', name: 'Shadow', hint: 'Elevation', type: 'select', opts: ['None', 'Soft', 'Hard offset'], v: 'Soft', ai0: 'Soft', ctx: '', st: 'ai', src: 'p.32' },
+      { id: 'btn', name: 'Button style', hint: 'Primary buttons', type: 'select', opts: ['Filled', 'Outline'], v: 'Filled', ai0: 'Filled', ctx: '', st: 'ai', src: 'p.31' },
+      { id: 'img', name: 'Imagery', hint: 'Photo and illustration treatment', type: 'text', v: 'Flat vector shapes, perforated bands, no stock photos', ai0: 'Flat vector shapes, perforated bands, no stock photos', ctx: '', st: 'ai', src: 'p.36' },
+      { id: 'icon', name: 'Icons', hint: 'Style and stroke', type: 'text', v: 'Outline, 1.5px stroke, rounded joins', ai0: 'Outline, 1.5px stroke, rounded joins', ctx: '', st: 'ai', src: 'p.38' }]
+  },
+  type: {
+    notes: '', q: [
+      { q: 'Headlines are Title Case in print but sentence case on web. Which is the rule?', a: '' },
+      { q: 'A mono face appears in captions. Is it an approved brand font?', a: '' }],
+    items: [
+      { id: 'display', name: 'Display', font: 'Inter Tight', w: 600, size: 64, lh: 1.02, tr: -2, caps: 'Sentence', smp: 'Mail that gets read', ai: 'Hero headlines, one per page.', src: 'p.26', conf: 93, ctx: '', st: 'ai' },
+      { id: 'h1', name: 'Heading 1', font: 'Inter Tight', w: 600, size: 40, lh: 1.08, tr: -1, caps: 'Sentence', smp: 'Section headline here', ai: 'Section openers.', src: 'p.26', conf: 90, ctx: '', st: 'ai' },
+      { id: 'h2', name: 'Heading 2', font: 'Inter Tight', w: 500, size: 28, lh: 1.15, tr: -0.5, caps: 'Sentence', smp: 'A smaller heading for cards', ai: 'Card titles and sub-sections.', src: 'p.27', conf: 87, ctx: '', st: 'ai' },
+      { id: 'body', name: 'Body', font: 'Inter', w: 400, size: 16, lh: 1.5, tr: 0, caps: 'None', smp: 'Direct mail reaches people where email cannot, and now it is as easy to launch as a digital campaign.', ai: 'Paragraphs and descriptions.', src: 'p.27', conf: 95, ctx: '', st: 'ai' },
+      { id: 'caption', name: 'Caption', font: 'Mono', w: 400, size: 12, lh: 1.4, tr: 0, caps: 'None', smp: 'Photo: campaign launch, 2026', ai: 'Image credits and metadata.', src: 'p.28', conf: 66, ctx: '', st: 'ai' },
+      { id: 'label', name: 'Overline', font: 'Inter Tight', w: 600, size: 12, lh: 1.2, tr: 12, caps: 'Upper', smp: 'New feature', ai: 'Tags and eyebrow labels above headlines.', src: 'p.28', conf: 84, ctx: '', st: 'ai' }]
+  },
+  spacing: {
+    notes: '', q: [
+      { q: 'The gap above headings is larger than below. Is the gap above always twice the gap below?', a: '' },
+      { q: 'Cards in a row use 24px but stacked cards use 16px. Intentional?', a: '' }],
+    scale: '4, 8, 12, 16, 24, 32, 48, 64, 96',
+    scaleAi: '4, 8, 12, 16, 24, 32, 48, 64, 96',
+    scaleCtx: '', scaleSt: 'ai',
+    props: [
+      { id: 'base', name: 'Base unit', hint: 'Everything snaps to it', type: 'range', min: 2, max: 16, step: 2, unit: 'px', v: 8, ai0: 8, ctx: '', st: 'ai', src: 'p.40' },
+      { id: 'hb', name: 'Heading to text', hint: 'Below a heading', type: 'range', min: 0, max: 64, step: 4, unit: 'px', v: 16, ai0: 16, ctx: '', st: 'ai', src: 'p.41' },
+      { id: 'lf', name: 'Label to field', hint: 'Form label to input', type: 'range', min: 0, max: 32, step: 2, unit: 'px', v: 8, ai0: 8, ctx: '', st: 'ai', src: 'p.42' },
+      { id: 'cp', name: 'Card padding', hint: 'Inside a card', type: 'range', min: 0, max: 64, step: 4, unit: 'px', v: 24, ai0: 24, ctx: '', st: 'ai', src: 'p.42' },
+      { id: 'cg', name: 'Card to card', hint: 'Gap between cards', type: 'range', min: 0, max: 64, step: 4, unit: 'px', v: 24, ai0: 24, ctx: '', st: 'ai', src: 'p.42' },
+      { id: 'btnp', name: 'Button padding', hint: 'Top and bottom', type: 'range', min: 0, max: 32, step: 2, unit: 'px', v: 12, ai0: 12, ctx: '', st: 'ai', src: 'p.43' },
+      { id: 'sg', name: 'Section gap', hint: 'Between page sections', type: 'range', min: 0, max: 160, step: 8, unit: 'px', v: 96, ai0: 96, ctx: '', st: 'ai', src: 'p.43' }]
+  }
+});
+
+let D = null;           // settings, null until a guide is imported
+let SRC = null;         // {name, ext, meta, real}
+const SECS = ['colours', 'layout', 'styling', 'type', 'spacing'];
+const LABEL = { colours: 'Colours', layout: 'Layout', styling: 'Styling', type: 'Typography', spacing: 'Spacing' };
+
+const itemsOf = (k) => k === 'colours' ? [...D.colours.items, ...D.colours.props] : k === 'type' ? D.type.items : k === 'spacing' ? [...D.spacing.props, { st: D.spacing.scaleSt, ctx: D.spacing.scaleCtx }] : D[k].props;
+const reviewed = (it) => it.st !== 'ai' || (it.ctx && it.ctx.trim());
+const counts = () => { let n = 0, r = 0, c = 0, q = 0, qa = 0; SECS.forEach((k) => { itemsOf(k).forEach((it) => { n++; if (reviewed(it)) r++; if (it.ctx && it.ctx.trim()) c++; }); D[k].q.forEach((x) => { q++; if (x.a.trim()) qa++; }); if (D[k].notes.trim()) c++; }); return { n, r, c, q, qa }; };
+
+/* ---------- persistence ---------- */
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ D, SRC })); } catch (e) {} };
+const load = () => { if (CLIP) return false; try { const j = JSON.parse(localStorage.getItem(KEY)); if (j && j.D) { D = j.D; SRC = j.SRC; return true; } } catch (e) {} return false; };
+
+/* ---------- toast ---------- */
+let tt; const toast = (m) => { const t = $('#toast'); t.textContent = m; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 1800); };
+
+/* ---------- import + analyse ---------- */
+const STEPS = ['Reading pages', 'Finding colours', 'Detecting grid and layout', 'Reading type styles', 'Measuring spacing', 'Writing questions'];
+let busy = false;
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+async function analyse(src, extract) {
+  if (busy) return; busy = true;
+  SRC = src; D = null; document.body.classList.remove('learned');
+  $('#src').classList.add('on'); $('#srcExt').textContent = src.ext; $('#srcName').textContent = src.name; $('#srcMeta').textContent = src.meta;
+  const st = $('#steps'); st.hidden = false;
+  st.innerHTML = STEPS.map((s, i) => `<div data-i="${i}"><b>${i + 1}</b>${s}</div>`).join('');
+  const fast = CLIP ? 240 : 520;
+  for (let i = 0; i < STEPS.length; i++) {
+    $$('#steps div').forEach((d, j) => { d.className = j < i ? 'done' : j === i ? 'cur' : ''; });
+    await sleep(fast);
+  }
+  $$('#steps div').forEach((d) => { d.className = 'done'; d.firstChild.textContent = '✓'; });
+  D = SAMPLE();
+  try { if (extract) await extract(D); } catch (e) { src.note = 'Could not read the file, showing sample values.'; }
+  document.body.classList.add('learned');
+  renderAll(); save(); busy = false;
+  $('#srcMeta').textContent = src.meta + (src.note ? ' · ' + src.note : '');
+  toast('Guide analysed: ' + counts().n + ' items to review');
+}
+
+const sample = () => analyse({ name: 'Lob Brand Guide v4.pdf', ext: 'PDF', meta: '38 pages · sample guide', real: false });
+
+function fromFile(f) {
+  const ext = (f.name.split('.').pop() || 'file').toUpperCase().slice(0, 4);
+  const kb = f.size > 1048576 ? (f.size / 1048576).toFixed(1) + ' MB' : Math.max(1, Math.round(f.size / 1024)) + ' KB';
+  const src = { name: f.name, ext, meta: kb, real: false };
+  if (/^image\//.test(f.type) && f.type !== 'image/svg+xml') {
+    src.real = true; src.note = 'palette read from the image, rest from sample';
+    return analyse(src, (d) => readImage(f, d));
+  }
+  if (/\.(css|json|svg|txt|md|html)$/i.test(f.name)) {
+    src.real = true; src.note = 'colours and fonts read from the file, rest from sample';
+    return analyse(src, (d) => f.text().then((t) => readText(t, d)));
+  }
+  src.note = 'PDF text is not parsed in the browser, showing sample values';
+  return analyse(src);
+}
+
+function nameFor(h) {
+  const [r, g, b] = hex2rgb(h), l = lum(h), mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+  if (l < .03) return 'Ink'; if (l > .8) return 'Paper'; if (mx - mn < 24) return 'Grey';
+  let hu = 0; const d = mx - mn;
+  if (mx === r) hu = ((g - b) / d + 6) % 6; else if (mx === g) hu = (b - r) / d + 2; else hu = (r - g) / d + 4; hu *= 60;
+  return hu < 15 || hu >= 345 ? 'Red' : hu < 45 ? 'Orange' : hu < 70 ? 'Yellow' : hu < 160 ? 'Green' : hu < 200 ? 'Teal' : hu < 255 ? 'Blue' : hu < 290 ? 'Violet' : 'Pink';
+}
+const ROLES = ['Primary', 'Secondary', 'Accent', 'Support', 'Alert', 'Neutral'];
+function setPalette(d, hexes, from) {
+  const out = []; const used = {};
+  hexes.slice(0, 8).forEach((h) => {
+    h = h.toUpperCase(); const l = lum(h);
+    let role, nm = nameFor(h); used[nm] = (used[nm] || 0) + 1; if (used[nm] > 1) nm += ' ' + used[nm];
+    role = l < .05 ? 'Text and dark ground' : l > .8 ? 'Background' : ROLES[Math.min(out.length, ROLES.length - 1)];
+    out.push({ id: 'c' + out.length, name: nm, role, hex: h, ai: 'Found in ' + from + '.', src: 'file', conf: 90 - out.length * 4, ctx: '', st: 'ai', ai0: h });
+  });
+  if (out.length) d.colours.items = out;
+}
+function readImage(f, d) {
+  return new Promise((res, rej) => {
+    const url = URL.createObjectURL(f), im = new Image();
+    im.onload = () => {
+      const c = document.createElement('canvas'), W = 96, H = Math.max(1, Math.round(96 * im.height / im.width)); c.width = W; c.height = H;
+      const x = c.getContext('2d', { willReadFrequently: true }); x.drawImage(im, 0, 0, W, H);
+      const px = x.getImageData(0, 0, W, H).data, bins = {};
+      for (let i = 0; i < px.length; i += 4) { if (px[i + 3] < 128) continue; const k = [px[i] >> 4, px[i + 1] >> 4, px[i + 2] >> 4].join(','); (bins[k] = bins[k] || { n: 0, r: 0, g: 0, b: 0 }); const o = bins[k]; o.n++; o.r += px[i]; o.g += px[i + 1]; o.b += px[i + 2]; }
+      const list = Object.values(bins).sort((a, b) => b.n - a.n).map((o) => [Math.round(o.r / o.n), Math.round(o.g / o.n), Math.round(o.b / o.n)]);
+      const pick = [];
+      for (const c2 of list) { if (pick.every((p) => Math.hypot(p[0] - c2[0], p[1] - c2[1], p[2] - c2[2]) > 60)) pick.push(c2); if (pick.length >= 7) break; }
+      setPalette(d, pick.map((p) => rgb2hex(...p)), 'the uploaded image');
+      URL.revokeObjectURL(url); res();
+    };
+    im.onerror = () => { URL.revokeObjectURL(url); rej(); }; im.src = url;
+  });
+}
+function readText(t, d) {
+  const cnt = {}; (t.match(/#[0-9a-f]{6}\b|#[0-9a-f]{3}\b/gi) || []).forEach((h) => { h = h.length === 4 ? '#' + [...h.slice(1)].map((c) => c + c).join('') : h; h = h.toUpperCase(); cnt[h] = (cnt[h] || 0) + 1; });
+  const hx = Object.keys(cnt).sort((a, b) => cnt[b] - cnt[a]);
+  if (hx.length) setPalette(d, hx, 'the file (' + hx.length + ' hex values)');
+  const fam = (t.match(/font-family\s*:\s*([^;}]+)/i) || [])[1];
+  if (fam) { const first = fam.split(',')[0].replace(/["']/g, '').trim(); if (first) d.type.items.forEach((s) => { if (/Inter|Georgia|Mono/.test(s.font) || true) { if (FONTS[first]) s.font = first; else if (/mono|courier/i.test(first)) s.font = 'Mono'; else if (/serif|georgia|times/i.test(first) && !/sans/i.test(first)) s.font = 'Georgia'; } }); }
+  const rad = (t.match(/border-radius\s*:\s*(\d+)px/i) || [])[1]; if (rad) { const p = d.styling.props.find((x) => x.id === 'radius'); p.v = p.ai0 = +rad; }
+  const gap = (t.match(/(?:gap|gutter)\s*:\s*(\d+)px/i) || [])[1]; if (gap) { const p = d.layout.props.find((x) => x.id === 'gutter'); p.v = p.ai0 = +gap; }
+}
+
+/* ---------- shared widgets ---------- */
+const chipOf = (st) => st === 'ok' ? ['Confirmed', 'var(--lime)'] : st === 'edited' ? ['Edited', 'var(--coral)'] : ['AI suggested', 'var(--lav)'];
+const chip = (it) => { const [t, c] = chipOf(it.st); return `<span class="chip" style="--c:${c}">${t}</span>`; };
+const qBlock = (k) => `<h3 class="sub">Questions from the AI</h3><div class="card">${D[k].q.map((x, i) => `<div class="q"><p>${esc(x.q)}</p><textarea data-path="${k}.q.${i}.a" placeholder="Your answer" rows="2">${esc(x.a)}</textarea></div>`).join('')}</div>
+  <h3 class="sub">Notes for ${LABEL[k].toLowerCase()}</h3><div class="ctx"><label class="f" for="n-${k}">Anything else the AI should know about ${LABEL[k].toLowerCase()}</label><textarea id="n-${k}" data-path="${k}.notes" rows="3" placeholder="e.g. exceptions, legacy rules, who to ask">${esc(D[k].notes)}</textarea></div>`;
+
+function propRow(k, p, i) {
+  const base = `${k}.props.${i}`;
+  let ctl;
+  if (p.type === 'range') ctl = `<div class="val"><input type="range" data-path="${base}.v" data-num min="${p.min}" max="${p.max}" step="${p.step}" value="${p.v}" aria-label="${esc(p.name)}"><output>${p.v}${p.unit}</output></div>`;
+  else if (p.type === 'select') ctl = `<select data-path="${base}.v" aria-label="${esc(p.name)}">${p.opts.map((o) => `<option${o === p.v ? ' selected' : ''}>${o}</option>`).join('')}</select>`;
+  else if (p.type === 'colour') ctl = `<select data-path="${base}.v" aria-label="${esc(p.name)}">${D.colours.items.map((c) => `<option value="${c.id}"${c.id === p.v ? ' selected' : ''}>${esc(c.name)}</option>`).join('')}</select>`;
+  else ctl = `<input type="text" data-path="${base}.v" value="${esc(p.v)}" aria-label="${esc(p.name)}">`;
+  const rd = p.type === 'colour' ? ((D.colours.items.find((c) => c.id === p.ai0) || {}).name || '') : p.ai0 + (p.unit || '');
+  return `<div class="prm" data-base="${base}"><div class="nm">${esc(p.name)}<small>${esc(p.hint)}</small></div>${ctl}
+    <div class="rd" title="${p.src ? 'Found at ' + p.src : ''}">AI read: ${esc(rd)}</div>
+    <input type="text" class="cx" data-path="${base}.ctx" value="${esc(p.ctx)}" placeholder="Add context…" aria-label="Context for ${esc(p.name)}">
+    <div class="st" style="display:flex;gap:6px;align-items:center">${chip(p)}<button class="btn ghost sm" data-confirm="${base}">Confirm</button></div></div>`;
+}
+const propsCard = (k, list, startAt = 0) => `<div class="card" style="padding:4px 18px">${list.map((p, i) => propRow(k, p, i + startAt)).join('')}</div>`;
+
+/* ---------- COLOURS ---------- */
+function renderColours() {
+  const c = D.colours;
+  $('#colBody').innerHTML = `
+   <h3 class="sub">Palette · ${c.items.length} colours found</h3>
+   <div class="cgrid">${c.items.map((x, i) => colCard(x, i)).join('')}</div>
+   <div class="row" style="margin-top:12px"><button class="btn ghost sm" id="addCol">+ Add a colour</button></div>
+   <h3 class="sub">Proportions</h3><div class="bar" id="mixbar"></div><div class="hint" id="mixhint"></div>
+   <h3 class="sub">Rules</h3>${propsCard('colours', c.props)}
+   ${qBlock('colours')}`;
+  $('#addCol').onclick = () => { c.items.push({ id: 'n' + Date.now(), name: 'New colour', role: 'Support', hex: '#888888', ai: 'Added by you.', src: 'you', conf: 100, ctx: '', st: 'edited', ai0: '#888888' }); renderColours(); progress(); save(); };
+  paintColours();
+}
+function colCard(x, i) {
+  const b = `colours.items.${i}`;
+  return `<div class="card cc" data-base="${b}">
+   <div class="sw" data-sw><span data-nm>${esc(x.name)}</span><small data-hx>${x.hex.toUpperCase()}</small></div>
+   <div class="bd">
+    <div class="hd st">${chip(x)}<button class="btn ghost sm" data-confirm="${b}">Confirm</button>${x.src === 'you' ? '' : `<button class="btn ghost sm" data-undo="${b}" title="Back to what the AI read">Undo</button>`}</div>
+    <div class="ai">${esc(x.ai)}<em>${x.src === 'you' ? '' : x.src + ' · ' + x.conf + '%'}</em></div>
+    <div class="two"><div><label class="f">Name</label><input type="text" data-path="${b}.name" value="${esc(x.name)}"></div><div><label class="f">Hex</label><input type="text" data-path="${b}.hex" value="${x.hex}" maxlength="7" spellcheck="false"></div></div>
+    <div><label class="f">Role</label><input type="text" data-path="${b}.role" value="${esc(x.role)}"></div>
+    <div><label class="f">Passes AA contrast with</label><div class="pairs" data-pairs></div></div>
+    <div class="ctx"><label class="f">Your context</label><textarea data-path="${b}.ctx" rows="2" placeholder="When to use it, when not to, history…">${esc(x.ctx)}</textarea></div>
+   </div></div>`;
+}
+function paintColours() {
+  const items = D.colours.items;
+  $$('.cc').forEach((el, i) => {
+    const x = items[i]; if (!x) return; const ok = okHex(x.hex), h = ok ? x.hex : '#888888';
+    const sw = $('[data-sw]', el); sw.style.background = h; sw.style.color = lum(h) > .35 ? '#0D0D2B' : '#fff';
+    $('[data-nm]', el).textContent = x.name; $('[data-hx]', el).textContent = x.hex.toUpperCase();
+    const pr = items.filter((o, j) => j !== i && okHex(o.hex) && contrast(h, o.hex) >= 4.5).map((o) => `<span class="pair" style="background:${h};color:${o.hex}" title="${contrast(h, o.hex).toFixed(1)}:1">${esc(o.name)} ${contrast(h, o.hex).toFixed(1)}</span>`);
+    $('[data-pairs]', el).innerHTML = pr.length ? pr.join('') : '<span class="hint">No palette colour reaches 4.5:1 on this one</span>';
+    $('input[data-path$=".hex"]', el).style.borderColor = ok ? '' : 'var(--coral)';
+  });
+  const mix = D.colours.props.find((p) => p.id === 'mix').v, parts = [];
+  mix.split(',').forEach((s) => { const m = s.trim().match(/^(.*?)\s*(\d+(?:\.\d+)?)%?$/); if (m) parts.push([m[1].trim(), +m[2]]); });
+  const col = (n) => { const f = items.find((c) => c.name.toLowerCase() === n.toLowerCase()); return f && okHex(f.hex) ? f.hex : '#555'; };
+  const bar = $('#mixbar'); if (bar) {
+    bar.innerHTML = parts.map(([n, v]) => `<i style="flex:${v};background:${/accent/i.test(n) ? 'linear-gradient(90deg,#E6EA9C,#E85DF4,#FF6F5B)' : col(n)}" title="${esc(n)} ${v}"></i>`).join('');
+    $('#mixhint').textContent = parts.length ? parts.map(([n, v]) => n + ' ' + v).join(' · ') + ' (write it as Name 50, Name 25…)' : 'Write proportions as Name 50, Name 25…';
+  }
+}
+
+/* ---------- LAYOUT ---------- */
+const P = (k, id) => D[k].props.find((p) => p.id === id).v;
+function renderLayout() {
+  $('#layBody').innerHTML = `<div class="split"><div><h3 class="sub" style="margin-top:0">Settings</h3>${propsCard('layout', D.layout.props)}</div>
+   <div class="stick"><h3 class="sub" style="margin-top:0">Preview</h3><div class="gp" id="gp"></div><p class="hint" style="margin-top:8px" id="gpnote"></p></div></div>${qBlock('layout')}`;
+  paintLayout();
+}
+function paintLayout() {
+  const gp = $('#gp'); if (!gp) return;
+  const W = gp.clientWidth || 400, cols = P('layout', 'cols'), mg = P('layout', 'margin'), gt = P('layout', 'gutter'), mx = P('layout', 'maxw'), safe = P('layout', 'safe'), al = P('layout', 'align');
+  const scale = Math.min(1, (W - 28) / 1440), fw = Math.min(mx, 1440) * scale, H = 230;
+  const m = Math.min(mg * scale, fw / 3), g = gt * scale;
+  gp.style.height = H + 28 + 'px';
+  gp.innerHTML = `<div class="fr" style="width:${fw}px;height:${H}px"><div class="cols" style="left:${m}px;right:${m}px;grid-template-columns:repeat(${cols},1fr);gap:${g}px">${'<i></i>'.repeat(cols)}</div>
+   <div style="position:absolute;inset:${H * safe / 100}px ${fw * safe / 100}px;border:1px dashed var(--lime);border-radius:2px"></div>
+   <div style="position:absolute;left:${m}px;right:${m}px;top:${H * .3}px;display:flex;flex-direction:column;gap:8px;align-items:${al === 'Left' ? 'flex-start' : al === 'Right' ? 'flex-end' : 'center'}"><div style="height:16px;width:55%;background:#fff;border-radius:2px"></div><div style="height:7px;width:38%;background:#9E9BCB;border-radius:2px"></div><div style="height:22px;width:60px;background:var(--lime);border-radius:11px;margin-top:6px"></div></div>
+   <span class="mk" style="left:2px;top:4px">${mg}</span><span class="mk" style="left:${m + (fw - 2 * m) / cols}px;top:${H - 18}px">${gt}</span></div>`;
+  $('#gpnote').textContent = `${cols} columns · ${mg}px margin · ${gt}px gutter · ${mx}px max · ${safe}% safe zone (lime dashes). Red numbers are measurements.`;
+}
+
+/* ---------- STYLING ---------- */
+function renderStyling() {
+  $('#styBody').innerHTML = `<div class="split"><div><h3 class="sub" style="margin-top:0">Settings</h3>${propsCard('styling', D.styling.props)}</div>
+   <div class="stick"><h3 class="sub" style="margin-top:0">Preview</h3><div class="pv dark" id="spv" style="padding:22px"></div></div></div>${qBlock('styling')}`;
+  paintStyling();
+}
+function paintStyling() {
+  const el = $('#spv'); if (!el) return;
+  const r = P('styling', 'radius'), br = P('styling', 'btnr'), bw = P('styling', 'bw'), bcId = P('styling', 'bc'), sh = P('styling', 'shadow'), bt = P('styling', 'btn');
+  const C = (id, d) => { const f = D.colours.items.find((c) => c.id === id); return f && okHex(f.hex) ? f.hex : d; };
+  const bc = C(bcId, '#A18BFF'), lime = C('lime', '#E6EA9C'), ink = C('ink', '#0D0D2B'), paper = C('paper', '#F3F2FF');
+  const shadow = sh === 'None' ? 'none' : sh === 'Soft' ? '0 12px 32px rgba(0,0,0,.4)' : `6px 6px 0 ${bc}`;
+  const btn = bt === 'Filled' ? `background:${lime};color:${ink};border:${bw}px solid ${lime}` : `background:transparent;color:${lime};border:${Math.max(bw, 1)}px solid ${lime}`;
+  el.innerHTML = `<div style="background:${paper};color:${ink};border-radius:${r}px;border:${bw}px solid ${bc};box-shadow:${shadow};padding:20px">
+    <div style="font:600 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;opacity:.6">Card</div>
+    <div style="font:600 22px/1.15 var(--font);margin:6px 0 8px">Campaign summary</div>
+    <div style="font-size:13.5px;opacity:.8;margin-bottom:14px">Corners, border and shadow follow the settings.</div>
+    <input type="text" placeholder="Input field" style="background:#fff;color:${ink};border:${bw}px solid ${bc};border-radius:${r}px;margin-bottom:12px">
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><button style="${btn};border-radius:${br}px;padding:10px 18px;font-weight:600;font-size:13px">Primary</button><span style="border:${bw}px solid ${bc};border-radius:${br}px;padding:9px 14px;font-size:13px">Tag</span></div></div>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px">Imagery: ${esc(P('styling', 'img'))}<br>Icons: ${esc(P('styling', 'icon'))}</p>
+    <svg width="120" height="28" viewBox="0 0 120 28" style="margin-top:8px" fill="none" stroke="${lime}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="22" height="16" rx="2"/><path d="M3 5l10 8 10-8"/><circle cx="52" cy="12" r="9"/><path d="M52 7v5l3 2"/><path d="M82 20l8-14 8 14z"/></svg>`;
+}
+
+/* ---------- TYPE ---------- */
+function renderType() {
+  $('#typBody').innerHTML = `<div class="ts">${D.type.items.map((s, i) => typeCard(s, i)).join('')}</div>${qBlock('type')}`;
+  paintType();
+}
+function typeCard(s, i) {
+  const b = `type.items.${i}`;
+  const sel = (key, opts) => `<select data-path="${b}.${key}">${opts.map((o) => `<option${String(o) === String(s[key]) ? ' selected' : ''}>${o}</option>`).join('')}</select>`;
+  return `<div class="card tcard" data-base="${b}"><div><div class="hd st" style="display:flex;gap:8px;align-items:center;margin-bottom:10px"><b style="font-size:16px;font-weight:600">${esc(s.name)}</b>${chip(s)}<button class="btn ghost sm" data-confirm="${b}">Confirm</button><button class="btn ghost sm" data-undo="${b}">Undo</button></div>
+    <div class="smp"><span data-smp>${esc(s.smp)}</span></div><div class="ai" style="margin-top:10px">${esc(s.ai)}<em>${s.src} · ${s.conf}%</em></div></div>
+   <div><div class="ctl">
+    <div><label class="f">Font</label>${sel('font', Object.keys(FONTS))}</div><div><label class="f">Weight</label>${sel('w', [300, 400, 500, 600, 700])}</div><div><label class="f">Case</label>${sel('caps', ['None', 'Sentence', 'Title', 'Upper'])}</div>
+    <div><label class="f">Size px</label><input type="number" data-path="${b}.size" data-num min="8" max="160" value="${s.size}"></div><div><label class="f">Leading</label><input type="number" data-path="${b}.lh" data-num step=".05" min=".8" max="2.5" value="${s.lh}"></div><div><label class="f">Tracking</label><input type="number" data-path="${b}.tr" data-num step="1" min="-10" max="40" value="${s.tr}" title="thousandths of an em"></div>
+    <div class="w2"><label class="f">Sample text</label><input type="text" data-path="${b}.smp" value="${esc(s.smp)}"></div>
+    <div class="w2 ctx"><label class="f">Your context · where it is used</label><textarea data-path="${b}.ctx" rows="2" placeholder="Where this style goes, max line length, exceptions…">${esc(s.ctx)}</textarea></div></div></div></div>`;
+}
+function paintType() {
+  $$('.tcard').forEach((el, i) => {
+    const s = D.type.items[i]; if (!s) return; const sp = $('[data-smp]', el);
+    sp.textContent = s.smp; sp.style.cssText = `font-family:${FONTS[s.font]};font-weight:${s.w};font-size:${Math.min(s.size, 72)}px;line-height:${s.lh};letter-spacing:${s.tr / 1000}em;text-transform:${s.caps === 'Upper' ? 'uppercase' : 'none'}`;
+    if (s.caps === 'Title') sp.style.textTransform = 'capitalize';
+    $('b', el).textContent = s.name;
+  });
+}
+
+/* ---------- SPACING ---------- */
+function renderSpacing() {
+  const sc = D.spacing;
+  $('#spaBody').innerHTML = `<div class="split"><div><h3 class="sub" style="margin-top:0">Scale</h3>
+    <div class="card"><label class="f" for="scale">Spacing scale in px, comma separated</label><input type="text" id="scale" data-path="spacing.scale" value="${esc(sc.scale)}"><div class="scalerow" id="scalerow"></div>
+     <div class="row" style="margin-top:12px;align-items:center" id="scst"><span class="chip" style="--c:var(--lav)">AI suggested</span><button class="btn ghost sm" id="scConfirm">Confirm</button><span class="hint">AI read: ${esc(sc.scaleAi)}</span></div>
+     <div class="ctx" style="margin-top:12px"><label class="f">Your context</label><textarea data-path="spacing.scaleCtx" rows="2" placeholder="Which steps are allowed where, off-scale exceptions…">${esc(sc.scaleCtx)}</textarea></div></div>
+    <h3 class="sub">Gaps between elements</h3>${propsCard('spacing', sc.props)}</div>
+   <div class="stick"><h3 class="sub" style="margin-top:0">Preview</h3><div class="sp" id="spp"></div></div></div>${qBlock('spacing')}`;
+  $('#scConfirm').onclick = () => { sc.scaleSt = 'ok'; paintSpacing(); progress(); save(); };
+  paintSpacing();
+}
+function paintSpacing() {
+  const sc = D.spacing, g = (id) => P('spacing', id), steps = sc.scale.split(',').map((s) => parseInt(s, 10)).filter((n) => n > 0);
+  const base = g('base'), off = steps.filter((n) => n % base);
+  $('#scalerow').innerHTML = steps.map((n) => `<div><i style="width:${Math.max(4, n / 2)}px;height:${Math.max(4, n / 2)}px;${n % base ? 'background:var(--red)' : ''}"></i>${n}</div>`).join('') + (off.length ? `<span class="hint" style="color:var(--red);margin-left:6px">${off.join(', ')} not a multiple of ${base}</span>` : '');
+  const [t, c] = chipOf({ st: sc.scaleSt }); $('#scst .chip').style.setProperty('--c', c); $('#scst .chip').textContent = t;
+  const hb = g('hb'), lf = g('lf'), cp = g('cp'), cg = g('cg'), bp = g('btnp'), p = $('#spp'); if (!p) return;
+  const ruler = (h, label, top) => `<div class="gapbar" style="top:${top}px;height:${Math.max(h, 1)}px">${h > 9 ? label : ''}</div>`;
+  /* build blocks in flow, then overlay red bands at measured positions */
+  p.innerHTML = `<div id="s1" style="font:600 26px/1.1 var(--font)">Heading</div><div id="s2" style="margin-top:${hb}px;font-size:14px;line-height:1.4;max-width:300px;color:#444">Body text sits this far under the heading.</div>
+   <div id="s3" style="margin-top:${cg + 8}px;display:flex;flex-direction:column;gap:${cg}px">
+    <div class="k" style="background:#F3F2FF;border:1px solid #d5d2ff;border-radius:8px;padding:${cp}px"><div style="font:500 12px var(--font);margin-bottom:${lf}px">Label</div><div style="height:34px;border:1px solid #bbb;border-radius:6px;background:#fff"></div><div style="margin-top:${cg}px"><span style="display:inline-block;background:#3F30F2;color:#fff;border-radius:999px;padding:${bp}px 20px;font:600 13px var(--font)">Button</span></div></div>
+    <div class="k" style="background:#F3F2FF;border:1px solid #d5d2ff;border-radius:8px;padding:${cp}px;font-size:13px">Next card</div></div>`;
+  const pr = p.getBoundingClientRect(), add = (a, b, label) => { const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect(), top = ra.bottom - pr.top, h = rb.top - ra.bottom; if (h >= 1) p.insertAdjacentHTML('beforeend', ruler(h, label, top)); };
+  const ks = $$('.k', p), s1 = $('#s1', p), s2 = $('#s2', p);
+  add(s1, s2, hb); add(s2, ks[0], cg + 8);
+  const lab = ks[0].children[0], inp = ks[0].children[1]; add(lab, inp, lf);
+  const lastEl = ks[0].lastElementChild.lastElementChild; add(inp, lastEl, cg);
+  add(ks[0], ks[1], cg);
+}
+
+/* ---------- OVERVIEW ---------- */
+function renderStats() {
+  const c = counts();
+  $('#stats').innerHTML = [['Colours', D.colours.items.length], ['Type styles', D.type.items.length], ['Settings', D.layout.props.length + D.styling.props.length + D.spacing.props.length], ['Questions', c.q]].map(([l, n]) => `<div class="stat"><big>${n}</big><span>${l}</span></div>`).join('') +
+    `<div class="stat"><big>${c.r}/${c.n}</big><span>Items reviewed</span></div><div class="stat"><big>${c.c}</big><span>Context notes</span></div>`;
+}
+function brief() {
+  const L = [`# Brand guidelines${SRC ? ' (from ' + SRC.name + ')' : ''}`, ''];
+  const ctx = (it) => it.ctx && it.ctx.trim() ? `  Context: ${it.ctx.trim()}` : '', stt = (it) => it.st === 'ok' ? ' [confirmed]' : it.st === 'edited' ? ' [edited]' : '';
+  const tail = (k) => { D[k].q.forEach((x) => { if (x.a.trim()) L.push(`- Q: ${x.q}\n  A: ${x.a.trim()}`); }); if (D[k].notes.trim()) L.push(`Notes: ${D[k].notes.trim()}`); L.push(''); };
+  L.push('## Colours'); D.colours.items.forEach((x) => { L.push(`- ${x.name} ${x.hex.toUpperCase()}: ${x.role}${stt(x)}`); if (ctx(x)) L.push(ctx(x)); });
+  D.colours.props.forEach((p) => { L.push(`- ${p.name}: ${p.v}${stt(p)}`); if (ctx(p)) L.push(ctx(p)); }); tail('colours');
+  const prm = (k, t) => { L.push('## ' + t); D[k].props.forEach((p) => { const v = p.type === 'colour' ? (D.colours.items.find((c) => c.id === p.v) || {}).name : p.v + (p.unit || ''); L.push(`- ${p.name}: ${v}${stt(p)}`); if (ctx(p)) L.push(ctx(p)); }); };
+  prm('layout', 'Layout'); tail('layout'); prm('styling', 'Styling'); tail('styling');
+  L.push('## Typography'); D.type.items.forEach((s) => { L.push(`- ${s.name}: ${s.font} ${s.w}, ${s.size}px / ${s.lh}, tracking ${s.tr}, case ${s.caps}${stt(s)}`); if (ctx(s)) L.push(ctx(s)); }); tail('type');
+  L.push('## Spacing', `- Scale: ${D.spacing.scale}${stt({ st: D.spacing.scaleSt })}`); if (D.spacing.scaleCtx.trim()) L.push(`  Context: ${D.spacing.scaleCtx.trim()}`);
+  D.spacing.props.forEach((p) => { L.push(`- ${p.name}: ${p.v}${p.unit}${stt(p)}`); if (ctx(p)) L.push(ctx(p)); }); tail('spacing');
+  return L.join('\n').trim();
+}
+
+/* ---------- progress ---------- */
+function progress() {
+  if (!D) { SECS.forEach((k) => $('#pc-' + k).textContent = ''); $('#overall').textContent = 'Nothing imported yet'; $('#meter').style.width = '0'; return; }
+  SECS.forEach((k) => { const l = itemsOf(k), r = l.filter(reviewed).length, e = $('#pc-' + k); e.textContent = r + '/' + l.length; e.classList.toggle('full', r === l.length); });
+  const c = counts(); $('#overall').textContent = c.r + ' of ' + c.n + ' reviewed · ' + c.qa + ' of ' + c.q + ' questions answered';
+  $('#meter').style.width = Math.round(100 * c.r / c.n) + '%';
+  if ($('#brief')) { $('#brief').textContent = brief(); renderStats(); }
+}
+function renderAll() { renderColours(); renderLayout(); renderStyling(); renderType(); renderSpacing(); progress(); }
+function paint(sec) { ({ colours: paintColours, layout: paintLayout, styling: paintStyling, type: paintType, spacing: paintSpacing })[sec] && ({ colours: paintColours, layout: paintLayout, styling: paintStyling, type: paintType, spacing: paintSpacing })[sec](); }
+
+/* ---------- events ---------- */
+function getPath(path) { const a = path.split('.'); let o = D; for (let i = 0; i < a.length - 1; i++) o = o[a[i]]; return [o, a[a.length - 1]]; }
+function node(base) { const a = base.split('.'); let o = D; a.forEach((k) => o = o[k]); return o; }
+const stBox = (el) => el.closest('[data-base]');
+function refreshChip(base) { const box = $(`[data-base="${base}"]`); if (!box) return; const it = node(base), c = $('.chip', box), [t, col] = chipOf(it); c.textContent = t; c.style.setProperty('--c', col); }
+
+document.addEventListener('input', (e) => {
+  const t = e.target; if (!D || !t.dataset || !t.dataset.path) return;
+  const [o, k] = getPath(t.dataset.path); let v = t.value; if ('num' in t.dataset) v = parseFloat(v) || 0;
+  o[k] = v;
+  const sec = t.dataset.path.split('.')[0];
+  const base = t.closest('[data-base]');
+  if (base) {
+    const it = node(base.dataset.base);
+    if (k !== 'ctx') it.st = (k === 'v' && it.ai0 !== undefined && String(it.ai0) === String(v)) ? 'ai' : 'edited';
+    refreshChip(base.dataset.base);
+    const out = $('output', base); if (out) out.textContent = v + (it.unit || '');
+  }
+  if (t.dataset.path === 'spacing.scale' || t.dataset.path === 'spacing.scaleCtx') { if (k === 'scale') D.spacing.scaleSt = 'edited'; }
+  paint(sec); progress(); save();
+});
+document.addEventListener('click', (e) => {
+  const t = e.target.closest('button'); if (!t) return;
+  if (t.dataset.confirm && D) { const it = node(t.dataset.confirm); it.st = 'ok'; refreshChip(t.dataset.confirm); progress(); save(); }
+  if (t.dataset.undo && D) { const it = node(t.dataset.undo); if (it.ai0 !== undefined) { if (it.hex !== undefined) it.hex = it.ai0; } else { const s0 = SAMPLE().type.items.find((x) => x.id === it.id); if (s0) Object.assign(it, s0, { ctx: it.ctx }); } it.st = 'ai'; const sec = t.dataset.undo.split('.')[0]; (sec === 'type' ? renderType : renderColours)(); progress(); save(); }
+});
+$('#side').addEventListener('click', (e) => { const b = e.target.closest('.nv'); if (b) go(b.dataset.sec); });
+function go(sec) {
+  $$('.nv').forEach((b) => b.classList.toggle('on', b.dataset.sec === sec));
+  $$('.pg').forEach((p) => p.classList.toggle('on', p.id === 'pg-' + sec));
+  $('#main').scrollTop = 0;
+  if (D) paint(sec);
+}
+
+/* import controls */
+$('#bPick').onclick = () => $('#file').click();
+$('#file').onchange = (e) => { if (e.target.files[0]) fromFile(e.target.files[0]); e.target.value = ''; };
+$('#bSample').onclick = sample;
+$('#urlf').onsubmit = (e) => { e.preventDefault(); const u = $('#urlin').value.trim(); if (!u) return; let host = u; try { host = new URL(u).hostname; } catch (x) {} analyse({ name: host, ext: 'URL', meta: 'online guide · pages cannot be fetched from the browser', note: 'showing sample values', real: false }); };
+const drop = $('#drop');
+['dragenter', 'dragover'].forEach((n) => drop.addEventListener(n, (e) => { e.preventDefault(); drop.classList.add('over'); }));
+['dragleave', 'drop'].forEach((n) => drop.addEventListener(n, (e) => { e.preventDefault(); drop.classList.remove('over'); }));
+drop.addEventListener('drop', (e) => { const f = e.dataTransfer.files[0]; if (f) fromFile(f); });
+$('#bClear').onclick = () => { D = null; SRC = null; try { localStorage.removeItem(KEY); } catch (e) {} document.body.classList.remove('learned'); $('#src').classList.remove('on'); $('#steps').hidden = true; progress(); };
+$('#bCopy').onclick = () => { const t = brief(); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast('Brief copied'), () => { const r = document.createRange(); r.selectNodeContents($('#brief')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast('Press copy to take the brief'); }); };
+$('#bJson').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify({ source: SRC && SRC.name, settings: D }, null, 2)], { type: 'application/json' })); a.download = 'brand-guidelines-settings.json'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000); };
+$('#bReset').onclick = () => { if (!confirm('Reset every value and note to what the AI learned?')) return; D = SAMPLE(); renderAll(); save(); toast('Reset'); };
+window.addEventListener('resize', () => { if (D) { paintLayout(); paintSpacing(); } });
+
+/* boot */
+if (load()) {
+  document.body.classList.add('learned'); $('#src').classList.add('on'); $('#srcExt').textContent = SRC.ext; $('#srcName').textContent = SRC.name; $('#srcMeta').textContent = SRC.meta + (SRC.note ? ' · ' + SRC.note : '');
+  renderAll();
+} else progress();
+const h = /go=(\w+)/.exec(location.hash); if (h && SECS.concat('import').includes(h[1])) go(h[1]);
+window.__bg = { go, sample, ready: () => !!D && !busy };
+})();
+</script>
+</body>
+</html>

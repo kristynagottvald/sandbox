@@ -303,6 +303,21 @@ const APPS = {
     await p.evaluate(() => ba.play({ from: 9000, speed: 3.6 }));
     await sleep(6600);
   } },
+  // brand guidelines settings: starts on the colours the AI read from the sample guide, then confirms a colour and adds context, tunes the grid, switches to type styles and spacing with the red measurement bands
+  'brand-guidelines-settings': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 600, q: 50,
+    setup: async (p) => { await p.evaluate(() => window.__bg.sample()); await p.waitForFunction(() => window.__bg.ready(), null, { timeout: 8000 }); await p.evaluate(() => { window.__bg.go('colours'); document.querySelector('#toast').classList.remove('on'); }); },
+    run: async (p) => {
+      const t0 = Date.now(), go = (s) => domClick(p, `.nv[data-sec="${s}"]`);
+      await at(t0, 1500, () => p.type('.cc textarea', 'Primary text colour. Never on indigo.', { delay: 28 }));
+      await at(t0, 2900, () => domClick(p, '.cc [data-confirm]'));
+      await at(t0, 3200, () => go('layout'));
+      await at(t0, 3600, () => p.fill('[data-path="layout.props.0.v"]', '8'));
+      await at(t0, 4000, () => p.fill('[data-path="layout.props.0.v"]', '16'));
+      await at(t0, 4500, () => go('type'));
+      await at(t0, 5300, () => go('spacing'));
+      await at(t0, 5800, () => p.fill('[data-path="spacing.props.1.v"]', '40'));
+      await sleep(900);
+    } },
   'hero-banner-engine': { vp: [1280, 769], setup: cropOf('#cv'), run: async (p) => {
     const t0 = Date.now();
     await at(t0, 800, () => click(p, /^Midnight$/));

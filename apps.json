@@ -1,5 +1,14 @@
 [
   {
+    "id": "brand-guidelines-settings",
+    "title": "Brand Guidelines Settings",
+    "category": "Interactive Engine",
+    "url": "brand-guidelines-settings/",
+    "thumbnail": "brand-guidelines-settings/thumb.png",
+    "preview": "brand-guidelines-settings/thumb.webp",
+    "alt": "A dark brand settings screen listing colour cards the AI read from an imported guide, each with its hex, role, passing contrast pairs and a lavender context box where a note is typed and the colour is confirmed, then a layout grid preview with the column count changing, the typographic styles with live samples, and a spacing preview with red measurement bands between heading, text, field and cards"
+  },
+  {
     "id": "clearco-paid-ad-pipeline",
     "title": "Clearco Paid Ad Pipeline",
     "category": "Tools",
