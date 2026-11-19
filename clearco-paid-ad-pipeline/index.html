@@ -55,7 +55,6 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .cr .chip{font:400 1.5cqw/1.5 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#8fa0ad;white-space:nowrap}
 .cr .chip em{font-style:normal;color:var(--cyan)}
 .cr h4{font:400 6.5cqw/.92 var(--serif);letter-spacing:-.035em;margin:2.4cqw 0 3.4cqw;white-space:nowrap}
-.cr h4 i{color:var(--cyan)}
 .cr .go{align-self:flex-start;display:inline-flex;align-items:center;gap:1.1cqw;background:#fff;color:#000;border-radius:99px;font:500 1.5cqw/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:1.8cqw 2.8cqw;white-space:nowrap}
 .cr .go svg{width:1.7cqw;height:1.7cqw}
 .cr .stage{position:absolute;right:0;top:0;width:50cqw;height:100%;container-type:inline-size}
@@ -391,7 +390,7 @@ tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
  <a class="cr" id="cr" href="#" aria-label="Marketing attribution guide from Clearco. Opens the guide">
   <div class="dl" aria-hidden="true"></div>
   <svg class="lg" role="img" aria-label="Clearco"><use href="#clearco"/></svg>
-  <div class="l"><div class="chip"><span class="sw">Attribution guide for <em id="crFor"></em></span></div>
+  <div class="l"><div class="chip">Marketing attribution guide</div>
    <h4><span class="sw" id="crH"></span></h4>
    <span class="go"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M2.5 14h11"/></svg>Download the guide</span></div>
   <div class="stage" aria-hidden="true">
@@ -530,7 +529,7 @@ const TXT={init:m=>m.init,name:m=>m.name,role:m=>m.role,seg:m=>m.seg,intro:m=>m.
 function paintAd(){const m=M[Math.max(0,state.m)];
  document.querySelectorAll('[data-t]').forEach(e=>{e.innerHTML=TXT[e.dataset.t](m)});
  document.querySelectorAll('.av,.a,.me').forEach(e=>e.style.setProperty('--hue',m.hue));
- $('crFor').textContent=m.label;$('crH').innerHTML=`${m.h[0]}<br>${m.h[1]}<br><i>${m.h[2]}</i>`;
+ $('crH').innerHTML=`${m.h[0]}<br>${m.h[1]}<br><i>${m.h[2]}</i>`;
  m.b.forEach((b,i)=>{$('b'+(i+1)+'h').innerHTML=b[0];$('b'+(i+1)+'p').textContent=b[1]});
  const p=P[Math.max(0,state.p)];$('urlq').textContent='/attribution-guide?'+utmQ(p,m);$('uSrc').textContent=p.src;$('uMed').textContent=p.med;$('uCon').textContent=m.k;cr.href=adUrl()}
 const swEls=()=>[...document.querySelectorAll('.sw')];
@@ -555,8 +554,8 @@ function fit(o){const w=o.vp.clientWidth,mob=w<760,vw=mob?(o.vp.dataset.split?38
  o.fr.style.width=vw+'px';o.fr.style.height=vh+'px';o.fr.style.transform=`scale(${sc})`;o.vp.style.height=(vh*sc)+'px'}
 function syncFrame(o){try{const d=o.fr.contentDocument;if(!d||!d.head||!d.querySelector('.hero'))return;
  if(!d.getElementById('ppx')){const s=d.createElement('style');s.id='ppx';s.textContent='nav.back{display:none!important}';d.head.appendChild(s)}
- const m=M[Math.max(0,state.m)],l=d.querySelector('.hero .lede'),e=d.querySelector('.hero .copy .mono');
- if(l)l.textContent=m.lede;if(e)e.textContent='Marketing attribution guide · for '+m.label}catch(e){/* cross-origin (file://): leave the page as it is */}}
+ const m=M[Math.max(0,state.m)],l=d.querySelector('.hero .lede');
+ if(l)l.textContent=m.lede}catch(e){/* cross-origin (file://): leave the page as it is */}}
 function loadPage(o){fit(o);if(!o.on){o.on=true;o.fr.onload=()=>{syncFrame(o);setTimeout(()=>syncFrame(o),400)};o.fr.src=adUrl()}else syncFrame(o)}
 addEventListener('resize',()=>{if(state.s===2)fit(FR[0]);if(state.s===3){fit(FR[1]);drawDash()}});
 
