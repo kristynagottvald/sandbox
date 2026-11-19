@@ -527,7 +527,7 @@ document.querySelectorAll('[data-go]').forEach(b=>b.onclick=e=>{if(b.tagName==='
 /* ---------- 1: the ad ---------- */
 const cr=$('cr');
 function mount(){const pf=P[Math.max(0,state.p)].k;document.querySelectorAll('.pf').forEach(e=>e.classList.toggle('on',e.id==='pf-'+pf));
- const slot=pf==='yt'?$('park'):document.querySelector('#pf-'+pf+' .slot');if(cr.parentNode!==slot)slot.appendChild(cr);
+ const slot=(pf!=='yt'&&document.querySelector('#pf-'+pf+' .slot'))||$('park');if(cr.parentNode!==slot)slot.appendChild(cr);
  const v=$('ytv');if(pf==='yt'&&state.s===1){v.play().catch(()=>{})}else v.pause();
  cr.href=$('vid').href=adUrl();cr.classList.remove('play');void cr.offsetWidth;cr.classList.add('play')}
 function adUrl(){const p=P[Math.max(0,state.p)],m=M[Math.max(0,state.m)];return GUIDE+'?'+utmQ(p,m)}
