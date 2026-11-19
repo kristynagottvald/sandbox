@@ -120,7 +120,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .post:not(.ad){opacity:.4;filter:saturate(.6)}
 .ph0{display:flex;gap:8px;padding:12px 16px 0;align-items:flex-start}
 .ph0 .ph-av{width:48px;height:48px;border-radius:50%;flex:none;display:grid;place-items:center;font:600 16px var(--ui);color:#fff}
-.av-c,.gad .u .fv{background:#000 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-543 -115 230 230' fill='%23fff'%3E%3Ccircle cx='-481.7' cy='-13.1' r='7.63'/%3E%3Ccircle cx='-481.7' cy='14.1' r='7.63'/%3E%3Ccircle cx='-468.7' cy='-34.5' r='7.63'/%3E%3Ccircle cx='-468.7' cy='36.5' r='7.63'/%3E%3Ccircle cx='-445.2' cy='-47.1' r='7.63'/%3E%3Ccircle cx='-445.2' cy='47.6' r='7.63'/%3E%3Ccircle cx='-419.1' cy='-50.5' r='7.63'/%3E%3Ccircle cx='-419.1' cy='51.0' r='7.63'/%3E%3Ccircle cx='-395.3' cy='-45.6' r='7.63'/%3E%3Ccircle cx='-395.3' cy='46.7' r='7.63'/%3E%3Ccircle cx='-374.7' cy='-32.9' r='7.63'/%3E%3Ccircle cx='-374.7' cy='34.3' r='7.63'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.av-c,.gad .u .fv{background:#000 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-558 -130 260 260' fill='%23fff'%3E%3Ccircle cx='-481.7' cy='-13.1' r='7.63'/%3E%3Ccircle cx='-481.7' cy='14.1' r='7.63'/%3E%3Ccircle cx='-468.7' cy='-34.5' r='7.63'/%3E%3Ccircle cx='-468.7' cy='36.5' r='7.63'/%3E%3Ccircle cx='-445.2' cy='-47.1' r='7.63'/%3E%3Ccircle cx='-445.2' cy='47.6' r='7.63'/%3E%3Ccircle cx='-419.1' cy='-50.5' r='7.63'/%3E%3Ccircle cx='-419.1' cy='51.0' r='7.63'/%3E%3Ccircle cx='-395.3' cy='-45.6' r='7.63'/%3E%3Ccircle cx='-395.3' cy='46.7' r='7.63'/%3E%3Ccircle cx='-374.7' cy='-32.9' r='7.63'/%3E%3Ccircle cx='-374.7' cy='34.3' r='7.63'/%3E%3C/svg%3E") center/100% 100% no-repeat}
 .ph0 b{display:block;font:600 14px/1.3 var(--ui)}.ph0 small{display:block;font-size:12px;line-height:1.35;color:rgba(0,0,0,.6)}
 .ph0 .more{margin-left:auto;color:rgba(0,0,0,.6);font-size:18px;letter-spacing:2px;line-height:1}
 .txt{padding:8px 16px 10px;font-size:14px;line-height:1.43;color:rgba(0,0,0,.9)}
@@ -274,9 +274,10 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 
 
 /* the download confirmation over the guide page */
-.dlp{position:absolute;left:36.5%;bottom:24px;z-index:5;display:flex;align-items:center;gap:16px;background:#040a10;border:1px solid #24465c;padding:16px 26px 16px 16px;opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1);box-shadow:0 18px 50px rgba(0,0,0,.6)}
+.dlp{position:absolute;left:36.5%;bottom:24px;z-index:5;display:flex;align-items:center;gap:14px;background:#000;border:1px solid #3a4c60;border-radius:99px;padding:0 24px 0 8px;height:56px;white-space:nowrap;opacity:0;transform:scale(.97);pointer-events:none;transition:opacity .4s,transform .5s cubic-bezier(.2,.8,.2,1)}
 .dlp.on{opacity:1;transform:none}
-.dlp .dic{position:relative;width:56px;height:56px;flex:none}
+.dlp.done{pointer-events:auto}
+.dlp .dic{position:relative;width:38px;height:38px;flex:none}
 .dlp svg{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .dlp .ring{stroke:#2b3d52;stroke-width:1.5}
 .dlp .arc{stroke:url(#dlg);stroke-width:1.5;stroke-dasharray:44 120;transform-origin:50% 50%;animation:dlspin 1s linear infinite;transition:stroke-dasharray .6s ease}
@@ -287,10 +288,10 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .dlp .doc .ck{stroke-dasharray:20;stroke-dashoffset:20}
 .dlp.done .doc path{stroke-dashoffset:0}
 .dlp.done .doc .ck{transition-delay:.55s;stroke-dashoffset:0}
-.dlp b{display:block;font:400 24px/1.05 var(--serif);letter-spacing:-.01em}
-.dlp small{display:block;font:400 10.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-top:6px}
-.dlp small span{color:var(--cyan)}
-@media(max-width:760px){.dlp{left:12px;right:12px;bottom:12px}.dlp b{font-size:20px}}
+.dlp b{display:block;font:400 20px/1 var(--serif);letter-spacing:-.01em}
+.dlp small{display:block;font:400 12px/1.2 var(--sans);color:#8fa0ad;margin-top:4px}
+.dlp small a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px}
+@media(max-width:760px){.dlp{left:12px;right:12px;bottom:12px;white-space:normal;height:auto;min-height:56px;border-radius:28px;padding:8px 18px 8px 8px}.dlp b{font-size:18px}.dlp small{font-size:11px}}
 @media(prefers-reduced-motion:reduce){.dlp .arc{animation:none}}
 /* ---------- screen 3: performance ---------- */
 #s3{position:relative;background:#000;padding:24px 20px 56px}
@@ -461,7 +462,7 @@ tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
 <section class="scr" id="s2" aria-label="The guide the ad links to"><div class="wrap">
  <div class="crumb"><h2>Where the click lands</h2></div>
  <div class="browser"><div class="chrome"><div class="dots"><i></i><i></i><i></i></div><div class="url"><svg viewBox="0 0 24 24"><path d="M12 1a5 5 0 0 0-5 5v3H5v14h14V9h-2V6a5 5 0 0 0-5-5zm-3 8V6a3 3 0 0 1 6 0v3z"/></svg><b>clear.co</b><u id="urlq"></u></div></div>
-  <div class="vp" id="vp"><iframe id="fr" title="Clearco Marketing Attribution Guide" loading="lazy"></iframe><div class="dlp" id="dlp" role="status"><div class="dic"><svg viewBox="0 0 56 56" aria-hidden="true"><defs><linearGradient id="dlg" x1="0" x2="1"><stop offset="0" stop-color="#2447f5"/><stop offset="1" stop-color="#62e6f3"/></linearGradient></defs><circle class="ring" cx="28" cy="28" r="26"/><circle class="arc" cx="28" cy="28" r="26"/></svg><svg class="doc" viewBox="0 0 24 24" aria-hidden="true" style="inset:14px;width:28px;height:28px"><path d="M6 2.5h8l4.5 4.5v14.5H6z"/><path d="M14 2.5V7h4.5"/><path class="ck" d="M9.2 14.6l2.2 2.2 4-4.4"/></svg></div><div><b>Guide will download shortly</b><small>Sent to <span id="dlTo"></span></small></div></div></div></div>
+  <div class="vp" id="vp"><iframe id="fr" title="Clearco Marketing Attribution Guide" loading="lazy"></iframe><div class="dlp" id="dlp" role="status"><div class="dic"><svg viewBox="0 0 56 56" aria-hidden="true"><defs><linearGradient id="dlg" x1="0" x2="1"><stop offset="0" stop-color="#2447f5"/><stop offset="1" stop-color="#62e6f3"/></linearGradient></defs><circle class="ring" cx="28" cy="28" r="26"/><circle class="arc" cx="28" cy="28" r="26"/></svg><svg class="doc" viewBox="0 0 24 24" aria-hidden="true" style="inset:9px;width:20px;height:20px"><path d="M6 2.5h8l4.5 4.5v14.5H6z"/><path d="M14 2.5V7h4.5"/><path class="ck" d="M9.2 14.6l2.2 2.2 4-4.4"/></svg></div><div><b>Guide will download shortly</b><small><a href="https://www.clear.co/" target="_blank" rel="noopener">Click here</a> to download if download doesn’t pop up</small></div></div></div></div>
  <div class="utm" aria-label="Tracking parameters"><span>utm_source<b id="uSrc"></b></span><span>utm_medium<b id="uMed"></b></span><span>utm_campaign<b>attribution_guide</b></span><span>utm_content<b id="uCon"></b></span></div>
  <div class="next"><button class="btn ghost" data-go="1">← Back to the ad</button><button class="btn solid" data-go="3">See how it performed →</button></div>
 </div></section>
@@ -635,8 +636,7 @@ async function playDownload(){const tk=++dlTk,dl=$('dlp'),o=FR[0];dl.classList.r
   for(const c of m.email){i.value+=c;await wait(38);if(tk!==dlTk)return}
   fs.slice(1).forEach(s=>s.querySelector('input').value=m.email);
   await wait(500);if(tk!==dlTk)return;b.classList.add('press');await wait(160);b.classList.remove('press');
-  $('dlTo').textContent=m.email;
-  {const vw=$('vp').clientWidth;if(vw>=760){const sc=vw/1280,r=f.getBoundingClientRect();dl.style.minWidth=Math.round(r.width*sc)+'px';dl.style.left=Math.round(r.left*sc)+'px';dl.style.bottom='auto';dl.style.top=Math.round((r.top+r.height/2)*sc-dl.offsetHeight/2)+'px'}else{dl.style.minWidth=dl.style.left=dl.style.top=dl.style.bottom=''}}
+  {const vw=$('vp').clientWidth;if(vw>=760){const sc=vw/1280,ri=i.getBoundingClientRect(),rb=b.getBoundingClientRect();dl.style.width=Math.round((rb.right-ri.left)*sc)+'px';dl.style.height=Math.round(ri.height*sc)+'px';dl.style.left=Math.round(ri.left*sc)+'px';dl.style.bottom='auto';dl.style.top=Math.round(ri.top*sc)+'px'}else{dl.style.width=dl.style.height=dl.style.left=dl.style.top=dl.style.bottom=''}}
   dl.classList.add('on');
   await wait(2000);if(tk!==dlTk)return;dl.classList.add('done')}catch(e){}}
 function loadPage(o){fit(o);if(!o.on){o.on=true;o.fr.onload=()=>{syncFrame(o);setTimeout(()=>syncFrame(o),400);if(o===FR[0]&&state.s===2)playDownload();if(o===FR[1])lockForms(o,true)};o.fr.src=adUrl()}else{syncFrame(o);if(o===FR[0])playDownload()}}
