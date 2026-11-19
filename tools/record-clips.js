@@ -229,6 +229,20 @@ const APPS = {
       await at(t0, 4600, () => domClick(p, '#tog button[data-s="3"]'));
       await sleep(1700);
     } },
+  // the Clearco attribution guide ad on LinkedIn (viewer: DTC founder): the blurbs drift up, switch the marketer to a paid media manager so the copy follows, step the same ad through Facebook, Google Search and YouTube, click it through to the guide, then on to the performance dashboard
+  'clearco-paid-ad-pipeline': { vp: [1280, 769], http: true, crop: [0, 49, 1280, 720], ready: 1400, q: 36,
+    setup: async (p) => { await p.evaluate(() => { __pp.pills.freeze(3.6); __pp.bl.stop(); __pp.bl.instant(); }); },
+    run: async (p) => {
+      const t0 = Date.now();
+      await p.evaluate(() => __pp.bl.start(900));
+      await at(t0, 1400, () => p.evaluate(() => __pp.setMarketer(2)));
+      await at(t0, 2200, () => p.evaluate(() => __pp.setPlatform(1)));
+      await at(t0, 2900, () => p.evaluate(() => __pp.setPlatform(2)));
+      await at(t0, 3600, () => p.evaluate(() => __pp.setPlatform(3)));
+      await at(t0, 4400, () => domClick(p, '#cr'));
+      await at(t0, 5400, () => domClick(p, '#tog button[data-s="3"]'));
+      await sleep(1000);
+    } },
   'location-hero': { vp: [1280, 769], crop: [0, 49, 1280, 720],
     // park on the first two blurbs, let them drift up and a third pop in, and switch the copy to Miami halfway
     setup: async (p) => { await p.evaluate(() => { lp.stop(); lp.set(0); bl.stop(); bl.instant(); }); },
