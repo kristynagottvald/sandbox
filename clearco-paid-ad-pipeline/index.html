@@ -660,9 +660,9 @@ function loadPage(o){fit(o);if(!o.on){o.on=true;o.fr.onload=()=>{syncFrame(o);se
 addEventListener('resize',()=>{if(state.s===2)fit(FR[0]);if(state.s===3){fit(FR[1]);drawDash()}});
 
 /* ---------- 3: performance ---------- */
-const DAYS=14,DOW=[.45,1.1,1.2,1.15,1.1,.9,.5]; // Nov 1 2026 is a Sunday
+const DAYS=14,DOW=[.45,1.1,1.2,1.15,1.1,.9,.5]; // Nov 1 2022 is a Tuesday (DOW is indexed from Sunday)
 const rnd=(a,b)=>{const x=Math.sin(a*127.1+b*311.7)*43758.5453;return x-Math.floor(x)};
-const D=M.map((m,mi)=>P.map((p,pi)=>{const w=[...Array(DAYS)].map((_,d)=>DOW[d%7]*(1+d*.012)*(1+(rnd(mi*4+pi+1,d)-.5)*.16));const sw=w.reduce((a,b)=>a+b,0),c=mi*4+pi;
+const D=M.map((m,mi)=>P.map((p,pi)=>{const w=[...Array(DAYS)].map((_,d)=>DOW[(d+2)%7]*(1+d*.012)*(1+(rnd(mi*4+pi+1,d)-.5)*.16));const sw=w.reduce((a,b)=>a+b,0),c=mi*4+pi;
  return w.map((x,d)=>{const impr=Math.round(m.impr*p.imp*x/sw),clicks=Math.round(impr*m.ctr*p.ctr*(1+(rnd(c+9,d)-.5)*.14)),lpv=Math.round(clicks*m.lp*p.lp*(1+(rnd(c+3,d)-.5)*.04)),leads=Math.round(lpv*m.cv*p.cv*(1+(rnd(c+5,d)-.5)*.4));
   return{impr,clicks,lpv,leads,spend:clicks*m.cpc*p.cpc}})}));
 const sum=(arr,k)=>arr.reduce((a,x)=>a+x[k],0);
@@ -675,7 +675,7 @@ const ALLP=[0,1,2,3];
 function drawDash(){
  const ms=state.m<0?M.map((_,i)=>i):[state.m],ps=state.p<0?ALLP:[state.p],{days,t}=agg(ms,ps),
   plab=state.p<0?'All platforms':P[state.p].n,mlab=state.m<0?'All marketers':M[state.m].seg,lab=mlab+' · '+plab;
- $('dsub').textContent=lab+' · Nov 1 – 14, 2026';
+ $('dsub').textContent=lab+' · Nov 1 – 14, 2022';
  const ctr=t.clicks/t.impr,cpc=t.spend/t.clicks,cvr=t.leads/t.lpv,cpl=t.spend/t.leads;
  const K=[['Impressions',fmt(t.impr),'+9.1%',0,''],['Clicks',fmt(t.clicks),'+12.4%',0,''],['Click-through rate',pct(ctr),'+0.06 pts',0,''],['Cost per click',usd(cpc),'−4.8%',0,''],
   ['Guide page views',fmt(t.lpv),'+11.7%',0,''],['Guide downloads',fmt(t.leads),'+18.3%',1,'hl'],['Conversion rate',pct(cvr,1),'+0.4 pts',0,''],['Cost per download',usd(cpl),'−11.2%',0,'']];
