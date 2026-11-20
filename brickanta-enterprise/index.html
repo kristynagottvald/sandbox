@@ -522,11 +522,12 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 /* stacked panels: each panel's headline stays visible as the next one slides over it */
 @media(min-width:861px){
 .sp{top:calc(84px + var(--i)*92px);min-height:clamp(540px,62vh,580px);margin-bottom:calc((3 - var(--i))*92px)}
-.sps{padding-bottom:clamp(24px,6vh,64px)}
+.sps{padding-bottom:0}
 .sp-in{padding-top:52px}
 .sp h3{white-space:nowrap;max-width:none;font-size:clamp(20px,2.05vw,30px);margin-bottom:12px}
 .sp p{max-width:40ch}
-.sp .ui{top:112px;bottom:auto;transform:none}
+.sp .vis{display:grid;grid-template-rows:minmax(100px,1fr) auto 1fr}
+.sp .ui{position:relative;grid-row:2;left:auto;right:auto;top:auto;bottom:auto;margin:0 10% 0 -11%;transform:none}
 .js .sp .ui{transform:translateY(26px)}
 .js .sp.in .ui{transform:none}
 }
@@ -538,6 +539,10 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 .gt-t{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-bottom:12px}
 .gt-t>span:first-child{font-size:inherit}
 .gt-t>span:last-child{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:500;border:1px solid rgba(14,31,76,.3);padding:6px 11px;background:#fff;white-space:nowrap}
+/* less space under the last stacked panel */
+.sps{padding-bottom:0}
+.sp.s4{margin-bottom:0}
+#different{padding-bottom:clamp(36px,4vw,60px)}
 /* clip mode: no auto cycling, everything already in */
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.hl,.step .sbar::before{transform:none}.tile .in-a,.tile .in-b{transform:none}}
 </style>
