@@ -170,6 +170,7 @@ function draw(){
   x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,S,S);
   x.fillStyle=mixc(BGS[(day+3)%4],BGS[day%4],eio(cl(lt/.5)));x.fillRect(0,0,S,S);
   const ex=1-eio(cl((lt-(D-.7))/.5));
+  x.translate(-7,-40); /* centre the stamp and its drop shadow on the canvas */
   /* square perforated stamp the bouquet sits on */
   const W=800,pop=Math.max(.0001,eob(cl(lt/.6))),sk2=1+.012*Math.sin(T*1.4);
   x.save();x.translate(540,572);x.scale(pop*sk2,pop*sk2);x.rotate((1-pop)*-.2+Math.sin(T*1.2)*.004);
