@@ -26,6 +26,10 @@ canvas{display:block;aspect-ratio:1/1;width:min(100%,calc(100dvh - 49px - 120px)
 .ctl .b.hot{background:var(--btn);border-color:var(--btn)}
 .ctl input{height:34px;width:230px;max-width:100%;padding:0 14px;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08)}
 button:focus-visible,input:focus-visible{outline:2px solid #EAF265;outline-offset:2px}
+.post nav.back,.post .ctl{display:none}
+.post,.post html{background:transparent}
+.post .wrap{padding:0;display:block}
+.post canvas{width:100%}
 .clip .ctl{display:none}
 .clip .wrap{padding:0}
 .clip canvas{width:min(100vw,calc(100dvh - 49px))}
@@ -45,12 +49,14 @@ button:focus-visible,input:focus-visible{outline:2px solid #EAF265;outline-offse
 <script>
 (function(){
 const CLIP=location.hash==='#clip';
+const POST=location.hash==='#post'; /* embedded in the LinkedIn mockup: no chrome, no auto advance, the host picks the day */
 if(CLIP)document.body.classList.add('clip');
+if(POST){document.body.classList.add('post');document.documentElement.style.background='transparent'}
 const LW=4,S=1080;
 const C={bg:'#F8E0F9',shadow:'#F1B9F0',navy:'#1F2149',tab:'#2B2D6D',mag:'#B042C2',lime:'#C9DA6A',blue:'#5049BC',card:'#D244DE',panel:'#E084E9',pale:'#E88EEE',yellow:'#EAF265',btn:'#4534F2',btnDown:'#2A1BC4',plus:'#9382F4',chip:'#D489E4',chipInk:'#8F1A96',white:'#fff'};
 const titles=['Tangible','Trusted','Opened','Personal','Memorable','Measurable','Targeted','Responsive','Seasonal','Lasting','Delivered','Cherished'];
-const D=4.4;
-let day=0,lt=CLIP?1.9:0,playing=true,speed=CLIP?2:1,T=0;
+const D=POST?1e9:4.4;
+let day=0,lt=CLIP?1.9:POST?2.4:0,playing=true,speed=CLIP?2:1,T=0;
 const cv=document.getElementById('c'),x=cv.getContext('2d');
 
 /* ---------- helpers ---------- */
@@ -211,6 +217,7 @@ document.getElementById('rec').onclick=function(){
   mr.start();setTimeout(()=>mr.stop(),D*1000-60)};
 addEventListener('keydown',e=>{if(e.target===ttl)return;if(e.key==='ArrowRight')go(day+1);if(e.key==='ArrowLeft')go(day-1);if(e.key===' '){e.preventDefault();pp.click()}});
 window.__ad={go,play(){playing=true},pause(){playing=false},seek(d,t){day=d;lt=t;playing=false;sync()},D};
+addEventListener('message',e=>{if(POST&&e.data&&typeof e.data.day==='number')go(e.data.day)});
 sync();requestAnimationFrame(tick);
 })();
 </script>

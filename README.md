@@ -18,7 +18,7 @@ The home page is the best way to browse. Every project is a tile that plays a 6 
 | **Tools** | Small utilities for brand and marketing production | Clearco Paid Ad Pipeline, Thread Brand Guidelines, Thread Conference Landing Page, Location Hero, Conference Post Generator |
 | **Landing Page** | Campaign landing page concepts | Brickanta Enterprise, Klir Landing Page, Side Reveal, Clearco Attribution Guide, Clearco Logistics Guide |
 | **Email** | Email design concepts | Grubclub Offer Emails |
-| **Mockup** | Product and analytics UI mockups | Video Synopsis, A/B Test: PSC Page Variants |
+| **Mockup** | Product and analytics UI mockups | Lob 12 Days LinkedIn, Video Synopsis, A/B Test: PSC Page Variants |
 
 `apps.json` is the source of truth for the full list, with a description of each project.
 
