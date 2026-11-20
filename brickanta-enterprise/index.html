@@ -457,7 +457,7 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 .brk{width:20px;height:20px;flex:none;display:grid;place-items:center}
 .brk i{display:block;width:20px;height:9px;background:var(--coral2);--c:4px;clip-path:polygon(0 0,calc(100% - var(--c)) 0,100% var(--c),100% 100%,var(--c) 100%,0 calc(100% - var(--c)));animation:brkm 1.3s cubic-bezier(.65,0,.35,1) infinite}
 @keyframes brkm{0%,100%{width:20px;height:9px}50%{width:9px;height:20px}}
-.gt.fixed .brk i{animation:none;width:18px;height:18px;--c:7.2px}
+.gt.fixed .brk i{animation:none;width:14px;height:14px;--c:5.6px}
 @keyframes aispin{0%,80%{transform:rotate(0)}100%{transform:rotate(90deg)}}
 .ai-t{font-size:clamp(13px,1.15vw,14.5px);line-height:1.45;min-height:3em}
 .ai-t.typing::after{content:"";display:inline-block;width:7px;height:1em;background:var(--coral2);margin-left:2px;vertical-align:-2px;animation:aidot .7s steps(2) infinite}
@@ -474,7 +474,7 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 .gt.flag .bar.pl{background:rgba(232,88,79,.35);box-shadow:0 0 0 2px var(--coral);animation:flagp 1s ease-in-out infinite}
 @keyframes flagp{50%{box-shadow:0 0 0 4px rgba(232,88,79,.45)}}
 .gt.fixed .bar.pl{left:56%!important;animation:none;box-shadow:none;background:rgba(14,31,76,.13)}
-@media(prefers-reduced-motion:reduce){.brk i,.ai-st::before,.ai-t::after{animation:none!important}.brk i{width:18px;height:18px;--c:7.2px}}
+@media(prefers-reduced-motion:reduce){.brk i,.ai-st::before,.ai-t::after{animation:none!important}.brk i{width:14px;height:14px;--c:5.6px}}
 
 
 /* phones: the card sits in the flow so the image area grows to hold it; panels stack normally */
