@@ -182,15 +182,16 @@ const MIRROR=[0,1,0,0,1,1,0,1,0,1,0,1],GROUPS=[[13,14,15,16,17],[20,21,22]];
 function place(its){const d=day,sd=d*17.3,P=its.map(it=>[it[1],it[2]]);
   GROUPS.forEach(g=>{const sh=(d*2+1)%g.length;g.forEach((k,n)=>{P[k]=[its[g[(n+sh)%g.length]][1],its[g[(n+sh)%g.length]][2]]})});
   const ga=(rn(d*4.7+1)-.5)*.7,ca=Math.cos(ga),sa=Math.sin(ga),gs=.94+rn(d*2.3)*.14,m=MIRROR[d];
-  return its.map((it,i)=>{let px=P[i][0],py=P[i][1],rot=it[3],sc=1;
+  return its.map((it,i)=>{if(i===3)return{px:it[1],py:it[2],rot:it[3],sc:1,fl:1,st:1};
+    let px=P[i][0],py=P[i][1],rot=it[3],sc=1;
     if(i!==3){px+=(rn(sd+i*3.1)-.5)*150;py+=(rn(sd+i*5.3)-.5)*130;sc=.82+rn(sd+i*7.7)*.4;rot+=(rn(sd+i*2.9)-.5)*1.3}
     const ox=px-750,oy=py-590;px=750+(ox*ca-oy*sa)*gs;py=590+(ox*sa+oy*ca)*gs;rot+=ga;
     if(m){px=1500-px;if(i!==3)rot=-rot}
-    px=cl(px,150,1350);py=cl(py,70,1100);if(it[6])py=Math.max(py,750); /* front pieces stay below the title */
+    px=cl(px,150,1350);py=560+(py-560)*.78;py=cl(py,200,930);if(it[6])py=Math.max(py,750); /* front pieces stay below the title */
     return{px,py,rot,sc,fl:m&&i!==3?-1:1}})}
 function sceneDraw(front,gm){const its=items(),ex=gm,PL=place(its);
-  its.forEach((it,i)=>{if(!!it[6]!==front)return;const pp=Math.max(.0001,eob(cl((lt-.1-it[4]*1.6)/.6))*ex),q=PL[i];
-    x.save();x.translate(q.px,q.py);x.rotate(q.rot+it[5]*Math.sin(T*1.3+i)*1.0+(1-cl((lt-.1-it[4]*1.6)/.6))*-.5);const br=1+.018*Math.sin(T*2+i*1.7);x.scale(pp*br*q.sc*q.fl,pp*br*q.sc);
+  its.forEach((it,i)=>{if(!!it[6]!==front)return;const pp=i===3?1:Math.max(.0001,eob(cl((lt-.1-it[4]*1.6)/.6))*ex),q=PL[i];
+    x.save();x.translate(q.px,q.py);x.rotate(q.st?q.rot:q.rot+it[5]*Math.sin(T*1.3+i)*1.0+(1-cl((lt-.1-it[4]*1.6)/.6))*-.5);const br=q.st?1:1+.018*Math.sin(T*2+i*1.7);x.scale(pp*br*q.sc*q.fl,pp*br*q.sc);
     FLAT=i%2===1;if(front)x.globalAlpha=.8;it[0]();if(i===3)circM=x.getTransform();x.restore()})}
 /* Lob logo sits in the purple centre circle and moves with it */
 let circM=null;
@@ -207,21 +208,28 @@ function stampPath(w,h,n,m){const pw=w/n,ph=h/m;
   const edge=(x0,y0,x1,y1,nx,ny,cnt)=>{for(let i=0;i<cnt;i++){const ax=x0+(x1-x0)*i/cnt,ay=y0+(y1-y0)*i/cnt,bx=x0+(x1-x0)*(i+1)/cnt,by=y0+(y1-y0)*(i+1)/cnt,cx=(ax+bx)/2,cy=(ay+by)/2,rr=Math.hypot(bx-ax,by-ay)/2*.72;
     const ta=Math.atan2(ay-cy,ax-cx),tb=Math.atan2(by-cy,bx-cx),tn=Math.atan2(ny,nx);const cw=((tn-ta+Math.PI*2)%(Math.PI*2))<Math.PI;x.lineTo(ax,ay);x.lineTo(cx+Math.cos(ta)*rr,cy+Math.sin(ta)*rr);x.arc(cx,cy,rr,ta,tb,!cw);x.lineTo(bx,by)}};
   const L=-w/2,R=w/2,T0=-h/2,B=h/2;x.beginPath();x.moveTo(L,T0);x.lineTo(L+pw,T0);edge(L+pw,T0,R-pw,T0,0,1,n-2);x.lineTo(R,T0);x.lineTo(R,T0+ph);edge(R,T0+ph,R,B-ph,-1,0,m-2);x.lineTo(R,B);x.lineTo(R-pw,B);edge(R-pw,B,L+pw,B,0,-1,n-2);x.lineTo(L,B);x.lineTo(L,B-ph);edge(L,B-ph,L,T0+ph,1,0,m-2);x.closePath()}
-function bigText(str,y,maxW,ex){const f='900 200px "Archivo Black","Arial Black",Arial,sans-serif';x.save();x.font=f;x.letterSpacing='-8px';x.textAlign='left';x.textBaseline='alphabetic';
-  x.letterSpacing='-8px';let sz=170;titles.forEach(t=>{const w=x.measureText(t.toLowerCase()).width;sz=Math.min(sz,200*maxW/w*1.0)});x.font=f.replace('200px',sz+'px');x.letterSpacing=(-.04*sz)+'px';
-  const cw=[...str].map(c=>x.measureText(c).width),tot=cw.reduce((a,b)=>a+b,0);let cx=540-tot/2;
-  [...str].forEach((c,i)=>{const pp=eob(cl((lt-.5-i*.045)/.5))*ex;x.save();x.globalAlpha=cl(pp*1.4);x.translate(cx,y+(1-pp)*70);x.fillStyle=NAVY;x.fillText(c,0,0);x.restore();cx+=cw[i]});x.restore()}
+let prevW=null; /* the word on screen before this day started: it backspaces away, then the new word types in */
+function bigText(y,maxW){const f='900 200px "Archivo Black","Arial Black",Arial,sans-serif';x.save();x.font=f;x.textAlign='left';x.textBaseline='alphabetic';
+  let sz=170;x.letterSpacing='-8px';titles.forEach(t=>{const w=x.measureText(t.toLowerCase()).width;sz=Math.min(sz,200*maxW/w*1.0)});x.font=f.replace('200px',sz+'px');x.letterSpacing=(-.04*sz)+'px';
+  const cur=titles[day].toLowerCase(),old=prevW&&prevW.toLowerCase()!==cur?prevW.toLowerCase():null,BK=.05,TY=.075;
+  let shown=cur,full=cur,typing=false;
+  if(old){const nb=old.length*BK;full=old;
+    if(lt<nb){shown=old.slice(0,Math.max(0,old.length-Math.ceil(lt/BK)));typing=true}
+    else{full=cur;const k=Math.min(cur.length,Math.floor((lt-nb-.12)/TY)+1);shown=cur.slice(0,Math.max(0,k));typing=lt<nb+.12+cur.length*TY+.4}}
+  const x0=540-x.measureText(full).width/2;x.fillStyle=NAVY;x.fillText(shown,x0,y);
+  if(old&&(typing||lt<(old.length*BK+.12+cur.length*TY+.45))){const cx=x0+x.measureText(shown).width+sz*.02;if(Math.floor(lt*5)%2===0||lt<old.length*BK+.12+cur.length*TY)x.fillRect(cx,y-sz*.74,sz*.05,sz*.8)}
+  x.restore()}
 function smallText(str,y,size,delay,ex,col){const p=eio(cl((lt-delay)/.4))*ex,ls=size*.3;x.save();x.globalAlpha=p;x.font='700 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign='center';x.fillStyle=col;x.fillText(str.toUpperCase(),540+ls/2,y+(1-p)*18);x.restore()}
 let corner='12 Days of Holiday';
-function cornerText(str,px,py,align,delay,ex,serif){const p=eio(cl((lt-delay)/.4))*ex,size=26,ls=size*.3;x.save();x.globalAlpha=p;x.font=serif?'400 '+size+'px Georgia,"Times New Roman",Times,serif':'400 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign=align;x.fillStyle=NAVY;x.fillText(str.toUpperCase(),px+(align==='right'?ls:0),py+(1-p)*14);x.restore()}
+function cornerText(str,px,py,align,delay,ex,serif){const p=1,size=26,ls=size*.3;x.save();x.globalAlpha=p;x.font=serif?'400 '+size+'px Georgia,"Times New Roman",Times,serif':'400 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign=align;x.fillStyle=NAVY;x.fillText(str.toUpperCase(),px+(align==='right'?ls:0),py+(1-p)*14);x.restore()}
 function draw(){
   x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,S,S);
   x.fillStyle=mixc(BGS[(day+1)%2],BGS[day%2],eio(cl(lt/.5)));x.fillRect(0,0,S,S);
   const ex=1-eio(cl((lt-(D-.7))/.5));
   x.translate(-7,-40); /* centre the stamp and its drop shadow on the canvas */
   /* square perforated stamp the bouquet sits on */
-  const W=800,pop=Math.max(.0001,eob(cl(lt/.6))),sk2=1+.012*Math.sin(T*1.4);
-  x.save();x.translate(540,572);x.scale(pop*sk2,pop*sk2);x.rotate((1-pop)*-.2+Math.sin(T*1.2)*.004);
+  const W=800; /* the stamp, its labels and the circle logo never animate; only the botanicals and the word do */
+  x.save();x.translate(540,572);
   x.save();x.translate(14,16);stampPath(W,W,34,34);x.fillStyle='rgba(31,33,73,.2)';x.fill();x.restore();
   stampPath(W,W,34,34);x.fillStyle=CREAM;x.fill();
   x.beginPath();x.roundRect(-W/2+30,-W/2+30,W-60,W-60,4);x.strokeStyle='rgba(31,33,73,.35)';x.lineWidth=2.5;x.stroke();
@@ -229,7 +237,7 @@ function draw(){
   x.translate(-540,-572);
   const scene=front=>{x.save();x.translate(540,572);x.scale(.6,.6);x.translate(-750,-590);sceneDraw(front,ex);x.restore()};
   scene(false);circleLogo();
-  bigText(titles[day].toLowerCase(),596,640,ex);
+  bigText(596,640);
   scene(true);cornerText('Day '+(day+1),204,908,'left',.5,ex,true);cornerText(corner,876,252,'right',.6,ex,true);
   x.restore();
 }
@@ -238,13 +246,13 @@ function draw(){
 let last=performance.now();
 function tick(now){
   const dt=Math.min(.1,(now-last)/1000);last=now;T+=dt;
-  if(playing){lt+=dt*speed;while(lt>=D){lt-=D;day=(day+1)%12;sync()}}
+  if(playing){lt+=dt*speed;while(lt>=D){lt-=D;prevW=titles[day];day=(day+1)%12;sync()}}
   draw();requestAnimationFrame(tick)}
 /* ---------- UI ---------- */
 const dEl=document.getElementById('days'),ttl=document.getElementById('ttl');
 for(let i=0;i<12;i++){const b=document.createElement('button');b.textContent=i+1;b.setAttribute('aria-label','Day '+(i+1));b.onclick=()=>go(i);dEl.appendChild(b)}
 function sync(){[...dEl.children].forEach((b,i)=>b.classList.toggle('on',i===day));if(document.activeElement!==ttl)ttl.value=titles[day]}
-function go(i){day=((i%12)+12)%12;lt=0;sync()}
+function go(i){prevW=titles[day];day=((i%12)+12)%12;lt=0;sync()}
 ttl.oninput=()=>{titles[day]=ttl.value||' '};
 const cor=document.getElementById('cor');cor.oninput=()=>{corner=cor.value};
 const pp=document.getElementById('pp');pp.onclick=()=>{playing=!playing;pp.textContent=playing?'Pause':'Play'};
@@ -257,7 +265,7 @@ document.getElementById('rec').onclick=function(){
   mr.onstop=()=>{const a=document.createElement('a');a.download='lob-12-days-day-'+(day+1)+'.webm';a.href=URL.createObjectURL(new Blob(ch,{type:'video/webm'}));a.click();speed=keep;b.disabled=false;b.textContent='Record day (WebM)'};
   mr.start();setTimeout(()=>mr.stop(),D*1000-60)};
 addEventListener('keydown',e=>{if(e.target===ttl)return;if(e.key==='ArrowRight')go(day+1);if(e.key==='ArrowLeft')go(day-1);if(e.key===' '){e.preventDefault();pp.click()}});
-window.__ad={go,play(){playing=true},pause(){playing=false},seek(d,t){day=d;lt=t;playing=false;sync()},D};
+window.__ad={go,play(){playing=true},pause(){playing=false},seek(d,t){prevW=null;day=d;lt=t;playing=false;sync()},D};
 addEventListener('message',e=>{if(POST&&e.data&&typeof e.data.day==='number')go(e.data.day)});
 sync();requestAnimationFrame(tick);
 })();
