@@ -236,7 +236,7 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 .cta{--s:clamp(320px,46vw,740px);min-height:clamp(560px,50vw,780px);display:flex;align-items:center}.cta .wrap{width:100%;position:static}
 .cta .mk{position:absolute;right:calc(var(--s)*-.16);bottom:calc(var(--s)*-.24);width:var(--s);aspect-ratio:1;overflow:hidden}
 .cta p{margin-top:22px;font-size:19px;max-width:34ch}
-@media(max-width:860px){.cta .mk{opacity:.18}}
+
 
 /* footer */
 footer{background:var(--plum);color:var(--ice);padding:clamp(48px,6vw,88px) 0 28px}
@@ -481,6 +481,14 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 .js .sp .ui{transform:translateY(22px)}
 .js .sp.in .ui{transform:none}
 .tlc em.fd{display:none}
+}
+
+
+/* phones: the footer visual sits below the copy at full strength, bleeding off the right and bottom */
+@media(max-width:860px){
+.cta{display:block;min-height:0;padding-bottom:0}
+.cta .wrap{position:relative}
+.cta .mk{position:relative;right:calc(-1*(var(--pad) + 13vw));bottom:auto;display:block;width:88vw;margin:40px 0 -13vw auto;opacity:1}
 }
 
 /* clip mode: no auto cycling, everything already in */
