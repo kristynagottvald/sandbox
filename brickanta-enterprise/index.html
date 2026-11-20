@@ -289,18 +289,9 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 /* why Brickanta: panels stack and overlap as you scroll */
 .sps{display:flex;flex-direction:column;padding-bottom:clamp(24px,6vh,64px)}
 .sp{--pbg:var(--blue);--pfg:var(--navy);--pacc:var(--navy);--pacct:var(--ice);position:sticky;top:calc(84px + var(--i)*26px);min-height:clamp(430px,66vh,620px);margin-bottom:clamp(18px,5vh,56px);background:var(--pbg);color:var(--pfg)}
-.sp.s2{--pbg:var(--navy);--pfg:var(--ice);--pacc:var(--ice);--pacct:var(--navy)}
-.sp.s3{--pbg:var(--coral);--pfg:var(--navy);--pacc:var(--navy);--pacct:#fff}
-.sp.s4{--pbg:var(--plum);--pfg:var(--ice);--pacc:var(--coral);--pacct:var(--navy)}
 .sp-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(24px,4vw,72px);padding:clamp(22px,3.2vw,48px);align-items:start;height:100%}
 .sp h3{font-size:clamp(24px,2.8vw,42px);font-weight:400;letter-spacing:-.03em;line-height:1.08;margin-bottom:14px}
 .sp p{font-size:clamp(16px,1.4vw,19px);line-height:1.5;opacity:.9;max-width:42ch}
-.lay{display:grid;gap:8px;align-self:center}
-.lay div{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:15px 18px;border:1.5px solid currentColor;opacity:.4;font-size:14px;transition:opacity .3s}
-.lay div b{font-family:var(--display);font-weight:500;font-size:16px;letter-spacing:-.01em}
-.lay div span{text-align:right;font-size:13.5px}
-.lay div.on{opacity:1;background:var(--pacc);color:var(--pacct);border-color:var(--pacc)}
-.lay div:nth-child(2){margin-left:16px}.lay div:nth-child(3){margin-left:32px}.lay div:nth-child(4){margin-left:48px}.lay div:nth-child(5){margin-left:64px}.lay div:nth-child(6){margin-left:80px}
 @media(max-width:860px){.sp{top:calc(78px + var(--i)*16px);min-height:0}.sp-in{grid-template-columns:1fr}.sp-n{font-size:56px;margin-bottom:16px}.lay div:nth-child(n){margin-left:0}.lay div span{display:none}}
 @media(prefers-reduced-motion:reduce){.sp{position:relative;top:0}}
 
@@ -311,13 +302,27 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 
 /* the photo is cut by the line drawn on the panel: a vertical edge at 65%, then a diagonal up to the right edge */
 .sp{overflow:hidden}
-.sp-img{position:absolute;inset:0;clip-path:polygon(65% 100%,65% 75%,100% 32%,100% 100%)}
-.sp-img img{display:block;width:100%;height:100%;object-fit:cover;object-position:85% 60%;filter:grayscale(1) contrast(1.05)}
-.sp.s1 .sp-img img,.sp.s3 .sp-img img{mix-blend-mode:multiply}
-.sp.s2 .sp-img img,.sp.s4 .sp-img img{opacity:.55}
-.sp-in{position:relative;z-index:1}
-.lay div:not(.on){opacity:1;background:color-mix(in srgb,var(--pbg) 62%,transparent);backdrop-filter:blur(1px)}
-@media(max-width:860px){.sp-img{clip-path:polygon(0 78%,100% 52%,100% 100%,0 100%)}}
+
+
+/* why Brickanta: every panel is the same blue with navy type; a square texture holds a UI card for that point */
+.sp,.sp.s1,.sp.s2,.sp.s3,.sp.s4{--pbg:var(--blue);--pfg:var(--navy);--pacc:var(--navy);--pacct:var(--ice)}
+.sp{overflow:hidden}
+.sp-in{position:relative;align-items:stretch}
+.vis{position:relative;min-height:clamp(320px,34vw,470px)}
+.vis .sp-img{position:absolute;inset:0}
+.vis .sp-img img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.1);mix-blend-mode:multiply;opacity:.85}
+.ui{position:absolute;left:-9%;right:12%;bottom:11%;background:var(--paper);color:var(--navy);padding:clamp(16px,2vw,28px);z-index:1}
+.ui .hd{display:flex;justify-content:space-between;align-items:center;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-family:var(--display);padding-bottom:12px;margin-bottom:4px;border-bottom:1px solid rgba(14,31,76,.25)}
+.ui .hd i{font-style:normal;font-weight:500;letter-spacing:.04em;opacity:.6;text-transform:none;font-family:var(--sans)}
+.ui .big{font-family:var(--display);font-size:clamp(17px,1.9vw,26px);letter-spacing:-.02em;line-height:1.15;padding:12px 0 8px}
+.ui .r{display:grid;grid-template-columns:92px 1fr;gap:12px;padding:10px 0;border-top:1px solid rgba(14,31,76,.16);font-size:clamp(12px,1.1vw,14.5px);line-height:1.35}
+.ui .r b{font-weight:600;font-size:.8em;letter-spacing:.1em;text-transform:uppercase;opacity:.6;padding-top:.25em}
+.ui em{display:inline-block;margin-top:5px;margin-right:6px;font-style:normal;font-size:.8em;font-weight:500;padding:2px 9px;background:var(--navy);color:#fff}
+.ui em.hot{background:var(--coral)}
+.ui .btns{display:flex;gap:8px;padding-top:12px;border-top:1px solid rgba(14,31,76,.16);margin-top:2px}
+.ui .btns span{font-size:12.5px;font-weight:500;padding:8px 14px;background:var(--navy);color:#fff}
+.ui .btns span+span{background:transparent;color:var(--navy);box-shadow:inset 0 0 0 1px rgba(14,31,76,.4)}
+@media(max-width:860px){.vis{min-height:300px}.ui{left:4%;right:8%;bottom:8%}.ui .r{grid-template-columns:78px 1fr}}
 
 /* clip mode: no auto cycling, everything already in */
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.hl,.step .bar::before{transform:none}.tile .in-a,.tile .in-b{transform:none}}
@@ -468,10 +473,10 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
       <p class="lede rv" style="--d:.1s">Brickanta connects the best AI models to your project documents, your standards and your way of working.</p>
     </div>
     <div class="sps">
-      <article class="sp s1" style="--i:0"><div class="sp-img" aria-hidden="true"><img src="sp-1.webp" alt="" loading="lazy"></div><div class="sp-in"><div><h3>Construction know-how, written down</h3><p>Our construction engineers and in-house lawyer build the checks, so you don’t have to write the prompts.</p></div><div class="lay" aria-label="How Brickanta is built"><div><b>Brickanta</b><span>Chat, workflows and project memory</span></div><div class="on"><b>Capabilities</b><span>Bid review, contracts, procurement</span></div><div><b>Agents</b><span>Plan, use tools, ask before acting</span></div><div><b>Document intelligence</b><span>Reads drawings and specs</span></div><div><b>AI models</b><span>The best one for each task</span></div><div><b>Your data</b><span>Stays in your environment</span></div></div></div></article>
-      <article class="sp s2" style="--i:1"><div class="sp-img" aria-hidden="true"><img src="sp-2.webp" alt="" loading="lazy"></div><div class="sp-in"><div><h3>It works where your files already are</h3><p>SharePoint, OneDrive, Google Drive, Dropbox and the project systems you run today. Your tools stay exactly where they are.</p></div><div class="lay" aria-label="How Brickanta is built"><div><b>Brickanta</b><span>Chat, workflows and project memory</span></div><div><b>Capabilities</b><span>Bid review, contracts, procurement</span></div><div><b>Agents</b><span>Plan, use tools, ask before acting</span></div><div><b>Document intelligence</b><span>Reads drawings and specs</span></div><div><b>AI models</b><span>The best one for each task</span></div><div class="on"><b>Your data</b><span>Stays in your environment</span></div></div></div></article>
-      <article class="sp s3" style="--i:2"><div class="sp-img" aria-hidden="true"><img src="sp-3.webp" alt="" loading="lazy"></div><div class="sp-in"><div><h3>You stay in charge</h3><p>Brickanta drafts and you decide. You review every draft before anything is sent.</p></div><div class="lay" aria-label="How Brickanta is built"><div><b>Brickanta</b><span>Chat, workflows and project memory</span></div><div><b>Capabilities</b><span>Bid review, contracts, procurement</span></div><div class="on"><b>Agents</b><span>Plan, use tools, ask before acting</span></div><div><b>Document intelligence</b><span>Reads drawings and specs</span></div><div><b>AI models</b><span>The best one for each task</span></div><div><b>Your data</b><span>Stays in your environment</span></div></div></div></article>
-      <article class="sp s4" style="--i:3"><div class="sp-img" aria-hidden="true"><img src="sp-4.webp" alt="" loading="lazy"></div><div class="sp-in"><div><h3>Better with every new model</h3><p>We bring newer AI into the work your team already does. What you’ve taught Brickanta stays, so it keeps getting more useful.</p></div><div class="lay" aria-label="How Brickanta is built"><div><b>Brickanta</b><span>Chat, workflows and project memory</span></div><div><b>Capabilities</b><span>Bid review, contracts, procurement</span></div><div><b>Agents</b><span>Plan, use tools, ask before acting</span></div><div><b>Document intelligence</b><span>Reads drawings and specs</span></div><div class="on"><b>AI models</b><span>The best one for each task</span></div><div><b>Your data</b><span>Stays in your environment</span></div></div></div></article>
+      <article class="sp s1" style="--i:0"><div class="sp-in"><div><span class="sp-n">01</span><h3>Construction know-how, written down</h3><p>Our construction engineers and in-house lawyer build the checks, so you don’t have to write the prompts.</p></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-1.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Bid review</span><i>Tender 2026-14</i></div><div class="big">Worth bidding on, with three reservations.</div><div class="r"><b>Legal</b><span>Delay damages have no cap.<br><em>Contract §11</em></span></div><div class="r"><b>Commercial</b><span>No price index for materials.<br><em>Tender terms, p.8</em></span></div><div class="r"><b>Technical</b><span>Fire spec conflicts with drawing A-204.<br><em>Spec 07 · A-204</em></span></div></div></div></div></article>
+      <article class="sp s2" style="--i:1"><div class="sp-in"><div><span class="sp-n">02</span><h3>It works where your files already are</h3><p>SharePoint, OneDrive, Google Drive, Dropbox and the project systems you run today. Your tools stay exactly where they are.</p></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-2.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Connected sources</span><i>Live</i></div><div class="big">Your files stay where they are.</div><div class="r"><b>SharePoint</b><span>Read from the source.<br><em>Up to date</em></span></div><div class="r"><b>Google Drive</b><span>Kept in step as files change.<br><em>Up to date</em></span></div><div class="r"><b>Dropbox</b><span>Nothing moved or copied out.<br><em>Up to date</em></span></div></div></div></div></article>
+      <article class="sp s3" style="--i:2"><div class="sp-in"><div><span class="sp-n">03</span><h3>You stay in charge</h3><p>Brickanta drafts and you decide. You review every draft before anything is sent.</p></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-3.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Subcontract draft</span><i>Electrical</i></div><div class="big">Draft ready. Two points are yours.</div><div class="r"><b>Scope</b><span>Pulled from the tender documents.<br><em>Done</em></span></div><div class="r"><b>To decide</b><span>Payment terms. Insurance level.<br><em class="hot">Your call</em></span></div><div class="btns"><span>Review &amp; send</span><span>Not yet</span></div></div></div></div></article>
+      <article class="sp s4" style="--i:3"><div class="sp-in"><div><span class="sp-n">04</span><h3>Better with every new model</h3><p>We bring newer AI into the work your team already does. What you’ve taught Brickanta stays, so it keeps getting more useful.</p></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-4.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Model update</span><i>This week</i></div><div class="big">Newer AI, same project memory.</div><div class="r"><b>Requirements</b><span>Carried over.<br><em>Kept</em></span></div><div class="r"><b>Decisions</b><span>Carried over.<br><em>Kept</em></span></div><div class="r"><b>Lessons</b><span>Carried over.<br><em>Kept</em></span></div></div></div></div></article>
     </div>
   </div>
 </section>
