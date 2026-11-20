@@ -181,14 +181,16 @@ function items(){const H=hero[day],pl=pals[day],mx=day===11,hf=(k)=>mx?[poin,hol
 const MIRROR=[0,1,0,0,1,1,0,1,0,1,0,1],GROUPS=[[13,14,15,16,17],[20,21,22]];
 /* a bigger floral fills the emptiest spot near the title, so no day is left with a hole */
 const RADG={0:250,1:150,2:70,3:150,4:60,5:70,6:34,7:170,8:140,9:200,10:90,11:100,12:90,13:162,14:230,15:230,16:134,17:67,18:100,19:90,20:55,21:144,22:210,23:62,24:100,25:90,26:60,27:52,28:38,29:42,30:36,31:28,32:95,33:85,34:70,35:88,36:75,37:84,38:80,39:84,40:90,41:120,42:90};
-function gap(res,close,hw){const pick=[13,16,34,36,17].find(k=>!close[k]);if(pick===undefined)return;
-  let best=-1e9,bx=750,by=556;
-  for(let gx=230;gx<=1290;gx+=40)for(let gy=300;gy<=860;gy+=40){
-    if(Math.abs(gx-750)<hw*.6&&Math.abs(gy-556)<60)continue; /* not behind the middle of the word */
-    let m=1e9;for(let k=0;k<res.length;k++){if(k===pick)continue;const q=res[k],d=Math.hypot(gx-q.px,gy-q.py)-(RADG[k]||80)*q.sc*.75;if(d<m)m=d}
-    const sc=m-Math.abs(gy-556)*.08; /* prefer spots close to the title */
-    if(sc>best){best=sc;bx=gx;by=gy}}
-  res[pick]={px:bx,py:by,rot:(rn(day*3.7)-.5)*1.2,sc:1.35,fl:1}}
+function gap(res,close,hw){const pick=[13,16,34,36,17].filter(k=>!close[k]).map(k=>[k,1.3]).concat([33,37,42,35,39,32,38,41,24,25].map(k=>[k,1.1])),used={};
+  for(let n=0;n<pick.length;n++){
+    let best=-1e9,bx=750,by=556;
+    for(let gx=220;gx<=1300;gx+=30)for(let gy=280;gy<=880;gy+=30){
+      if(Math.abs(gx-750)<hw*.6&&Math.abs(gy-556)<55)continue; /* not behind the middle of the word */
+      let m=1e9;for(let k=0;k<res.length;k++){if(used[k]||pick.some(([q],z)=>q===k&&z>=n))continue;const q=res[k],d=Math.hypot(gx-q.px,gy-q.py)-(RADG[k]||80)*q.sc*.7;if(d<m)m=d}
+      m-=Math.abs(gy-556)*.06; /* prefer spots close to the title */
+      if(m>best){best=m;bx=gx;by=gy}}
+    if(best<30)break; /* nothing left that is empty enough */
+    const [k,sc]=pick[n];res[k]={px:bx,py:by,rot:(rn(day*3.7+n)-.5)*1.4,sc,fl:1};used[k]=0}}
 function place(its){const d=day,sd=d*17.3,P=its.map(it=>[it[1],it[2]]);
   GROUPS.forEach(g=>{const sh=(d*2+1)%g.length;g.forEach((k,n)=>{P[k]=[its[g[(n+sh)%g.length]][1],its[g[(n+sh)%g.length]][2]]})});
   const ga=(rn(d*4.7+1)-.5)*.7,ca=Math.cos(ga),sa=Math.sin(ga),gs=.94+rn(d*2.3)*.14,m=MIRROR[d];
