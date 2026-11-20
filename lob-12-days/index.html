@@ -172,7 +172,7 @@ function bigText(str,y,maxW,ex){const f='900 200px "Archivo Black","Arial Black"
   [...str].forEach((c,i)=>{const pp=eob(cl((lt-.5-i*.045)/.5))*ex;x.save();x.globalAlpha=cl(pp*1.4);x.translate(cx,y+(1-pp)*70);x.fillStyle=NAVY;x.fillText(c,0,0);x.restore();cx+=cw[i]});x.restore()}
 function smallText(str,y,size,delay,ex,col){const p=eio(cl((lt-delay)/.4))*ex,ls=size*.3;x.save();x.globalAlpha=p;x.font='700 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign='center';x.fillStyle=col;x.fillText(str.toUpperCase(),540+ls/2,y+(1-p)*18);x.restore()}
 let corner='12 Days of Holiday';
-function cornerText(str,px,py,align,delay,ex){const p=eio(cl((lt-delay)/.4))*ex,size=26,ls=size*.3;x.save();x.globalAlpha=p;x.font='400 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign=align;x.fillStyle=NAVY;x.fillText(str.toUpperCase(),px+(align==='right'?ls:0),py+(1-p)*14);x.restore()}
+function cornerText(str,px,py,align,delay,ex,serif){const p=eio(cl((lt-delay)/.4))*ex,size=26,ls=size*.3;x.save();x.globalAlpha=p;x.font=serif?'400 '+size+'px Georgia,"Times New Roman",Times,serif':'400 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign=align;x.fillStyle=NAVY;x.fillText(str.toUpperCase(),px+(align==='right'?ls:0),py+(1-p)*14);x.restore()}
 function draw(){
   x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,S,S);
   x.fillStyle=mixc(BGS[(day+3)%4],BGS[day%4],eio(cl(lt/.5)));x.fillRect(0,0,S,S);
@@ -189,7 +189,7 @@ function draw(){
   const scene=front=>{x.save();x.translate(540,572);x.scale(.6,.6);x.translate(-750,-590);sceneDraw(front,ex);x.restore()};
   scene(false);circleLogo();
   bigText(titles[day].toLowerCase(),596,640,ex);
-  scene(true);cornerText('Day '+(day+1),204,908,'left',.5,ex);cornerText(corner,876,252,'right',.6,ex);
+  scene(true);cornerText('Day '+(day+1),204,908,'left',.5,ex);cornerText(corner,876,252,'right',.6,ex,true);
   x.restore();
 }
 
