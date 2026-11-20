@@ -41,7 +41,7 @@ button:focus-visible,input:focus-visible{outline:2px solid #EAF265;outline-offse
 <div class="ctl">
   <div class="days" id="days"></div>
   <input id="ttl" aria-label="Title for this day" maxlength="40">
-  <input id="cor" aria-label="Top right text" maxlength="24" value="12 Days of Holiday" style="width:200px">
+  <input id="cor" aria-label="Top right text" maxlength="24" value="12 Days of Lob" style="width:200px">
   <button class="b" id="pp">Pause</button>
   <button class="b" id="png">Save PNG</button>
   <button class="b hot" id="rec">Record day (WebM)</button>
@@ -243,7 +243,7 @@ function bigText(y,maxW){const f='900 200px "Archivo Black","Arial Black",Arial,
   if(old&&(typing||lt<(old.length*BK+.12+cur.length*TY+.45))){const cx=x0+x.measureText(shown).width+sz*.02;if(Math.floor(lt*5)%2===0||lt<old.length*BK+.12+cur.length*TY)x.fillRect(cx,y-sz*.74,sz*.05,sz*.8)}
   x.restore()}
 function smallText(str,y,size,delay,ex,col){const p=eio(cl((lt-delay)/.4))*ex,ls=size*.3;x.save();x.globalAlpha=p;x.font='700 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign='center';x.fillStyle=col;x.fillText(str.toUpperCase(),540+ls/2,y+(1-p)*18);x.restore()}
-let corner='12 Days of Holiday';
+let corner='12 Days of Lob';
 function cornerText(str,px,py,align,delay,ex,serif){const p=1,size=26,ls=size*.3;x.save();x.globalAlpha=p;x.font=serif?'400 '+size+'px Georgia,"Times New Roman",Times,serif':'400 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign=align;x.fillStyle=NAVY;x.fillText(str.toUpperCase(),px+(align==='right'?ls:0),py+(1-p)*14);x.restore()}
 function draw(){
   x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,S,S);
