@@ -190,10 +190,10 @@ header nav a{text-decoration:none;opacity:.78}header nav a:hover{opacity:1;text-
 /* how we get you live */
 .steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));counter-reset:s}
 .step{position:relative;padding:0 18px 0 0}
-.step .bar{height:52px;position:relative;margin-bottom:24px;color:var(--coral2)}
-.step .bar::before{content:"";position:absolute;left:0;right:0;top:0;height:30px;background:currentColor;opacity:.9;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%);transform:scaleX(0);transform-origin:left;transition:transform .9s var(--ease);transition-delay:var(--d,0s)}
-.step.in .bar::before{transform:scaleX(1)}
-.step .bar b{position:absolute;left:12px;top:5px;font-size:14px;font-weight:600;color:var(--plum)}
+.step .sbar{height:52px;position:relative;margin-bottom:24px;color:var(--coral2)}
+.step .sbar::before{content:"";position:absolute;left:0;right:0;top:0;height:30px;background:currentColor;opacity:.9;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%);transform:scaleX(0);transform-origin:left;transition:transform .9s var(--ease);transition-delay:var(--d,0s)}
+.step.in .sbar::before{transform:scaleX(1)}
+.step .sbar b{position:absolute;left:12px;top:5px;font-size:14px;font-weight:600;color:var(--plum)}
 .step h3{font-size:21px;font-weight:500;color:#fff;margin-bottom:10px}
 .step p{font-size:15px;opacity:.78}
 @media(max-width:1000px){.steps{grid-template-columns:1fr;gap:32px}.step{padding:0}}
@@ -251,7 +251,7 @@ footer a{text-decoration:none;opacity:.88}footer a:hover{opacity:1;text-decorati
 
 
 /* type: Tektur for display, IBM Plex Sans for reading. Tektur starts at 400, so the light weights become 400 and tracking opens up */
-h1,h2,h3,.btn,.eyebrow,.cost .n,.cost q,.tabs .t,.tabs .n,.card .big,.card .hd,.edge .big,.stats .v,.role .num,.plan .price,.faq summary,footer h4,.step .bar b,.stack div b,.msg small,.tile .tag,.facts b,.chips span{font-family:var(--display)}
+h1,h2,h3,.btn,.eyebrow,.cost .n,.cost q,.tabs .t,.tabs .n,.card .big,.card .hd,.edge .big,.stats .v,.role .num,.plan .price,.faq summary,footer h4,.step .sbar b,.stack div b,.msg small,.tile .tag,.facts b,.chips span{font-family:var(--display)}
 h1,h2,h3,.cost q,.tabs .t,.card .big,.faq summary{font-weight:400;letter-spacing:-.01em}
 h1{font-size:clamp(34px,4.7vw,70px);line-height:1.05}
 h2{font-size:clamp(30px,3.8vw,54px);line-height:1.08}
@@ -484,7 +484,7 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 }
 
 /* clip mode: no auto cycling, everything already in */
-@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.hl,.step .bar::before{transform:none}.tile .in-a,.tile .in-b{transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.hl,.step .sbar::before{transform:none}.tile .in-a,.tile .in-b{transform:none}}
 </style>
 </head>
 <body>
@@ -649,11 +649,11 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
       <p class="lede rv" style="--d:.1s">Our engineers work next to your teams and your IT, from the first workshop to the first live project and beyond.</p>
     </div>
     <div class="steps" id="steps">
-      <div class="step rv"><div class="bar" style="--d:.1s"><b>1</b></div><h3>See how you work</h3><p>We spend time with estimators, buyers and project leads to find where knowledge gets lost.</p></div>
-      <div class="step rv" style="--d:.1s"><div class="bar" style="--d:.2s"><b>2</b></div><h3>Plan it together</h3><p>In workshops we map your phases and decision points, using your own templates and checklists.</p></div>
-      <div class="step rv" style="--d:.2s"><div class="bar" style="--d:.3s"><b>3</b></div><h3>Connect your files</h3><p>With your IT, we link Brickanta to where files already live and go through security and access rights.</p></div>
-      <div class="step rv" style="--d:.3s"><div class="bar" style="--d:.4s"><b>4</b></div><h3>Go live on one project</h3><p>One project, one team, one clear goal. Our engineers sit beside them from day one.</p></div>
-      <div class="step rv" style="--d:.4s"><div class="bar" style="--d:.5s"><b>5</b></div><h3>Grow from there</h3><p>Once the first project delivers, we roll out to more projects, regions and business units.</p></div>
+      <div class="step rv"><div class="sbar" style="--d:.1s"><b>1</b></div><h3>See how you work</h3><p>We spend time with estimators, buyers and project leads to find where knowledge gets lost.</p></div>
+      <div class="step rv" style="--d:.1s"><div class="sbar" style="--d:.2s"><b>2</b></div><h3>Plan it together</h3><p>In workshops we map your phases and decision points, using your own templates and checklists.</p></div>
+      <div class="step rv" style="--d:.2s"><div class="sbar" style="--d:.3s"><b>3</b></div><h3>Connect your files</h3><p>With your IT, we link Brickanta to where files already live and go through security and access rights.</p></div>
+      <div class="step rv" style="--d:.3s"><div class="sbar" style="--d:.4s"><b>4</b></div><h3>Go live on one project</h3><p>One project, one team, one clear goal. Our engineers sit beside them from day one.</p></div>
+      <div class="step rv" style="--d:.4s"><div class="sbar" style="--d:.5s"><b>5</b></div><h3>Grow from there</h3><p>Once the first project delivers, we roll out to more projects, regions and business units.</p></div>
     </div>
   </div>
 </section>
