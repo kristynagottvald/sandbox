@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Brickanta Enterprise</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%230e1f4c%22/%3E%3Cpath fill=%22%23e8584f%22 d=%22M14 14H38L50 26V50H26L14 38Z%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=Tektur:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -911,7 +912,7 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
     }
     var seen=false,reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
     new IntersectionObserver(function(e){seen=e[0].isIntersecting},{threshold:.2}).observe(svg);
-    if(!reduce&&!CLIP)setInterval(function(){if(seen)to((cur+1)%COMBOS.length,700)},1000);
+    if(!reduce&&!CLIP)setInterval(function(){if(seen)to((cur+1)%COMBOS.length,1500)},2400);
     window.__mk={n:COMBOS.length,show:function(i){to(i,0)}};
   })();
 
