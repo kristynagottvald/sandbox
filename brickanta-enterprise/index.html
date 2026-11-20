@@ -472,6 +472,17 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 .gt.fixed .bar.pl{left:56%!important;animation:none;box-shadow:none;background:rgba(14,31,76,.13)}
 @media(prefers-reduced-motion:reduce){.sp-ic,.ai-st::before,.ai-t::after{animation:none!important}}
 
+
+/* phones: the card sits in the flow so the image area grows to hold it; panels stack normally */
+@media(max-width:860px){
+.sp{position:relative;top:auto}
+.sp .vis{min-height:0;padding:clamp(28px,9vw,56px) 0}
+.sp .ui{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:auto;margin:0 5%;transform:none}
+.js .sp .ui{transform:translateY(22px)}
+.js .sp.in .ui{transform:none}
+.tlc em.fd{display:none}
+}
+
 /* clip mode: no auto cycling, everything already in */
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.hl,.step .bar::before{transform:none}.tile .in-a,.tile .in-b{transform:none}}
 </style>
