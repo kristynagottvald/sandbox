@@ -76,8 +76,8 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 #dock{margin-left:auto;display:flex;align-items:center;gap:10px;min-width:0}
 #dock .days{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none}
 #dock button{min-width:28px;height:28px;padding:0 8px;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:none;color:#fff;cursor:pointer;font:600 12px var(--ui);position:relative;overflow:hidden}
-#dock button.on{background:#F8E0F9;color:var(--navy);border-color:#F8E0F9}
-#dock button.on::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:calc(var(--p,0)*100%);background:#7e60ed}
+#dock .days button{min-width:0;width:30px;height:30px;padding:0;border-radius:50%;border:2.5px solid transparent;background:linear-gradient(#000,#000) padding-box,rgba(255,255,255,.22) border-box;flex:none}
+#dock .days button.on{background:linear-gradient(#000,#000) padding-box,conic-gradient(#F8E0F9 calc(var(--p,0)*360deg),rgba(255,255,255,.22) 0) border-box} /* the 4 second hold fills the ring */
 #dock .pp{padding:0 14px;flex:none}
 button:focus-visible{outline:2px solid #EAF265;outline-offset:2px}
 .clip #dock{display:none}
