@@ -324,6 +324,28 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 .ui .btns span+span{background:transparent;color:var(--navy);box-shadow:inset 0 0 0 1px rgba(14,31,76,.4)}
 @media(max-width:860px){.vis{min-height:300px}.ui{left:4%;right:8%;bottom:8%}.ui .r{grid-template-columns:78px 1fr}}
 
+
+/* image fills the right 41% of the panel edge to edge; the UI card sits across its left edge */
+.sp-in{grid-template-columns:minmax(0,1fr);padding-right:calc(41.5% + clamp(20px,3vw,48px))}
+.sp .vis{position:absolute;top:0;right:0;bottom:0;width:41.5%;min-height:0}
+.sp .ui{left:-11%;right:10%;top:50%;bottom:auto;transform:translateY(-50%)}
+@media(max-width:860px){.sp-in{padding-right:clamp(22px,3.2vw,48px)}.sp .vis{position:relative;width:auto;min-height:340px}.sp .ui{left:5%;right:5%;top:auto;bottom:8%;transform:none}}
+/* the card builds itself when its panel scrolls into view */
+.js .sp .ui{opacity:0;transform:translateY(calc(-50% + 26px));transition:opacity .6s var(--ease),transform .8s var(--ease)}
+.js .sp.in .ui{opacity:1;transform:translateY(-50%)}
+.js .sp .ui>*{opacity:0;transform:translateY(10px)}
+.js .sp.in .ui>*{animation:uin .65s var(--ease) forwards;animation-delay:calc(.25s + var(--k,0)*.13s)}
+.ui>:nth-child(1){--k:0}.ui>:nth-child(2){--k:1}.ui>:nth-child(3){--k:2}.ui>:nth-child(4){--k:3}.ui>:nth-child(5){--k:4}
+.js .sp .ui em{transform:scale(.6);opacity:0;transform-origin:left center}
+.js .sp.in .ui em{animation:upop .45s var(--ease) forwards;animation-delay:calc(.7s + var(--k,0)*.13s)}
+.js .sp .ui .btns span:first-child{transition:background .3s}
+.js .sp.in .ui .btns span:first-child{animation:ubtn 1.6s ease-in-out 1.4s 2}
+@keyframes uin{to{opacity:1;transform:none}}
+@keyframes upop{60%{transform:scale(1.08)}to{opacity:1;transform:scale(1)}}
+@keyframes ubtn{50%{background:var(--coral)}}
+@media(max-width:860px){.js .sp .ui{transform:translateY(26px)}.js .sp.in .ui{transform:none}}
+@media(prefers-reduced-motion:reduce){.js .sp .ui,.js .sp .ui>*,.js .sp .ui em{opacity:1!important;transform:none!important;animation:none!important}.js .sp .ui{transform:translateY(-50%)!important}}
+
 /* clip mode: no auto cycling, everything already in */
 @media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important;scroll-behavior:auto!important}.rv{opacity:1;transform:none}.hl,.step .bar::before{transform:none}.tile .in-a,.tile .in-b{transform:none}}
 </style>
@@ -473,10 +495,10 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
       <p class="lede rv" style="--d:.1s">Brickanta connects the best AI models to your project documents, your standards and your way of working.</p>
     </div>
     <div class="sps">
-      <article class="sp s1" style="--i:0"><div class="sp-in"><div><span class="sp-n">01</span><h3>Construction know-how, written down</h3><p>Our construction engineers and in-house lawyer build the checks, so you don’t have to write the prompts.</p></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-1.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Bid review</span><i>Tender 2026-14</i></div><div class="big">Worth bidding on, with three reservations.</div><div class="r"><b>Legal</b><span>Delay damages have no cap.<br><em>Contract §11</em></span></div><div class="r"><b>Commercial</b><span>No price index for materials.<br><em>Tender terms, p.8</em></span></div><div class="r"><b>Technical</b><span>Fire spec conflicts with drawing A-204.<br><em>Spec 07 · A-204</em></span></div></div></div></div></article>
-      <article class="sp s2" style="--i:1"><div class="sp-in"><div><span class="sp-n">02</span><h3>It works where your files already are</h3><p>SharePoint, OneDrive, Google Drive, Dropbox and the project systems you run today. Your tools stay exactly where they are.</p></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-2.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Connected sources</span><i>Live</i></div><div class="big">Your files stay where they are.</div><div class="r"><b>SharePoint</b><span>Read from the source.<br><em>Up to date</em></span></div><div class="r"><b>Google Drive</b><span>Kept in step as files change.<br><em>Up to date</em></span></div><div class="r"><b>Dropbox</b><span>Nothing moved or copied out.<br><em>Up to date</em></span></div></div></div></div></article>
-      <article class="sp s3" style="--i:2"><div class="sp-in"><div><span class="sp-n">03</span><h3>You stay in charge</h3><p>Brickanta drafts and you decide. You review every draft before anything is sent.</p></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-3.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Subcontract draft</span><i>Electrical</i></div><div class="big">Draft ready. Two points are yours.</div><div class="r"><b>Scope</b><span>Pulled from the tender documents.<br><em>Done</em></span></div><div class="r"><b>To decide</b><span>Payment terms. Insurance level.<br><em class="hot">Your call</em></span></div><div class="btns"><span>Review &amp; send</span><span>Not yet</span></div></div></div></div></article>
-      <article class="sp s4" style="--i:3"><div class="sp-in"><div><span class="sp-n">04</span><h3>Better with every new model</h3><p>We bring newer AI into the work your team already does. What you’ve taught Brickanta stays, so it keeps getting more useful.</p></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-4.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Model update</span><i>This week</i></div><div class="big">Newer AI, same project memory.</div><div class="r"><b>Requirements</b><span>Carried over.<br><em>Kept</em></span></div><div class="r"><b>Decisions</b><span>Carried over.<br><em>Kept</em></span></div><div class="r"><b>Lessons</b><span>Carried over.<br><em>Kept</em></span></div></div></div></div></article>
+      <article class="sp s1" style="--i:0"><div class="sp-in"><div><h3>Construction know-how, written down</h3><p>Our construction engineers and in-house lawyer build the checks, so you don’t have to write the prompts.</p></div></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-1.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Bid review</span><i>Tender 2026-14</i></div><div class="big">Worth bidding on, with three reservations.</div><div class="r"><b>Legal</b><span>Delay damages have no cap.<br><em>Contract §11</em></span></div><div class="r"><b>Commercial</b><span>No price index for materials.<br><em>Tender terms, p.8</em></span></div><div class="r"><b>Technical</b><span>Fire spec conflicts with drawing A-204.<br><em>Spec 07 · A-204</em></span></div></div></div></article>
+      <article class="sp s2" style="--i:1"><div class="sp-in"><div><h3>It works where your files already are</h3><p>SharePoint, OneDrive, Google Drive, Dropbox and the project systems you run today. Your tools stay exactly where they are.</p></div></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-2.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Connected sources</span><i>Live</i></div><div class="big">Your files stay where they are.</div><div class="r"><b>SharePoint</b><span>Read from the source.<br><em>Up to date</em></span></div><div class="r"><b>Google Drive</b><span>Kept in step as files change.<br><em>Up to date</em></span></div><div class="r"><b>Dropbox</b><span>Nothing moved or copied out.<br><em>Up to date</em></span></div></div></div></article>
+      <article class="sp s3" style="--i:2"><div class="sp-in"><div><h3>You stay in charge</h3><p>Brickanta drafts and you decide. You review every draft before anything is sent.</p></div></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-3.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Subcontract draft</span><i>Electrical</i></div><div class="big">Draft ready. Two points are yours.</div><div class="r"><b>Scope</b><span>Pulled from the tender documents.<br><em>Done</em></span></div><div class="r"><b>To decide</b><span>Payment terms. Insurance level.<br><em class="hot">Your call</em></span></div><div class="btns"><span>Review &amp; send</span><span>Not yet</span></div></div></div></article>
+      <article class="sp s4" style="--i:3"><div class="sp-in"><div><h3>Better with every new model</h3><p>We bring newer AI into the work your team already does. What you’ve taught Brickanta stays, so it keeps getting more useful.</p></div></div><div class="vis"><div class="sp-img" aria-hidden="true"><img src="sp-4.webp" alt="" loading="lazy"></div><div class="ui"><div class="hd"><span>Model update</span><i>This week</i></div><div class="big">Newer AI, same project memory.</div><div class="r"><b>Requirements</b><span>Carried over.<br><em>Kept</em></span></div><div class="r"><b>Decisions</b><span>Carried over.<br><em>Kept</em></span></div><div class="r"><b>Lessons</b><span>Carried over.<br><em>Kept</em></span></div></div></div></article>
     </div>
   </div>
 </section>
@@ -691,6 +713,12 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
     if(!reduce&&!CLIP)setInterval(function(){if(seen)to((cur+1)%COMBOS.length,700)},1000);
     window.__mk={n:COMBOS.length,show:function(i){to(i,0)}};
   })();
+
+
+  /* stacked panels: play the card animation as each panel scrolls into view */
+  document.documentElement.classList.add('js');
+  (function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){e.target.classList.toggle('in',e.isIntersecting)})},{threshold:.45});
+    [].forEach.call(document.querySelectorAll('.sp'),function(el){io.observe(el)})})();
 
   /* ---- recorder hooks ---- */
   window.__bk={go:function(i){auto=false;go(i)},scroll:function(y){window.scrollTo({top:y,behavior:'smooth'})},sec:function(id){var e=document.getElementById(id);window.scrollTo({top:e.getBoundingClientRect().top+scrollY-70,behavior:'smooth'})}};
