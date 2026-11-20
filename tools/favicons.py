@@ -63,11 +63,8 @@ def link(svgtxt):
 
 
 CUBE = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" rx="28" fill="#151515"/>'
-        '<path fill="#f4f4f4" d="M100 28L162 64L100 100L38 64Z"/><path fill="#dedede" d="M38 64L100 100V172L38 136Z"/>'
-        '<path fill="#bdbdbd" d="M162 64L100 100V172L162 136Z"/>'
-        '<path fill="#151515" d="M72 62L100 46L128 62L116 68L100 60L84 68Z"/>'
-        '<path fill="#151515" d="M50 80L90 103V114L50 91Z M62 99L78 108V146L62 137Z"/>'
-        '<path fill="#151515" d="M150 80L110 103V114L150 91Z M138 99L122 108V146L138 137Z"/></svg>')
+        '<path fill="#f4f4f4" d="M100 28L162 64V136L100 172L38 136V64Z"/>'
+        '<path fill="none" stroke="#151515" stroke-width="9" stroke-linejoin="miter" d="M38 64L100 100L162 64M100 100V172"/></svg>')
 
 apps = json.load(open(ROOT + 'apps.json'))
 sheet = []
