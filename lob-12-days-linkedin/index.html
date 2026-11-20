@@ -73,14 +73,15 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .scrim{position:absolute;inset:0;z-index:5;background:rgba(14,15,28,.36);pointer-events:none}
 
 /* controls, outside the zoomed page */
-#dock{flex:none;position:relative;z-index:9;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;height:48px;padding:0 16px;background:#000;border-top:1px solid #1c1c1c}
-#dock .days{display:flex;gap:5px}
+#dock{margin-left:auto;display:flex;align-items:center;gap:10px;min-width:0}
+#dock .days{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none}
 #dock button{min-width:28px;height:28px;padding:0 8px;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:none;color:#fff;cursor:pointer;font:600 12px var(--ui);position:relative;overflow:hidden}
 #dock button.on{background:#F8E0F9;color:var(--navy);border-color:#F8E0F9}
 #dock button.on::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:calc(var(--p,0)*100%);background:#7e60ed}
-#dock .pp{padding:0 14px}
+#dock .pp{padding:0 14px;flex:none}
 button:focus-visible{outline:2px solid #EAF265;outline-offset:2px}
 .clip #dock{display:none}
+nav.back b{flex:none}
 
 @media(max-width:1000px){
   body{height:auto;min-height:100dvh;overflow:auto}
@@ -90,12 +91,13 @@ button:focus-visible{outline:2px solid #EAF265;outline-offset:2px}
   .me,.side,.lh .ico,.edge{display:none}
   .lh .search{width:auto;flex:1}
   .lob{border-radius:0}
-  #dock{position:sticky;bottom:0}
+  nav.back b{display:none}
+  #dock{flex:1}
 }
 </style>
 </head>
 <body>
-<nav class="back"><a href="../">Sandbox</a><span>/</span><a href="../" class="x">Back to all projects</a><span class="x">/</span><b>Lob 12 Days LinkedIn</b></nav>
+<nav class="back"><a href="../">Sandbox</a><span>/</span><a href="../" class="x">Back to all projects</a><span class="x">/</span><b>Lob 12 Days LinkedIn</b><div id="dock"><div class="days" id="days"></div><button class="pp" id="pp" aria-label="Pause">Pause</button></div></nav>
 
 <div id="stage"><div id="app">
   <header class="lh"><div class="logo">in</div><div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(0,0,0,.6)"><path d="M21 19.6l-5.2-5.2a7 7 0 1 0-1.4 1.4l5.2 5.2zM4 10a6 6 0 1 1 12 0 6 6 0 0 1-12 0z"/></svg>Search</div>
@@ -124,7 +126,6 @@ button:focus-visible{outline:2px solid #EAF265;outline-offset:2px}
   </div>
 </div><div class="scrim"></div></div>
 
-<div id="dock"><div class="days" id="days"></div><button class="pp" id="pp" aria-label="Pause">Pause</button></div>
 
 <script>
 (function(){
@@ -152,7 +153,7 @@ const fr=$('fr'),cap=$('cap'),capT=$('capT'),dEl=$('days'),pp=$('pp');
 let day=0,t=0,playing=!CLIP,frReady=false,swT=0;
 const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 function fill(i){const [w,s]=DAYS[i];
-  capT.innerHTML='<span class="k">Day '+(i+1)+' of 12 Days of Lob: '+esc(w.toLowerCase())+'.</span><br>'+esc(s)+'<br><span class="ht">#12DaysOfLob #DirectMail</span>';
+  capT.innerHTML='<span class="k">Day '+(i+1)+' of 12 Days of Lob: '+esc(w)+'.</span><br>'+esc(s)+'<br><span class="ht">#12DaysOfLob #DirectMail</span>';
   $('likes').textContent=LIKES[i];$('cm').textContent=CMT[i]+' comments · '+(8+i*2)+' reposts';
   [...dEl.children].forEach((b,k)=>b.classList.toggle('on',k===i))}
 function show(i,instant){day=((i%12)+12)%12;t=0;
