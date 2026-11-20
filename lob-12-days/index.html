@@ -36,6 +36,7 @@ button:focus-visible,input:focus-visible{outline:2px solid #EAF265;outline-offse
 <div class="ctl">
   <div class="days" id="days"></div>
   <input id="ttl" aria-label="Title for this day" maxlength="40">
+  <input id="cor" aria-label="Top right text" maxlength="24" value="First class" style="width:160px">
   <button class="b" id="pp">Pause</button>
   <button class="b" id="png">Save PNG</button>
   <button class="b hot" id="rec">Record day (WebM)</button>
@@ -134,6 +135,8 @@ function items(){const H=hero[day],pl=pals[day],mx=day===11,hf=(k)=>mx?[poin,hol
   [()=>puff(52,PAL.red,.4),1275,486,.2,.7,.06,1],
   [()=>fir(105),1130,990,.4,.5,.04,0],[()=>fir(95),230,990,-.3,.52,.04,0],[()=>cone(62),1190,870,.7,.55,.03,0],[()=>cone(54),215,900,-.6,.58,.03,0],
   [()=>bauble(38,'#FF3B5C','#FF8A2E'),190,520,0,.6,.05,0],[()=>bauble(42,'#FF8A2E','#FFC83A'),1330,690,0,.65,.05,1],[()=>bauble(36,'#FF3B5C','#FF8A2E'),690,1010,0,.7,.05,0],[()=>bauble(28,'#FF8A2E','#FFC83A'),1100,295,0,.72,.05,1],
+  [()=>holly(96),618,508,-.7,.46,.05,0],[()=>berry(86),905,512,.3,.5,.05,0],[()=>puff(58,PAL.pink,.2),700,526,.1,.52,.05,0],[()=>fir(88),830,510,.4,.54,.04,0],
+  [()=>puff(62,PAL.blush,.3),590,722,0,.56,.05,0],[()=>berry(84),700,730,.2,.58,.05,0],[()=>holly(80),810,725,.5,.6,.05,0],[()=>fir(84),905,728,-.2,.62,.04,0],[()=>bud(92),750,765,-.15,.64,.05,0],
   [()=>holly(120),300,880,-.6,.5,.04,0],
   [()=>berry(90),1250,790,.4,.6,.04,0]
   ]}
@@ -158,6 +161,8 @@ function bigText(str,y,maxW,ex){const f='900 200px "Archivo Black","Arial Black"
   const cw=[...str].map(c=>x.measureText(c).width),tot=cw.reduce((a,b)=>a+b,0);let cx=540-tot/2;
   [...str].forEach((c,i)=>{const pp=eob(cl((lt-.5-i*.045)/.5))*ex;x.save();x.globalAlpha=cl(pp*1.4);x.translate(cx,y+(1-pp)*70);x.fillStyle=NAVY;x.fillText(c,0,0);x.restore();cx+=cw[i]});x.restore()}
 function smallText(str,y,size,delay,ex,col){const p=eio(cl((lt-delay)/.4))*ex,ls=size*.3;x.save();x.globalAlpha=p;x.font='700 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign='center';x.fillStyle=col;x.fillText(str.toUpperCase(),540+ls/2,y+(1-p)*18);x.restore()}
+let corner='First class';
+function cornerText(str,px,py,align,delay,ex){const p=eio(cl((lt-delay)/.4))*ex,size=26,ls=size*.3;x.save();x.globalAlpha=p;x.font='700 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign=align;x.fillStyle=NAVY;x.fillText(str.toUpperCase(),px+(align==='right'?ls:0),py+(1-p)*14);x.restore()}
 function draw(){
   x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,S,S);
   x.fillStyle=mixc(BGS[(day+3)%4],BGS[day%4],eio(cl(lt/.5)));x.fillRect(0,0,S,S);
@@ -173,7 +178,7 @@ function draw(){
   const scene=front=>{x.save();x.translate(540,572);x.scale(.6,.6);x.translate(-750,-590);sceneDraw(front,ex);x.restore()};
   scene(false);
   bigText(titles[day].toLowerCase(),596,640,ex);
-  scene(true);smallText('day '+(day+1),497,24,.4,ex,'#fff');
+  scene(true);cornerText('Day '+(day+1),204,908,'left',.5,ex);cornerText(corner,876,252,'right',.6,ex);
   x.restore();
   logo(64,66,128,'#fff');
   x.save();x.font='700 22px "Inter",Arial,sans-serif';x.letterSpacing='7px';x.textAlign='right';x.fillStyle='#fff';x.fillText('12 DAYS OF LOB',S-64+7,100);x.restore();
@@ -191,6 +196,7 @@ for(let i=0;i<12;i++){const b=document.createElement('button');b.textContent=i+1
 function sync(){[...dEl.children].forEach((b,i)=>b.classList.toggle('on',i===day));if(document.activeElement!==ttl)ttl.value=titles[day]}
 function go(i){day=((i%12)+12)%12;lt=0;sync()}
 ttl.oninput=()=>{titles[day]=ttl.value||' '};
+const cor=document.getElementById('cor');cor.oninput=()=>{corner=cor.value};
 const pp=document.getElementById('pp');pp.onclick=()=>{playing=!playing;pp.textContent=playing?'Pause':'Play'};
 document.getElementById('png').onclick=()=>{draw();const a=document.createElement('a');a.download='lob-12-days-day-'+(day+1)+'.png';a.href=cv.toDataURL('image/png');a.click()};
 document.getElementById('rec').onclick=function(){
