@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lob 12 Days Stamps</title>
-<meta name="description" content="A 1:1 social motion post for the 12 Days of Lob: twelve real US Christmas stamps from 1962 to 2021, one a day, each flying onto a square perforated mount with its year and value.">
+<meta name="description" content="A 1:1 social motion post for the 12 Days of Lob: twelve real US Christmas stamps from 1962 to 2021, one a day, each flying onto the page with a 12 Days of Lob label.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@500&display=swap" rel="stylesheet">
 <style>
 :root{--sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--navy:#1F2149;--pink:#F8E0F9;--mag:#B042C2;--btn:#4534F2}
@@ -35,8 +35,7 @@ button:focus-visible,input:focus-visible{outline:2px solid #EAF265;outline-offse
 <div class="wrap"><canvas id="c" width="1080" height="1080" aria-label="12 Days of Lob historic Christmas stamps, 1:1 motion post"></canvas></div>
 <div class="ctl">
   <div class="days" id="days"></div>
-  <input id="ttl" aria-label="Title for this day" maxlength="40">
-  <input id="cor" aria-label="Top right text" maxlength="24" style="width:190px">
+  <input id="lab" aria-label="Text on the stamp" maxlength="30" style="width:210px">
   <button class="b" id="pp">Pause</button>
   <button class="b" id="png">Save PNG</button>
   <button class="b hot" id="rec">Record day (WebM)</button>
@@ -47,8 +46,6 @@ const CLIP=location.hash==='#clip';
 if(CLIP)document.body.classList.add('clip');
 const LW=4,S=1080;
 const C={bg:'#F8E0F9',shadow:'#F1B9F0',navy:'#1F2149',tab:'#2B2D6D',mag:'#B042C2',lime:'#C9DA6A',blue:'#5049BC',card:'#D244DE',panel:'#E084E9',pale:'#E88EEE',yellow:'#EAF265',btn:'#4534F2',btnDown:'#2A1BC4',plus:'#9382F4',chip:'#D489E4',chipInk:'#8F1A96',white:'#fff'};
-const titles=["Wreath", "Poinsettia", "Holly", "Tree", "Dove", "Reindeer", "Madonna", "Pine", "Sleigh", "Star", "Lamb", "Santa"];
-const corners=["1962 · 4¢", "1964 · 5¢", "1964 · 5¢", "1973 · 8¢", "1974 · 10¢", "1990s · 29¢", "2006 · 39¢", "2010 · Forever", "2012 · Forever", "2014 · Forever", "2017 · Forever", "2021 · Forever"];
 const D=4.4;
 let day=0,lt=CLIP?1.9:0,playing=true,speed=CLIP?2:1,T=0;
 const cv=document.getElementById('c'),x=cv.getContext('2d');
@@ -82,36 +79,27 @@ function stampPath(w,h,n,m){const pw=w/n,ph=h/m;
     const ta=Math.atan2(ay-cy,ax-cx),tb=Math.atan2(by-cy,bx-cx),tn=Math.atan2(ny,nx);const cw=((tn-ta+Math.PI*2)%(Math.PI*2))<Math.PI;x.lineTo(ax,ay);x.lineTo(cx+Math.cos(ta)*rr,cy+Math.sin(ta)*rr);x.arc(cx,cy,rr,ta,tb,!cw);x.lineTo(bx,by)}};
   const L=-w/2,R=w/2,T0=-h/2,B=h/2;x.beginPath();x.moveTo(L,T0);x.lineTo(L+pw,T0);edge(L+pw,T0,R-pw,T0,0,1,n-2);x.lineTo(R,T0);x.lineTo(R,T0+ph);edge(R,T0+ph,R,B-ph,-1,0,m-2);x.lineTo(R,B);x.lineTo(R-pw,B);edge(R-pw,B,L+pw,B,0,-1,n-2);x.lineTo(L,B);x.lineTo(L,B-ph);edge(L,B-ph,L,T0+ph,1,0,m-2);x.closePath()}
 
-function bigText(str,y,maxW,ex){const f='900 200px "Archivo Black","Arial Black",Arial,sans-serif';x.save();x.font=f;x.textAlign='left';x.textBaseline='alphabetic';
-  x.letterSpacing='-8px';let sz=120;titles.forEach(t=>{const w=x.measureText(t.toLowerCase()).width;sz=Math.min(sz,200*maxW/w)});x.font=f.replace('200px',sz+'px');x.letterSpacing=(-.04*sz)+'px';
-  const cw=[...str].map(c=>x.measureText(c).width),tot=cw.reduce((a,b)=>a+b,0);let cx=540-tot/2;
-  [...str].forEach((c,i)=>{const pp=eob(cl((lt-.6-i*.045)/.5))*ex;x.save();x.globalAlpha=cl(pp*1.4);x.translate(cx,y+(1-pp)*70);x.fillStyle=NAVY;x.fillText(c,0,0);x.restore();cx+=cw[i]});x.restore()}
-function cornerText(str,px,py,align,delay,ex){const p=eio(cl((lt-delay)/.4))*ex,size=26,ls=size*.3;x.save();x.globalAlpha=p;x.font='700 '+size+'px "Inter",Arial,sans-serif';x.letterSpacing=ls+'px';x.textAlign=align;x.fillStyle=NAVY;x.fillText(str.toUpperCase(),px+(align==='right'?ls:0),py+(1-p)*14);x.restore()}
+let label='12 days of Lob';
 function draw(){
   x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,S,S);
   x.fillStyle=mixc(BGS[(day+3)%4],BGS[day%4],eio(cl(lt/.5)));x.fillRect(0,0,S,S);
   const ex=1-eio(cl((lt-(D-.7))/.5)),xo=1-ex;
-  /* the square perforated mount */
-  const W=800,pop=Math.max(.0001,eob(cl(lt/.6))),sk2=1+.012*Math.sin(T*1.4);
-  x.save();x.translate(540,572);x.scale(pop*sk2,pop*sk2);x.rotate((1-pop)*-.2+Math.sin(T*1.2)*.004);
-  x.save();x.translate(14,16);stampPath(W,W,34,34);x.fillStyle='rgba(31,33,73,.2)';x.fill();x.restore();
-  stampPath(W,W,34,34);x.fillStyle=CREAM;x.fill();
-  x.beginPath();x.roundRect(-W/2+30,-W/2+30,W-60,W-60,4);x.strokeStyle='rgba(31,33,73,.35)';x.lineWidth=2.5;x.stroke();
-  x.beginPath();x.roundRect(-W/2+36,-W/2+36,W-72,W-72,2);x.clip();
-  x.translate(-540,-572);
+  logo(64,66,128,'#fff');
+  x.save();x.font='700 22px "Inter",Arial,sans-serif';x.letterSpacing='7px';x.textAlign='right';x.fillStyle='#fff';x.fillText('DAY '+(day+1),S-64+7,100);x.restore();
   /* the historic stamp flies in from the right, spins, thumps down and floats; it leaves to the left */
   const im=imgs[day],sp=STAMPS[day];
   if(im.complete&&im.naturalWidth){
-    const k=Math.min(500/sp.w,440/sp.h,1.25),p=cl((lt-.2)/.85),e=eob(p),ox=(1-e)*760-xo*1000,rot=(1-e)*.9-xo*.5+sn(1.4)*.02,bob=sn(1.6)*6;
-    const thump=lt>.95&&lt<1.25?1+.05*Math.sin((lt-.95)/.3*Math.PI):1;
-    x.save();x.translate(540+ox,505+bob);x.rotate(rot);x.scale(k*thump,k*thump);
-    x.shadowColor='rgba(31,33,73,.38)';x.shadowBlur=26;x.shadowOffsetY=14;
-    x.drawImage(im,-sp.w/2,-sp.h/2,sp.w,sp.h);x.restore()}
-  bigText(titles[day].toLowerCase(),856,520,ex);
-  cornerText('Day '+(day+1),204,908,'left',.7,ex);cornerText(corners[day],876,252,'right',.8,ex);
-  x.restore();
-  logo(64,66,128,'#fff');
-  x.save();x.font='700 22px "Inter",Arial,sans-serif';x.letterSpacing='7px';x.textAlign='right';x.fillStyle='#fff';x.fillText('12 DAYS OF LOB',S-64+7,100);x.restore();
+    const k=Math.min(660/sp.w,660/sp.h,1.55),p=cl((lt-.2)/.85),e=eob(p),ox=(1-e)*900-xo*1100,rot=(1-e)*.9-xo*.5+sn(1.4)*.02,bob=sn(1.6)*7;
+    const thump=lt>.95&&lt<1.25?1+.04*Math.sin((lt-.95)/.3*Math.PI):1;
+    x.save();x.translate(540+ox,572+bob);x.rotate(rot);
+    x.save();x.scale(k*thump,k*thump);x.shadowColor='rgba(31,33,73,.4)';x.shadowBlur=34;x.shadowOffsetY=18;x.drawImage(im,-sp.w/2,-sp.h/2,sp.w,sp.h);x.restore();
+    /* text on the stamp: a label straddling its bottom edge */
+    const lp=Math.max(.0001,eob(cl((lt-.95)/.45)))*ex;
+    x.save();x.translate(0,sp.h*k*thump/2);x.scale(lp,lp);
+    x.font='700 27px "Inter",Arial,sans-serif';x.letterSpacing='8px';const str=label.toUpperCase(),tw=x.measureText(str).width-8,pw=tw+64,ph=62;
+    x.shadowColor='rgba(31,33,73,.3)';x.shadowBlur=14;x.shadowOffsetY=6;x.beginPath();x.roundRect(-pw/2,-ph/2,pw,ph,ph/2);x.fillStyle=NAVY;x.fill();x.shadowColor='transparent';
+    x.fillStyle='#fff';x.textAlign='left';x.textBaseline='middle';x.fillText(str,-tw/2,2);x.restore();
+    x.restore()}
 }
 
 /* ---------- loop ---------- */
@@ -121,12 +109,11 @@ function tick(now){
   if(playing){lt+=dt*speed;while(lt>=D){lt-=D;day=(day+1)%12;sync()}}
   draw();requestAnimationFrame(tick)}
 /* ---------- UI ---------- */
-const dEl=document.getElementById('days'),ttl=document.getElementById('ttl'),cor=document.getElementById('cor');
+const dEl=document.getElementById('days'),lab=document.getElementById('lab');
 for(let i=0;i<12;i++){const b=document.createElement('button');b.textContent=i+1;b.setAttribute('aria-label','Day '+(i+1));b.onclick=()=>go(i);dEl.appendChild(b)}
-function sync(){[...dEl.children].forEach((b,i)=>b.classList.toggle('on',i===day));if(document.activeElement!==ttl)ttl.value=titles[day];if(document.activeElement!==cor)cor.value=corners[day]}
+function sync(){[...dEl.children].forEach((b,i)=>b.classList.toggle('on',i===day));if(document.activeElement!==lab)lab.value=label}
 function go(i){day=((i%12)+12)%12;lt=0;sync()}
-ttl.oninput=()=>{titles[day]=ttl.value||' '};
-cor.oninput=()=>{corners[day]=cor.value};
+lab.oninput=()=>{label=lab.value};
 const pp=document.getElementById('pp');pp.onclick=()=>{playing=!playing;pp.textContent=playing?'Pause':'Play'};
 document.getElementById('png').onclick=()=>{draw();const a=document.createElement('a');a.download='lob-12-days-stamps-day-'+(day+1)+'.png';a.href=cv.toDataURL('image/png');a.click()};
 document.getElementById('rec').onclick=function(){
@@ -136,7 +123,7 @@ document.getElementById('rec').onclick=function(){
   mr.ondataavailable=e=>e.data.size&&ch.push(e.data);
   mr.onstop=()=>{const a=document.createElement('a');a.download='lob-12-days-stamps-day-'+(day+1)+'.webm';a.href=URL.createObjectURL(new Blob(ch,{type:'video/webm'}));a.click();speed=keep;b.disabled=false;b.textContent='Record day (WebM)'};
   mr.start();setTimeout(()=>mr.stop(),D*1000-60)};
-addEventListener('keydown',e=>{if(e.target===ttl||e.target===cor)return;if(e.key==='ArrowRight')go(day+1);if(e.key==='ArrowLeft')go(day-1);if(e.key===' '){e.preventDefault();pp.click()}});
+addEventListener('keydown',e=>{if(e.target===lab)return;if(e.key==='ArrowRight')go(day+1);if(e.key==='ArrowLeft')go(day-1);if(e.key===' '){e.preventDefault();pp.click()}});
 window.__ad={go,play(){playing=true},pause(){playing=false},seek(d,t){day=d;lt=t;playing=false;sync()},D};
 sync();requestAnimationFrame(tick);
 })();
