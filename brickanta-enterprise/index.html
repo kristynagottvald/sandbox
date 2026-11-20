@@ -458,6 +458,7 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 .brk i{display:block;width:20px;height:9px;background:var(--coral2);--c:4px;clip-path:polygon(0 0,calc(100% - var(--c)) 0,100% var(--c),100% 100%,var(--c) 100%,0 calc(100% - var(--c)));animation:brkm 1.3s cubic-bezier(.65,0,.35,1) infinite}
 @keyframes brkm{0%,100%{width:20px;height:9px}50%{width:9px;height:20px}}
 .gt.fixed .brk i{animation:none;width:14px;height:14px;--c:5.6px}
+@property --c{syntax:"<length>";inherits:false;initial-value:4px}
 @keyframes aispin{0%,80%{transform:rotate(0)}100%{transform:rotate(90deg)}}
 .ai-t{font-size:clamp(13px,1.15vw,14.5px);line-height:1.45;min-height:3em}
 .ai-t.typing::after{content:"";display:inline-block;width:7px;height:1em;background:var(--coral2);margin-left:2px;vertical-align:-2px;animation:aidot .7s steps(2) infinite}
@@ -520,9 +521,9 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 
 /* stacked panels: each panel's headline stays visible as the next one slides over it */
 @media(min-width:861px){
-.sp{top:calc(84px + var(--i)*64px);min-height:clamp(400px,58vh,540px);margin-bottom:calc((3 - var(--i))*64px)}
+.sp{top:calc(84px + var(--i)*78px);min-height:clamp(400px,58vh,540px);margin-bottom:calc((3 - var(--i))*78px)}
 .sps{padding-bottom:clamp(24px,6vh,64px)}
-.sp-in{padding-top:26px}
+.sp-in{padding-top:40px}
 .sp h3{white-space:nowrap;max-width:none;font-size:clamp(20px,2.05vw,30px);margin-bottom:12px}
 .sp p{max-width:40ch}
 }
@@ -926,7 +927,16 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
     var card=document.querySelector('.ui.gt');if(!card)return;
     var panel=card.closest('.sp'),txt=card.querySelector('.ai-t'),full=txt.getAttribute('data-t'),tm=[],reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
     var st=card.querySelector('.ai-st');
-    function clear(){tm.forEach(clearTimeout);tm=[];card.classList.remove('flag','fixed','pressing');txt.classList.remove('typing');txt.textContent='';st.textContent='Checking the schedule'}
+    var brick=card.querySelector('.brk i');
+    function settle(){
+      var cs=getComputedStyle(brick),w=cs.width,h=cs.height,c=cs.getPropertyValue('--c')||'4px';
+      brick.style.animation='none';brick.style.transition='none';
+      brick.style.width=w;brick.style.height=h;brick.style.setProperty('--c',c);
+      void brick.offsetWidth;
+      brick.style.transition='width .75s cubic-bezier(.65,0,.35,1),height .75s cubic-bezier(.65,0,.35,1),--c .75s cubic-bezier(.65,0,.35,1)';
+      brick.style.width='14px';brick.style.height='14px';brick.style.setProperty('--c','5.6px');
+    }
+    function clear(){brick.removeAttribute('style');tm.forEach(clearTimeout);tm=[];card.classList.remove('flag','fixed','pressing');txt.classList.remove('typing');txt.textContent='';st.textContent='Checking the schedule'}
     function run(){
       clear();
       if(reduce){txt.textContent=full;card.classList.add('fixed');st.textContent='Overlap cleared';return}
@@ -935,7 +945,7 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
       var end=t0+full.length*26;
       tm.push(setTimeout(function(){txt.classList.remove('typing');card.classList.add('flag')},t0+full.length*26*.55));
       tm.push(setTimeout(function(){card.classList.add('pressing')},end+500));
-      tm.push(setTimeout(function(){card.classList.remove('pressing','flag');card.classList.add('fixed');st.textContent='Overlap cleared'},end+800));
+      tm.push(setTimeout(function(){card.classList.remove('pressing','flag');settle();card.classList.add('fixed');st.textContent='Overlap cleared'},end+800));
     }
     new MutationObserver(function(){panel.classList.contains('in')?run():clear()}).observe(panel,{attributes:true,attributeFilter:['class']});
   })();
