@@ -912,7 +912,7 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
     }
     var seen=false,reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
     new IntersectionObserver(function(e){seen=e[0].isIntersecting},{threshold:.2}).observe(svg);
-    if(!reduce&&!CLIP)setInterval(function(){if(seen)to((cur+1)%COMBOS.length,700)},1000);
+    if(!reduce&&!CLIP)setInterval(function(){if(seen)to((cur+1)%COMBOS.length,1500)},2400);
     window.__mk={n:COMBOS.length,show:function(i){to(i,0)}};
   })();
 
