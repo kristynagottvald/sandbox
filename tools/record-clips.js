@@ -37,6 +37,8 @@ const APPS = {
   } },
   // Lob 12 Days advent, a 1:1 motion post: the wrapped door pops in, the bow lifts away, the doors swing open on the day's illustration and title, then close on the next day's number
   'lob-12-days': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 600, q: 62, run: async (p) => { await sleep(6500); } },
+  // Lob 12 Days Stamps, a 1:1 motion post: real US Christmas stamps from 1962 to 2021 fly onto a square perforated mount one a day, with the year and value top right
+  'lob-12-days-stamps': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, q: 62, run: async (p) => { await sleep(6500); } },
   // Lob Unwrapped, a full-screen 16:9 reel of concentric flat geometry: the intro stamp presses in and sends waves out, then dots stream in to build the US map, the trail of fading rectangles, the offset squares and the mandala persona
   'lob-unwrapped': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
     const t0 = Date.now(), g = (n) => p.evaluate((i) => window.__lu.go(i), n);
