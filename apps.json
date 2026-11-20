@@ -1,5 +1,14 @@
 [
   {
+    "id": "lob-12-days-linkedin",
+    "title": "Lob 12 Days LinkedIn",
+    "category": "Mockup",
+    "url": "lob-12-days-linkedin/",
+    "thumbnail": "lob-12-days-linkedin/thumb.png",
+    "preview": "lob-12-days-linkedin/thumb.webp",
+    "alt": "A LinkedIn feed with everything dimmed except the Lob post: a square 12 Days of Lob advent stamp with a one-word mail fact like tangible on a sage green background, and a caption telling the story behind that word, which swaps with the artwork to the next day, trusted and then opened, as the post steps through all twelve days"
+  },
+  {
     "id": "brickanta-enterprise",
     "title": "Brickanta Enterprise",
     "category": "Landing Page",

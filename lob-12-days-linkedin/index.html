@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lob 12 Days LinkedIn</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%235b5b63%22/%3E%3Cpath fill=%22%23f7f0ed%22 d=%22M14 14H38L50 26V50H26L14 38Z%22/%3E%3C/svg%3E">
+<meta name="description" content="A LinkedIn feed mockup of the 12 Days of Lob advent post: the post steps through all twelve days, four seconds each, with the story behind each day's word in the caption, while the rest of the feed is dimmed.">
+<style>
+:root{--ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--li:#0a66c2;--navy:#1F2149}
+*{box-sizing:border-box;margin:0}
+html{background:#000}
+body{height:100dvh;display:flex;flex-direction:column;background:#000;color:rgba(0,0,0,.9);font:400 14px/1.4 var(--ui);-webkit-font-smoothing:antialiased;overflow:hidden}
+button{font:inherit;color:inherit}
+nav.back{flex:none;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 var(--ui);white-space:nowrap;overflow:hidden;color:#fff}
+nav.back a{color:#8d8d8d;text-decoration:none}nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:640px){nav.back{padding:0 16px}nav.back .x{display:none}}
+
+/* the page area under the nav; #app is zoomed to fit */
+#stage{flex:1;min-height:0;position:relative;overflow:hidden;background:#f4f2ee}
+#app{position:relative;width:1160px;margin:0 auto;zoom:var(--z,1)}
+.lh{position:relative;background:#fff;border-bottom:1px solid #e0dfdc;height:52px;display:flex;align-items:center;gap:14px;padding:0 16px}
+.lh .logo{width:34px;height:34px;border-radius:4px;background:var(--li);color:#fff;font:700 20px/34px var(--ui);text-align:center;letter-spacing:-1px;flex:none}
+.lh .search{background:#edf3f8;border-radius:4px;height:34px;width:280px;padding:0 12px;display:flex;align-items:center;gap:8px;font-size:14px;color:rgba(0,0,0,.6)}
+.lh .ico{margin-left:auto;display:flex;gap:26px}
+.lh .ico div{display:flex;flex-direction:column;align-items:center;font-size:11px;color:rgba(0,0,0,.6);gap:2px}
+.lh .ico svg{width:22px;height:22px;fill:rgba(0,0,0,.6)}
+.lh .ico .on{color:#000}.lh .ico .on svg{fill:#000}
+.feed{display:grid;grid-template-columns:225px 555px 300px;gap:24px;padding:24px 16px 0;justify-content:center;align-items:start}
+.pn{background:#fff;border:1px solid #e0dfdc;border-radius:8px}
+.me{overflow:hidden}
+.me .cov{height:54px;background:linear-gradient(120deg,#a0b4b7,#d9c7a5)}
+.me .av{width:68px;height:68px;border-radius:50%;border:2px solid #fff;margin:-34px 0 0 16px;display:grid;place-items:center;font:600 24px var(--ui);color:#fff;background:#47607a}
+.me h3{font:600 16px var(--ui);padding:8px 16px 0}.me p{font-size:12px;color:rgba(0,0,0,.6);padding:2px 16px 14px;line-height:1.4}
+.me .st{border-top:1px solid #e0dfdc;padding:12px 16px;font-size:12px;color:rgba(0,0,0,.6);display:flex;justify-content:space-between}.me .st b{color:var(--li);font-weight:600}
+.side .pn{padding:12px 16px;margin-bottom:8px}
+.side h5{font:600 16px var(--ui);margin-bottom:10px}
+.side ul{padding:0}.side li{list-style:none;margin-bottom:12px;font-size:13px;line-height:1.35}.side li b{font-weight:600;display:block}.side li small{color:rgba(0,0,0,.6);font-size:12px}
+
+/* other posts: only their edges show, above and below the Lob post */
+.edge{overflow:hidden;position:relative;margin-bottom:8px}
+.edge.top{height:44px;display:flex;align-items:flex-end}
+.edge.top .in{width:100%}
+.edge.bot{height:70px;margin:8px 0 0}
+.ph0{display:flex;gap:8px;padding:12px 16px 0;align-items:flex-start}
+.ph-av{width:48px;height:48px;border-radius:50%;flex:none;display:grid;place-items:center;font:600 16px var(--ui);color:#fff}
+.ph0 b{display:block;font:600 14px/1.3 var(--ui)}.ph0 small{display:block;font-size:12px;line-height:1.35;color:rgba(0,0,0,.6)}
+.ph0 .more{margin-left:auto;color:rgba(0,0,0,.6);font-size:18px;letter-spacing:2px;line-height:1}
+.ph0 .fol{margin-left:auto;color:var(--li);font:600 14px var(--ui);white-space:nowrap}.ph0 .fol~.more{margin-left:10px}
+.txt{padding:8px 16px 10px;font-size:14px;line-height:1.43;color:rgba(0,0,0,.9)}
+.txt .mr{color:rgba(0,0,0,.6)}
+.cnt{display:flex;justify-content:space-between;padding:6px 16px;font-size:12px;color:rgba(0,0,0,.6);border-bottom:1px solid #eee}
+.cnt .rx{display:flex;align-items:center;gap:4px}.cnt .rx i{width:16px;height:16px;border-radius:50%;background:var(--li);display:inline-block}.cnt .rx i+i{background:#df704d;margin-left:-8px;box-shadow:0 0 0 1.5px #fff}
+.act{display:flex;padding:4px 8px}
+.act button{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:12px 4px;border:0;background:none;border-radius:4px;font:600 14px var(--ui);color:rgba(0,0,0,.6);cursor:default}
+.act svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linejoin:round}
+
+/* the Lob post, above the scrim */
+.lob{position:relative;z-index:6;overflow:hidden;box-shadow:0 10px 40px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.1)}
+.av-l{background:var(--navy)}
+.av-l svg{width:30px;height:auto}
+.cap{padding:8px 16px 12px;font-size:14px;line-height:1.43;min-height:calc(14px*1.43*4 + 20px)}
+.cap .k{font-weight:600}
+.cap .ht{color:var(--li);font-weight:600}
+.cap p{transition:opacity .28s ease,transform .28s ease}
+.cap.sw p{opacity:0;transform:translateY(6px)}
+.shot{position:relative;width:100%;aspect-ratio:1/1;background:#6BAE86;overflow:hidden}
+.shot iframe{position:absolute;inset:0;width:100%;height:100%;border:0;pointer-events:none;background:#6BAE86}
+.lob .cnt{border-top:0}
+
+/* everything else dims */
+.scrim{position:absolute;inset:0;z-index:5;background:rgba(14,15,28,.66);pointer-events:none}
+
+/* controls, outside the zoomed page */
+#dock{flex:none;position:relative;z-index:9;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;height:48px;padding:0 16px;background:#000;border-top:1px solid #1c1c1c}
+#dock .days{display:flex;gap:5px}
+#dock button{min-width:28px;height:28px;padding:0 8px;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:none;color:#fff;cursor:pointer;font:600 12px var(--ui);position:relative;overflow:hidden}
+#dock button.on{background:#F8E0F9;color:var(--navy);border-color:#F8E0F9}
+#dock button.on::after{content:"";position:absolute;left:0;bottom:0;height:3px;width:calc(var(--p,0)*100%);background:#7e60ed}
+#dock .pp{padding:0 14px}
+button:focus-visible{outline:2px solid #EAF265;outline-offset:2px}
+.clip #dock{display:none}
+
+@media(max-width:1000px){
+  body{height:auto;min-height:100dvh;overflow:auto}
+  #stage{overflow:visible}
+  #app{width:auto;max-width:555px;zoom:1}
+  .feed{display:block;padding:8px 0 0}
+  .me,.side,.lh .ico,.edge{display:none}
+  .lh .search{width:auto;flex:1}
+  .lob{border-radius:0}
+  #dock{position:sticky;bottom:0}
+}
+</style>
+</head>
+<body>
+<nav class="back"><a href="../">Sandbox</a><span>/</span><a href="../" class="x">Back to all projects</a><span class="x">/</span><b>Lob 12 Days LinkedIn</b></nav>
+
+<div id="stage"><div id="app">
+  <header class="lh"><div class="logo">in</div><div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="rgba(0,0,0,.6)"><path d="M21 19.6l-5.2-5.2a7 7 0 1 0-1.4 1.4l5.2 5.2zM4 10a6 6 0 1 1 12 0 6 6 0 0 1-12 0z"/></svg>Search</div>
+   <div class="ico"><div class="on"><svg viewBox="0 0 24 24"><path d="M23 9v2h-2v7a3 3 0 0 1-3 3h-4v-6h-4v6H6a3 3 0 0 1-3-3v-7H1V9l11-7z"/></svg>Home</div><div><svg viewBox="0 0 24 24"><path d="M12 16v6H3v-6a3 3 0 0 1 3-3h3a3 3 0 0 1 3 3zm5.5-3A3.5 3.5 0 1 0 14 9.5a3.5 3.5 0 0 0 3.5 3.5zm1 2h-2a2.5 2.5 0 0 0-2.5 2.5V22h7v-4.5a2.5 2.5 0 0 0-2.5-2.5zM7.5 2A4.5 4.5 0 1 0 12 6.5 4.49 4.49 0 0 0 7.5 2z"/></svg>My Network</div><div><svg viewBox="0 0 24 24"><path d="M3 3h18a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H8l-5 4z"/></svg>Messaging</div><div><svg viewBox="0 0 24 24"><path d="M22 19h-8.28a2 2 0 0 1-3.44 0H2v-1l1.7-1.7A1 1 0 0 0 4 15.6V11a8 8 0 0 1 5-7.4V3a3 3 0 0 1 6 0v.6A8 8 0 0 1 20 11v4.6a1 1 0 0 0 .3.7L22 18z"/></svg>Notifications</div></div></header>
+  <div class="feed">
+   <aside class="pn me"><div class="cov"></div><div class="av">JL</div><h3>Jordan Lee</h3><p>Marketing Operations Manager at Fernhill Home</p>
+    <div class="st"><span>Profile viewers</span><b>41</b></div><div class="st"><span>Post impressions</span><b>1,208</b></div></aside>
+
+   <main>
+    <article class="pn edge top" aria-hidden="true"><div class="in"><p class="txt" style="padding-bottom:12px">Three things we learned shipping our first lifecycle program, and the one we would do differently. <span class="mr">…more</span></p></div></article>
+
+    <article class="pn lob" id="lob" aria-live="polite">
+     <div class="ph0"><div class="ph-av av-l"><svg viewBox="0 0 114 50" fill="#fff" aria-label="Lob"><path d="M113.886 29.4011C113.886 41.5261 104.676 49.2099 94.954 49.2099C89.6912 49.2099 85.0859 46.9541 82.4545 43.1474L80.7204 48.4345H72.5136L72.5119 0.000103459L82.8962 0V15.0943C85.5586 11.7125 89.7868 9.59227 94.881 9.59227C104.822 9.59227 113.886 17.2761 113.886 29.4011ZM81.9429 29.3306C81.9429 35.2521 86.6942 40.0457 92.9074 40.0457C98.9743 40.0457 103.799 35.3226 103.799 29.3306C103.799 23.3386 98.9743 18.6155 92.9074 18.6155C86.6942 18.6155 81.9429 23.4091 81.9429 29.3306Z"/><path d="M0.0016883 48.4347L22.5808 48.4345L25.7235 38.7768L10.3813 38.777L10.3796 0.000103459H0L0.0016883 48.4347Z"/><path d="M47.5044 49.2099C59.419 49.2099 68.4098 40.3276 68.4098 29.4011C68.4098 18.404 59.2729 9.59227 47.5044 9.59227C35.6629 9.59227 26.6723 18.404 26.6723 29.4011C26.6723 40.3276 35.6629 49.2099 47.5044 49.2099ZM47.5777 39.9752C41.5106 39.9752 36.7595 35.2521 36.7595 29.3306C36.7595 23.4091 41.5106 18.686 47.5777 18.686C53.5713 18.686 58.3956 23.4091 58.3956 29.3306C58.3956 35.2521 53.5713 39.9752 47.5777 39.9752Z"/></svg></div>
+      <div><b>Lob</b><small>38,412 followers<br><span id="when">Just now</span> · 🌐</small></div><span class="fol">+ Follow</span><span class="more">···</span></div>
+     <div class="cap" id="cap"><p id="capT"></p></div>
+     <div class="shot"><iframe id="fr" title="12 Days of Lob post" src="../lob-12-days/index.html#post" loading="eager"></iframe></div>
+     <div class="cnt"><span class="rx"><i></i><i></i>&nbsp;<span id="likes">214</span></span><span id="cm">9 comments · 14 reposts</span></div>
+     <div class="act"><button><svg viewBox="0 0 24 24"><path d="M7 11v10H3V11zm0 0l4-8a2 2 0 0 1 2 2v4h6.5a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 18.3 21H7"/></svg>Like</button><button><svg viewBox="0 0 24 24"><path d="M3 4h18v13H8l-5 4z"/></svg>Comment</button><button><svg viewBox="0 0 24 24"><path d="M17 2l4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4M21 13v2a3 3 0 0 1-3 3H3"/></svg>Repost</button><button><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>Send</button></div>
+    </article>
+
+    <article class="pn edge bot" aria-hidden="true"><div class="ph0"><div class="ph-av" style="background:#b5651d">DM</div><div><b>Dana Mehta</b><small>VP Marketing at Cobalt Plumbing Co.<br>5h · 🌐</small></div><span class="more">···</span></div></article>
+   </main>
+
+   <aside class="side"><div class="pn"><h5>LinkedIn News</h5><ul><li><b>Marketers rethink last-click reporting</b><small>2d ago · 8,214 readers</small></li><li><b>Ad budgets shift to video</b><small>1d ago · 5,602 readers</small></li><li><b>Why first-party data is back on the roadmap</b><small>3d ago · 3,977 readers</small></li></ul></div>
+    <div class="pn"><h5>Today's puzzle</h5><ul><li><b>Zip: a quick brain teaser</b><small>Solve in under a minute</small></li></ul></div></aside>
+  </div>
+</div><div class="scrim"></div></div>
+
+<div id="dock"><div class="days" id="days"></div><button class="pp" id="pp" aria-label="Pause">Pause</button></div>
+
+<script>
+(function(){
+const CLIP=location.hash==='#clip';
+if(CLIP)document.body.classList.add('clip');
+const HOLD=4000; /* ms each day stays on screen */
+/* the story behind each day's one word */
+const DAYS=[
+ ['Tangible','An email lives in a tab until someone closes it. A postcard lives on the fridge until someone moves. Something you can hold earns a place in the home.'],
+ ['Trusted','A real stamp, a real address, a real envelope. Before anyone reads a word, the paper itself says a person on the other end meant it.'],
+ ['Opened','Nobody opens a letter by accident, and no filter sits between the mailbox and the kitchen table. It arrives, it gets picked up, it gets seen.'],
+ ['Personal','Your name, your city, the plan you were just looking at. Printed, sealed and addressed to one person, not a segment.'],
+ ['Memorable','Ask about an email from last month and you will get a shrug. Ask about the card still pinned above the desk and they will tell you who sent it.'],
+ ['Measurable','Mail used to be a black box. Now every piece is tracked from print to mailbox, scan by scan, so you know when it landed and what it did.'],
+ ['Targeted','One list, thousands of small, specific letters. The right offer to the right address in the right week, instead of one message for everyone.'],
+ ['Responsive','Someone signs up, a postcard goes out. A cart gets left behind, a letter follows. Mail that reacts as fast as your product does.'],
+ ['Seasonal','December is when mailboxes fill with cards, and when a note that feels hand-picked stands out most. Timing is half the message.'],
+ ['Lasting','An ad lasts a scroll. A card stays on the counter through the whole month, picked up each time someone walks past.'],
+ ['Delivered','Behind every "it arrived" are printers, sorters, trucks and carriers, all kicked off by one API call. We love that part.'],
+ ['Cherished','Some mail is kept for years: a birth announcement, a thank-you note, a letter from far away. That is the mail we are here to send.']
+];
+const LIKES=[214,231,248,266,289,305,322,341,367,384,409,436],CMT=[9,11,12,14,17,18,21,22,25,27,30,34];
+const $=id=>document.getElementById(id);
+const fr=$('fr'),cap=$('cap'),capT=$('capT'),dEl=$('days'),pp=$('pp');
+let day=0,t=0,playing=!CLIP,frReady=false,swT=0;
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+function fill(i){const [w,s]=DAYS[i];
+  capT.innerHTML='<span class="k">Day '+(i+1)+' of 12 Days of Lob: '+esc(w.toLowerCase())+'.</span><br>'+esc(s)+'<br><span class="ht">#12DaysOfLob #DirectMail</span>';
+  $('likes').textContent=LIKES[i];$('cm').textContent=CMT[i]+' comments · '+(8+i*2)+' reposts';
+  [...dEl.children].forEach((b,k)=>b.classList.toggle('on',k===i))}
+function show(i,instant){day=((i%12)+12)%12;t=0;
+  const send=()=>{try{fr.contentWindow.postMessage({day},'*')}catch(e){}};
+  if(instant){fill(day);if(day)send();return}
+  cap.classList.add('sw');clearTimeout(swT);
+  swT=setTimeout(()=>{fill(day);cap.classList.remove('sw')},280);
+  send()}
+for(let i=0;i<12;i++){const b=document.createElement('button');b.textContent=i+1;b.setAttribute('aria-label','Day '+(i+1)+': '+DAYS[i][0]);b.onclick=()=>show(i);dEl.appendChild(b)}
+pp.onclick=()=>{playing=!playing;pp.textContent=playing?'Pause':'Play';pp.setAttribute('aria-label',pp.textContent)};
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')show(day+1);if(e.key==='ArrowLeft')show(day-1);if(e.key===' '&&e.target.tagName!=='BUTTON'){e.preventDefault();pp.click()}});
+
+/* fit the feed to the window: the Lob post, its header and the slivers of the posts around it */
+const stage=$('stage'),app=$('app');
+function fit(){
+  if(innerWidth<=1000){app.style.removeProperty('--z');return}
+  app.style.setProperty('--z',1);
+  /* what has to be on screen: everything down to the bottom of the Lob post plus a sliver of the next post */
+  const h=$('lob').getBoundingClientRect().bottom-app.getBoundingClientRect().top+40,w=1160;
+  const z=Math.min(stage.clientHeight/h,stage.clientWidth/w,1.6);
+  app.style.setProperty('--z',Math.max(.4,z).toFixed(4))}
+addEventListener('resize',fit);
+
+/* 4 seconds a day */
+let last=performance.now();
+function tick(now){const dt=now-last;last=now;
+  if(playing&&dt<250){t+=dt;if(t>=HOLD)show(day+1)}
+  dock(t/HOLD);requestAnimationFrame(tick)}
+function dock(p){const b=dEl.children[day];if(b)b.style.setProperty('--p',Math.min(1,p).toFixed(3))}
+
+fill(0);
+/* size once the layout (and the post's height) is known */
+function boot(){fit();requestAnimationFrame(()=>requestAnimationFrame(fit))}
+if(document.readyState==='complete')boot();else addEventListener('load',boot);
+fr.addEventListener('load',()=>{frReady=true;if(day)fr.contentWindow.postMessage({day},'*')});
+requestAnimationFrame(tick);
+window.__li={go:i=>show(i),play(){playing=true;pp.textContent='Pause'},pause(){playing=false;pp.textContent='Play'},HOLD,get day(){return day}};
+})();
+</script>
+</body>
+</html>

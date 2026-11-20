@@ -25,6 +25,13 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
+  // Lob 12 Days on LinkedIn: the post sits in a dimmed feed, day 1 (tangible) settles, then the post steps to day 2 and day 3, the caption swapping to the story behind each word (the live page holds each day for 4 seconds)
+  'lob-12-days-linkedin': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1800, q: 62, run: async (p) => {
+    const t0 = Date.now();
+    await at(t0, 1500, () => p.evaluate(() => window.__li.go(1)));
+    await at(t0, 3900, () => p.evaluate(() => window.__li.go(2)));
+    await sleep(2400);
+  } },
   // Brickanta Enterprise, a long landing page: the coral tile opens along the logo's 45 degree line, then the page scrolls to the tabbed showcase whose example card changes colour and content, on to the big numerals and the trust numbers
   'brickanta-enterprise': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1500, q: 62, run: async (p) => {
     const t0 = Date.now(), b = (f, a) => p.evaluate(([f, a]) => window.__bk[f](a), [f, a]);
