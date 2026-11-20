@@ -19,7 +19,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 
 /* the page area under the nav; #app is zoomed to fit */
 #stage{flex:1;min-height:0;position:relative;overflow:hidden;background:#f4f2ee}
-#app{position:relative;width:1160px;margin:0 auto;zoom:var(--z,1)}
+#app{position:relative;width:1280px;margin:0 auto;zoom:var(--z,1)}
 .lh{position:relative;background:#fff;border-bottom:1px solid #e0dfdc;height:52px;display:flex;align-items:center;gap:14px;padding:0 16px}
 .lh .logo{width:34px;height:34px;border-radius:4px;background:var(--li);color:#fff;font:700 20px/34px var(--ui);text-align:center;letter-spacing:-1px;flex:none}
 .lh .search{background:#edf3f8;border-radius:4px;height:34px;width:280px;padding:0 12px;display:flex;align-items:center;gap:8px;font-size:14px;color:rgba(0,0,0,.6)}
@@ -27,7 +27,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .lh .ico div{display:flex;flex-direction:column;align-items:center;font-size:11px;color:rgba(0,0,0,.6);gap:2px}
 .lh .ico svg{width:22px;height:22px;fill:rgba(0,0,0,.6)}
 .lh .ico .on{color:#000}.lh .ico .on svg{fill:#000}
-.feed{display:grid;grid-template-columns:225px 555px 300px;gap:24px;padding:24px 16px 0;justify-content:center;align-items:start}
+.feed{display:grid;grid-template-columns:210px 680px 270px;gap:24px;padding:14px 16px 0;justify-content:center;align-items:start}
 .pn{background:#fff;border:1px solid #e0dfdc;border-radius:8px}
 .me{overflow:hidden}
 .me .cov{height:54px;background:linear-gradient(120deg,#a0b4b7,#d9c7a5)}
@@ -40,9 +40,9 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 
 /* other posts: only their edges show, above and below the Lob post */
 .edge{overflow:hidden;position:relative;margin-bottom:8px}
-.edge.top{height:44px;display:flex;align-items:flex-end}
+.edge.top{height:12px}
 .edge.top .in{width:100%}
-.edge.bot{height:70px;margin:8px 0 0}
+.edge.bot{height:26px;margin:8px 0 0}
 .ph0{display:flex;gap:8px;padding:12px 16px 0;align-items:flex-start}
 .ph-av{width:48px;height:48px;border-radius:50%;flex:none;display:grid;place-items:center;font:600 16px var(--ui);color:#fff}
 .ph0 b{display:block;font:600 14px/1.3 var(--ui)}.ph0 small{display:block;font-size:12px;line-height:1.35;color:rgba(0,0,0,.6)}
@@ -86,7 +86,7 @@ nav.back b{flex:none}
 @media(max-width:1000px){
   body{height:auto;min-height:100dvh;overflow:auto}
   #stage{overflow:visible}
-  #app{width:auto;max-width:555px;zoom:1}
+  #app{width:auto;max-width:680px;zoom:1}
   .feed{display:block;padding:8px 0 0}
   .me,.side,.lh .ico,.edge{display:none}
   .lh .search{width:auto;flex:1}
@@ -172,7 +172,7 @@ function fit(){
   if(innerWidth<=1000){app.style.removeProperty('--z');return}
   app.style.setProperty('--z',1);
   /* what has to be on screen: everything down to the bottom of the Lob post plus a sliver of the next post */
-  const h=$('lob').getBoundingClientRect().bottom-app.getBoundingClientRect().top+40,w=1160;
+  const h=$('lob').getBoundingClientRect().bottom-app.getBoundingClientRect().top+10,w=app.offsetWidth;
   const z=Math.min(stage.clientHeight/h,stage.clientWidth/w,1.6);
   app.style.setProperty('--z',Math.max(.4,z).toFixed(4))}
 addEventListener('resize',fit);
