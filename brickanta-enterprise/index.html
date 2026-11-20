@@ -373,7 +373,8 @@ footer .tag{font-family:var(--sans);font-weight:500;letter-spacing:-.01em}
 /* shorter headlines; the image is navy, with the texture sitting quietly on it */
 .sp h3{max-width:11ch}.sp p{max-width:34ch}
 .sp .vis{background:var(--navy)}
-.vis .sp-img img{mix-blend-mode:normal;opacity:.34;filter:grayscale(1) contrast(1.2) brightness(.75)}
+.vis .sp-img img{mix-blend-mode:normal;opacity:.42;filter:grayscale(1) contrast(1.25) brightness(.8)}
+.vis .sp-img::after{content:"";position:absolute;inset:0;background:var(--navy);opacity:.5}
 
 
 /* checklist card: analysis tasks that tick off one by one */
