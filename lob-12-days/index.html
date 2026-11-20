@@ -189,7 +189,7 @@ function draw(){
   const scene=front=>{x.save();x.translate(540,572);x.scale(.6,.6);x.translate(-750,-590);sceneDraw(front,ex);x.restore()};
   scene(false);circleLogo();
   bigText(titles[day].toLowerCase(),596,640,ex);
-  scene(true);cornerText('Day '+(day+1),204,908,'left',.5,ex);cornerText(corner,876,252,'right',.6,ex,true);
+  scene(true);cornerText('Day '+(day+1),204,908,'left',.5,ex,true);cornerText(corner,876,252,'right',.6,ex,true);
   x.restore();
 }
 
