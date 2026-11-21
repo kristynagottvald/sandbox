@@ -1,5 +1,14 @@
 [
   {
+    "id": "brickanta-enterprise-visuals",
+    "title": "Brickanta Enterprise Visuals",
+    "category": "Motion",
+    "url": "brickanta-enterprise-visuals/",
+    "thumbnail": "brickanta-enterprise-visuals/thumb.png",
+    "preview": "brickanta-enterprise-visuals/thumb.webp",
+    "alt": "A two by two grid of square Brickanta motion visuals on black: a navy tile opening along two angled logo windows onto a coral tower with a question about retention and its answer, a schedule card on grey concrete texture where an agent types that piling starts too early and the bar moves three days, a coral panel reading See Brickanta in action with bars and shards morphing over a tower picture, and an example card that switches colour and content between project examples"
+  },
+  {
     "id": "lob-12-days-linkedin",
     "title": "Lob 12 Days LinkedIn",
     "category": "Mockup",
