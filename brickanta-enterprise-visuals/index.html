@@ -20,14 +20,14 @@ nav.back span{color:#6e6e6e}
 nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:640px){nav.back{padding:0 16px}nav.back .x{display:none}}
 main{flex:1;display:flex;align-items:center;width:100%;max-width:1760px;margin:0 auto;padding:clamp(20px,3vw,40px) clamp(16px,2.4vw,34px) 60px}
-.grid{width:100%;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.4vw,40px)}
+.grid{width:100%;display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,2.4vw,40px)}
 figure{display:block;min-width:0}
 .stage{position:relative;aspect-ratio:1/1;overflow:hidden;container-type:inline-size;isolation:isolate}
 figcaption{margin-top:14px;padding:18px 22px;background:var(--paper);color:var(--plum);font:700 clamp(12px,1.15vw,16px)/1.2 var(--sans);letter-spacing:.2em;text-transform:uppercase}
-@media(max-width:1000px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1300px){.grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.grid{grid-template-columns:1fr}}
-/* recorded clip: just the squares, no captions, two rows of three filling the stage */
-.clip main{padding:0;justify-content:center}.clip .grid{gap:12px;width:calc(1.5*(100vh - 49px) - 6px);max-width:none}.clip .grid{grid-template-columns:repeat(3,1fr)}.clip figcaption{display:none}
+/* recorded clip: just the squares, no captions, two rows of four filling the stage */
+.clip main{padding:0;justify-content:center}.clip .grid{gap:12px;width:100%;max-width:none;grid-template-columns:repeat(4,1fr)}.clip figcaption{display:none}
 
 /* 1 hero: the logo as a window */
 .s-hero{background:var(--paper)}
@@ -46,7 +46,7 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--paper);color:var(-
 /* 2 schedule card on a texture */
 .s-sched{background:var(--blue)}
 .s-sched .tx{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.1);mix-blend-mode:multiply;opacity:.85}
-.card{position:absolute;left:8%;right:8%;top:50%;transform:translateY(-50%);background:var(--paper);color:var(--navy);padding:3.4cqw;font-size:2.5cqw;line-height:1.3;z-index:1;opacity:0}
+.card{position:absolute;left:4%;right:4%;top:50%;transform:translateY(-50%);background:var(--paper);color:var(--navy);padding:3cqw;font-size:2.12cqw;line-height:1.3;z-index:1;opacity:0}
 .gt-t{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:1.4em;letter-spacing:-.01em;padding:0 .1em .55em}
 .gt-t span+span{font-size:.62em;font-weight:500;border:1px solid rgba(14,31,76,.3);padding:.4em .7em;background:#fff;letter-spacing:0}
 .gt-b{position:relative;background:#fff;border:1px solid rgba(14,31,76,.14);overflow:hidden}
@@ -58,7 +58,6 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--paper);color:var(-
 .tlc{position:relative;align-self:stretch;border-left:1px solid rgba(14,31,76,.1)}
 .tlc em{position:absolute;top:50%;transform:translateY(-50%);font-style:normal;font-weight:500;white-space:nowrap;opacity:.75}
 .gt-m .tlc em{font-weight:600;opacity:1}
-.gt-k .tlc em{top:calc(50% - .8em)}
 .td{position:absolute;top:50%;width:.75em;height:.75em;background:var(--navy);transform:translate(-50%,-50%) rotate(45deg)}
 .gt-g{display:flex;gap:.7em;align-items:baseline;padding:.65em .8em;background:rgba(14,31,76,.07);border-top:1px solid rgba(14,31,76,.1);font-weight:600}
 .gt-g i{font-style:normal;font-weight:400;opacity:.55}
@@ -105,14 +104,16 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--paper);color:var(-
 
 /* 5 + 6 logo lockup, tagline, diagonal duotone photo shard */
 .s-logo{background:var(--plum);color:#f7f4f0}
-.s-logo .lk{position:absolute;left:6%;top:6%;display:flex;align-items:center;gap:2cqw}
-.s-logo .lm{width:6.6cqw;height:6.6cqw;overflow:visible;color:var(--coral)}
-.s-logo .wm{font:500 8.2cqw/1 var(--sans);letter-spacing:-.04em;color:#ece5e7}
-.s-logo .tg{position:absolute;left:6%;top:19%;width:60%;font:400 4.6cqw/1.22 var(--sans);letter-spacing:-.02em;color:#fff}
+.s-logo .lk{position:absolute;right:6%;top:6%;display:flex;align-items:center;gap:1.6cqw}
+.s-logo .lm{width:5.4cqw;height:5.4cqw;overflow:visible;color:var(--coral)}
+.s-logo .wm{font:500 6.6cqw/1 var(--sans);letter-spacing:-.04em;color:#ece5e7}
+.s-logo .tg{position:absolute;left:6%;top:6%;width:56%;font:400 5cqw/1.2 var(--sans);letter-spacing:-.02em;color:#fff}
 .s-logo .sh{position:absolute;inset:0;overflow:hidden}
 .s-logo .sh img{position:absolute;left:-8%;top:-8%;width:116%;height:116%;object-fit:cover}
 .s-logo.a .sh img{filter:url(#duoA)}
 
+.s-step{background:#0e1f4c}.s-step svg{position:absolute;inset:0;width:100%;height:100%;display:block}.s-step line{stroke-width:1px;vector-effect:non-scaling-stroke}
+.s-ico{background:#0e1f4c}.s-ico svg{position:absolute;inset:0;width:100%;height:100%;display:block}.s-ico .ic{transform-box:fill-box;transform-origin:center}
 .s-pat{background:#081c4e}.s-pat svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 
 /* 3 footer shards */
@@ -156,11 +157,11 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--paper);color:var(-
     <div class="stage s-sched" id="fSched" role="img" aria-label="A schedule card on a grey concrete texture: bars grow in, the agent types that piling starts before the excavation is done, flags the bar, and applies a three day move">
       <img class="tx" src="sp-4.webp" alt="">
       <div class="card" id="card">
-        <div class="gt-t"><span>Schedule</span><span>Group by: Work packages &#9662;</span></div>
+        <div class="gt-t"><span>Schedule</span><span>Group by: Work packages <svg viewBox="0 0 12 12" width="1em" height="1em" aria-hidden="true" style="vertical-align:-.1em;margin-left:.4em"><path d="M2 4L6 8L10 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></svg></span></div>
         <div class="gt-b">
           <div class="gt-r gt-m"><span></span><div class="tlc"><em style="left:6%">February</em><em style="left:56%">March</em></div></div>
-          <div class="gt-r gt-k"><span>Key dates</span><div class="tlc"><u class="td" style="left:46%"></u><em style="right:55%;opacity:.75">Today</em><em style="left:50%;opacity:.6">&#9670; Foundation done</em></div></div>
-          <div class="gt-g"><span>&#9662; Earthworks &amp; Foundation</span><i>2 items</i></div>
+          <div class="gt-r gt-k"><span>Key dates</span><div class="tlc"><u class="td" style="left:46%"></u><em style="left:49%">Today</em><em style="left:66%;opacity:.6">&#9670; Foundation done</em></div></div>
+          <div class="gt-g"><span><svg viewBox="0 0 12 12" width="1em" height="1em" aria-hidden="true" style="vertical-align:-.1em;margin-right:.4em"><path d="M2 4L6 8L10 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="square"/></svg>Earthworks &amp; Foundation</span><i>2 items</i></div>
           <div class="gt-r"><span>Earthworks &amp; Excavation</span><div class="tlc"><i class="bar" data-l="34" data-w="30" data-d=".7" style="left:34%;width:30%">Excavation &amp; Utilities</i><i class="bar" data-l="67" data-w="17" data-d="1" style="left:67%;width:17%">Backfill</i></div></div>
           <div class="gt-r"><span>Piling</span><div class="tlc"><i class="bar pl" id="pl" data-l="40" data-w="24" data-d="1.2" style="left:40%;width:24%">Piling</i></div></div>
           <u class="tdl" id="tdl"></u>
@@ -181,9 +182,9 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--paper);color:var(-
       <h2>See Brickanta<br>in action</h2>
       <p>Get a closer look at the platform built for construction teams.</p>
       <span class="btn">Request demo</span>
-      <svg class="mk" id="morph" viewBox="0 0 6 6" preserveAspectRatio="none" aria-hidden="true"><defs><clipPath id="mkc"><polygon points="3.8,3.95 2.65,3.95 2.65,5.1"/><polygon points="2.35,3.95 1.2,5.1 1.2,6.25 2.35,5.1"/><polygon points="1.2,3.95 0.05,3.95 0.05,6.25 1.2,5.1"/><polygon points="2.65,2.05 3.75,2.05 1.85,3.95 0.75,3.95"/></clipPath></defs><g clip-path="url(#mkc)" transform="translate(2.15 0)"><rect x="-3" y="-1" width="12" height="9" fill="#d4e0ee"/><use href="#ill3" x="-3.45" y="2.05" width="7" height="7"/></g></svg>
+      <svg class="mk" id="morph" viewBox="0 0 6 6" preserveAspectRatio="none" aria-hidden="true"><defs><clipPath id="mkc"><polygon points="3.8,3.95 2.65,3.95 2.65,5.1"/><polygon points="2.35,3.95 1.2,5.1 1.2,6.25 2.35,5.1"/><polygon points="1.2,3.95 0.05,3.95 0.05,6.25 1.2,5.1"/><polygon points="2.65,2.05 3.75,2.05 1.85,3.95 0.75,3.95"/></clipPath></defs><g clip-path="url(#mkc)" transform="translate(2.15 0)"><rect x="-3" y="-1" width="12" height="9" fill="#d4e0ee"/><use href="#ill3" x="-3.19" y=".97" width="5.5" height="5.5"/></g></svg>
     </div>
-    <figcaption>Footer shards</figcaption>
+    <figcaption>Shard mask</figcaption>
   </figure>
 
   <figure>
@@ -192,7 +193,7 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--paper);color:var(-
       <p class="tg">Keep every project’s knowledge in one place.</p>
       <div class="sh"><img src="tex-blocks.webp" alt=""></div>
     </div>
-    <figcaption>Logo lockup on duotone shard</figcaption>
+    <figcaption>Logo lockup</figcaption>
   </figure>
 
   <figure>
@@ -208,6 +209,18 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--paper);color:var(-
       <svg viewBox="0 0.47 9 9" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><g fill="#f84545"><polygon points="4,1.47 6,1.47 7,2.47 7,3.47 6,2.47 4,2.47"/><polygon points="2,2.47 4,2.47 5,3.47 5,4.47 4,3.47 2,3.47"/><polygon points="0,3.47 2,3.47 3,4.47 3,5.47 2,4.47 0,4.47"/><polygon points="5,4.47 7,4.47 8,5.47 8,6.47 7,5.47 5,5.47"/><polygon points="3,5.47 5,5.47 6,6.47 6,7.47 5,6.47 3,6.47"/><polygon points="1,6.47 3,6.47 4,7.47 4,8.47 3,7.47 1,7.47"/><polygon points="6,7.47 8,7.47 9,8.47 9,9.47 8,8.47 6,8.47"/><polygon points="4,8.47 6,8.47 7,9.47 7,10.47 6,9.47 4,9.47"/></g></svg>
     </div>
     <figcaption>Pattern</figcaption>
+  </figure>
+  <figure>
+    <div class="stage s-ico" id="fIco" role="img" aria-label="Nine thick, filled Brickanta icons in a three by three grid: requirements, quantities, risks, decisions, invoices, deliveries, schedule, legal and technical, each as a coral outline on navy">
+      <svg viewBox="0 0 90 90" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><path d="M30 0V90M60 0V90M0 30H90M0 60H90" stroke="#d4e0ee" stroke-opacity=".16" stroke-width=".25" fill="none"/><g fill="none" stroke="#e8584f" stroke-width="1.5" stroke-linejoin="miter" stroke-linecap="square"><g transform="translate(0 0)"><g class="ic"><path fill-rule="evenodd" d="M5 2H15L20 7V22H5Z M9 11H16V13H9Z M9 16H16V18H9Z"/></g></g><g transform="translate(30 0)"><g class="ic"><path fill-rule="evenodd" d="M3 14H8V21H3Z M10 8H15V21H10Z M17 3H22V21H17Z"/></g></g><g transform="translate(60 0)"><g class="ic"><path fill-rule="evenodd" d="M12 2L23 21H1Z M11 9H13V15H11Z M11 17H13V19H11Z"/></g></g><g transform="translate(0 30)"><g class="ic"><path fill-rule="evenodd" d="M3 9H13V4L22 12L13 20V15H3Z"/></g></g><g transform="translate(30 30)"><g class="ic"><path fill-rule="evenodd" d="M5 2H19V22L16 19L12 22L8 19L5 22Z M8 7H16V9H8Z M8 12H16V14H8Z"/></g></g><g transform="translate(60 30)"><g class="ic"><path fill-rule="evenodd" d="M1 5H15V16H1Z M15 8H19L23 12V16H15Z M4 17H8V21H4Z M16 17H20V21H16Z"/></g></g><g transform="translate(0 60)"><g class="ic"><path fill-rule="evenodd" d="M3 5H21V22H3Z M7 2H9V6H7Z M15 2H17V6H15Z M6 11H10V14H6Z M12 11H16V14H12Z M6 16H10V19H6Z"/></g></g><g transform="translate(30 60)"><g class="ic"><path fill-rule="evenodd" d="M2 8L12 2L22 8V10H2Z M4 12H8V19H4Z M10 12H14V19H10Z M16 12H20V19H16Z M2 21H22V23H2Z"/></g></g><g transform="translate(60 60)"><g class="ic"><path fill-rule="evenodd" d="M9 2H15V5H19V9H22V15H19V19H15V22H9V19H5V15H2V9H5V5H9Z M9 9H15V15H9Z"/></g></g></g></svg>
+    </div>
+    <figcaption>Icon grid</figcaption>
+  </figure>
+  <figure>
+    <div class="stage s-step" id="fStep" role="img" aria-label="Thin ice-blue vertical lines on navy, each starting higher than the one before until they reach a horizontal rule across the top, with a thicker line at the right edge, drawing upward one after another">
+      <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><g stroke="#d4e0ee" stroke-opacity=".42" fill="none" vector-effect="non-scaling-stroke"><line id="slh" x1="0" y1="9" x2="100" y2="9" style="stroke-width:1.5px"/><line class="sl" data-top="88" x1="12" x2="12" y2="100"/><line class="sl" data-top="76" x1="20" x2="20" y2="100"/><line class="sl" data-top="64" x1="28" x2="28" y2="100"/><line class="sl" data-top="52" x1="36" x2="36" y2="100"/><line class="sl" data-top="40" x1="44" x2="44" y2="100"/><line class="sl" data-top="28" x1="52" x2="52" y2="100"/><line class="sl" data-top="16" x1="60" x2="60" y2="100"/><line class="sl" data-top="9.5" x1="68" x2="68" y2="100"/><line class="sl" data-top="9.5" x1="76" x2="76" y2="100"/><line class="sl sl2" data-top="9" x1="88" x2="88" y2="100" style="stroke-width:3px;stroke-opacity:.6"/></g></svg>
+    </div>
+    <figcaption>Step lines</figcaption>
   </figure>
 </div>
 </main>
@@ -311,12 +324,39 @@ figcaption{margin-top:14px;padding:18px 22px;background:var(--paper);color:var(-
   }
   var LA=lockup('#fLogoA',true,0);
 
+  /* ---------- 7. icon grid: icons pop in one by one, a light wave runs through them, then they drop out ---------- */
+  var IC=[].slice.call(document.querySelectorAll('#fIco .ic')),ICP=10;
+  /* centre every icon's drawn shape in its 30 x 30 cell */
+  IC.forEach(function(g){var p=g.firstChild,b=p.getBBox(),s=.8333;p.setAttribute('transform','translate('+(15-s*(b.x+b.width/2))+' '+(15-s*(b.y+b.height/2))+') scale('+s+')')});
+  var CORAL=[232,88,79],ICE=[212,224,238];
+  function icons(t){
+    t=((t%ICP)+ICP)%ICP;
+    IC.forEach(function(el,i){
+      var a=oq(seg(t,.2+i*.12,.8+i*.12))*(1-oq(seg(t,8.3+i*.06,8.9+i*.06)));
+      var k=Math.max(0,1-Math.abs(t-(3.6+i*.28))/.55);k=k*k*(3-2*k);
+      var c=CORAL.map(function(v,j){return Math.round(lerp(v,ICE[j],k))});
+      el.style.transform='scale('+(.4+.6*a)+')';el.style.opacity=a;el.firstChild.setAttribute('stroke','rgb('+c.join(',')+')');
+    });
+  }
+
+  /* ---------- 8. step lines: the top rule draws across, then each line rises to its step, one after another ---------- */
+  var SH=$('#slh'),SL=[].slice.call(document.querySelectorAll('#fStep .sl')),SP=10;
+  function steps(t){
+    t=((t%SP)+SP)%SP;
+    var out=io(seg(t,8.4,9.4));
+    SH.setAttribute('x2',100*oq(seg(t,.1,1.3))*(1-out));
+    SL.forEach(function(el,i){
+      var top=+el.dataset.top,u=oq(seg(t,.6+i*.2,1.9+i*.2))*(1-out);
+      el.setAttribute('y1',100-(100-top)*u);
+    });
+  }
+
   /* ---------- clock ---------- */
   var T=FROM,last=performance.now(),playing=!reduce;
-  function draw(){hero(T);sched(T);ex(T);LA(T)}
+  function draw(){hero(T);sched(T);ex(T);LA(T);icons(T);steps(T)}
   function frame(now){var dt=(now-last)/1000;last=now;if(playing&&!document.hidden)T+=Math.min(dt,.1);draw();requestAnimationFrame(frame)}
   if(reduce){T=4.2;draw()}                       /* still frame: everything on show */
-  if(reduce){hero(4.2);sched(8);ex(3.2);LA(4)}
+  if(reduce){hero(4.2);sched(8);ex(3.2);LA(4);icons(4.5);steps(5)}
   else{draw();requestAnimationFrame(function(n){last=n;frame(n)})}
   window.__bv={play:function(){playing=true},pause:function(){playing=false},seek:function(t){T=t;draw()},get t(){return T}};
 })();
