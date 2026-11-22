@@ -108,6 +108,12 @@ const APPS = {
     await at(t0, 4600, () => p.mouse.move(300, 650, { steps: 10 }));
     await sleep(1800);
   } },
+  // Mavenoid hero on the sandbox blue: the finished hero, then the search card and graph reset and rebuild, the robot presenting the query, the matches, the notes and the chosen result
+  'mavenoid-hero': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
+    const t0 = Date.now();
+    await at(t0, 700, () => p.evaluate(() => __rb.play({ from: 0, speed: 1.75, loop: false })));
+    await sleep(5600);
+  } },
   // the finished composition, then the whole 9 s cycle at 1.4x: the query is typed, matches appear, the query and context notes fly onto the graph, the result lands
   'nlp-diagram': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
     const t0 = Date.now();
