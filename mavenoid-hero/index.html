@@ -40,6 +40,13 @@ h1 span{color:#3F7DC6}
 .btn{display:flex;align-items:center;justify-content:center;height:calc(50.5*var(--u));border-radius:calc(26*var(--u));font:500 calc(14.5*var(--u))/1 "Inter Tight","Inter","Helvetica Neue",Arial,sans-serif;text-decoration:none;white-space:nowrap}
 .btn.go{width:calc(184*var(--u));background:#F96442;color:#fff}
 .btn.try{width:calc(219*var(--u));background:#CFECFF;color:#14305A}
+/* hover: lift, brighten and glow; press settles back; keyboard focus gets a ring */
+.btn{cursor:pointer;transition:transform .2s cubic-bezier(.2,.8,.2,1),box-shadow .2s ease,background-color .2s ease,color .2s ease;will-change:transform}
+.btn.go:hover{background:#FF7451;transform:translateY(calc(-3*var(--u)));box-shadow:0 calc(9*var(--u)) calc(20*var(--u)) rgba(249,100,66,.42)}
+.btn.try:hover{background:#B4DDFF;color:#0C2A55;transform:translateY(calc(-3*var(--u)));box-shadow:0 calc(9*var(--u)) calc(20*var(--u)) rgba(58,126,212,.32)}
+.btn:active{transform:translateY(0) scale(.97);box-shadow:none;transition-duration:.08s}
+.btn:focus-visible{outline:calc(2.5*var(--u)) solid #14305A;outline-offset:calc(3*var(--u))}
+@media (prefers-reduced-motion:reduce){.btn{transition:background-color .2s ease,color .2s ease}.btn:hover,.btn:active{transform:none}}
 .ill{position:absolute;left:calc((902 - 191)*var(--u));top:calc((464.6 - 339)*var(--u));width:calc(838*var(--u));height:auto;display:block;cursor:pointer;aspect-ratio:308/229}
 .rp{fill:none}
 svg text{font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:500;font-size:4.8px}
