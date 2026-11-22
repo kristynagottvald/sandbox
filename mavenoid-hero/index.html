@@ -6,7 +6,7 @@
 <title>Mavenoid Hero</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%234c7cce%22/%3E%3Crect x=%2210%22 y=%2214%22 width=%2244%22 height=%2236%22 fill=%22%23ffffff%22/%3E%3Ccircle cx=%2225%22 cy=%2232%22 r=%228%22 fill=%22%23f96442%22/%3E%3Crect x=%2238%22 y=%2223%22 width=%2212%22 height=%227%22 fill=%22%23f9e898%22/%3E%3Crect x=%2238%22 y=%2234%22 width=%2212%22 height=%227%22 fill=%22%23f9e898%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0}
 html,body{height:100%;background:#4C7CCE;color:#173259;overflow:hidden;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
@@ -34,12 +34,12 @@ main{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
 .canvas{--u:calc(100cqw / 2000);position:absolute;inset:0}
 .card{position:absolute;left:calc(191*var(--u));top:calc(339*var(--u));width:calc(1616*var(--u));height:calc(746*var(--u));border-radius:calc(30*var(--u));background:#fff;overflow:hidden}
 .a{position:absolute;left:calc((var(--x) - 191)*var(--u));top:calc((var(--y) - 339)*var(--u))}
-.logo{display:flex;align-items:center;gap:calc(10*var(--u));color:#14305A;font:500 calc(21.5*var(--u))/1 "Inter","Helvetica Neue",Arial,sans-serif;letter-spacing:-.01em}
-.logo svg{width:calc(53*var(--u));height:calc(53*var(--u));display:block}
-h1{font:600 calc(71.9*var(--u))/calc(80*var(--u)) "Inter","Helvetica Neue",Arial,sans-serif;letter-spacing:-.004em;color:#14305A;white-space:nowrap}
+.logo{display:flex;align-items:center;gap:calc(8.4*var(--u));color:#14305A;font:500 calc(23.3*var(--u))/1 "Inter Tight","Inter","Helvetica Neue",Arial,sans-serif;letter-spacing:0}
+.logo svg{width:calc(53*var(--u));height:calc(53*var(--u));display:block;overflow:visible}
+h1{font:600 calc(76.7*var(--u))/calc(80.4*var(--u)) "Inter Tight","Inter","Helvetica Neue",Arial,sans-serif;letter-spacing:0;color:#14305A;white-space:nowrap}
 h1 span{color:#3F7DC6}
-.lede{font:400 calc(17*var(--u))/calc(21*var(--u)) "Inter","Helvetica Neue",Arial,sans-serif;color:#14305A;white-space:nowrap;letter-spacing:-.003em}
-.btn{display:flex;align-items:center;justify-content:center;height:calc(49*var(--u));border-radius:calc(25*var(--u));font:400 calc(13.5*var(--u))/1 "Inter","Helvetica Neue",Arial,sans-serif;text-decoration:none;white-space:nowrap}
+.lede{font:400 calc(18.65*var(--u))/calc(21.5*var(--u)) "Inter Tight","Inter","Helvetica Neue",Arial,sans-serif;color:#14305A;white-space:nowrap}
+.btn{display:flex;align-items:center;justify-content:center;height:calc(50.5*var(--u));border-radius:calc(26*var(--u));font:500 calc(14.5*var(--u))/1 "Inter Tight","Inter","Helvetica Neue",Arial,sans-serif;text-decoration:none;white-space:nowrap}
 .btn.go{width:calc(184*var(--u));background:#F96442;color:#fff}
 .btn.try{width:calc(219*var(--u));background:#CFECFF;color:#14305A}
 .ill{position:absolute;left:calc((902 - 191)*var(--u));top:calc((464.6 - 339)*var(--u));width:calc(838*var(--u));height:auto;display:block;cursor:pointer;aspect-ratio:308/229}
@@ -53,11 +53,11 @@ svg text{font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;font-we
 <main>
 <div class="stage"><div class="canvas">
 <div class="card">
-<div class="a logo" style="--x:307;--y:431.5"><svg viewBox="0 0 56 56" fill="none" stroke="#14305A" stroke-width="3.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 43.2A24.2 24.2 0 1 0 3.2 27.5"/><path d="M3.5 28C3.5 35.5 13 36 14.4 29.5C15.6 24 21.6 22.6 22.4 28.4C23.2 34.6 17 40 15.2 33.6C13.6 27.4 21 21.8 27.2 23.4C32.6 24.8 33 31 31.2 35"/></svg>mavenoid</div>
-<h1 class="a" style="--x:307;--y:533.5"><span>Abracadabra</span><br>for customer<br>service</h1>
+<div class="a logo" style="--x:306.6;--y:432"><svg viewBox="0 0 53 53" fill="none" stroke="#14305A" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8.5 43.2A23 23 0 1 0 3.2 28"/><path d="M2.4 29C2.4 36 9.6 36.5 10.8 29.5C11.8 23.5 15 19.2 18 19.2C23.5 19.4 25 28 25.3 33C25.5 37 20.4 37.5 20.7 33C21 26 27 19 33 19C38 19 40 26 40.8 33.5"/></svg>mavenoid</div>
+<h1 class="a" style="--x:307;--y:534.3"><span>Abracadabra</span><br>for customer<br>service</h1>
 <p class="a lede" style="--x:307;--y:792.5">Offer troubleshooting solutions, replacement part ordering,<br>and more — powered by artificial intelligence trained to<br>understand even the most complex questions.</p>
-<a class="a btn go" style="--x:307;--y:890" href="#" onclick="return false">Get a demo</a>
-<a class="a btn try" style="--x:507;--y:890" href="#" onclick="return false">Try Mavenoid for free</a>
+<a class="a btn go" style="--x:307;--y:889" href="#" onclick="return false">Get a demo</a>
+<a class="a btn try" style="--x:507;--y:889" href="#" onclick="return false">Try Mavenoid for free</a>
 <svg id="art" class="ill" viewBox="0 0 308 229" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A robot presents a support search card and a graph of sticky notes beside it.">
 <defs>
 <clipPath id="tc"><rect id="tcr" x="22" y="27" width="0" height="14"/></clipPath>
