@@ -1,5 +1,14 @@
 [
   {
+    "id": "mavenoid-hero",
+    "title": "Mavenoid Hero",
+    "category": "Landing Page",
+    "url": "mavenoid-hero/",
+    "thumbnail": "mavenoid-hero/thumb.png",
+    "preview": "mavenoid-hero/thumb.webp",
+    "alt": "A Mavenoid style hero on a flat blue page: a white card with the headline Abracadabra for customer service, two buttons, a support search card with matching questions and an illustrated robot presenting it beside a graph of yellow context notes, which reset and rebuild as the query is searched"
+  },
+  {
     "id": "brickanta-enterprise-visuals",
     "title": "Brickanta Enterprise Visuals",
     "category": "Motion",
