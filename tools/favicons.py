@@ -37,6 +37,7 @@ STAR8 = ''.join(L('M32 8V56', '#e8f066', 7) if False else '' for _ in range(1))
 ICONS = {
     'brickanta-enterprise': ('#0e1f4c', P('M14 14H38L50 26V50H26L14 38Z', '#e8584f')),
     'brickanta-enterprise-visuals': ('#e8584f', P('M14 14H38L50 26V50H26L14 38Z', '#0e1f4c')),
+    'lob-12-days-unwrap': ('#1e2247', R(12, 14, 40, 40, '#8263fd') + R(29, 14, 6, 40, '#1e2247') + R(12, 31, 40, 6, '#1e2247') + L('M32 33C24 22 16 24 18 30C20 35 28 34 32 33C36 34 44 35 46 30C48 24 40 22 32 33Z', '#1e2247', 4)),
     'lob-12-days': ('#E64A89', stamp('#E64A89', '#fbe3ef')),
     'lob-12-days-linkedin': ('#0a66c2', stamp('#0a66c2', '#ffffff')),
     'lob-unwrapped': ('#3b2cf0', stamp('#3b2cf0', '#ffffff')),
