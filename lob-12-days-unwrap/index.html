@@ -52,8 +52,10 @@ nav.back input[type=range]{width:240px;min-width:60px;accent-color:#8263fd;curso
 .hdr svg{position:absolute}
 
 .ctlrow{flex:none;display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:center;padding:0 16px 16px}
-.chips{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.chips button{font:500 13px/1 var(--sans);color:#fff;min-width:34px;height:32px;padding:0 10px;border-radius:99px;border:1px solid #3a3c55;background:none;cursor:pointer}
+.chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;padding-top:4px}
+.chips button{position:relative;font:500 13px/1 var(--sans);color:#fff;width:36px;height:36px;padding:0;border-radius:50%;border:1px solid #3a3c55;background:none;cursor:pointer}
+.chips .ring{position:absolute;left:-4px;top:-4px;width:42px;height:42px;pointer-events:none;transform:rotate(-90deg);overflow:visible}
+.chips .ring circle{fill:none;stroke:#f0f5a8;stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1 1;stroke-dashoffset:1}
 .chips button:hover{border-color:#fff}
 .chips button[aria-pressed=true]{background:#8263fd;border-color:#8263fd}
 button:focus-visible{outline:2px solid #f0f5a8;outline-offset:2px}
@@ -110,7 +112,7 @@ var $=function(id){return document.getElementById(id)};
 var clamp=function(x){return x<0?0:x>1?1:x};
 var eio=function(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
 var lerp=function(a,b,k){return a+(b-a)*k};
-var DAYS={"1": {"n": 1, "bg": "#1e2247", "box": "#8263fd", "pat": ["snow", "#4131f1", 0.4], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": "#684ff8", "dot": "#8263fd", "note": "", "nx": 864.69, "ny": 844.93}, "2": {"n": 2, "bg": "#163e44", "box": "#c0ce00", "pat": ["t2", "#ffffff", 0.5], "rib": "#163e44", "hdr": "#ffffff", "numcol": "#163e44", "back": null, "dot": null, "note": "", "nx": 841.68, "ny": 844.93}, "3": {"n": 3, "bg": "#4033ee", "box": "#cf48df", "pat": ["t3", "#ffffff", 0.4], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 845.39, "ny": 844.93}, "4": {"n": 4, "bg": "#1e2247", "box": "#4033ee", "pat": ["t4", "#1e2247", 0.4], "rib": "#ffffff", "hdr": "#ffffff", "numcol": "#ffffff", "back": null, "dot": null, "note": "", "nx": 834, "ny": 847.49}, "5": {"n": 5, "bg": "#462261", "box": "#8263fd", "pat": ["t5", "#4033ee", 0.5], "rib": "#ffffff", "hdr": "#ffffff", "numcol": "#ffffff", "back": null, "dot": null, "note": "Figma frame shows the numeral 9", "nx": 824.93, "ny": 844.93}, "6": {"n": 6, "bg": "#cf48df", "box": "#f0f5a8", "pat": ["snow", "#b5be3e", 0.5], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 834.93, "ny": 847.23}, "7": {"n": 7, "bg": "#4033ee", "box": "#ffc2dd", "pat": ["t2", "#cf48df", 0.3], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 840.63, "ny": 847.49}, "8": {"n": 8, "bg": "#462261", "box": "#f0f5a8", "pat": ["t3", "#c0ce00", 0.6], "rib": "#462261", "hdr": "#ffffff", "numcol": "#462261", "back": null, "dot": null, "note": "", "nx": 836.18, "ny": 844.93}, "9": {"n": 9, "bg": "#163e44", "box": "#8263fd", "pat": ["t4", "#4033ee", 0.5], "rib": "#ffffff", "hdr": "#ffffff", "numcol": "#ffffff", "back": null, "dot": null, "note": "", "nx": 834.93, "ny": 844.93}, "10": {"n": 10, "bg": "#4033ee", "box": "#f0f5a8", "pat": ["t5", "#b5be3e", 0.5], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 737.96, "ny": 844.93}, "11": {"n": 11, "bg": "#462261", "box": "#cf48df", "pat": ["snow", "#ffffff", 0.3], "rib": "#462261", "hdr": "#ffffff", "numcol": "#462261", "back": null, "dot": null, "note": "", "nx": 776.73, "ny": 844.93}, "12": {"n": 12, "bg": "#684ff8", "box": "#f0f5a8", "pat": ["snow", "#b5be3e", 0.5], "rib": "#4033ee", "hdr": "#ffffff", "numcol": "#4131f1", "back": null, "dot": null, "note": "", "nx": 734.53, "ny": 844.93}};
+var DAYS={"1": {"n": 1, "bg": "#1e2247", "box": "#8263fd", "pat": ["snow", "#4131f1", 0.4], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": "#684ff8", "dot": "#8263fd", "note": "", "nx": 864.69, "ny": 844.93}, "2": {"n": 2, "bg": "#163e44", "box": "#c0ce00", "pat": ["t2", "#ffffff", 0.5], "rib": "#163e44", "hdr": "#ffffff", "numcol": "#163e44", "back": null, "dot": null, "note": "", "nx": 841.68, "ny": 844.93}, "3": {"n": 3, "bg": "#4033ee", "box": "#cf48df", "pat": ["t3", "#ffffff", 0.4], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 845.39, "ny": 844.93}, "4": {"n": 4, "bg": "#1e2247", "box": "#4033ee", "pat": ["t4", "#1e2247", 0.4], "rib": "#ffffff", "hdr": "#ffffff", "numcol": "#ffffff", "back": null, "dot": null, "note": "", "nx": 834, "ny": 847.49}, "5": {"n": 5, "bg": "#462261", "box": "#8263fd", "pat": ["t5", "#4033ee", 0.5], "rib": "#ffffff", "hdr": "#ffffff", "numcol": "#ffffff", "back": null, "dot": null, "note": "Figma frame shows the numeral 9", "nx": 824.93, "ny": 844.93}, "6": {"n": 6, "bg": "#cf48df", "box": "#f0f5a8", "pat": ["snow", "#b5be3e", 0.5], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 834.93, "ny": 847.23}, "7": {"n": 7, "bg": "#4033ee", "box": "#ffc2dd", "pat": ["snow", "#cf48df", 0.3], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 840.63, "ny": 847.49}, "8": {"n": 8, "bg": "#462261", "box": "#f0f5a8", "pat": ["t3", "#c0ce00", 0.6], "rib": "#462261", "hdr": "#ffffff", "numcol": "#462261", "back": null, "dot": null, "note": "", "nx": 836.18, "ny": 844.93}, "9": {"n": 9, "bg": "#163e44", "box": "#8263fd", "pat": ["t4", "#4033ee", 0.5], "rib": "#ffffff", "hdr": "#ffffff", "numcol": "#ffffff", "back": null, "dot": null, "note": "", "nx": 834.93, "ny": 844.93}, "10": {"n": 10, "bg": "#4033ee", "box": "#f0f5a8", "pat": ["t5", "#b5be3e", 0.5], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 737.96, "ny": 844.93}, "11": {"n": 11, "bg": "#462261", "box": "#cf48df", "pat": ["t2", "#ffffff", 0.3], "rib": "#462261", "hdr": "#ffffff", "numcol": "#462261", "back": null, "dot": null, "note": "", "nx": 776.73, "ny": 844.93}, "12": {"n": 12, "bg": "#684ff8", "box": "#f0f5a8", "pat": ["snow", "#b5be3e", 0.5], "rib": "#4033ee", "hdr": "#ffffff", "numcol": "#4131f1", "back": null, "dot": null, "note": "", "nx": 734.53, "ny": 844.93}};
 
 var D0=2.7, FADE=.6, T1=9.7, T2=6.6;   /* doors start at D0; Day 1 runs T1 s (reveal + hold), Days 2-12 run T2 s (untie, open, short hold); the last FADE s of each day cross-fade to the next day's closed gift */
 var SEG=[],T=0;for(var di=1;di<=12;di++){var ln=di===1?T1:T2;SEG.push({day:''+di,s:T,len:ln});T+=ln}
@@ -175,7 +177,7 @@ Scene.prototype.setDay=function(key){
     var u=dr.querySelector('.themed');u.setAttribute('href',snow?'':'#pat-'+d.pat[0]);u.style.display=snow?'none':'';
     u.style.color=pc;u.style.opacity=po;u.style.setProperty('--box',d.box);
   });
-  s.dots.style.setProperty('--dot',d.dot||(lum(d.box)>.6?pc:d.box));
+  s.dots.style.setProperty('--dot','#8263fd');                 /* the Day 1 Figma dot grid on every day's card */
   s.num.innerHTML=$('num-'+key).innerHTML;s.num.style.color=d.numcol;
   var one=d.n===1&&key==='1';
   [s.title,s.label,s.body,s.stamp].forEach(function(el){el.style.display=one?'':'none'});
@@ -240,6 +242,7 @@ function fit(){var r=stage.getBoundingClientRect(),cs=getComputedStyle(stage),
   box.style.width=box.style.height=W*sc+'px';live.f.style.transform=fin.f.style.transform='scale('+sc+')'}
 fit();window.addEventListener('resize',fit);if(window.ResizeObserver)new ResizeObserver(fit).observe(stage);
 
+var s_rings=null;
 function segAt(t){for(var i=0;i<SEG.length;i++)if(t<SEG[i].s+SEG[i].len)return i;return SEG.length-1}
 /* the sequence: Day 1, then Days 2-12, then back to Day 1; the next day's closed gift fades in over the end of each day */
 function render(t){
@@ -247,6 +250,9 @@ function render(t){
   if(live.key!==g.day)showDay(g.day);
   if(fin.key!==nx.day){fin.setDay(nx.day);fin.render(0)}
   live.render(lt);
+  /* progress ring on the current day's button */
+  var rings=s_rings&&s_rings.length?s_rings:(s_rings=document.querySelectorAll('#chips .ring circle'));
+  for(var r=0;r<rings.length;r++)rings[r].style.strokeDashoffset=r===i?(1-clamp(lt/g.len)).toFixed(4):1;
   var k=clamp((lt-(g.len-FADE))/FADE);
   fin.f.style.opacity=eio(k);fin.f.style.visibility=k>0?'':'hidden';
 }
@@ -255,7 +261,7 @@ function showDay(k){
   [].forEach.call($('chips').children,function(b){b.setAttribute('aria-pressed',+b.dataset.n===n)});
   box.setAttribute('aria-label',n===1?'12 Days of Lob, Day 1: a wrapped gift box unties and opens to the mail fact: The first U.S. Christmas stamp. The first U.S. holiday stamp was issued on November 1, 1962, in Pittsburgh, Pennsylvania.':'12 Days of Lob, Day '+n+': the wrapped gift box unties and its doors swing open.');
 }
-var chips=$('chips');for(var i=1;i<=12;i++){var bt=document.createElement('button');bt.type='button';bt.textContent=i;bt.dataset.n=i;bt.setAttribute('aria-label','Day '+i);chips.appendChild(bt)}
+var chips=$('chips');for(var i=1;i<=12;i++){var bt=document.createElement('button');bt.type='button';bt.textContent=i;bt.dataset.n=i;bt.setAttribute('aria-label','Day '+i);bt.insertAdjacentHTML('beforeend','<svg class="ring" viewBox="0 0 42 42" aria-hidden="true"><circle cx="21" cy="21" r="19.5" pathLength="1"/></svg>');chips.appendChild(bt)}
 chips.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;play({from:SEG[+b.dataset.n-1].s})});
 
 /* clock */
