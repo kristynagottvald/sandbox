@@ -88,7 +88,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 @keyframes flow{to{background-position:-200% 0}}
 .cr .bl[data-p="0"] .ic,.cr .bl[data-p="x"] .ic{transform:translateY(-10cqw)}.cr .bl[data-p="2"] .ic{transform:translateY(10cqw)}
 @media(prefers-reduced-motion:reduce){.cr .stage .hl::before{animation:none}.cr .bl,.cr .bl .bx,.cr .bl .bx::before,.cr .bl>div,.cr .bl .ic{transition:none;animation:none}}
-.cr .bl .ic{position:absolute;right:4cqw;top:50%;margin-top:-5.25cqw;width:10.5cqw;height:10.5cqw;padding:2.5cqw;transition:transform .7s cubic-bezier(.2,.7,.2,1);color:var(--cyan)}
+.cr .bl .ic{position:absolute;right:3.5cqw;top:50%;margin-top:-5.5cqw;width:11cqw;height:11cqw;padding:1.25cqw;transition:transform .7s cubic-bezier(.2,.7,.2,1);color:var(--cyan)}
 /* text drifts up a little as it fades: out-states lift it 5cqw, and a snapped card starts 5cqw low and rises into its slot */
 .cr .bl[data-p="x"]>div,.cr .bl[data-p="x"] .ic{transform:translateY(-15cqw)}
 .cr .bl[data-p="m"]>div,.cr .bl[data-p="m"] .ic{transform:translateY(-5cqw)}
@@ -97,7 +97,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .cr .bl.snap[data-p="0"]>div,.cr .bl.snap[data-p="0"] .ic{transform:translateY(-5cqw)}
 .cr .bl.snap[data-p="1"]>div,.cr .bl.snap[data-p="1"] .ic{transform:translateY(5cqw)}
 .cr .bl.snap[data-p="2"]>div,.cr .bl.snap[data-p="2"] .ic{transform:translateY(15cqw)}
-.cr .bl strong{display:block;font:400 7.6cqw/1.02 var(--serif);letter-spacing:-.02em}
+.cr .bl strong{display:block;font:400 6cqw/1.1 var(--sans);letter-spacing:-.02em}
 .cr .bl strong i{color:#fff}
 .cr .bl p{white-space:nowrap;font:400 3.7cqw/1.35 var(--sans);color:#aebbc5;margin-top:1.4cqw}
 .cr .bl .sw{display:block}
@@ -745,11 +745,12 @@ function drawChart(days){
 const BL=[1,2,3].map(n=>$('bl'+n));
 const rolo={order:[0,1,2],timer:0,tk:0,
  set(){this.order.forEach((c,p)=>{BL[c].dataset.p='r'});void BL[0].offsetWidth;this.order.forEach((c,p)=>{BL[c].dataset.p=p})},
- step(){const [top,mid,bot]=this.order,tk=this.tk;BL[top].dataset.p='x';BL[bot].dataset.p='b';this.order=[mid,bot,top];
-  BL[mid].dataset.p='m';
-  setTimeout(()=>{if(tk!==this.tk)return;[[mid,0],[top,2],[bot,1]].forEach(([c,p])=>{BL[c].classList.add('snap');BL[c].dataset.p=p});void BL[0].offsetWidth;BL.forEach(b=>b.classList.remove('snap'))},450)},
+ step(){const [top,mid,bot]=this.order,tk=this.tk;this.order=[mid,bot,top];
+  /* crossfade with no gap: a copy of each card fades out where it was while the card itself drops into its new slot and fades in at the same time */
+  [[top,'x'],[mid,'m'],[bot,'b']].forEach(([c,o])=>{const g=BL[c].cloneNode(true);g.removeAttribute('id');g.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));g.classList.add('ghost');BL[c].after(g);void g.offsetWidth;g.dataset.p=o;setTimeout(()=>g.remove(),600)});
+  [[mid,0],[bot,1],[top,2]].forEach(([c,p])=>{BL[c].classList.add('snap');BL[c].dataset.p=p});void BL[0].offsetWidth;BL.forEach(b=>b.classList.remove('snap'))},
  start(){this.stop();this.order=[2,0,1];this.set();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)this.timer=setInterval(()=>this.step(),3400)},
- stop(){clearInterval(this.timer);this.tk++;BL.forEach(b=>b.classList.remove('snap'))}};
+ stop(){clearInterval(this.timer);this.tk++;document.querySelectorAll('.cr .bl.ghost').forEach(g=>g.remove());BL.forEach(b=>b.classList.remove('snap'))}};
 window.__pp={rolo,go,setMarketer:i=>setMarketer(i),setPlatform:i=>setPlatform(i)};
 const h=location.hash.slice(1),start={ad:1,guide:2,perf:3}[h]||1;
 go(start,true);
