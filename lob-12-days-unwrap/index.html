@@ -190,7 +190,7 @@ Scene.prototype.render=function(b){
   /* one continuous pull (no stop): each strand slides toward its box edge and off there (it wraps under the box, never past the
      box edge); the vertical strand passes its K2 position (top end at box top + 262) as the horizontal one passes its K2 x (347) */
   var e=eio(clamp((b-1.6)/1.0)),FV=262/826,eh=Math.pow(e,Math.log(175/850)/Math.log(FV));
-  var k12=clamp(e/FV);                                      /* 0..1 up to the K2 moment: box settles 254->252, numeral nudges */
+  var k12=clamp(e/FV);                                      /* 0..1 up to the K2 moment: box settles 254->252 */
   var p=3*eio(clamp((b-D0)/2.3));
   var top=day1?254-2*k12:252,bot=top+826;
   var yTop=lerp(top,bot,e),xL=lerp(172,1022,eh),yBot=bot,xR=1022;
@@ -204,7 +204,7 @@ Scene.prototype.render=function(b){
   V.filter=H.filter=lift>.01?'drop-shadow(0 '+(3*lift).toFixed(2)+'px '+(5*lift).toFixed(2)+'px rgba(0,0,0,'+(.45*lift).toFixed(3)+'))':'';
   s.bow.style.transform='translateY('+(top-254)+'px)';
   /* numeral on the right door (texture space) */
-  var nx=d.nx-599.5+(day1?9*k12:0),ny=d.ny-top;
+  var nx=d.nx-599.5,ny=d.ny-top;                           /* the numeral stays put while the ribbon comes off */
   s.num.style.transform='translate('+nx+'px,'+ny+'px)';
   /* doors */
   var KL=[closedL(top)].concat(QL.slice(1)),KR=[closedR(top)].concat(QR.slice(1));
