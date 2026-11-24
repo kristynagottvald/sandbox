@@ -64,7 +64,10 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .cr .bl{position:absolute;left:-4cqw;right:9cqw;top:50%;height:40cqw;margin-top:-20cqw;display:flex;align-items:center;padding:0 17cqw 0 5cqw;color:#fff;opacity:0;transform:translateY(13cqw) scale(.96);transition:transform 1.2s cubic-bezier(.4,0,.2,1),opacity .6s ease .1s}
 /* the back cards sit on one fixed panel, so only their text rolls; just the middle card has its own moving frame */
 .cr .stage::before{content:"";position:absolute;left:-1.75cqw;right:11.25cqw;top:50%;height:53cqw;margin-top:-26.5cqw;border:1px solid #24465c;border-radius:3px;background:rgba(4,10,16,.94);pointer-events:none}
-.cr .bl .bx{position:absolute;inset:0;border:1px solid transparent;border-radius:3px;background:transparent;transition:transform 1.2s cubic-bezier(.4,0,.2,1),background .5s,border-color .5s}
+/* the highlighted front frame is fixed too: one size, one place; the cards' text fades through it */
+.cr .stage .hl{position:absolute;left:-4cqw;right:9cqw;top:50%;height:24cqw;margin-top:-12cqw;border:1px solid #24465c;border-radius:3px;background:rgba(10,30,44,.97)}
+.cr .stage .hl::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;background:linear-gradient(90deg,#2447f5,#3b8cff 25%,#62e6f3 50%,#3b8cff 75%,#2447f5) 0 0/200% 100%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);pointer-events:none;animation:flow 6s linear infinite}
+.cr .bl .bx{display:none}
 .cr .bl>div{position:relative;transition:transform 1.2s cubic-bezier(.4,0,.2,1)}
 .cr .bl[data-p="0"]{transform:translateY(-8.5cqw) scale(.9);opacity:.55}
 .cr .bl[data-p="0"]>div{transform:translateY(-10cqw)}
@@ -75,6 +78,8 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 /* back-slot text never slides: "x" fades the top card out where it is, "m" fades the old middle card out in place, and "snap" drops a card into its new back slot invisibly so it can fade in */
 .cr .bl[data-p="x"]{transform:translateY(-8.5cqw) scale(.9);opacity:0;transition:opacity .5s ease}
 .cr .bl[data-p="m"]{transform:none;opacity:0;transition:opacity .4s ease}
+.cr .bl[data-p="b"]{transform:translateY(8.5cqw) scale(.9);opacity:0;transition:opacity .4s ease}
+.cr .bl[data-p="b"]>div{transform:translateY(10cqw)}.cr .bl[data-p="b"] .ic{transform:translateY(10cqw)}
 .cr .bl.snap,.cr .bl.snap *{transition:none!important}.cr .bl.snap{opacity:0!important}
 .cr .bl[data-p="x"]>div{transform:translateY(-10cqw)}
 .cr .bl[data-p="r"],.cr .bl[data-p="r"] .bx,.cr .bl[data-p="r"]>div,.cr .bl[data-p="r"] .ic{transition:none}
@@ -83,7 +88,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 @keyframes flow{to{background-position:-200% 0}}
 .cr .bl[data-p="1"] .ic{border-color:var(--cyan)}
 .cr .bl[data-p="0"] .ic,.cr .bl[data-p="x"] .ic{transform:translateY(-10cqw)}.cr .bl[data-p="2"] .ic{transform:translateY(10cqw)}
-@media(prefers-reduced-motion:reduce){.cr .bl,.cr .bl .bx,.cr .bl .bx::before,.cr .bl>div,.cr .bl .ic{transition:none;animation:none}}
+@media(prefers-reduced-motion:reduce){.cr .stage .hl::before{animation:none}.cr .bl,.cr .bl .bx,.cr .bl .bx::before,.cr .bl>div,.cr .bl .ic{transition:none;animation:none}}
 .cr .bl .ic{position:absolute;right:4cqw;top:50%;margin-top:-5.25cqw;width:10.5cqw;height:10.5cqw;padding:2.5cqw;border:1px solid #2b3d52;border-radius:50%;transition:border-color .9s,transform 1.2s cubic-bezier(.4,0,.2,1);color:var(--cyan)}
 .cr .bl strong{display:block;font:400 7.6cqw/1.02 var(--serif);letter-spacing:-.02em}
 .cr .bl strong i{color:#fff}
@@ -445,6 +450,7 @@ tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
    <h4><span class="sw" id="crH"></span></h4>
    <span class="go"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M2.5 14h11"/></svg>Download the guide</span></div>
   <div class="stage" aria-hidden="true">
+   <i class="hl"></i>
    <div class="bl" id="bl1"><i class="bx"></i><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="17" r="2"/><circle cx="12" cy="7" r="2"/><circle cx="19" cy="14" r="2"/><path d="M6.2 15.3l4.6-6.6M13.8 8.4l4 4.1"/></svg><div><strong class="sw" id="b1h"></strong></div></div>
    <div class="bl" id="bl2"><i class="bx"></i><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9h-9z"/><path d="M15 3.5A9 9 0 0 1 20.5 9H15z"/></svg><div><strong class="sw" id="b2h"></strong></div></div>
    <div class="bl" id="bl3"><i class="bx"></i><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></svg><div><strong class="sw" id="b3h"></strong></div></div>
@@ -732,9 +738,9 @@ function drawChart(days){
 const BL=[1,2,3].map(n=>$('bl'+n));
 const rolo={order:[0,1,2],timer:0,tk:0,
  set(){this.order.forEach((c,p)=>{BL[c].dataset.p='r'});void BL[0].offsetWidth;this.order.forEach((c,p)=>{BL[c].dataset.p=p})},
- step(){const [top,mid,bot]=this.order,tk=this.tk;BL[top].dataset.p='x';BL[bot].dataset.p=1;this.order=[mid,bot,top];
+ step(){const [top,mid,bot]=this.order,tk=this.tk;BL[top].dataset.p='x';BL[bot].dataset.p='b';this.order=[mid,bot,top];
   BL[mid].dataset.p='m';
-  setTimeout(()=>{if(tk!==this.tk)return;[[mid,0],[top,2]].forEach(([c,p])=>{BL[c].classList.add('snap');BL[c].dataset.p=p});void BL[0].offsetWidth;BL[mid].classList.remove('snap');BL[top].classList.remove('snap')},500)},
+  setTimeout(()=>{if(tk!==this.tk)return;[[mid,0],[top,2],[bot,1]].forEach(([c,p])=>{BL[c].classList.add('snap');BL[c].dataset.p=p});void BL[0].offsetWidth;BL.forEach(b=>b.classList.remove('snap'))},450)},
  start(){this.stop();this.order=[2,0,1];this.set();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)this.timer=setInterval(()=>this.step(),3400)},
  stop(){clearInterval(this.timer);this.tk++;BL.forEach(b=>b.classList.remove('snap'))}};
 window.__pp={rolo,go,setMarketer:i=>setMarketer(i),setPlatform:i=>setPlatform(i)};
