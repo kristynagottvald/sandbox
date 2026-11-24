@@ -49,8 +49,6 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 
 /* ---------- the creative: one element, moved into whichever platform is showing ---------- */
 .cr{display:block;position:relative;aspect-ratio:1.91;background:#000;overflow:hidden;container-type:inline-size;color:#fff;text-decoration:none;cursor:pointer;font-family:var(--sans)}
-.cr .dl{position:absolute;inset:0;pointer-events:none;-webkit-mask-image:linear-gradient(transparent,#000 40%);mask-image:linear-gradient(transparent,#000 40%)}
-.cr .dl i{position:absolute;top:0;bottom:0;border-left:1px dashed rgba(255,255,255,.2)}
 .cr .lg{position:absolute;left:5.2cqw;top:4.6cqw;width:18cqw;aspect-ratio:978.8/116.8;height:auto;fill:#fff}
 .cr .l{position:absolute;left:5.2cqw;top:0;bottom:0;width:47cqw;display:flex;flex-direction:column;justify-content:center;padding-top:3cqw}
 .cr .chip{font:400 1.7cqw/1.5 var(--mono);letter-spacing:.22em;text-transform:uppercase;color:#8fa0ad;white-space:nowrap}
@@ -97,7 +95,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .cr .bl.snap[data-p="0"]>div,.cr .bl.snap[data-p="0"] .ic{transform:translateY(-5cqw)}
 .cr .bl.snap[data-p="1"]>div,.cr .bl.snap[data-p="1"] .ic{transform:translateY(5cqw)}
 .cr .bl.snap[data-p="2"]>div,.cr .bl.snap[data-p="2"] .ic{transform:translateY(15cqw)}
-.cr .bl strong{display:block;font:400 6cqw/1.1 var(--sans);letter-spacing:.044em}
+.cr .bl strong{display:block;font:400 6cqw/1.1 var(--sans);letter-spacing:-.02em}
 .cr .bl strong i{font-style:normal}
 .cr .bl[data-p="1"],.cr .bl[data-p="m"]{padding-left:8.5cqw}
 .cr .bl strong i{color:#fff}
@@ -453,9 +451,8 @@ tfoot td{font-weight:500;color:#fff;border-top:1px solid #3a4c60}
   <span class="go2"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.1" aria-hidden="true"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M2.5 14h11"/></svg><span>Learn more from<br>the attribution guide</span></span>
  </a>
  <a class="cr" id="cr" href="#" aria-label="Marketing attribution guide from Clearco. Opens the guide">
-  <div class="dl" aria-hidden="true"></div>
   <svg class="lg" role="img" aria-label="Clearco"><use href="#clearco"/></svg>
-  <div class="l"><div class="chip">Marketing attribution guide</div>
+  <div class="l">
    <h4><span class="sw" id="crH"></span></h4>
    <span class="go"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M8 2v9M4.5 7.5 8 11l3.5-3.5M2.5 14h11"/></svg>Download the guide</span></div>
   <div class="stage" aria-hidden="true">
@@ -562,7 +559,7 @@ const state={s:1,m:0,p:0,metric:'clicks',model:3}; // m: marketer (-1 = all, per
 
 function tile(n,fn){const c=document.createElement('canvas');c.width=c.height=n;const g=c.getContext('2d'),d=g.createImageData(n,n);for(let i=0;i<n*n;i++)fn(d.data,i*4,Math.random());g.putImageData(d,0,0);return c}
 document.documentElement.style.setProperty('--grain','url('+tile(128,(p,i,v)=>{const w=v>.5;p[i]=p[i+1]=p[i+2]=w?255:0;p[i+3]=Math.round(Math.abs(v-.5)*2*120)}).toDataURL()+')');
-$('cr').querySelector('.dl').innerHTML=[...Array(11)].map((_,i)=>`<i style="left:${(i+1)*100/12}%"></i>`).join('');
+
 
 /* ---------- controls ---------- */
 $('plat').insertAdjacentHTML('beforeend',P.map((p,i)=>`<button type="button" data-p="${i}" style="--c:${p.c}"><i></i>${p.n}</button>`).join(''));
