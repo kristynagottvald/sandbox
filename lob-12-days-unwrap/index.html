@@ -187,15 +187,13 @@ Scene.prototype.render=function(b){
   var bp=s.bowP||(s.bowP=s.bow.querySelectorAll('path'));
   [ta,ta,lo,lo].forEach(function(u,i){bp[i].style.strokeDashoffset=-u;bp[i].style.visibility=u>.995?'hidden':''});
   /* ribbon is pulled off: K1 full cross, K2 (Figma) the band and strap have slid toward the bottom and right edges, then both strands are drawn off the box and out of frame */
-  /* one continuous pull (no stop): each strand slides on a straight path from K1 to off-frame; the vertical strand passes the
-     K2 position (top end at box top + 262) at the same moment the horizontal one passes its K2 position (left end at 347) */
-  var e=eio(clamp((b-1.6)/1.0)),FV=262/996,eh=Math.pow(e,Math.log(175/1078)/Math.log(FV));
+  /* one continuous pull (no stop): each strand slides toward its box edge and off there (it wraps under the box, never past the
+     box edge); the vertical strand passes its K2 position (top end at box top + 262) as the horizontal one passes its K2 x (347) */
+  var e=eio(clamp((b-1.6)/1.0)),FV=262/826,eh=Math.pow(e,Math.log(175/850)/Math.log(FV));
   var k12=clamp(e/FV);                                      /* 0..1 up to the K2 moment: box settles 254->252, numeral nudges */
   var p=3*eio(clamp((b-D0)/2.3));
   var top=day1?254-2*k12:252,bot=top+826;
-  var yTop=lerp(top,top+996,e),xL=lerp(172,1250,eh);
-  var ov=clamp((e-FV)/(1-FV)),tug=380*ov*ov;                /* past K2 the far end rides out over the box edge */
-  var yBot=bot+tug,xR=1022+tug;
+  var yTop=lerp(top,bot,e),xL=lerp(172,1022,eh),yBot=bot,xR=1022;
   var nv=16*clamp(e*12);                                    /* the cut ribbon end shows once it starts moving */
   var V=s.ribV.style,H=s.ribH.style;
   V.left='584.5px';V.width='25px';V.top=yTop+'px';V.height=Math.max(0,yBot-yTop)+'px';V.display=yBot-yTop>.5&&yTop<1200?'':'none';
