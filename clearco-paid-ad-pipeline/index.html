@@ -62,12 +62,14 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .cr .stage>*{pointer-events:none}
 /* the three cards as a rolodex: the middle one is the prominent one; each step the bottom card moves up to the middle, the middle to the top, and the top fades out and returns at the bottom. Only transform and opacity animate, so it stays smooth. */
 .cr .bl{position:absolute;left:-4cqw;right:9cqw;top:50%;height:40cqw;margin-top:-20cqw;display:flex;align-items:center;padding:0 17cqw 0 5cqw;color:#fff;opacity:0;transform:translateY(13cqw) scale(.96);transition:transform 1.2s cubic-bezier(.4,0,.2,1),opacity .6s ease .1s}
-.cr .bl .bx{position:absolute;inset:0;border:1px solid #24465c;border-radius:3px;background:rgba(4,10,16,.94);transition:transform 1.2s cubic-bezier(.4,0,.2,1),background .9s}
+/* the back cards sit on one fixed panel, so only their text rolls; just the middle card has its own moving frame */
+.cr .stage::before{content:"";position:absolute;left:-3.1cqw;right:9.9cqw;top:50%;height:55.4cqw;margin-top:-27.7cqw;border:1px solid #24465c;border-radius:3px;background:rgba(4,10,16,.94);pointer-events:none}
+.cr .bl .bx{position:absolute;inset:0;border:1px solid transparent;border-radius:3px;background:transparent;transition:transform 1.2s cubic-bezier(.4,0,.2,1),background .5s,border-color .5s}
 .cr .bl>div{position:relative;transition:transform 1.2s cubic-bezier(.4,0,.2,1)}
 .cr .bl[data-p="0"]{transform:translateY(-8.5cqw) scale(.96);opacity:.55}
 .cr .bl[data-p="0"]>div{transform:translateY(-10cqw)}
 .cr .bl[data-p="1"]{transform:none;opacity:1;z-index:2}
-.cr .bl[data-p="1"] .bx{transform:scaleY(.6);background:rgba(10,30,44,.97)}
+.cr .bl[data-p="1"] .bx{transform:scaleY(.6);background:rgba(10,30,44,.97);border-color:#24465c}
 .cr .bl[data-p="2"]{transform:translateY(8.5cqw) scale(.96);opacity:.55;transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .55s ease}
 .cr .bl[data-p="2"]>div{transform:translateY(10cqw)}
 .cr .bl[data-p="x"]{transform:translateY(-16cqw) scale(.94);opacity:0;transition:transform 1.2s cubic-bezier(.4,0,.2,1),opacity .5s ease}
