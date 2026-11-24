@@ -63,7 +63,7 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 /* the back cards sit on one fixed panel, so only their text rolls; just the middle card has its own moving frame */
 .cr .stage::before{content:"";position:absolute;left:-1.75cqw;right:11.25cqw;top:50%;height:53cqw;margin-top:-26.5cqw;border:1px solid #24465c;border-radius:3px;background:rgba(4,10,16,.94);pointer-events:none}
 /* the highlighted front frame is fixed too: one size, one place; the cards' text fades through it */
-.cr .stage .hl{position:absolute;left:-4cqw;right:9cqw;top:50%;height:24cqw;margin-top:-12cqw;border:1px solid #24465c;border-radius:3px;background:rgba(10,30,44,.97)}
+.cr .stage .hl{position:absolute;left:-5.15cqw;right:9cqw;top:50%;height:24cqw;margin-top:-12cqw;border:1px solid #24465c;border-radius:3px;background:rgba(10,30,44,.97)}
 .cr .stage .hl::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;background:linear-gradient(90deg,#2447f5,#3b8cff 25%,#62e6f3 50%,#3b8cff 75%,#2447f5) 0 0/200% 100%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);pointer-events:none;animation:flow 6s linear infinite}
 .cr .bl .bx{display:none}
 .cr .bl>div{position:relative;transition:transform .7s cubic-bezier(.2,.7,.2,1)}
@@ -555,7 +555,7 @@ const P=[
  {k:'yt',n:'YouTube',c:'#ff0000',src:'youtube',med:'paid_video',j:0,imp:1.9,ctr:.28,cpc:.45,lp:.75,cv:.7}];
 /* attribution models, as in the guide: credit for [YouTube, Google Search, LinkedIn, Facebook] in journey order */
 const MODELS=[['First-touch',[100,0,0,0]],['Last-touch',[0,0,0,100]],['Linear',[25,25,25,25]],['Time-decay',[5,15,30,50]],['U-shaped',[40,10,10,40]],['W-shaped',[30,30,10,30]]];
-const state={s:1,m:0,p:0,metric:'clicks',model:3}; // m: marketer (-1 = all, performance screen only), p: platform index (-1 = all, performance screen only)
+const state={s:1,m:4,p:0,metric:'clicks',model:3}; // m: marketer (-1 = all, performance screen only), p: platform index (-1 = all, performance screen only)
 
 function tile(n,fn){const c=document.createElement('canvas');c.width=c.height=n;const g=c.getContext('2d'),d=g.createImageData(n,n);for(let i=0;i<n*n;i++)fn(d.data,i*4,Math.random());g.putImageData(d,0,0);return c}
 document.documentElement.style.setProperty('--grain','url('+tile(128,(p,i,v)=>{const w=v>.5;p[i]=p[i+1]=p[i+2]=w?255:0;p[i+3]=Math.round(Math.abs(v-.5)*2*120)}).toDataURL()+')');
