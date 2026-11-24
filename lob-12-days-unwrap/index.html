@@ -306,18 +306,21 @@ async function exportDay(n){
     var codec=null,cands=['avc1.640028','avc1.4d0028','avc1.42003e'];
     for(var ci=0;ci<cands.length&&!codec;ci++){try{if((await VideoEncoder.isConfigSupported({codec:cands[ci],width:EXS,height:EXS,bitrate:10e6,framerate:EXF})).supported)codec=cands[ci]}catch(e){}}
     if(!codec)throw new Error('This browser cannot encode H.264 video.');
-    var key=''+n,g=SEG[n-1],dur=g.len-FADE,N=Math.round(dur*EXF);
+    var key=''+n,g=SEG[n-1],dur=g.len,N=Math.round(dur*EXF);   /* the full day incl. the closing fade, so the file loops */
     var sc=new Scene(document.createElement('div'));sc.setDay(key);
     var css=document.querySelector('style').textContent,defs=new XMLSerializer().serializeToString(document.querySelector('svg[width="0"]'));
+    sc.render(0);var first=await loadImg(snapSVG(sc,css,defs));          /* the closed gift (t = 0): faded back in over the last FADE s */
     var cv=document.createElement('canvas');cv.width=cv.height=EXS;var cx=cv.getContext('2d');
     var muxer=new M.Muxer({target:new M.ArrayBufferTarget(),video:{codec:'avc',width:EXS,height:EXS,frameRate:EXF},fastStart:'in-memory'});
     var err=null,enc=new VideoEncoder({output:function(ch,meta){muxer.addVideoChunk(ch,meta)},error:function(e){err=e}});
     enc.configure({codec:codec,width:EXS,height:EXS,bitrate:10e6,framerate:EXF});
     for(var i=0;i<N;i++){
       if(err)throw err;
-      sc.render(i/EXF);
+      var lt=i/EXF,lk=clamp((lt-(dur-FADE))/FADE);
+      sc.render(lt);
       var im=await loadImg(snapSVG(sc,css,defs));
-      cx.fillStyle=DAYS[key].bg;cx.fillRect(0,0,EXS,EXS);cx.drawImage(im,0,0,EXS,EXS);
+      cx.globalAlpha=1;cx.fillStyle=DAYS[key].bg;cx.fillRect(0,0,EXS,EXS);cx.drawImage(im,0,0,EXS,EXS);
+      if(lk>0){cx.globalAlpha=eio(lk);cx.drawImage(first,0,0,EXS,EXS);cx.globalAlpha=1}
       var vf=new VideoFrame(cv,{timestamp:Math.round(i*1e6/EXF),duration:Math.round(1e6/EXF)});
       enc.encode(vf,{keyFrame:i%(EXF*2)===0});vf.close();
       while(enc.encodeQueueSize>8)await new Promise(function(r){setTimeout(r,4)});
