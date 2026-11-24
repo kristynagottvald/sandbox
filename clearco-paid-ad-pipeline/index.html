@@ -72,7 +72,10 @@ nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidde
 .cr .bl[data-p="1"] .bx{transform:scaleY(.6);background:rgba(10,30,44,.97);border-color:#24465c}
 .cr .bl[data-p="2"]{transform:translateY(8.5cqw) scale(.96);opacity:.55;transition:transform .9s cubic-bezier(.2,.7,.2,1),opacity .55s ease}
 .cr .bl[data-p="2"]>div{transform:translateY(10cqw)}
-.cr .bl[data-p="x"]{transform:translateY(-16cqw) scale(.94);opacity:0;transition:transform 1.2s cubic-bezier(.4,0,.2,1),opacity .5s ease}
+/* back-slot text never slides: "x" fades the top card out where it is, "m" fades the old middle card out in place, and "snap" drops a card into its new back slot invisibly so it can fade in */
+.cr .bl[data-p="x"]{transform:translateY(-8.5cqw) scale(.96);opacity:0;transition:opacity .5s ease}
+.cr .bl[data-p="m"]{transform:none;opacity:0;transition:opacity .4s ease}
+.cr .bl.snap,.cr .bl.snap *{transition:none!important}.cr .bl.snap{opacity:0!important}
 .cr .bl[data-p="x"]>div{transform:translateY(-10cqw)}
 .cr .bl[data-p="r"],.cr .bl[data-p="r"] .bx,.cr .bl[data-p="r"]>div,.cr .bl[data-p="r"] .ic{transition:none}
 .cr .bl .bx::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;background:linear-gradient(90deg,#2447f5,#3b8cff 25%,#62e6f3 50%,#3b8cff 75%,#2447f5) 0 0/200% 100%;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;transition:opacity .9s ease;pointer-events:none;animation:flow 6s linear infinite}
@@ -729,10 +732,11 @@ function drawChart(days){
 const BL=[1,2,3].map(n=>$('bl'+n));
 const rolo={order:[0,1,2],timer:0,tk:0,
  set(){this.order.forEach((c,p)=>{BL[c].dataset.p='r'});void BL[0].offsetWidth;this.order.forEach((c,p)=>{BL[c].dataset.p=p})},
- step(){const [top,mid,bot]=this.order,tk=this.tk;BL[top].dataset.p='x';BL[mid].dataset.p=0;BL[bot].dataset.p=1;this.order=[mid,bot,top];
-  setTimeout(()=>{if(tk!==this.tk)return;BL[top].dataset.p='r';void BL[top].offsetWidth;BL[top].dataset.p=2},600)},
+ step(){const [top,mid,bot]=this.order,tk=this.tk;BL[top].dataset.p='x';BL[bot].dataset.p=1;this.order=[mid,bot,top];
+  BL[mid].dataset.p='m';
+  setTimeout(()=>{if(tk!==this.tk)return;[[mid,0],[top,2]].forEach(([c,p])=>{BL[c].classList.add('snap');BL[c].dataset.p=p});void BL[0].offsetWidth;BL[mid].classList.remove('snap');BL[top].classList.remove('snap')},500)},
  start(){this.stop();this.order=[2,0,1];this.set();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)this.timer=setInterval(()=>this.step(),3400)},
- stop(){clearInterval(this.timer);this.tk++}};
+ stop(){clearInterval(this.timer);this.tk++;BL.forEach(b=>b.classList.remove('snap'))}};
 window.__pp={rolo,go,setMarketer:i=>setMarketer(i),setPlatform:i=>setPlatform(i)};
 const h=location.hash.slice(1),start={ad:1,guide:2,perf:3}[h]||1;
 go(start,true);
