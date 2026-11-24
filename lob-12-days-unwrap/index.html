@@ -112,7 +112,8 @@ var eio=function(x){return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2};
 var lerp=function(a,b,k){return a+(b-a)*k};
 var DAYS={"1": {"n": 1, "bg": "#1e2247", "box": "#8263fd", "pat": ["snow", "#4131f1", 0.4], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": "#684ff8", "dot": "#8263fd", "note": "", "nx": 864.69, "ny": 844.93}, "2": {"n": 2, "bg": "#163e44", "box": "#c0ce00", "pat": ["t2", "#ffffff", 0.5], "rib": "#163e44", "hdr": "#ffffff", "numcol": "#163e44", "back": null, "dot": null, "note": "", "nx": 841.68, "ny": 844.93}, "3": {"n": 3, "bg": "#4033ee", "box": "#cf48df", "pat": ["t3", "#ffffff", 0.4], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 845.39, "ny": 844.93}, "4": {"n": 4, "bg": "#1e2247", "box": "#4033ee", "pat": ["t4", "#1e2247", 0.4], "rib": "#ffffff", "hdr": "#ffffff", "numcol": "#ffffff", "back": null, "dot": null, "note": "", "nx": 834, "ny": 847.49}, "5": {"n": 5, "bg": "#462261", "box": "#8263fd", "pat": ["t5", "#4033ee", 0.5], "rib": "#ffffff", "hdr": "#ffffff", "numcol": "#ffffff", "back": null, "dot": null, "note": "Figma frame shows the numeral 9", "nx": 824.93, "ny": 844.93}, "6": {"n": 6, "bg": "#cf48df", "box": "#f0f5a8", "pat": ["snow", "#b5be3e", 0.5], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 834.93, "ny": 847.23}, "7": {"n": 7, "bg": "#4033ee", "box": "#ffc2dd", "pat": ["t2", "#cf48df", 0.3], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 840.63, "ny": 847.49}, "8": {"n": 8, "bg": "#462261", "box": "#f0f5a8", "pat": ["t3", "#c0ce00", 0.6], "rib": "#462261", "hdr": "#ffffff", "numcol": "#462261", "back": null, "dot": null, "note": "", "nx": 836.18, "ny": 844.93}, "9": {"n": 9, "bg": "#163e44", "box": "#8263fd", "pat": ["t4", "#4033ee", 0.5], "rib": "#ffffff", "hdr": "#ffffff", "numcol": "#ffffff", "back": null, "dot": null, "note": "", "nx": 834.93, "ny": 844.93}, "10": {"n": 10, "bg": "#4033ee", "box": "#f0f5a8", "pat": ["t5", "#b5be3e", 0.5], "rib": "#1e2247", "hdr": "#ffffff", "numcol": "#1e2247", "back": null, "dot": null, "note": "", "nx": 737.96, "ny": 844.93}, "11": {"n": 11, "bg": "#462261", "box": "#cf48df", "pat": ["snow", "#ffffff", 0.3], "rib": "#462261", "hdr": "#ffffff", "numcol": "#462261", "back": null, "dot": null, "note": "", "nx": 776.73, "ny": 844.93}, "12": {"n": 12, "bg": "#684ff8", "box": "#f0f5a8", "pat": ["snow", "#b5be3e", 0.5], "rib": "#4033ee", "hdr": "#ffffff", "numcol": "#4131f1", "back": null, "dot": null, "note": "", "nx": 734.53, "ny": 844.93}};
 
-var T=10.4, F0=9.8, D0=3.4;       /* cycle; from F0 the closed gift fades back in so the loop restarts on it; doors start at D0 */
+var D0=2.7, FADE=.6, T1=9.7, T2=6.6;   /* doors start at D0; Day 1 runs T1 s (reveal + hold), Days 2-12 run T2 s (untie, open, short hold); the last FADE s of each day cross-fade to the next day's closed gift */
+var SEG=[],T=0;for(var di=1;di<=12;di++){var ln=di===1?T1:T2;SEG.push({day:''+di,s:T,len:ln});T+=ln}
 var qs=location.hash+location.search, CLIP=/clip/.test(qs);
 if(CLIP)document.documentElement.classList.add('clip');
 var reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -188,7 +189,7 @@ Scene.prototype.render=function(b){
   /* ribbon is pulled off: K1 full cross, K2 (Figma) the band and strap have slid toward the bottom and right edges, then both strands are drawn off the box and out of frame */
   /* one continuous pull (no stop): each strand slides on a straight path from K1 to off-frame; the vertical strand passes the
      K2 position (top end at box top + 262) at the same moment the horizontal one passes its K2 position (left end at 347) */
-  var e=eio(clamp((b-1.6)/1.7)),FV=262/996,eh=Math.pow(e,Math.log(175/1078)/Math.log(FV));
+  var e=eio(clamp((b-1.6)/1.0)),FV=262/996,eh=Math.pow(e,Math.log(175/1078)/Math.log(FV));
   var k12=clamp(e/FV);                                      /* 0..1 up to the K2 moment: box settles 254->252, numeral nudges */
   var p=3*eio(clamp((b-D0)/2.3));
   var top=day1?254-2*k12:252,bot=top+826;
@@ -215,12 +216,12 @@ Scene.prototype.render=function(b){
   s.inside.style.top=(p>2?252-(p-2):top)+'px';
   if(!day1)return;
   /* Day 1 reveal: the title shows through faintly (K4), the stamp drops on (K5), then the label and copy (K6) */
-  var to=p<1?0:p<2?.2*(p-1):.2+.8*(p-2),k6=eio(clamp((b-6.4)/.7));
+  var to=p<1?0:p<2?.2*(p-1):.2+.8*(p-2),k6=eio(clamp((b-5.7)/.7));
   s.title.style.opacity=to;s.title.style.transform='translateY('+(14*k6)+'px)';
-  var la=eio(clamp((b-6.4)/.5)),ba=eio(clamp((b-6.6)/.6));
+  var la=eio(clamp((b-5.7)/.5)),ba=eio(clamp((b-5.9)/.6));
   s.label.style.opacity=la;s.label.style.transform='translateY('+(10*(1-la))+'px)';
   s.body.style.opacity=ba;s.body.style.transform='translateY('+(12*(1-ba))+'px)';
-  var st=clamp((b-5.2)/.7),se=eio(st);
+  var st=clamp((b-4.5)/.7),se=eio(st);
   s.stamp.style.opacity=clamp(st*2.5);
   s.stamp.style.transform='translateY('+(-40*(1-se))+'px) rotate('+(-5*(1-se))+'deg) scale('+(1.15-.15*se)+')';
 };
@@ -241,20 +242,23 @@ function fit(){var r=stage.getBoundingClientRect(),cs=getComputedStyle(stage),
   box.style.width=box.style.height=W*sc+'px';live.f.style.transform=fin.f.style.transform='scale('+sc+')'}
 fit();window.addEventListener('resize',fit);if(window.ResizeObserver)new ResizeObserver(fit).observe(stage);
 
+function segAt(t){for(var i=0;i<SEG.length;i++)if(t<SEG[i].s+SEG[i].len)return i;return SEG.length-1}
+/* the sequence: Day 1, then Days 2-12, then back to Day 1; the next day's closed gift fades in over the end of each day */
 function render(t){
-  live.render(t);
-  var k=clamp((t-F0)/(T-F0));
+  var i=segAt(t),g=SEG[i],lt=t-g.s,nx=SEG[(i+1)%SEG.length];
+  if(live.key!==g.day)showDay(g.day);
+  if(fin.key!==nx.day){fin.setDay(nx.day);fin.render(0)}
+  live.render(lt);
+  var k=clamp((lt-(g.len-FADE))/FADE);
   fin.f.style.opacity=eio(k);fin.f.style.visibility=k>0?'':'hidden';
 }
-function setDay(k){
-  dayKey=k;live.setDay(k);fin.setDay(k);fin.render(0);
-  var n=DAYS[k].n;
+function showDay(k){
+  dayKey=k;live.setDay(k);var n=DAYS[k].n;
   [].forEach.call($('chips').children,function(b){b.setAttribute('aria-pressed',+b.dataset.n===n)});
   box.setAttribute('aria-label',n===1?'12 Days of Lob, Day 1: a wrapped gift box unties and opens to the mail fact: The first U.S. Christmas stamp. The first U.S. holiday stamp was issued on November 1, 1962, in Pittsburgh, Pennsylvania.':'12 Days of Lob, Day '+n+': the wrapped gift box unties and its doors swing open.');
-  render(cur);
 }
 var chips=$('chips');for(var i=1;i<=12;i++){var bt=document.createElement('button');bt.type='button';bt.textContent=i;bt.dataset.n=i;bt.setAttribute('aria-label','Day '+i);chips.appendChild(bt)}
-chips.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;setDay(b.dataset.n);play({from:0})});
+chips.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;play({from:SEG[+b.dataset.n-1].s})});
 
 /* clock */
 function btn(){pp.textContent=playing?'Pause':'Play';pp.setAttribute('aria-label',pp.textContent)}
@@ -266,7 +270,7 @@ function resume(){if(cur>=T-.01)cur=0;playing=true;last=performance.now();if(!ra
 function pause(){playing=false;btn()}
 function play(o){o=o||{};cur=o.from||0;speed=o.speed||1;loop=o.loop!==false;resume()}
 function seek(x){pause();cur=x;show()}
-window.__rb={play:play,seek:seek,pause:pause,T:T,day:function(k){setDay(''+k)},build:function(b){pause();live.render(b);fin.f.style.visibility='hidden';sl.value=b/T*1000}};
+window.__rb={play:play,seek:seek,pause:pause,T:T,day:function(k){seek(SEG[+k-1].s)},seg:SEG,build:function(b){pause();live.render(b);fin.f.style.visibility='hidden';sl.value=b/T*1000}};
 pp.addEventListener('click',function(){playing?pause():resume()});
 $('replay').addEventListener('click',function(){play({from:0})});
 box.addEventListener('click',function(){playing?pause():resume()});
@@ -275,8 +279,8 @@ sl.addEventListener('pointerdown',function(){was=playing});
 sl.addEventListener('input',function(){playing=false;cur=sl.value/1000*T;render(cur);btn()});
 sl.addEventListener('change',function(){if(was)resume();was=false});
 
-var m=/day=(\d+)/.exec(qs);setDay(m&&DAYS[m[1]]?m[1]:'1');
-if(reduce&&!CLIP)cur=F0-.01;
+var m=/day=(\d+)/.exec(qs);if(m&&DAYS[m[1]])cur=SEG[+m[1]-1].s;
+if(reduce&&!CLIP)cur=T1-FADE-.01;
 show();
 if(!CLIP&&!reduce)play({from:0});
 })();
