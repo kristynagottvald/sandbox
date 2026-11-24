@@ -25,6 +25,13 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
+  // Lob 12 Days Unwrap, a 1:1 Day 1 advent post: the purple gift box's bow unties, the ribbon is pulled off, the doors swing open into side panels and the 1962 Christmas stamp drops onto a dotted card with the mail fact (timeline runs at 1.5x from the closed box)
+  'lob-12-days-unwrap': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 600, q: 62, run: async (p) => {
+    await p.evaluate(() => window.__rb.seek(1.2));
+    await sleep(700);
+    await p.evaluate(() => window.__rb.play({ from: 1.2, speed: 1.55, loop: false }));
+    await sleep(5800);
+  } },
   // Lob 12 Days on LinkedIn: the post sits in a dimmed feed, day 1 (tangible) settles, then the post steps to day 2 and day 3, the caption swapping to the story behind each word (the live page holds each day for 4 seconds)
   'lob-12-days-linkedin': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1800, q: 62, run: async (p) => {
     const t0 = Date.now();
