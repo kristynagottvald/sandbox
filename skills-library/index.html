@@ -16,7 +16,6 @@
   <style>
     /* ---------- Library: heading, search and filters on the left (sticky on desktop), the 2-column project grid on the right ---------- */
     .lib-side { display: grid; gap: 24px; align-content: start; }
-    .lib-intro { color: var(--grey); font-weight: 300; max-width: 22ch; }
     .search { position: relative; display: flex; align-items: center; max-width: 340px; border-bottom: 1px solid var(--line); transition: border-color .2s; }
     .search:focus-within { border-color: var(--grey); }
     .search .mag { position: absolute; left: 0; width: 16px; height: 16px; color: var(--grey); pointer-events: none; }
@@ -115,7 +114,6 @@
       <section class="work" id="skills" aria-label="Skills Library">
         <div class="work-side lib-side">
           <h1 class="t-condensed">Skills Library</h1>
-          <p class="lib-intro">Claude skills for brand tools, motion and design to code.</p>
           <div class="search" role="search">
             <svg class="mag" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6L14 14"/></svg>
             <input id="q" type="search" autocomplete="off" spellcheck="false" aria-label="Search skills">
