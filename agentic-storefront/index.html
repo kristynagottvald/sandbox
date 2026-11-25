@@ -210,6 +210,10 @@ html body nav.back:not(:has(>div))>b{display:block}
 html body nav.back>div{margin-left:auto}
 @media (min-width:641px){html body nav.back>b{display:block}}
 @media (max-width:640px){html body nav.back{padding:0 20px}}
+/* phones: the bar's controls move to a panel (also a nav.back, so the page's own control styles still apply) under the visual */
+html body nav.back.sb-panel{position:static;height:auto;min-height:0;padding:12px 20px;justify-content:center;flex-wrap:wrap;border-bottom:0;border-top:1px solid rgba(255,255,255,.1);white-space:normal;overflow:visible;z-index:auto}
+html body nav.back.sb-panel>div{margin:0;flex:0 1 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;max-width:100%;min-width:0}
+html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-panel):not(:has(>div))>span{display:block}
 </style>
 </head>
 <body>
@@ -441,6 +445,9 @@ document.fonts.ready.then(()=>{
   else play();
 });
 })();
+</script>
+<script>/* sandbox project bar: on phones its controls move to a panel under the visual */
+(function(){var nav=document.querySelector('nav.back'),c=nav&&nav.querySelector(':scope>div');if(!c)return;var mq=matchMedia('(max-width:640px)'),p=document.createElement('nav');p.className='back sb-panel';p.setAttribute('aria-label','Controls');var at=(nav.dataset.panelAfter&&document.querySelector(nav.dataset.panelAfter))||nav.nextElementSibling;at.after(p);function put(){(mq.matches?p:nav).appendChild(c);p.style.display=mq.matches?'':'none'}put();mq.addEventListener('change',put)})();
 </script>
 </body>
 </html>
