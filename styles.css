@@ -66,7 +66,7 @@ h1, h2, h3, p { margin: 0; font-weight: inherit; }
 .work-list { display: grid; grid-template-columns: 1fr; }
 .card a { display: flex; flex-direction: column; gap: 10px; padding: 12px; transition: opacity .17s linear; }
 .card-media { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--r-md); background: var(--off-black); container-type: size; }
-.card-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.card-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.01); }   /* trims ~5px of each 960x540 clip edge: the recorder's crop catches a 1px rule from each app's nav bar / page edge */
 .card-meta { position: relative; padding: 0 20px 4px 0; }
 .card-title { font-size: var(--fs-body); }
 .card-sub { color: var(--grey); font-size: var(--fs-body); font-weight: 300; }
