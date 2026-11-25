@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lob Visual Editor</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%232b2d83%22/%3E%3Crect x=%2210%22 y=%2215%22 width=%2244%22 height=%2234%22 fill=%22%233f33f2%22/%3E%3Crect x=%2234%22 y=%2215%22 width=%2220%22 height=%2234%22 fill=%22%23a28bff%22/%3E%3Crect x=%2215%22 y=%2221%22 width=%2214%22 height=%225%22 fill=%22%23e4ee5c%22/%3E%3Crect x=%2215%22 y=%2231%22 width=%2214%22 height=%223%22 fill=%22%23ffffff%22/%3E%3C/svg%3E">
+<meta name="description" content="A 16:9 Lob motion piece in the style of the Go from idea to mailbox faster sketch: Build your way, then the Visual Editor builds a template from scratch, previews an imported design, edits text and images and adds merge variables, before QR codes, PURLs and coupon codes bridge the mail piece to a landing page.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=EB+Garamond:ital,wght@1,400&display=swap" rel="stylesheet">
+<style>
+:root{--sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--page:#2b2d83}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{display:flex;flex-direction:column;min-height:100dvh;background:var(--page);color:#fff;font:400 14px/1.4 var(--sans);-webkit-font-smoothing:antialiased;overflow:hidden}
+/* ---------- Back nav (shared across all sandbox projects) ---------- */
+nav.back{box-sizing:border-box;flex:none;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 var(--sans);white-space:nowrap}
+nav.back a{color:#8d8d8d;text-decoration:none}
+nav.back span{color:#6e6e6e}
+nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+nav.back .ctl{margin-left:auto;display:flex;align-items:center;gap:10px;min-width:0}
+nav.back button{font:400 13px var(--sans);color:#fff;background:transparent;border:1px solid #4a4a4a;border-radius:8px;padding:4px 12px;cursor:pointer}
+nav.back button:hover{border-color:#fff}
+nav.back button:focus-visible{outline:2px solid #e4ee5c;outline-offset:2px}
+nav.back #pp{min-width:64px}
+nav.back input[type=range]{width:240px;min-width:60px;accent-color:#e4ee5c;cursor:pointer}
+@media (max-width:640px){nav.back .ctl{flex:1;justify-content:center}nav.back input[type=range]{flex:1;width:auto}}
+
+.stage{flex:1;min-height:0;width:100%;display:flex;justify-content:center;align-items:center;padding:16px}
+canvas{display:block;border-radius:6px;cursor:pointer}
+html.clip nav.back{visibility:hidden}
+html.clip .stage{padding:0}
+html.clip canvas{border-radius:0}
+
+/* sandbox project bar: the home page nav's 72px height, SANDBOX / PROJECT NAME in its all-caps label style, any controls on the right */
+html body nav.back{box-sizing:border-box;flex:none;align-self:stretch;width:auto;align-items:center;gap:10px;height:72px;min-height:72px;padding:0 30px;background:#181716;border-bottom:1px solid rgba(255,255,255,.1);color:#fff;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+html body nav.back>a,html body nav.back>span,html body nav.back>b{font:400 12px/1.3 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body nav.back>a{color:#989898;transition:color .2s}
+html body nav.back>a:hover,html body nav.back>a:focus-visible{color:#fff;text-decoration:none}
+html body nav.back>span{color:#6b6b6b}
+html body nav.back>b{font-weight:400;color:#fff;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html body nav.back:not(:has(>div))>b{display:block}
+html body nav.back>div{margin-left:auto}
+@media (min-width:641px){html body nav.back>b{display:block}}
+@media (max-width:640px){html body nav.back{padding:0 20px}}
+/* phones: the bar's controls move to a panel (also a nav.back, so the page's own control styles still apply) under the visual */
+html body nav.back.sb-panel{position:static;height:auto;min-height:0;padding:12px 20px;justify-content:center;flex-wrap:wrap;border-bottom:0;border-top:1px solid rgba(255,255,255,.1);white-space:normal;overflow:visible;z-index:auto}
+html body nav.back.sb-panel>div{margin:0;flex:0 1 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;max-width:100%;min-width:0}
+html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-panel):not(:has(>div))>span{display:block}
+@media (max-width:640px){html body nav.back.sb-panel>div{flex:1 1 100%;flex-wrap:nowrap}}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><b>Lob Visual Editor</b>
+  <div class="ctl"><button id="pp" type="button">Pause</button><input id="sl" type="range" min="0" max="1000" value="0" aria-label="Scrub the animation"></div>
+</nav>
+<main class="stage" id="stage"><canvas id="cv" role="img" aria-label="Build your way: the Lob Visual Editor builds a postcard from scratch, previews an imported design, edits its text and image, adds a first name merge variable, then QR codes, PURLs and coupon codes link the mail piece to a landing page. Send personalized direct mail without the technical bottlenecks."></canvas></main>
+
+<script>
+/* ---------- setup ---------- */
+const W = 1200, H = 675;
+const PURPLE = '#3f33f2', NAVY = '#2b2d83', LIME = '#e4ee5c', MAGENTA = '#cc40dc', YELLOW = '#ffc84a', LAV = '#a28bff', PALE = '#f8ff9a', INK = '#1e2245';
+const SANS = 'Inter, "Helvetica Neue", Helvetica, Arial, sans-serif';
+const SERIF = '"EB Garamond", Georgia, serif';
+const TS = 43;          // scene text size, as in the reference sketch
+const GAP = 48;
+const FADE = 0.5;
+const DUR = [3.0, 16.8, 2.8, 10.6, 5.5];
+const TOTAL = DUR.reduce((a, b) => a + b, 0);
+const qs = location.hash + location.search, CLIP = /clip/.test(qs);
+if (CLIP) document.documentElement.classList.add('clip');
+
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+let K = 1;      // bitmap px per scene px
+let BA = 1;     // base alpha of the scene being drawn
+const LOGO = new Image(); LOGO.src = 'logo.png';
+
+function resize() {
+  const st = document.getElementById('stage'), cs = getComputedStyle(st);
+  const aw = st.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const ah = st.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+  const w = Math.max(200, Math.min(aw, ah * W / H)), h = w * H / W;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+  cv.style.width = w + 'px'; cv.style.height = h + 'px';
+  cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+  K = cv.width / W;
+  render();
+}
+
+/* ---------- maths ---------- */
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const E = (x) => { x = clamp(x); return 1 - Math.pow(1 - x, 3); };
+const EIO = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+function popIn(x) { x = clamp(x); if (x <= 0) return 0; const c = 1.70158; return 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); }
+function hash(a, b) { const s = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return Math.abs(s - Math.floor(s)); }
+
+/* ---------- drawing helpers ---------- */
+const alpha = (a) => (ctx.globalAlpha = clamp(a));
+const blur = (px) => (ctx.filter = px > 0.2 ? 'blur(' + (px * K).toFixed(1) + 'px)' : 'none');
+const font = (size, weight = 400, fam = SANS) => (ctx.font = weight + ' ' + size + 'px ' + fam);
+const serifFont = (size) => 'italic 400 ' + size * 1.15 + 'px ' + SERIF;
+function rr(x, y, w, h, r) { ctx.beginPath(); r = Math.max(0, Math.min(r, w / 2, h / 2)); if (ctx.roundRect) ctx.roundRect(x, y, w, h, r); else ctx.rect(x, y, w, h); }
+function fillRR(x, y, w, h, r, c) { rr(x, y, w, h, r); ctx.fillStyle = c; ctx.fill(); }
+function text(s, x, y, c = '#fff', align = 'left') { ctx.fillStyle = c; ctx.textAlign = align; ctx.textBaseline = 'alphabetic'; ctx.fillText(s, x, y); }
+function tracked(s, x, y, size, c, tr, weight = 400, align = 'left') {
+  font(size, weight);
+  let w = 0; for (const ch of s) w += ctx.measureText(ch).width + tr; w -= tr;
+  let cx = align === 'center' ? x - w / 2 : align === 'right' ? x - w : x;
+  ctx.fillStyle = c; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  for (const ch of s) { ctx.fillText(ch, cx, y); cx += ctx.measureText(ch).width + tr; }
+  return w;
+}
+function part(r, cx, cy, fn) { if (r <= 0) return; ctx.save(); ctx.translate(cx, cy); ctx.scale(r, r); ctx.translate(-cx, -cy); fn(); ctx.restore(); }
+function bg(c) { ctx.fillStyle = c; ctx.fillRect(-10, -10, W + 20, H + 20); }
+
+/* words that blur up one by one, the last in EB Garamond italic (the reference sketch's drawWords) */
+function words(list, cx, y, t, o) {
+  o = Object.assign({ t0: 0.3, stag: 0.3, dur: 0.6, size: TS, serifLast: true, exit: undefined, kind: 'slide', align: 'center' }, o);
+  const size = o.size, gap = size * 0.3;
+  const ws = list.map((w, k) => { if (o.serifLast && k === list.length - 1) { ctx.font = serifFont(size); } else font(size); return ctx.measureText(w).width; });
+  const total = ws.reduce((a, b) => a + b, 0) + gap * (list.length - 1);
+  let x = o.align === 'center' ? cx - total / 2 : cx;
+  const ex = o.exit === undefined ? -1 : t - o.exit;
+  for (let k = 0; k < list.length; k++) {
+    const e = E((t - o.t0 - k * o.stag) / o.dur);
+    let a = e, dx = 0, dy = (1 - e) * 19 * size / TS, bl = (1 - e) * 8;
+    if (ex > 0) {
+      if (o.kind === 'slide') { if (k === list.length - 1) dx = EIO(ex / 1.0) * W; else a *= 1 - E(ex / 0.4); }
+      else { const f = E((ex - k * 0.04) / 0.4); a *= 1 - f; dy -= f * 16; bl += f * 6; }
+    }
+    if (a > 0.003) {
+      alpha(BA * a); blur(bl);
+      if (o.serifLast && k === list.length - 1) { ctx.font = serifFont(size); text(list[k], x + dx, y + dy); }
+      else { font(size); text(list[k], x + dx, y + dy); }
+    }
+    x += ws[k] + gap;
+  }
+  blur(0); alpha(BA);
+  return total;
+}
+function wordW(s, size = TS) { font(size); return ctx.measureText(s).width; }
+
+function drawCursor(x, y, a, press) {
+  if (a <= 0) return;
+  const sz = 24 * (1 - 0.1 * press);
+  ctx.save(); alpha(BA * a); ctx.translate(x, y);
+  ctx.beginPath(); ctx.moveTo(sz * 0.03, sz * 0.03); ctx.lineTo(sz * 0.99, sz * 0.43); ctx.lineTo(sz * 0.56, sz * 0.54); ctx.lineTo(sz * 0.44, sz * 0.99); ctx.closePath();
+  ctx.fillStyle = '#fff'; ctx.strokeStyle = '#4333f0'; ctx.lineWidth = sz * 0.07; ctx.lineJoin = 'round'; ctx.fill(); ctx.stroke();
+  ctx.restore();
+}
+function ripple(x, y, p) {
+  if (p <= 0 || p >= 1) return;
+  ctx.save(); alpha(BA * (1 - p)); ctx.strokeStyle = LIME; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.arc(x, y, 6 + 22 * E(p), 0, Math.PI * 2); ctx.stroke(); ctx.restore();
+}
+
+/* ---------- the mail piece ---------- */
+const PAL_A = { bg: PURPLE, badge: YELLOW };
+const PAL_B = { bg: MAGENTA, badge: PALE };
+
+function art(n, x, y, w, h) {
+  ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  const P = (fx, fy) => [x + fx * w, y + fy * h];
+  const circ = (fx, fy, fr, c) => { ctx.beginPath(); ctx.arc(x + fx * w, y + fy * h, fr * w, 0, Math.PI * 2); ctx.fillStyle = c; ctx.fill(); };
+  const house = (body, roof, door, win) => {
+    ctx.fillStyle = body; ctx.fillRect(...P(0.2, 0.3), 0.44 * w, 0.29 * h);
+    ctx.beginPath(); ctx.moveTo(...P(0.13, 0.32)); ctx.lineTo(...P(0.42, 0.1)); ctx.lineTo(...P(0.71, 0.32)); ctx.closePath(); ctx.fillStyle = roof; ctx.fill();
+    ctx.fillStyle = door; ctx.fillRect(...P(0.37, 0.42), 0.1 * w, 0.17 * h);
+    ctx.fillStyle = win; ctx.fillRect(...P(0.25, 0.37), 0.08 * w, 0.08 * h); ctx.fillRect(...P(0.52, 0.37), 0.08 * w, 0.08 * h);
+  };
+  if (n === 0) {
+    ctx.fillStyle = LAV; ctx.fillRect(x, y, w, h);
+    circ(0.68, 0.24, 0.13, YELLOW);
+    circ(0.15, 1.02, 0.55, PURPLE);
+    circ(1.0, 1.12, 0.52, NAVY);
+  } else if (n === 1) {
+    ctx.fillStyle = YELLOW; ctx.fillRect(x, y, w, h);
+    circ(0.82, 0.16, 0.08, '#fff');
+    house(NAVY, '#fff', LIME, PALE);
+  } else {
+    ctx.fillStyle = NAVY; ctx.fillRect(x, y, w, h);
+    for (let i = 0; i < 9; i++) circ(0.08 + hash(i, 2) * 0.86, 0.04 + hash(i, 5) * 0.28, 0.008, '#fff');
+    circ(0.8, 0.16, 0.075, PALE);
+    house(LAV, '#fff', YELLOW, YELLOW);
+  }
+  ctx.restore();
+}
+
+/* a pseudo QR code: three finder squares and a stable random fill */
+function qr(x, y, s, c) {
+  const n = 21, m = s / n;
+  ctx.fillStyle = c;
+  const finder = (i, j) => { ctx.fillRect(x + i * m, y + j * m, 7 * m, 7 * m); ctx.fillStyle = '#fff'; ctx.fillRect(x + (i + 1) * m, y + (j + 1) * m, 5 * m, 5 * m); ctx.fillStyle = c; ctx.fillRect(x + (i + 2) * m, y + (j + 2) * m, 3 * m, 3 * m); };
+  for (let i = 0; i < n; i++) for (let j = 0; j < n; j++) {
+    const inF = (i < 8 && j < 8) || (i > 12 && j < 8) || (i < 8 && j > 12);
+    if (!inF && hash(i + 3, j + 7) > 0.52) ctx.fillRect(x + i * m, y + j * m, m + 0.3, m + 0.3);
+  }
+  finder(0, 0); finder(14, 0); finder(0, 14);
+}
+
+function linkGlyph(cx, cy, s, c) {
+  ctx.save(); ctx.strokeStyle = c; ctx.lineWidth = s * 0.16; ctx.lineCap = 'round';
+  ctx.translate(cx, cy); ctx.rotate(-Math.PI / 4);
+  rr(-s * 0.62, -s * 0.24, s * 0.7, s * 0.48, s * 0.24); ctx.stroke();
+  rr(-s * 0.08, -s * 0.24, s * 0.7, s * 0.48, s * 0.24); ctx.stroke();
+  ctx.restore();
+}
+
+function ctaContent(type, x, y, w, h, q) {
+  const pad = h * 0.13;
+  if (type === 'none') {
+    [[0.3, 0.72], [0.5, 0.56], [0.7, 0.72]].forEach(([fy, fw]) => fillRR(x + w * 0.12, y + h * fy - h * 0.045, w * fw, h * 0.09, h * 0.045, '#dcdcdc'));
+  } else if (type === 'qr') {
+    const s = h - pad * 2;
+    qr(x + pad, y + pad, s, INK);
+    const tx = x + pad * 2 + s;
+    tracked('SCAN', tx, y + h * 0.36, h * 0.12, PURPLE, h * 0.015, 700);
+    fillRR(tx, y + h * 0.5, (x + w - pad) - tx, h * 0.08, h * 0.04, '#dcdcdc');
+    fillRR(tx, y + h * 0.66, ((x + w - pad) - tx) * 0.7, h * 0.08, h * 0.04, '#dcdcdc');
+  } else if (type === 'purl') {
+    linkGlyph(x + pad + h * 0.17, y + h * 0.34, h * 0.3, INK);
+    tracked('VISIT', x + pad + h * 0.42, y + h * 0.39, h * 0.12, PURPLE, h * 0.015, 700);
+    font(h * 0.135, 700); const s = 'homeco.com/maya'; text(s, x + pad, y + h * 0.7, INK);
+    const sw = ctx.measureText(s).width;
+    ctx.fillStyle = LIME; ctx.fillRect(x + pad, y + h * 0.75, sw, h * 0.05);
+  } else if (type === 'coupon') {
+    ctx.save(); ctx.setLineDash([h * 0.05, h * 0.04]); ctx.lineWidth = Math.max(1, h * 0.022); ctx.strokeStyle = MAGENTA;
+    rr(x + pad * 0.6, y + pad * 0.6, w - pad * 1.2, h - pad * 1.2, h * 0.05); ctx.stroke(); ctx.restore();
+    font(h * 0.26, 700); text('20% OFF', x + w / 2, y + h * 0.53, INK, 'center');
+    tracked('CODE MAYA20', x + w / 2, y + h * 0.76, h * 0.1, PURPLE, h * 0.02, 600, 'center');
+  }
+}
+
+function wrapLines(str, maxW) {
+  const out = []; let line = '';
+  for (const w of str.split(' ')) { const t = line ? line + ' ' + w : w; if (ctx.measureText(t).width > maxW && line) { out.push(line); line = w; } else line = t; }
+  out.push(line); return out;
+}
+
+/* s: { pal, fill (0..1 colour wipe), parts {head, bars, badge, panel, art, cta}, head, caret, img, img2, imgWipe, hi, hiPop, hiSwap, cta, cta2, ctaMix, selHead, selImg } */
+function card(x, y, w, h, s) {
+  const q = w / 600;
+  const P = s.parts || {};
+  const pal = s.pal;
+  ctx.save();
+  // blank template with bleed lines
+  fillRR(x, y, w, h, 4 * q, '#ffffff');
+  if ((s.fill ?? 1) < 1) {
+    ctx.save(); ctx.setLineDash([5 * q, 4 * q]); ctx.strokeStyle = 'rgba(63,51,242,.45)'; ctx.lineWidth = 1.2;
+    ctx.strokeRect(x + 14 * q, y + 14 * q, w - 28 * q, h - 28 * q); ctx.restore();
+  }
+  // colour
+  const f = s.fill ?? 1;
+  if (f > 0) { ctx.save(); rr(x, y, w, h, 4 * q); ctx.clip(); ctx.fillStyle = pal.bg; ctx.fillRect(x, y, w * f, h); ctx.restore(); }
+  // image panel
+  const px = x + w * 0.56, py = y, pw = w * 0.44, ph = h;
+  part(popIn(P.panel ?? 1), px + pw / 2, py + ph / 2, () => {
+    ctx.save(); rr(x, y, w, h, 4 * q); ctx.clip();
+    const ar = P.art ?? 1;
+    if (ar < 1) { ctx.fillStyle = '#e7e5fb'; ctx.fillRect(px, py, pw, ph); }
+    if (ar > 0) {
+      ctx.save(); ctx.globalAlpha *= clamp(ar * 1.5); art(s.img, px, py, pw, ph); ctx.restore();
+      if (s.imgWipe > 0) {
+        const wy = ph * EIO(s.imgWipe);
+        ctx.save(); ctx.beginPath(); ctx.rect(px, py, pw, wy); ctx.clip(); art(s.img2, px, py, pw, ph); ctx.restore();
+        if (s.imgWipe < 1) { ctx.fillStyle = LIME; ctx.fillRect(px, py + wy - 2 * q, pw, 4 * q); }
+      }
+    }
+    ctx.restore();
+  });
+  // badge
+  part(popIn(P.badge ?? 1), x + w * 0.19, y + h * 0.13, () => {
+    ctx.fillStyle = pal.badge; ctx.fillRect(x + w * 0.06, y + h * 0.08, w * 0.26, h * 0.1);
+    tracked('// HOME CO', x + w * 0.19, y + h * 0.145, 13 * q, NAVY, 1.2 * q, 700, 'center');
+  });
+  // greeting with the merge variable
+  if (s.hi && s.hiPop > 0) {
+    part(popIn(s.hiPop), x + w * 0.1, y + h * 0.29, () => {
+      font(21 * q, 500); text('Hi', x + w * 0.06, y + h * 0.3);
+      const hx = x + w * 0.06 + ctx.measureText('Hi ').width;
+      const isVar = s.hi.startsWith('{');
+      font(isVar ? 15 * q : 18 * q, 600);
+      const tw = ctx.measureText(s.hi).width;
+      const cw = tw + 16 * q, chh = 28 * q;
+      fillRR(hx, y + h * 0.3 - chh * 0.74, cw, chh, 6 * q, LIME);
+      ctx.save(); alpha(ctx.globalAlpha * (s.hiSwap ?? 1)); blur((1 - (s.hiSwap ?? 1)) * 4 * q);
+      font(isVar ? 15 * q : 18 * q, 600); text(s.hi, hx + 8 * q, y + h * 0.3 - (isVar ? 1 : 0) * q, NAVY); ctx.restore();
+      font(21 * q, 500); text(',', hx + cw + 2 * q, y + h * 0.3);
+    });
+  }
+  // headline
+  part(popIn(P.head ?? 1), x + w * 0.2, y + h * 0.42, () => {
+    font(31 * q, 600);
+    const lines = wrapLines(s.head || '', w * 0.46);
+    const lh = 36 * q;
+    lines.forEach((ln, i) => text(ln, x + w * 0.06, y + h * 0.43 + i * lh, '#fff'));
+    if (s.caret) {
+      const last = lines[lines.length - 1], cx = x + w * 0.06 + ctx.measureText(last).width + 3 * q, cy = y + h * 0.43 + (lines.length - 1) * lh;
+      ctx.fillStyle = LIME; ctx.fillRect(cx, cy - 26 * q, 2.5 * q, 32 * q);
+    }
+    s._headBox = [x + w * 0.06 - 8 * q, y + h * 0.43 - 32 * q, w * 0.47, lh * (lines.length - 1) + 44 * q];
+  });
+  // body bars
+  part(popIn(P.bars ?? 1), x + w * 0.2, y + h * 0.7, () => {
+    fillRR(x + w * 0.06, y + h * 0.66, w * 0.4, h * 0.03, h * 0.015, 'rgba(255,255,255,.9)');
+    fillRR(x + w * 0.06, y + h * 0.74, w * 0.3, h * 0.03, h * 0.015, 'rgba(255,255,255,.9)');
+  });
+  // call to action card
+  const cx0 = x + w * 0.6, cy0 = y + h * 0.6, cw = w * 0.35, ch = h * 0.32;
+  part(popIn(P.cta ?? 1), cx0 + cw / 2, cy0 + ch / 2, () => {
+    fillRR(cx0, cy0, cw, ch, 4 * q, '#fff');
+    ctx.lineWidth = 2.2 * q; ctx.strokeStyle = PURPLE; rr(cx0, cy0, cw, ch, 4 * q); ctx.stroke();
+    const m = s.ctaMix ?? 1;
+    if (m < 1 && s.cta2) { ctx.save(); alpha(ctx.globalAlpha * (1 - E(m * 2))); ctaContent(s.cta2, cx0, cy0, cw, ch, q); ctx.restore(); }
+    part(m < 1 ? popIn((m - 0.25) / 0.75) : 1, cx0 + cw / 2, cy0 + ch / 2, () => ctaContent(s.cta || 'none', cx0, cy0, cw, ch, q));
+  });
+  // selections
+  const sel = (bx, by, bw, bh, a, label) => {
+    if (a <= 0) return;
+    ctx.save(); alpha(ctx.globalAlpha * a); ctx.strokeStyle = LIME; ctx.lineWidth = 2;
+    ctx.strokeRect(bx, by, bw, bh);
+    ctx.fillStyle = LIME; for (const [hx, hy] of [[bx, by], [bx + bw, by], [bx, by + bh], [bx + bw, by + bh]]) ctx.fillRect(hx - 3.5, hy - 3.5, 7, 7);
+    font(11, 600); const lw = ctx.measureText(label).width + 12;
+    fillRR(bx, by - 21, lw, 17, 3, LIME); text(label, bx + 6, by - 8.5, NAVY);
+    ctx.restore();
+  };
+  if (s.selHead > 0 && s._headBox) sel(...s._headBox, s.selHead, 'Text');
+  if (s.selImg > 0) sel(px + 6 * q, py + 6 * q, pw - 12 * q, h * 0.5, s.selImg, 'Image');
+  ctx.restore();
+  return { cta: [cx0, cy0, cw, ch] };
+}
+
+/* ---------- scene 0 / 2: the purple title cards ---------- */
+function sceneTitle(t, list, exit) {
+  bg(PURPLE);
+  words(list, W / 2, H / 2 + 13, t, { t0: 0.3, stag: 0.3, exit, kind: 'slide' });
+}
+
+/* ---------- scene 1: the visual editor ---------- */
+const EW = 760, EH = EW * 700 / 1060, EX = (W - EW) / 2, EY = 142, U = EW / 1060;
+const X = (v) => EX + v * U, Y = (v) => EY + v * U;
+const CARD = { x: X(400), y: Y(190), w: 600 * U, h: 400 * U };
+const PILLS = ['TEXT', 'IMAGE', 'VARIABLES', 'CTA'];
+const PILL_Y = [197, 284, 371, 458];
+const REST = [X(1060) + 26, Y(560)];
+const PT = {
+  text: [X(36), Y(PILL_Y[0])], image: [X(36), Y(PILL_Y[1])], vars: [X(40), Y(PILL_Y[2])],
+  head: [CARD.x + CARD.w * 0.22, CARD.y + CARD.h * 0.4], panel: [CARD.x + CARD.w * 0.76, CARD.y + CARD.h * 0.3],
+  hi: [CARD.x + CARD.w * 0.18, CARD.y + CARD.h * 0.27], imp: [X(945), Y(100)]
+};
+const THUMB = { w: 150, h: 100, from: [EX + EW - 40, H + 90] };
+const CURSOR = [
+  [0.4, ...REST], [0.95, ...PT.text], [1.5, ...PT.head], [1.65, ...PT.head], [2.1, ...PT.image], [2.75, ...PT.panel], [2.95, ...PT.panel], [3.6, ...REST],
+  [4.4, ...REST], [4.95, ...PT.imp], [5.1, ...PT.imp], [5.5, THUMB.from[0] + 50, THUMB.from[1] + 30], [6.4, CARD.x + CARD.w / 2 + 50, CARD.y + CARD.h / 2 + 30], [6.6, CARD.x + CARD.w / 2 + 50, CARD.y + CARD.h / 2 + 30], [7.4, ...REST],
+  [8.6, ...REST], [9.15, ...PT.head], [9.35, ...PT.head], [9.6, PT.head[0] + 40, PT.head[1] + 70], [11.0, PT.head[0] + 40, PT.head[1] + 70], [11.2, ...PT.panel], [11.45, ...PT.panel], [12.1, ...REST],
+  [12.8, ...REST], [13.25, ...PT.vars], [13.4, ...PT.vars], [13.85, ...PT.hi], [14.05, ...PT.hi], [14.7, ...REST]
+];
+const CLICKS = [1.0, 1.55, 2.2, 2.85, 5.05, 6.45, 9.25, 11.3, 13.35, 13.95];
+const ACTIVE = [[0, 0.95, 2.1], [1, 2.1, 3.4], [0, 9.15, 11.1], [1, 11.1, 12.3], [2, 13.3, 17]];
+
+function cursorAt(t) {
+  if (t <= CURSOR[0][0]) return [CURSOR[0][1], CURSOR[0][2]];
+  for (let i = 1; i < CURSOR.length; i++) {
+    const a = CURSOR[i - 1], b = CURSOR[i];
+    if (t <= b[0]) { const e = EIO((t - a[0]) / (b[0] - a[0])); return [lerp(a[1], b[1], e), lerp(a[2], b[2], e)]; }
+  }
+  const l = CURSOR[CURSOR.length - 1]; return [l[1], l[2]];
+}
+
+function pillIcon(i, x, y, c) {
+  ctx.save(); ctx.strokeStyle = c; ctx.fillStyle = c; ctx.lineWidth = 2; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+  const s = 22 * U;
+  if (i === 0) { font(s * 1.05, 600); text('T', x, y + s * 0.38, c, 'center'); }
+  if (i === 1) { rr(x - s * 0.55, y - s * 0.42, s * 1.1, s * 0.84, 2); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x - s * 0.45, y + s * 0.32); ctx.lineTo(x - s * 0.1, y - s * 0.02); ctx.lineTo(x + s * 0.12, y + s * 0.18); ctx.lineTo(x + s * 0.25, y + s * 0.06); ctx.lineTo(x + s * 0.45, y + s * 0.32); ctx.stroke(); ctx.beginPath(); ctx.arc(x + s * 0.22, y - s * 0.18, s * 0.09, 0, 7); ctx.fill(); }
+  if (i === 2) { font(s * 0.95, 500); text('{ }', x, y + s * 0.32, c, 'center'); }
+  if (i === 3) { const b = s * 0.5, l = s * 0.2; ctx.beginPath(); for (const [sx, sy] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) { ctx.moveTo(x + sx * b, y + sy * (b - l)); ctx.lineTo(x + sx * b, y + sy * b); ctx.lineTo(x + sx * (b - l), y + sy * b); } ctx.stroke(); }
+  ctx.restore();
+}
+
+function activeAmt(i, t) {
+  let a = 0;
+  for (const [k, s, e] of ACTIVE) if (k === i) a = Math.max(a, E((t - s) / 0.3) * (1 - E((t - e) / 0.3)));
+  return a;
+}
+
+function editorChrome(t) {
+  // white window and purple sidebar, as in the reference UI frames
+  fillRR(EX, EY, EW, EH, 6, '#ffffff');
+  ctx.save(); rr(EX, EY, EW, EH, 6); ctx.clip();
+  ctx.fillStyle = PURPLE; ctx.fillRect(EX, EY, 322 * U, EH);
+  if (LOGO.complete && LOGO.naturalWidth) { const lh = 36 * U, lw = lh * LOGO.naturalWidth / LOGO.naturalHeight; ctx.drawImage(LOGO, X(60), Y(48), lw, lh); }
+  for (let i = 0; i < 4; i++) {
+    const a = activeAmt(i, t);
+    font(15 * U, 500); let lw = 0; for (const ch of PILLS[i]) lw += ctx.measureText(ch).width + 2.2 * U;
+    const pw = lerp(90, 90 + lw / U + 22, E(a)) * U;
+    fillRR(EX - 30, Y(PILL_Y[i] - 27), pw + 30, 54 * U, 27 * U, '#ffffff');
+    pillIcon(i, X(36), Y(PILL_Y[i]), a > 0.5 ? '#c943dd' : '#8a8a8a');
+    if (a > 0.02) { ctx.save(); alpha(BA * clamp((a - 0.3) / 0.7)); tracked(PILLS[i], X(72), Y(PILL_Y[i] + 6), 15 * U, '#8a8a8a', 2.2 * U, 500); ctx.restore(); }
+  }
+  // header
+  tracked('VISUAL EDITOR', X(380), Y(112), 30 * U, '#77767b', 3.6 * U, 400);
+  // import button (the reference's upload button)
+  const press = Math.sin(Math.PI * clamp((t - 5.0) / 0.22));
+  ctx.save(); ctx.translate(...PT.imp); ctx.scale(1 - 0.07 * press, 1 - 0.07 * press);
+  const bw = 150 * U, bh = 46 * U;
+  fillRR(-bw / 2, -bh / 2, bw, bh, 8 * U, press > 0.5 ? '#2c22c8' : PURPLE);
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.6; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  const ix = -bw * 0.28, f = bh * 0.16;
+  ctx.beginPath(); ctx.moveTo(ix, -f * 1.3); ctx.lineTo(ix, f * 0.7); ctx.moveTo(ix - f * 0.75, -f * 0.5); ctx.lineTo(ix, -f * 1.35); ctx.lineTo(ix + f * 0.75, -f * 0.5); ctx.moveTo(ix - f * 1.1, f * 0.5); ctx.lineTo(ix - f * 1.1, f * 1.3); ctx.lineTo(ix + f * 1.1, f * 1.3); ctx.lineTo(ix + f * 1.1, f * 0.5); ctx.stroke();
+  tracked('IMPORT', ix + f * 1.9, 5 * U, 15 * U, '#fff', 1.8 * U, 700);
+  ctx.restore();
+  // canvas box
+  ctx.lineWidth = 3 * U; ctx.strokeStyle = '#d0d0d0'; rr(X(380), Y(160), 640 * U, 460 * U, 22 * U); ctx.stroke();
+  fillRR(X(380), Y(646), 311 * U, 16 * U, 8 * U, '#e2e2e2');
+  fillRR(X(870), Y(646), 150 * U, 16 * U, 8 * U, '#e2e2e2');
+  ctx.restore();
+}
+
+function editorCard(t) {
+  const s = { pal: PAL_A, img: 0, head: 'Welcome home', parts: {}, fill: 1 };
+  if (t < 4.2) {
+    s.fill = EIO((t - 0.55) / 0.45);
+    s.parts = { head: (t - 1.55) / 0.35, bars: (t - 1.75) / 0.3, badge: (t - 1.9) / 0.3, panel: (t - 2.85) / 0.35, art: (t - 3.0) / 0.35, cta: (t - 3.2) / 0.3 };
+    s.cta = 'none';
+    return s;
+  }
+  const b = t - 4.2;
+  if (t < 8.4) { s.cta = 'none'; s._b = b; return s; }
+  const B = { pal: PAL_B, img: 1, head: 'Your new home awaits', cta: 'none', parts: {} };
+  const c = t - 8.4;
+  if (t < 12.6) {
+    const from = 'Your new home awaits', to = 'Open house this Sunday';
+    if (c < 1.45) B.head = from.slice(0, Math.round(from.length * (1 - clamp((c - 1.0) / 0.4))));
+    else B.head = to.slice(0, Math.round(to.length * clamp((c - 1.5) / 1.0)));
+    B.caret = c > 0.95 && c < 2.75 && (c < 2.5 || Math.floor(c * 4) % 2 === 0);
+    if (B.head === '') B.head = '';
+    B.selHead = E((c - 0.9) / 0.2) * (1 - E((c - 2.7) / 0.25));
+    B.selImg = E((c - 2.95) / 0.2) * (1 - E((c - 3.75) / 0.3));
+    B.img2 = 2; B.imgWipe = clamp((c - 3.1) / 0.5);
+    return B;
+  }
+  const d = t - 12.6;
+  B.head = 'Open house this Sunday'; B.img = 2;
+  B.hi = '{{first_name}}'; B.hiPop = (d - 1.35) / 0.35;
+  const names = ['Maya', 'Leo', 'Priya', 'Maya'];
+  if (d >= 2.0) { const i = Math.min(3, Math.floor((d - 2.0) / 0.6)); B.hi = names[i]; B.hiSwap = E(((d - 2.0) - i * 0.6) / 0.2); }
+  return B;
+}
+
+function sceneEditor(t) {
+  bg(NAVY);
+  const inE = E(t / 0.6);
+  ctx.save();
+  alpha(BA * inE);
+  const sc = 0.96 + 0.04 * inE;
+  ctx.translate(W / 2, EY + EH / 2 + (1 - inE) * 20); ctx.scale(sc, sc); ctx.translate(-W / 2, -(EY + EH / 2));
+  editorChrome(t);
+  const s = editorCard(t);
+  // import: the new design drops in and opens up over the old one
+  const b = t - 4.2;
+  if (t >= 4.2 && t < 8.4) {
+    card(CARD.x, CARD.y, CARD.w, CARD.h, s);
+    const zone = E((b - 1.9) / 0.3) * (1 - E((b - 2.6) / 0.5));
+    if (zone > 0) { ctx.save(); alpha(BA * inE * zone * 0.45); fillRR(X(380), Y(160), 640 * U, 460 * U, 22 * U, LIME); ctx.restore(); }
+    if (b > 1.3) {
+      const tr = EIO((b - 1.3) / 0.9);
+      const cxp = lerp(THUMB.from[0], CARD.x + CARD.w / 2, tr), cyp = lerp(THUMB.from[1], CARD.y + CARD.h / 2, tr) - Math.sin(Math.PI * tr) * 30;
+      const grow = 1 + Math.sin(Math.PI * clamp((b - 2.2) / 0.3)) * 0.08;
+      const ex = EIO((b - 2.45) / 0.6);
+      const w = lerp(THUMB.w * grow, CARD.w, ex), h = lerp(THUMB.h * grow, CARD.h, ex);
+      ctx.save();
+      if (ex < 1) { ctx.shadowColor = 'rgba(0,0,0,' + (0.3 * (1 - ex)).toFixed(2) + ')'; ctx.shadowBlur = 16 * K; ctx.shadowOffsetY = 8 * K; }
+      fillRR(cxp - w / 2, cyp - h / 2, w, h, 4, '#fff');
+      ctx.restore();
+      card(cxp - w / 2, cyp - h / 2, w, h, { pal: PAL_B, img: 1, head: 'Your new home awaits', cta: 'none' });
+    }
+    const ok = popIn((b - 3.05) / 0.3) * (1 - E((b - 3.8) / 0.3));
+    if (ok > 0) {
+      const ox = CARD.x + CARD.w - 4, oy = CARD.y + 4, r = 15 * ok;
+      ctx.beginPath(); ctx.arc(ox, oy, r, 0, 7); ctx.fillStyle = LIME; ctx.fill();
+      ctx.strokeStyle = NAVY; ctx.lineWidth = 2.6 * ok; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(ox - r * 0.4, oy); ctx.lineTo(ox - r * 0.1, oy + r * 0.32); ctx.lineTo(ox + r * 0.42, oy - r * 0.3); ctx.stroke();
+    }
+  } else card(CARD.x, CARD.y, CARD.w, CARD.h, s);
+  // cursor
+  const [mx, my] = cursorAt(t);
+  let press = 0; for (const c of CLICKS) press = Math.max(press, Math.sin(Math.PI * clamp((t - c) / 0.2)));
+  for (const c of CLICKS) { const p = (t - c) / 0.5; if (p > 0 && p < 1) ripple(c === 5.05 ? PT.imp[0] : mx, c === 5.05 ? PT.imp[1] : my, p); }
+  drawCursor(mx, my, E((t - 0.3) / 0.3), press);
+  ctx.restore();
+  alpha(BA);
+  // headings
+  const HY = 96;
+  const heads = [
+    [0, ['Build', 'templates', 'from', 'scratch']],
+    [4.2, ['Preview', 'new', 'designs', 'via', 'import']],
+    [8.4, ['Make', 'changes', 'to', 'text', 'and', 'images']],
+    [12.6, ['Personalize', 'with', 'merge', 'variables']]
+  ];
+  for (const [s0, list] of heads) {
+    if (t < s0 || t > s0 + 4.3) continue;
+    words(list, W / 2, HY, t, { t0: s0 + (s0 ? 0.25 : 0.35), stag: 0.08, exit: s0 + 3.75, kind: 'up' });
+  }
+}
+
+/* ---------- scene 3: CTAs, then offline to online ---------- */
+const FINAL = { pal: PAL_B, img: 2, head: 'Open house this Sunday', hi: 'Maya', hiPop: 1 };
+function sceneCta(t) {
+  bg(NAVY);
+  const cw0 = 450, ch0 = 300;
+  const lw = wordW('Add'), rws = ['QR codes', 'PURLs', 'coupon codes'], rmax = Math.max(...rws.map((s) => wordW(s)));
+  const gx = W / 2 + (lw - rmax) / 2;
+  const mv = EIO((t - 6.0) / 1.0);
+  const cx = lerp(gx, 372, mv), cy = lerp(H / 2, 392, mv), w = lerp(cw0, 420, mv), h = w * 2 / 3;
+  const ent = E(t / 0.7);
+  // which call to action is on the piece
+  const sw = [0.7, 2.3, 3.9];
+  const types = ['qr', 'purl', 'coupon'];
+  let k = 0; for (let i = 0; i < 3; i++) if (t >= sw[i]) k = i;
+  const s = Object.assign({}, FINAL, { cta: t < sw[0] ? 'none' : types[k], cta2: t < sw[0] ? null : k ? types[k - 1] : 'none', ctaMix: t < sw[0] ? 1 : clamp((t - sw[k]) / 0.45) });
+  ctx.save(); alpha(BA * ent);
+  const sc = 0.92 + 0.08 * ent;
+  ctx.translate(cx, cy); ctx.scale(sc, sc); ctx.translate(-cx, -cy);
+  const g = card(cx - w / 2, cy - h / 2, w, h, s);
+  ctx.restore(); alpha(BA);
+  // Add  [piece]  QR codes / PURLs / coupon codes
+  const out = E((t - 6.0) / 0.35);
+  if (out < 1) {
+    const ta = E((t - 0.35) / 0.6) * (1 - out);
+    alpha(BA * ta); blur((1 - E((t - 0.35) / 0.6)) * 7 + out * 5); font(TS);
+    text('Add', gx - cw0 / 2 - GAP - lw + (1 - ta) * 40, H / 2 + 13);
+    blur(0);
+    for (let i = 0; i < 3; i++) {
+      const a0 = sw[i] - 0.05, a1 = i < 2 ? sw[i + 1] - 0.15 : 99;
+      const inA = E((t - a0) / 0.4), outA = E((t - a1) / 0.4);
+      const a = inA * (1 - outA) * (1 - out);
+      if (a <= 0.003) continue;
+      alpha(BA * a); blur((1 - inA) * 5 + outA * 5);
+      font(TS); text(rws[i], gx + cw0 / 2 + GAP, H / 2 + 13 + (1 - inA) * 21 - outA * 21);
+    }
+    blur(0); alpha(BA);
+  }
+  if (t < 6.0) return;
+  // offline to online: a dotted path from the piece to a phone
+  const [qx, qy, qw, qh] = g.cta;
+  const PX = lerp(W + 160, 850, EIO((t - 6.6) / 0.8)), PY = 392, PW = 214, PH = 420;
+  const p0 = [qx + qw, qy + qh / 2], p2 = [PX - PW / 2 - 6, PY + 40], p1 = [(p0[0] + p2[0]) / 2, Math.min(p0[1], p2[1]) - 150];
+  const prog = clamp((t - 7.3) / 0.8);
+  if (prog > 0) {
+    const n = 26;
+    for (let i = 0; i <= n * prog; i++) {
+      const u = i / n, x = (1 - u) * (1 - u) * p0[0] + 2 * (1 - u) * u * p1[0] + u * u * p2[0], y = (1 - u) * (1 - u) * p0[1] + 2 * (1 - u) * u * p1[1] + u * u * p2[1];
+      ctx.beginPath(); ctx.arc(x, y, 3, 0, 7); ctx.fillStyle = LIME; ctx.fill();
+    }
+  }
+  // phone
+  ctx.save();
+  fillRR(PX - PW / 2, PY - PH / 2, PW, PH, 30, INK);
+  const sx = PX - PW / 2 + 10, sy = PY - PH / 2 + 10, sW = PW - 20, sH = PH - 20;
+  fillRR(sx, sy, sW, sH, 22, '#ffffff');
+  ctx.save(); rr(sx, sy, sW, sH, 22); ctx.clip();
+  const pp = (d) => popIn((t - 7.8 - d) / 0.35);
+  part(pp(0), PX, sy + 34, () => { fillRR(sx + 14, sy + 22, sW - 28, 24, 12, '#efedfe'); font(11, 600); text('homeco.com/maya', PX, sy + 38, NAVY, 'center'); });
+  part(pp(0.15), PX, sy + 115, () => { ctx.save(); rr(sx + 14, sy + 60, sW - 28, 110, 8); ctx.clip(); art(2, sx + 14, sy + 60, sW - 28, 110 * 1.05); ctx.restore(); });
+  part(pp(0.3), sx + 40, sy + 200, () => {
+    font(13, 500); text('Hi', sx + 14, sy + 196, NAVY);
+    font(12, 600); const nw = ctx.measureText('Maya').width; fillRR(sx + 32, sy + 182, nw + 10, 19, 4, LIME); text('Maya', sx + 37, sy + 196, NAVY);
+    font(17, 600); ['Open house', 'this Sunday'].forEach((l, i) => text(l, sx + 14, sy + 222 + i * 21, INK));
+  });
+  part(pp(0.45), PX, sy + 282, () => { fillRR(sx + 14, sy + 262, sW - 28, 40, 8, LIME); font(13, 700); text('Book a tour', PX, sy + 287, NAVY, 'center'); });
+  part(pp(0.6), PX, sy + 334, () => {
+    ctx.save(); ctx.setLineDash([4, 3]); ctx.strokeStyle = MAGENTA; ctx.lineWidth = 1.4; rr(sx + 14, sy + 316, sW - 28, 36, 6); ctx.stroke(); ctx.restore();
+    tracked('MAYA20 · 20% OFF', PX, sy + 339, 11, PURPLE, 1.2, 700, 'center');
+  });
+  ctx.restore(); ctx.restore();
+  // heading
+  words(['Bridge', 'offline', 'and', 'online'], W / 2, 112, t, { t0: 6.35, stag: 0.12 });
+}
+
+/* ---------- scene 4: end card ---------- */
+function sceneEnd(t) {
+  bg(NAVY);
+  words(['Send', 'personalized', 'direct', 'mail'], W / 2, 300, t, { t0: 0.3, stag: 0.12, serifLast: false });
+  words(['without', 'the', 'technical', 'bottlenecks'], W / 2, 362, t, { t0: 0.8, stag: 0.12 });
+  const a = E((t - 1.9) / 0.6);
+  if (a > 0 && LOGO.complete && LOGO.naturalWidth) {
+    const lh = 40, lw = lh * LOGO.naturalWidth / LOGO.naturalHeight;
+    alpha(BA * a); blur((1 - a) * 6);
+    ctx.drawImage(LOGO, W / 2 - lw / 2, 438 + (1 - a) * 14, lw, lh);
+    blur(0); alpha(BA);
+  }
+}
+
+/* ---------- timeline ---------- */
+function drawScene(i, lt, a) {
+  BA = a; alpha(a);
+  if (i === 0) sceneTitle(lt, ['Build', 'your', 'way'], 2.4);
+  if (i === 1) sceneEditor(lt);
+  if (i === 2) sceneTitle(lt, ['Customize', 'your', 'CTAs'], 2.2);
+  if (i === 3) sceneCta(lt);
+  if (i === 4) sceneEnd(lt);
+  BA = 1; alpha(1); blur(0);
+}
+
+let cur = 0, playing = true, speed = 1, lastNow = 0, loop = true;
+function render() {
+  ctx.setTransform(K, 0, 0, K, 0, 0);
+  ctx.clearRect(0, 0, W, H);
+  const t = ((cur % TOTAL) + TOTAL) % TOTAL;
+  let start = 0, i = 0;
+  while (i < DUR.length - 1 && t >= start + DUR[i]) { start += DUR[i]; i++; }
+  const lt = t - start;
+  if (lt < FADE && i !== 0) { drawScene(i - 1, DUR[i - 1] + lt, 1); drawScene(i, lt, lt / FADE); }
+  else drawScene(i, lt, 1);
+  if (!dragging) sl.value = Math.round(t / TOTAL * 1000);
+}
+function tick(now) {
+  const dt = lastNow ? Math.min(0.1, (now - lastNow) / 1000) : 0; lastNow = now;
+  if (playing) { cur += dt * speed; if (!loop && cur >= TOTAL) { cur = TOTAL - 0.001; playing = false; } render(); }
+  requestAnimationFrame(tick);
+}
+
+const pp = document.getElementById('pp'), sl = document.getElementById('sl');
+let dragging = false;
+function setPlaying(p) { playing = p; pp.textContent = p ? 'Pause' : 'Play'; lastNow = 0; }
+pp.onclick = () => setPlaying(!playing);
+cv.onclick = () => setPlaying(!playing);
+sl.oninput = () => { dragging = true; cur = sl.value / 1000 * TOTAL; render(); };
+sl.onchange = () => { dragging = false; };
+addEventListener('keydown', (e) => { if (e.code === 'Space' && e.target === document.body) { e.preventDefault(); setPlaying(!playing); } });
+
+/* recorder hooks */
+window.__rb = {
+  T: TOTAL, dur: DUR,
+  seek(t) { cur = t; render(); },
+  pause() { setPlaying(false); },
+  play(o) { o = o || {}; if (o.from !== undefined) cur = o.from; speed = o.speed || 1; loop = o.loop !== false; setPlaying(true); }
+};
+
+addEventListener('resize', resize);
+const fontsReady = document.fonts ? Promise.race([Promise.all([document.fonts.load('400 43px Inter'), document.fonts.load('600 31px Inter'), document.fonts.load('700 15px Inter'), document.fonts.load('italic 400 49px "EB Garamond"')]), new Promise((r) => setTimeout(r, 3000))]) : Promise.resolve();
+const logoReady = new Promise((r) => { if (LOGO.complete) r(); else { LOGO.onload = r; LOGO.onerror = r; } });
+resize();
+Promise.all([fontsReady, logoReady]).then(() => {
+  resize();
+  if (CLIP) setPlaying(false);
+  requestAnimationFrame(tick);
+});
+</script>
+<script>/* sandbox project bar: on phones its controls move to a panel under the visual */
+(function(){var nav=document.querySelector('nav.back'),c=nav&&nav.querySelector(':scope>div');if(!c)return;var mq=matchMedia('(max-width:640px)'),p=document.createElement('nav');p.className='back sb-panel';p.setAttribute('aria-label','Controls');var at=(nav.dataset.panelAfter&&document.querySelector(nav.dataset.panelAfter))||nav.nextElementSibling;at.after(p);function put(){(mq.matches?p:nav).appendChild(c);p.style.display=mq.matches?'':'none'}put();mq.addEventListener('change',put)})();
+</script>
+</body>
+</html>
