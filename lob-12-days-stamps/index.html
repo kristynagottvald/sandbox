@@ -17,7 +17,7 @@ nav.back a{color:#8d8d8d;text-decoration:none}nav.back a:hover,nav.back a:focus-
 nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
 @media(max-width:640px){nav.back{padding:0 16px}nav.back .x{display:none}}
 .wrap{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:12px}
-canvas{display:block;aspect-ratio:1/1;width:min(100%,calc(100dvh - 49px - 120px));max-width:100%;height:auto;background:#27493A}
+canvas{display:block;aspect-ratio:1/1;width:min(100%,calc(100dvh - 72px - 120px));max-width:100%;height:auto;background:#27493A}
 .ctl{flex:none;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;padding:10px 16px 16px}
 .days{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
 .days button,.ctl .b{min-width:34px;height:34px;padding:0 12px;border-radius:99px;border:1px solid rgba(255,255,255,.25);background:none;cursor:pointer;font-weight:600}
@@ -27,11 +27,23 @@ canvas{display:block;aspect-ratio:1/1;width:min(100%,calc(100dvh - 49px - 120px)
 button:focus-visible,input:focus-visible{outline:2px solid #EAF265;outline-offset:2px}
 .clip .ctl{display:none}
 .clip .wrap{padding:0}
-.clip canvas{width:min(100vw,calc(100dvh - 49px))}
+.clip canvas{width:min(100vw,calc(100dvh - 72px))}
+
+/* sandbox project bar: the home page nav's 72px height, SANDBOX / PROJECT NAME in its all-caps label style, any controls on the right */
+html body nav.back{box-sizing:border-box;flex:none;align-self:stretch;width:auto;align-items:center;gap:10px;height:72px;min-height:72px;padding:0 30px;background:#181716;border-bottom:1px solid rgba(255,255,255,.1);color:#fff;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+html body nav.back>a,html body nav.back>span,html body nav.back>b{font:400 12px/1.3 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body nav.back>a{color:#989898;transition:color .2s}
+html body nav.back>a:hover,html body nav.back>a:focus-visible{color:#fff;text-decoration:none}
+html body nav.back>span{color:#6b6b6b}
+html body nav.back>b{font-weight:400;color:#fff;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html body nav.back:not(:has(>div))>b{display:block}
+html body nav.back>div{margin-left:auto}
+@media (min-width:641px){html body nav.back>b{display:block}}
+@media (max-width:640px){html body nav.back{padding:0 20px}}
 </style>
 </head>
 <body>
-<nav class="back"><a href="../">Sandbox</a><span>/</span><a href="../" class="x">Back to all projects</a><span class="x">/</span><b>Lob 12 Days Stamps</b></nav>
+<nav class="back"><a href="../">Sandbox</a><span>/</span><b>Lob 12 Days Stamps</b></nav>
 <div class="wrap"><canvas id="c" width="1080" height="1080" aria-label="12 Days of Lob historic Christmas stamps, 1:1 motion post"></canvas></div>
 <div class="ctl">
   <div class="days" id="days"></div>

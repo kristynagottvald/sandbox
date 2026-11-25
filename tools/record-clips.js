@@ -26,21 +26,21 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
   // Lob 12 Days Unwrap, a 1:1 Day 1 advent post: the purple gift box's bow unties, the ribbon is pulled off, the doors swing open into side panels and the 1962 Christmas stamp drops onto a dotted card with the mail fact (starts on the closed, ribboned box; timeline runs at 1.55x)
-  'lob-12-days-unwrap': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 600, q: 62, run: async (p) => {
+  'lob-12-days-unwrap': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 600, q: 62, run: async (p) => {
     await p.evaluate(() => window.__rb.seek(0));
     await sleep(700);
     await p.evaluate(() => window.__rb.play({ from: 0, speed: 1.55, loop: false }));
     await sleep(5800);
   } },
   // Lob 12 Days on LinkedIn: the post sits in a dimmed feed, day 1 (tangible) settles, then the post steps to day 2 and day 3, the caption swapping to the story behind each word (the live page holds each day for 4 seconds)
-  'lob-12-days-linkedin': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1800, q: 62, run: async (p) => {
+  'lob-12-days-linkedin': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1800, q: 62, run: async (p) => {
     const t0 = Date.now();
     await at(t0, 1500, () => p.evaluate(() => window.__li.go(1)));
     await at(t0, 3900, () => p.evaluate(() => window.__li.go(2)));
     await sleep(2400);
   } },
   // Brickanta Enterprise, a long landing page: the coral tile opens along the logo's 45 degree line, then the page scrolls to the tabbed showcase whose example card changes colour and content, on to the big numerals and the trust numbers
-  'brickanta-enterprise': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1500, q: 62, run: async (p) => {
+  'brickanta-enterprise': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1500, q: 62, run: async (p) => {
     const t0 = Date.now(), b = (f, a) => p.evaluate(([f, a]) => window.__bk[f](a), [f, a]);
     await at(t0, 1700, () => b('sec', 'sysblock'));
     await at(t0, 3000, () => b('go', 2));
@@ -50,11 +50,11 @@ const APPS = {
     await sleep(1000);
   } },
   // Lob 12 Days advent, a 1:1 motion post: the wrapped door pops in, the bow lifts away, the doors swing open on the day's illustration and title, then close on the next day's number
-  'lob-12-days': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 600, q: 62, run: async (p) => { await sleep(6500); } },
+  'lob-12-days': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 600, q: 62, run: async (p) => { await sleep(6500); } },
   // Lob 12 Days Stamps, a 1:1 motion post: real US Christmas stamps from 1962 to 2021 fly onto a square perforated mount one a day, with the year and value top right
-  'lob-12-days-stamps': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, q: 62, run: async (p) => { await sleep(6500); } },
+  'lob-12-days-stamps': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 900, q: 62, run: async (p) => { await sleep(6500); } },
   // Lob Unwrapped, a full-screen 16:9 reel of concentric flat geometry: the intro stamp presses in and sends waves out, then dots stream in to build the US map, the trail of fading rectangles, the offset squares and the mandala persona
-  'lob-unwrapped': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
+  'lob-unwrapped': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
     const t0 = Date.now(), g = (n) => p.evaluate((i) => window.__lu.go(i), n);
     await at(t0, 1700, () => g(2));
     await at(t0, 2600, () => g(4));
@@ -63,7 +63,7 @@ const APPS = {
     await at(t0, 5500, () => g(10));
     await sleep(1000);
   } },
-  'lob-unwrapped-reel': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
+  'lob-unwrapped-reel': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
     const t0 = Date.now(), g = (n) => p.evaluate((i) => window.__lu.go(i), n);
     await at(t0, 1700, () => g(2));
     await at(t0, 2600, () => g(4));
@@ -73,7 +73,7 @@ const APPS = {
     await sleep(1000);
   } },
   // three Klir image styles in a row (product UI card, abstract gradient hero, photo + gradient): switch the size 1:1 > 16:9 > 4:3, recolour all three from the palette, step the water images and turn the text on over the first
-  'klir-image-styles': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, q: 70, run: async (p) => {
+  'klir-image-styles': { http: true, vp: [1280, 792], crop: [0, 72, 1280, 720], ready: 1200, q: 70, run: async (p) => {
     const t0 = Date.now(), c = (s) => domClick(p, s);
     await at(t0, 1500, () => c('[data-s="16:9"]'));
     await at(t0, 2400, () => c('#allsw button:nth-child(5)'));
@@ -83,7 +83,7 @@ const APPS = {
     await at(t0, 5400, () => { c('[data-i="0"] [data-k=text]'); c('[data-i="2"] [data-k=card]'); });
   } },
   // the dashboard rests off the right edge of the hero; scrolling fades the headline, slides it to the centre, then the Klir pill fades in; then on down the page and back to the start
-  'klir-landing-page-side-reveal': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 2500, q: 34, run: async (p) => {
+  'klir-landing-page-side-reveal': { http: true, vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 2500, q: 34, run: async (p) => {
     // eased scrolls of a fixed duration so the page is back at the top (the first frame) before the loop point at 6s
     const t0 = Date.now(), to = (y, ms) => p.evaluate(([v, d]) => { const a = scrollY, s = performance.now(); (function f(t) { const k = Math.min(1, (t - s) / d), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; scrollTo(0, a + (v - a) * e); if (k < 1) requestAnimationFrame(f); })(s); }, [y, ms]);
     await at(t0, 700, () => to(420, 1500));
@@ -91,7 +91,7 @@ const APPS = {
     await at(t0, 4200, () => to(0, 1200));
   } },
   // the Klir wayfinding line: the moving blue water hero, then the waterdrop appears, crosses the hero edge (white to blue) and travels down the page with the scroll, lighting up each section node, then back up
-  'klir-landing-page': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 4200, run: async (p) => {
+  'klir-landing-page': { http: true, vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 4200, run: async (p) => {
     // the dashboard rises over the hero and fills in, the walkthrough clicks to the other tab, then the page scrolls on and returns to the dashboard
     const t0 = Date.now(), to = (y) => p.evaluate((v) => window.scrollTo({ top: v, behavior: 'smooth' }), y);
     await at(t0, 2600, () => to(1500));
@@ -99,7 +99,7 @@ const APPS = {
     await at(t0, 5000, () => to(600));
   } },
   // the badge rests at its angle over the muted tiles, then the mouse sweeps over the visual to tip it and leaves so it eases back
-  'lob-integrations-hero': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, run: async (p) => {
+  'lob-integrations-hero': { vp: [1280, 792], crop: [0, 72, 1280, 720], ready: 1200, run: async (p) => {
     const t0 = Date.now();
     await at(t0, 800, () => p.mouse.move(1100, 280, { steps: 14 }));
     await at(t0, 2200, () => p.mouse.move(780, 560, { steps: 14 }));
@@ -108,32 +108,32 @@ const APPS = {
     await sleep(1800);
   } },
   // Mavenoid hero on the sandbox blue: the finished hero, then the search card and graph reset and rebuild, the robot presenting the query, the matches, the notes and the chosen result
-  'mavenoid-hero': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
+  'mavenoid-hero': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
     const t0 = Date.now();
     await at(t0, 700, () => p.evaluate(() => __rb.play({ from: 0, speed: 1.75, loop: false })));
     await sleep(5600);
   } },
   // the finished composition, then the whole 9 s cycle at 1.4x: the query is typed, matches appear, the query and context notes fly onto the graph, the result lands
-  'nlp-diagram': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
+  'nlp-diagram': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
     const t0 = Date.now();
     await at(t0, 700, () => p.evaluate(() => __rb.play({ from: 0, speed: 1.75, loop: false })));
     await sleep(5600);
   } },
   // the finished composition, then the whole 9 s cycle at 1.4x: the picker, the search card and the worker come in, the query is typed, matches appear, the answer is picked and flies to Prep tools
-  'sander-troubleshoot': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
+  'sander-troubleshoot': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 900, run: async (p) => {
     const t0 = Date.now();
     await at(t0, 700, () => p.evaluate(() => __rb.play({ from: 0, speed: 1.4, loop: false })));
     await sleep(5600);
   } },
   // the three Thread brand visuals side by side, all moving on their own: the 3D characters turning 2 0 2 6 A B C, the frame lines drawing on and re-cutting, the calligraphy writing on and off (one 8 s loop, played at 1.33x)
   // the porcupine under perforated purple and red bands sweeping in different directions, with three whip zooms (eye, quills, feet) per 6 s loop; starts on the wide shot
-  'porcupine-glitch': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#from=-1.8', ready: 1000, q: 55, run: async (p) => { await sleep(5800); } },
-  'postmark-awards-brand-visuals': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1500, q: 55, run: async (p) => { await sleep(5600); } },
+  'porcupine-glitch': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#from=-1.8', ready: 1000, q: 55, run: async (p) => { await sleep(5800); } },
+  'postmark-awards-brand-visuals': { vp: [1280, 792], crop: [0, 72, 1280, 720], ready: 1500, q: 55, run: async (p) => { await sleep(5600); } },
   // Brickanta Enterprise Visuals, eight 1:1 squares in two rows of four: hero tile opening on the logo's 45 degree line, the schedule card on concrete, the shard mask, the logo lockup with its duotone shard, the example switcher, a static bar pattern, a thick icon grid and rising step lines
-  'brickanta-enterprise-visuals': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip&from=0.8', ready: 1500, q: 58, run: async (p) => { await sleep(5800); } },
-  'thread-brand-visuals': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#from=8.4', ready: 1500, q: 55, run: async (p) => { await sleep(5600); } },
+  'brickanta-enterprise-visuals': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip&from=0.8', ready: 1500, q: 58, run: async (p) => { await sleep(5800); } },
+  'thread-brand-visuals': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#from=8.4', ready: 1500, q: 55, run: async (p) => { await sleep(5600); } },
   // the landing page: hero with the live countdown and the hairline grid lighting up, then a scroll through the keynotes, tracks and community cards and back up
-  'thread-conference-landing': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1500, q: 55, run: async (p) => {
+  'thread-conference-landing': { vp: [1280, 792], crop: [0, 72, 1280, 720], ready: 1500, q: 55, run: async (p) => {
     const t0 = Date.now(), to = (sel, off) => p.evaluate(([s, o]) => window.scrollTo({ top: document.querySelector(s).getBoundingClientRect().top + scrollY - 60 + o, behavior: 'smooth' }), [sel, off]);
     await at(t0, 1000, () => to('#agenda', 0));
     await at(t0, 2600, () => to('#tracks', 0));
@@ -141,7 +141,7 @@ const APPS = {
     await at(t0, 5200, () => p.evaluate(() => window.scrollTo({ top: 0, behavior: 'smooth' })));
   } },
   // starts on the tile mosaic hero, then opens the Badges tile (it grows to fill the screen), the Thread logo shrinks it back, and the Motion tile opens and shrinks back
-  'thread-brand-guidelines': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1800, q: 55, run: async (p) => {
+  'thread-brand-guidelines': { vp: [1280, 792], crop: [0, 72, 1280, 720], ready: 1800, q: 55, run: async (p) => {
     const t0 = Date.now(), k = (sel) => domClick(p, sel);
     await at(t0, 800, () => k('.tile[data-sec="badges"]'));
     await at(t0, 2600, () => k('.site .logo'));
@@ -158,21 +158,21 @@ const APPS = {
   } },
   // a block letter on the 12x12 grid: starts on a finished S, then the cells wave through the letters of SANDBOX and back to S
   // House of Balloons patterns: opens on Stretch, then steps through Stack and Bitmap and back to Stretch
-  'hob-pattern-generator': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#stretch&clip', ready: 600, q: 50, run: async (p) => {
+  'hob-pattern-generator': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#stretch&clip', ready: 600, q: 50, run: async (p) => {
     const t0 = Date.now(), go = (k) => p.evaluate((m) => __hob.set(m), k);
     await at(t0, 1500, () => go('stack'));
     await at(t0, 3200, () => go('bitmap'));
     await at(t0, 4900, () => go('stretch'));
   } },
   // House of Balloons social studio: opens on the bars layout (1920x1080), then cycles poster, full bleed and a new colour combo and back
-  'hob-social-studio': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', http: true, ready: 900, q: 30, run: async (p) => {
+  'hob-social-studio': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', http: true, ready: 900, q: 30, run: async (p) => {
     const t0 = Date.now(), go = (o) => p.evaluate((x) => __hobs.set(x), o);
     await at(t0, 1500, () => go({ layout: 'poster', combo: 0 }));
     await at(t0, 3000, () => go({ layout: 'bleed', combo: 3 }));
     await at(t0, 4400, () => go({ layout: 'bars', combo: 1, zone: 'bot25' }));
     await at(t0, 5500, () => go({ layout: 'bars', combo: 4, zone: 'bot60' }));
   } },
-  'grid-alphabet': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#w=SANDBOX&clip', ready: 500, q: 55, run: async (p) => { const t0 = Date.now(); await at(t0, 700, () => p.evaluate(() => __ga.start())); await sleep(5600); } },
+  'grid-alphabet': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#w=SANDBOX&clip', ready: 500, q: 55, run: async (p) => { const t0 = Date.now(); await at(t0, 700, () => p.evaluate(() => __ga.start())); await sleep(5600); } },
   'conference-post-generator': { vp: [1280, 769], setup: cropOf('#cv'), ready: 1200, q: 40, run: async (p) => {
     // it opens on the badges post (16:9, cream); step through the headline, speaker and pattern templates and come back to the badges
     const t0 = Date.now(), tpl = (n) => domClick(p, '#tpl button:nth-child(' + n + ')');
@@ -183,13 +183,13 @@ const APPS = {
   } },
 
   // red lattice on black, then the orange flow and the grey arches as the generator cycles on its own (lines draw in first, then morph)
-  'arrow-line-generator': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '?still', ready: 800, q: 48, run: async (p) => {
+  'arrow-line-generator': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '?still', ready: 800, q: 48, run: async (p) => {
     const t0 = Date.now(), go = (n) => p.evaluate((k) => __alg.go(k), n);
     await at(t0, 1500, () => go(1));
     await at(t0, 3300, () => go(2));
     await at(t0, 5100, () => go(0));
   } },
-  'workout-year-reels': { vp: [1280, 769], crop: [0, 49, 1280, 720],
+  'workout-year-reels': { vp: [1280, 792], crop: [0, 72, 1280, 720],
     // the cycle starts on the circles; step through the newest styles and one older one the way a visitor would with the switcher
     ready: 1500,
     run: async (p) => {
@@ -201,7 +201,7 @@ const APPS = {
       await at(t0, 5600, () => st(8));
     } },
   // park on the chat with the recommendations already shown (that is the first frame), then carry on from there at 4x: pick the item, size, Buy, Apple Pay, Face ID, order confirmed in the chat
-  'agentic-storefront': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '?park=1',
+  'agentic-storefront': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '?park=1',
     ready: 1500, q: 70,
     run: async (p) => {
       const t0 = Date.now();
@@ -209,7 +209,7 @@ const APPS = {
       await sleep(5200);
     } },
   // ten full-screen styles, each looping on its own with random events; click through five of them with the numbered switcher, ending back near the first
-  'human-tech-motion': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#c=1&t=2&clip', ready: 1000, q: 30, run: async (p) => {
+  'human-tech-motion': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#c=1&t=2&clip', ready: 1000, q: 30, run: async (p) => {
     const t0 = Date.now(), st = (n) => domClick(p, '#sw button:nth-child(' + n + ')');
     await at(t0, 1100, () => st(2));
     await at(t0, 2200, () => st(4));
@@ -217,7 +217,7 @@ const APPS = {
     await at(t0, 4300, () => st(6));
     await at(t0, 5300, () => st(8));
   } },
-  'grubclub-holiday': { vp: [1280, 769], crop: [0, 49, 1280, 720],
+  'grubclub-holiday': { vp: [1280, 792], crop: [0, 72, 1280, 720],
     // the grid pops in on its own, then shuffle it and try the other shapes the way a visitor would
     ready: 1800,
     run: async (p) => {
@@ -227,7 +227,7 @@ const APPS = {
       await at(t0, 4200, () => domClick(p, '#ratios .opt:nth-child(2)'));
       await at(t0, 5400, () => domClick(p, '#ratios .opt:nth-child(1)'));
     } },
-  'flavor-all-stars': { vp: [1280, 769], crop: [0, 49, 1280, 720],
+  'flavor-all-stars': { vp: [1280, 792], crop: [0, 72, 1280, 720],
     // the first design plays in on its own, then the selector clicks through the other three and back to the first
     ready: 1800,
     run: async (p) => {
@@ -237,7 +237,7 @@ const APPS = {
       await at(t0, 3600, () => tab(4));
       await at(t0, 4700, () => tab(1));
     } },
-  'grubclub-order': { vp: [1280, 769], crop: [0, 49, 1280, 720],
+  'grubclub-order': { vp: [1280, 792], crop: [0, 72, 1280, 720],
     // park on the hero (collage already grown in), then play the order flow at 2.4x speed: click, pick four meals, email
     setup: async (p) => { await p.evaluate(() => gc.park()); },
     ready: 700,
@@ -247,7 +247,7 @@ const APPS = {
       await sleep(5600);
     } },
   // the feed with the sponsored ad (viewer in San Diego), the blurbs drift up, switch the viewer's metro to Miami so the creative follows, click the ad through to the landing page, then on to the performance dashboard
-  'paid-ad-pipeline': { vp: [1280, 769], http: true, crop: [0, 49, 1280, 720], ready: 1200, q: 55,
+  'paid-ad-pipeline': { vp: [1280, 792], http: true, crop: [0, 72, 1280, 720], ready: 1200, q: 55,
     setup: async (p) => { await p.evaluate(() => { window.scrollTo(0, 330); __pp.bl.stop(); __pp.bl.instant(); }); },
     run: async (p) => {
       const t0 = Date.now();
@@ -258,7 +258,7 @@ const APPS = {
       await sleep(1700);
     } },
   // the Clearco attribution guide ad on LinkedIn (viewer: DTC founder): the three stat cards stay put, switch the marketer to a paid media manager so the copy follows, step the same ad through Facebook, Google Search and YouTube, click it through to the guide, then on to the performance dashboard
-  'clearco-paid-ad-pipeline': { vp: [1280, 769], http: true, crop: [0, 49, 1280, 720], ready: 1400, q: 36,
+  'clearco-paid-ad-pipeline': { vp: [1280, 792], http: true, crop: [0, 72, 1280, 720], ready: 1400, q: 36,
     run: async (p) => {
       const t0 = Date.now();
       await at(t0, 1400, () => p.evaluate(() => __pp.setMarketer(2)));
@@ -269,7 +269,7 @@ const APPS = {
       await at(t0, 5400, () => domClick(p, '#tog button[data-s="3"]'));
       await sleep(1000);
     } },
-  'location-hero': { vp: [1280, 769], crop: [0, 49, 1280, 720],
+  'location-hero': { vp: [1280, 792], crop: [0, 72, 1280, 720],
     // park on the first two blurbs, let them drift up and a third pop in, and switch the copy to Miami halfway
     setup: async (p) => { await p.evaluate(() => { lp.stop(); lp.set(0); bl.stop(); bl.instant(); }); },
     ready: 1200,
@@ -279,7 +279,7 @@ const APPS = {
       await at(t0, 3200, () => p.evaluate(() => lp.set(1)));
       await sleep(5600);
     } },
-  'grubclub-end-card': { vp: [1280, 769], crop: [0, 49, 1280, 720],
+  'grubclub-end-card': { vp: [1280, 792], crop: [0, 72, 1280, 720],
     // park on the finished card, replay the end card animation at 3x, then try the motion, circle style, theme and format the way a visitor would
     setup: async (p) => { await p.evaluate(() => ec.seek(125)); },
     ready: 700,
@@ -292,8 +292,8 @@ const APPS = {
       await at(t0, 5700, () => domClick(p, '#ratios .opt:nth-child(2)'));
     } },
   // the hero pills run on a 8.2 s cycle on their own; wait until the circle has grown so the loop starts on the full composition
-  'clearco-attribution-guide': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#still-title', ready: 1400, run: async () => {} },
-  'clearco-logistics-guide': { vp: [1280, 769], crop: [0, 49, 1280, 720], run: async (p) => {
+  'clearco-attribution-guide': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#still-title', ready: 1400, run: async () => {} },
+  'clearco-logistics-guide': { vp: [1280, 792], crop: [0, 72, 1280, 720], run: async (p) => {
     const t0 = Date.now();
     const go = (id, d) => p.evaluate(([i, o]) => scrollTo(0, document.getElementById(i).offsetTop - 49 + o), [id, d]);
     await at(t0, 900, () => go('stmt', 0));      // the grid with sliding squares
@@ -302,22 +302,22 @@ const APPS = {
     await at(t0, 5200, () => p.evaluate(() => scrollTo(0, 0)));
   } },
   // the sequence starts part way in (#t=4.6): headline, sub-headline, then the logo fades in at the end
-  'clearco-logistics-motion': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#v=hero&t=4.6', ready: 1500, run: async () => {} },
+  'clearco-logistics-motion': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#v=hero&t=4.6', ready: 1500, run: async () => {} },
   // the globe turns and orders fly on their own; wait for the headline to fade in
   // hover three arms in turn; each breaks into particles and reforms
-  'asterisk': { vp: [1280, 769], crop: [0, 49, 1280, 720], run: async (p) => {
+  'asterisk': { vp: [1280, 792], crop: [0, 72, 1280, 720], run: async (p) => {
     const t0 = Date.now();
     await at(t0, 800, () => p.mouse.move(560, 300, { steps: 8 }));
     await at(t0, 2600, () => p.mouse.move(760, 330, { steps: 8 }));
     await at(t0, 4300, () => p.mouse.move(660, 520, { steps: 8 }));
     await at(t0, 5400, () => p.mouse.move(1000, 700, { steps: 4 }));
   } },
-  'ilg-pixel-globe': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1300, q: 50, run: async () => {} },
-  'clearco-terrain': { vp: [1280, 769], crop: [0, 49, 1280, 720], run: async () => {} },
-  'clearco-target-frame': { vp: [1280, 769], crop: [0, 49, 1280, 720], run: async () => {} },
+  'ilg-pixel-globe': { vp: [1280, 792], crop: [0, 72, 1280, 720], ready: 1300, q: 50, run: async () => {} },
+  'clearco-terrain': { vp: [1280, 792], crop: [0, 72, 1280, 720], run: async () => {} },
+  'clearco-target-frame': { vp: [1280, 792], crop: [0, 72, 1280, 720], run: async () => {} },
   'video-synopsis': { vp: [1280, 769], setup: cropOf('#vSyn'), run: async () => {} },
-  'prompt-demos': { vp: [1280, 769], crop: [19, 59, 1242, 699], ready: 2200, p5: true, run: async () => {} },
-  'lifecycle-image-engine': { vp: [1280, 769], crop: [0, 49, 1280, 720], run: async (p) => {
+  'prompt-demos': { vp: [1280, 792], crop: [19, 82, 1242, 699], ready: 2200, p5: true, run: async () => {} },
+  'lifecycle-image-engine': { vp: [1280, 792], crop: [0, 72, 1280, 720], run: async (p) => {
     const t0 = Date.now();
     await at(t0, 900, () => click(p, /^Lavender$/));
     await at(t0, 1900, () => click(p, /^Sky$/));
@@ -327,12 +327,12 @@ const APPS = {
     await at(t0, 5600, () => click(p, /^Pink$/));
   } },
   // the whole 23.8 s loop played at 3.6x from the middle of the scan: flags land, result fills in, reviewer requests changes, library updates, next audit starts
-  'brand-audit-engine': { vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, q: 40, run: async (p) => {
+  'brand-audit-engine': { vp: [1280, 792], crop: [0, 72, 1280, 720], ready: 1200, q: 40, run: async (p) => {
     await p.evaluate(() => ba.play({ from: 9000, speed: 3.6 }));
     await sleep(6600);
   } },
   // brand guidelines settings: starts on the colours the AI read from the sample guide, then confirms a colour and adds context, tunes the grid, switches to type styles and spacing with the red measurement bands
-  'brand-guidelines-settings': { vp: [1280, 769], crop: [0, 49, 1280, 720], hash: '#clip', ready: 600, q: 50,
+  'brand-guidelines-settings': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 600, q: 50,
     setup: async (p) => { await p.evaluate(() => window.__bg.sample()); await p.waitForFunction(() => window.__bg.ready(), null, { timeout: 8000 }); await p.evaluate(() => { window.__bg.go('colours'); document.querySelector('#toast').classList.remove('on'); }); },
     run: async (p) => {
       const t0 = Date.now(), go = (s) => domClick(p, `.nv[data-sec="${s}"]`);
@@ -378,7 +378,7 @@ const APPS = {
     await at(t0, 4700, () => mode('loop'));
     await at(t0, 5500, rand);
   } },
-  'ab-testing': { vp: [1280, 769], crop: [0, 49, 1280, 720], run: async (p) => {
+  'ab-testing': { vp: [1280, 792], crop: [0, 72, 1280, 720], run: async (p) => {
     const t0 = Date.now();
     const row = (i) => p.evaluate((i) => { const r = document.querySelectorAll('#rows tr'); (r[i] || r[0]).click(); }, i);
     await at(t0, 900, () => row(1));

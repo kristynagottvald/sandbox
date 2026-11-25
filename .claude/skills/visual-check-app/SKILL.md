@@ -8,7 +8,7 @@ description: Look at a sandbox app the way a visitor would before publishing: he
 Never publish a look change you have not seen. Playwright is preinstalled: run with `NODE_PATH=$(npm root -g) node file.js` (never `playwright install`). Keep scratch scripts in the scratchpad, not in the repo.
 
 ## 1. Screenshot a scene
-Viewport `1280x769` (the 49px nav bar leaves a 1280x720 stage). Open `file:///.../<app>/index.html`, trigger the scene (a nav button, `?park`, or a hook such as `window.gc`), wait for it to settle, then `page.screenshot({path})`. Read the PNG and compare with the request. Screenshot after each edit, not just at the end.
+Viewport `1280x792` (the 72px nav bar leaves a 1280x720 stage). Open `file:///.../<app>/index.html`, trigger the scene (a nav button, `?park`, or a hook such as `window.gc`), wait for it to settle, then `page.screenshot({path})`. Read the PNG and compare with the request. Screenshot after each edit, not just at the end.
 
 ## 2. Timing and loops (frame strip)
 Take 6-8 clipped screenshots of the element only (`clip` = its `getBoundingClientRect()` plus a few px) 150-400 ms apart, paste them into one sheet with `PIL` (run Python with `-I`) and read the sheet. Use this for:

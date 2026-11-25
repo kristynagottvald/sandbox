@@ -27,7 +27,7 @@ nav.back input[type=range]{width:240px;min-width:60px;accent-color:#79BFF4;curso
 @media (max-width:640px){nav.back .ctl{flex:1}nav.back input[type=range]{flex:1;width:auto}}
 main{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;background:#3A7ED4}
 /* the stage keeps the reference's 2000 x 1417 proportions; every size below is in reference pixels (var(--u) = one of them) */
-.stage{container-type:inline-size;width:min(100vw,calc((100vh - 49px) * 2000 / 1417));width:min(100vw,calc((100dvh - 49px) * 2000 / 1417));aspect-ratio:2000/1417;position:relative}
+.stage{container-type:inline-size;width:min(100vw,calc((100vh - 72px) * 2000 / 1417));width:min(100vw,calc((100dvh - 72px) * 2000 / 1417));aspect-ratio:2000/1417;position:relative}
 .clip main{overflow:hidden}
 .canvas{--u:calc(100cqw / 2000);position:absolute;inset:0;transform:scale(var(--k,1.3923));transform-origin:50% 50.2%}
 .card{position:absolute;left:calc(191*var(--u));top:calc(339*var(--u));width:calc(1616*var(--u));height:calc(746*var(--u));border-radius:calc(16*var(--u));background:#fff;overflow:hidden}
@@ -50,10 +50,22 @@ h1 span{color:#3F7DC6}
 .ill{position:absolute;left:calc((902 - 191)*var(--u));top:calc((464.6 - 339)*var(--u));width:calc(838*var(--u));height:auto;display:block;cursor:pointer;aspect-ratio:308/229}
 .rp{fill:none}
 svg text{font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;font-weight:500;font-size:4.8px}
+
+/* sandbox project bar: the home page nav's 72px height, SANDBOX / PROJECT NAME in its all-caps label style, any controls on the right */
+html body nav.back{box-sizing:border-box;flex:none;align-self:stretch;width:auto;align-items:center;gap:10px;height:72px;min-height:72px;padding:0 30px;background:#181716;border-bottom:1px solid rgba(255,255,255,.1);color:#fff;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+html body nav.back>a,html body nav.back>span,html body nav.back>b{font:400 12px/1.3 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body nav.back>a{color:#989898;transition:color .2s}
+html body nav.back>a:hover,html body nav.back>a:focus-visible{color:#fff;text-decoration:none}
+html body nav.back>span{color:#6b6b6b}
+html body nav.back>b{font-weight:400;color:#fff;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html body nav.back:not(:has(>div))>b{display:block}
+html body nav.back>div{margin-left:auto}
+@media (min-width:641px){html body nav.back>b{display:block}}
+@media (max-width:640px){html body nav.back{padding:0 20px}}
 </style>
 </head>
 <body>
-<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Mavenoid Hero</b>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><b>Mavenoid Hero</b>
 <div class="ctl"><button id="pp" type="button" aria-label="Pause">Pause</button><input id="tl" type="range" min="0" max="1000" value="0" aria-label="Timeline"><button id="replay" type="button">Replay</button></div></nav>
 <main>
 <div class="stage"><div class="canvas">

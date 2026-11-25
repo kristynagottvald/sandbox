@@ -9,9 +9,9 @@ def rep(a, b):
     global s
     assert a in s, 'source changed, update the transform: ' + a[:60]
     s = s.replace(a, b)
-rep('.stage{position:relative;flex:none;width:min(100vw,calc((100dvh - 49px)*16/9));height:min(calc(100dvh - 49px),calc(100vw*9/16));',
-    '.stage{position:relative;flex:none;width:min(100vw,calc((100dvh - 49px)*9/16));height:min(calc(100dvh - 49px),calc(100vw*16/9));')
-rep('@media(max-aspect-ratio:1/1){.stage{width:100vw;height:calc(100dvh - 49px)}}\n', '')
+rep('.stage{position:relative;flex:none;width:min(100vw,calc((100dvh - 72px)*16/9));height:min(calc(100dvh - 72px),calc(100vw*9/16));',
+    '.stage{position:relative;flex:none;width:min(100vw,calc((100dvh - 72px)*9/16));height:min(calc(100dvh - 72px),calc(100vw*16/9));')
+rep('@media(max-aspect-ratio:1/1){.stage{width:100vw;height:calc(100dvh - 72px)}}\n', '')
 rep('<title>Lob Unwrapped</title>', '<title>Lob Unwrapped Reel</title>')
 rep('<b>Lob Unwrapped</b></nav>', '<b>Lob Unwrapped Reel</b></nav>')
 rep('lob-unwrapped/thumb.png', 'lob-unwrapped-reel/thumb.png')

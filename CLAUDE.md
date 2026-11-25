@@ -5,7 +5,7 @@ Each app is a folder with an `index.html` (single file, no build step), a `thumb
 **Whenever you add a new app, also add it to the homepage.** The homepage (`/index.html`, laid out like the sketches site) draws its tiles from `/apps.json`:
 add an entry at the **top** of the array (tiles are ordered newest first) with `id`, `title`, `category`, `url` (`<folder>/`), `thumbnail` (`<folder>/thumb.png`), `preview` (`<folder>/thumb.webp`) and `alt`.
 Make the clip by adding the app to the table in `tools/record-clips.js` and running it (see `tools/README.md`), and re-record the clip whenever the app's look changes.
-Also add the app's `<nav>` "Sandbox / Back to all projects" bar linking to `../`.
+Also add the app's 72px `<nav class="back">` "SANDBOX / PROJECT NAME" bar linking to `../` (copy it from `location-hero/index.html`), with any app controls in a `<div>` on its right.
 Every page needs a favicon: run `python3 tools/favicons.py` (brick mark in the app's own clip colours; the home page has the sandbox cube), then `python3 tools/sync-lob-reel.py`.
 
 **Every new or changed app must be live.** The site is GitHub Pages served from the default branch (`claude/epic-pasteur-fsjjc8`), so pushing a feature branch is not enough:

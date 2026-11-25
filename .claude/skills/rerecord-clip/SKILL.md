@@ -13,7 +13,7 @@ node tools/record-clips.js <folder> [<folder> ...]   # no args = every app
 Needs Node, Playwright and ffmpeg with libwebp. `P5_LIB=/path/p5.min.js` for Stop Building Demos if cdnjs is unreachable. Full option list is in `tools/README.md`.
 
 ## Entry options (APPS table)
-- `vp` `[1280,769]` gives a 1280x720 stage under the 49px nav; `crop` `[0,49,1280,720]` (16:9). Or `setup(page)` returning a measured rect (`cropOf('#sel')`).
+- `vp` `[1280,792]` gives a 1280x720 stage under the 72px nav; `crop` `[0,72,1280,720]` (16:9). Or `setup(page)` returning a measured rect (`cropOf('#sel')`).
 - `run(page)`: timeline via `at(t0, ms, fn)`; first ~700ms stays still. Total ~6.5s.
 - `hash: '#clip'`, `ready` (ms to wait), `q` (WebP quality, default 62, lower for grainy apps), `http: true` for apps that iframe another app.
 - Use `setup` to park the app in its starting state (e.g. `lp.stop(); bl.stop(); bl.instant()`), then drive it in `run`.
