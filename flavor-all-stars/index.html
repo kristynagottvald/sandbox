@@ -187,10 +187,22 @@ footer p{margin:1.8cqw 0 0;max-width:62cqw;font-size:max(8.5px,1.05cqw);line-hei
 #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,30px);background:var(--navy);color:var(--kiwi);font:600 14px/1 Poppins,sans-serif;padding:14px 22px;border-radius:999px;box-shadow:0 14px 30px -10px rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .3s,transform .4s cubic-bezier(.2,.8,.2,1);z-index:5;white-space:nowrap}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 @media (prefers-reduced-motion:reduce){.up,.rv,.no,.dish,#frame{transition:none}.cf,.badge b{animation:none}.up,.rv{opacity:1;transform:none}.no{transform:none}.dish{transform:none}.go .badge{animation:none}}
+
+/* sandbox project bar: the home page nav's 72px height, SANDBOX / PROJECT NAME in its all-caps label style, any controls on the right */
+html body nav.back{box-sizing:border-box;flex:none;align-self:stretch;width:auto;align-items:center;gap:10px;height:72px;min-height:72px;padding:0 30px;background:#181716;border-bottom:1px solid rgba(255,255,255,.1);color:#fff;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+html body nav.back>a,html body nav.back>span,html body nav.back>b{font:400 12px/1.3 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body nav.back>a{color:#989898;transition:color .2s}
+html body nav.back>a:hover,html body nav.back>a:focus-visible{color:#fff;text-decoration:none}
+html body nav.back>span{color:#6b6b6b}
+html body nav.back>b{font-weight:400;color:#fff;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html body nav.back:not(:has(>div))>b{display:block}
+html body nav.back>div{margin-left:auto}
+@media (min-width:641px){html body nav.back>b{display:block}}
+@media (max-width:640px){html body nav.back{padding:0 20px}}
 </style>
 </head>
 <body>
-<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Grubclub Offer Emails</b>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><b>Grubclub Offer Emails</b>
   <div class="ctl"><div id="picker" role="tablist" aria-label="Email design"><button role="tab" aria-selected="true" data-i="0" class="on">Flavor All Stars</button><button role="tab" aria-selected="false" data-i="1">You. Do. You.</button><button role="tab" aria-selected="false" data-i="2">Last Day</button><button role="tab" aria-selected="false" data-i="3">Last Chance</button></div><span class="sep"></span><div role="group" aria-label="Preview size"><button data-v="desktop" class="on">Desktop</button><button data-v="mobile">Mobile</button></div></div>
 </nav>
 <main id="scroller"><div id="frame">

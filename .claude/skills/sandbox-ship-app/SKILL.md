@@ -9,7 +9,7 @@ The repo's `CLAUDE.md` is the source of truth. This is the checklist that gets a
 
 ## 1. The app
 - One folder, one self-contained `index.html` (no build step). Supporting assets may sit beside it (`assets/`); keep images small (webp, about 256px for thumbnails inside a page).
-- Include the shared nav: `<nav class="back">` with "Sandbox / Back to all projects" linking to `../`. Copy it from an existing app (e.g. `nlp-diagram/index.html`).
+- Include the shared 72px project bar: `<nav class="back">` with SANDBOX / PROJECT NAME linking to `../` and any app controls in a `<div>` on the right. Copy the markup, base rules and `sandbox project bar` override block from an existing app (e.g. `nlp-diagram/index.html`).
 
 ## 2. Homepage tile
 - Add an entry at the **top** of `apps.json` (newest first): `id`, `title`, `category` (Motion or Tools), `url` (`<folder>/`), `thumbnail` (`<folder>/thumb.png`), `preview` (`<folder>/thumb.webp`), `alt` (describe what the clip shows).
