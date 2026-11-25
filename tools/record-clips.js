@@ -72,14 +72,6 @@ const APPS = {
     await at(t0, 5500, () => g(10));
     await sleep(1000);
   } },
-  // the skills library: both skill tiles with their thumbnails animating on their own, then the cursor sweeps over each tile
-  'skills-library': { vp: [960, 589], crop: [0, 49, 960, 540], ready: 900, q: 36, run: async (p) => {
-    const t0 = Date.now();
-    await at(t0, 1500, () => p.mouse.move(250, 400, { steps: 12 }));
-    await at(t0, 3500, () => p.mouse.move(700, 400, { steps: 14 }));
-    await at(t0, 5200, () => p.mouse.move(900, 560, { steps: 10 }));
-    await sleep(900);
-  } },
   // three Klir image styles in a row (product UI card, abstract gradient hero, photo + gradient): switch the size 1:1 > 16:9 > 4:3, recolour all three from the palette, step the water images and turn the text on over the first
   'klir-image-styles': { http: true, vp: [1280, 769], crop: [0, 49, 1280, 720], ready: 1200, q: 70, run: async (p) => {
     const t0 = Date.now(), c = (s) => domClick(p, s);

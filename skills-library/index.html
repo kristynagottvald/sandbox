@@ -1,140 +1,162 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Skills Library</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%23ffffff%22/%3E%3Crect x=%2210%22 y=%2210%22 width=%2220%22 height=%2220%22 fill=%22%231a73e8%22/%3E%3Crect x=%2234%22 y=%2210%22 width=%2220%22 height=%2220%22 fill=%22%231a1a1a%22/%3E%3Crect x=%2210%22 y=%2234%22 width=%2220%22 height=%2220%22 fill=%22%231a1a1a%22/%3E%3Crect x=%2234%22 y=%2234%22 width=%2220%22 height=%2220%22 fill=%22%231a73e8%22/%3E%3C/svg%3E">
-<style>
-*{box-sizing:border-box;margin:0}
-html{background:#fff}
-body{background:#fff;color:#0d0d12;font:400 16px/1.4 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;min-height:100vh}
-nav.back{box-sizing:border-box;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;white-space:nowrap;overflow:hidden}
-nav.back a{color:#8d8d8d;text-decoration:none}
-nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
-nav.back span{color:#6e6e6e}
-nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
-@media (max-width:640px){nav.back{padding:0 16px}}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skills Library • Sandbox</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 200 200%22%3E%3Crect width=%22200%22 height=%22200%22 rx=%2228%22 fill=%22%23151515%22/%3E%3Cpath fill=%22%23f4f4f4%22 d=%22M100 28L162 64V136L100 172L38 136V64Z%22/%3E%3Cpath fill=%22none%22 stroke=%22%23151515%22 stroke-width=%229%22 stroke-linejoin=%22miter%22 d=%22M38 64L100 100L162 64M100 100V172%22/%3E%3C/svg%3E">
+  <meta name="description" content="A library of Claude skills by Kristyna Gottvald: what each one does, the manual work it saves, and how to activate it.">
+  <meta name="theme-color" content="#181716">
 
-main{max-width:1440px;margin:0 auto;padding:28px 40px 72px}
-h1{font-size:28px;font-weight:500;letter-spacing:-.01em}
-.head{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
-.search{position:relative;width:min(380px,100%);display:flex;align-items:center}
-.search .mag{position:absolute;left:14px;width:16px;height:16px;color:#6b6f7d;pointer-events:none}
-.search input{width:100%;height:44px;padding:0 40px 0 40px;border:1px solid #d7dbe6;border-radius:999px;background:#fff;color:#0d0d12;font:400 15px/1 Inter,Helvetica,Arial,sans-serif;outline:none;-webkit-appearance:none;appearance:none}
-.search input::-webkit-search-cancel-button{display:none}
-.search input:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
-.ph{position:absolute;left:40px;right:40px;top:50%;transform:translateY(-50%);color:#7b7f8d;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;transition:opacity .35s ease}
-.ph.out{opacity:0}
-.ph.gone{display:none}
-.clr{position:absolute;right:8px;width:28px;height:28px;border:0;border-radius:50%;background:transparent;color:#4b4f5c;font-size:20px;line-height:1;cursor:pointer}
-.clr:hover{background:#eef1f7}
-.prob{margin-top:72px;padding-top:44px;border-top:1px solid #e3e6ee}
-.prob h2{font-size:24px;font-weight:500;letter-spacing:-.01em;margin-bottom:28px}
-.probgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:32px 28px}
-.pcat h3{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#6b6f7d;margin-bottom:12px}
-.pcat h3::before{content:'';width:10px;height:10px;background:#8ec5ff;flex:none}
-.pcat ul{list-style:none;padding:0;display:grid;gap:8px}
-.pbtn{appearance:none;display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;text-align:left;padding:12px 14px;border:1px solid #e3e6ee;border-radius:10px;background:#fff;color:#0d0d12;font:400 15px/1.35 Inter,Helvetica,Arial,sans-serif;cursor:pointer}
-.pbtn:hover{border-color:#2563eb;background:#f5f8ff}
-.pbtn:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
-.pbtn svg{width:14px;height:14px;flex:none;color:#2563eb}
-.hint{margin:18px 0 0;font-size:15px;color:#4b4f5c}
-.hint b{font-weight:500;color:#0d0d12}
-@media (prefers-reduced-motion:reduce){.ph{transition:none}}
-.tabs{display:flex;flex-wrap:wrap;gap:6px;margin:22px 0 28px}
-.hint:not([hidden])+.tabs{margin-top:14px}
-.tab{appearance:none;border:0;background:transparent;color:#0d0d12;font:inherit;font-size:16px;padding:10px 16px;border-radius:10px;cursor:pointer}
-.tab:hover{background:#eef2fb}
-.tab[aria-pressed=true]{background:#2563eb;color:#fff}
-.tab:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@300;400&family=Inter:wght@300;400;500&display=swap">
+  <!-- the sandbox home page's type, colours, header, project grid and footer; only the library's own parts are styled below -->
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* ---------- Library: heading, search and filters on the left (sticky on desktop), the 2-column project grid on the right ---------- */
+    .lib-side { display: grid; gap: 24px; align-content: start; }
+    .lib-intro { color: var(--grey); font-weight: 300; max-width: 22ch; }
+    .search { position: relative; display: flex; align-items: center; max-width: 340px; border-bottom: 1px solid var(--line); transition: border-color .2s; }
+    .search:focus-within { border-color: var(--grey); }
+    .search .mag { position: absolute; left: 0; width: 16px; height: 16px; color: var(--grey); pointer-events: none; }
+    .search input { width: 100%; height: 44px; padding: 0 32px 0 28px; border: 0; background: transparent; color: var(--ink); font: 300 var(--fs-body)/1 var(--sans); outline: none; -webkit-appearance: none; appearance: none; border-radius: 0; }
+    .search input::-webkit-search-cancel-button { display: none; }
+    .search input:focus-visible { outline: none; }
+    .ph { position: absolute; left: 28px; right: 32px; top: 50%; transform: translateY(-50%); color: var(--mid-grey); font: 300 var(--fs-body)/1.2 var(--sans); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; pointer-events: none; transition: opacity .35s ease; }
+    .ph.out { opacity: 0; }
+    .ph.gone { display: none; }
+    .clr { position: absolute; right: 0; width: 28px; height: 28px; color: var(--grey); font-size: 22px; line-height: 1; transition: color .2s; }
+    .clr:hover { color: var(--ink); }
+    .hint { color: var(--grey); font-weight: 300; font-size: 16px; line-height: 1.4; max-width: 30ch; }
+    .hint b { font-weight: 400; color: var(--ink); }
+    .tabs { display: flex; flex-wrap: wrap; gap: 10px 20px; }
+    .tab { color: var(--grey); transition: color .2s; }
+    .tab:hover, .tab[aria-pressed="true"] { color: var(--ink); }
+    .tab[aria-pressed="true"]::before { content: ""; display: inline-block; vertical-align: 1.5px; width: 5px; height: 5px; margin-right: 8px; border-radius: 50%; background: currentColor; }
+    .empty { padding: 12px; color: var(--grey); font-weight: 300; }
+    .card-media.svg img { transform: none; }
+    @media (min-width: 700px) {
+      .lib-side { position: sticky; top: calc(var(--nav-h) + 24px); align-self: start; }
+    }
 
-.grid{display:grid;grid-auto-rows:1fr;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:22px}
-.card{display:flex;flex-direction:column;border-radius:14px;overflow:hidden;border:1px solid #e3e6ee;background:#fff}
-.card[hidden]{display:none}
-.thumb{aspect-ratio:16/9;overflow:hidden;background:#07070a}
-.card img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
-.card:hover img{transform:scale(1.03)}
-.info{flex:1;display:flex;flex-direction:column;padding:18px 20px 20px}
-.info h2{font-size:21px;font-weight:500;letter-spacing:-.01em;margin-bottom:6px}
-.info p{font-size:14px;line-height:1.5;color:#4b4f5c;margin-bottom:16px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;line-clamp:4;overflow:hidden;min-height:6em}
-.chips{margin-top:auto;display:flex;flex-wrap:wrap;gap:8px}
-.chip{display:inline-flex;align-items:center;gap:7px;padding:5px 12px 5px 9px;border-radius:999px;background:#eef1f7;color:#1c2030;font-size:14px}
-.chip svg{width:15px;height:15px;flex:none;opacity:.9}
-.empty{color:#8d8d8d;padding:40px 0}
-@media (max-width:640px){.prob{margin-top:56px}main{padding:20px 16px 56px}.grid{grid-template-columns:1fr}.info p{font-size:13px}}
-@media (prefers-reduced-motion:reduce){.card img{transition:none}.card:hover img{transform:none}}
+    /* ---------- Common problems: the same heading-left, rows-right layout, one row per category ---------- */
+    .prob { padding-bottom: 120px; }
+    .prob-rows { display: grid; }
+    .prob-row { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 12px 12px 36px; border-top: 1px solid var(--line); }
+    .prob-row:first-child { border-top: 0; }
+    .prob-row h3 { font-size: var(--fs-body); }
+    .prob-row ul { display: grid; gap: 4px; }
+    .pbtn { display: inline-flex; align-items: baseline; gap: 10px; text-align: left; color: var(--grey); font-weight: 300; transition: color .2s; }
+    .pbtn:hover { color: var(--ink); }
+    .pbtn svg { flex: none; width: 10px; height: 10px; }
+    @media (min-width: 700px) { .prob-row { grid-template-columns: 1fr 1fr; gap: 12px; } }
 
-a.card{color:inherit;text-decoration:none;cursor:pointer}
-a.card:hover{border-color:#2563eb;box-shadow:0 8px 24px rgba(20,30,60,.08)}
-a.card:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
-/* detail page (light) */
-body.detail{background:#f7f9fd;color:#0d0d12}
-body.detail html,html:has(body.detail){background:#f7f9fd}
-#detail{position:relative;max-width:1440px;margin:0 auto;padding:40px 40px 96px 140px}
-.back2{position:absolute;left:-120px;top:50%;transform:translateY(-50%);display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;box-sizing:border-box;border:1px solid #0d0d12;border-radius:6px;color:#0d0d12;text-decoration:none;background:transparent}
-.back2:hover{background:#0d0d12;color:#fff}
-.back2:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
-.back2 svg{width:16px;height:10px;flex:none}
-.dgrid{display:grid;grid-template-columns:3fr 2fr;gap:56px;align-items:start}
-.eyebrow{position:relative;display:flex;align-items:center;flex-wrap:wrap;gap:16px;margin:0 0 30px;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#6b6a78}
-.eyebrow .tag{margin:0}
-.dgrid h1{font-size:clamp(34px,5vw,64px);font-weight:300;line-height:1.08;letter-spacing:-.02em;margin-bottom:40px;overflow-wrap:anywhere}
-.saves{font-size:24px;font-weight:400;line-height:1.3;margin-bottom:22px;max-width:30ch}
-.lead{font-size:18px;line-height:1.6;color:#2b2b36;max-width:62ch;margin-bottom:18px}
-.time{margin-top:44px;padding-top:36px;border-top:1px solid #dcdae4}
-.time .lbl,.ex .lbl{font-size:14px;letter-spacing:.12em;text-transform:uppercase;color:#6b6a78;margin-bottom:10px}
-.ex{margin-top:44px;padding-top:36px;border-top:1px solid #dcdae4}
-.exg{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;margin-top:18px}
-.exg a{color:inherit;text-decoration:none;display:block}
-.exg .im{aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#07070a;border:1px solid #e3e6ee}
-.exg img{display:block;width:100%;height:100%;object-fit:cover}
-.exg span{display:block;margin-top:8px;font-size:15px;line-height:1.35}
-.exg a:hover span{color:#2563eb;text-decoration:underline;text-underline-offset:3px}
-.work{list-style:none;padding:0;display:grid;gap:14px}
-.work li{position:relative;padding-left:26px;font-size:18px;line-height:1.5;color:#2b2b36;max-width:62ch}
-.work li::before{content:'';position:absolute;left:0;top:.62em;width:10px;height:10px;background:#8ec5ff}
-.side{position:sticky;top:24px;background:#fff;border:1px solid #e3e1ec;border-radius:14px;overflow:hidden}
-.side .art{aspect-ratio:16/9;background:#07070a}
-.side .art img{display:block;width:100%;height:100%;object-fit:cover}
-.side .in{padding:26px 26px 28px}
-.how{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:18px}
-.how i{width:14px;height:14px;background:#8ec5ff;flex:none}
-.pr{display:flex;align-items:stretch;gap:0;margin-bottom:10px;border:1.5px solid #d8d6d0;background:#fbfaf7}
-.pr code{flex:1;padding:12px 14px;font:400 13px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#111;overflow-wrap:anywhere}
-.pr button{appearance:none;border:0;border-left:1.5px solid #d8d6d0;background:transparent;font:500 12px/1 Inter,Arial,sans-serif;padding:0 14px;cursor:pointer;color:#2563eb}
-.pr button:hover{background:#eaf0fd}
-.meta{display:flex;align-items:center;gap:12px;margin:22px 0 4px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#6b6a78}
-.tag{display:inline-block;margin:10px 0 24px;padding:8px 14px;background:#e3effc;color:#2563eb;font-size:14px;font-weight:500;letter-spacing:.04em;text-transform:uppercase}
-.btn{display:block;width:100%;text-align:center;padding:16px;border-radius:6px;font:500 16px/1 Inter,Arial,sans-serif;cursor:pointer;margin-bottom:12px;text-decoration:none}
-.btn.p{background:#2563eb;color:#fff;border:1.5px solid #2563eb}
-.btn.p:hover{background:#1d4fd0}
-.btn.s{background:#fff;color:#0d0d12;border:1.5px solid #0d0d12}
-.btn.s:hover{background:#f1f0f6}
-@media (max-width:900px){#detail{padding:20px 16px 64px}.back2{position:static;transform:none;flex:none}.dgrid{grid-template-columns:1fr;gap:36px}.side{position:static}.saves{font-size:20px}}
-</style>
+    /* ---------- Skill page: back link and type on the left, story and activation panel on the right ---------- */
+    .d-side { display: grid; gap: 14px; align-content: start; }
+    .back2 { color: var(--grey); transition: color .2s; }
+    .back2:hover { color: var(--ink); }
+    .d-type { color: var(--grey); }
+    .d-type b { font-weight: 400; color: var(--ink); }
+    .dgrid { display: grid; gap: 48px; padding: 0 12px; }
+    .d-title { font: 300 var(--fs-title)/var(--lh-title) var(--cond); letter-spacing: var(--ls-head); overflow-wrap: anywhere; margin-bottom: 32px; }
+    .saves { font: 300 var(--fs-h3)/1.2 var(--cond); letter-spacing: -0.01em; max-width: 30ch; margin-bottom: 24px; }
+    .lead { font-weight: 300; line-height: var(--lh-body); max-width: 60ch; margin-bottom: 18px; color: #d9d9d9; }
+    .time, .ex { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .lbl { color: var(--grey); margin-bottom: 20px; }
+    .work-items { display: grid; gap: 12px; }
+    .work-items li { position: relative; padding-left: 22px; font-weight: 300; line-height: var(--lh-body); max-width: 60ch; color: #d9d9d9; }
+    .work-items li::before { content: ""; position: absolute; left: 0; top: .6em; width: 6px; height: 6px; border-radius: 50%; background: var(--grey); }
+    .exg { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px 12px; }
+    .exg a { display: grid; gap: 10px; }
+    .exg .im { aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--r-md); background: var(--off-black); }
+    .exg img { width: 100%; height: 100%; object-fit: cover; }
+    .exg span { color: var(--grey); font-weight: 300; transition: color .2s; }
+    .exg a:hover span { color: var(--ink); }
+    .side { display: grid; gap: 20px; align-content: start; }
+    .side .art { aspect-ratio: 16 / 9; overflow: hidden; border-radius: var(--r-md); background: var(--off-black); }
+    .side .art img { width: 100%; height: 100%; object-fit: cover; }
+    .how { color: var(--grey); padding-top: 4px; }
+    .prs { display: grid; gap: 8px; }
+    .pr { display: flex; align-items: stretch; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--off-black); }
+    .pr code { flex: 1; padding: 14px 16px; font: 300 16px/1.45 var(--sans); color: #d9d9d9; overflow-wrap: anywhere; }
+    .pr button { flex: none; padding: 0 16px; border-left: 1px solid var(--line); color: var(--grey); transition: color .2s; }
+    .pr button:hover { color: var(--ink); }
+    .btns { display: grid; gap: 8px; margin-top: 4px; }
+    .btn { display: block; width: 100%; text-align: center; padding: 16px; border-radius: var(--r-md); transition: background .2s, color .2s, border-color .2s; }
+    .btn.p { background: var(--ink); color: var(--bg); border: 1px solid var(--ink); }
+    .btn.p:hover { background: #d9d9d9; border-color: #d9d9d9; }
+    .btn.s { border: 1px solid rgba(255,255,255,.28); color: var(--ink); }
+    .btn.s:hover { border-color: var(--ink); }
+    @media (min-width: 1100px) {
+      .dgrid { grid-template-columns: 3fr 2fr; gap: 56px; }
+      .side { position: sticky; top: calc(var(--nav-h) + 24px); }
+    }
+    @media (prefers-reduced-motion: reduce) { .ph { transition: none; } }
+  </style>
 </head>
 <body>
-<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><a href="../">Back to all projects</a><span>/</span><b>Skills Library</b></nav>
-<main id="home">
-  <div class="head">
-    <h1>Claude Skills Library</h1>
-    <div class="search" role="search">
-      <svg class="mag" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6L14 14"/></svg>
-      <input id="q" type="search" autocomplete="off" spellcheck="false" aria-label="Search skills">
-      <span class="ph" id="ph" aria-hidden="true"></span>
-      <button class="clr" id="clr" type="button" aria-label="Clear search" hidden>&times;</button>
+
+  <header class="top" id="top">
+    <a class="logo" href="../" aria-label="Kristyna Gottvald, Sandbox home">Krıstyna Gottvald</a>
+    <nav class="top-nav caps" id="top-nav" aria-label="Main Navigation">
+      <a href="../#projects">Projects</a>
+      <a href="./" aria-current="page">Skills Library</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="nav-jump caps" id="nav-jump" type="button" aria-expanded="false" aria-controls="top-nav"><span id="nav-jump-label">Skills Library</span> <svg width="10" height="12" viewBox="0 0 10 12" aria-hidden="true"><path d="M5 1v9.5M1.5 7L5 10.5 8.5 7" fill="none" stroke="currentColor"/></svg></button>
+    <a class="status caps" href="#contact"><span class="dot-live" aria-hidden="true"></span>Open to new projects</a>
+    <span class="tagline caps">Sandbox</span>
+  </header>
+
+  <main id="main">
+    <div id="home">
+      <section class="work" id="skills" aria-label="Skills Library">
+        <div class="work-side lib-side">
+          <h1 class="t-condensed">Skills Library</h1>
+          <p class="lib-intro">Claude skills for brand tools, motion and design to code.</p>
+          <div class="search" role="search">
+            <svg class="mag" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="4.6"/><path d="M10.6 10.6L14 14"/></svg>
+            <input id="q" type="search" autocomplete="off" spellcheck="false" aria-label="Search skills">
+            <span class="ph" id="ph" aria-hidden="true"></span>
+            <button class="clr" id="clr" type="button" aria-label="Clear search" hidden>&times;</button>
+          </div>
+          <div class="tabs caps" id="tabs" role="group" aria-label="Skill categories"></div>
+          <p class="hint" id="hint" role="status" aria-live="polite" hidden></p>
+        </div>
+        <!-- Cards use the home page's project card markup and 2-column grid -->
+        <div class="work-list" id="grid"></div>
+      </section>
+      <section class="work prob" id="prob" aria-labelledby="probh">
+        <div class="work-side"><h2 class="t-condensed" id="probh">Common problems these skills solve</h2></div>
+        <div class="prob-rows" id="probgrid"></div>
+      </section>
     </div>
-  </div>
-  <p class="hint" id="hint" role="status" aria-live="polite" hidden></p>
-  <div class="tabs" id="tabs" role="group" aria-label="Skill categories"></div>
-  <div class="grid" id="grid"></div>
-  <section class="prob" id="prob" aria-labelledby="probh">
-    <h2 id="probh">Common problems these skills solve</h2>
-    <div class="probgrid" id="probgrid"></div>
-  </section>
-</main>
-<section id="detail" hidden></section>
+    <section class="work" id="detail" hidden></section>
+  </main>
+
+  <footer class="contact" id="contact" aria-label="Contact">
+    <div class="contact-grid">
+      <div class="contact-head"><h2>Let’s build your brand tools.</h2></div>
+      <div class="contact-rows">
+        <div class="contact-row"><h3>Contact</h3><div>
+          <a href="mailto:kgottvald@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/kgottvald/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        </div></div>
+        <div class="contact-row"><h3>Channels</h3><div>
+          <a href="https://kristynagottvald.github.io/" target="_blank" rel="noopener noreferrer">Design Portfolio</a>
+          <a href="https://kristynagottvald.github.io/sketches/" target="_blank" rel="noopener noreferrer">Brand Tools</a>
+          <a href="https://dribbble.com/gottbot/" target="_blank" rel="noopener noreferrer">Dribbble</a>
+          <a href="https://openprocessing.org/user/500421/#sketches" target="_blank" rel="noopener noreferrer">OpenProcessing</a>
+        </div></div>
+      </div>
+    </div>
+    <div class="foot caps">
+      <span>© Kristyna Gottvald</span>
+      <a href="#top" id="to-top">Back to top ↑</a>
+    </div>
+  </footer>
+
 <script>
 /* Add skills here. Only skills the owner has listed. `art` is an animated SVG in ./art/ */
 var ICON={
@@ -324,13 +346,17 @@ var SKILLS=[
 var tabs=document.getElementById('tabs'),grid=document.getElementById('grid'),cur='All',SR=null;
 var cats=['All'].concat(SKILLS.map(function(s){return s.category}).filter(function(c,i,a){return a.indexOf(c)===i}));
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-grid.innerHTML=SKILLS.map(function(s){return '<a class="card" href="#/'+esc(s.title)+'" data-t="'+esc(s.title)+'" data-cat="'+esc(s.category)+'">'+
-  '<div class="thumb"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'" loading="lazy"></div>'+
-  '<div class="info"><h2>'+esc(s.title)+'</h2><p>'+esc(s.desc)+'</p>'+
-  '<div class="chips"><span class="chip">'+ICON[s.cIcon]+esc(s.category)+'</span><span class="chip">'+ICON[s.uIcon]+esc(s.use)+'</span></div></div></a>'}).join('');
+var ARROW='<svg class="card-arrow" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.3 7.7l5.1-5.1M2.3 2.1h5.5v5.5" fill="none" stroke="currentColor"/></svg>';
+grid.innerHTML=SKILLS.map(function(s){return '<article class="card" data-t="'+esc(s.title)+'" data-cat="'+esc(s.category)+'"><a href="#/'+esc(s.title)+'" aria-label="'+esc(s.title)+'">'+
+  '<div class="card-media svg"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'" loading="lazy"></div>'+
+  '<div class="card-meta"><h3 class="card-title">'+esc(s.title)+'</h3><p class="card-sub">'+esc(s.category)+' · '+esc(s.use)+'</p>'+ARROW+'</div></a></article>'}).join('');
+var ORDER=[].slice.call(grid.children),SORDER=ORDER,EMPTY=document.createElement('p');EMPTY.className='empty';
+/* filtered cards are taken out of the grid (not hidden) so the 2-column grid's dividers stay right */
 function render(){
-  tabs.innerHTML=cats.map(function(c){return '<button class="tab" aria-pressed="'+(c===cur)+'" data-c="'+esc(c)+'">'+esc(c)+'</button>'}).join('');
-  [].forEach.call(grid.children,function(el){el.hidden=(cur!=='All'&&el.dataset.cat!==cur)||(SR!==null&&!(el.dataset.t in SR))});
+  tabs.innerHTML=cats.map(function(c){return '<button class="tab" type="button" aria-pressed="'+(c===cur)+'" data-c="'+esc(c)+'">'+esc(c)+'</button>'}).join('');
+  var vis=(SR===null?ORDER:SORDER).filter(function(el){return (cur==='All'||el.dataset.cat===cur)&&(SR===null||el.dataset.t in SR)});
+  if(!vis.length){EMPTY.textContent=SR===null?'No skills in this category yet.':'No skills match that search.';vis=[EMPTY]}
+  grid.replaceChildren.apply(grid,vis);
 }
 tabs.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b){cur=b.dataset.c;render()}});
 render();
@@ -424,21 +450,23 @@ function copy(t,btn,label){var done=function(){var o=btn.textContent;btn.textCon
   function fallback(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();done()}}
 function showDetail(s){var d=D[s.title];
   detail.innerHTML=''+
-  '<div class="dgrid"><div><div class="eyebrow"><a class="back2" href="#/" aria-label="All skills" title="All skills"><svg viewBox="0 0 16 10" fill="none" stroke="currentColor" stroke-width="1.1"><path d="M16 5H1M5 1L1 5l4 4"/></svg></a><span>Skill type</span><span class="tag">'+esc(s.category)+'</span></div><h1>'+esc(s.title)+'</h1>'+
+  '<div class="work-side d-side"><a class="back2 caps" href="#/">← All skills</a><p class="d-type caps">Skill type <b>'+esc(s.category)+'</b></p><p class="d-type caps">For <b>'+esc(s.use)+'</b></p></div>'+
+  '<div class="dgrid"><div><h1 class="d-title">'+esc(s.title)+'</h1>'+(d.saves?'<p class="saves">'+esc(d.saves)+'</p>':'')+
   d.p.map(function(t){return '<p class="lead">'+esc(t)+'</p>'}).join('')+
-  '<div class="time"><div class="lbl">The manual work it saves</div><ul class="work">'+d.work.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'+(EX[s.title]?'<div class="ex"><div class="lbl">Built with this skill</div><div class="exg">'+EX[s.title].map(function(e){var x=/^https?:/.test(e[0]);return '<a href="'+(x?e[0]:'../'+e[0]+'/')+'"'+(x?' target="_blank" rel="noopener"':'')+'><div class="im"><img src="'+(x?(RM?e[3]:e[2]):'../'+e[0]+'/thumb.'+(RM?'png':'webp'))+'" alt="" loading="lazy"></div><span>'+esc(e[1])+(x?' ↗':'')+'</span></a>'}).join('')+'</div></div>':'')+'</div>'+
-  '<aside class="side"><div class="art"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'"></div><div class="in">'+
-  '<div class="how"><i></i>Say this to activate the skill</div>'+
-  d.prompts.map(function(p,i){return '<div class="pr"><code>“'+esc(p)+'”</code><button data-i="'+i+'">Copy</button></div>'}).join('')+
-  '<button class="btn p" id="cp">Copy prompt for Claude</button><button class="btn s" id="dl">Download skill (.md)</button></div></aside></div>';
+  '<div class="time"><div class="lbl caps">The manual work it saves</div><ul class="work-items">'+d.work.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'+(EX[s.title]?'<div class="ex"><div class="lbl caps">Built with this skill</div><div class="exg">'+EX[s.title].map(function(e){var x=/^https?:/.test(e[0]);return '<a href="'+(x?e[0]:'../'+e[0]+'/')+'"'+(x?' target="_blank" rel="noopener"':'')+'><div class="im"><img src="'+(x?(RM?e[3]:e[2]):'../'+e[0]+'/thumb.'+(RM?'png':'webp'))+'" alt="" loading="lazy"></div><span>'+esc(e[1])+(x?' ↗':'')+'</span></a>'}).join('')+'</div></div>':'')+'</div>'+
+  
+  '<aside class="side"><div class="art"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'"></div>'+
+  '<div class="how caps">Say this to activate the skill</div><div class="prs">'+
+  d.prompts.map(function(p,i){return '<div class="pr"><code>“'+esc(p)+'”</code><button class="caps" type="button" data-i="'+i+'">Copy</button></div>'}).join('')+
+  '</div><div class="btns"><button class="btn p caps" id="cp" type="button">Copy prompt for Claude</button><button class="btn s caps" id="dl" type="button">Download skill (.md)</button></div></aside></div>';
   detail.querySelectorAll('.pr button').forEach(function(b){b.onclick=function(){copy(d.prompts[+b.dataset.i],b)}});
   document.getElementById('cp').onclick=function(){copy(d.prompts[0],this,'Copied')};
   document.getElementById('dl').onclick=function(){var u=URL.createObjectURL(new Blob([skillMd(s,d)],{type:'text/markdown'})),a=document.createElement('a');a.href=u;a.download=s.title+'.md';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1000)};
-  document.title=s.title+' · '+BASE}
-function route(){var m=/^#\/(.+)$/.exec(location.hash),s=m&&SKILLS.filter(function(x){return x.title===decodeURIComponent(m[1])})[0];
-  if(s){showDetail(s);home.hidden=true;detail.hidden=false;document.body.classList.add('detail')}
-  else{home.hidden=false;detail.hidden=true;document.body.classList.remove('detail');document.title=BASE}
-  window.scrollTo(0,0)}
+  }
+function route(){var h=location.hash,m=/^#\/(.+)$/.exec(h),s=m&&SKILLS.filter(function(x){return x.title===decodeURIComponent(m[1])})[0];
+  if(s){showDetail(s);home.hidden=true;detail.hidden=false;document.title=s.title+' · '+BASE;window.scrollTo(0,0);return}
+  var was=home.hidden;home.hidden=false;detail.hidden=true;detail.innerHTML='';document.title=BASE;
+  if(!h||h==='#/')window.scrollTo(0,0);else if(was){var t=document.getElementById(h.slice(1));if(t)t.scrollIntoView()}}
 window.addEventListener('hashchange',route);route();
 var STOP='a an the i my me we our you your is am are was be been it its this that these those of to for in on at by with and or but so if as do does did can could would should will how what why when where which who have has had having get got make made want need needs help trouble problem issue issues really very too much long forever take takes taking just some any into from out up down about like using use used tool thing things stuff'.split(' ');
 var GROUPS=[
@@ -488,13 +516,12 @@ function search(q){
   if(res.length){var top=res[0].sc;res=res.filter(function(r){return r.sc>=top*.3})}
   return res}
 var qEl=document.getElementById('q'),phEl=document.getElementById('ph'),clrEl=document.getElementById('clr'),hintEl=document.getElementById('hint');
-var ORDER=[].slice.call(grid.children);
 function runSearch(){
   var v=qEl.value.trim();clrEl.hidden=!qEl.value;phEl.classList.toggle('gone',!!qEl.value);
-  if(!v){SR=null;ORDER.forEach(function(el){grid.appendChild(el)});hintEl.hidden=true;render();return}
+  if(!v){SR=null;hintEl.hidden=true;render();return}
   var res=search(v);SR={};res.forEach(function(r){SR[r.t]=r.sc});
   var byT={};ORDER.forEach(function(el){byT[el.dataset.t]=el});
-  res.forEach(function(r){grid.appendChild(byT[r.t])});
+  SORDER=res.map(function(r){return byT[r.t]});
   cur='All';render();
   hintEl.hidden=false;
   hintEl.innerHTML=res.length?'<b>'+res.length+'</b> '+(res.length===1?'skill matches':'skills match')+' “'+esc(v)+'”, best match first':'No skills match “'+esc(v)+'”. Try a skill name, or describe what you are trying to do, like “resize banners” or “cut a product out of a photo”.'}
@@ -509,12 +536,20 @@ var PROBLEMS=[
 ['Generator',[['My banners take forever to resize','asset-generator-engine'],['I need one template for every industry','industry-swapper'],['My prompts don’t make Claude think carefully','metacognitive-prompt-rewriter'],['I want to keep what we learned in this session','session-to-skill']]],
 ['Image editing',[['My product cut-out has a halo or colour fringe','cut-products-out-of-mockup-photos']]]
 ];
-document.getElementById('probgrid').innerHTML=PROBLEMS.map(function(g){return '<div class="pcat"><h3>'+esc(g[0])+'</h3><ul>'+g[1].map(function(p){return '<li><button class="pbtn" type="button" data-q="'+esc(p[0])+'"><span>'+esc(p[0])+'</span><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7h11M8 3l4 4-4 4"/></svg></button></li>'}).join('')+'</ul></div>'}).join('');
+document.getElementById('probgrid').innerHTML=PROBLEMS.map(function(g){return '<div class="prob-row"><h3>'+esc(g[0])+'</h3><ul>'+g[1].map(function(p){return '<li><button class="pbtn" type="button" data-q="'+esc(p[0])+'"><span>'+esc(p[0])+'</span><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" aria-hidden="true"><path d="M2.3 7.7l5.1-5.1M2.3 2.1h5.5v5.5"/></svg></button></li>'}).join('')+'</ul></div>'}).join('');
 document.getElementById('probgrid').addEventListener('click',function(e){var b=e.target.closest('.pbtn');if(!b)return;qEl.value=b.dataset.q;runSearch();window.scrollTo({top:0,behavior:RM?'auto':'smooth'});qEl.focus({preventScroll:true})});
 var PH=['Search for skill name','Describe the skill','What problem are you having?'],pi=0;
 phEl.textContent=PH[0];
 setInterval(function(){if(qEl.value)return;phEl.classList.add('out');setTimeout(function(){pi=(pi+1)%PH.length;phEl.textContent=PH[pi];phEl.classList.remove('out')},RM?0:350)},3200);
 
+/* Phones: the section name in the header opens the stacked nav, as on the home page */
+(function(){var top=document.getElementById('top'),jump=document.getElementById('nav-jump');
+  function setMenu(o){top.classList.toggle('open',o);jump.setAttribute('aria-expanded',String(o))}
+  jump.addEventListener('click',function(e){e.stopPropagation();setMenu(!top.classList.contains('open'))});
+  document.addEventListener('click',function(e){if(!top.contains(e.target))setMenu(false)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false)});
+  top.querySelectorAll('.top-nav a, .status').forEach(function(a){a.addEventListener('click',function(){setMenu(false)})});
+  document.getElementById('to-top').addEventListener('click',function(e){e.preventDefault();window.scrollTo({top:0,behavior:RM?'auto':'smooth'})})})();
 </script>
 </body>
 </html>
