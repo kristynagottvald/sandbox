@@ -58,9 +58,9 @@ h1, h2, h3, p { margin: 0; font-weight: inherit; }
 .dot-live::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid #8fd694; opacity: 0; animation: dot-ripple 4s ease-out infinite; }
 @keyframes dot-ripple { 0% { opacity: .7; transform: scale(1); } 35% { opacity: 0; transform: scale(2.8); } 100% { opacity: 0; transform: scale(2.8); } }
 
-/* ---------- Projects: heading left, 2-column grid right (same as All Tools on the sketches site). First on the page, so no top rule ---------- */
+/* ---------- Projects: heading left, 2-column grid right (same as All Tools on the sketches site). Top rule rests just under the nav ---------- */
 .t-condensed { font-family: var(--cond); font-weight: 300; font-size: var(--fs-h2); line-height: var(--lh-head); letter-spacing: var(--ls-head); }
-.work { display: grid; grid-template-columns: 1fr; padding: 24px 0 120px; margin: 0 var(--pad); }
+.work { display: grid; grid-template-columns: 1fr; padding: 24px 0 120px; margin: 0 var(--pad); border-top: 1px solid var(--line); }
 .load-error { padding: 12px; color: var(--grey); }
 .work-side { padding: 0 0 24px var(--left); }
 .work-list { display: grid; grid-template-columns: 1fr; }
