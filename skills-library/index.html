@@ -40,20 +40,6 @@
       .lib-side { position: sticky; top: calc(var(--nav-h) + 24px); align-self: start; }
     }
 
-    /* ---------- Common problems: the same heading-left, rows-right layout, one row per category ---------- */
-    /* same columns as the contact footer below: heading, then rows from the 5fr / 9fr split, each row 4fr / 5fr */
-    .prob { padding-bottom: 120px; }
-    .prob.work { grid-template-columns: 1fr; gap: 48px; }
-    .prob-rows { display: grid; }
-    .prob-row { display: grid; grid-template-columns: 4fr 5fr; gap: 8px; padding: 12px 0 36px; border-top: 1px solid var(--line); }
-    .prob-row h3 { font-size: var(--fs-body); padding-left: var(--left); }
-    .prob-row ul { display: grid; gap: 2px; }
-    .pbtn { display: inline-flex; align-items: baseline; gap: 10px; text-align: left; color: var(--grey); font-weight: 300; transition: color .2s; }
-    .pbtn:hover { color: var(--ink); }
-    .pbtn svg { flex: none; width: 10px; height: 10px; }
-    @media (max-width: 760px) { .prob-row { grid-template-columns: 1fr; } }
-    @media (min-width: 900px) { .prob.work { grid-template-columns: 5fr 9fr; gap: 8px; } }
-
     /* ---------- Skill page: back link and type on the left, story and activation panel on the right ---------- */
     .d-side { display: grid; gap: 14px; align-content: start; }
     .back2 { color: var(--grey); transition: color .2s; }
@@ -126,10 +112,6 @@
         </div>
         <!-- Cards use the home page's project card markup and 2-column grid -->
         <div class="work-list" id="grid"></div>
-      </section>
-      <section class="work prob" id="prob" aria-labelledby="probh">
-        <div class="work-side"><h2 class="t-condensed" id="probh">Common problems</h2></div>
-        <div class="prob-rows" id="probgrid"></div>
       </section>
     </div>
     <section class="work" id="detail" hidden></section>
@@ -529,15 +511,6 @@ qEl.addEventListener('input',runSearch);
 qEl.addEventListener('keydown',function(e){if(e.key==='Escape'){qEl.value='';runSearch()}});
 clrEl.addEventListener('click',function(){qEl.value='';runSearch();qEl.focus()});
 
-var PROBLEMS=[
-['Design to code',[['I have a Figma frame I want as an animated page','figma-to-motion-page'],['I built a generator in Claude and want it inside Figma','generator-to-figma-plugin']]],
-['Motion',[['I need an animated explainer that loops','motion-explainer'],['I keep re-recording my product demo','scripted-demo-animation-with-a-cursor'],['I want to show an agent reading a screen','fields-scan-overlay-effect'],['A tile needs to expand into a full-screen section','tile-to-fullscreen-section-transition'],['I need a short ad spot for a product feature','product-feature-spot']]],
-['Design',[['Lonely words keep ending up on the last line','avoid-widows-and-orphans'],['Every scene needs the same fake dashboard','brand-neutral-ui-mockup-kit'],['My colours drift off brand or look muddy','palette-and-brand-constraint-handling'],['I need an ad, landing page and results walkthrough','paid-ad-pipeline'],['I want a low poly 3D scene that goes from day to night','lowpoly-3d-scene']]],
-['Generator',[['My banners take forever to resize','asset-generator-engine'],['I need one template for every industry','industry-swapper'],['My prompts don’t make Claude think carefully','metacognitive-prompt-rewriter'],['I want to keep what we learned in this session','session-to-skill']]],
-['Image editing',[['My product cut-out has a halo or colour fringe','cut-products-out-of-mockup-photos']]]
-];
-document.getElementById('probgrid').innerHTML=PROBLEMS.map(function(g){return '<div class="prob-row"><h3>'+esc(g[0])+'</h3><ul>'+g[1].map(function(p){return '<li><button class="pbtn" type="button" data-q="'+esc(p[0])+'"><span>'+esc(p[0])+'</span><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" aria-hidden="true"><path d="M2.3 7.7l5.1-5.1M2.3 2.1h5.5v5.5"/></svg></button></li>'}).join('')+'</ul></div>'}).join('');
-document.getElementById('probgrid').addEventListener('click',function(e){var b=e.target.closest('.pbtn');if(!b)return;qEl.value=b.dataset.q;runSearch();window.scrollTo({top:0,behavior:RM?'auto':'smooth'});qEl.focus({preventScroll:true})});
 var PH=['Search for skill name','Describe the skill','What problem are you having?'],pi=0;
 phEl.textContent=PH[0];
 setInterval(function(){if(qEl.value)return;phEl.classList.add('out');setTimeout(function(){pi=(pi+1)%PH.length;phEl.textContent=PH[pi];phEl.classList.remove('out')},RM?0:350)},3200);
