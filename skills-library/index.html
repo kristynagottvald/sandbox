@@ -29,8 +29,9 @@
     .clr:hover { color: var(--ink); }
     .hint { color: var(--grey); font-weight: 300; font-size: 16px; line-height: 1.4; max-width: 30ch; }
     .hint b { font-weight: 400; color: var(--ink); }
-    .tabs { display: flex; flex-wrap: wrap; gap: 10px 20px; }
-    .tab { color: var(--grey); transition: color .2s; }
+    /* category filters: one all-caps row each, stacked with a rule between, the width of the search */
+    .tabs { display: grid; max-width: 340px; border-bottom: 1px solid var(--line); }
+    .tab { display: block; width: 100%; text-align: left; padding: 13px 0 12px; border-top: 1px solid var(--line); color: var(--grey); transition: color .2s; }
     .tab:hover, .tab[aria-pressed="true"] { color: var(--ink); }
     .tab[aria-pressed="true"]::before { content: ""; display: inline-block; vertical-align: 1.5px; width: 5px; height: 5px; margin-right: 8px; border-radius: 50%; background: currentColor; }
     .empty { padding: 12px; color: var(--grey); font-weight: 300; }
@@ -120,7 +121,7 @@
             <span class="ph" id="ph" aria-hidden="true"></span>
             <button class="clr" id="clr" type="button" aria-label="Clear search" hidden>&times;</button>
           </div>
-          <div class="tabs caps" id="tabs" role="group" aria-label="Skill categories"></div>
+          <div class="tabs" id="tabs" role="group" aria-label="Skill categories"></div>
           <p class="hint" id="hint" role="status" aria-live="polite" hidden></p>
         </div>
         <!-- Cards use the home page's project card markup and 2-column grid -->
@@ -352,7 +353,7 @@ grid.innerHTML=SKILLS.map(function(s){return '<article class="card" data-t="'+es
 var ORDER=[].slice.call(grid.children),SORDER=ORDER,EMPTY=document.createElement('p');EMPTY.className='empty';
 /* filtered cards are taken out of the grid (not hidden) so the 2-column grid's dividers stay right */
 function render(){
-  tabs.innerHTML=cats.map(function(c){return '<button class="tab" type="button" aria-pressed="'+(c===cur)+'" data-c="'+esc(c)+'">'+esc(c)+'</button>'}).join('');
+  tabs.innerHTML=cats.map(function(c){return '<button class="tab caps" type="button" aria-pressed="'+(c===cur)+'" data-c="'+esc(c)+'">'+esc(c)+'</button>'}).join('');
   var vis=(SR===null?ORDER:SORDER).filter(function(el){return (cur==='All'||el.dataset.cat===cur)&&(SR===null||el.dataset.t in SR)});
   if(!vis.length){EMPTY.textContent=SR===null?'No skills in this category yet.':'No skills match that search.';vis=[EMPTY]}
   grid.replaceChildren.apply(grid,vis);
