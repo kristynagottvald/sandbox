@@ -319,11 +319,13 @@ const APPS = {
   'prompt-demos': { vp: [1280, 769], crop: [19, 59, 1242, 699], ready: 2200, p5: true, run: async () => {} },
   'lifecycle-image-engine': { vp: [1280, 769], crop: [0, 49, 1280, 720], run: async (p) => {
     const t0 = Date.now();
-    await at(t0, 900, () => click(p, /^Lavender$/));
-    await at(t0, 1900, () => click(p, /^Sky$/));
-    await at(t0, 2900, () => click(p, /^Sunny$/));
-    await at(t0, 3900, () => click(p, /^Icons$/));
-    await at(t0, 5000, () => click(p, /^Spot illo$/));
+    // first click at 1.5 s: the clip opens 0.5 s into the footage, and the video can lag the page enough that a click
+    // at 0.9 s already shows the sidebar scrolling in the first frame
+    await at(t0, 1500, () => click(p, /^Lavender$/));
+    await at(t0, 2400, () => click(p, /^Sky$/));
+    await at(t0, 3300, () => click(p, /^Sunny$/));
+    await at(t0, 4200, () => click(p, /^Icons$/));
+    await at(t0, 5100, () => click(p, /^Spot illo$/));
     await at(t0, 5600, () => click(p, /^Pink$/));
   } },
   // the whole 23.8 s loop played at 3.6x from the middle of the scan: flags land, result fills in, reviewer requests changes, library updates, next audit starts
@@ -439,7 +441,11 @@ async function record(name) {
 /* 6.5 s of footage -> 6 s loop: the last half second cross-fades into the first, so the loop point is seamless.
    12 fps, 960x540, animated WebP that repeats forever. */
 function encode(name, src, start) {
-  const A = APPS[name], [cx, cy, cw, ch] = A.crop, out = ROOT + name + '/thumb.webp';
+  const A = APPS[name], out = ROOT + name + '/thumb.webp';
+  // pull the crop in a few px on every side (keeping 16:9): the video codec smears the hard edges just outside it (each
+  // app's nav rule above, the page edge on the right) a pixel or two inwards, which showed as a hairline on the home page tiles
+  const [x0, y0, w0, h0] = A.crop, INSET = 8;
+  const cw = Math.round(w0 - 2 * INSET), ch = Math.round(cw * 9 / 16), cx = Math.round(x0 + (w0 - cw) / 2), cy = Math.round(y0 + (h0 - ch) / 2);
   const base = `[0:v]trim=start=${start.toFixed(3)}:duration=6.6,setpts=PTS-STARTPTS,fps=30,crop=${cw}:${ch}:${cx}:${cy},scale=960:540:flags=lanczos,format=yuv420p`;
   const fc = base + ',split=3[a0][b0][c0];[a0]trim=0.5:6.0,setpts=PTS-STARTPTS[a];[b0]trim=6.0:6.5,setpts=PTS-STARTPTS[b];[c0]trim=0:0.5,setpts=PTS-STARTPTS[c];[b][c]xfade=transition=fade:duration=0.5:offset=0[bc];[a][bc]concat=n=2:v=1,fps=12[v]';
   cp.execFileSync('ffmpeg', ['-y', '-hide_banner', '-loglevel', 'error', '-i', src, '-filter_complex', fc, '-map', '[v]', '-t', '6',

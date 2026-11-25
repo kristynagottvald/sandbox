@@ -19,6 +19,7 @@ Add an entry to the `APPS` table in `record-clips.js`:
 
 - `vp`: the viewport, `[width, height]`. The apps have a 49px nav bar on top, so 1280x769 gives a 1280x720 stage.
 - `crop`: `[x, y, w, h]` in css pixels, 16:9, the part of the page that goes in the tile. An optional `setup(page)` can measure it and return the rectangle instead.
+  The encoder pulls the crop in 8px on each side (keeping 16:9), so the video codec's smear of the hard edges just outside it, like the nav bar's bottom rule, never shows as a hairline on the tile.
 - `run(page)`: the timeline of actions, in milliseconds after the page is ready. Apps that animate on their own just wait. The clip is about 6.5 seconds long, and the start of the clip is the page before the first action, so leave the first 700ms or so alone.
 - `q`: optional WebP quality (default 62); lower it for grainy apps to keep the clip small.
 - `http`: serve the repo over a local http server instead of file:// (for apps that embed another app in an iframe).
