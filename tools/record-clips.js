@@ -37,6 +37,13 @@ const APPS = {
     }));
     await sleep(500);
   } },
+  // Lob Visual Editor, a 16:9 motion piece in the Go from idea to mailbox faster style: Build your way on purple, then the Visual Editor builds a postcard from scratch and imports a new design (starts on the finished Build your way title; timeline runs at 1.5x)
+  'lob-visual-editor': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 900, q: 62, run: async (p) => {
+    await p.evaluate(() => window.__rb.seek(1.6));
+    await sleep(700);
+    await p.evaluate(() => window.__rb.play({ from: 1.6, speed: 1.5, loop: false }));
+    await sleep(5800);
+  } },
   // Lob 12 Days Unwrap, a 1:1 Day 1 advent post: the purple gift box's bow unties, the ribbon is pulled off, the doors swing open into side panels and the 1962 Christmas stamp drops onto a dotted card with the mail fact (starts on the closed, ribboned box; timeline runs at 1.55x)
   'lob-12-days-unwrap': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 600, q: 62, run: async (p) => {
     await p.evaluate(() => window.__rb.seek(0));
