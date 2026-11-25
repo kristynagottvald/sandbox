@@ -54,7 +54,6 @@ ICONS = {
     'postmark-awards-brand-visuals': ('#000000', stamp('#000000', '#ffd23f')),
     'postmark-awards-motion': ('#3b2cf0', R(8, 10, 48, 9, '#ffffff') + R(8, 24, 48, 9, '#ffffff') + R(8, 38, 48, 9, '#ffffff') + R(8, 52, 30, 6, '#ffffff')),
     'postmark-ribbon-engine': ('#6a3df0', P('M0 20L44 0H64L0 40Z', '#ff7a3d') + P('M0 44L64 12V32L0 64Z', '#ff7a3d') + P('M24 64L64 44V64Z', '#ff7a3d')),
-    'skills-library': ('#ffffff', R(10, 10, 20, 20, '#1a73e8') + R(34, 10, 20, 20, '#1a1a1a') + R(10, 34, 20, 20, '#1a1a1a') + R(34, 34, 20, 20, '#1a73e8')),
     'klir-landing-page': ('#ffffff', P(DROP, '#3b3bef')),
     'klir-landing-page-side-reveal': ('#3b3bef', P(DROP, '#ffffff')),
     'klir-image-styles': ('#14163f', P(DROP, '#7d7dff')),
@@ -121,4 +120,5 @@ if __name__ == '__main__':
         bg, body = ICONS[a['id']]
         put(ROOT + a['id'] + '/index.html', link(svg(bg, body)))
     put(ROOT + 'index.html', link(CUBE), '  ')
+    put(ROOT + 'skills-library/index.html', link(CUBE), '  ')  # the library is a sandbox page (own nav item), not an app tile
     print(len(apps))

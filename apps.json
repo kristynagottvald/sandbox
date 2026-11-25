@@ -117,15 +117,6 @@
     "alt": "A blue water hero for Klir with the headline One Operational Hub. All Teams. Built for Water., and the product dashboard resting off the right edge with only a sliver showing; as the page scrolls the headline fades, the dashboard slides across into the centre of the hero, and the Klir pill fades in above it"
   },
   {
-    "id": "skills-library",
-    "title": "Skills Library",
-    "category": "Library",
-    "url": "skills-library/",
-    "thumbnail": "skills-library/thumb.png",
-    "preview": "skills-library/thumb.webp",
-    "alt": "A dark library of Claude skills: tiles with an animated rendering of each skill, a short description, and category and use chips, for cutting products out of mockup photos, turning a Figma frame into an animated page, a tile-to-fullscreen transition palette handling and a scripted cursor demo, motion explainers and asset generators"
-  },
-  {
     "id": "klir-image-styles",
     "title": "Klir Image Styles",
     "category": "Generator",
