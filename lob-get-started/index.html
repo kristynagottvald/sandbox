@@ -110,7 +110,10 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .hd p{margin:12px auto 0;max-width:560px;color:var(--mut);font-size:clamp(15px,1.3vw,18px)}
 
 /* 1 templates: five stacked cards */
-#tpl{height:460vh}
+#tpl{height:980vh}
+.pick{position:absolute;inset:0;border:3px solid var(--lime);border-radius:12px;opacity:0;pointer-events:none}
+.pick b{position:absolute;right:12px;bottom:12px;height:32px;padding:0 14px;display:flex;align-items:center;gap:6px;border-radius:99px;background:var(--lime);color:var(--navy);font:600 13px var(--sans);white-space:nowrap}
+.dcur{position:absolute;left:0;top:0;width:26px;height:26px;z-index:12;pointer-events:none;opacity:0}
 .fan .tc{position:absolute;left:0;top:0;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 24px 60px rgba(0,0,0,.45);transform-origin:0 0;will-change:transform}
 .fan .tc>img{width:100%;height:100%;object-fit:cover}
 .fan .tc .bar{position:absolute;left:0;right:0;top:0;height:7%;background:rgba(255,255,255,.92);display:flex;align-items:center;gap:4%;padding:0 5%}
@@ -146,7 +149,6 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .page .coll .stk img{position:absolute;width:250px;border-radius:5px;box-shadow:0 14px 30px rgba(30,34,69,.2)}
 
 /* 2 visual editor */
-#ve{height:560vh}
 .glow{position:absolute;inset:-40px;border-radius:60px;background:radial-gradient(closest-side,rgba(99,76,255,.55),rgba(99,76,255,0));filter:blur(30px);z-index:-1}
 .box{position:absolute;left:0;top:0;transform-origin:0 0}
 .ed{position:absolute;left:0;top:0;width:960px;height:600px;border-radius:14px;overflow:hidden;background:#fff;color:#1e2245;box-shadow:0 30px 80px rgba(0,0,0,.45)}
@@ -337,18 +339,11 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
   <div class="sub w-in" style="transition-delay:.4s"><p>Go from idea to mailbox <em class="s">faster</em></p><a class="pill w" href="#fin">Get started</a></div>
 </section>
 
-<!-- 1 templates: five stacked cards, the middle one grows into a full template preview that scrolls -->
+<!-- 1 templates: five stacked cards; the chosen one is dragged into the Visual Editor -->
 <section class="sec" id="tpl">
   <div class="stick" id="tplS">
     <div class="hd" id="tplH" style="top:7%"><h2>Choose your <em class="s">template</em></h2><p>Start with 40+ ready-to-use mail pieces or design your own from scratch.</p></div>
-    <div class="fan" id="fan"></div>
-  </div>
-</section>
-
-<!-- 2 Visual Editor -->
-<section class="sec" id="ve">
-  <div class="stick" id="veS">
-    <div class="hd" id="veH"><h2>Build in the <em class="s">Visual Editor</em></h2><p>Design templates from scratch, preview imported designs, and change text, images and personalized elements in a few clicks.</p></div>
+    <div class="hd" id="veH" style="opacity:0"><h2>Build in the <em class="s">Visual Editor</em></h2><p>Start from a template or build from scratch, preview imported designs, and change text, images and personalized elements in a few clicks.</p></div>
     <div class="box" id="veB">
       <div class="glow" id="veG"></div>
       <div class="ed">
@@ -369,9 +364,9 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
         <div class="tools imp"><b data-t="import"><svg viewBox="0 0 14 14"><path d="M7 9.5V2M4 5l3-3 3 3M2 9v3h10V9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Import</b></div>
         <div class="canvas" id="cv">
           <div class="ab" id="ab">
-            <div class="empty" id="abE">6 × 9 POSTCARD · START FROM SCRATCH</div>
+            <div class="empty" id="abE">DROP A TEMPLATE OR START FROM SCRATCH</div>
             <div class="p bgp" data-l="0"></div>
-            <div class="p img" data-l="2"><div style="background-image:url(assets/gallery-photo.jpg)"></div><div class="b2"></div></div>
+            <div class="p img" data-l="2"><div style="background:url(assets/mail-3.webp) -228px 0/420px auto no-repeat"></div><div class="b2"></div></div>
             <div class="p band" data-l="5"><p id="bandT">Scan to accept your offer</p><div class="qr" id="qr1"></div></div>
             <div class="p tag" data-l="1" id="tagT">// INSURANCE CO</div>
             <div class="p hl" data-l="3" id="hl"></div>
@@ -398,8 +393,10 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
       </div>
       <span class="mchip fly" id="fly">{{first_name}}</span>
       <svg class="cursor" id="cur" viewBox="0 0 24 24"><path d="M.7.7L23.8 10.3 13.4 13 10.6 23.8z" fill="#fff" stroke="#4333f0" stroke-width="1.7" stroke-linejoin="round"/></svg>
-      <div class="steps" id="veSteps"><b>Build from scratch</b><b>Import</b><b>Edit text</b><b>Swap images</b><b>Personalize</b></div>
+      <div class="steps" id="veSteps"><b>Start from a template</b><b>Import</b><b>Edit text</b><b>Swap images</b><b>Personalize</b></div>
     </div>
+<div class="fan" id="fan"></div>
+    <svg class="dcur" id="dcur" viewBox="0 0 24 24"><path d="M.7.7L23.8 10.3 13.4 13 10.6 23.8z" fill="#fff" stroke="#4333f0" stroke-width="1.7" stroke-linejoin="round"/></svg>
   </div>
 </section>
 
@@ -491,69 +488,12 @@ const fan = $('#fan'); const cards = [];
 TPL.forEach((m, i) => {
   const c = document.createElement('div'); c.className = 'tc';
   if (i === 2) {
-    c.innerHTML = '<div class="page" id="page">' +
-      '<div class="hero1"><img src="assets/mail-3.webp" alt=""><div class="sel" style="left:26px;top:26px;right:26px;bottom:26px;opacity:.0" id="sel1"><b>▦ Postcard · 6×9</b></div></div>' +
-      '<div class="ns"><h3>New this season</h3><a>BROWSE ALL TEMPLATES</a></div>' +
-      '<div class="grid4"><div class="sel" style="inset:0"><b>▦ Template set</b></div>' +
-      [['mail-6', 'CO.', 'POSTCARD 6×9', ['#ffc94d', '#4131f1', '#fff']], ['mail-7', 'HEALTH', 'POSTCARD 6×11', ['#d045dc', '#f7a6f7', '#4131f1']], ['mail-4', 'FINANCE', 'SELF-MAILER', ['#c7d64a', '#4131f1', '#fff']], ['mail-9', 'REPORTS', 'LETTER', ['#4131f1', '#d045dc', '#fff']]]
-        .map((g) => '<div><div class="im" style="background-image:url(assets/' + g[0] + '.webp);background-position:right center"></div><div class="nm">' + g[1] + '<i>' + g[3].map((c) => '<b style="background:' + c + ';box-shadow:inset 0 0 0 1px #dcdce6"></b>').join('') + '</i></div><small>' + g[2] + '</small></div>').join('') + '</div>' +
-      '<div class="two"><div class="l"></div><div class="r"><small>SELF-MAILER</small><h4>Coffee Co</h4><span style="color:#6b6f8a;font-size:14px">Bold color blocks, a photo slot and a QR code, ready for your brand.</span><img src="assets/mail-11.webp" alt="" style="margin-top:28px"></div></div>' +
-      '<div class="mq"><div id="mq">' + Array(4).fill('PRINTED IN-HOUSE <svg viewBox="0 0 20 20"><path d="M10 1l2 7 7 2-7 2-2 7-2-7-7-2 7-2z" fill="#e4ee5c"/></svg> PREDICTABLE POSTAGE <svg viewBox="0 0 20 20"><path d="M10 1l2 7 7 2-7 2-2 7-2-7-7-2 7-2z" fill="#e4ee5c"/></svg> FASTER DELIVERY <svg viewBox="0 0 20 20"><path d="M10 1l2 7 7 2-7 2-2 7-2-7-7-2 7-2z" fill="#e4ee5c"/></svg>').join(' ') + '</div></div>' +
-      '<div class="coll"><div class="sel" style="inset:-2px"><b>▦ Collections</b></div><ul><li>Postcards<sup>↗</sup></li><li>Letters<sup>↗</sup></li><li>Self-mailers<sup>↗</sup></li><li>Snap packs<sup>↗</sup></li></ul><div class="stk"><img src="assets/mail-8.webp" style="left:0;top:0;transform:rotate(-4deg)" alt=""><img src="assets/mail-1.webp" style="left:60px;top:80px;transform:rotate(3deg)" alt=""><img src="assets/mail-10.webp" style="left:20px;top:150px;transform:rotate(-2deg)" alt=""></div></div>' +
-      '</div>';
+    c.innerHTML = '<img src="assets/mail-3.webp" alt=""><div class="pick" id="pick"><b>Use template ↓</b></div>';
   } else {
     c.innerHTML = '<img src="assets/' + m + '.webp" alt="">';
   }
   fan.appendChild(c); cards.push(c);
 });
-const page = $('#page');
-
-function tplUpdate(p, SW, SH){
-  const mob = SW < 700;
-  const W1 = Math.min(1080, SW - (mob ? 24 : 48));
-  const W0 = mob ? SW * .62 : Math.min(520, SW * .4);
-  const R = .62;
-  const H0 = W0 * R;
-  const y0 = mob ? SH * .42 : SH * .38;
-  const a = easeIO(seg(p, .06, .3));
-  const b = seg(p, .33, .95);
-  const w = lerp(W0, W1, a), h = lerp(H0, SH - 32, a);
-  const x = (SW - w) / 2, y = lerp(y0, 16, a);
-  const PW = 1080, s = w / PW;
-  const head = $('#tplH');
-  head.style.opacity = 1 - ease(a * 1.6);
-  head.style.transform = 'translateX(-50%) translateY(' + (-a * 90) + 'px)';
-  // side cards
-  const offs = [-2, -1, 0, 1, 2];
-  cards.forEach((c, i) => {
-    const o = offs[i];
-    if (o === 0) {
-      c.style.width = w + 'px'; c.style.height = h + 'px';
-      c.style.transform = 'translate(' + x + 'px,' + y + 'px)';
-      c.style.zIndex = 5;
-      page.style.width = PW + 'px';
-      page.querySelector('.hero1').style.height = (PW * R) + 'px';
-      const pageH = page.offsetHeight;
-      const visH = h / s;
-      const ty = -Math.max(0, pageH - visH) * easeIO(b);
-      page.style.transform = 'scale(' + s + ') translateY(' + ty + 'px)';
-      $('#sel1').style.opacity = cl((a - .7) / .3) * (1 - cl(b * 6));
-      return;
-    }
-    const k = Math.abs(o);
-    const sc = k === 1 ? .84 : .7;
-    const cw = W0 * sc, ch = H0 * sc;
-    const spread = mob ? .55 : .74;
-    let cx = SW / 2 + o * W0 * spread * (k === 1 ? 1 : .88) - cw / 2;
-    cx += Math.sign(o) * a * SW * .55;
-    const cy = y0 + H0 * (k === 1 ? .12 : .26);
-    c.style.width = cw + 'px'; c.style.height = ch + 'px';
-    c.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
-    c.style.zIndex = 5 - k;
-    c.style.opacity = 1 - ease(a * 1.4);
-  });
-  const mq = $('#mq'); if (mq) mq.style.transform = 'translateX(' + (-b * 600) + 'px)';
-}
 
 /* ---------- 2 visual editor ---------- */
 const LAYERS = ['Background', 'Tag', 'Image', 'Headline', 'Details', 'CTA band + QR'];
@@ -575,25 +515,20 @@ function cursorAt(p){
 }
 function setTool(t){ for (const k in toolEls) toolEls[k].classList.toggle('on', k === t); }
 
-function veUpdate(p, SW, SH){
+function veLayout(SW, SH){
   const mob = SW < 700;
-  const rise = easeIO(seg(p, 0, .1));
   const head = $('#veH');
-  const headTop0 = SH * .4, headTop1 = SH * (mob ? .05 : .06);
-  head.style.top = lerp(headTop0, headTop1, rise) + 'px';
+  const top = SH * (mob ? .05 : .06);
+  head.style.top = top + 'px';
   const hh = head.offsetHeight;
-  const availH = SH - headTop1 - hh - 30;
-  const sc = Math.min(1, (SW - 32) / 960, availH / 670);
-  const bx = (SW - 960 * sc) / 2;
-  const by = headTop1 + hh + 24 + (1 - rise) * (SH * .7);
-  $('#veB').style.transform = 'translate(' + bx + 'px,' + by + 'px) scale(' + sc + ')';
-  $('#veB').style.opacity = cl(rise * 1.5);
-  $('#veG').style.opacity = .5 + .5 * rise;
-  // step windows
-  const s1 = seg(p, .1, .26), s2 = seg(p, .27, .46), s3 = seg(p, .47, .62), s4 = seg(p, .63, .76), s5 = seg(p, .77, .95);
+  const sc = Math.min(1, (SW - 32) / 960, (SH - top - hh - 30) / 670);
+  return { sc, bx: (SW - 960 * sc) / 2, by: top + hh + 24 };
+}
+function veUpdate(p, s1, P){
+  const s2 = seg(p, .27, .46), s3 = seg(p, .47, .62), s4 = seg(p, .63, .76), s5 = seg(p, .77, .95);
   const step = p < .265 ? 0 : p < .465 ? 1 : p < .625 ? 2 : p < .765 ? 3 : 4;
-  veSteps.forEach((b, i) => { b.classList.toggle('on', i === step && p > .08); b.classList.toggle('done', i < step); b.innerHTML = (i < step ? '<i>✓</i>' : '') + b.textContent.replace('✓', ''); });
-  // 1 build from scratch: parts pop in one by one
+  veSteps.forEach((b, i) => { b.classList.toggle('on', i === step && P > .12); b.classList.toggle('done', i < step); b.innerHTML = (i < step ? '<i>✓</i>' : '') + b.textContent.replace('✓', ''); });
+  // 1 the dropped template opens up into its editable layers, one by one
   const order = [[0, .02, .2, 'shape'], [1, .18, .32, 'text'], [2, .3, .46, 'image'], [3, .44, .6, 'text'], [4, .58, .72, 'shape'], [5, .7, .86, 'qr']];
   let tool = null;
   order.forEach(([li2, a, b2, t], j) => {
@@ -602,9 +537,9 @@ function veUpdate(p, SW, SH){
     el.style.opacity = cl(e * 2);
     el.style.transform = 'scale(' + (li2 === 0 ? lerp(.96, 1, cl(e)) : e) + ')';
     lyEls[li2].classList.toggle('in', s1 > a);
-    if (s1 > a - .08 && s1 < b2 && p < .26) tool = t;
   });
   $('#abE').style.opacity = 1 - cl(s1 * 8);
+  $('#abE').style.visibility = P > .26 ? 'hidden' : '';
   // 2 import: drop zone, file flies in, fill wipe, swap to the imported design
   const dIn = ease(seg(s2, 0, .12)), dOut = ease(seg(s2, .82, .96));
   const drop = $('#drop'); drop.style.opacity = dIn * (1 - dOut);
@@ -672,7 +607,73 @@ function veUpdate(p, SW, SH){
   setTool(tool);
   $('#saved').textContent = p > .1 ? 'Autosaved · just now' : 'Autosaved';
   const [cx, cy] = cursorAt(p);
+  $('#cur').style.opacity = P > .26 ? 1 : 0;
   $('#cur').style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
+}
+
+/* ---------- 1+2: template stack, then the chosen card drops into the editor ---------- */
+function tplUpdate(P, SW, SH){
+  const mob = SW < 700;
+  const W0 = mob ? SW * .62 : Math.min(520, SW * .4);
+  const R = .62, H0 = W0 * R;
+  const y0 = mob ? SH * .42 : SH * .38;
+  const out = easeIO(seg(P, .05, .13));          // side cards leave, the middle one is picked
+  const tH = $('#tplH');
+  tH.style.opacity = 1 - ease(seg(P, .07, .13));
+  tH.style.transform = 'translateX(-50%) translateY(' + (-out * 60) + 'px)';
+  const vIn = ease(seg(P, .11, .18));
+  const vH = $('#veH');
+  vH.style.opacity = vIn;
+  const L = veLayout(SW, SH);
+  vH.style.transform = 'translateX(-50%) translateY(' + ((1 - vIn) * 30) + 'px)';
+  const rise = easeIO(seg(P, .1, .2));
+  const by = L.by + (1 - rise) * SH * .75;
+  $('#veB').style.transform = 'translate(' + L.bx + 'px,' + by + 'px) scale(' + L.sc + ')';
+  $('#veB').style.opacity = cl(rise * 1.5);
+  $('#veG').style.opacity = .5 + .5 * rise;
+  // drag: the picked card flies onto the artboard's spot on screen
+  const fly = easeIO(seg(P, .18, .26));
+  const lift = Math.sin(Math.PI * cl(out)) * 0 + out;   // lifts as it is picked
+  const tx = L.bx + L.sc * (236 + 44), ty = L.by + L.sc * (146 + 56), tw = L.sc * 420, th = L.sc * 280;
+  const lw = W0 * (1 + .06 * lift), lh = H0 * (1 + .06 * lift);
+  const lx = (SW - lw) / 2, ly = y0 - 14 * lift;
+  const w = lerp(lw, tw, fly), h = lerp(lh, th, fly);
+  const x = lerp(lx, tx, fly), y = lerp(ly, ty, fly) - Math.sin(Math.PI * fly) * SH * .06;
+  const land = seg(P, .255, .275);
+  const offs = [-2, -1, 0, 1, 2];
+  cards.forEach((c, i) => {
+    const o = offs[i];
+    if (o === 0) {
+      c.style.width = w + 'px'; c.style.height = h + 'px';
+      c.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+      c.style.borderRadius = lerp(12, 4 * L.sc, fly) + 'px';
+      c.style.zIndex = 10;
+      c.style.opacity = 1 - land;
+      c.style.boxShadow = '0 ' + (24 + 30 * lift * (1 - fly)) + 'px ' + (60 + 30 * lift * (1 - fly)) + 'px rgba(0,0,0,' + (.45 * (1 - fly * .6)) + ')';
+      $('#pick').style.opacity = out * (1 - ease(seg(P, .17, .2)));
+      return;
+    }
+    const k = Math.abs(o);
+    const sc = k === 1 ? .84 : .7;
+    const cw = W0 * sc, ch = H0 * sc;
+    const spread = mob ? .55 : .74;
+    let cx = SW / 2 + o * W0 * spread * (k === 1 ? 1 : .88) - cw / 2;
+    cx += Math.sign(o) * out * SW * .55;
+    const cy = y0 + H0 * (k === 1 ? .12 : .26) + out * 40;
+    c.style.width = cw + 'px'; c.style.height = ch + 'px';
+    c.style.transform = 'translate(' + cx + 'px,' + cy + 'px) rotate(' + (o * out * 4) + 'deg)';
+    c.style.zIndex = 5 - k;
+    c.style.opacity = 1 - ease(out * 1.3);
+  });
+  // a cursor grabs the card and carries it in
+  const dc = $('#dcur');
+  dc.style.opacity = P > .14 && P < .27 ? 1 : 0;
+  const grab = easeIO(seg(P, .13, .18));
+  dc.style.transform = 'translate(' + lerp(SW * .8, x + w * .55, grab) + 'px,' + lerp(SH + 40, y + h * .55, grab) + 'px)';
+  // after it lands, the editor carries on with its steps
+  const s1 = seg(P, .26, .32);
+  const p = P < .32 ? .26 : lerp(.27, .97, seg(P, .32, 1));
+  veUpdate(p, s1, P);
 }
 
 /* ---------- 3 CTAs ---------- */
@@ -735,7 +736,7 @@ function lineUpdate(p, SW, SH){
 }
 
 /* ---------- scroll loop ---------- */
-const SECS = [['#tpl', '#tplS', tplUpdate], ['#ve', '#veS', veUpdate], ['#cta', '#ctaS', ctaUpdate], ['#line', '#lineS', lineUpdate]].map(([a, b, f]) => ({ el: $(a), st: $(b), f }));
+const SECS = [['#tpl', '#tplS', tplUpdate], ['#cta', '#ctaS', ctaUpdate], ['#line', '#lineS', lineUpdate]].map(([a, b, f]) => ({ el: $(a), st: $(b), f }));
 let dirty = true;
 addEventListener('scroll', () => (dirty = true), { passive: true });
 addEventListener('resize', () => (dirty = true));

@@ -31,7 +31,7 @@ const APPS = {
     await sleep(2500);
     await p.evaluate(() => new Promise((res) => {
       const el = document.getElementById('tpl'), hh = document.querySelector('.top').offsetHeight;
-      const y1 = el.offsetTop - hh + (el.offsetHeight - (innerHeight - hh)) * 0.44, t0 = performance.now(), D = 3500;
+      const y1 = el.offsetTop - hh + (el.offsetHeight - (innerHeight - hh)) * 0.3, t0 = performance.now(), D = 3500;
       const io = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
       (function f(t) { const k = Math.min(1, (t - t0) / D); scrollTo(0, y1 * io(k)); k < 1 ? requestAnimationFrame(f) : res(); })(t0);
     }));
