@@ -46,9 +46,10 @@
     .back2:hover { color: var(--ink); }
     .d-type { color: var(--grey); }
     .d-type b { font-weight: 400; color: var(--ink); }
+    .d-type b.slug { text-transform: none; letter-spacing: 0; overflow-wrap: anywhere; }
     .dgrid { display: grid; gap: 48px; padding: 0 12px; }
     .d-title { font: 300 var(--fs-title)/var(--lh-title) var(--cond); letter-spacing: var(--ls-head); overflow-wrap: anywhere; margin-bottom: 32px; }
-    .saves { font: 300 var(--fs-h3)/1.2 var(--cond); letter-spacing: -0.01em; max-width: 30ch; margin-bottom: 24px; }
+    .saves { font: 400 24px/1.3 var(--sans); letter-spacing: -0.01em; max-width: 32ch; margin-bottom: 24px; }
     .lead { font-weight: 300; line-height: var(--lh-body); max-width: 60ch; margin-bottom: 18px; color: #d9d9d9; }
     .time, .ex { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); }
     .lbl { color: var(--grey); margin-bottom: 20px; }
@@ -149,7 +150,7 @@ var ICON={
 };
 var SKILLS=[
   {
-    title:'brand-guidelines-mini-site',
+    title:'brand-guidelines-mini-site', name:'Brand guidelines site',
     desc:'Builds a small, navigable brand guidelines site for any brand, with a section each for logo, type, spacing, colour, motion and the brand in use.',
     category:'Design', cIcon:'design',
     use:'Brand guidelines sites', uIcon:'mockup',
@@ -157,7 +158,7 @@ var SKILLS=[
     alt:'A browser window with a sidebar of Logo, Type, Spacing, Colour, Motion and In use, stepping through each section: logo lockups, a type scale, spacing bars, colour swatches, an easing curve and example layouts'
   },
   {
-    title:'stream-title-cards',
+    title:'stream-title-cards', name:'Livestream title cards',
     desc:'Builds a matching package of title cards for a livestream or live event: starting soon, session title, table of contents, Q&A and live chat, each one ready to put on screen.',
     category:'Generator', cIcon:'image',
     use:'Livestreams and webinars', uIcon:'motion',
@@ -165,7 +166,7 @@ var SKILLS=[
     alt:'A 16:9 screen cycles through five stream cards: a starting soon countdown, a session title with speakers, an agenda, a Q&A card and a live chat panel, with a tab row below marking each one'
   },
   {
-    title:'soft-drifting-cursor',
+    title:'soft-drifting-cursor', name:'Drifting cursors',
     desc:'A looping, gently drifting cursor with its own colour and name tag. It glides between points with soft easing, pauses at each one, and loops.',
     category:'Motion', cIcon:'motion',
     use:'Cursors in product scenes', uIcon:'mockup',
@@ -173,7 +174,7 @@ var SKILLS=[
     alt:'Three coloured cursors with name tags glide softly between points over a grid, pausing at each, in loops of different lengths'
   },
   {
-    title:'line-icon-animations',
+    title:'line-icon-animations', name:'Animated line icons',
     desc:'Small, minimal, one-colour line icons that each do one tiny looping gesture: a globe that turns, a pencil that writes, an eye that blinks.',
     category:'Motion', cIcon:'motion',
     use:'Micro-animated icons', uIcon:'design',
@@ -181,7 +182,7 @@ var SKILLS=[
     alt:'Three black line icons in white discs: a globe that turns, a pencil that draws a line, and an eye that blinks'
   },
   {
-    title:'brand-audit-engine',
+    title:'brand-audit-engine', name:'Brand audit tool',
     desc:'Builds a brand audit system for any library of uploaded assets, checking each one against brand guidelines read from a Figma link, with a person making the final call.',
     category:'Design', cIcon:'design',
     use:'Brand reviews at scale', uIcon:'image',
@@ -189,7 +190,7 @@ var SKILLS=[
     alt:'A scan line sweeps a campaign post chosen from an asset library, circling numbered issues while a results panel fills and approve and request-changes buttons appear'
   },
   {
-    title:'session-to-skill',
+    title:'session-to-skill', name:'Turn a session into a skill',
     desc:'Asks Claude what it learned during a session, then shows how to turn those lessons into a reusable skill with a name, a trigger, steps and rules.',
     category:'Generator', cIcon:'image',
     use:'Capturing what worked', uIcon:'design',
@@ -197,7 +198,7 @@ var SKILLS=[
     alt:'A conversation on the left is distilled into a list of lessons in the middle, which becomes a SKILL.md file on the right'
   },
   {
-    title:'generator-to-figma-plugin',
+    title:'generator-to-figma-plugin', name:'Generator to Figma plugin',
     desc:'Takes a generator, engine or design tool built in Claude and rebuilds it as a Figma plugin, so the same controls produce real, editable Figma layers.',
     category:'Design to code', cIcon:'design',
     use:'Design tools inside Figma', uIcon:'mockup',
@@ -205,7 +206,7 @@ var SKILLS=[
     alt:'A generator with sliders and a preview on the left, and the same controls docked in a Figma window on the right as its shapes appear in the layers list'
   },
   {
-    title:'product-feature-spot',
+    title:'product-feature-spot', name:'Product feature ad spot',
     desc:'Turns any product component or feature into a short looping ad spot: an abstract illustration of the UI card first, then an optional high-fidelity mockup of the real thing.',
     category:'Motion', cIcon:'motion',
     use:'Short feature ad spots', uIcon:'mockup',
@@ -213,7 +214,7 @@ var SKILLS=[
     alt:'A flat wireframe illustration of a UI card resolves into a high-fidelity mockup of the same card, with a caption bar below'
   },
   {
-    title:'paid-ad-pipeline',
+    title:'paid-ad-pipeline', name:'Paid ad walkthrough',
     desc:'Builds a three-screen walkthrough of a paid ad: the ad in its native context, the landing page it leads to, and a sample-data performance dashboard, as one interactive page.',
     category:'Design', cIcon:'design',
     use:'Ad campaign walkthroughs', uIcon:'mockup',
@@ -221,7 +222,7 @@ var SKILLS=[
     alt:'A top toggle moves across three screens in turn: an ad in a feed, the landing page it leads to, and a performance dashboard'
   },
   {
-    title:'lowpoly-3d-scene',
+    title:'lowpoly-3d-scene', name:'Low poly 3D scene',
     desc:'Builds a low poly 3D scene in p5.js: a landmark of flat-coloured shapes, a sky dome, scattered props, and a day, sunset and night cycle with glowing windows.',
     category:'Design', cIcon:'design',
     use:'3D dioramas and landmarks', uIcon:'image',
@@ -229,7 +230,7 @@ var SKILLS=[
     alt:'A low poly domed landmark with cacti and rocks on a desert as the sky shifts from day to sunset to night and the windows light up'
   },
   {
-    title:'metacognitive-prompt-rewriter',
+    title:'metacognitive-prompt-rewriter', name:'Prompt rewriter',
     desc:'Rewrites a basic prompt so the model stops to identify, evaluate and update its own thinking. Compare the original and rewritten prompts side by side, then copy the result.',
     category:'Generator', cIcon:'image',
     use:'Better prompts for Claude', uIcon:'design',
@@ -237,7 +238,7 @@ var SKILLS=[
     alt:'A short prompt is transformed into a longer rewritten prompt with three thinking steps, then copied'
   },
   {
-    title:'industry-swapper',
+    title:'industry-swapper', name:'Industry swapper',
     desc:'Re-skins one template for any industry in a click. Pick a variant from a library and the copy, colours and imagery swap together, with zoom and a reset to the starting piece.',
     category:'Generator', cIcon:'image',
     use:'Direct mail and ad mockups', uIcon:'mockup',
@@ -245,7 +246,7 @@ var SKILLS=[
     alt:'A postcard mockup changes colour and copy as the selected industry moves down a library list: finance, tech, retail, health'
   },
   {
-    title:'avoid-widows-and-orphans',
+    title:'avoid-widows-and-orphans', name:'No lonely words on the last line',
     desc:'Treats runts, widows, orphans and orphaned headings as defects: two words on a last line, two lines kept together, headings kept with text. Fixes for CSS, canvas, Figma, Word and PDF.',
     category:'Design', cIcon:'design',
     use:'Any text layout or render', uIcon:'image',
@@ -253,7 +254,7 @@ var SKILLS=[
     alt:'A paragraph with a one-word last line marked as a runt beside the same paragraph rebalanced with a longer last line and a green check'
   },
   {
-    title:'fields-scan-overlay-effect',
+    title:'fields-scan-overlay-effect', name:'Screen scan effect',
     desc:'A scan line sweeps across a screen, boxes pop up with numbered badges as it passes, and a counter ticks up in a step card. Reusable for any "the agent read your screen" scene.',
     category:'Motion', cIcon:'motion',
     use:'Agent screen-reading scenes', uIcon:'mockup',
@@ -261,7 +262,7 @@ var SKILLS=[
     alt:'A blue scan line sweeps across a form, highlighting each field with a numbered badge while a counter in a step card ticks up'
   },
   {
-    title:'brand-neutral-ui-mockup-kit',
+    title:'brand-neutral-ui-mockup-kit', name:'UI mockup kit',
     desc:'Fake product UI parts with fixed geometry and tokens (navy, cream, blue, amber): dashboard window, calendar day card, DATASETS toggle card, chip grid and a glassy shadowed card.',
     category:'Design', cIcon:'design',
     use:'Scenes and explainer mockups', uIcon:'mockup',
@@ -269,7 +270,7 @@ var SKILLS=[
     alt:'A navy dashboard window, cream calendar card, toggle card, chip grid and glassy card floating gently over a dark background, with navy, cream, blue and amber swatches'
   },
   {
-    title:'motion-explainer',
+    title:'motion-explainer', name:'Animated explainer',
     desc:'For animated product or concept explainers: layered screens that swap places, cursor presses, seam-free masking, a hold on the key screen, and loopable timelines.',
     category:'Motion', cIcon:'motion',
     use:'Product explainer apps', uIcon:'mockup',
@@ -277,7 +278,7 @@ var SKILLS=[
     alt:'Three layered screens swap places as a cursor presses, then the stack settles and repeats'
   },
   {
-    title:'asset-generator-engine',
+    title:'asset-generator-engine', name:'Banner and social post generator',
     desc:'One shape for asset studios: live controls beside a canvas preview, multiple aspect ratios, photo upload and reorder, reset, and export including looping animation.',
     category:'Generator', cIcon:'image',
     use:'Banners and social posts', uIcon:'design',
@@ -285,7 +286,7 @@ var SKILLS=[
     alt:'A controls panel with sliders and aspect-ratio toggles beside a canvas preview that switches between wide and tall formats'
   },
   {
-    title:'scripted-demo-animation-with-a-cursor',
+    title:'scripted-demo-animation-with-a-cursor', name:'Scripted product demo',
     desc:'Each scene is an async timeline: the cursor moves, clicks, state changes, then the next scene starts. Includes a faster clip mode that skips scenes and a pause button.',
     category:'Motion', cIcon:'motion',
     use:'Flow-style product demos', uIcon:'mockup',
@@ -293,7 +294,7 @@ var SKILLS=[
     alt:'A cursor glides to a button, clicks, and cards appear as scene dots advance, with a pause button and clip-speed chip below'
   },
   {
-    title:'palette-and-brand-constraint-handling',
+    title:'palette-and-brand-constraint-handling', name:'On-brand colour palettes',
     desc:'Samples the exact ring colours from reference images, maps them onto only the approved brand combinations, and checks contrast against the background.',
     category:'Design', cIcon:'design',
     use:'Generated artwork and themes', uIcon:'image',
@@ -301,7 +302,7 @@ var SKILLS=[
     alt:'Colour samples taken along a radius of concentric rings are matched to approved swatches, with a muddy mid-green rejected for low contrast'
   },
   {
-    title:'tile-to-fullscreen-section-transition',
+    title:'tile-to-fullscreen-section-transition', name:'Tile to full-screen transition',
     desc:'A reusable UI recipe: a plain colour block grows from the tile, the real panel swaps in beneath it, then content fades up in a stagger. The reverse shrinks it back.',
     category:'Motion', cIcon:'motion',
     use:'Home tiles and detail panels', uIcon:'mockup',
@@ -309,7 +310,7 @@ var SKILLS=[
     alt:'A colour block grows from one tile of a grid to fill the frame, content fades up in a stagger, then the block shrinks back into the tile'
   },
   {
-    title:'cut-products-out-of-mockup-photos',
+    title:'cut-products-out-of-mockup-photos', name:'Cut products out of photos',
     desc:'Isolates a product from its backdrop with a mask chosen for the background type, cleans the edge fringe, and exports a transparent WebP.',
     category:'Image editing', cIcon:'image',
     use:'Portfolio mockups', uIcon:'mockup',
@@ -317,7 +318,7 @@ var SKILLS=[
     alt:'A product on a lime backdrop is traced by a selection outline and then lifted onto a transparency checkerboard'
   },
   {
-    title:'figma-to-motion-page',
+    title:'figma-to-motion-page', name:'Figma frame to animated page',
     desc:'Turns a Figma frame into an animated HTML page: reads the design, authors the motion when none exists, and scales a fixed frame to fit.',
     category:'Design to code', cIcon:'design',
     use:'Animated landing frames', uIcon:'motion',
@@ -329,9 +330,9 @@ var tabs=document.getElementById('tabs'),grid=document.getElementById('grid'),cu
 var cats=['All'].concat(SKILLS.map(function(s){return s.category}).filter(function(c,i,a){return a.indexOf(c)===i}));
 function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 var ARROW='<svg class="card-arrow" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.3 7.7l5.1-5.1M2.3 2.1h5.5v5.5" fill="none" stroke="currentColor"/></svg>';
-grid.innerHTML=SKILLS.map(function(s){return '<article class="card" data-t="'+esc(s.title)+'" data-cat="'+esc(s.category)+'"><a href="#/'+esc(s.title)+'" aria-label="'+esc(s.title)+'">'+
+grid.innerHTML=SKILLS.map(function(s){return '<article class="card" data-t="'+esc(s.title)+'" data-cat="'+esc(s.category)+'"><a href="#/'+esc(s.title)+'" aria-label="'+esc(s.name)+'">'+
   '<div class="card-media svg"><img src="'+esc(s.art)+'" alt="'+esc(s.alt)+'" loading="lazy"></div>'+
-  '<div class="card-meta"><h3 class="card-title">'+esc(s.title)+'</h3><p class="card-sub">'+esc(s.category)+' · '+esc(s.use)+'</p>'+ARROW+'</div></a></article>'}).join('');
+  '<div class="card-meta"><h3 class="card-title">'+esc(s.name)+'</h3><p class="card-sub">'+esc(s.category)+' · '+esc(s.use)+'</p>'+ARROW+'</div></a></article>'}).join('');
 var ORDER=[].slice.call(grid.children),SORDER=ORDER,EMPTY=document.createElement('p');EMPTY.className='empty';
 /* filtered cards are taken out of the grid (not hidden) so the 2-column grid's dividers stay right */
 function render(){
@@ -432,8 +433,8 @@ function copy(t,btn,label){var done=function(){var o=btn.textContent;btn.textCon
   function fallback(){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy')}catch(e){}a.remove();done()}}
 function showDetail(s){var d=D[s.title];
   detail.innerHTML=''+
-  '<div class="work-side d-side"><a class="back2 caps" href="#/">← All skills</a><p class="d-type caps">Skill type <b>'+esc(s.category)+'</b></p><p class="d-type caps">For <b>'+esc(s.use)+'</b></p></div>'+
-  '<div class="dgrid"><div><h1 class="d-title">'+esc(s.title)+'</h1>'+(d.saves?'<p class="saves">'+esc(d.saves)+'</p>':'')+
+  '<div class="work-side d-side"><a class="back2 caps" href="#/">← All skills</a><p class="d-type caps">Skill type <b>'+esc(s.category)+'</b></p><p class="d-type caps">For <b>'+esc(s.use)+'</b></p><p class="d-type caps">Skill <b class="slug">'+esc(s.title)+'</b></p></div>'+
+  '<div class="dgrid"><div><h1 class="d-title">'+esc(s.name)+'</h1>'+(d.saves?'<p class="saves">'+esc(d.saves)+'</p>':'')+
   d.p.map(function(t){return '<p class="lead">'+esc(t)+'</p>'}).join('')+
   '<div class="time"><div class="lbl caps">The manual work it saves</div><ul class="work-items">'+d.work.map(function(t){return '<li>'+esc(t)+'</li>'}).join('')+'</ul></div>'+(EX[s.title]?'<div class="ex"><div class="lbl caps">Built with this skill</div><div class="exg">'+EX[s.title].map(function(e){var x=/^https?:/.test(e[0]);return '<a href="'+(x?e[0]:'../'+e[0]+'/')+'"'+(x?' target="_blank" rel="noopener"':'')+'><div class="im"><img src="'+(x?(RM?e[3]:e[2]):'../'+e[0]+'/thumb.'+(RM?'png':'webp'))+'" alt="" loading="lazy"></div><span>'+esc(e[1])+(x?' ↗':'')+'</span></a>'}).join('')+'</div></div>':'')+'</div>'+
   
@@ -446,7 +447,7 @@ function showDetail(s){var d=D[s.title];
   document.getElementById('dl').onclick=function(){var u=URL.createObjectURL(new Blob([skillMd(s,d)],{type:'text/markdown'})),a=document.createElement('a');a.href=u;a.download=s.title+'.md';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},1000)};
   }
 function route(){var h=location.hash,m=/^#\/(.+)$/.exec(h),s=m&&SKILLS.filter(function(x){return x.title===decodeURIComponent(m[1])})[0];
-  if(s){showDetail(s);home.hidden=true;detail.hidden=false;document.title=s.title+' · '+BASE;window.scrollTo(0,0);return}
+  if(s){showDetail(s);home.hidden=true;detail.hidden=false;document.title=s.name+' · '+BASE;window.scrollTo(0,0);return}
   var was=home.hidden;home.hidden=false;detail.hidden=true;detail.innerHTML='';document.title=BASE;
   if(!h||h==='#/')window.scrollTo(0,0);else if(was){var t=document.getElementById(h.slice(1));if(t)t.scrollIntoView()}}
 window.addEventListener('hashchange',route);route();
@@ -478,7 +479,7 @@ var GROUPS=[
 function stem(w){w=w.toLowerCase().replace(/[^a-z0-9+-]/g,'');if(w.length>5&&/ing$/.test(w))w=w.slice(0,-3);else if(w.length>4&&/ed$/.test(w))w=w.slice(0,-2);else if(w.length>4&&/es$/.test(w))w=w.slice(0,-2);else if(w.length>3&&/s$/.test(w)&&!/ss$/.test(w))w=w.slice(0,-1);return w}
 function toks(t){return String(t).toLowerCase().split(/[^a-z0-9+]+/).filter(Boolean).map(stem).filter(function(w){return w.length>1})}
 var GST=GROUPS.map(function(g){return g.map(stem)});
-var IDX=SKILLS.map(function(s){var d=D[s.title]||{p:[],work:[],prompts:[]};return{s:s,title:toks(s.title.replace(/-/g,' ')),tag:toks(s.category+' '+s.use),work:toks((d.work||[]).join(' ')+' '+(d.saves||'')),desc:toks(s.desc),body:toks((d.p||[]).join(' ')+' '+(d.prompts||[]).join(' '))}});
+var IDX=SKILLS.map(function(s){var d=D[s.title]||{p:[],work:[],prompts:[]};return{s:s,title:toks(s.title.replace(/-/g,' ')+' '+s.name),tag:toks(s.category+' '+s.use),work:toks((d.work||[]).join(' ')+' '+(d.saves||'')),desc:toks(s.desc),body:toks((d.p||[]).join(' ')+' '+(d.prompts||[]).join(' '))}});
 function hit(arr,q){for(var i=0;i<arr.length;i++)if(arr[i]===q||(q.length>3&&arr[i].indexOf(q)===0))return true;return false}
 function score(ix,qs,exp,raw){var sc=0;
   qs.forEach(function(q){
