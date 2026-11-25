@@ -25,6 +25,18 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
+  // Lob Get Started mockup on dark navy: "build your way" around the cycling mail collage, then the page scrolls into the five stacked templates and the middle one opens into the full template preview
+  'lob-get-started': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
+    await p.evaluate(() => window.__rb.play());
+    await sleep(2500);
+    await p.evaluate(() => new Promise((res) => {
+      const el = document.getElementById('tpl'), hh = document.querySelector('.top').offsetHeight;
+      const y1 = el.offsetTop - hh + (el.offsetHeight - (innerHeight - hh)) * 0.44, t0 = performance.now(), D = 3500;
+      const io = (x) => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+      (function f(t) { const k = Math.min(1, (t - t0) / D); scrollTo(0, y1 * io(k)); k < 1 ? requestAnimationFrame(f) : res(); })(t0);
+    }));
+    await sleep(500);
+  } },
   // Lob Visual Editor, a 16:9 motion piece in the Go from idea to mailbox faster style: Build your way on purple, then the Visual Editor builds a postcard from scratch and imports a new design (starts on the finished Build your way title; timeline runs at 1.5x)
   'lob-visual-editor': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 900, q: 62, run: async (p) => {
     await p.evaluate(() => window.__rb.seek(1.6));
