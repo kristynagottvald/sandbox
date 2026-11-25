@@ -145,6 +145,14 @@ var ICON={
 };
 var SKILLS=[
   {
+    title:'brand-guidelines-mini-site',
+    desc:'Builds a small, navigable brand guidelines site for any brand, with a section each for logo, type, spacing, colour, motion and the brand in use.',
+    category:'Design', cIcon:'design',
+    use:'Brand guidelines sites', uIcon:'mockup',
+    art:'art/brand-guidelines-mini-site.svg',
+    alt:'A browser window with a sidebar of Logo, Type, Spacing, Colour, Motion and In use, stepping through each section: logo lockups, a type scale, spacing bars, colour swatches, an easing curve and example layouts'
+  },
+  {
     title:'stream-title-cards',
     desc:'Builds a matching package of title cards for a livestream or live event: starting soon, session title, table of contents, Q&A and live chat, each one ready to put on screen.',
     category:'Generator', cIcon:'image',
@@ -327,6 +335,7 @@ function render(){
 tabs.addEventListener('click',function(e){var b=e.target.closest('.tab');if(b){cur=b.dataset.c;render()}});
 render();
 var EX={
+'brand-guidelines-mini-site':[['thread-brand-guidelines','Thread Brand Guidelines'],['brand-guidelines-settings','Brand Guidelines Settings']],
 'brand-audit-engine':[['brand-audit-engine','Brand Audit Engine']],
 'fields-scan-overlay-effect':[['https://kristynagottvald.github.io/#805157303765614592','Reprise: Build better demos with AI','examples/reprise-fields-scan.webp','examples/reprise-fields-scan.webp']],
 'industry-swapper':[['https://kristynagottvald.github.io/sketches/direct-mail-engine/','Industry Swapper Plug-in','https://kristynagottvald.github.io/sketches/clips/direct-mail-engine.webp','https://kristynagottvald.github.io/sketches/direct-mail-engine/thumbnail.jpg']],
@@ -340,6 +349,9 @@ var EX={
 'asset-generator-engine':[['blog-banner-studio','Blog Banner Studio'],['conference-post-generator','Conference Post Creator'],['lifecycle-image-engine','Lifecycle Image Studio'],['hero-banner-engine','Banner Template Studio'],['postmark-ribbon-engine','Postmark Awards Ribbon Engine'],['grubclub-end-card','Grubclub End Card Maker'],['https://kristynagottvald.github.io/sketches/ribbon-text/','Postmark Awards','https://kristynagottvald.github.io/sketches/clips/ribbon-text.webp','https://kristynagottvald.github.io/sketches/ribbon-text/thumbnail.jpg'],['https://kristynagottvald.github.io/sketches/pattern-generator/','Pattern Generator','https://kristynagottvald.github.io/sketches/clips/pattern-generator.webp','https://kristynagottvald.github.io/sketches/pattern-generator/thumbnail.jpg']]};
 var RM=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 var D={
+'brand-guidelines-mini-site':{saves:'Laying out a brand book page by page and keeping it in step with the real brand',work:["Placing every logo lockup, clear space rule and misuse example on its own page by hand","Copying fonts, sizes, colour values and spacing steps out of design files and checking each one matches","Describing motion in words because a PDF can’t play it, then reissuing the whole book whenever one rule changes"],
+ p:["This skill builds a brand guidelines mini site: one page with a sticky side navigation and six sections, Logo, Type, Spacing, Colour, Motion and In use. It reads the brand from what you give it, such as a Figma link, an existing site, a generator app or a folder of assets, and turns that into a single set of CSS tokens that every section uses.","Logo shows each lockup on light and dark, with clear space and minimum size drawn on, and the ways not to use it. Type shows the typefaces and a live type scale with sizes and line heights. Spacing shows the spacing steps and grid as measured bars. Colour shows each swatch with its name and hex, RGB and CMYK values, approved pairings and contrast ratios, and copies a value when clicked.","Motion plays the brand’s easing curves and durations as small live demos instead of describing them. In use brings it all together in real examples like a social post, a banner and a slide, so people can see the rules applied. Because everything reads from the same tokens, changing a colour or a size once updates every section."],
+ prompts:["Use brand-guidelines-mini-site to build a guidelines site for this brand with logo, type, spacing, colour, motion and in use sections.","Build a brand guidelines mini site from this Figma file, with live motion demos and colour swatches that copy their hex value.","Add an In use section with a social post, a banner and a slide that all follow these guidelines."]},
 'stream-title-cards':{saves:'Designing every holding screen and lower third for a stream from scratch',work:["Designing a starting soon screen, a title card, an agenda, a Q&A slide and a chat overlay one at a time, and keeping them consistent","Retyping the session name, speakers, times and agenda into every card whenever the running order changes","Exporting each card at 16:9 for OBS, StreamYard or Zoom, and wiring up a countdown that actually counts down"],
  p:["This skill builds a full set of on-screen cards for a livestream, webinar or live event, in one consistent look. You choose which cards the package needs from five options: Starting soon, Session title, Table of contents, Q&A and Live chat.","Starting soon is a holding screen with a live countdown to the start time and a gently looping background, so the stream can go live early. Session title shows the session name, time and each speaker’s name and role. Table of contents lists the agenda as numbered sections and can highlight the one in progress. Q&A invites questions and shows the current one on a card. Live chat leaves room for a chat feed beside the speaker, with a LIVE badge.","Every card shares one set of brand colours, type and spacing, and reads its text from a single list of session details, so changing the title, time or agenda once updates the whole package. Each card renders at 1920×1080 and can be shown full screen as a browser source in OBS or StreamYard, or exported as a still or a short looping clip."],
  prompts:["Use stream-title-cards to make a livestream package with starting soon, session title, table of contents, Q&A and live chat cards.","Make a starting soon card with a countdown to 2pm and a session title card for two speakers, in our brand colours.","Add a table of contents card from this agenda that highlights the current section, plus a Q&A card for the end."]},
@@ -430,6 +442,7 @@ function route(){var m=/^#\/(.+)$/.exec(location.hash),s=m&&SKILLS.filter(functi
 window.addEventListener('hashchange',route);route();
 var STOP='a an the i my me we our you your is am are was be been it its this that these those of to for in on at by with and or but so if as do does did can could would should will how what why when where which who have has had having get got make made want need needs help trouble problem issue issues really very too much long forever take takes taking just some any into from out up down about like using use used tool thing things stuff'.split(' ');
 var GROUPS=[
+['guideline','guidelines','brand','book','brandbook','identity','logo','lockup','type','typography','font','spacing','grid','colour','color','swatch','motion','easing','usage','use','site','microsite','mini','style','styleguide','tokens'],
 ['stream','streaming','livestream','live','broadcast','webinar','event','obs','streamyard','twitch','youtube','starting','soon','countdown','title','card','agenda','contents','toc','q&a','qa','question','chat','overlay','lower','third','holding','package','session','speaker'],
 ['widow','orphan','runt','stranded','lonely','hanging','wrap','wrapping','break','typography','typeset','paragraph','heading','headline','text','line','word'],
 ['scan','scanner','field','form','detect','read','reading','agent','overlay','badge','highlight','screen','number','counter'],
