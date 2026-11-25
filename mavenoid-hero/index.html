@@ -62,6 +62,8 @@ html body nav.back:not(:has(>div))>b{display:block}
 html body nav.back>div{margin-left:auto}
 @media (min-width:641px){html body nav.back>b{display:block}}
 @media (max-width:640px){html body nav.back{padding:0 20px}}
+/* the hero canvas is scaled up past its stage; keep the bar above it so its links and controls stay clickable */
+html body nav.back{position:relative;z-index:10}
 </style>
 </head>
 <body>
