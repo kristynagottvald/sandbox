@@ -1,118 +1,73 @@
 (() => {
   'use strict';
 
+  /* Sandbox home page — the sketches site's script without the hero: cards from apps.json (newest first),
+     hover plays a card's clip, phone nav menu and current-section highlight. */
+
   const $ = (sel, root = document) => root.querySelector(sel);
   const esc = (s) =>
     String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const CARD_ARROW = '<svg class="card-arrow" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.3 7.7l5.1-5.1M2.3 2.1h5.5v5.5" fill="none" stroke="currentColor"/></svg>';
 
-  /* ---------- Grid: three columns (two on narrow screens) of 16:9 tiles, rendered from apps.json (newest first) ---------- */
-
-  const wide = matchMedia('(min-width: 900px)');
   async function load() {
-    const grid = $('#pj-grid');
+    const list = $('#cards');
     let apps = [];
     try {
       const res = await fetch('apps.json', { cache: 'no-cache' });
       if (!res.ok) throw new Error(res.status);
-      apps = await res.json();
+      apps = (await res.json()).filter((a) => !a.hidden && a.url);
     } catch (err) {
       console.error(err);
     }
-    if (!apps.length) {
-      grid.innerHTML = '<p class="load-error">Could not load apps.json.</p>';
-      return;
+    if (!apps.length) { list.innerHTML = '<p class="load-error">Could not load apps.json.</p>'; return; }
+
+    list.innerHTML = apps.map((a) => `<article class="card">
+      <a href="${esc(a.url)}" aria-label="${esc(a.title)}">
+        <div class="card-media"><img src="${esc(a.thumbnail)}" data-still="${esc(a.thumbnail)}" data-preview="${esc(a.preview || '')}" alt="${esc(a.alt || '')}" loading="lazy"></div>
+        <div class="card-meta">
+          <h3 class="card-title">${esc(a.title)}</h3>
+          <p class="card-sub">${esc(a.category || '')}</p>${CARD_ARROW}
+        </div>
+      </a>
+    </article>`).join('');
+
+    // hover swaps the still for the looping clip (the still is the clip's first frame)
+    const play = (e, on) => {
+      const a = e.target.closest('.card a');
+      if (!a || (e.relatedTarget && a.contains(e.relatedTarget))) return;
+      const im = a.querySelector('img');
+      if (im.dataset.preview) im.src = on ? im.dataset.preview : im.dataset.still;
+    };
+    if (!reduced) {
+      list.addEventListener('mouseover', (e) => play(e, true));
+      list.addEventListener('mouseout', (e) => play(e, false));
     }
-    const n = wide.matches ? 3 : 2;
-    const cols = Array.from({ length: n }, () => []);
-    apps.forEach((a, i) => {
-      cols[i % n].push(`<a class="pj-tile" href="${esc(a.url)}" style="--o:${i}" data-i="${i}" aria-label="${esc(a.title)}">
-        <div class="pj-media"><img class="is-active" src="${esc(a.thumbnail)}" data-still="${esc(a.thumbnail)}" data-preview="${esc(a.preview || '')}" alt="${esc(a.alt || '')}" loading="lazy"></div>
-        <div class="pj-cap"><span>${esc(a.title)}</span><span class="grey">${esc(a.category || '')}</span></div>
-      </a>`);
-    });
-    grid.innerHTML = cols.map((col) => `<div class="pj-col">${col.join('')}</div>`).join('');
-    bindClipHover(grid, n);
-  }
-  wide.addEventListener('change', load);
-
-  /* ---------- Looping clips: a checkerboard of tiles plays, then the other half takes over ---------- */
-
-  const CLIP_MS = 6000;   // one full loop of every clip per turn
-  let clipTimer = null;
-  function bindClipHover(grid, n) {
-    clearInterval(clipTimer);
-    if (reduceMotion.matches) return;
-    const imgs = [...grid.querySelectorAll('.pj-tile')].sort((a, b) => a.dataset.i - b.dataset.i).map((tile) => tile.querySelector('img[data-preview]'));
-    let phase = 0, active = 0, hoverI = -1;
-    const checker = (i) => ((i % n) + Math.floor(i / n)) % 2;   // tile i sits in column i % n, row floor(i / n)
-    const want = (i) => checker(i) === active || i === hoverI;   // the hovered tile keeps looping
-    const set = (i, play) => {
-      const im = imgs[i];
-      if (!im || !im.dataset.preview) return;
-      // a fresh <img> on the cached clip always starts from its first frame. It fades in over the old one, so the
-      // clip never cuts to the still (the still is the clip's first frame, which is also where the clip loops)
-      const media = im.parentNode;
-      const fresh = im.cloneNode();
-      fresh.classList.remove('is-active');
-      fresh.src = play ? im.dataset.preview : im.dataset.still;
-      fresh.dataset.on = play ? '1' : '0';
-      media.appendChild(fresh);
-      imgs[i] = fresh;
-      const show = () => {
-        requestAnimationFrame(() => requestAnimationFrame(() => fresh.classList.add('is-active')));
-        setTimeout(() => media.querySelectorAll('img').forEach((o) => { if (o !== imgs[i]) o.remove(); }), 900);
-      };
-      if (fresh.complete && fresh.naturalWidth) show(); else fresh.addEventListener('load', show, { once: true });
-    };
-    const sync = () => imgs.forEach((im, i) => { if (im && im.dataset.on !== (want(i) ? '1' : '0')) set(i, want(i)); });
-    const tick = () => {
-      if (document.hidden) return;
-      active = phase; sync(); phase = 1 - phase;
-      // fetch the other half's clips now so they are cached when they take over
-      imgs.forEach((im, i) => { if (im && im.dataset.preview && checker(i) === phase) new Image().src = im.dataset.preview; });
-    };
-    grid.addEventListener('mouseover', (e) => { const t = e.target.closest('.pj-tile'); if (!t) return; const i = +t.dataset.i; if (i !== hoverI) { hoverI = i; sync(); } });
-    grid.addEventListener('mouseout', (e) => { const t = e.target.closest('.pj-tile'); if (!t || (e.relatedTarget && t.contains(e.relatedTarget))) return; hoverI = -1; sync(); });
-    tick();
-    clipTimer = setInterval(tick, CLIP_MS);
   }
 
-  /* ---------- Heading letter bounce: every 5-8 seconds the letters hop up one after another ---------- */
+  // Phones: the current section's name opens a stacked list of the sections
+  const top = $('#top'), jump = $('#nav-jump'), jumpLabel = $('#nav-jump-label');
+  const setMenu = (open) => { top.classList.toggle('open', open); jump.setAttribute('aria-expanded', String(open)); };
+  jump.addEventListener('click', (e) => { e.stopPropagation(); setMenu(!top.classList.contains('open')); });
+  document.addEventListener('click', (e) => { if (!top.contains(e.target)) setMenu(false); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
+  top.querySelectorAll('.top-nav a, .status').forEach((a) => a.addEventListener('click', () => setMenu(false)));
 
-  (function bounceHeading() {
-    const h = $('.work h1');
-    if (!h || reduceMotion.matches) return;
-    h.setAttribute('aria-label', h.textContent);
-    const letters = [];
-    [...h.childNodes].forEach((n) => {
-      if (n.nodeType !== 3) return;
-      const frag = document.createDocumentFragment();
-      n.textContent.split(/(\s+)/).forEach((word) => {
-        if (!word) return;
-        if (/^\s+$/.test(word)) { frag.appendChild(document.createTextNode(' ')); return; }
-        // keep each word's letters together so a line never breaks mid-word
-        const w = document.createElement('span');
-        w.className = 'bw';
-        [...word].forEach((ch) => {
-          const sp = document.createElement('span');
-          sp.className = 'bl'; sp.setAttribute('aria-hidden', 'true'); sp.textContent = ch;
-          letters.push(sp); w.appendChild(sp);
+  // keep the nav's current section highlighted as you scroll
+  const links = [...document.querySelectorAll('.top-nav a')];
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        links.forEach((a) => {
+          const on = a.getAttribute('href') === '#' + e.target.id;
+          if (on) { a.setAttribute('aria-current', 'true'); jumpLabel.textContent = a.textContent; } else a.removeAttribute('aria-current');
         });
-        frag.appendChild(w);
       });
-      n.replaceWith(frag);
-    });
-    const play = () => {
-      letters.forEach((sp, i) => {
-        sp.style.animationDelay = `${i * 70}ms`;
-        sp.classList.remove('hop'); void sp.offsetWidth; sp.classList.add('hop');
-      });
-      setTimeout(next, letters.length * 70 + 700);
-    };
-    const next = () => setTimeout(play, 5000 + Math.random() * 3000);
-    next();
-  })();
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    ['projects', 'contact'].forEach((id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+  }
+  addEventListener('scroll', () => { if (scrollY < 120) jumpLabel.textContent = 'Projects'; }, { passive: true });
 
   load();
 })();
