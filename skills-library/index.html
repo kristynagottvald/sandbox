@@ -41,16 +41,18 @@
     }
 
     /* ---------- Common problems: the same heading-left, rows-right layout, one row per category ---------- */
+    /* same columns as the contact footer below: heading, then rows from the 5fr / 9fr split, each row 4fr / 5fr */
     .prob { padding-bottom: 120px; }
+    .prob.work { grid-template-columns: 1fr; gap: 48px; }
     .prob-rows { display: grid; }
-    .prob-row { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 12px 12px 36px; border-top: 1px solid var(--line); }
-    .prob-row:first-child { border-top: 0; }
-    .prob-row h3 { font-size: var(--fs-body); }
-    .prob-row ul { display: grid; gap: 4px; }
+    .prob-row { display: grid; grid-template-columns: 4fr 5fr; gap: 8px; padding: 12px 0 36px; border-top: 1px solid var(--line); }
+    .prob-row h3 { font-size: var(--fs-body); padding-left: var(--left); }
+    .prob-row ul { display: grid; gap: 2px; }
     .pbtn { display: inline-flex; align-items: baseline; gap: 10px; text-align: left; color: var(--grey); font-weight: 300; transition: color .2s; }
     .pbtn:hover { color: var(--ink); }
     .pbtn svg { flex: none; width: 10px; height: 10px; }
-    @media (min-width: 700px) { .prob-row { grid-template-columns: 1fr 1fr; gap: 12px; } }
+    @media (max-width: 760px) { .prob-row { grid-template-columns: 1fr; } }
+    @media (min-width: 900px) { .prob.work { grid-template-columns: 5fr 9fr; gap: 8px; } }
 
     /* ---------- Skill page: back link and type on the left, story and activation panel on the right ---------- */
     .d-side { display: grid; gap: 14px; align-content: start; }
@@ -100,9 +102,8 @@
   <header class="top" id="top">
     <a class="logo" href="../" aria-label="Kristyna Gottvald, Sandbox home">Krıstyna Gottvald</a>
     <nav class="top-nav caps" id="top-nav" aria-label="Main Navigation">
-      <a href="../#projects">Projects</a>
+      <a href="../#projects">Sandbox</a>
       <a href="./" aria-current="page">Skills Library</a>
-      <a href="#contact">Contact</a>
     </nav>
     <button class="nav-jump caps" id="nav-jump" type="button" aria-expanded="false" aria-controls="top-nav"><span id="nav-jump-label">Skills Library</span> <svg width="10" height="12" viewBox="0 0 10 12" aria-hidden="true"><path d="M5 1v9.5M1.5 7L5 10.5 8.5 7" fill="none" stroke="currentColor"/></svg></button>
     <a class="status caps" href="#contact"><span class="dot-live" aria-hidden="true"></span>Open to new projects</a>
@@ -137,7 +138,7 @@
 
   <footer class="contact" id="contact" aria-label="Contact">
     <div class="contact-grid">
-      <div class="contact-head"><h2>Let’s build your brand tools.</h2></div>
+      <div class="contact-head"><h2>Let’s get weird.</h2></div>
       <div class="contact-rows">
         <div class="contact-row"><h3>Contact</h3><div>
           <a href="mailto:kgottvald@gmail.com">Email</a>

@@ -67,7 +67,7 @@
     }, { rootMargin: '-45% 0px -50% 0px' });
     ['projects', 'contact'].forEach((id) => { const el = document.getElementById(id); if (el) io.observe(el); });
   }
-  addEventListener('scroll', () => { if (scrollY < 120) jumpLabel.textContent = 'Projects'; }, { passive: true });
+  addEventListener('scroll', () => { if (scrollY < 120) jumpLabel.textContent = 'Sandbox'; }, { passive: true });
 
   load();
 })();
