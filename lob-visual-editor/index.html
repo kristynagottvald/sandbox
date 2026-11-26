@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lob Visual Editor</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%232b2d83%22/%3E%3Crect x=%2210%22 y=%2215%22 width=%2244%22 height=%2234%22 fill=%22%233f33f2%22/%3E%3Crect x=%2234%22 y=%2215%22 width=%2220%22 height=%2234%22 fill=%22%23a28bff%22/%3E%3Crect x=%2215%22 y=%2221%22 width=%2214%22 height=%225%22 fill=%22%23e4ee5c%22/%3E%3Crect x=%2215%22 y=%2231%22 width=%2214%22 height=%223%22 fill=%22%23ffffff%22/%3E%3C/svg%3E">
-<meta name="description" content="A 16:9 Lob motion piece in the style of the Go from idea to mailbox faster sketch: Build your way, then the Visual Editor builds a template from scratch, previews an imported design, edits text and images and adds merge variables, before QR codes, PURLs and coupon codes bridge the mail piece to a landing page.">
+<meta name="description" content="A 16:9 Lob motion piece in the style of the Go from idea to mailbox faster sketch: Build your way, then the Visual Editor builds a template from scratch, previews an imported design, edits text and images and adds merge variables, before QR codes, PURLs and coupon codes swap onto the mail piece.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=EB+Garamond:ital,wght@1,400&display=swap" rel="stylesheet">
 <style>
@@ -54,7 +54,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><b>Lob Visual Editor</b>
   <div class="ctl"><button id="pp" type="button">Pause</button><input id="sl" type="range" min="0" max="1000" value="0" aria-label="Scrub the animation"></div>
 </nav>
-<main class="stage" id="stage"><canvas id="cv" role="img" aria-label="Build your way: the Lob Visual Editor builds a postcard from scratch, previews an imported design, edits its text and image, adds a first name merge variable, then QR codes, PURLs and coupon codes link the mail piece to a landing page. Send personalized direct mail without the technical bottlenecks."></canvas></main>
+<main class="stage" id="stage"><canvas id="cv" role="img" aria-label="Build your way: the Lob Visual Editor builds a postcard from scratch, previews an imported design, edits its text and image, adds a first name merge variable, then QR codes, PURLs and coupon codes swap onto the mail piece. Send personalized direct mail without the technical bottlenecks."></canvas></main>
 
 <script>
 /* ---------- setup ---------- */
@@ -65,7 +65,7 @@ const SERIF = '"EB Garamond", Georgia, serif';
 const TS = 43;          // scene text size, as in the reference sketch
 const GAP = 48;
 const FADE = 0.5;
-const DUR = [3.0, 16.8, 2.8, 10.6, 5.5];
+const DUR = [3.0, 16.8, 2.8, 6.2, 5.5];
 const TOTAL = DUR.reduce((a, b) => a + b, 0);
 const qs = location.hash + location.search, CLIP = /clip/.test(qs);
 if (CLIP) document.documentElement.classList.add('clip');
@@ -503,15 +503,14 @@ function sceneEditor(t) {
   }
 }
 
-/* ---------- scene 3: CTAs, then offline to online ---------- */
+/* ---------- scene 3: CTAs ---------- */
 const FINAL = { pal: PAL_B, img: 2, head: 'Open house this Sunday', hi: 'Maya', hiPop: 1 };
 function sceneCta(t) {
   bg(NAVY);
   const cw0 = 450, ch0 = 300;
   const lw = wordW('Add'), rws = ['QR codes', 'PURLs', 'coupon codes'], rmax = Math.max(...rws.map((s) => wordW(s)));
   const gx = W / 2 + (lw - rmax) / 2;
-  const mv = EIO((t - 6.0) / 1.0);
-  const cx = lerp(gx, 372, mv), cy = lerp(H / 2, 392, mv), w = lerp(cw0, 420, mv), h = w * 2 / 3;
+  const cx = gx, cy = H / 2, w = cw0, h = ch0;
   const ent = E(t / 0.7);
   // which call to action is on the piece
   const sw = [0.7, 2.3, 3.9];
@@ -521,10 +520,10 @@ function sceneCta(t) {
   ctx.save(); alpha(BA * ent);
   const sc = 0.92 + 0.08 * ent;
   ctx.translate(cx, cy); ctx.scale(sc, sc); ctx.translate(-cx, -cy);
-  const g = card(cx - w / 2, cy - h / 2, w, h, s);
+  card(cx - w / 2, cy - h / 2, w, h, s);
   ctx.restore(); alpha(BA);
   // Add  [piece]  QR codes / PURLs / coupon codes
-  const out = E((t - 6.0) / 0.35);
+  const out = 0;
   if (out < 1) {
     const ta = E((t - 0.35) / 0.6) * (1 - out);
     alpha(BA * ta); blur((1 - E((t - 0.35) / 0.6)) * 7 + out * 5); font(TS);
@@ -540,41 +539,6 @@ function sceneCta(t) {
     }
     blur(0); alpha(BA);
   }
-  if (t < 6.0) return;
-  // offline to online: a dotted path from the piece to a phone
-  const [qx, qy, qw, qh] = g.cta;
-  const PX = lerp(W + 160, 850, EIO((t - 6.6) / 0.8)), PY = 392, PW = 214, PH = 420;
-  const p0 = [qx + qw, qy + qh / 2], p2 = [PX - PW / 2 - 6, PY + 40], p1 = [(p0[0] + p2[0]) / 2, Math.min(p0[1], p2[1]) - 150];
-  const prog = clamp((t - 7.3) / 0.8);
-  if (prog > 0) {
-    const n = 26;
-    for (let i = 0; i <= n * prog; i++) {
-      const u = i / n, x = (1 - u) * (1 - u) * p0[0] + 2 * (1 - u) * u * p1[0] + u * u * p2[0], y = (1 - u) * (1 - u) * p0[1] + 2 * (1 - u) * u * p1[1] + u * u * p2[1];
-      ctx.beginPath(); ctx.arc(x, y, 3, 0, 7); ctx.fillStyle = LIME; ctx.fill();
-    }
-  }
-  // phone
-  ctx.save();
-  fillRR(PX - PW / 2, PY - PH / 2, PW, PH, 30, INK);
-  const sx = PX - PW / 2 + 10, sy = PY - PH / 2 + 10, sW = PW - 20, sH = PH - 20;
-  fillRR(sx, sy, sW, sH, 22, '#ffffff');
-  ctx.save(); rr(sx, sy, sW, sH, 22); ctx.clip();
-  const pp = (d) => popIn((t - 7.8 - d) / 0.35);
-  part(pp(0), PX, sy + 34, () => { fillRR(sx + 14, sy + 22, sW - 28, 24, 12, '#efedfe'); font(11, 600); text('homeco.com/maya', PX, sy + 38, NAVY, 'center'); });
-  part(pp(0.15), PX, sy + 115, () => { ctx.save(); rr(sx + 14, sy + 60, sW - 28, 110, 8); ctx.clip(); art(2, sx + 14, sy + 60, sW - 28, 110 * 1.05); ctx.restore(); });
-  part(pp(0.3), sx + 40, sy + 200, () => {
-    font(13, 500); text('Hi', sx + 14, sy + 196, NAVY);
-    font(12, 600); const nw = ctx.measureText('Maya').width; fillRR(sx + 32, sy + 182, nw + 10, 19, 4, LIME); text('Maya', sx + 37, sy + 196, NAVY);
-    font(17, 600); ['Open house', 'this Sunday'].forEach((l, i) => text(l, sx + 14, sy + 222 + i * 21, INK));
-  });
-  part(pp(0.45), PX, sy + 282, () => { fillRR(sx + 14, sy + 262, sW - 28, 40, 8, LIME); font(13, 700); text('Book a tour', PX, sy + 287, NAVY, 'center'); });
-  part(pp(0.6), PX, sy + 334, () => {
-    ctx.save(); ctx.setLineDash([4, 3]); ctx.strokeStyle = MAGENTA; ctx.lineWidth = 1.4; rr(sx + 14, sy + 316, sW - 28, 36, 6); ctx.stroke(); ctx.restore();
-    tracked('MAYA20 · 20% OFF', PX, sy + 339, 11, PURPLE, 1.2, 700, 'center');
-  });
-  ctx.restore(); ctx.restore();
-  // heading
-  words(['Bridge', 'offline', 'and', 'online'], W / 2, 112, t, { t0: 6.35, stag: 0.12 });
 }
 
 /* ---------- scene 4: end card ---------- */
