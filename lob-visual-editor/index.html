@@ -74,6 +74,8 @@ const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
 let K = 1;      // bitmap px per scene px
 let BA = 1;     // base alpha of the scene being drawn
 const LOGO = new Image(); LOGO.src = 'logo.png';
+const HOUSE1 = new Image(); HOUSE1.src = 'house-1.webp';
+const HOUSE2 = new Image(); HOUSE2.src = 'house-2.webp';
 
 function resize() {
   const st = document.getElementById('stage'), cs = getComputedStyle(st);
@@ -161,28 +163,21 @@ const PAL_B = { bg: MAGENTA, badge: PALE };
 
 function art(n, x, y, w, h) {
   ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
-  const P = (fx, fy) => [x + fx * w, y + fy * h];
   const circ = (fx, fy, fr, c) => { ctx.beginPath(); ctx.arc(x + fx * w, y + fy * h, fr * w, 0, Math.PI * 2); ctx.fillStyle = c; ctx.fill(); };
-  const house = (body, roof, door, win) => {
-    ctx.fillStyle = body; ctx.fillRect(...P(0.2, 0.3), 0.44 * w, 0.29 * h);
-    ctx.beginPath(); ctx.moveTo(...P(0.13, 0.32)); ctx.lineTo(...P(0.42, 0.1)); ctx.lineTo(...P(0.71, 0.32)); ctx.closePath(); ctx.fillStyle = roof; ctx.fill();
-    ctx.fillStyle = door; ctx.fillRect(...P(0.37, 0.42), 0.1 * w, 0.17 * h);
-    ctx.fillStyle = win; ctx.fillRect(...P(0.25, 0.37), 0.08 * w, 0.08 * h); ctx.fillRect(...P(0.52, 0.37), 0.08 * w, 0.08 * h);
-  };
   if (n === 0) {
     ctx.fillStyle = LAV; ctx.fillRect(x, y, w, h);
     circ(0.68, 0.24, 0.13, YELLOW);
     circ(0.15, 1.02, 0.55, PURPLE);
     circ(1.0, 1.12, 0.52, NAVY);
-  } else if (n === 1) {
-    ctx.fillStyle = YELLOW; ctx.fillRect(x, y, w, h);
-    circ(0.82, 0.16, 0.08, '#fff');
-    house(NAVY, '#fff', LIME, PALE);
   } else {
-    ctx.fillStyle = NAVY; ctx.fillRect(x, y, w, h);
-    for (let i = 0; i < 9; i++) circ(0.08 + hash(i, 2) * 0.86, 0.04 + hash(i, 5) * 0.28, 0.008, '#fff');
-    circ(0.8, 0.16, 0.075, PALE);
-    house(LAV, '#fff', YELLOW, YELLOW);
+    // real house photos from Unsplash (free under the Unsplash License): house-1 by Aubrey Odom, house-2 by Salman Saqib
+    const [im, fx, fy, zoom] = n === 1 ? [HOUSE1, 0.3, 0.45, 1.0] : [HOUSE2, 0.47, 0.62, 1.15];
+    ctx.fillStyle = n === 1 ? '#9fb7c9' : '#3a3a55'; ctx.fillRect(x, y, w, h);
+    if (im.complete && im.naturalWidth) {
+      const k = Math.max(w / im.naturalWidth, h / im.naturalHeight) * zoom, dw = im.naturalWidth * k, dh = im.naturalHeight * k;
+      const dx = clamp(x + w * 0.5 - fx * dw, x + w - dw, x), dy = clamp(y + h * 0.33 - fy * dh, y + h - dh, y);
+      ctx.drawImage(im, dx, dy, dw, dh);
+    }
   }
   ctx.restore();
 }
@@ -603,7 +598,8 @@ window.__rb = {
 
 addEventListener('resize', resize);
 const fontsReady = document.fonts ? Promise.race([Promise.all([document.fonts.load('400 43px Inter'), document.fonts.load('600 31px Inter'), document.fonts.load('700 15px Inter'), document.fonts.load('italic 400 49px "EB Garamond"')]), new Promise((r) => setTimeout(r, 3000))]) : Promise.resolve();
-const logoReady = new Promise((r) => { if (LOGO.complete) r(); else { LOGO.onload = r; LOGO.onerror = r; } });
+const loaded = (im) => new Promise((r) => { if (im.complete) r(); else { im.onload = r; im.onerror = r; } });
+const logoReady = Promise.all([LOGO, HOUSE1, HOUSE2].map(loaded));
 resize();
 Promise.all([fontsReady, logoReady]).then(() => {
   resize();
