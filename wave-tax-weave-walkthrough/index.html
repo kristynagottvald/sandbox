@@ -823,7 +823,7 @@ function adHTML(ai,hi,w,h,live){
     s+=`<div class="wm" style="right:${w*.045}px;top:${w*.04}px;font-size:${w*.06}px;color:${fg}">wave</div>`;
     s+=`<div style="position:absolute;left:${w*.07}px;top:${h*.17}px;width:${w*.8}px"><div class="h" style="position:static;font-size:${w*.095}px;color:${fg}">${H}</div><div class="sub" style="position:static;margin-top:${w*.012}px;width:${w*.7}px;font-size:${w*.033}px;color:${fg}">${SUB[hi]||''}</div></div>`;
   }else{ // wide 1.91 / 12:5
-    s+=IMG(`width:${h*2.4}px;left:${w*.72}px;top:${h*.46}px`,h*2.4);
+    s+=r>2.2?IMG(`width:${h*1.75}px;left:${w*.76}px;top:${h*.5}px`,h*1.75):IMG(`width:${h*2.4}px;left:${w*.72}px;top:${h*.46}px`,h*2.4);
     s+=`<div class="wm" style="left:${h*.1}px;top:${h*.1}px;font-size:${h*.1}px;color:${fg}">wave</div>`;
     s+=`<div class="h" style="left:${h*.1}px;width:${w*.48}px;top:${h*.3}px;font-size:${h*(r>2.2?.15:.13)}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${h*.1}px;bottom:${h*.1}px;font-size:${h*.065}px;padding:${h*.04}px ${h*.075}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
