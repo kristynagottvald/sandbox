@@ -426,8 +426,8 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <div class="four">
       <div><h3>Construction and home services</h3><img src="img/ind-construction-duo.jpg" alt="A contractor on a ladder cleaning a window"><p>Stop spending hours on tedious bookkeeping tasks after a long day on the jobsite. Wave does the heavy-lifting, even on-the-go, so you can rest easy knowing you’re prepped for tax time.</p></div>
       <div><h3>Creatives and freelancers</h3><img src="img/ind-creatives-duo.jpg" alt="A freelancer smiling at her laptop"><p>It’s easy to lose track of equipment and office supply costs. Wave’s receipts feature makes sure every expense is stored, helping you claim every deduction and stay prepped for audits.</p></div>
-      <div><h3>Real estate</h3><img src="img/ind-realestate-duo.jpg" alt="A smiling real estate agent in a black blazer holds up a set of house keys"><p>Spending more time on your books than your properties? Safely and securely sync your bank account with Wave, get customizable accounts for each property, and access key reports for tax time.</p></div>
-      <div><h3>Consultants</h3><img src="img/ind-consultants-duo.jpg" alt="A smiling consultant in a yellow blazer holds a tablet"><p>Wave makes it simple to organize and track income and expenses, so you know where things stand before you file taxes.</p></div>
+      <div><h3>Real estate</h3><img src="img/ind-realestate-duo.jpg" alt="A real estate agent holding a folder stands at the front door of a modern house"><p>Spending more time on your books than your properties? Safely and securely sync your bank account with Wave, get customizable accounts for each property, and access key reports for tax time.</p></div>
+      <div><h3>Consultants</h3><img src="img/ind-consultants-duo.jpg" alt="A smiling consultant in glasses stands in a bright office"><p>Wave makes it simple to organize and track income and expenses, so you know where things stand before you file taxes.</p></div>
     </div>
     <div class="pcard">
       <div class="adv2">
@@ -811,18 +811,16 @@ function formTexture(kind, S = 1024, page = 1) {
 }
 
 /* ---------- mesh build ---------- */
-// curled sheets: lying flat at the front, sweeping up into a tall curve at the back (like pages fanning open)
-[[0.9, 0.34, [-0.5, 0, 0.18], 0.0, 0.35], [1.25, 0.26, [0.0, 0.012, 0.0], 0.4, 0.0], [1.6, 0.18, [0.45, 0.024, -0.16], 0.8, -0.3]].forEach(([rise, start, off, ph, rot], n) => {
+// curled sheets: each lies flat on the table, then curves up in one smooth sweep (bottom sheet barely, top sheet high)
+[[1.3, 0.5, 0.45, [0, 0, 0.0], 0.0], [0.85, 0.42, 1.0, [0.03, 0.01, 0.14], 0.0], [0.7, 0.34, 1.5, [0.06, 0.02, 0.3], 0.0]].forEach(([R0, start, tmax, off, rot], n) => {
   CREATURES['curl' + n] = {
-    nu: 26, nv: 14, unfoldFrom: [0.5, 0.5], smooth: true, init() {},
+    nu: 30, nv: 14, unfoldFrom: [0.5, 0.5], smooth: true, init() {},
     pose(u, v) {
-      // u runs front (0) to back (1); the back part bends up around a cylinder, so the sheet keeps its length
-      const L = 2.05, R = rise * 0.62, s0 = start * L, sa = u * L, x = (v - 0.5) * 1.6;
-      let y, z;
-      if (sa <= s0) { y = 0; z = sa; }
-      else { const th = Math.min((sa - s0) / R, 1.5); const rem = Math.max(0, (sa - s0) - th * R); y = R * (1 - Math.cos(th)) + rem * Math.sin(th); z = s0 + R * Math.sin(th) + rem * Math.cos(th); }
-      const zz = z - L / 2, c = Math.cos(rot), sn = Math.sin(rot);
-      return [x * c - zz * sn + off[0], y + off[1], x * sn + zz * c + off[2]];
+      // u runs from the flat end (0) to the lifted end (1); the lifted part bends around a cylinder so the sheet keeps its length
+      const L = 2.4, s0 = start * L, sa = u * L, x = (v - 0.5) * 1.7, R = R0;
+      let y = 0, z = sa;
+      if (sa > s0) { const th = Math.min((sa - s0) / R, tmax), rem = Math.max(0, (sa - s0) - th * R); y = R * (1 - Math.cos(th)) + rem * Math.sin(th); z = s0 + R * Math.sin(th) + rem * Math.cos(th); }
+      return [x + off[0], y + off[1], -(z - L / 2) + off[2]];
     },
   };
 });
@@ -1123,7 +1121,7 @@ if (reduce && !CLIP) rb.seek(0);
 /* ---------- closing CTA: three CRA forms lying still, each with its own soft curl ---------- */
 (function(){
   const cv = document.getElementById('ftart'); if (!cv) return;
-  const base = { shadow: null, cx: 0.5, cy: 0.6, fov: 0.95, yaw: 2.2, flatYaw: 2.2, pitch: 0.34, tgtY: 0.4, sway: 0, light: [-0.4, 1, 0.5] };
+  const base = { shadow: null, cx: 0.5, cy: 0.6, fov: 1.1, yaw: -1.12, flatYaw: -1.12, pitch: 0.3, tgtY: 0.45, sway: 0, light: [-0.4, 1, 0.5] };
   const sc = [['curl0', 'T2125', '#f2b6ff'], ['curl1', 'GST34', '#a9d6ff'], ['curl2', 'T4SUM', null]].map(([c, f, tint], n) => new Origami.Scene(cv, Object.assign({}, base, { creature: c, form: f, tint, bright: 0.6, noClear: n > 0 })));
   const draw = () => { if (getComputedStyle(cv).display === 'none') return; const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; } cv.getContext('2d').clearRect(0, 0, w, h); sc.forEach((x) => x.draw(0, 0)); };
   draw(); addEventListener('resize', draw); document.fonts && document.fonts.ready.then(draw);

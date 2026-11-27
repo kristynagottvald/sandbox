@@ -960,7 +960,7 @@ const reel=el('div','',`<div class="phone"><div class="scr"><div class="ad" id="
 <div class="reel-cap">That T1 looks a lot scarier folded up. Wave keeps your books organized all year, so when the CRA comes calling, it’s just paper.</div>
 <div class="reel-cta"><span>Get started now</span><span>›</span></div></div><div class="reel-prog"><i></i></div></div></div>`,mk);
 const reelAd=reel.querySelector('#reelad');
-reelAd.innerHTML=`<div class="ad" style="background:${ART[0].bg}"><canvas class="live" style="top:250px;height:520px;left:-4%;width:150%"></canvas><div class="wm" style="right:24px;top:96px;font-size:24px;color:#fff">wave</div><div class="h" id="reelh" style="left:34px;right:30px;top:132px;font-size:60px;color:#fff"></div></div>`;
+reelAd.innerHTML=`<div class="ad" style="background:${ART[0].bg}"><canvas class="live" style="top:170px;height:520px;left:-4%;width:150%"></canvas><div class="wm" style="right:24px;top:96px;font-size:24px;color:#fff">wave</div><div class="h" id="reelh" style="left:34px;right:30px;top:132px;font-size:60px;color:#fff"></div></div>`;
 const reelCv=reelAd.querySelector('canvas'),reelH=reelAd.querySelector('#reelh'),reelProg=reel.querySelector('.reel-prog i');let reelScene=null;
 // 2 facebook
 const fb=el('div','',`<div class="card fb"><div class="c-head"><div class="lg">w</div><div>Wave<small>Sponsored · 🌐</small></div><span class="dots">···</span></div>
@@ -987,7 +987,7 @@ const MOCKS=[reel,fb,li,art];
 const tabs3=$('#tabs3');const tabEls=PL.map(p=>el('div','',p.name+'<i></i>',tabs3));
 tabEls.forEach((e,j)=>{e.setAttribute('role','button');e.tabIndex=0;e.onclick=()=>{T=SC[2].t0+j*SEG+.001;render();};e.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();e.click();}};});
 const SEG=8.2,BEAT=0.9,UNF=2.3,FLAT=1.1; // folded beat, unfold, perfectly still flat sheet, refold into the next creature, beat
-const NEXT=['scorpion','spider','dragon','snake'];
+const NEXT=['scorpion','spider','snake','snake'];
 function loopDraw(L,lt){const tq=lt,T1=BEAT,T2=T1+UNF,T3=T2+FLAT,T4=T3+UNF;
   const kind=tq<T3?L.a.kind:L.b,k=tq<T1?0:tq<T2?(tq-T1)/UNF:tq<T3?1:tq<T4?1-(tq-T3)/UNF:0;
   if(L.cur!==kind){L.cur=kind;L.sc.set(kind,L.a.form);L.c._f=-1;}
