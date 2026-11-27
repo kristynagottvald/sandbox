@@ -95,6 +95,20 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .feat h3{font-size:26px;font-weight:600;margin-bottom:18px}
 .feat p{font-size:17.5px;line-height:1.4}
 .feat .ph{width:100%;aspect-ratio:620/510;object-fit:cover;border-radius:22px}
+.lotus{position:relative;width:100%;aspect-ratio:620/510;border-radius:22px;background:var(--pink);overflow:hidden}
+.lotus canvas{position:absolute;inset:0;width:100%;height:100%}
+.lotus .ui{position:absolute;left:5.2%;top:22%;width:max-content;max-width:90%;display:flex;flex-direction:column;gap:9px}
+.lotus .hd,.lotus .row{opacity:0;transform:translateY(10px);transition:opacity .45s,transform .45s cubic-bezier(.2,.8,.2,1)}
+.lotus.on .hd,.lotus.on .row{opacity:1;transform:none}
+.lotus.on .row:nth-child(2){transition-delay:.12s}.lotus.on .row:nth-child(3){transition-delay:.24s}.lotus.on .row:nth-child(4){transition-delay:.36s}
+.lotus .hd{display:flex;align-items:center;gap:11px;background:rgba(253,240,255,.94);border-left:4px solid #e8aaff;border-radius:4px;padding:8px 14px 8px 9px;font-size:15px;line-height:1.38;white-space:nowrap;color:#232426;box-shadow:0 6px 18px rgba(80,0,110,.12);margin-bottom:5px}
+.lotus .hd b{font-weight:700}
+.lotus .hd svg{flex:none;width:30px;height:30px}
+.lotus .row{display:flex;align-items:center;gap:0;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:4px;height:34px;padding:0 10px;font-size:14.5px;white-space:nowrap;box-shadow:0 6px 18px rgba(80,0,110,.1)}
+.lotus .row i{flex:none;width:17px;height:17px;border:1.5px solid #c9ccd2;border-radius:2px;background:#fff;margin-right:21px}
+.lotus .row span{color:#7b7f86;font-weight:600;width:108px;flex:none}
+.lotus .row b{font-weight:700;color:#232426;display:flex;align-items:center;gap:7px}
+.lotus .row b:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--d)}
 
 /* industries */
 .ind{background:var(--navy);color:#fff;padding:96px 0 98px}
@@ -247,7 +261,7 @@ footer{position:relative}
   .wh ul{gap:24px;margin-left:28px;font-size:16px}
   .hero h1{font-size:104px}
   .feat .grid{grid-template-columns:1fr}
-  .feat .ph{margin-top:20px}
+  .feat .ph,.lotus{margin-top:20px}
   .ind .four{gap:28px}
   .why .top{grid-template-columns:1fr}
   .adv{grid-template-columns:1fr}
@@ -279,6 +293,7 @@ footer{position:relative}
   .tq blockquote{font-size:25px}
   .pcard{margin-left:24px;margin-right:24px}
   .feat .cols{grid-template-columns:1fr;padding:0}
+  .lotus{aspect-ratio:4/5}.feat .lotus .ui{left:4%;top:5%;width:92%;max-width:none}.feat .lotus .hd{font-size:12px;white-space:normal;padding-right:10px}.feat .lotus .hd br{display:none}.feat .lotus .row{font-size:12.5px;height:30px}.feat .lotus .row span{width:92px}.feat .lotus .row i{margin-right:12px}.lotus canvas{top:30%;height:70%}
   .feat .cols>div:nth-child(2)>div:nth-child(2){margin-top:0}
   .stats,.stats .r2{grid-template-columns:1fr}
   .st,.r2 .st{min-height:300px}
@@ -364,7 +379,14 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
         <div><div><h3>Receipt scanning</h3><p>Snap a photo, track expenses, and stay organized year-round.</p></div><div><h3>Bank syncing</h3><p>With Wave’s Pro Plan, securely sync your bank and credit cards with Wave and spend less time typing in data.</p></div></div>
         <div><div><h3>One-click tax reports</h3><p>Generate profit and loss statements, balance sheets, and cash flow reports in seconds.</p></div><div><h3>Collaborate with your team</h3><p>With Wave’s Pro Plan, give your accountant, payroll manager, or business partner access to your Wave account.</p></div></div>
       </div>
-      <img class="ph" src="img/features.jpg" alt="A man in headphones checks his phone while Wave auto-categorizes United Airlines, TPH Printing and Green Dragon expenses">
+      <div class="lotus" id="lotus"><canvas aria-label="Stop motion: a T2125 expense statement folds itself into a paper lotus"></canvas>
+        <div class="ui">
+          <div class="hd"><svg viewBox="0 0 30 30" fill="none" stroke="#001b65" stroke-width="2.2"><circle cx="15" cy="4" r="1.6" fill="#001b65" stroke="none"/><path d="M15 5.6v2.4"/><rect x="5" y="8" width="20" height="17" rx="6"/><circle cx="11" cy="15.5" r="1.7" fill="#001b65" stroke="none"/><circle cx="19" cy="15.5" r="1.7" fill="#001b65" stroke="none"/><path d="M11.5 20c2 1.6 5 1.6 7 0" stroke-linecap="round"/><path d="M3 14v5M27 14v5" stroke-linecap="round"/></svg><p><b>Wave</b> categorized your expenses<br>imported from your bank connection</p></div>
+          <div class="row"><i></i><span>United Airlines</span><b style="--d:#8a3ffc">Travel expense</b></div>
+          <div class="row"><i></i><span>TPH Printing</span><b style="--d:#ff7a1a">Marketing</b></div>
+          <div class="row"><i></i><span>Green Dragon</span><b style="--d:#2f8cff">Meals &amp; Entertainment</b></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -677,6 +699,22 @@ const CREATURES = {
       return [x * (1 - 0.15 * a), h + pl, 0.02 - a * 0.85];
     },
   },
+  lotus: {
+    nu: 24, nv: 24, unfoldFrom: [0.5, 0.5],
+    init() {},
+    pose(u, v, i, j, cu, cv) {
+      const x = v - 0.5, y = u - 0.5, s = Math.min(1, Math.max(Math.abs(x), Math.abs(y)) * 2);
+      const cs = Math.min(1, Math.max(Math.abs(cv - 0.5), Math.abs(cu - 0.5)) * 2);
+      // three petal rings, cut apart at the ring boundaries: upright inner cup, opening middle, low outer
+      const L = cs < 0.36 ? [0, 0.36, 0.0, 0.34, 0.02, 1.05, 0, 2.2] : cs < 0.7 ? [0.36, 0.7, 0.12, 0.78, 0.04, 0.72, Math.PI / 8, 1.6] : [0.7, 1, 0.22, 1.18, 0.03, 0.3, 0, 1.25];
+      const [s0, s1, R0, R1, H0, H1, ph, pw] = L, t = clamp((s - s0) / (s1 - s0));
+      const th = Math.atan2(y, x) + ph;
+      const m = 0.5 + 0.5 * Math.cos(8 * th); // 1 on a petal's midrib, 0 between petals
+      let R = mix(R0, R1, t) * (1 - (1 - m) * 0.42 * t), H = mix(H0, H1, Math.pow(t, pw)) * (1 - (1 - m) * 0.28 * t);
+      H += (i + j) % 2 ? 0.025 * t : -0.01 * t; // crease relief along the petals
+      return [Math.cos(th - ph) * R * 1.05, H, Math.sin(th - ph) * R * 0.95];
+    },
+  },
   tiger: {
     nu: 26, nv: 12, unfoldFrom: [0, 0.5],
     init() {
@@ -975,6 +1013,20 @@ document.querySelectorAll('.art').forEach((a) => {
   a.addEventListener('mouseenter', () => { if (!seen || p.playing) return; a.classList.remove('done'); p.play(0); });
   addEventListener('resize', () => p.render(p.t));
 });
+
+/* ---------- features: a flat T2125 folds itself into a lotus, then the categorized cards settle on it ---------- */
+(function(){
+  const box = document.getElementById('lotus'), cv = box.querySelector('canvas');
+  const sc = new Origami.Scene(cv, { creature: 'lotus', form: 'T2125', shadow: 'rgba(90,0,120,.3)', cx: mobile() ? 0.5 : 0.6, cy: mobile() ? 0.56 : 0.64, fov: mobile() ? 1.25 : 1.2, yaw: -0.5, flatYaw: 0.3, flatDist: 1.3 });
+  const DUR = 2.6, HOLD = 0.4; let t0 = null, done = false, last = -1;
+  const k = (t) => 1 - Math.max(0, Math.min(1, (t - HOLD) / DUR));
+  const step = (now) => { const t = (now - t0) / 1000, f = Math.floor(t * 12); if (f !== last) { last = f; sc.draw(k(f / 12), f); } if (t < HOLD + DUR + 0.1) requestAnimationFrame(step); else { done = true; box.classList.add('on'); } };
+  const final = () => { sc.draw(0, 0); box.classList.add('on'); done = true; };
+  sc.draw(1, 0);
+  new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting && t0 === null) { if (reduce || CLIP) return final(); t0 = performance.now(); requestAnimationFrame(step); } }), { threshold: 0.5 }).observe(box);
+  addEventListener('resize', () => { Object.assign(sc.o, { cx: mobile() ? 0.5 : 0.6, cy: mobile() ? 0.56 : 0.64, fov: mobile() ? 1.25 : 1.2 }); sc.draw(done ? 0 : 1, 0); });
+  window.__lotus = { seek: (kk) => sc.draw(kk, 0), final };
+})();
 
 /* ---------- pricing toggle ---------- */
 document.querySelectorAll('.pill button').forEach((b) => b.onclick = () => {
