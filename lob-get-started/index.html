@@ -111,10 +111,10 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 /* 1 templates: five stacked cards */
 #tpl{height:980vh}
-.pick{position:absolute;inset:0;border:3px solid var(--lime);border-radius:12px;opacity:0;pointer-events:none}
+.pick{position:absolute;inset:0;opacity:0;pointer-events:none}
 .pick b{position:absolute;right:12px;bottom:12px;height:32px;padding:0 14px;display:flex;align-items:center;gap:6px;border-radius:99px;background:var(--lime);color:var(--navy);font:600 13px var(--sans);white-space:nowrap}
 .dcur{position:absolute;left:0;top:0;width:26px;height:26px;z-index:12;pointer-events:none;opacity:0}
-.fan .tc{position:absolute;left:0;top:0;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 24px 60px rgba(0,0,0,.45);transform-origin:0 0;will-change:transform}
+.fan .tc{position:absolute;left:0;top:0;border-radius:12px;overflow:hidden;background:var(--indigo);box-shadow:0 24px 60px rgba(0,0,0,.45);transform-origin:0 0;will-change:transform}
 .fan .tc>img{width:100%;height:100%;object-fit:cover}
 .fan .tc .bar{position:absolute;left:0;right:0;top:0;height:7%;background:rgba(255,255,255,.92);display:flex;align-items:center;gap:4%;padding:0 5%}
 .fan .tc .bar i{height:20%;flex:0 0 9%;border-radius:9px;background:#d9d9e4}
@@ -276,8 +276,9 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 /* finale */
 .fin{position:relative;margin-top:-6vh;background:#fff;color:#1e2245;border-radius:40px 40px 0 0;padding:clamp(90px,16vh,170px) 24px clamp(90px,16vh,170px);text-align:center;z-index:2}
-.fin h2{margin:0 auto;max-width:900px;font-weight:400;font-size:clamp(38px,5.6vw,80px);line-height:1.04;letter-spacing:-.045em}
+.fin h2{margin:0 auto;max-width:none;font-weight:400;font-size:clamp(38px,5.6vw,80px);line-height:1.04;letter-spacing:-.045em}
 .fin h2 em.s{color:var(--indigo)}
+@media (max-width:640px){.fin h2{font-size:7.4vw}}
 .fin .btns{margin-top:40px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
 .fin .btns .pill{height:56px;padding:0 30px;font-size:17px}
 .fin .btns .ol2{border:1.5px solid #1e2245;color:#1e2245;background:none}
@@ -300,7 +301,6 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
     <span>Solutions <svg viewBox="0 0 10 10"><path d="M1.5 3.5L5 7l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
     <span>Pricing</span><span>Developers</span>
   </div>
-  <a class="pill ol gal" href="#tpl"><i><b></b></i>Template Gallery</a>
   <div class="r"><span class="login">Log in</span><a class="pill w" href="#fin">Get started</a></div>
 </header>
 
@@ -439,10 +439,10 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
 </section>
 
 <section class="fin" id="fin">
-  <h2>Send personalized direct mail without the technical <em class="s">bottlenecks</em></h2>
+  <h2>Send personalized<br>direct mail without<br>the technical <em class="s">bottlenecks</em></h2>
   <div class="btns"><a class="pill ind" href="#hero">Get started</a><a class="pill ol2" href="#hero">Talk to sales</a></div>
 </section>
-<footer><img src="assets/logo.png" alt="Lob"><span>© Lob</span><nav><span>Platform</span><span>Template Gallery</span><span>Pricing</span><span>Developers</span></nav></footer>
+<footer><img src="assets/logo.png" alt="Lob"><span>© Lob</span><nav><span>Platform</span><span>Pricing</span><span>Developers</span></nav></footer>
 
 <script>
 (function(){
