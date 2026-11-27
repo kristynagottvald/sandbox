@@ -159,38 +159,37 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .r2 .st{min-height:511px}
 
 /* pricing */
-.plans{padding:150px 0 0}
-.plans h2{color:var(--ink)}
-.tog{position:relative;max-width:1304px;width:calc(100% - 48px);margin:60px auto 0;height:46px}
-.tog:before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#dcdad6}
-.tog .pill{position:relative;margin:0 auto;width:326px;height:50px;background:#fff;border:1.5px solid var(--navy);border-radius:999px;padding:4px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.tog .pill button{border:0;background:none;border-radius:999px;font:600 17px var(--sans);color:var(--navy)}
+.plans{padding:140px 0 0}
+.phead{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
+.phead h2{font-size:64px;line-height:1;letter-spacing:-.02em;color:var(--navy);max-width:620px}
+.phead p{font-size:20px;line-height:1.4;margin-top:16px;color:#3b3d40}
+.tog .pill{display:flex;gap:4px;height:56px;background:#fff;border:1.5px solid var(--navy);border-radius:999px;padding:5px}
+.tog .pill button{border:0;background:none;border-radius:999px;font:600 17px var(--sans);color:var(--navy);padding:0 24px;display:flex;align-items:center;gap:10px;white-space:nowrap}
 .tog .pill button.on{background:var(--navy);color:#fff}
-.tog .save{position:absolute;left:calc(50% + 97px);top:-48px;background:var(--pink);color:var(--navy);font:700 13.5px var(--sans);padding:6px 10px;border-radius:99px}
-.tog .arr{position:absolute;left:calc(50% + 70px);top:-32px;width:22px}
-.prices{display:grid;grid-template-columns:400px 400px;gap:32px;justify-content:center;margin-top:80px;align-items:start}
-.pc{border:1.5px solid #e9dfd6;border-radius:20px;background:#fff;overflow:hidden;position:relative;}
-.pc.pro{border:1.5px solid var(--navy);overflow:visible}
-.pc .head{background:#eaf5ff;color:var(--navy);padding:30px 30px 32px;border-radius:19px 19px 0 0}
+.tog .save{background:var(--pink);color:var(--navy);font:700 12.5px var(--sans);padding:4px 9px;border-radius:99px}
+.prices{display:grid;grid-template-columns:1fr 1fr;margin-top:48px;border:1.5px solid var(--navy);border-radius:24px;overflow:hidden;background:#fff}
+.pc{position:relative;display:flex;flex-direction:column}
+.pc+.pc{border-left:1.5px solid var(--navy)}
+.pc .head{background:#eaf5ff;color:var(--navy);padding:40px 44px 40px}
 .pc.pro .head{background:var(--navy);color:#fff}
 .pc .tag{display:flex;align-items:center;gap:9px;font:700 22px var(--sans)}
 .pc .tag span{background:var(--navy);color:#fff;padding:4px 10px;border-radius:99px;font-size:17px;letter-spacing:.06em}
 .pc.pro .tag span{background:var(--pink);color:var(--navy)}
-.pc .desc{font-size:17.5px;line-height:1.4;margin-top:20px}
-.pc .price{font-family:var(--serif);font-size:58px;font-weight:450;margin-top:28px;line-height:1.05;min-height:108px;letter-spacing:-.02em}
+.pc .desc{font-size:18px;line-height:1.4;margin-top:20px;max-width:440px}
+.pc .price{font-family:var(--serif);font-size:72px;font-weight:450;margin-top:26px;line-height:1;letter-spacing:-.02em;min-height:104px}
 .pc.pro .price{color:var(--pink)}
-.pc .price small{font-family:var(--sans);font-size:22px;font-weight:600;letter-spacing:0;margin-left:4px}
-.pc .price em{display:block;font-family:var(--sans);font-style:normal;font-size:17px;font-weight:400;margin-top:4px;letter-spacing:0;color:rgba(255,255,255,.8)}
-.pc .head .btn{width:auto;height:50px;padding:0 34px;font-size:17px;margin-top:34px}
+.pc .price small{font-family:var(--sans);font-size:22px;font-weight:600;letter-spacing:0;margin-left:6px}
+.pc .price em{display:block;font-family:var(--sans);font-style:normal;font-size:17px;font-weight:400;margin-top:10px;letter-spacing:0;color:rgba(255,255,255,.8)}
+.pc .head .btn{width:auto;height:52px;padding:0 36px;font-size:17px;margin-top:28px}
 .pc.pro .head .btn{background:var(--pink);border-color:var(--pink);color:var(--navy)}
 .pc.pro .head .btn:hover{background:#f1c8ff;border-color:#f1c8ff}
-.rec{position:absolute;top:34px;right:30px;display:flex;align-items:center;gap:7px;color:var(--pink);font:700 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;z-index:1}
+.rec{position:absolute;top:44px;right:44px;display:flex;align-items:center;gap:7px;color:var(--pink);font:700 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;z-index:1}
 .rec svg{width:15px;height:15px;fill:currentColor}
-.pc ul{list-style:none;padding:30px 30px 36px}
-.pc li{display:flex;gap:16px;font-size:17px;line-height:1.43;margin-bottom:18px}
+.pc ul{list-style:none;padding:34px 44px 40px;display:grid;grid-template-columns:1fr 1fr;column-gap:24px}
+.pc li{display:flex;gap:14px;font-size:17px;line-height:1.4;margin-bottom:16px}
 .pc li svg{flex:none;width:17px;margin-top:4px}
-.pc .plus{color:var(--purple);font-weight:700;padding:30px 30px 0;font-size:17px}
-.pc.pro ul{padding-top:18px}
+.pc .plus{color:var(--purple);font-weight:700;padding:34px 44px 0;font-size:17px}
+.pc.pro ul{padding-top:16px}
 
 
 /* advisors */
@@ -316,7 +315,7 @@ footer{position:relative;overflow:hidden}
   .lotus{aspect-ratio:4/5}.feat .lotus .ui{left:4%;top:5%;width:92%;max-width:none}.feat .lotus .hd{font-size:12px;white-space:normal;padding-right:10px}.feat .lotus .hd br{display:none}.feat .lotus .row{font-size:12.5px;height:40px}.feat .lotus .row span{width:92px}.feat .lotus .row i{margin-right:12px}.lotus canvas{top:30%;height:70%}
   .stats,.stats .r2{grid-template-columns:1fr}
   .st,.r2 .st{min-height:300px}
-  .prices{grid-template-columns:minmax(0,377px)}
+  .prices{grid-template-columns:1fr}.pc+.pc{border-left:0;border-top:1.5px solid var(--navy)}.phead{flex-direction:column;align-items:flex-start}.phead h2{font-size:42px}.pc .head,.pc ul{padding-left:24px;padding-right:24px}.pc .plus{padding-left:24px}.pc ul{grid-template-columns:1fr}.rec{top:24px;right:24px}
   .pc{min-height:0}
   .adv .cl{grid-template-columns:1fr}
   .adv .l{padding-right:24px}
@@ -461,11 +460,10 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 </section>
 
 <section class="plans" id="plans">
-  <h2 class="sec serif">Plans to make your plans happen</h2>
-  <div class="tog">
-    <svg class="arr" viewBox="0 0 22 30" fill="none" stroke="#001b65" stroke-width="2" stroke-linecap="round"><path d="M18 2C8 4 6 14 10 26M10 26l-5-6M10 26l5-5"/></svg>
-    <span class="save">Save $50</span>
-    <div class="pill"><button data-p="m">Monthly</button><button class="on" data-p="a">Annual</button></div>
+  <div class="wrap">
+  <div class="phead">
+    <div><h2 class="serif">Plans to make your plans happen</h2><p>Start free. Upgrade when you want the books to run themselves.</p></div>
+    <div class="tog"><div class="pill"><button data-p="m">Monthly</button><button class="on" data-p="a">Annual <span class="save">Save $50</span></button></div></div>
   </div>
   <div class="prices">
     <div class="pc">
@@ -489,6 +487,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
         <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#8a3ffc" stroke-width="2"/></svg><span>Automatic payment reminders</span></li>
       </ul>
     </div>
+  </div>
   </div>
 </section>
 
