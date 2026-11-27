@@ -45,9 +45,6 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .hero{position:relative;background:var(--blue);color:#fff;overflow:hidden;height:clamp(620px,calc(100vh - 97px - 72px),820px);isolation:isolate}
 .hero canvas.stage{position:absolute;inset:0;width:100%;height:100%;z-index:1}
 .hero .floor{position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.07) 100%);z-index:0}
-.hero .scrib{position:absolute;z-index:0;pointer-events:none}
-.hero .scrib.a{left:44%;bottom:-250px;width:560px;transform:rotate(172deg);opacity:.95}
-.hero .scrib.b{right:56px;top:-26px;width:340px}
 .hero .wrap{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;pointer-events:none}
 .hero .wrap>*{pointer-events:auto}
 .kick{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;font:600 15px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(0,27,101,.35);border:1px solid rgba(255,255,255,.28);padding:10px 16px 10px 12px;border-radius:99px;margin-bottom:30px}
@@ -277,13 +274,12 @@ footer{position:relative}
   .wh ul,.wh .act{display:none}
   .burger{display:block}
   .hero{height:auto;min-height:0;padding:0;display:flex;flex-direction:column}
-  .hero .wrap{order:1}.hero canvas.stage{order:2}.hero .cap{order:3}.hero .scrib.a{left:-40px;width:340px;bottom:-200px}
+  .hero .wrap{order:1}.hero canvas.stage{order:2}.hero .cap{order:3}
   .hero .wrap{height:auto;padding-top:48px;padding-bottom:20px}
   .hero canvas.stage{position:relative;inset:auto;height:380px;display:block}
   .hero h1{font-size:58px}
   .hero p.lede{font-size:19px;margin-top:22px}
   .hero .ctas{flex-wrap:wrap;gap:16px;margin-top:28px}
-  .hero .scrib.b{display:none}
   .cap{position:relative;right:auto;bottom:auto;padding:0 24px 30px;flex-wrap:wrap;gap:12px}
   h2.sec,.ind h2,.fcta h2{font-size:42px}
   .why h2{font-size:44px}
@@ -345,7 +341,6 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 <section class="hero" id="hero" aria-label="File without fear">
   <div class="floor"></div>
-  <svg class="scrib a" viewBox="0 0 440 420" fill="none" aria-hidden="true"><path d="M-20 40C120 0 300-10 330 40 360 95 90 130 -10 175 -80 210 60 220 210 190 350 160 400 180 360 230 320 285 110 300 40 340 -10 368 140 380 250 330" stroke="#ff7a1a" stroke-width="7" stroke-linecap="round"/></svg>
   <canvas class="stage" id="stage" aria-label="Stop motion: a dragon folded from a CRA tax form unfolds into a flat sheet of paper"></canvas>
   <div class="wrap">
     <h1 class="serif"><span>File your taxes</span><span>without <em>fear</em></span></h1>
@@ -818,7 +813,7 @@ const mesh = (k) => meshCache[k] || (meshCache[k] = build(k));
 function Scene(canvas, opt = {}) {
   this.c = canvas; this.g = canvas.getContext('2d');
   this.sh = document.createElement('canvas'); this.sg = this.sh.getContext('2d');
-  this.o = Object.assign({ creature: 'dragon', form: 'T1', fov: 1.25, yaw: -0.5, flatYaw: 0.5, cx: 0.5, cy: 0.56, zoom: 1, shadow: 'rgba(0,12,70,.34)', back: '#e9e3d6', light: [-0.45, 0.85, 0.55], fps: 12 }, opt);
+  this.o = Object.assign({ creature: 'dragon', form: 'T1', fov: 1.25, yaw: -0.5, flatYaw: 0.5, cx: 0.5, cy: 0.56, zoom: 1, shadow: 'rgba(0,12,70,.34)', back: '#e9e3d6', light: [-0.45, 0.85, 0.55], fps: 30, sway: 1 }, opt);
   this.set(this.o.creature, this.o.form);
 }
 Scene.prototype.set = function (creature, form) { this.o.creature = creature; this.o.form = form; this.tris = mesh(creature); this.tex = formTexture(form); this.texB = formTexture(form, 1024, 2); };
@@ -833,7 +828,8 @@ Scene.prototype.size = function () {
 Scene.prototype.draw = function (k, frame = 0) {
   const [W, H] = this.size(), g = this.g, o = this.o, TS = this.tex.width;
   g.clearRect(0, 0, W, H);
-  const jr = rng(frame * 7919 + 17), jit = () => (jr() - 0.5) * 2;
+  const jit = () => 0; // no frame-to-frame boil
+  const st = frame / o.fps, sw = o.sway || 0; // soft sway clock
   const ek = k;
   const yaw = mix(o.yaw, o.flatYaw, sstep(0.15, 0.95, ek)) + jit() * 0.006;
   const pitch = o.pitch != null ? o.pitch : mix(0.36, 0.62, sstep(0.2, 1, ek));
@@ -850,7 +846,9 @@ Scene.prototype.draw = function (k, frame = 0) {
     const P = t.map((p) => {
       const e = clamp((ek * 1.45 - p.d * 0.45));
       const ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2;
-      const q = V.lerp(p.fold, p.flat, ee);
+      let fp = p.fold;
+      if (sw) { const a = Math.sin(st * 1.35) * 0.075 * sw, c = Math.cos(a), sn = Math.sin(a), lean = Math.sin(st * 1.35 - 0.7) * 0.045 * sw; fp = [fp[0] * c - fp[2] * sn + lean * fp[1], fp[1] * (1 + Math.sin(st * 2.7) * 0.012 * sw), fp[0] * sn + fp[2] * c]; }
+      const q = V.lerp(fp, p.flat, ee);
       q[1] += Math.sin(Math.PI * ee) * 0.22 * (1 - p.d * 0.5);
       return q;
     });
@@ -978,7 +976,7 @@ function show(t) {
   t = ((t % TOTAL) + TOTAL) % TOTAL;
   const i = Math.floor(t / SEG), lt = t - i * SEG;
   if (i !== cur) { cur = i; scene.set(SEQ[i].c, SEQ[i].f); stage.setAttribute('aria-label', `Stop motion: ${SEQ[i].name}, folded from a CRA ${SEQ[i].form}, unfolds into a flat sheet`); }
-  const fr = Math.floor(t * 12), k = Math.max(0, Math.min(1, (Math.floor(lt * 12) / 12 - HOLD) / DUR));
+  const fr = Math.floor(t * 30), k = Math.max(0, Math.min(1, (lt - HOLD) / DUR));
   scene.draw(k, fr);
   lastF = fr;
 }
@@ -986,7 +984,7 @@ function tick(now) {
   if (!playing) return;
   T += (now - prev) / 1000 * speed; prev = now;
   if (!loop && T >= rb.end) { T = rb.end; playing = false; }
-  if (Math.floor(T * 12) !== lastF) show(T);
+  if (Math.floor(T * 30) !== lastF) show(T);
   requestAnimationFrame(tick);
 }
 const rb = window.__rb = {
@@ -1023,12 +1021,12 @@ document.querySelectorAll('.art').forEach((a) => {
   const F = 0.6, D = 2.4, H = 2.6, LOOP = F + D + H + D;
   const kAt = (t) => { t %= LOOP; if (t < F) return 1; if (t < F + D) return 1 - (t - F) / D; if (t < F + D + H) return 0; return (t - F - D - H) / D; };
   let t0 = null, last = -1, on = false, vis = false;
-  const step = (now) => { if (!vis) return; const t = (now - t0) / 1000, f = Math.floor(t * 12); if (f !== last) { last = f; sc.draw(kAt(f / 12), f); if (!on && t > F + D) { on = true; box.classList.add('on'); } } requestAnimationFrame(step); };
+  const step = (now) => { if (!vis) return; const t = (now - t0) / 1000, f = Math.floor(t * 30); if (f !== last) { last = f; sc.draw(kAt(f / 30), f); if (!on && t > F + D) { on = true; box.classList.add('on'); } } requestAnimationFrame(step); };
   sc.draw(reduce || CLIP ? 0 : 1, 0);
   if (reduce || CLIP) box.classList.add('on');
-  new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; vis = e.isIntersecting; if (vis) { if (t0 === null) t0 = performance.now(); else t0 = performance.now() - last / 12 * 1000; requestAnimationFrame(step); } }), { threshold: 0.35 }).observe(box);
-  addEventListener('resize', () => { Object.assign(sc.o, cam()); sc.draw(last < 0 ? (reduce || CLIP ? 0 : 1) : kAt(last / 12), last); });
-  window.__lotus = { seek: (t) => sc.draw(kAt(t), Math.floor(t * 12)) };
+  new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; vis = e.isIntersecting; if (vis) { if (t0 === null) t0 = performance.now(); else t0 = performance.now() - last / 30 * 1000; requestAnimationFrame(step); } }), { threshold: 0.35 }).observe(box);
+  addEventListener('resize', () => { Object.assign(sc.o, cam()); sc.draw(last < 0 ? (reduce || CLIP ? 0 : 1) : kAt(last / 30), last); });
+  window.__lotus = { seek: (t) => sc.draw(kAt(t), Math.floor(t * 30)) };
 })();
 
 /* ---------- pricing toggle ---------- */
