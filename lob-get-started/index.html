@@ -293,6 +293,8 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 #ab.l2 #antsH{left:208px;top:50px;width:204px;height:100px}
 #ab.l2 #antsI{left:-6px;top:-6px;width:208px;height:292px}
 .ab .band p,.ab .band .qr{transition:all .6s cubic-bezier(.6,0,.2,1)}
+#tplH p{max-width:none;white-space:nowrap}
+@media (max-width:640px){#tplH p{white-space:normal}}
 #veH p{min-height:2.9em;max-width:520px;transition:opacity .3s,filter .3s,transform .3s}
 #veH p.sw{opacity:0;filter:blur(4px);transform:translateY(6px)}
 .steps{position:absolute;left:0;top:622px;width:960px;display:flex;justify-content:center;gap:10px}
@@ -430,7 +432,7 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
 <!-- 1 templates: five stacked cards; the chosen one is dragged into the Visual Editor -->
 <section class="sec" id="tpl">
   <div class="stick" id="tplS">
-    <div class="hd" id="tplH" style="top:7%"><h2>Choose your <em class="s">template</em></h2><p>Start with 40+ ready-to-use mail pieces or design your own from scratch.</p></div>
+    <div class="hd" id="tplH" style="top:7%"><h2><em class="s">Choose your template</em></h2><p>Start with 40+ ready-to-use mail pieces or design your own.</p></div>
     <div class="hd" id="veH" style="opacity:0"><h2>Build in the <em class="s">Visual Editor</em></h2><p id="veSub">Start from a ready-to-use template or build your own from scratch.</p></div>
     <div class="box" id="veB">
       <div class="glow" id="veG"></div>
