@@ -85,6 +85,75 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .marks i:nth-child(4){right:0;bottom:0;border-right-width:3px;border-bottom-width:3px}
 .chipfile{display:flex;align-items:center;gap:10px;background:#fff;border-radius:99px;padding:8px 14px 8px 10px;font:700 11px var(--sans);letter-spacing:.1em;color:#1e2245;box-shadow:0 14px 30px rgba(0,0,0,.35);white-space:nowrap}
 .chipfile .ok{width:22px;height:22px;border-radius:6px;background:var(--lime);display:grid;place-items:center}
+/* hero postcard: abstract blocks -> high fidelity -> bleed + crop -> QA scan -> checks */
+.hc{position:absolute;left:0;top:0;width:700px;height:430px;transform-origin:0 0;--pu:#4131f1;--mint:#c9f0e4;--hot:#d244de}
+.post{position:absolute;left:80px;top:62px;width:540px;height:300px;border-radius:4px;transition:box-shadow .5s}
+.post.on{box-shadow:0 26px 60px rgba(0,0,0,.45)}
+.blk{position:absolute;box-sizing:border-box;border:2.5px solid var(--lav);background:rgba(169,156,255,.12);border-radius:6px;opacity:0;transform:scale(.7);transition:opacity .3s,transform .45s cubic-bezier(.2,1.6,.4,1),background .5s,border-color .5s,border-radius .5s}
+.blk.in{opacity:1;transform:none}
+.blk.hf{background:var(--hf);border-color:transparent;border-radius:0}
+.blk.ln.hf,.blk.qrc.hf{background:transparent}
+#bP.hf{border-radius:4px 0 0 0}#bM.hf{border-radius:0 0 0 4px}#bI.hf{border-radius:0 4px 0 0}#bL.hf{border-radius:0 0 4px 0}
+.blk.img{background:repeating-linear-gradient(135deg,rgba(210,68,222,.22) 0 2px,transparent 2px 11px);border-color:var(--hot);overflow:hidden}
+.blk.img .ph{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .6s}
+.blk.img.hf{border-color:transparent}
+.blk .bar{position:absolute;left:0;height:11px;border-radius:9px;background:rgba(255,255,255,.85);transition:opacity .3s}
+.blk.ln{border:0;background:none}
+.blk .tick{position:absolute;left:0;width:12px;height:12px;border-radius:3px;border:2px solid var(--mint)}
+.blk .tx{position:absolute;left:0;top:0;font:500 20px/1.15 var(--sans);letter-spacing:-.02em;color:#fff;opacity:0;transition:opacity .3s;white-space:normal}
+.blk .tx.ck{font:500 12.5px/24px var(--sans);letter-spacing:0;white-space:nowrap}
+.blk .tx.ck b{display:inline-block;width:20px;color:var(--mint)}
+.blk.hf .tx{opacity:1}.blk.hf .bar,.blk.hf .tick{opacity:0}
+.blk .tx .car{display:inline-block;width:2px;height:.9em;background:var(--mint);vertical-align:-.1em;margin-left:1px}
+#bH .tx .nm{transition:background .3s,color .3s;border-radius:3px}
+#bH .tx .nm.hl{background:var(--hot);color:#fff;box-shadow:0 0 0 3px var(--hot)}
+.blk.qrc{border-color:var(--pu);background:#fff;border-radius:4px}
+.blk.qrc .brk{position:absolute;left:18px;top:14px;width:36px;height:36px;transition:opacity .3s}
+.blk.qrc .q{position:absolute;left:9px;top:9px;width:54px;height:54px;clip-path:inset(0 0 100% 0);transition:clip-path .7s ease}
+.blk.qrc.hf .q{clip-path:inset(0 0 0 0)}.blk.qrc.hf .brk{opacity:0}
+.blk.qrc .l1,.blk.qrc .l2{position:absolute;left:12px;height:5px;border-radius:9px;background:#e4e4f0}
+.blk.qrc .l1{top:72px;width:48px}.blk.qrc .l2{top:82px;width:40px}
+.blk.qrc.flag{box-shadow:0 0 0 3px var(--hot)}
+.blk .bar2{position:absolute;left:0;height:5px;border-radius:9px;background:var(--pu);opacity:.85}
+.blk .url{position:absolute;left:0;top:30px;height:24px;min-width:120px;padding:0 12px;border-radius:99px;border:2.5px solid var(--hot);box-sizing:border-box;display:flex;align-items:center;font:600 11.5px var(--sans);color:#fff;white-space:nowrap;transition:background .4s}
+#bU.hf .url{background:var(--hot);border-color:var(--hot)}
+.blk .logo{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font:700 19px var(--sans);letter-spacing:-.03em;color:#fff;opacity:0;transition:opacity .4s}
+#bL.hf .logo{opacity:1}#bL.hf .bar{opacity:0}
+.ants2{position:absolute;left:283px;top:-4px;width:261px;height:252px;border:2.5px dashed var(--mint);border-radius:5px;opacity:0;transition:opacity .25s}
+.scanl{position:absolute;left:-14px;right:-14px;top:0;height:3px;background:var(--mint);box-shadow:0 0 18px 4px rgba(201,240,228,.8);opacity:0}
+.bleed{position:absolute;left:68px;top:50px;width:564px;height:324px;border:2px dashed var(--hot);border-radius:3px;opacity:0;transition:opacity .4s}
+.bleed i{position:absolute;background:#fff;opacity:.9}
+.bleed i:nth-child(1){left:-22px;top:10px;width:16px;height:2px}.bleed i:nth-child(2){left:10px;top:-22px;width:2px;height:16px}
+.bleed i:nth-child(3){right:-22px;top:10px;width:16px;height:2px}.bleed i:nth-child(4){right:10px;top:-22px;width:2px;height:16px}
+.bleed i:nth-child(5){left:-22px;bottom:10px;width:16px;height:2px}.bleed i:nth-child(6){left:10px;bottom:-22px;width:2px;height:16px}
+.bleed i:nth-child(7){right:-22px;bottom:10px;width:16px;height:2px}.bleed i:nth-child(8){right:10px;bottom:-22px;width:2px;height:16px}
+.qa{position:absolute;left:50%;top:8px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#fff;color:#1e2245;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
+.qa.on{opacity:1;transform:translateX(-50%)}
+.qa i{width:18px;height:18px;border-radius:5px;background:var(--mint);display:grid;place-items:center;font-style:normal;font-size:11px;color:var(--pu)}
+.rail{position:absolute;left:52px;top:96px;width:48px;padding:7px;border-radius:14px;background:#fff;display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.rail.on{opacity:1;transform:none}
+.rail b{height:34px;border-radius:9px;display:grid;place-items:center;color:#3a3e5c;transition:background .2s,color .2s}
+.rail b svg{width:16px;height:16px}
+.rail b.on{background:var(--pu);color:#fff}
+.gal{position:absolute;left:500px;top:-6px;width:220px;padding:12px;border-radius:12px;background:#fff;color:#1e2245;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.gal.on{opacity:1;transform:none}
+.gal .gt{display:flex;justify-content:space-between;font:600 12px var(--sans);margin-bottom:9px}
+.gal .gn{color:#8a8aa0;font-weight:500}
+.gal .gth{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.gal .g div{aspect-ratio:1.05;border-radius:7px;background-size:cover;background-position:center;outline:3px solid transparent;outline-offset:2px;transition:outline-color .25s}
+.gal .g.on div{outline-color:var(--hot)}
+.gal .g small{display:block;margin-top:6px;font:600 10.5px var(--sans)}
+.chk{position:absolute;left:22px;top:300px;width:250px;padding:12px 12px 10px;border-radius:12px;background:#fff;color:#1e2245;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
+.chk.on{opacity:1;transform:none}
+.chk .ct{font:700 10px var(--sans);letter-spacing:.14em;color:#8a8aa0;margin-bottom:4px;text-transform:uppercase}
+.chk .cr{display:flex;align-items:center;justify-content:space-between;height:27px;font:500 13px var(--sans);border-top:1px solid #efeff6}
+.chk .cr i{width:20px;height:20px;border-radius:6px;background:#efeff6;display:grid;place-items:center;transform:scale(.8);transition:background .25s,transform .35s cubic-bezier(.2,1.8,.4,1)}
+.chk .cr.ok i{background:var(--mint);transform:none}
+.chk .cr.ok i::after{content:"";width:8px;height:4px;border-left:2px solid var(--pu);border-bottom:2px solid var(--pu);transform:rotate(-45deg) translate(1px,-1px)}
+.chk .csv{display:flex;align-items:center;gap:7px;margin-top:6px;padding:6px 8px;border-radius:8px;background:#f6f5ff;font:700 9.5px var(--sans);letter-spacing:.1em;opacity:0;transition:opacity .3s}
+.chk .csv.on{opacity:1}
+.chk .csv b{margin-left:auto;font:600 10px ui-monospace,Menlo,monospace;letter-spacing:0;color:var(--hot)}
+.hcur{position:absolute;left:0;top:0;width:22px;height:22px;z-index:5;opacity:0;transition:opacity .3s;pointer-events:none}
 .words{position:relative;z-index:2;width:100%;display:flex;justify-content:space-between;align-items:baseline;pointer-events:none;font-weight:400;font-size:clamp(64px,13.4vw,196px);line-height:1;letter-spacing:-.055em;padding:0 2%}
 .words span{display:inline-block}
 .words em.s{letter-spacing:-.03em;font-size:1.14em}
@@ -308,30 +377,37 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
 <section class="hero" id="hero">
   <div class="stage">
     <div class="col" id="col">
-      <div class="lay" data-k="stack">
-        <div class="pc" style="left:-6%;top:2%;width:36%;--r:-2deg;transition-delay:.0s"><img src="assets/mail-2.webp" alt=""></div>
-        <div class="pc" style="left:32%;top:-4%;width:36%;transition-delay:.12s"><img src="assets/mail-6.webp" alt=""></div>
-        <div class="pc" style="left:70%;top:3%;width:36%;--r:2deg;transition-delay:.06s"><img src="assets/mail-5.webp" alt=""></div>
-        <div class="pc" style="left:-2%;top:52%;width:36%;--r:1.5deg;transition-delay:.18s"><img src="assets/mail-9.webp" alt=""></div>
-        <div class="pc" style="left:33%;top:48%;width:36%;transition-delay:.24s"><img src="assets/mail-3.webp" alt=""></div>
-        <div class="pc" style="left:68%;top:54%;width:36%;--r:-1.5deg;transition-delay:.3s"><img src="assets/mail-10.webp" alt=""></div>
-      </div>
-      <div class="lay" data-k="create">
-        <div class="pc ui" style="left:18%;top:6%;width:64%;transition-delay:0s"><img src="assets/ui-creative.webp" alt=""></div>
-        <div class="pc" style="left:-4%;top:-2%;width:31%;--r:-3deg;transition-delay:.2s">
-          <div class="card"><div class="t"><span>Templates ›</span><span style="color:#8a8aa0">40+</span></div>
-            <div class="th"><div style="background-image:url(assets/mail-3.webp)"></div><div style="background-image:url(assets/mail-7.webp)"></div><div style="background-image:url(assets/mail-11.webp)"></div></div>
-            <div class="th"><small>Postcards</small><small>Letters</small><small>Self-mailers</small></div></div>
+      <div class="hc" id="hc">
+        <div class="qa" id="qaChip"></div>
+        <div class="bleed" id="bleed"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="post" id="post">
+          <div class="blk" id="bP" style="left:0;top:0;width:287px;height:201px;--hf:#4131f1"></div>
+          <div class="blk" id="bM" style="left:0;top:201px;width:332px;height:99px;--hf:#c9f0e4"></div>
+          <div class="blk img" id="bI" style="left:287px;top:0;width:253px;height:244px"><div class="ph" id="ph1" style="background-image:url(assets/care-1.webp)"></div><div class="ph" id="ph2" style="background-image:url(assets/care-2.webp);background-position:62% 30%"></div></div>
+          <div class="blk" id="bL" style="left:332px;top:244px;width:208px;height:56px;--hf:#4131f1"><b class="logo">+ LobHealth</b><i class="bar" style="width:92px;left:58px;top:23px"></i></div>
+          <div class="blk ln" id="bH" style="left:30px;top:34px;width:236px;height:56px"><span class="tx" id="hlT"></span><i class="bar" style="width:170px;top:6px"></i><i class="bar" style="width:120px;top:30px"></i></div>
+          <div class="blk ln" id="bC" style="left:30px;top:110px;width:236px;height:50px"><span class="tx ck"><b>✓</b>Same-week appointments<br><b>✓</b>Covered by your plan</span><i class="bar" style="width:150px;top:4px;left:22px"></i><i class="bar" style="width:110px;top:28px;left:22px"></i><i class="tick" style="top:2px"></i><i class="tick" style="top:26px"></i></div>
+          <div class="blk qrc" id="bQ" style="left:43px;top:178px;width:72px;height:100px"><div class="q" id="qrH"></div><svg class="brk" viewBox="0 0 24 24"><path d="M2 8V2h6M16 2h6v6M22 16v6h-6M8 22H2v-6" fill="none" stroke="#4131f1" stroke-width="2.6"/></svg><i class="l1"></i><i class="l2"></i></div>
+          <div class="blk ln" id="bU" style="left:134px;top:214px;width:176px;height:60px"><i class="bar2" style="width:110px;top:0"></i><i class="bar2" style="width:80px;top:11px"></i><span class="url" id="urlH"></span></div>
+          <div class="ants2" id="antsP"></div>
+          <div class="scanl" id="scanl"></div>
         </div>
-        <div class="pc" style="left:72%;top:26%;width:31%;--r:2.5deg;transition-delay:.32s">
-          <div class="sendc"><img src="assets/mail-8.webp" alt="" style="width:100%"><div class="b">Send with <img src="assets/logo.png" alt="Lob"></div></div>
+        <div class="rail" id="rail">
+          <b data-t="shape"><svg viewBox="0 0 16 16"><rect x="2.5" y="2.5" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></b>
+          <b data-t="image"><svg viewBox="0 0 16 16"><rect x="2" y="3" width="12" height="10" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.5 11.5l3.5-3.5 2.5 2.5 2-2 3 3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></b>
+          <b data-t="text"><svg viewBox="0 0 16 16"><path d="M3 3.5h10M8 3.5v10" stroke="currentColor" stroke-width="1.8" fill="none"/></svg></b>
+          <b data-t="qr"><svg viewBox="0 0 16 16"><path d="M2 5.5V2h3.5M10.5 2H14v3.5M14 10.5V14h-3.5M5.5 14H2v-3.5" fill="none" stroke="currentColor" stroke-width="1.7"/></svg></b>
+          <b data-t="link"><svg viewBox="0 0 16 16"><path d="M6.5 9.5l3-3M6 7.5L4.3 9.2a2.2 2.2 0 003.1 3.1L9 10.6M10 8.5l1.7-1.7a2.2 2.2 0 00-3.1-3.1L7 5.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></b>
         </div>
-        <div class="pc" style="left:5%;top:70%;transition-delay:.42s"><div class="chipfile"><svg width="16" height="20" viewBox="0 0 16 20"><path d="M1 1h9l5 5v13H1z" fill="#fff" stroke="#5547d9" stroke-width="1.6" stroke-linejoin="round"/><rect x="4" y="10" width="11" height="5" rx="1" fill="#c943dd"/></svg>AUDIENCE.CSV<span class="ok"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="#1e2245" stroke-width="1.8" stroke-linecap="round"/></svg></span></div></div>
-      </div>
-      <div class="lay" data-k="proof">
-        <div class="pc" style="left:14%;top:5%;width:72%;transition-delay:0s"><img src="assets/mail-1.webp" alt=""><span class="marks"><i></i><i></i><i></i><i></i></span></div>
-        <div class="pc" style="left:-5%;top:58%;width:30%;--r:-4deg;transition-delay:.22s"><img src="assets/mail-11.webp" alt=""></div>
-        <div class="pc" style="left:76%;top:-3%;width:28%;--r:3deg;transition-delay:.3s"><img src="assets/mail-7.webp" alt=""></div>
+        <div class="gal" id="gal"><div class="gt"><span>Images ›</span><span class="gn">Healthcare</span></div>
+          <div class="gth"><div class="g" id="g1"><div style="background-image:url(assets/care-1.webp)"></div><small>Care team</small></div><div class="g" id="g2"><div style="background-image:url(assets/care-2.webp);background-position:62% 30%"></div><small>Check-up</small></div></div></div>
+        <div class="chk" id="chk"><div class="ct">QA checks</div>
+          <div class="cr" id="cr1"><span>Deliverability</span><i></i></div>
+          <div class="cr" id="cr2"><span>QR code correct</span><i></i></div>
+          <div class="cr" id="cr3"><span>Name matches CSV</span><i></i></div>
+          <div class="csv" id="csv"><svg width="13" height="16" viewBox="0 0 16 20"><path d="M1 1h9l5 5v13H1z" fill="#fff" stroke="#4131f1" stroke-width="1.6" stroke-linejoin="round"/><rect x="4" y="10" width="11" height="5" rx="1" fill="#d244de"/></svg>AUDIENCE.CSV<b>first_name: Maya</b></div>
+        </div>
+        <svg class="hcur" id="hcur" viewBox="0 0 24 24"><path d="M.7.7L23.8 10.3 13.4 13 10.6 23.8z" fill="#fff" stroke="#4333f0" stroke-width="1.7" stroke-linejoin="round"/></svg>
       </div>
     </div>
     <h1 class="words" aria-label="Build your way"><span class="w-in">build</span><span class="w-in" style="transition-delay:.18s">your <em class="s">way</em></span></h1>
@@ -472,15 +548,72 @@ function qr(seed){
 }
 $('#qr1').innerHTML = qr(7); $('#qr2').innerHTML = qr(11); $('#qr3').innerHTML = qr(11);
 
-/* ---------- hero: words blur in, collage cycles ---------- */
-const lays = [...document.querySelectorAll('.lay')];
-let li = 0;
-function showLay(i){ lays.forEach((l, k) => { if (k === i) { l.classList.remove('out'); l.classList.add('on'); } else if (l.classList.contains('on')) { l.classList.remove('on'); l.classList.add('out'); } }); }
-requestAnimationFrame(() => { document.body.classList.add('ready'); showLay(0); });
-let cyc = 0;
-const play = () => { clearInterval(cyc); cyc = setInterval(() => { li = (li + 1) % lays.length; showLay(li); }, CLIP ? 2200 : 3200); };
-if (!CLIP) play();   // #clip: the recorder starts the cycle, so the first frame is the settled stack
-window.__rb = { play };
+/* ---------- hero: a healthcare postcard builds, goes high fidelity and passes QA ---------- */
+requestAnimationFrame(() => document.body.classList.add('ready'));
+const HC = { post: $('#post'), bleed: $('#bleed'), qa: $('#qaChip'), rail: $('#rail'), gal: $('#gal'), chk: $('#chk'), cur: $('#hcur'), scan: $('#scanl'), ants: $('#antsP') };
+const B = { P: $('#bP'), M: $('#bM'), I: $('#bI'), L: $('#bL'), H: $('#bH'), C: $('#bC'), Q: $('#bQ'), U: $('#bU') };
+$('#qrH').innerHTML = qr(23);
+const railB = {}; document.querySelectorAll('#rail b').forEach((b) => (railB[b.dataset.t] = b));
+const LOOP = 15.6;
+const HL_T = 'Maya, meet your care team', URL_T2 = 'lobhealth.com/maya';
+// [time, block] abstract build order, then [time, block] high fidelity order
+const BUILD = [[.3, 'P'], [.55, 'M'], [.8, 'I'], [1.05, 'L'], [1.4, 'H'], [1.7, 'C'], [2.0, 'Q'], [2.3, 'U']];
+const HIFI = [[3.0, 'P'], [3.0, 'M'], [3.0, 'L'], [4.1, 'I'], [4.6, 'H'], [5.7, 'C'], [6.0, 'Q'], [6.4, 'U']];
+// cursor keyframes in stage px: [t, x, y]
+const HK = [[0, 640, 470], [.4, 76, 113], [1.3, 76, 113], [1.5, 76, 193], [2.1, 76, 233], [2.4, 76, 273], [3.2, 640, 120], [3.8, 556, 90], [4.3, 556, 90], [7.2, 652, 90], [7.9, 652, 92], [8.6, 760, 470], [15.6, 760, 470]];
+function at(t, K){ for (let i = 1; i < K.length; i++) if (t <= K[i][0]) { const a = K[i - 1], b = K[i]; const k = easeIO((t - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k)]; } return K[K.length - 1].slice(1); }
+const tog = (el, c, on) => el.classList.toggle(c, !!on);
+function heroAt(t){
+  const fade = t > LOOP - .5 ? 1 - (t - (LOOP - .5)) / .5 : 1;
+  $('#hc').style.opacity = fade;
+  for (const k in B) { tog(B[k], 'in', BUILD.some(([bt, b]) => b === k && t >= bt)); tog(B[k], 'hf', HIFI.some(([bt, b]) => b === k && t >= bt)); }
+  tog(HC.post, 'on', t >= 3);
+  // tool rail: the tool that is placing the current block
+  tog(HC.rail, 'on', t > .2 && t < 8.6);
+  const tool = t < .3 ? null : t < 1.3 ? 'shape' : t < 1.4 ? 'image' : t < 2 ? 'text' : t < 2.3 ? 'qr' : t < 2.7 ? 'link' : t < 6 ? (t >= 4.6 && t < 5.7 ? 'text' : t >= 3.4 && t < 4.6 ? 'image' : null) : t < 6.4 ? 'qr' : t < 6.9 ? 'link' : t >= 7.2 && t < 8.2 ? 'image' : null;
+  for (const k in railB) tog(railB[k], 'on', k === tool);
+  // gallery: picks image 1, later image 2, and the photo slot follows
+  tog(HC.gal, 'on', t >= 3.4 && t < 8.6);
+  tog($('#g1'), 'on', t >= 3.8 && t < 7.5);
+  tog($('#g2'), 'on', t >= 7.5 && t < 8.6);
+  $('#ph1').style.opacity = t >= 4.1 ? 1 : 0;
+  $('#ph2').style.opacity = t >= 7.8 ? 1 : 0;
+  HC.ants.style.opacity = (t >= 3.9 && t < 4.6) || (t >= 7.5 && t < 8.4) ? 1 : 0;
+  // headline and URL type in
+  const hn = Math.round(seg(t, 4.7, 5.5) * HL_T.length);
+  const typing = t >= 4.6 && t < 5.6;
+  const ht = HL_T.slice(0, hn);
+  $('#hlT').innerHTML = (ht.length >= 4 ? '<span class="nm' + (t >= 13.6 && t < 14.6 ? ' hl' : '') + '">Maya</span>' + ht.slice(4) : ht) + (typing ? '<span class="car"></span>' : '');
+  $('#urlH').textContent = URL_T2.slice(0, Math.round(seg(t, 6.5, 7.0) * URL_T2.length));
+  // bleed and crop marks
+  HC.bleed.style.opacity = t >= 8.8 && t < 10.4 ? 1 : 0;
+  // QA scan sweeps the card
+  const sc = seg(t, 10.6, 11.9);
+  HC.scan.style.opacity = sc > 0 && sc < 1 ? 1 : 0;
+  HC.scan.style.top = (sc * 300) + 'px';
+  const chip = t >= 9.3 && t < 10.4 ? 'BLEED + CROP MARKS <i>✓</i>' : t >= 10.5 && t < 12 ? 'QA SCAN' : t >= 12 && t < 12.2 ? 'QA SCAN <i>✓</i>' : '';
+  if (chip && HC.qa.innerHTML !== chip) HC.qa.innerHTML = chip;
+  tog(HC.qa, 'on', !!chip);
+  // three checks
+  tog(HC.chk, 'on', t >= 12.1 && t < LOOP - .4);
+  tog($('#cr1'), 'ok', t >= 12.6); tog($('#cr2'), 'ok', t >= 13.1); tog($('#cr3'), 'ok', t >= 13.8);
+  tog(B.Q, 'flag', t >= 12.9 && t < 13.5);
+  tog($('#csv'), 'on', t >= 13.5);
+  // cursor
+  const [cx, cy] = at(t, HK);
+  HC.cur.style.opacity = t > .3 && t < 8.4 ? 1 : 0;
+  HC.cur.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
+}
+let hT0 = performance.now(), hOff = CLIP ? 2.7 : 0, hRun = !CLIP;
+function heroLoop(now){
+  const col = $('#col'); $('#hc').style.transform = 'scale(' + (col.clientWidth / 700) + ')';
+  const t = hRun ? (((now - hT0) / 1000 + hOff) % LOOP) : hOff;
+  heroAt(t);
+  requestAnimationFrame(heroLoop);
+}
+requestAnimationFrame(heroLoop);
+// #clip: hold the built abstract card until the recorder starts the timeline
+window.__rb = { play: () => { hT0 = performance.now(); hRun = true; }, seek: (t) => { hRun = false; hOff = t; } };
 
 /* ---------- 1 templates fan ---------- */
 const TPL = ['mail-2', 'mail-6', 'mail-3', 'mail-5', 'mail-10'];
