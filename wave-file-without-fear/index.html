@@ -69,7 +69,7 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .roadmap{padding:128px 0 96px}
 .roadmap h2{color:var(--ink)}
 .roadmap .sub{text-align:center;font-size:21px;margin-top:30px}
-.three{display:grid;grid-template-columns:repeat(3,1fr);gap:90px;max-width:1092px;margin:66px auto 0;padding:0 24px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:90px;max-width:1352px;margin:66px auto 0;padding:0 24px}
 .three img{width:38px;height:38px;margin-left:-2px;mix-blend-mode:multiply}
 .three h3{font-size:26px;font-weight:600;line-height:1.25;margin:22px 0 18px}
 .three p{font-size:17.5px;line-height:1.4}
@@ -77,7 +77,7 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 
 /* testimonials */
 .testi{background:var(--sky);padding:33px 0}
-.tq{max-width:896px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr 278px;gap:42px;align-items:center}
+.tq{max-width:1352px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,780px) 278px;justify-content:space-between;gap:42px;align-items:center}
 .tq blockquote{font-size:31px;line-height:1.24;color:var(--navy);font-weight:400}
 .tq blockquote b{font-weight:700}
 .tq .who{margin-top:44px;font-size:18px;color:var(--navy)}
@@ -115,7 +115,7 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .ind h3{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1;color:var(--sky);min-height:62px;font-variation-settings:"opsz" 30;font-weight:450}
 .ind .four img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:13px;margin:28px 0 34px}
 .ind .four p{font-size:17px;line-height:1.44}
-.pcard{background:var(--pink);border-radius:16px;max-width:912px;margin:84px auto 0;padding:33px 33px 33px 33px;display:grid;grid-template-columns:1fr 278px;gap:42px;align-items:center}
+.pcard{background:var(--pink);border-radius:16px;margin:84px 0 0;padding:33px;display:grid;grid-template-columns:minmax(0,780px) 278px;justify-content:space-between;gap:42px;align-items:center}
 .pcard img{width:278px;height:366px;object-fit:cover;border-radius:13px}
 
 /* why */
@@ -140,7 +140,7 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 /* pricing */
 .plans{padding:150px 0 0}
 .plans h2{color:var(--ink)}
-.tog{position:relative;max-width:796px;margin:60px auto 0;height:46px}
+.tog{position:relative;max-width:1304px;width:calc(100% - 48px);margin:60px auto 0;height:46px}
 .tog:before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#dcdad6}
 .tog .pill{position:relative;margin:0 auto;width:326px;height:46px;background:#e0f2ff;border-radius:14px;padding:4px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
 .tog .pill button{border:0;background:none;border-radius:11px;font:600 18px var(--sans);color:var(--navy)}
@@ -172,7 +172,7 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .pc li a{color:var(--blue);font-weight:600}
 
 /* advisors */
-.adv{max-width:1040px;margin:76px auto 0;border:1px solid #e4ded9;border-radius:20px;background:var(--cream);box-shadow:0 2px 8px rgba(0,0,0,.06);display:grid;grid-template-columns:1fr 368px;overflow:hidden;position:relative}
+.adv{max-width:1304px;width:calc(100% - 48px);margin:76px auto 0;border:1px solid #e4ded9;border-radius:20px;background:var(--cream);box-shadow:0 2px 8px rgba(0,0,0,.06);display:grid;grid-template-columns:1fr 368px;overflow:hidden;position:relative}
 .adv .l{padding:34px 0 34px 32px}
 .adv .lab{color:var(--purple);font:600 15px var(--sans);letter-spacing:.11em}
 .adv h3{font-size:26px;font-weight:600;line-height:1.24;margin-top:18px;max-width:540px}
@@ -213,7 +213,7 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .more .btn{height:49px;padding:0 34px}
 
 /* faq */
-.faq{padding:120px 0 0;max-width:1092px;margin:0 auto;padding-left:24px;padding-right:24px;display:grid;grid-template-columns:336px 1fr;gap:0}
+.faq{padding:120px 0 0;max-width:1352px;margin:0 auto;padding-left:24px;padding-right:24px;display:grid;grid-template-columns:1fr minmax(0,820px);gap:0}
 .faq h2{font:700 34px/1.15 var(--sans);width:200px;padding-top:12px}
 .faq .ex{display:block;text-align:right;color:var(--blue);font-size:18px;text-decoration:underline;background:none;border:0;margin-left:auto}
 .faq details{border-bottom:1.5px solid var(--orange)}
@@ -222,7 +222,7 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .faq summary svg{flex:none;width:24px;height:24px;transition:transform .25s}
 .faq details[open] summary svg{transform:rotate(45deg)}
 .faq details p{font-size:17.5px;line-height:1.45;padding:0 50px 24px 0}
-.notes{max-width:1092px;margin:0 auto;padding:100px 24px 98px;font-size:14.5px;line-height:1.36}
+.notes{max-width:1352px;margin:0 auto;padding:100px 24px 98px;font-size:14.5px;line-height:1.36}
 .notes p{margin-bottom:18px}
 .notes a{color:var(--blue)}
 
@@ -288,7 +288,6 @@ footer{position:relative}
   .tq,.pcard{grid-template-columns:1fr}
   .tq img,.pcard img{width:100%;height:auto;aspect-ratio:278/367;max-width:320px}
   .tq blockquote{font-size:25px}
-  .pcard{margin-left:24px;margin-right:24px}
   .feat .cols{grid-template-columns:1fr;padding:0}
   .lotus{aspect-ratio:4/5}.feat .lotus .ui{left:4%;top:5%;width:92%;max-width:none}.feat .lotus .hd{font-size:12px;white-space:normal;padding-right:10px}.feat .lotus .hd br{display:none}.feat .lotus .row{font-size:12.5px;height:40px}.feat .lotus .row span{width:92px}.feat .lotus .row i{margin-right:12px}.lotus canvas{top:30%;height:70%}
   .feat .cols>div:nth-child(2)>div:nth-child(2){margin-top:0}
@@ -296,7 +295,6 @@ footer{position:relative}
   .st,.r2 .st{min-height:300px}
   .prices{grid-template-columns:minmax(0,377px)}
   .pc{min-height:0}
-  .adv{margin-left:24px;margin-right:24px}
   .adv .cl{grid-template-columns:1fr}
   .adv .l{padding-right:24px}
   .faq{grid-template-columns:1fr}
