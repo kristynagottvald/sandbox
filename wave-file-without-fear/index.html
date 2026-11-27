@@ -239,8 +239,8 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .notes a{color:var(--blue)}
 
 /* final CTA */
-.fcta{background:var(--blue);color:#fff;padding:150px 0 160px;margin-top:120px}
-.fcta .wrap{display:flex;flex-direction:column;align-items:flex-start}
+.fcta{position:relative;overflow:hidden;background:var(--blue);color:#fff;padding:150px 0 160px;margin-top:120px}
+.fcta .wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:flex-start}
 .fcta h2{font-size:96px;line-height:.98;letter-spacing:-.025em;max-width:900px}
 .fcta h2 em{font-style:italic;color:var(--pink)}
 .fcta p{font-size:22px;line-height:1.4;margin-top:28px;color:rgba(255,255,255,.92)}
@@ -267,7 +267,7 @@ footer{background:var(--navy);color:#fff;padding:56px 0 26px}
 .btt{position:absolute;right:24px;bottom:28px;color:var(--pink);text-decoration:none;font-size:17px;display:flex;flex-direction:column;align-items:center}
 .btt svg{width:84px;height:46px}
 footer{position:relative;overflow:hidden}
-.ftart{position:absolute;right:max(0px,calc((100vw - 1352px) / 2));top:10px;width:520px;height:330px;pointer-events:none}
+.ftart{position:absolute;right:max(0px,calc((100vw - 1352px) / 2));top:50%;transform:translateY(-50%);width:640px;height:460px;pointer-events:none}
 @media (max-width:1180px){.ftart{display:none}}
 
 
@@ -497,9 +497,9 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <h2 class="sec serif navy-t">Level up your tax knowledge</h2>
     <p class="sub">Stop the tax time terror before it starts. Check out our guides to get prepared.</p>
     <div class="arts" id="arts">
-      <a class="art" href="#" data-c="spider" data-f="T4A" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p></div></a>
+      <a class="art" href="#" data-c="spider" data-f="T4A" data-cam="0.5,0.97,2.4" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p></div></a>
       <a class="art" href="#" data-c="hydra" data-f="T2125" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
-      <a class="art" href="#" data-c="snake" data-f="GST34" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
+      <a class="art" href="#" data-c="snake" data-f="GST34" data-cam="0.5,0.9,2.9" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
     </div>
   </div>
 </section>
@@ -513,11 +513,11 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 
 <section class="fcta">
+  <canvas class="ftart" id="ftart" aria-label="Three crumpled CRA forms open out into a neat stack of paper"></canvas>
   <div class="wrap"><h2 class="serif">Ready to kick tax season’s <em>butt?</em></h2><p>Get organized, stay tax-ready all year, and file without fear.</p><a class="btn pink" href="#plans">Get started now</a></div>
 </section>
 
 <footer>
-  <canvas class="ftart" id="ftart" aria-label="Three crumpled CRA forms open out into a neat stack of paper"></canvas>
   <div class="wrap">
     <div class="fg">
       <div><img src="img/footer-logo.png" alt="Wave" width="60">
@@ -532,11 +532,6 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
       <div><h4>WAVE</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Sitemap</a></li></ul></div>
       <div><h4>HELPFUL LINKS</h4><ul><li><a href="#">Blog</a></li><li><a href="#">Help Center</a></li><li><a href="#">Invoice templates</a></li><li><a href="#">Estimate templates</a></li><li><a href="#">Accounting education center</a></li><li><a href="#">Payroll education center</a></li><li><a href="#">QuickBooks alternative</a></li><li><a href="#">Freelance Hub</a></li><li><a href="#">Small business study</a></li></ul></div>
       <div><h4>SUPPORT &amp; TOOLS</h4><ul><li><a href="#">How support works</a></li><li><a href="#">System status</a></li><li><a href="#">Accounting calculators</a></li><li><a href="#">Invoicing generators</a></li><li><a href="#">Payroll calculators</a></li></ul></div>
-    </div>
-    <div class="fb">
-      <div><p>Copyright © 2010-2026 Wave Financial Inc. All Rights Reserved.</p>
-        <nav><a href="#">Privacy Policy</a><a href="#">Legal Disclosures</a><a href="#">Security</a><a href="#">Licensing</a><a href="#">Accessibility</a><a href="#">Social Media Disclaimer</a><a href="#">Privacy Choices</a><span class="cookie"><i></i>COOKIE PREFERENCES</span></nav></div>
-      <img class="bbb" src="img/bbb.png" alt="BBB Accredited Business">
     </div>
   </div>
 </footer>
@@ -1072,7 +1067,8 @@ if (reduce && !CLIP) rb.seek(0);
   document.querySelectorAll('.art').forEach((a, n) => {
     const ill = a.querySelector('.ill'), cv = a.querySelector('canvas');
     ill.style.background = a.dataset.bg;
-    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: 0.5, cy: 0.78, fov: 1.95, flatDist: 2.1, yaw: -0.42, flatYaw: 0.25, fps: 30, sway: 0.8 });
+    const cam = (a.dataset.cam || '0.5,0.78,1.95').split(',').map(Number);
+    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: cam[0], cy: cam[1], fov: cam[2], flatDist: 2.1 * cam[2] / 1.95, yaw: -0.42, flatYaw: 0.25, fps: 30, sway: 0.8 });
     let vis = false, t = PH[n % PH.length], last = 0;
     const draw = () => sc.draw(kAt(t), Math.floor(t * 30));
     draw();
