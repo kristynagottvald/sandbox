@@ -52,13 +52,14 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .hero .wrap>*{pointer-events:auto}
 .kick{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;font:600 15px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(0,27,101,.35);border:1px solid rgba(255,255,255,.28);padding:10px 16px 10px 12px;border-radius:99px;margin-bottom:30px}
 .kick i{width:10px;height:10px;border-radius:50%;background:#ff6a3d;box-shadow:0 0 0 4px rgba(255,106,61,.25)}
-.hero h1{font-size:128px;line-height:.94;letter-spacing:-.025em;max-width:820px}
+.hero h1{font-size:112px;line-height:.96;letter-spacing:-.025em;max-width:none}
+.hero h1 span{display:block;white-space:nowrap}
 .hero h1 em{font-style:italic;color:var(--pink)}
 .hero p.lede{font-size:22px;line-height:1.4;max-width:470px;margin-top:30px;color:rgba(255,255,255,.92)}
 .hero .ctas{display:flex;align-items:center;gap:26px;margin-top:38px}
 .btn.pink{background:var(--pink);border-color:var(--pink);color:var(--navy);height:56px;padding:0 40px}
 .btn.pink:hover{background:#f1c8ff;border-color:#f1c8ff}
-.replay{background:none;border:0;color:#fff;font:600 17px var(--sans);display:inline-flex;gap:10px;align-items:center;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
+.replay{background:none;border:0;color:#fff;text-decoration-color:currentColor;font:600 17px var(--sans);display:inline-flex;gap:10px;align-items:center;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
 .replay svg{width:18px;height:18px}
 .cap{position:absolute;z-index:2;right:max(24px,calc((100vw - 1304px)/2));bottom:34px;display:flex;align-items:center;gap:18px;font:500 15px/1.3 var(--sans);color:rgba(255,255,255,.9)}
 .cap b{font-weight:700;color:#fff}
@@ -101,10 +102,10 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .lotus .hd,.lotus .row{opacity:0;transform:translateY(10px);transition:opacity .45s,transform .45s cubic-bezier(.2,.8,.2,1)}
 .lotus.on .hd,.lotus.on .row{opacity:1;transform:none}
 .lotus.on .row:nth-child(2){transition-delay:.12s}.lotus.on .row:nth-child(3){transition-delay:.24s}.lotus.on .row:nth-child(4){transition-delay:.36s}
-.lotus .hd{display:flex;align-items:center;gap:11px;background:rgba(253,240,255,.94);border-left:4px solid #e8aaff;border-radius:4px;padding:8px 14px 8px 9px;font-size:15px;line-height:1.38;white-space:nowrap;color:#232426;box-shadow:0 6px 18px rgba(80,0,110,.12);margin-bottom:5px}
+.lotus .hd{display:flex;align-items:center;gap:11px;background:rgba(253,240,255,.94);border-left:4px solid #e8aaff;border-radius:4px;padding:15px 18px 15px 12px;font-size:15px;line-height:1.42;white-space:nowrap;color:#232426;box-shadow:0 6px 18px rgba(80,0,110,.12);margin-bottom:5px}
 .lotus .hd b{font-weight:700}
 .lotus .hd svg{flex:none;width:30px;height:30px}
-.lotus .row{display:flex;align-items:center;gap:0;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:4px;height:34px;padding:0 10px;font-size:14.5px;white-space:nowrap;box-shadow:0 6px 18px rgba(80,0,110,.1)}
+.lotus .row{display:flex;align-items:center;gap:0;background:rgba(255,255,255,.82);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-radius:4px;height:48px;padding:0 14px;font-size:14.5px;white-space:nowrap;box-shadow:0 6px 18px rgba(80,0,110,.1)}
 .lotus .row i{flex:none;width:17px;height:17px;border:1.5px solid #c9ccd2;border-radius:2px;background:#fff;margin-right:21px}
 .lotus .row span{color:#7b7f86;font-weight:600;width:108px;flex:none}
 .lotus .row b{font-weight:700;color:#232426;display:flex;align-items:center;gap:7px}
@@ -259,7 +260,7 @@ footer{position:relative}
 @media (max-width:1380px){.wh ul{gap:26px;margin-left:30px;font-size:17px}.wh .act{gap:12px}}
 @media (max-width:1180px){
   .wh ul{gap:24px;margin-left:28px;font-size:16px}
-  .hero h1{font-size:104px}
+  .hero h1{font-size:92px}
   .feat .grid{grid-template-columns:1fr}
   .feat .ph,.lotus{margin-top:20px}
   .ind .four{gap:28px}
@@ -279,7 +280,7 @@ footer{position:relative}
   .hero .wrap{order:1}.hero canvas.stage{order:2}.hero .cap{order:3}.hero .scrib.a{left:-40px;width:340px;bottom:-200px}
   .hero .wrap{height:auto;padding-top:48px;padding-bottom:20px}
   .hero canvas.stage{position:relative;inset:auto;height:380px;display:block}
-  .hero h1{font-size:76px}
+  .hero h1{font-size:58px}
   .hero p.lede{font-size:19px;margin-top:22px}
   .hero .ctas{flex-wrap:wrap;gap:16px;margin-top:28px}
   .hero .scrib.b{display:none}
@@ -293,7 +294,7 @@ footer{position:relative}
   .tq blockquote{font-size:25px}
   .pcard{margin-left:24px;margin-right:24px}
   .feat .cols{grid-template-columns:1fr;padding:0}
-  .lotus{aspect-ratio:4/5}.feat .lotus .ui{left:4%;top:5%;width:92%;max-width:none}.feat .lotus .hd{font-size:12px;white-space:normal;padding-right:10px}.feat .lotus .hd br{display:none}.feat .lotus .row{font-size:12.5px;height:30px}.feat .lotus .row span{width:92px}.feat .lotus .row i{margin-right:12px}.lotus canvas{top:30%;height:70%}
+  .lotus{aspect-ratio:4/5}.feat .lotus .ui{left:4%;top:5%;width:92%;max-width:none}.feat .lotus .hd{font-size:12px;white-space:normal;padding-right:10px}.feat .lotus .hd br{display:none}.feat .lotus .row{font-size:12.5px;height:40px}.feat .lotus .row span{width:92px}.feat .lotus .row i{margin-right:12px}.lotus canvas{top:30%;height:70%}
   .feat .cols>div:nth-child(2)>div:nth-child(2){margin-top:0}
   .stats,.stats .r2{grid-template-columns:1fr}
   .st,.r2 .st{min-height:300px}
@@ -347,9 +348,9 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
   <svg class="scrib a" viewBox="0 0 440 420" fill="none" aria-hidden="true"><path d="M-20 40C120 0 300-10 330 40 360 95 90 130 -10 175 -80 210 60 220 210 190 350 160 400 180 360 230 320 285 110 300 40 340 -10 368 140 380 250 330" stroke="#ff7a1a" stroke-width="7" stroke-linecap="round"/></svg>
   <canvas class="stage" id="stage" aria-label="Stop motion: a dragon folded from a CRA tax form unfolds into a flat sheet of paper"></canvas>
   <div class="wrap">
-    <h1 class="serif">File without <em>fear</em></h1>
+    <h1 class="serif"><span>File your taxes</span><span>without <em>fear</em></span></h1>
     <p class="lede">Tax time panic setting in? Wave’s small business software keeps you organized and ready for anything tax season throws at you.</p>
-    <div class="ctas"><a class="btn pink" href="#plans">Get started now</a><button class="replay" id="replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>Watch it unfold</button></div>
+    <div class="ctas"><a class="btn pink" href="#plans">Get started now</a><a class="replay" href="wave-2026-tax-checklist.pdf" download="Wave 2026 tax checklist.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M6.5 9.5 12 15l5.5-5.5M4 20.5h16"/></svg>Download the tax checklist</a></div>
   </div>
 </section>
 
@@ -381,7 +382,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
       </div>
       <div class="lotus" id="lotus"><canvas aria-label="Stop motion: a T2125 expense statement folds itself into a paper lotus"></canvas>
         <div class="ui">
-          <div class="hd"><svg viewBox="0 0 30 30" fill="none" stroke="#001b65" stroke-width="2.2"><circle cx="15" cy="4" r="1.6" fill="#001b65" stroke="none"/><path d="M15 5.6v2.4"/><rect x="5" y="8" width="20" height="17" rx="6"/><circle cx="11" cy="15.5" r="1.7" fill="#001b65" stroke="none"/><circle cx="19" cy="15.5" r="1.7" fill="#001b65" stroke="none"/><path d="M11.5 20c2 1.6 5 1.6 7 0" stroke-linecap="round"/><path d="M3 14v5M27 14v5" stroke-linecap="round"/></svg><p><b>Wave</b> categorized your expenses<br>imported from your bank connection</p></div>
+          <div class="hd"><svg viewBox="0 0 30 30" fill="none" stroke="#001b65" stroke-width="2.2"><circle cx="15" cy="4" r="1.6" fill="#001b65" stroke="none"/><path d="M15 5.6v2.4"/><rect x="5" y="8" width="20" height="17" rx="6"/><circle cx="11" cy="15.5" r="1.7" fill="#001b65" stroke="none"/><circle cx="19" cy="15.5" r="1.7" fill="#001b65" stroke="none"/><path d="M11.5 20c2 1.6 5 1.6 7 0" stroke-linecap="round"/><path d="M3 14v5M27 14v5" stroke-linecap="round"/></svg><p><b>Wave</b> categorized your expenses <br>imported from your bank connection</p></div>
           <div class="row"><i></i><span>United Airlines</span><b style="--d:#8a3ffc">Travel expense</b></div>
           <div class="row"><i></i><span>TPH Printing</span><b style="--d:#ff7a1a">Marketing</b></div>
           <div class="row"><i></i><span>Green Dragon</span><b style="--d:#2f8cff">Meals &amp; Entertainment</b></div>
@@ -835,9 +836,9 @@ Scene.prototype.draw = function (k, frame = 0) {
   const jr = rng(frame * 7919 + 17), jit = () => (jr() - 0.5) * 2;
   const ek = k;
   const yaw = mix(o.yaw, o.flatYaw, sstep(0.15, 0.95, ek)) + jit() * 0.006;
-  const pitch = mix(0.36, 0.62, sstep(0.2, 1, ek));
+  const pitch = o.pitch != null ? o.pitch : mix(0.36, 0.62, sstep(0.2, 1, ek));
   const dist = (4.1 / o.zoom) * mix(1, o.flatDist || 1, sstep(0.2, 1, ek));
-  const tgt = [jit() * 0.008, mix(0.62, 0.05, sstep(0.1, 1, ek)) + jit() * 0.008, 0];
+  const tgt = [jit() * 0.008, (o.tgtY != null ? o.tgtY : mix(0.62, 0.05, sstep(0.1, 1, ek))) + jit() * 0.008, 0];
   const E = [tgt[0] + Math.sin(yaw) * Math.cos(pitch) * dist, tgt[1] + Math.sin(pitch) * dist, tgt[2] + Math.cos(yaw) * Math.cos(pitch) * dist];
   const f = V.norm(V.sub(tgt, E)), r = V.norm(V.cross(f, [0, 1, 0])), up = V.cross(r, f);
   const foc = Math.min(W, H * 1.35) * o.fov, ox = W * o.cx, oy = H * o.cy;
@@ -970,7 +971,7 @@ const SEQ = [
 const HOLD = 1.5, DUR = 2.8, REST = 1.7, SEG = HOLD + DUR + REST, TOTAL = SEG * SEQ.length;
 const stage = document.getElementById('stage');
 const mobile = () => innerWidth <= 820;
-const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.62, fov: 0.95, zoom: 1 } : { cx: 0.7, cy: 0.6, fov: 1.0, zoom: 1 };
+const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.6, fov: 1.25, zoom: 1, flatDist: 1.2 } : { cx: innerWidth < 1400 ? 0.755 : 0.74, cy: 0.58, fov: innerWidth < 1400 ? 1.2 : 1.24, zoom: 1, flatDist: 1.22 };
 const scene = new Origami.Scene(stage, Object.assign({ creature: 'dragon', form: 'T1', shadow: 'rgba(0,14,80,.42)', yaw: -0.42, flatYaw: 0.22 }, heroOpt()));
 let cur = -1, T = 0, playing = false, lastF = -1, prev = 0, loop = true, speed = 1;
 function show(t) {
@@ -995,7 +996,6 @@ const rb = window.__rb = {
   seek(t) { T = t; show(t); },
 };
 window.__pp = rb;
-document.getElementById('replay').onclick = () => rb.play({ from: cur * SEG });
 addEventListener('resize', () => { Object.assign(scene.o, heroOpt()); lastF = -1; show(T); });
 show(0);
 const vis = new IntersectionObserver((es) => es.forEach((e) => { if (CLIP) return; if (e.isIntersecting && !reduce) { if (!playing) rb.play(); } else rb.pause(); }), { threshold: 0.15 });
@@ -1014,18 +1014,21 @@ document.querySelectorAll('.art').forEach((a) => {
   addEventListener('resize', () => p.render(p.t));
 });
 
-/* ---------- features: a flat T2125 folds itself into a lotus, then the categorized cards settle on it ---------- */
+/* ---------- features: a T2125 sheet folds into a lotus (seen from above), opens flat again, and loops; the cards settle on top ---------- */
 (function(){
   const box = document.getElementById('lotus'), cv = box.querySelector('canvas');
-  const sc = new Origami.Scene(cv, { creature: 'lotus', form: 'T2125', shadow: 'rgba(90,0,120,.3)', cx: mobile() ? 0.5 : 0.6, cy: mobile() ? 0.56 : 0.64, fov: mobile() ? 1.25 : 1.2, yaw: -0.5, flatYaw: 0.3, flatDist: 1.3 });
-  const DUR = 2.6, HOLD = 0.4; let t0 = null, done = false, last = -1;
-  const k = (t) => 1 - Math.max(0, Math.min(1, (t - HOLD) / DUR));
-  const step = (now) => { const t = (now - t0) / 1000, f = Math.floor(t * 12); if (f !== last) { last = f; sc.draw(k(f / 12), f); } if (t < HOLD + DUR + 0.1) requestAnimationFrame(step); else { done = true; box.classList.add('on'); } };
-  const final = () => { sc.draw(0, 0); box.classList.add('on'); done = true; };
-  sc.draw(1, 0);
-  new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting && t0 === null) { if (reduce || CLIP) return final(); t0 = performance.now(); requestAnimationFrame(step); } }), { threshold: 0.5 }).observe(box);
-  addEventListener('resize', () => { Object.assign(sc.o, { cx: mobile() ? 0.5 : 0.6, cy: mobile() ? 0.56 : 0.64, fov: mobile() ? 1.25 : 1.2 }); sc.draw(done ? 0 : 1, 0); });
-  window.__lotus = { seek: (kk) => sc.draw(kk, 0), final };
+  const cam = () => ({ cx: mobile() ? 0.5 : 0.6, cy: mobile() ? 0.62 : 0.55, fov: mobile() ? 0.88 : 0.9 });
+  const sc = new Origami.Scene(cv, Object.assign({ creature: 'lotus', form: 'T2125', shadow: 'rgba(90,0,120,.28)', yaw: -0.3, flatYaw: -0.3, pitch: 1.08, tgtY: 0.12, light: [-0.35, 1, 0.45] }, cam()));
+  // loop: flat 0.6s, fold 2.4s, hold the lotus 2.6s, open 2.4s
+  const F = 0.6, D = 2.4, H = 2.6, LOOP = F + D + H + D;
+  const kAt = (t) => { t %= LOOP; if (t < F) return 1; if (t < F + D) return 1 - (t - F) / D; if (t < F + D + H) return 0; return (t - F - D - H) / D; };
+  let t0 = null, last = -1, on = false, vis = false;
+  const step = (now) => { if (!vis) return; const t = (now - t0) / 1000, f = Math.floor(t * 12); if (f !== last) { last = f; sc.draw(kAt(f / 12), f); if (!on && t > F + D) { on = true; box.classList.add('on'); } } requestAnimationFrame(step); };
+  sc.draw(reduce || CLIP ? 0 : 1, 0);
+  if (reduce || CLIP) box.classList.add('on');
+  new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; vis = e.isIntersecting; if (vis) { if (t0 === null) t0 = performance.now(); else t0 = performance.now() - last / 12 * 1000; requestAnimationFrame(step); } }), { threshold: 0.35 }).observe(box);
+  addEventListener('resize', () => { Object.assign(sc.o, cam()); sc.draw(last < 0 ? (reduce || CLIP ? 0 : 1) : kAt(last / 12), last); });
+  window.__lotus = { seek: (t) => sc.draw(kAt(t), Math.floor(t * 12)) };
 })();
 
 /* ---------- pricing toggle ---------- */
