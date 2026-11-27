@@ -162,6 +162,7 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .plans{padding:140px 0 0}
 .phead{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
 .phead h2{font-size:64px;line-height:1;letter-spacing:-.02em;color:var(--navy);max-width:620px}
+.phead h2 em{font-style:italic;color:var(--purple)}
 .phead p{font-size:20px;line-height:1.4;margin-top:16px;color:#3b3d40}
 .tog .pill{display:flex;gap:4px;height:56px;background:#fff;border:1.5px solid var(--navy);border-radius:999px;padding:5px}
 .tog .pill button{border:0;background:none;border-radius:999px;font:600 17px var(--sans);color:var(--navy);padding:0 24px;display:flex;align-items:center;gap:10px;white-space:nowrap}
@@ -209,7 +210,7 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .adv .r img{margin-top:auto;width:367px;border-top-left-radius:14px}
 
 /* partners */
-.tools{padding:162px 0 0}
+.tools{padding:120px 0 130px;margin-top:140px;background:#eaf5ff}
 .tools h2{color:var(--ink)}
 .partners{display:grid;grid-template-columns:repeat(3,1fr);gap:100px;margin-top:40px}
 .partners .lg{height:66px;display:flex;align-items:flex-end}
@@ -273,7 +274,7 @@ footer{background:var(--navy);color:#fff;padding:56px 0 26px}
 .btt{position:absolute;right:24px;bottom:28px;color:var(--pink);text-decoration:none;font-size:17px;display:flex;flex-direction:column;align-items:center}
 .btt svg{width:84px;height:46px}
 footer{position:relative;overflow:hidden}
-.ftart{position:absolute;right:max(0px,calc((100vw - 1352px) / 2));top:50%;transform:translateY(-50%);width:640px;height:460px;pointer-events:none}
+.ftart{position:absolute;right:max(0px,calc((100vw - 1352px) / 2));top:50%;transform:translateY(-50%);width:600px;height:480px;pointer-events:none}
 @media (max-width:1180px){.ftart{display:none}}
 
 
@@ -462,7 +463,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 <section class="plans" id="plans">
   <div class="wrap">
   <div class="phead">
-    <div><h2 class="serif">Plans to make your plans happen</h2><p>Start free. Upgrade when you want the books to run themselves.</p></div>
+    <div><h2 class="serif">Pricing with nothing to <em>fear.</em></h2><p>Start free. Upgrade when you want the books to run themselves.</p></div>
     <div class="tog"><div class="pill"><button data-p="m">Monthly</button><button class="on" data-p="a">Annual <span class="save">Save $50</span></button></div></div>
   </div>
   <div class="prices">
@@ -508,7 +509,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <p class="sub">Stop the tax time terror before it starts. Check out our guides to get prepared.</p>
     <div class="arts" id="arts">
       <a class="art" href="#" data-c="spider" data-f="T4A" data-cam="0.5,0.5,1.3" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p></div></a>
-      <a class="art" href="#" data-c="hydra" data-f="T2125" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
+      <a class="art" href="#" data-c="hydra" data-f="T2125" data-cam="0.5,0.5,1.2" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
       <a class="art" href="#" data-c="snake" data-f="GST34" data-cam="0.5,0.5,2.2" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
     </div>
   </div>
@@ -810,15 +811,17 @@ function formTexture(kind, S = 1024, page = 1) {
 }
 
 /* ---------- mesh build ---------- */
-// curled sheets: a flat page with a soft roll along one edge and a gentle wave, each seeded differently
-[[0.32, -0.5, 0.06, -0.34, [-0.16, 0, 0.1], 0.5], [-0.22, 0.7, 0.04, 0.08, [0.05, 0.05, -0.04], -0.4], [0.4, 0.4, 0.08, 0.36, [0.18, 0.1, 0.06], 0.9]].forEach(([roll, wave, lift, rot, off, ph], n) => {
+// curled sheets: lying flat at the front, sweeping up into a tall curve at the back (like pages fanning open)
+[[0.9, 0.34, [-0.5, 0, 0.18], 0.0, 0.35], [1.25, 0.26, [0.0, 0.012, 0.0], 0.4, 0.0], [1.6, 0.18, [0.45, 0.024, -0.16], 0.8, -0.3]].forEach(([rise, start, off, ph, rot], n) => {
   CREATURES['curl' + n] = {
-    nu: 16, nv: 16, unfoldFrom: [0.5, 0.5], init() {},
+    nu: 26, nv: 14, unfoldFrom: [0.5, 0.5], smooth: true, init() {},
     pose(u, v) {
-      const x = (v - 0.5) * 2.05, z = (u - 0.5) * 2.05, e = Math.max(0, (u - 0.62) / 0.38);
-      const y = lift + roll * e * e * 0.9 + 0.06 * Math.sin(x * 2.4 * wave + ph) + 0.03 * Math.sin(z * 3 + ph * 2);
-      const zz = z - Math.abs(roll) * e * e * 0.35;
-      const c = Math.cos(rot), sn = Math.sin(rot);
+      // u runs front (0) to back (1); the back part bends up around a cylinder, so the sheet keeps its length
+      const L = 2.05, R = rise * 0.62, s0 = start * L, sa = u * L, x = (v - 0.5) * 1.6;
+      let y, z;
+      if (sa <= s0) { y = 0; z = sa; }
+      else { const th = Math.min((sa - s0) / R, 1.5); const rem = Math.max(0, (sa - s0) - th * R); y = R * (1 - Math.cos(th)) + rem * Math.sin(th); z = s0 + R * Math.sin(th) + rem * Math.cos(th); }
+      const zz = z - L / 2, c = Math.cos(rot), sn = Math.sin(rot);
       return [x * c - zz * sn + off[0], y + off[1], x * sn + zz * c + off[2]];
     },
   };
@@ -851,8 +854,8 @@ function build(kind) {
       const cu = (q[0][0] + q[1][0] + q[2][0]) / 3 / nu, cv = (q[0][1] + q[1][1] + q[2][1]) / 3 / nv;
       tris.push(q.map(([ii, jj]) => {
         const u = ii / nu, v = jj / nv;
-        const fo = C.pose(u, v, ii, jj, cu, cv), nj = 0.018 * (hash(ii, jj, 3) - 0.5);
-        return { u, v, fold: [fo[0] + nj, fo[1] + 0.018 * (hash(ii, jj, 5) - 0.5), fo[2] - nj], flat: [(v - 0.5) * 2.05 + jx[ii][jj], relief[ii][jj], (u - 0.5) * 2.05 + jz[ii][jj]], d: Math.hypot(u - C.unfoldFrom[0], v - C.unfoldFrom[1]) };
+        const fo = C.pose(u, v, ii, jj, cu, cv), sm = C.smooth ? 0 : 1, nj = 0.018 * sm * (hash(ii, jj, 3) - 0.5);
+        return { u, v, fold: [fo[0] + nj, fo[1] + 0.018 * sm * (hash(ii, jj, 5) - 0.5), fo[2] - nj], flat: [(v - 0.5) * 2.05 + jx[ii][jj], relief[ii][jj], (u - 0.5) * 2.05 + jz[ii][jj]], d: Math.hypot(u - C.unfoldFrom[0], v - C.unfoldFrom[1]) };
       }));
     }
   }
@@ -950,7 +953,7 @@ Scene.prototype.draw = function (k, frame = 0) {
     const lam = Math.max(0, V.dot(nrm, L));
     const shade = clamp((0.36 + 0.74 * lam) * lf, 0, 1.1);
     // a sheet lying flat reads as white paper, not grey: lift its shading toward full brightness
-    const shadeF = shade + (1.02 - shade) * calm * 0.82;
+    const shadeF = shade + (1.02 - shade) * Math.max(calm * 0.82, o.bright || 0);
     // expand slightly to hide hairline seams
     const cx = (s[0][0] + s[1][0] + s[2][0]) / 3, cy = (s[0][1] + s[1][1] + s[2][1]) / 3;
     const ex = s.map((q) => { const dx = q[0] - cx, dy = q[1] - cy, l = Math.hypot(dx, dy) || 1, e = Math.min(0.9, l * 0.5); return [q[0] + (dx / l) * e, q[1] + (dy / l) * e]; });
@@ -971,6 +974,7 @@ Scene.prototype.draw = function (k, frame = 0) {
         const f2 = (y0 * (u1 * v2 - u2 * v1) + y1 * (u2 * v0 - u0 * v2) + y2 * (u0 * v1 - u1 * v0)) / den;
         g.transform(a, b, c2, d, e, f2);
         g.drawImage(tex, 0, 0);
+        if (o.tint) { g.globalCompositeOperation = 'multiply'; g.fillStyle = o.tint; g.fillRect(0, 0, TS, TS); g.globalCompositeOperation = 'source-over'; }
         if (front && o.texMix > 0 && this.tex2) { g.globalAlpha = Math.min(1, o.texMix); g.drawImage(this.tex2, 0, 0); g.globalAlpha = 1; }
         g.setTransform(1, 0, 0, 1, 0, 0);
       }
@@ -1077,21 +1081,15 @@ document.fonts && document.fonts.ready.then(() => show(T));
 if (!CLIP) vis.observe(stage); else rb.seek(0);
 if (reduce && !CLIP) rb.seek(0);
 
-/* ---------- article cards: each creature loops fold -> unfold -> rest -> refold, every card at its own phase ---------- */
+/* ---------- article cards: each creature shown folded and still ---------- */
 (function(){
-  const PH = [0, 3.4, 6.8], H = 2.2, U = 3, R = 2, F = 3, LOOP = H + U + R + F, ease = (x) => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, x)));
-  const kAt = (t) => { t = ((t % LOOP) + LOOP) % LOOP; if (t < H) return 0; if (t < H + U) return ease((t - H) / U); if (t < H + U + R) return 1; return 1 - ease((t - H - U - R) / F); };
-  document.querySelectorAll('.art').forEach((a, n) => {
+  document.querySelectorAll('.art').forEach((a) => {
     const ill = a.querySelector('.ill'), cv = a.querySelector('canvas');
     ill.style.background = a.dataset.bg;
-    const cam = (a.dataset.cam || '0.5,0.78,1.95').split(',').map(Number);
-    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: cam[0], cy: cam[1], fov: cam[2], flatDist: 2.1 * cam[2] / 1.95, center: true, centerY: 0.52, yaw: -0.42, flatYaw: 0.25, fps: 30, sway: 0.8 });
-    let vis = false, t = PH[n % PH.length], last = 0;
-    const draw = () => sc.draw(kAt(t), Math.floor(t * 30));
-    draw();
-    const step = (now) => { if (!vis) return; t += (now - last) / 1000; last = now; draw(); requestAnimationFrame(step); };
-    new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; const was = vis; vis = e.isIntersecting; if (vis && !was) { last = performance.now(); requestAnimationFrame(step); } }), { threshold: 0.2 }).observe(a);
-    addEventListener('resize', draw);
+    const cam = (a.dataset.cam || '0.5,0.5,1.95').split(',').map(Number);
+    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: cam[0], cy: cam[1], fov: cam[2], center: true, centerY: 0.52, yaw: -0.42, flatYaw: -0.42, sway: 0 });
+    const draw = () => sc.draw(0, 0);
+    draw(); addEventListener('resize', draw); document.fonts && document.fonts.ready.then(draw);
   });
 })();
 
@@ -1125,8 +1123,8 @@ if (reduce && !CLIP) rb.seek(0);
 /* ---------- closing CTA: three CRA forms lying still, each with its own soft curl ---------- */
 (function(){
   const cv = document.getElementById('ftart'); if (!cv) return;
-  const base = { shadow: null, cx: 0.55, cy: 0.5, fov: 0.95, yaw: 0.35, flatYaw: 0.35, pitch: 0.85, tgtY: 0.15, sway: 0, light: [-0.4, 1, 0.5] };
-  const sc = [['curl0', 'T2125'], ['curl1', 'GST34'], ['curl2', 'T4SUM']].map(([c, f], n) => new Origami.Scene(cv, Object.assign({}, base, { creature: c, form: f, noClear: n > 0 })));
+  const base = { shadow: null, cx: 0.5, cy: 0.6, fov: 0.95, yaw: 2.2, flatYaw: 2.2, pitch: 0.34, tgtY: 0.4, sway: 0, light: [-0.4, 1, 0.5] };
+  const sc = [['curl0', 'T2125', '#f2b6ff'], ['curl1', 'GST34', '#a9d6ff'], ['curl2', 'T4SUM', null]].map(([c, f, tint], n) => new Origami.Scene(cv, Object.assign({}, base, { creature: c, form: f, tint, bright: 0.6, noClear: n > 0 })));
   const draw = () => { if (getComputedStyle(cv).display === 'none') return; const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; } cv.getContext('2d').clearRect(0, 0, w, h); sc.forEach((x) => x.draw(0, 0)); };
   draw(); addEventListener('resize', draw); document.fonts && document.fonts.ready.then(draw);
   window.__ft = { seek: draw };
