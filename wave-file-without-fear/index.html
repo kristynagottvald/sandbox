@@ -135,7 +135,7 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 /* why */
 .why{padding:98px 0 0}
 .why .top{display:grid;grid-template-columns:1fr 652px;gap:40px}
-.why h2{font-size:62px;line-height:1.02;text-align:left}
+.why h2{font-family:var(--sans);font-weight:700;font-size:56px;line-height:1.04;letter-spacing:-.02em;text-align:left}
 .why ul{list-style:none;padding-top:4px}
 .why li{display:flex;gap:13px;font-size:17.5px;line-height:1.4;margin-bottom:16px}
 .why li svg{flex:none;width:26px;height:26px;margin-top:-1px}
@@ -144,8 +144,8 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .st{border-radius:20px;overflow:hidden;min-height:374px;padding:40px 33px}
 .st.n{background:var(--navy);color:#fff}
 .st.s{background:var(--sky);color:var(--navy)}
-.st .big{font-size:112px;font-weight:400;line-height:1;letter-spacing:-.02em}
-.st .big small{font-size:35px;letter-spacing:0;margin-left:8px}
+.st .big{font-family:var(--serif);font-size:120px;font-weight:450;line-height:1;letter-spacing:-.02em}
+.st .big small{font-family:var(--sans);font-size:35px;letter-spacing:0;margin-left:8px}
 .st p{font-size:22px;line-height:1.3;margin-top:22px}
 .st.ph{padding:0}
 .st.ph img{width:100%;height:100%;object-fit:cover}
@@ -156,32 +156,32 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .plans h2{color:var(--ink)}
 .tog{position:relative;max-width:1304px;width:calc(100% - 48px);margin:60px auto 0;height:46px}
 .tog:before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#dcdad6}
-.tog .pill{position:relative;margin:0 auto;width:326px;height:46px;background:#e0f2ff;border-radius:14px;padding:4px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.tog .pill button{border:0;background:none;border-radius:11px;font:600 18px var(--sans);color:var(--navy)}
-.tog .pill button.on{background:#fff;box-shadow:0 1px 4px rgba(0,27,101,.12)}
-.tog .save{position:absolute;left:calc(50% + 97px);top:-48px;background:#adf1cc;color:#145c36;font:600 13.5px var(--sans);padding:6px 9px;border-radius:7px}
+.tog .pill{position:relative;margin:0 auto;width:326px;height:50px;background:#fff;border:1.5px solid var(--navy);border-radius:999px;padding:4px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.tog .pill button{border:0;background:none;border-radius:999px;font:600 17px var(--sans);color:var(--navy)}
+.tog .pill button.on{background:var(--navy);color:#fff}
+.tog .save{position:absolute;left:calc(50% + 97px);top:-48px;background:var(--pink);color:var(--navy);font:700 13.5px var(--sans);padding:6px 10px;border-radius:99px}
 .tog .arr{position:absolute;left:calc(50% + 70px);top:-32px;width:22px}
 .prices{display:grid;grid-template-columns:400px 400px;gap:32px;justify-content:center;margin-top:80px;align-items:start}
-.pc{border:1px solid #d6dbe0;border-radius:14px;background:#fff;overflow:hidden;position:relative;}
-.pc.pro{border:1.5px solid #1f6fe5;overflow:visible}
-.pc .head{background:#ecf0f3;padding:30px 30px 32px;border-radius:14px 14px 0 0}
-.pc.pro .head{background:#e5f1fd}
+.pc{border:1.5px solid #e9dfd6;border-radius:20px;background:#fff;overflow:hidden;position:relative;}
+.pc.pro{border:1.5px solid var(--navy);overflow:visible}
+.pc .head{background:#eaf5ff;color:var(--navy);padding:30px 30px 32px;border-radius:19px 19px 0 0}
+.pc.pro .head{background:var(--navy);color:#fff}
 .pc .tag{display:flex;align-items:center;gap:9px;font:700 22px var(--sans)}
-.pc .tag span{background:#b4c2cb;padding:4px 8px;border-radius:3px;letter-spacing:.01em}
-.pc.pro .tag{color:#1066da}
-.pc.pro .tag span{background:#1066da;color:#fff}
+.pc .tag span{background:var(--navy);color:#fff;padding:4px 10px;border-radius:99px;font-size:17px;letter-spacing:.06em}
+.pc.pro .tag span{background:var(--pink);color:var(--navy)}
 .pc .desc{font-size:17.5px;line-height:1.4;margin-top:20px}
-.pc .price{font-size:50px;font-weight:600;margin-top:32px;line-height:1.1;min-height:108px}
-.pc.pro .price{color:#1066da}
-.pc .price small{font-size:26px}
-.pc .price em{display:block;font-style:normal;font-size:20px;font-weight:400;margin-top:-2px}
+.pc .price{font-family:var(--serif);font-size:58px;font-weight:450;margin-top:28px;line-height:1.05;min-height:108px;letter-spacing:-.02em}
+.pc.pro .price{color:var(--pink)}
+.pc .price small{font-family:var(--sans);font-size:22px;font-weight:600;letter-spacing:0;margin-left:4px}
+.pc .price em{display:block;font-family:var(--sans);font-style:normal;font-size:17px;font-weight:400;margin-top:4px;letter-spacing:0;color:rgba(255,255,255,.8)}
 .pc .head .btn{width:auto;height:50px;padding:0 34px;font-size:17px;margin-top:34px}
-.pc.pro .head .btn{background:#0041ff}
-.rec{position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:#0b63d6;color:#fff;font:600 15px var(--sans);padding:4px 8px;border-radius:5px 5px 0 0}
+.pc.pro .head .btn{background:var(--pink);border-color:var(--pink);color:var(--navy)}
+.pc.pro .head .btn:hover{background:#f1c8ff;border-color:#f1c8ff}
+.rec{position:absolute;top:-15px;left:30px;background:var(--pink);color:var(--navy);font:700 13px var(--sans);letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:99px;z-index:1}
 .pc ul{list-style:none;padding:30px 30px 36px}
 .pc li{display:flex;gap:16px;font-size:17px;line-height:1.43;margin-bottom:18px}
 .pc li svg{flex:none;width:17px;margin-top:4px}
-.pc .plus{color:#1066da;font-weight:600;padding:30px 30px 0;font-size:17px}
+.pc .plus{color:var(--purple);font-weight:700;padding:30px 30px 0;font-size:17px}
 .pc.pro ul{padding-top:18px}
 
 
@@ -432,7 +432,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 <section class="why">
   <div class="wrap">
     <div class="top">
-      <h2 class="serif">Why Wave is the<br>wiser choice</h2>
+      <h2>Why Wave is the<br>wiser choice</h2>
       <ul>
         <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Easy (and fun!) to use. No clunky screens or jargon.</span></li>
         <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Only the tools you need, for less.</span></li>
@@ -459,10 +459,10 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <div class="pc">
       <div class="head"><div class="tag"><span>STARTER</span>Plan</div><p class="desc">Just starting your business or looking for the basics? This is the place.</p><div class="price">$0</div><a class="btn ghost" href="#">Get started now</a></div>
       <ul>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Unlimited estimates, invoices and bills</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Accept online payments</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Invoice on the go with the mobile app</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Cash flow and customers in one place</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#001b65" stroke-width="2"/></svg><span>Unlimited estimates, invoices and bills</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#001b65" stroke-width="2"/></svg><span>Accept online payments</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#001b65" stroke-width="2"/></svg><span>Invoice on the go with the mobile app</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#001b65" stroke-width="2"/></svg><span>Cash flow and customers in one place</span></li>
       </ul>
     </div>
     <div class="pc pro">
@@ -470,11 +470,11 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
       <div class="head"><div class="tag"><span>PRO</span>Plan</div><p class="desc">Want to look more polished, save more time, and conquer cash flow? It’s Pro time.</p><div class="price" id="proPrice">$250<small>CAD/year</small><em>Billed annually</em></div><a class="btn" href="#">Get started now</a></div>
       <p class="plus">Everything in Starter, plus:</p>
       <ul>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Lower card processing fees</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Auto-import bank transactions</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Auto-categorize transactions</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Unlimited receipt capture</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Automatic payment reminders</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#8a3ffc" stroke-width="2"/></svg><span>Lower card processing fees</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#8a3ffc" stroke-width="2"/></svg><span>Auto-import bank transactions</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#8a3ffc" stroke-width="2"/></svg><span>Auto-categorize transactions</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#8a3ffc" stroke-width="2"/></svg><span>Unlimited receipt capture</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#8a3ffc" stroke-width="2"/></svg><span>Automatic payment reminders</span></li>
       </ul>
     </div>
   </div>
@@ -1145,7 +1145,7 @@ const QA = [
   ['How early should small business owners start preparing for tax season?', 'Now. Keeping books up to date every month means tax season is a review, not a scramble.'],
   ['Can Wave help me separate personal and business expenses for tax filing?', 'Connect only your business accounts, or mark personal transactions so they stay out of your business reports.'],
 ];
-const plus = '<svg viewBox="0 0 24 24" fill="none" stroke="#232426" stroke-width="1.8"><circle cx="12" cy="12" r="10.5"/><path d="M12 7v10M7 12h10"/></svg>';
+const plus = '<svg viewBox="0 0 24 24" fill="none" stroke="#001b65" stroke-width="2"><circle cx="12" cy="12" r="10.5"/><path d="M12 7v10M7 12h10"/></svg>';
 document.getElementById('qs').innerHTML = QA.map(([q, a]) => `<details><summary>${q}${plus}</summary><p>${a}</p></details>`).join('');
 })();
 </script>
