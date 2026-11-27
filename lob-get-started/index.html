@@ -88,7 +88,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 /* hero postcard: abstract blocks -> high fidelity -> bleed + crop -> QA scan -> checks */
 .hc{position:absolute;left:0;top:0;width:700px;height:430px;transform-origin:0 0;--pu:#4131f1;--mint:#c9f0e4;--hot:#d244de}
 .pcv{position:absolute;left:0;top:0;width:700px;height:430px}
-.post{position:absolute;left:40px;top:46px;width:620px;height:338px;pointer-events:none}
+.post{position:absolute;left:10px;top:34px;width:680px;height:371px;pointer-events:none}
 .blk{position:absolute;box-sizing:border-box;border:2.5px solid var(--lav);background:rgba(169,156,255,.12);border-radius:6px;opacity:0;transform:scale(.7);transition:opacity .3s,transform .45s cubic-bezier(.2,1.6,.4,1),background .5s,border-color .5s,border-radius .5s}
 .blk.in{opacity:1;transform:none}
 .blk.hf{background:var(--hf);border-color:transparent;border-radius:0}
@@ -119,23 +119,23 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 #bU.hf .url{background:var(--hot);border-color:var(--hot)}
 .blk .logo{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font:700 19px var(--sans);letter-spacing:-.03em;color:#fff;opacity:0;transition:opacity .4s}
 #bL.hf .logo{opacity:1}#bL.hf .bar{opacity:0}
-.ants2{position:absolute;left:348px;top:-4px;width:276px;height:283px;border:2.5px dashed var(--mint);border-radius:5px;opacity:0;transition:opacity .25s}
+.ants2{position:absolute;left:382px;top:-4px;width:302px;height:309px;border:2.5px dashed var(--mint);border-radius:5px;opacity:0;transition:opacity .25s}
 .scanl{position:absolute;left:-14px;right:-14px;top:0;height:3px;background:var(--mint);box-shadow:0 0 18px 4px rgba(201,240,228,.8);opacity:0}
-.bleed{position:absolute;left:28px;top:34px;width:644px;height:362px;border:2px dashed var(--hot);border-radius:3px;opacity:0;transition:opacity .4s}
+.bleed{position:absolute;left:-2px;top:22px;width:704px;height:395px;border:2px dashed var(--hot);border-radius:3px;opacity:0;transition:opacity .4s}
 .bleed i{position:absolute;background:#fff;opacity:.9}
 .bleed i:nth-child(1){left:-22px;top:10px;width:16px;height:2px}.bleed i:nth-child(2){left:10px;top:-22px;width:2px;height:16px}
 .bleed i:nth-child(3){right:-22px;top:10px;width:16px;height:2px}.bleed i:nth-child(4){right:10px;top:-22px;width:2px;height:16px}
 .bleed i:nth-child(5){left:-22px;bottom:10px;width:16px;height:2px}.bleed i:nth-child(6){left:10px;bottom:-22px;width:2px;height:16px}
 .bleed i:nth-child(7){right:-22px;bottom:10px;width:16px;height:2px}.bleed i:nth-child(8){right:10px;bottom:-22px;width:2px;height:16px}
-.qa{position:absolute;left:50%;top:8px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;border:1px solid rgba(169,156,255,.5);color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
+.qa{position:absolute;left:50%;top:-34px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
 .qa.on{opacity:1;transform:translateX(-50%)}
-.qa i{width:18px;height:18px;border-radius:5px;background:var(--mint);display:grid;place-items:center;font-style:normal;font-size:11px;color:var(--pu)}
-.rail{position:absolute;left:-34px;top:48px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.qa i{font-style:normal;font-size:13px;font-weight:700;color:var(--mint)}
+.rail{position:absolute;left:-64px;top:40px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .rail.on{opacity:1;transform:none}
 .rail b{height:34px;border-radius:9px;display:grid;place-items:center;color:#c9c4ff;transition:background .2s,color .2s}
 .rail b svg{width:16px;height:16px}
 .rail b.on{background:var(--pu);color:#fff}
-.gal{position:absolute;left:500px;top:-14px;width:284px;padding:16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.gal{position:absolute;left:520px;top:-26px;width:284px;padding:16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .gal.on{opacity:1;transform:none}
 .gal .gt{display:flex;justify-content:space-between;font:600 12px var(--sans);margin-bottom:12px}
 .gal .gn{color:#a99cff;font-weight:500}
@@ -143,7 +143,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .gal .g div{aspect-ratio:1.05;border-radius:7px;background-size:cover;background-position:center;outline:3px solid transparent;outline-offset:2px;transition:outline-color .25s}
 .gal .g.on div{outline-color:var(--hot)}
 .gal .g small{display:block;margin-top:6px;font:600 10.5px var(--sans)}
-.chk{position:absolute;left:-34px;top:252px;width:272px;padding:16px 18px 16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
+.chk{position:absolute;left:-64px;top:262px;width:272px;padding:16px 18px 16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
 .chk.on{opacity:1;transform:none}
 .chk .ct{font:700 10px var(--sans);letter-spacing:.14em;color:#a99cff;margin-bottom:8px;text-transform:uppercase}
 .chk .cr{display:flex;align-items:center;justify-content:space-between;height:36px;font:500 13.5px var(--sans);border-top:1px solid rgba(255,255,255,.12)}
@@ -165,7 +165,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .sub .tl span{display:inline-block;margin-left:4px;transition:transform .2s}.sub .tl:hover span{transform:translateX(3px)}
 @media (max-width:640px){
   .stage{height:min(62vh,460px)}
-  .col{width:82vw;margin-left:-2vw}
+  .col{width:76vw;margin-left:-2vw}
   .words{font-size:12.5vw;white-space:nowrap}
   .sub{flex-direction:column;gap:10px;text-align:center}
 }
@@ -545,7 +545,7 @@ requestAnimationFrame(() => document.body.classList.add('ready'));
 const HC = { bleed: $('#bleed'), qa: $('#qaChip'), rail: $('#rail'), gal: $('#gal'), chk: $('#chk'), cur: $('#hcur'), scan: $('#scanl'), ants: $('#antsP') };
 const railB = {}; document.querySelectorAll('#rail b').forEach((b) => (railB[b.dataset.t] = b));
 const PU = '#4131f1', MINT = '#c9f0e4', PINK = '#d244de', HOT = '#d244de', WHITE = '#ffffff', SOFT = '#9d94f7';
-const CW0 = 880, CH0 = 480, KS = 620 / CW0, CX0 = 40, CY0 = 46;   // card space -> stage px
+const CW0 = 880, CH0 = 480, KS = 680 / CW0, CX0 = 10, CY0 = 34;   // card space -> stage px
 const SWL = 7;
 // the sketch's three layout poses for the five outlined boxes, moved into card space
 const POSES = [
@@ -637,7 +637,7 @@ function drawDesign(t){
     const pc = popIn((t - 6.9 - k * .25) / .35);
     if (pc > 0) checkMark(65, y, pc);
     const g = easeIO(span(t, 7.0 + k * .25, 7.5 + k * .25));
-    if (g > 0 && ct < 1) { cx.save(); cx.globalAlpha = 1 - ct; cx.fillStyle = SOFT; rr(92, y - 8, [240, 190][k] * g, -10, 8); cx.fill(); cx.restore(); }
+    if (g > 0 && ct < 1) { cx.save(); cx.globalAlpha = 1 - ct; cx.fillStyle = SOFT; rr(92, y - 8, [240, 190][k] * g, -40, 8); cx.fill(); cx.restore(); }
     if (ct > 0) { cx.save(); cx.globalAlpha = ct; cx.fillStyle = WHITE; cx.font = '500 22px Inter, Helvetica, Arial, sans-serif'; cx.textBaseline = 'middle'; cx.fillText(['Same-week appointments', 'Covered by your plan'][k], 92, y + 1); cx.restore(); }
   }
   // QR card: pops in with brackets, later the real code draws in
@@ -692,7 +692,7 @@ function drawCard(t){
   cx.restore();
 }
 // cursor keyframes in stage px: [t, x, y]
-const HK = [[0, 640, 470], [.4, -10, 65], [4.6, -10, 65], [5.0, 554, 62], [5.6, 554, 62], [6.2, -10, 145], [6.8, -10, 105], [7.6, -10, 225], [8.4, -10, 185], [8.8, -10, 145], [9.9, -10, 225], [10.5, -10, 185], [11.0, 640, 62], [11.6, 640, 64], [11.9, 726, 62], [12.6, 726, 64], [13.1, 760, 470], [LOOP, 760, 470]];
+const HK = [[0, 640, 470], [.4, -40, 65], [4.6, -40, 65], [5.0, 574, 50], [5.6, 574, 50], [6.2, -40, 145], [6.8, -40, 105], [7.6, -40, 225], [8.4, -40, 185], [8.8, -40, 145], [9.9, -40, 225], [10.5, -40, 185], [11.0, 660, 50], [11.6, 660, 52], [11.9, 746, 50], [12.6, 746, 52], [13.1, 760, 470], [LOOP, 760, 470]];
 function at(t, K){ for (let i = 1; i < K.length; i++) if (t <= K[i][0]) { const a = K[i - 1], b = K[i]; const k = easeIO((t - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k)]; } return K[K.length - 1].slice(1); }
 const tog = (el, c, on) => el.classList.toggle(c, !!on);
 function heroAt(t, S){
@@ -716,7 +716,7 @@ function heroAt(t, S){
   HC.bleed.style.opacity = t >= 13.2 && t < 14.6 ? 1 : 0;
   const sc = span(t, 14.8, 16.0);
   HC.scan.style.opacity = sc > 0 && sc < 1 ? 1 : 0;
-  HC.scan.style.top = (sc * 338) + 'px';
+  HC.scan.style.top = (sc * 371) + 'px';
   const chip = t >= 13.0 && t < 13.5 ? 'MERGE FIELDS FILLED <i>✓</i>' : t >= 13.6 && t < 14.6 ? 'BLEED + CROP MARKS <i>✓</i>' : t >= 14.7 && t < 16.0 ? 'QA SCAN' : t >= 16.0 && t < 16.3 ? 'QA SCAN <i>✓</i>' : '';
   if (chip && HC.qa.innerHTML !== chip) HC.qa.innerHTML = chip;
   tog(HC.qa, 'on', !!chip);
