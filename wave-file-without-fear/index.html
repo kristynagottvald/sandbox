@@ -129,8 +129,15 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .ind h3{font-family:var(--sans);font-weight:700;font-size:24px;line-height:1.18;color:var(--sky);min-height:62px;font-variation-settings:"opsz" 30;font-weight:450}
 .ind .four img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:13px;margin:28px 0 34px}
 .ind .four p{font-size:17px;line-height:1.44}
-.pcard{background:var(--pink);border-radius:16px;margin:84px 0 0;padding:33px;display:grid;grid-template-columns:minmax(0,780px) 278px;justify-content:space-between;gap:42px;align-items:center}
-.pcard img{width:278px;height:366px;object-fit:cover;border-radius:13px}
+.pcard{background:var(--pink);border-radius:20px;margin:84px 0 0;padding:56px 33px 56px 56px;display:grid;grid-template-columns:minmax(0,620px) 470px;justify-content:space-between;gap:42px;align-items:center}
+.pcard img{width:470px;height:auto;aspect-ratio:734/702;object-fit:cover;border-radius:14px}
+.adv2{color:var(--navy)}
+.adv2 .lab{font:700 14px var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--purple)}
+.ind .adv2 h3{font-family:var(--serif);color:var(--navy);min-height:0;font-size:92px;line-height:.95;letter-spacing:-.025em;margin:18px 0 26px;font-weight:450;font-variation-settings:"opsz" 60}
+.adv2 h3 em{font-style:italic;color:var(--purple)}
+.adv2 p{font-size:21px;line-height:1.45;max-width:540px}
+.adv2 .btn{margin-top:34px;height:54px;padding:0 36px;background:var(--navy);border-color:var(--navy)}
+.adv2 .btn:hover{background:#00124a;border-color:#00124a}
 
 /* why */
 .why{padding:98px 0 0}
@@ -177,7 +184,8 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .pc .head .btn{width:auto;height:50px;padding:0 34px;font-size:17px;margin-top:34px}
 .pc.pro .head .btn{background:var(--pink);border-color:var(--pink);color:var(--navy)}
 .pc.pro .head .btn:hover{background:#f1c8ff;border-color:#f1c8ff}
-.rec{position:absolute;top:-15px;left:30px;background:var(--pink);color:var(--navy);font:700 13px var(--sans);letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:99px;z-index:1}
+.rec{position:absolute;top:34px;right:30px;display:flex;align-items:center;gap:7px;color:var(--pink);font:700 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;z-index:1}
+.rec svg{width:15px;height:15px;fill:currentColor}
 .pc ul{list-style:none;padding:30px 30px 36px}
 .pc li{display:flex;gap:16px;font-size:17px;line-height:1.43;margin-bottom:18px}
 .pc li svg{flex:none;width:17px;margin-top:4px}
@@ -302,7 +310,7 @@ footer{position:relative;overflow:hidden}
   .roadmap{padding:88px 0 70px}
   .three,.ind .four,.partners,.arts{grid-template-columns:1fr;gap:44px}
   .tq,.pcard{grid-template-columns:1fr}
-  .tq img{width:100%;height:auto;aspect-ratio:1;max-width:340px}.pcard img{width:100%;height:auto;aspect-ratio:278/367;max-width:320px}
+  .tq img{width:100%;height:auto;aspect-ratio:1;max-width:340px}.pcard{padding:36px 24px}.pcard img{width:100%}.ind .adv2 h3{font-size:58px}.adv2 p{font-size:18px}
   .tq blockquote,.pcard blockquote{font-size:26px}
   .slides{padding-right:0}.slides .it h3{font-size:25px}
   .lotus{aspect-ratio:4/5}.feat .lotus .ui{left:4%;top:5%;width:92%;max-width:none}.feat .lotus .hd{font-size:12px;white-space:normal;padding-right:10px}.feat .lotus .hd br{display:none}.feat .lotus .row{font-size:12.5px;height:40px}.feat .lotus .row span{width:92px}.feat .lotus .row i{margin-right:12px}.lotus canvas{top:30%;height:70%}
@@ -422,9 +430,13 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
       <div><h3>Consultants</h3><img src="img/ind-consultants-duo.jpg" alt="A consultant leaning against a wall"><p>Wave makes it simple to organize and track income and expenses, so you know where things stand before you file taxes.</p></div>
     </div>
     <div class="pcard">
-      <div><blockquote>“Wave has kind of taken the headache out of taxes… I can go to my reports, download my report, upload it to our tax portal and move about my day… it’s just not something to lose sleep over.”</blockquote>
-      <p class="who" style="margin-top:44px;font-size:18px;color:var(--navy)"><b>Corey Kenerly</b> – Co-owner, Duo Custom Solutions</p></div>
-      <img src="img/corey.jpg" alt="Corey Kenerly smiling">
+      <div class="adv2">
+        <span class="lab">Wave Advisors</span>
+        <h3 class="serif">Tax season, <em>handled.</em></h3>
+        <p>Hand your books to a dedicated Wave bookkeeper. They catch you up, keep every transaction categorized and reconciled, and hand you clean, tax-ready reports before the CRA deadline.</p>
+        <a class="btn" href="#">Meet your advisor</a>
+      </div>
+      <img src="img/advisor-ui.jpg" alt="Wave transactions list with Juela Topi, a Wave Advisor, reviewing deposits">
     </div>
   </div>
 </section>
@@ -466,7 +478,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
       </ul>
     </div>
     <div class="pc pro">
-      <span class="rec">Recommended</span>
+      <span class="rec"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c.6 4.2 3.8 7.4 8 8-4.2.6-7.4 3.8-8 8-.6-4.2-3.8-7.4-8-8 4.2-.6 7.4-3.8 8-8z"/></svg>Recommended</span>
       <div class="head"><div class="tag"><span>PRO</span>Plan</div><p class="desc">Want to look more polished, save more time, and conquer cash flow? It’s Pro time.</p><div class="price" id="proPrice">$250<small>CAD/year</small><em>Billed annually</em></div><a class="btn" href="#">Get started now</a></div>
       <p class="plus">Everything in Starter, plus:</p>
       <ul>
