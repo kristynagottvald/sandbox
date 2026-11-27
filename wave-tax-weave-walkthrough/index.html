@@ -248,7 +248,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 <!-- 3 · In market -->
 <section class="scene" id="s3">
-  <div class="s3copy"><h2 id="h3">Instagram Reel</h2><p id="p3"></p><dl id="dl3"></dl></div>
+  <div class="s3copy"><h2 id="h3">Instagram Reel</h2><dl id="dl3"></dl></div>
   <div class="tabs" id="tabs3"></div>
   <div class="mk" id="mk"></div>
 </section>
@@ -312,7 +312,7 @@ function tube(f, v, w, wn, open = 0.86) {
   return V.add(f.p, V.add(V.mul(f.b, Math.cos(phi) * w), V.mul(f.n, Math.sin(phi) * (wn == null ? w : wn))));
 }
 const pleat = (i) => (i % 2 ? 1.07 : 0.93);
-const pleatX = (i) => (i % 2 ? 1.2 : 0.8);
+const pleatX = (i) => (i % 2 ? 1.2 : 0.8); // sharper, more angular pleats
 
 /* ---------- creatures ---------- */
 const CREATURES = {
@@ -398,6 +398,75 @@ const CREATURES = {
       return p;
     },
   },
+  scorpion: {
+    nu: 30, nv: 12, unfoldFrom: [1, 0.5],
+    init() {
+      // low segmented body facing left, tail arching up over the back with the sting pointing forward
+      this.sp = spine([[-0.78, 0.16, 0], [-0.55, 0.2, 0], [-0.2, 0.24, 0], [0.22, 0.24, 0], [0.55, 0.34, 0], [0.76, 0.66, 0], [0.74, 1.04, 0], [0.5, 1.3, 0], [0.18, 1.3, 0], [0.0, 1.12, 0]], [0, 0, 1], 300);
+    },
+    width(u) {
+      if (u < 0.04) return mix(0.08, 0.15, u / 0.04);
+      if (u < 0.12) return 0.16;
+      if (u < 0.42) return 0.23;
+      if (u < 0.9) return mix(0.12, 0.07, (u - 0.42) / 0.48);
+      if (u < 0.96) return 0.1; // venom bulb
+      return mix(0.1, 0.01, (u - 0.96) / 0.04);
+    },
+    pose(u, v, i, j, cu, cv) {
+      const band = 0.2, side = cv < band ? 1 : cv > 1 - band ? -1 : 0;
+      const sq = (x) => (x < 0.42 ? 0.55 : 1); // flatter body, round tail
+      if (side && cu < 0.15) { // pincers: arms reach forward, then broad claws
+        const a = side > 0 ? (band - v) / band : (v - (1 - band)) / band, root = tube(this.sp.at(0.12), side > 0 ? band : 1 - band, 0.16, 0.16, 0.8);
+        const uu = u / 0.15, arm = [-0.42 * a - 0.12 * a * a, 0.08 * Math.sin(Math.PI * a), side * (0.32 * a)];
+        const claw = a > 0.55 ? (a - 0.55) / 0.45 : 0;
+        return V.add(root, V.add(arm, [-(uu - 0.5) * 0.2 * (1 + claw * 1.4), (uu - 0.5) * 0.05, side * (uu - 0.5) * 0.3 * claw]));
+      }
+      if (side && cu > 0.16 && cu < 0.46) { // eight legs, four per side
+        const n = Math.min(3, Math.floor((cu - 0.16) / 0.075)), c = 0.16 + (n + 0.5) * 0.075, uu = c + (u - c) * 0.35;
+        const a = side > 0 ? (band - v) / band : (v - (1 - band)) / band, f = this.sp.at(uu), root = tube(f, side > 0 ? band : 1 - band, 0.23 * 0.55, 0.23, 0.8);
+        const out = 0.62 + n * 0.04, sweep = (n - 1.5) * 0.18;
+        return [root[0] + (sweep - 0.05) * a, root[1] * (1 - a) + Math.sin(Math.PI * a) * 0.22, root[2] + side * out * a];
+      }
+      const f = this.sp.at(u), w = this.width(u) * pleatX(i);
+      let p = tube(f, v, w * (u < 0.42 ? 0.55 : 1), w, 0.82);
+      if (u > 0.95 && j === this.nv / 2) p = V.add(p, V.mul(f.t, 0.12)); // the sting
+      if (i === 0) p = V.add(p, V.mul(f.t, -0.05));
+      return p;
+    },
+  },
+  spider: {
+    nu: 24, nv: 24, unfoldFrom: [0.5, 0.5],
+    init() {},
+    pose(u, v, i, j, cu, cv) {
+      const x = v - 0.5, y = u - 0.5, s = Math.min(1, Math.max(Math.abs(x), Math.abs(y)) * 2), th = Math.atan2(y, x);
+      const cs = Math.max(Math.abs(cv - 0.5), Math.abs(cu - 0.5)) * 2, cth = Math.atan2(cu - 0.5, cv - 0.5);
+      if (cs < 0.36) { // body: a faceted dome (abdomen behind a smaller head)
+        const r = s / 0.36, back = Math.cos(th) > 0 ? 1 : 0.62;
+        return [Math.cos(th) * r * 0.5 * back + 0.08, 0.5 + 0.32 * Math.sqrt(Math.max(0, 1 - r * r)) * back + ((i + j) % 2 ? 0.02 : 0), Math.sin(th) * r * 0.36];
+      }
+      // eight arched legs, one per sector, knees high, feet on the ground
+      const sec = Math.floor(((cth + Math.PI) / (2 * Math.PI)) * 8) % 8, c = -Math.PI + (sec + 0.5) * (Math.PI / 4);
+      const a = (s - 0.36) / 0.64, dth = Math.atan2(Math.sin(th - c), Math.cos(th - c)) * 0.3 * (1 - 0.6 * a), ang = c + dth;
+      const R = 0.42 + a * 1.0, H = a < 0.42 ? 0.5 + (a / 0.42) * 0.55 : 1.05 * (1 - (a - 0.42) / 0.58);
+      return [Math.cos(ang) * R * 1.05 + 0.08, H + ((i + j) % 2 ? 0.03 : -0.01) * a, Math.sin(ang) * R * 0.78];
+    },
+  },
+  bat: {
+    nu: 14, nv: 30, unfoldFrom: [0, 0.5],
+    init() {},
+    pose(u, v, i, j, cu, cv) {
+      const x = (v - 0.5) * 2.3, ax = Math.abs(x), q = Math.min(1, ax / 1.15);
+      const top = 1.5 - 0.05 * ax + 0.3 * Math.sin(q * Math.PI * 0.9) - (q > 0.92 ? (q - 0.92) * 2 : 0); // arm arch up to the wrist
+      const fingers = Math.abs(Math.sin(q * Math.PI * 2.5)); // three finger tips, scalloped membrane between
+      const bottom = 0.72 + 0.35 * q - 0.32 * (1 - fingers) * q;
+      const body = Math.max(0, 1 - ax / 0.2);
+      let y = mix(top, ax < 0.2 ? 0.62 : bottom, u);
+      let z = 0.5 * Math.pow(q, 1.5) + (j % 2 ? 0.035 : -0.02) * q + body * 0.2 * Math.sin(Math.PI * u);
+      if (i === 0 && (j === 13 || j === 17)) y += 0.24; // ears
+      const a = -0.42, c = Math.cos(a), sn = Math.sin(a); // face the camera
+      return [x * c + z * sn, y, -x * sn + z * c];
+    },
+  },
   tiger: {
     nu: 26, nv: 12, unfoldFrom: [0, 0.5],
     init() {
@@ -424,11 +493,30 @@ const CREATURES = {
       if (i === 0) p = V.add(p, V.mul(f.t, -0.05));
       return p;
     },
+  },  lotus: {
+    nu: 24, nv: 24, unfoldFrom: [0.5, 0.5],
+    init() {},
+    pose(u, v, i, j, cu, cv) {
+      const x = v - 0.5, y = u - 0.5, s = Math.min(1, Math.max(Math.abs(x), Math.abs(y)) * 2);
+      const cs = Math.min(1, Math.max(Math.abs(cv - 0.5), Math.abs(cu - 0.5)) * 2);
+      // three petal rings, cut apart at the ring boundaries: upright inner cup, opening middle, low outer
+      const L = cs < 0.36 ? [0, 0.36, 0.0, 0.34, 0.02, 1.05, 0, 2.2] : cs < 0.7 ? [0.36, 0.7, 0.12, 0.78, 0.04, 0.72, Math.PI / 8, 1.6] : [0.7, 1, 0.22, 1.18, 0.03, 0.3, 0, 1.25];
+      const [s0, s1, R0, R1, H0, H1, ph, pw] = L, t = clamp((s - s0) / (s1 - s0));
+      const th = Math.atan2(y, x) + ph;
+      const m = 0.5 + 0.5 * Math.cos(8 * th); // 1 on a petal's midrib, 0 between petals
+      let R = mix(R0, R1, t) * (1 - (1 - m) * 0.42 * t), H = mix(H0, H1, Math.pow(t, pw)) * (1 - (1 - m) * 0.28 * t);
+      H += (i + j) % 2 ? 0.025 * t : -0.01 * t; // crease relief along the petals
+      return [Math.cos(th - ph) * R * 1.05, H, Math.sin(th - ph) * R * 0.95];
+    },
   },
 };
 
 /* ---------- printed CRA forms (texture) ---------- */
 const FORMS = {
+  T2: { code: 'T2 E (26)', title: 'T2 Corporation Income Tax Return', sub: 'Summary of tax and credits', lines: [['001', 'Business number (BN)'], ['060', 'Tax year start'], ['061', 'Tax year end'], ['300', 'Net income or (loss) for income tax purposes'], ['360', 'Taxable income'], ['400', 'Small business deduction'], ['550', 'Base amount of Part I tax'], ['700', 'Part I tax payable'], ['760', 'Total tax payable'], ['840', 'Instalments paid'], ['890', 'Total credits'], ['784', 'Refund code'], ['', 'Balance owing']] },
+  PD7A: { code: 'PD7A', title: 'Statement of Account for Current Source Deductions', sub: 'Remittance voucher – payroll', lines: [['', 'Gross payroll in remitting period'], ['', 'Number of employees in last pay period'], ['', 'CPP contributions – employee'], ['', 'CPP contributions – employer'], ['', 'EI premiums – employee'], ['', 'EI premiums – employer'], ['', 'Income tax deducted'], ['', 'Current source deductions'], ['', 'Amount of payment'], ['', 'Payroll account number'], ['', 'Remitting period ending'], ['', 'Due date'], ['', 'Penalty and interest']] },
+  T5018: { code: 'T5018 Summary', title: 'Summary of Contract Payments', sub: 'Construction subcontractors', lines: [['', 'Reporting period end'], ['', 'Payer’s program account number'], ['22', 'Recipient type'], ['24', 'Social insurance number'], ['26', 'Business number'], ['27', 'Contractor’s name'], ['82', 'Total contract payments'], ['', 'Number of T5018 slips'], ['', 'Address of payer'], ['', 'Contact person'], ['', 'Telephone number'], ['', 'Certification'], ['', 'Signature of authorized person']] },
+  T4SUM: { code: 'T4 Summary', title: 'Summary of Remuneration Paid', sub: 'Employer’s account number', lines: [['88', 'Total number of T4 slips filed'], ['14', 'Employment income'], ['16', 'Employees’ CPP contributions'], ['27', 'Employer’s CPP contributions'], ['18', 'Employees’ EI premiums'], ['19', 'Employer’s EI premiums'], ['22', 'Income tax deducted'], ['80', 'Total deductions reported'], ['82', 'Minus: remittances'], ['84', 'Overpayment'], ['86', 'Balance due'], ['76', 'Person to contact'], ['', 'Certification']] },
   T1: { code: 'T1 2026', title: 'Income Tax and Benefit Return', sub: 'Step 2 – Total income', lines: [['10100', 'Employment income (box 14 of all T4 slips)'], ['12000', 'Taxable amount of dividends'], ['12100', 'Interest and other investment income'], ['13500', 'Business income – Net'], ['15000', 'Total income'], ['20800', 'RRSP deduction'], ['23600', 'Net income'], ['26000', 'Taxable income'], ['35000', 'Total federal non-refundable tax credits'], ['43500', 'Total payable'], ['48200', 'Total credits'], ['48400', 'Refund'], ['48500', 'Balance owing']] },
   T2125: { code: 'T2125 E (26)', title: 'Statement of Business or Professional Activities', sub: 'Part 4 – Net income (loss) before adjustments', lines: [['8000', 'Adjusted gross sales'], ['8299', 'Gross business income'], ['8521', 'Advertising'], ['8523', 'Meals and entertainment'], ['8690', 'Insurance'], ['8810', 'Office expenses'], ['8811', 'Office stationery and supplies'], ['8860', 'Professional fees'], ['9200', 'Travel expenses'], ['9220', 'Utilities'], ['9281', 'Motor vehicle expenses'], ['9368', 'Total expenses'], ['9369', 'Net income (loss)']] },
   GST34: { code: 'GST34-2 E (26)', title: 'Goods and Services Tax / Harmonized Sales Tax Return', sub: 'Reporting period', lines: [['101', 'Sales and other revenue'], ['103', 'GST/HST collected or collectible'], ['104', 'Adjustments'], ['105', 'Total GST/HST and adjustments'], ['106', 'Input tax credits (ITCs)'], ['107', 'Adjustments'], ['108', 'Total ITCs and adjustments'], ['109', 'Net tax'], ['110', 'Instalments and other annual filer payments'], ['111', 'Rebates'], ['113', 'Balance'], ['114', 'Refund claimed'], ['115', 'Payment enclosed']] },
@@ -473,11 +561,26 @@ function formTexture(kind, S = 1024, page = 1) {
 }
 
 /* ---------- mesh build ---------- */
+// crumpled paper: the sheet wrapped onto a lumpy ball (octahedral map of the square onto a sphere), knife-edge crinkles from per-vertex noise
+[0, 1, 2].forEach((seed) => {
+  CREATURES['crumple' + seed] = {
+    nu: 18, nv: 18, unfoldFrom: [0.5, 0.5], init() {},
+    pose(u, v, i, j) {
+      let x = 2 * u - 1, z = 2 * v - 1, y = 1 - Math.abs(x) - Math.abs(z);
+      if (y < 0) { const ox = x; x = Math.sign(x || 1) * (1 - Math.abs(z)); z = Math.sign(z || 1) * (1 - Math.abs(ox)); }
+      const n = V.norm([x, y * (seed % 2 ? 1 : -1), z]), r = 0.3 * (0.72 + 0.56 * hash(i, j, seed + 7)) * (1 + seed * 0.04);
+      const c = [[-0.06, 0.3, 0.02], [0.1, 0.33, -0.05], [0.01, 0.38, 0.08]][seed];
+      return [c[0] + n[0] * r, c[1] + n[1] * r * 0.92, c[2] + n[2] * r];
+    },
+  };
+});
+
 function build(kind) {
   const C = CREATURES[kind]; if (!C._init) { C.init(); C._init = true; }
   const nu = C.nu, nv = C.nv, tris = [];
   const fr = rng(nu * 31 + nv);
-  const relief = []; for (let i = 0; i <= nu; i++) { relief[i] = []; for (let j = 0; j <= nv; j++) relief[i][j] = (i === 0 || j === 0 || i === nu || j === nv ? 0.3 : 1) * ((i + j) % 2 ? 1 : -0.6) * (0.012 + fr() * 0.02); }
+  const relief = []; for (let i = 0; i <= nu; i++) { relief[i] = []; for (let j = 0; j <= nv; j++) relief[i][j] = (i === 0 || j === 0 || i === nu || j === nv ? 0.3 : 1) * (fr() < 0.55 ? 1 : -0.7) * (0.006 + fr() * fr() * 0.05); }
+  const jx = [], jz = []; for (let i = 0; i <= nu; i++) { jx[i] = []; jz[i] = []; for (let j = 0; j <= nv; j++) { const e = i === 0 || j === 0 || i === nu || j === nv ? 0.35 : 1; jx[i][j] = (fr() - 0.5) * 0.045 * e; jz[i][j] = (fr() - 0.5) * 0.045 * e; } }
   for (let i = 0; i < nu; i++) for (let j = 0; j < nv; j++) {
     const a = [i, j], b = [i + 1, j], c = [i + 1, j + 1], d = [i, j + 1];
     const quads = (i + j) % 2 ? [[a, b, c], [a, c, d]] : [[a, b, d], [b, c, d]];
@@ -485,7 +588,8 @@ function build(kind) {
       const cu = (q[0][0] + q[1][0] + q[2][0]) / 3 / nu, cv = (q[0][1] + q[1][1] + q[2][1]) / 3 / nv;
       tris.push(q.map(([ii, jj]) => {
         const u = ii / nu, v = jj / nv;
-        return { u, v, fold: C.pose(u, v, ii, jj, cu, cv), flat: [(v - 0.5) * 2.05, relief[ii][jj], (u - 0.5) * 2.05], d: Math.hypot(u - C.unfoldFrom[0], v - C.unfoldFrom[1]) };
+        const fo = C.pose(u, v, ii, jj, cu, cv), nj = 0.018 * (hash(ii, jj, 3) - 0.5);
+        return { u, v, fold: [fo[0] + nj, fo[1] + 0.018 * (hash(ii, jj, 5) - 0.5), fo[2] - nj], flat: [(v - 0.5) * 2.05 + jx[ii][jj], relief[ii][jj], (u - 0.5) * 2.05 + jz[ii][jj]], d: Math.hypot(u - C.unfoldFrom[0], v - C.unfoldFrom[1]) };
       }));
     }
   }
@@ -500,28 +604,31 @@ const mesh = (k) => meshCache[k] || (meshCache[k] = build(k));
 function Scene(canvas, opt = {}) {
   this.c = canvas; this.g = canvas.getContext('2d');
   this.sh = document.createElement('canvas'); this.sg = this.sh.getContext('2d');
-  this.o = Object.assign({ creature: 'dragon', form: 'T1', fov: 1.25, yaw: -0.5, flatYaw: 0.5, cx: 0.5, cy: 0.56, zoom: 1, shadow: 'rgba(0,12,70,.34)', back: '#e9e3d6', light: [-0.45, 0.85, 0.55], fps: 12 }, opt);
+  this.o = Object.assign({ creature: 'dragon', form: 'T1', fov: 1.25, yaw: -0.5, flatYaw: 0.5, cx: 0.5, cy: 0.56, zoom: 1, shadow: 'rgba(0,12,70,.34)', back: '#e9e3d6', light: [-0.45, 0.85, 0.55], fps: 30, sway: 1 }, opt);
   this.set(this.o.creature, this.o.form);
 }
+Scene.prototype.next = function (form) { this.tex2 = form ? formTexture(form) : null; };
 Scene.prototype.set = function (creature, form) { this.o.creature = creature; this.o.form = form; this.tris = mesh(creature); this.tex = formTexture(form); this.texB = formTexture(form, 1024, 2); };
 Scene.prototype.size = function () {
   const r = this.c.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
   const w = Math.max(1, Math.round(r.width * dpr)), h = Math.max(1, Math.round(r.height * dpr));
-  if (this.c.width !== w || this.c.height !== h) { this.c.width = w; this.c.height = h; }
+  if (!this.o.noClear && (this.c.width !== w || this.c.height !== h)) { this.c.width = w; this.c.height = h; }
   if (this.sh.width !== w || this.sh.height !== h) { this.sh.width = w; this.sh.height = h; }
   return [w, h];
 };
 // k: 0 = folded creature, 1 = flat sheet. frame: integer stop-motion frame for boil.
 Scene.prototype.draw = function (k, frame = 0) {
   const [W, H] = this.size(), g = this.g, o = this.o, TS = this.tex.width;
-  g.clearRect(0, 0, W, H);
-  const calm = sstep(0.82, 1, k); // walkthrough: the flat sheet lies perfectly still
-  const jr = rng(frame * 7919 + 17), jit = () => (jr() - 0.5) * 2 * (1 - calm);
+  if (!o.noClear) g.clearRect(0, 0, W, H);
+  const fa = o.flatRot || 0, fca = Math.cos(fa), fsa = Math.sin(fa), fo = o.flatOff || [0, 0, 0];
+  const jit = () => 0; // no frame-to-frame boil
+  const calm = sstep(0.82, 1, k);
+  const st = frame / o.fps, sw = o.sway || 0; // soft sway clock
   const ek = k;
   const yaw = mix(o.yaw, o.flatYaw, sstep(0.15, 0.95, ek)) + jit() * 0.006;
-  const pitch = mix(0.36, 0.62, sstep(0.2, 1, ek));
+  const pitch = o.pitch != null ? o.pitch : mix(0.36, 0.62, sstep(0.2, 1, ek));
   const dist = (4.1 / o.zoom) * mix(1, o.flatDist || 1, sstep(0.2, 1, ek));
-  const tgt = [jit() * 0.008, mix(0.62, 0.05, sstep(0.1, 1, ek)) + jit() * 0.008, 0];
+  const tgt = [jit() * 0.008, (o.tgtY != null ? o.tgtY : mix(0.62, 0.05, sstep(0.1, 1, ek))) + jit() * 0.008, 0];
   const E = [tgt[0] + Math.sin(yaw) * Math.cos(pitch) * dist, tgt[1] + Math.sin(pitch) * dist, tgt[2] + Math.cos(yaw) * Math.cos(pitch) * dist];
   const f = V.norm(V.sub(tgt, E)), r = V.norm(V.cross(f, [0, 1, 0])), up = V.cross(r, f);
   const foc = Math.min(W, H * 1.35) * o.fov, ox = W * o.cx, oy = H * o.cy;
@@ -533,14 +640,17 @@ Scene.prototype.draw = function (k, frame = 0) {
     const P = t.map((p) => {
       const e = clamp((ek * 1.45 - p.d * 0.45));
       const ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2;
-      const q = V.lerp(p.fold, p.flat, ee);
+      let fp = p.fold;
+      if (sw) { const a = Math.sin(st * 1.35) * 0.075 * sw, c = Math.cos(a), sn = Math.sin(a), lean = Math.sin(st * 1.35 - 0.7) * 0.045 * sw; fp = [fp[0] * c - fp[2] * sn + lean * fp[1], fp[1] * (1 + Math.sin(st * 2.7) * 0.012 * sw), fp[0] * sn + fp[2] * c]; }
+      const fl = (fa || o.flatOff) ? [p.flat[0] * fca - p.flat[2] * fsa + fo[0], p.flat[1] + fo[1], p.flat[0] * fsa + p.flat[2] * fca + fo[2]] : p.flat;
+      const q = V.lerp(fp, fl, ee);
       q[1] += Math.sin(Math.PI * ee) * 0.22 * (1 - p.d * 0.5);
-      q[1] -= p.flat[1] * ee * calm * 0.94; // flatten the crease relief
+      q[1] -= p.flat[1] * ee * calm * 0.94; // flatten the crease relief: the flat sheet lies perfectly still
       return q;
     });
     out.push(P);
   }
-  // shadow (off when o.shadow is falsy: this walkthrough runs with no drop shadows)
+  // shadow (off when o.shadow is falsy: no drop shadows)
   if (o.shadow) {
   const sg = this.sg; sg.clearRect(0, 0, W, H); sg.fillStyle = '#000';
   sg.beginPath();
@@ -589,6 +699,7 @@ Scene.prototype.draw = function (k, frame = 0) {
         const f2 = (y0 * (u1 * v2 - u2 * v1) + y1 * (u2 * v0 - u0 * v2) + y2 * (u0 * v1 - u1 * v0)) / den;
         g.transform(a, b, c2, d, e, f2);
         g.drawImage(tex, 0, 0);
+        if (front && o.texMix > 0 && this.tex2) { g.globalAlpha = Math.min(1, o.texMix); g.drawImage(this.tex2, 0, 0); g.globalAlpha = 1; }
         g.setTransform(1, 0, 0, 1, 0, 0);
       }
     }
@@ -597,7 +708,7 @@ Scene.prototype.draw = function (k, frame = 0) {
     g.restore();
   }
   // crease lines once flat-ish
-  const cr = sstep(0.55, 1, ek) * 0.16 * (1 - calm * 0.9);
+  const cr = sstep(0.55, 1, ek) * 0.16 * (1 - calm * 0.92);
   if (cr > 0.01) {
     g.strokeStyle = `rgba(60,50,40,${cr})`; g.lineWidth = Math.max(0.6, W / 1800);
     g.beginPath();
@@ -653,7 +764,7 @@ const E=(t,a,b)=>ease(P(t,a,b));
 const lerp=(a,b,k)=>a+(b-a)*k;
 const $=s=>document.querySelector(s);
 const el=(tag,cls,html,parent)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;if(parent)parent.appendChild(e);return e;};
-const stop=t=>Math.floor(t*12)/12; // 12 fps stop motion
+const stop=t=>t; // smooth motion, same as the landing page
 
 /* =====================================================================
    ART: the "File without fear" origami direction. Every still is rendered by the
@@ -681,16 +792,16 @@ function renderArt(){
 renderArt();
 /* live scenes (image-to-video node, reel): hold folded, unfold to a flat sheet, rest */
 function liveScene(cv,a,extra){return new Origami.Scene(cv,Object.assign(OPT(a),extra||{}));}
-function unfoldK(t,hold,dur){return clamp((Math.floor(t*12)/12-hold)/dur);}
+function unfoldK(t,hold,dur){return clamp((t-hold)/dur);}
 
 /* campaign copy */
-const HEADR=['File without *fear.*','Tame tax *season.*','Don’t let your T2125 *bite.*','Receipts sorted before *April 30.*','Taxes, minus the *monster.*','Your books, *tax‑ready.*','It’s just *paper.*','Face the forms. *We’ve got you.*','Slay the shoebox of *receipts.*','Less paperwork. *More peace.*'];
+const HEADR=['File without *fear.*','Get your books ready by *April 30.*','Don’t let your T2125 *bite.*','Receipts sorted before *April 30.*','Taxes, minus the *monster.*','Your books, *tax‑ready.*','It’s just *paper.*','Face the forms. *We’ve got you.*','Slay the shoebox of *receipts.*','Less paperwork. *More peace.*'];
 const HEAD=HEADR.map(h=>h.replace(/\*/g,'').replace(/‑/g,'-'));
 const rich=(h,c)=>h.replace(/\*([^*]+)\*/g,`<em style="color:${c}">$1</em>`);
 const CTA=['Get tax-ready','Get tax-ready','Start free','Get tax-ready','Start free','Learn more','Learn more','Start free','Get tax-ready','Learn more'];
 
 /* ad template: fills a box of w×h with art, headline, wordmark and CTA */
-const SUB=['Wave keeps your books ready, year-round.','Receipts sorted, books ready by April 30.','Free accounting for Canadian small business.','Tax-ready books, all year long.','Tax-ready books, all year long.','Reports your accountant will thank you for.'];
+const SUB=['Wave keeps your books ready, year-round.','Receipts sorted, every expense categorized.','Free accounting for Canadian small business.','Tax-ready books, all year long.','Tax-ready books, all year long.','Reports your accountant will thank you for.'];
 function adHTML(ai,hi,w,h,live){
   const IMG=(st,aw)=>live?`<canvas class="art" data-live="${ai}" style="${st};height:${aw/1.3}px"></canvas>`:`<img class="art" data-art="${ai}" src="${ART[ai].src}" style="${st}">`;
   const a=ART[ai],r=w/h,fg=a.dark?'#fff':'#001b65',em=a.dark?'#e8aaff':'#0041ff',ctaBg=a.dark?'#e8aaff':'#0041ff',ctaFg=a.dark?'#001b65':'#fff',H=rich(HEADR[hi],em);
@@ -703,10 +814,9 @@ function adHTML(ai,hi,w,h,live){
   }else if(r<1.3){ // square: headline lower, no CTA, creature bottom right bleeding off the right edge
     s+=IMG(`width:${w*1.5}px;top:${h*.6}px;left:${w*.76}px`,w*1.5);
     s+=`<div class="wm" style="right:${w*.045}px;top:${w*.04}px;font-size:${w*.06}px;color:${fg}">wave</div>`;
-    s+=`<div class="h" style="left:${w*.07}px;top:${h*.2}px;width:${w*.7}px;font-size:${w*.1}px;color:${fg}">${H}</div>`;
-    s+=`<div class="sub" style="left:${w*.07}px;top:${h*.2+w*.13}px;width:${w*.6}px;font-size:${w*.033}px;color:${fg}">${SUB[hi]||''}</div>`;
+    s+=`<div style="position:absolute;left:${w*.07}px;top:${h*.17}px;width:${w*.8}px"><div class="h" style="position:static;font-size:${w*.095}px;color:${fg}">${H}</div><div class="sub" style="position:static;margin-top:${w*.03}px;width:${w*.7}px;font-size:${w*.033}px;color:${fg}">${SUB[hi]||''}</div></div>`;
   }else{ // wide 1.91 / 12:5
-    s+=IMG(`width:${h*1.9}px;left:${w*.8}px;top:${h*.52}px`,h*1.9);
+    s+=IMG(`width:${h*2.6}px;left:${w*.72}px;top:${h*.3}px`,h*2.6);
     s+=`<div class="wm" style="left:${h*.1}px;top:${h*.1}px;font-size:${h*.1}px;color:${fg}">wave</div>`;
     s+=`<div class="h" style="left:${h*.1}px;width:${w*.48}px;top:${h*.3}px;font-size:${h*(r>2.2?.15:.13)}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${h*.1}px;bottom:${h*.1}px;font-size:${h*.065}px;padding:${h*.04}px ${h*.075}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
@@ -719,7 +829,7 @@ function adHTML(ai,hi,w,h,live){
    ===================================================================== */
 const w1=$('#w1'),wires=$('#wires');
 const T_SUBJECT='An origami {creature} folded from a single printed CRA {form} form, rearing up, crisp knife-edge creases';
-const T_ART='Paper stop-motion, 12 fps. Form print, boxes and line numbers wrap every facet. Soft key light from upper left, one tone per facet, soft contact shadow. Then it unfolds flat: it’s just paper';
+const T_ART='Paper origami, soft sway. Form print, boxes and line numbers wrap every facet. Soft key light from upper left, one tone per facet, soft contact shadow. Then it unfolds flat: it’s just paper';
 const T_ENH='A hero still of an origami {creature} hand-folded from one sheet of a Canadian {form} tax form. The printed boxes, line numbers and ruled lines wrap across every faceted plane. Captured from a low 3/4 angle, centred, with crisp knife-edge creases catching a soft studio key light from the upper left and a gentle contact shadow. Flat seamless backdrop in one Wave colour (blue #0041FF, navy #001B65, pink #F2A8FF, sky #76C3FB or peach #FFE7D6). Tactile paper grain, stop-motion stillness, no text, generous negative space above for a headline.';
 const T_BRIEF='Wave · Tax season 2027 (Canada)\nAudience: freelancers + small business owners\nIdea: that T1 looks a lot scarier folded up. With Wave it’s just paper.\nTone: warm, confident, a little playful. No jargon.\nWrite 10 headlines ≤ 6 words + CTAs.';
 const NODES={
@@ -773,7 +883,7 @@ const vid=$('#vid'),vidCv=vid.querySelector('canvas'),vidBar=vid.querySelector('
 const sheet=$('#sheet');sheet.innerHTML='<tr><th>art</th><th>headline</th><th>cta</th></tr>'+[0,1,2,3,4,5,6,7,8,9].map(i=>`<tr><td><img data-art="${i}" src="${ART[i].src}" alt=""></td><td>${HEAD[i]}</td><td>${CTA[i]}</td></tr>`).join('');
 const sheetRows=[...sheet.querySelectorAll('tr')].slice(1);
 const bigc=$('#bigc');
-const COPYOUT='1. File without fear.\n2. Tame tax season.\n3. Don’t let your T2125 bite.\n4. Receipts sorted before April 30.\n5. Taxes, minus the monster.\n…\nCTA: Get started now · Start free';
+const COPYOUT='1. File without fear.\n2. Get your books ready by April 30.\n3. Don’t let your T2125 bite.\n4. Receipts sorted before April 30.\n5. Taxes, minus the monster.\n…\nCTA: Get started now · Start free';
 const typeTo=(f,txt,k)=>{const n=Math.round(txt.length*clamp(k));if(f._n!==n){f._n=n;f.textContent=txt.slice(0,n)+(k>0&&k<1?'▍':'');}};
 const CAM1=[[0,1.55,330,300],[2.4,1.55,330,300],[4.2,1.32,560,330],[6.6,1.22,760,380],[9,1.08,1010,420],[11,1.02,1130,470],[12.6,.94,800,450],[15,.94,800,450]];
 function camAt(K,t){let i=0;while(i<K.length-2&&t>K[i+1][0])i++;const a=K[i],b=K[i+1];const k=ease(P(t,a[0],b[0]));return[lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k)];}
@@ -793,7 +903,7 @@ function scene1(t){
   tiles.forEach((d,i)=>{const a=7.5+i*.12,k=P(t,a+.7,a+1.1);const sh=d.lastChild;sh.style.opacity=1-k;sh.style.backgroundPosition=`${100-((t*90)%100)}% 0`;d.firstChild.style.opacity=k;d.style.opacity=P(t,7.2,7.6);});
   hlItems.forEach((li,i)=>{li.style.opacity=P(t,7.7+i*.13,7.95+i*.13);});
   SZ.forEach((_,i)=>{sizes.children[i].style.opacity=P(t,10+i*.15,10.3+i*.15);});
-  const vt=Math.max(0,t-10.3)%6,vf=Math.floor(t*12);if(t>9.8&&vid._f!==vf){vid._f=vf;vidScene.draw(unfoldK(vt,1,2.8),vf);}vidBar.style.width=(vt/6*100)+'%';
+  const vt=Math.max(0,t-10.3)%6,vf=Math.floor(t*30);if(t>9.8&&vid._f!==vf){vid._f=vf;vidScene.draw(unfoldK(vt,1,2.8),vf);}vidBar.style.width=(vt/6*100)+'%';
   sheetRows.forEach((r,i)=>r.style.opacity=P(t,11.3+i*.09,11.5+i*.09));
   const c=Math.round(eo(P(t,12.4,14))*480);if(bigc._c!==c){bigc._c=c;bigc.textContent=c;}
   wireEls.forEach(w=>{const k=E(t,w.t,w.t+.5);w.path.style.strokeDashoffset=w.len*(1-k);w.po.classList.toggle('on',k>0);w.pi.classList.toggle('on',k>=1);
@@ -846,11 +956,11 @@ function scene2(t){
 const mk=$('#mk');
 const PL=[
  {name:'Instagram Reel',k:'9:16 · 1080×1920 · 6s loop',art:0,hl:0,
-  p:'Weave’s image-to-video pass folds the T1 dragon open at 12 fps until it’s just paper. Headline and CTA are bound in Figma, so each of the 120 reels ships as its own variant.',
+  p:'Weave’s image-to-video pass folds the T1 dragon open until it’s just still, flat paper. Headline and CTA are bound in Figma, so each of the 120 reels ships as its own variant.',
   dl:[['Variant','reel-dragon-blue-01'],['Headline','File without fear.'],['Caption','That T1 looks a lot scarier folded up. Wave keeps your books organized all year, so when the CRA comes calling, it’s just paper.'],['CTA','Get started now']]},
  {name:'Facebook feed',k:'1:1 · 1080×1080',art:1,hl:1,
   p:'The paper tiger, folded from a Notice of Assessment, carries the most playful line in the set. Same template, same binding, swapped by row in the sheet.',
-  dl:[['Variant','feed-tiger-navy-02'],['Headline','Tame tax season.'],['Primary text','Every receipt in one place, every expense categorized. Get your books tax-ready before April 30 with Wave’s free accounting software.'],['CTA','Get tax-ready']]},
+  dl:[['Variant','feed-tiger-navy-02'],['Headline','Get your books ready by April 30.'],['Primary text','Every receipt in one place, every expense categorized. Get your books tax-ready before April 30 with Wave’s free accounting software.'],['CTA','Get tax-ready']]},
  {name:'LinkedIn sponsored',k:'1.91:1 · 1200×628',art:2,hl:5,
   p:'For accountants and business owners the copy turns practical. The T2125 cobra keeps the folded-form idea readable at a glance in the feed.',
   dl:[['Variant','li-snake-pink-06'],['Headline','Your books, tax-ready.'],['Intro','Self-employed in Canada? Wave turns a year of invoices and receipts into tax-ready reports your accountant will actually thank you for.'],['CTA','Learn more']]},
@@ -871,7 +981,7 @@ const reelCv=reelAd.querySelector('canvas'),reelH=reelAd.querySelector('#reelh')
 const fb=el('div','',`<div class="card fb"><div class="c-head"><div class="lg">w</div><div>Wave<small>Sponsored · 🌐</small></div><span class="dots">···</span></div>
 <div class="c-txt">Every receipt in one place, every expense categorized. Get your books tax-ready before April 30 with Wave’s free accounting software. 🧾</div>
 <div class="c-img" style="height:520px">${adHTML(1,1,520,520,1)}</div>
-<div class="c-foot"><div><span class="u">waveapps.com</span><b>Tame tax season with Wave</b></div><span class="btn">Get tax-ready</span></div>
+<div class="c-foot"><div><span class="u">waveapps.com</span><b>Get your books ready by April 30</b></div><span class="btn">Get tax-ready</span></div>
 <div class="c-react"><span><i></i><i></i>1.1K</span><span>84 comments · 52 shares</span></div><div class="c-acts"><span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span></div></div>`,mk);
 // 3 linkedin
 const li=el('div','',`<div class="card li"><div class="c-head"><div class="lg">w</div><div>Wave Financial<small>48,210 followers<br>Promoted</small></div><span class="dots">···</span></div>
@@ -893,15 +1003,15 @@ const tabs3=$('#tabs3');const tabEls=PL.map(p=>el('div','',p.name+'<i></i>',tabs
 tabEls.forEach((e,j)=>{e.setAttribute('role','button');e.tabIndex=0;e.onclick=()=>{T=SC[2].t0+j*SEG+.001;render();};e.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();e.click();}};});
 const SEG=8.2,BEAT=0.9,UNF=2.3,FLAT=1.1; // folded beat, unfold, perfectly still flat sheet, refold into the next creature, beat
 const NEXT=['tiger','dragon','hydra','snake'];
-function loopDraw(L,lt){const tq=Math.floor(lt*12)/12,T1=BEAT,T2=T1+UNF,T3=T2+FLAT,T4=T3+UNF;
+function loopDraw(L,lt){const tq=lt,T1=BEAT,T2=T1+UNF,T3=T2+FLAT,T4=T3+UNF;
   const kind=tq<T3?L.a.kind:L.b,k=tq<T1?0:tq<T2?(tq-T1)/UNF:tq<T3?1:tq<T4?1-(tq-T3)/UNF:0;
   if(L.cur!==kind){L.cur=kind;L.sc.set(kind,L.a.form);L.c._f=-1;}
-  const f=k===1?-7:Math.floor(lt*12);if(L.c._f!==f){L.c._f=f;L.sc.draw(clamp(k),f);}}
+  const f=Math.floor(lt*30);if(L.c._f!==f){L.c._f=f;L.sc.draw(clamp(k),f);}}
 const liveAds=MOCKS.map((m,i)=>{const c=m.querySelector('canvas[data-live]');return c?{c,a:ART[+c.dataset.live],b:NEXT[i],sc:null}:null;});
 let cur3=-1;
 function scene3(t){
   const i=Math.min(3,Math.floor(t/SEG)),lt=t-i*SEG;
-  if(i!==cur3){cur3=i;const p=PL[i];$('#h3').textContent=p.name;$('#p3').textContent=p.p;$('#dl3').innerHTML=p.dl.filter(([a])=>a!=='Variant'&&a!=='CTA').map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
+  if(i!==cur3){cur3=i;const p=PL[i];$('#h3').textContent=p.name;$('#dl3').innerHTML=p.dl.filter(([a])=>a!=='Variant'&&a!=='CTA').map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
   tabEls.forEach((e,j)=>e.lastChild.style.width=(j===i?P(lt,0,SEG)*100:0)+'%');
   const cp=$('.s3copy');const ck=E(lt,0,.5)*(1-E(lt,SEG-.35,SEG));cp.style.opacity=ck;cp.style.transform=`translateY(${(1-ck)*12}px)`;
   MOCKS.forEach((m,j)=>{
