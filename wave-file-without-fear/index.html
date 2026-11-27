@@ -742,22 +742,7 @@ const CREATURES = {
       return [Math.cos(ang) * R * 1.05 + 0.08, H + ((i + j) % 2 ? 0.03 : -0.01) * a, Math.sin(ang) * R * 0.78];
     },
   },
-  bat: {
-    nu: 14, nv: 30, unfoldFrom: [0, 0.5],
-    init() {},
-    pose(u, v, i, j, cu, cv) {
-      const x = (v - 0.5) * 2.3, ax = Math.abs(x), q = Math.min(1, ax / 1.15);
-      const top = 1.5 - 0.05 * ax + 0.3 * Math.sin(q * Math.PI * 0.9) - (q > 0.92 ? (q - 0.92) * 2 : 0); // arm arch up to the wrist
-      const fingers = Math.abs(Math.sin(q * Math.PI * 2.5)); // three finger tips, scalloped membrane between
-      const bottom = 0.72 + 0.35 * q - 0.32 * (1 - fingers) * q;
-      const body = Math.max(0, 1 - ax / 0.2);
-      let y = mix(top, ax < 0.2 ? 0.62 : bottom, u);
-      let z = 0.5 * Math.pow(q, 1.5) + (j % 2 ? 0.035 : -0.02) * q + body * 0.2 * Math.sin(Math.PI * u);
-      if (i === 0 && (j === 13 || j === 17)) y += 0.24; // ears
-      const a = -0.42, c = Math.cos(a), sn = Math.sin(a); // face the camera
-      return [x * c + z * sn, y, -x * sn + z * c];
-    },
-  },
+
   lotus: {
     nu: 24, nv: 24, unfoldFrom: [0.5, 0.5],
     init() {},
@@ -1053,7 +1038,6 @@ const SEQ = [
   { c: 'scorpion', f: 'PD7A', name: 'The payroll scorpion', form: 'PD7A Statement of Account for Current Source Deductions' },
   { c: 'spider', f: 'T5018', name: 'The T5018 spider', form: 'T5018 Summary of Contract Payments' },
   { c: 'snake', f: 'T2125', name: 'The T2125 cobra', form: 'Statement of Business or Professional Activities' },
-  { c: 'bat', f: 'T4SUM', name: 'The T4 Summary bat', form: 'T4 Summary of Remuneration Paid' },
 ];
 const HOLD = 1.5, DUR = 2.6, FLAT = 1.6, REFOLD = 2.6, SEG = HOLD + DUR + FLAT + REFOLD, TOTAL = SEG * SEQ.length;
 const stage = document.getElementById('stage');
