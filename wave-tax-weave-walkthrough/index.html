@@ -795,13 +795,13 @@ function liveScene(cv,a,extra){return new Origami.Scene(cv,Object.assign(OPT(a),
 function unfoldK(t,hold,dur){return clamp((t-hold)/dur);}
 
 /* campaign copy */
-const HEADR=['File without *fear.*','Get your books ready by *April 30.*','Don’t let your T2125 *bite.*','Receipts sorted before *April 30.*','Taxes, minus the *monster.*','Your books, *tax‑ready.*','It’s just *paper.*','Face the forms. *We’ve got you.*','Slay the shoebox of *receipts.*','Less paperwork. *More peace.*'];
+const HEADR=['File without *fear.*','Tame tax *season.*','Don’t let your T2125 *bite.*','Receipts sorted before *April 30.*','Taxes, minus the *monster.*','Your books, *tax‑ready.*','It’s just *paper.*','Face the forms. *We’ve got you.*','Slay the shoebox of *receipts.*','Less paperwork. *More peace.*'];
 const HEAD=HEADR.map(h=>h.replace(/\*/g,'').replace(/‑/g,'-'));
 const rich=(h,c)=>h.replace(/\*([^*]+)\*/g,`<em style="color:${c}">$1</em>`);
 const CTA=['Get tax-ready','Get tax-ready','Start free','Get tax-ready','Start free','Learn more','Learn more','Start free','Get tax-ready','Learn more'];
 
 /* ad template: fills a box of w×h with art, headline, wordmark and CTA */
-const SUB=['Wave keeps your books ready, year-round.','Receipts sorted, every expense categorized.','Free accounting for Canadian small business.','Tax-ready books, all year long.','Tax-ready books, all year long.','Reports your accountant will thank you for.'];
+const SUB=['Wave keeps your books ready, year-round.','Get your books ready by April 30.','Free accounting for Canadian small business.','Tax-ready books, all year long.','Tax-ready books, all year long.','Reports your accountant will thank you for.'];
 function adHTML(ai,hi,w,h,live){
   const IMG=(st,aw)=>live?`<canvas class="art" data-live="${ai}" style="${st};height:${aw/1.3}px"></canvas>`:`<img class="art" data-art="${ai}" src="${ART[ai].src}" style="${st}">`;
   const a=ART[ai],r=w/h,fg=a.dark?'#fff':'#001b65',em=a.dark?'#e8aaff':'#0041ff',ctaBg=a.dark?'#e8aaff':'#0041ff',ctaFg=a.dark?'#001b65':'#fff',H=rich(HEADR[hi],em);
@@ -883,7 +883,7 @@ const vid=$('#vid'),vidCv=vid.querySelector('canvas'),vidBar=vid.querySelector('
 const sheet=$('#sheet');sheet.innerHTML='<tr><th>art</th><th>headline</th><th>cta</th></tr>'+[0,1,2,3,4,5,6,7,8,9].map(i=>`<tr><td><img data-art="${i}" src="${ART[i].src}" alt=""></td><td>${HEAD[i]}</td><td>${CTA[i]}</td></tr>`).join('');
 const sheetRows=[...sheet.querySelectorAll('tr')].slice(1);
 const bigc=$('#bigc');
-const COPYOUT='1. File without fear.\n2. Get your books ready by April 30.\n3. Don’t let your T2125 bite.\n4. Receipts sorted before April 30.\n5. Taxes, minus the monster.\n…\nCTA: Get started now · Start free';
+const COPYOUT='1. File without fear.\n2. Tame tax season.\n3. Don’t let your T2125 bite.\n4. Receipts sorted before April 30.\n5. Taxes, minus the monster.\n…\nCTA: Get started now · Start free';
 const typeTo=(f,txt,k)=>{const n=Math.round(txt.length*clamp(k));if(f._n!==n){f._n=n;f.textContent=txt.slice(0,n)+(k>0&&k<1?'▍':'');}};
 const CAM1=[[0,1.55,330,300],[2.4,1.55,330,300],[4.2,1.32,560,330],[6.6,1.22,760,380],[9,1.08,1010,420],[11,1.02,1130,470],[12.6,.94,800,450],[15,.94,800,450]];
 function camAt(K,t){let i=0;while(i<K.length-2&&t>K[i+1][0])i++;const a=K[i],b=K[i+1];const k=ease(P(t,a[0],b[0]));return[lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k)];}
@@ -960,7 +960,7 @@ const PL=[
   dl:[['Variant','reel-dragon-blue-01'],['Headline','File without fear.'],['Caption','That T1 looks a lot scarier folded up. Wave keeps your books organized all year, so when the CRA comes calling, it’s just paper.'],['CTA','Get started now']]},
  {name:'Facebook feed',k:'1:1 · 1080×1080',art:1,hl:1,
   p:'The paper tiger, folded from a Notice of Assessment, carries the most playful line in the set. Same template, same binding, swapped by row in the sheet.',
-  dl:[['Variant','feed-tiger-navy-02'],['Headline','Get your books ready by April 30.'],['Primary text','Every receipt in one place, every expense categorized. Get your books tax-ready before April 30 with Wave’s free accounting software.'],['CTA','Get tax-ready']]},
+  dl:[['Variant','feed-tiger-navy-02'],['Headline','Tame tax season.'],['Subheading','Get your books ready by April 30.'],['Primary text','Every receipt in one place, every expense categorized. Get your books tax-ready before April 30 with Wave’s free accounting software.'],['CTA','Get tax-ready']]},
  {name:'LinkedIn sponsored',k:'1.91:1 · 1200×628',art:2,hl:5,
   p:'For accountants and business owners the copy turns practical. The T2125 cobra keeps the folded-form idea readable at a glance in the feed.',
   dl:[['Variant','li-snake-pink-06'],['Headline','Your books, tax-ready.'],['Intro','Self-employed in Canada? Wave turns a year of invoices and receipts into tax-ready reports your accountant will actually thank you for.'],['CTA','Learn more']]},
@@ -981,7 +981,7 @@ const reelCv=reelAd.querySelector('canvas'),reelH=reelAd.querySelector('#reelh')
 const fb=el('div','',`<div class="card fb"><div class="c-head"><div class="lg">w</div><div>Wave<small>Sponsored · 🌐</small></div><span class="dots">···</span></div>
 <div class="c-txt">Every receipt in one place, every expense categorized. Get your books tax-ready before April 30 with Wave’s free accounting software. 🧾</div>
 <div class="c-img" style="height:520px">${adHTML(1,1,520,520,1)}</div>
-<div class="c-foot"><div><span class="u">waveapps.com</span><b>Get your books ready by April 30</b></div><span class="btn">Get tax-ready</span></div>
+<div class="c-foot"><div><span class="u">waveapps.com</span><b>Tame tax season with Wave</b></div><span class="btn">Get tax-ready</span></div>
 <div class="c-react"><span><i></i><i></i>1.1K</span><span>84 comments · 52 shares</span></div><div class="c-acts"><span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span></div></div>`,mk);
 // 3 linkedin
 const li=el('div','',`<div class="card li"><div class="c-head"><div class="lg">w</div><div>Wave Financial<small>48,210 followers<br>Promoted</small></div><span class="dots">···</span></div>
