@@ -78,7 +78,8 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 /* testimonials */
 .testi{background:var(--sky);padding:33px 0}
 .tq{max-width:1352px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,780px) 278px;justify-content:space-between;gap:42px;align-items:center}
-.tq blockquote{font-size:31px;line-height:1.24;color:var(--navy);font-weight:400}
+.tq blockquote,.pcard blockquote{font-family:var(--serif);font-size:34px;line-height:1.18;letter-spacing:-.01em;color:var(--navy);font-weight:400;font-variation-settings:"opsz" 36}
+.tq blockquote b,.pcard blockquote b{font-weight:600}
 .tq blockquote b{font-weight:700}
 .tq .who{margin-top:44px;font-size:18px;color:var(--navy)}
 .tq .who b{font-weight:700}
@@ -86,7 +87,7 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 
 /* features */
 .feat{padding:110px 0 98px}
-.feat .grid{display:grid;grid-template-columns:684px 1fr;align-items:center;margin-top:52px}
+.feat .grid{display:grid;grid-template-columns:684px 1fr;align-items:center;margin-top:60px}
 .feat .cols{display:grid;grid-template-columns:1fr 1fr;column-gap:38px;padding-right:30px}
 .feat .cols>div>div{margin-bottom:44px}
 .feat .cols>div:nth-child(2)>div:nth-child(2){margin-top:32px}
@@ -95,10 +96,22 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .feat .ph{width:100%;aspect-ratio:620/510;object-fit:cover;border-radius:22px}
 .lotus{position:relative;width:100%;aspect-ratio:620/510;border-radius:22px;background:var(--pink);overflow:hidden}
 .lotus canvas{position:absolute;inset:0;width:100%;height:100%}
-.lotus .ui{position:absolute;left:5.2%;top:22%;width:max-content;max-width:90%;display:flex;flex-direction:column;gap:9px}
-.lotus .hd,.lotus .row{opacity:0;transform:translateY(10px);transition:opacity .45s,transform .45s cubic-bezier(.2,.8,.2,1)}
-.lotus.on .hd,.lotus.on .row{opacity:1;transform:none}
-.lotus.on .row:nth-child(2){transition-delay:.12s}.lotus.on .row:nth-child(3){transition-delay:.24s}.lotus.on .row:nth-child(4){transition-delay:.36s}
+.lotus .ui{position:absolute;left:5.2%;top:12%;width:max-content;max-width:90%;display:flex;flex-direction:column;gap:9px}
+.lotus .hd,.lotus .row{opacity:0;transform:translateY(12px);transition:opacity .5s,transform .6s cubic-bezier(.2,.8,.2,1)}
+.lotus .ui.on .hd,.lotus .ui.on .row{opacity:1;transform:none}
+.lotus .ui.on .row:nth-child(2){transition-delay:.1s}.lotus .ui.on .row:nth-child(3){transition-delay:.2s}.lotus .ui.on .row:nth-child(4){transition-delay:.3s}
+.lotus .ui{pointer-events:none}
+.lotus .row b.nod:before{display:none}
+.lotus .row i.av{width:24px;height:24px;border:0;border-radius:50%;color:#fff;font:700 9.5px/24px var(--sans);text-align:center;letter-spacing:.02em;font-style:normal;margin-right:14px}
+.slides{display:flex;flex-direction:column;gap:6px;padding-right:72px}
+.slides .it{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:block;padding:10px 0 12px 34px}
+.slides .it:before{content:"";position:absolute;left:0;top:12px;bottom:12px;width:2px;background:#ddd6cf}
+.slides .it>i{position:absolute;left:0;top:12px;width:2px;height:0;background:var(--navy);transition:height .2s linear}
+.slides .it h3{font-family:var(--serif);font-weight:450;font-size:40px;line-height:1.08;letter-spacing:-.015em;color:#a8a29c;margin:0;transition:color .5s;font-variation-settings:"opsz" 40}
+.slides .it.on h3,.slides .it:hover h3{color:var(--navy)}
+.slides .it p{font-size:18px;line-height:1.45;color:#3b3d40;max-height:0;opacity:0;overflow:hidden;transition:max-height .6s cubic-bezier(.2,.8,.2,1),opacity .5s,margin .6s;margin-top:0}
+.slides .it.on p{max-height:120px;opacity:1;margin-top:14px}
+.slides .it:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:4px}
 .lotus .hd{display:flex;align-items:center;gap:11px;background:rgba(253,240,255,.94);border-left:4px solid #e8aaff;border-radius:4px;padding:15px 18px 15px 12px;font-size:15px;line-height:1.42;white-space:nowrap;color:#232426;box-shadow:0 6px 18px rgba(80,0,110,.12);margin-bottom:5px}
 .lotus .hd b{font-weight:700}
 .lotus .hd svg{flex:none;width:30px;height:30px}
@@ -161,7 +174,7 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .pc.pro .price{color:#1066da}
 .pc .price small{font-size:26px}
 .pc .price em{display:block;font-style:normal;font-size:20px;font-weight:400;margin-top:-2px}
-.pc .head .btn{width:100%;height:36px;font-size:17px;margin-top:40px}
+.pc .head .btn{width:auto;height:50px;padding:0 34px;font-size:17px;margin-top:34px}
 .pc.pro .head .btn{background:#0041ff}
 .rec{position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:#0b63d6;color:#fff;font:600 15px var(--sans);padding:4px 8px;border-radius:5px 5px 0 0}
 .pc ul{list-style:none;padding:26px 14px 30px 16px}
@@ -287,10 +300,9 @@ footer{position:relative}
   .three,.ind .four,.partners,.arts{grid-template-columns:1fr;gap:44px}
   .tq,.pcard{grid-template-columns:1fr}
   .tq img,.pcard img{width:100%;height:auto;aspect-ratio:278/367;max-width:320px}
-  .tq blockquote{font-size:25px}
-  .feat .cols{grid-template-columns:1fr;padding:0}
+  .tq blockquote,.pcard blockquote{font-size:26px}
+  .slides{padding-right:0}.slides .it h3{font-size:30px}
   .lotus{aspect-ratio:4/5}.feat .lotus .ui{left:4%;top:5%;width:92%;max-width:none}.feat .lotus .hd{font-size:12px;white-space:normal;padding-right:10px}.feat .lotus .hd br{display:none}.feat .lotus .row{font-size:12.5px;height:40px}.feat .lotus .row span{width:92px}.feat .lotus .row i{margin-right:12px}.lotus canvas{top:30%;height:70%}
-  .feat .cols>div:nth-child(2)>div:nth-child(2){margin-top:0}
   .stats,.stats .r2{grid-template-columns:1fr}
   .st,.r2 .st{min-height:300px}
   .prices{grid-template-columns:minmax(0,377px)}
@@ -359,7 +371,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 <section class="testi">
   <div class="tq">
-    <div><blockquote>"Being able to scan receipts or file them through email alone is worth the price. Wave is an <b>asset to my business and my sanity</b>…I’m not sweating bullets during tax season."</blockquote>
+    <div><blockquote>“Being able to scan receipts or file them through email alone is worth the price. Wave is an <b>asset to my business and my sanity</b>…I’m not sweating bullets during tax season.”</blockquote>
     <p class="who"><b>Patrick Bazinet</b> – Graphic Designer</p></div>
     <img src="img/patrick.jpg" alt="Patrick Bazinet smiling at his desk">
   </div>
@@ -369,17 +381,29 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
   <div class="wrap">
     <h2 class="sec serif navy-t">Features that do the heavy-lifting</h2>
     <div class="grid">
-      <div class="cols">
-        <div><div><h3>Receipt scanning</h3><p>Snap a photo, track expenses, and stay organized year-round.</p></div><div><h3>Bank syncing</h3><p>With Wave’s Pro Plan, securely sync your bank and credit cards with Wave and spend less time typing in data.</p></div></div>
-        <div><div><h3>One-click tax reports</h3><p>Generate profit and loss statements, balance sheets, and cash flow reports in seconds.</p></div><div><h3>Collaborate with your team</h3><p>With Wave’s Pro Plan, give your accountant, payroll manager, or business partner access to your Wave account.</p></div></div>
+      <div class="slides" id="slides" role="tablist" aria-label="Features">
+        <button class="it" role="tab"><i></i><h3 class="serif">Receipt scanning</h3><p>Snap a photo, track expenses, and stay organized year-round.</p></button>
+        <button class="it" role="tab"><i></i><h3 class="serif">One-click tax reports</h3><p>Generate profit and loss statements, balance sheets, and cash flow reports in seconds.</p></button>
+        <button class="it" role="tab"><i></i><h3 class="serif">Bank syncing</h3><p>With Wave’s Pro Plan, securely sync your bank and credit cards with Wave and spend less time typing in data.</p></button>
+        <button class="it" role="tab"><i></i><h3 class="serif">Collaborate with your team</h3><p>With Wave’s Pro Plan, give your accountant, payroll manager, or business partner access to your Wave account.</p></button>
       </div>
-      <div class="lotus" id="lotus"><canvas aria-label="Stop motion: a T2125 expense statement folds itself into a paper lotus"></canvas>
-        <div class="ui">
-          <div class="hd"><svg viewBox="0 0 30 30" fill="none" stroke="#001b65" stroke-width="2.2"><circle cx="15" cy="4" r="1.6" fill="#001b65" stroke="none"/><path d="M15 5.6v2.4"/><rect x="5" y="8" width="20" height="17" rx="6"/><circle cx="11" cy="15.5" r="1.7" fill="#001b65" stroke="none"/><circle cx="19" cy="15.5" r="1.7" fill="#001b65" stroke="none"/><path d="M11.5 20c2 1.6 5 1.6 7 0" stroke-linecap="round"/><path d="M3 14v5M27 14v5" stroke-linecap="round"/></svg><p><b>Wave</b> categorized your expenses <br>imported from your bank connection</p></div>
+      <div class="lotus" id="lotus"><canvas aria-label="A paper lotus folded from a T2125 expense statement slowly blooms"></canvas>
+        <div class="ui"><div class="hd"><svg viewBox="0 0 30 30" fill="none" stroke="#001b65" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M7 3.5h16v23l-2.7-1.8-2.6 1.8-2.7-1.8-2.7 1.8-2.6-1.8L7 26.5z"/><path d="M11 10h8M11 14.5h8M11 19h5"/></svg><p><b>Receipt scanned</b> and matched <br>to your expenses</p></div>
+          <div class="row"><i></i><span>Vendor</span><b class="nod">Staples</b></div>
+          <div class="row"><i></i><span>Total</span><b class="nod">$48.20</b></div>
+          <div class="row"><i></i><span>Category</span><b style="--d:#2f8cff">Office supplies</b></div></div>
+        <div class="ui"><div class="hd"><svg viewBox="0 0 30 30" fill="none" stroke="#001b65" stroke-width="2.2" stroke-linecap="round"><rect x="4" y="4" width="22" height="22" rx="4"/><path d="M10 20v-4M15 20v-9M20 20v-6"/></svg><p><b>Profit &amp; Loss</b> is ready <br>Jan 1 – Dec 31, 2026</p></div>
+          <div class="row"><i></i><span>Income</span><b class="nod">$84,200.00</b></div>
+          <div class="row"><i></i><span>Expenses</span><b class="nod">$31,640.00</b></div>
+          <div class="row"><i></i><span>Net profit</span><b style="--d:#1aa36b">$52,560.00</b></div></div>
+        <div class="ui"><div class="hd"><svg viewBox="0 0 30 30" fill="none" stroke="#001b65" stroke-width="2.2"><circle cx="15" cy="4" r="1.6" fill="#001b65" stroke="none"/><path d="M15 5.6v2.4"/><rect x="5" y="8" width="20" height="17" rx="6"/><circle cx="11" cy="15.5" r="1.7" fill="#001b65" stroke="none"/><circle cx="19" cy="15.5" r="1.7" fill="#001b65" stroke="none"/><path d="M11.5 20c2 1.6 5 1.6 7 0" stroke-linecap="round"/><path d="M3 14v5M27 14v5" stroke-linecap="round"/></svg><p><b>Wave</b> categorized your expenses <br>imported from your bank connection</p></div>
           <div class="row"><i></i><span>United Airlines</span><b style="--d:#8a3ffc">Travel expense</b></div>
           <div class="row"><i></i><span>TPH Printing</span><b style="--d:#ff7a1a">Marketing</b></div>
-          <div class="row"><i></i><span>Green Dragon</span><b style="--d:#2f8cff">Meals &amp; Entertainment</b></div>
-        </div>
+          <div class="row"><i></i><span>Green Dragon</span><b style="--d:#2f8cff">Meals &amp; Entertainment</b></div></div>
+        <div class="ui"><div class="hd"><svg viewBox="0 0 30 30" fill="none" stroke="#001b65" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="4.2"/><path d="M3.5 24c.8-4.3 3.8-6.5 7.5-6.5s6.7 2.2 7.5 6.5"/><circle cx="21" cy="12" r="3.3"/><path d="M20.5 17.6c3.3.1 5.4 2 6 5.4"/></svg><p><b>3 people</b> can now access <br>your Wave account</p></div>
+          <div class="row"><i class="av" style="background:#8a3ffc">PS</i><span>Priya Shah</span><b style="--d:#8a3ffc">Accountant</b></div>
+          <div class="row"><i class="av" style="background:#ff7a1a">ML</i><span>Marcus Lee</span><b style="--d:#ff7a1a">Payroll manager</b></div>
+          <div class="row"><i class="av" style="background:#2f8cff">DO</i><span>Dana Okafor</span><b style="--d:#2f8cff">Business partner</b></div></div>
       </div>
     </div>
   </div>
@@ -395,7 +419,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
       <div><h3>Consultants</h3><img src="img/ind-consultants.jpg" alt="A consultant leaning against a wall"><p>Wave makes it simple to organize and track income and expenses, so you know where things stand before you file taxes.</p></div>
     </div>
     <div class="pcard">
-      <div><blockquote style="font-size:31px;line-height:1.24;color:var(--navy)">"Wave has kind of taken the headache out of taxes… I can go to my reports, download my report, upload it to our tax portal and move about my day… it’s just not something to lose sleep over."</blockquote>
+      <div><blockquote>“Wave has kind of taken the headache out of taxes… I can go to my reports, download my report, upload it to our tax portal and move about my day… it’s just not something to lose sleep over.”</blockquote>
       <p class="who" style="margin-top:44px;font-size:18px;color:var(--navy)"><b>Corey Kenerly</b> – Co-owner, Duo Custom Solutions</p></div>
       <img src="img/corey.jpg" alt="Corey Kenerly smiling">
     </div>
@@ -405,7 +429,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 <section class="why">
   <div class="wrap">
     <div class="top">
-      <h2 class="serif">Why Wave is the wiser choice</h2>
+      <h2 class="serif">Why Wave is the<br>wiser choice</h2>
       <ul>
         <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Clunky interfaces and accounting jargon make tax time harder. Wave is easy (and fun!) to use.</span></li>
         <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Don’t get bogged down with features you don’t even use. With Wave, you’ll access the time-saving tools you need, for less.</span></li>
@@ -1058,21 +1082,31 @@ document.querySelectorAll('.art').forEach((a) => {
   addEventListener('resize', () => p.render(p.t));
 });
 
-/* ---------- features: a T2125 sheet folds into a lotus (seen from above), opens flat again, and loops; the cards settle on top ---------- */
+/* ---------- features: a slideshow of the four features, each with its own Wave UI cards, over a slowly blooming paper lotus ---------- */
 (function(){
-  const box = document.getElementById('lotus'), cv = box.querySelector('canvas');
-  const cam = () => ({ cx: mobile() ? 0.5 : 0.6, cy: mobile() ? 0.62 : 0.55, fov: mobile() ? 0.88 : 0.9 });
-  const sc = new Origami.Scene(cv, Object.assign({ creature: 'lotus', form: 'T2125', shadow: null, yaw: -0.3, flatYaw: -0.3, pitch: 1.08, tgtY: 0.12, light: [-0.35, 1, 0.45] }, cam()));
-  // loop: flat 0.6s, fold 2.4s, hold the lotus 2.6s, open 2.4s
-  const F = 0.6, D = 2.4, H = 2.6, LOOP = F + D + H + D;
-  const kAt = (t) => { t %= LOOP; if (t < F) return 1; if (t < F + D) return 1 - (t - F) / D; if (t < F + D + H) return 0; return (t - F - D - H) / D; };
-  let t0 = null, last = -1, on = false, vis = false;
-  const step = (now) => { if (!vis) return; const t = (now - t0) / 1000, f = Math.floor(t * 30); if (f !== last) { last = f; sc.draw(kAt(f / 30), f); if (!on && t > F + D) { on = true; box.classList.add('on'); } } requestAnimationFrame(step); };
-  sc.draw(reduce || CLIP ? 0 : 1, 0);
-  if (reduce || CLIP) box.classList.add('on');
-  new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; vis = e.isIntersecting; if (vis) { if (t0 === null) t0 = performance.now(); else t0 = performance.now() - last / 30 * 1000; requestAnimationFrame(step); } }), { threshold: 0.35 }).observe(box);
-  addEventListener('resize', () => { Object.assign(sc.o, cam()); sc.draw(last < 0 ? (reduce || CLIP ? 0 : 1) : kAt(last / 30), last); });
-  window.__lotus = { seek: (t) => sc.draw(kAt(t), Math.floor(t * 30)) };
+  const box = document.getElementById('lotus'), cv = box.querySelector('canvas'), its = [...document.querySelectorAll('#slides .it')], uis = [...box.querySelectorAll('.ui')];
+  const DUR = 6; let cur = 0, t0 = performance.now(), vis = false;
+  const pick = (i) => { cur = i; t0 = performance.now(); its.forEach((e, n) => { e.classList.toggle('on', n === i); e.setAttribute('aria-selected', n === i); e.firstChild.style.height = '0'; }); uis.forEach((u, n) => u.classList.toggle('on', n === i)); };
+  its.forEach((e, n) => e.onclick = () => pick(n));
+  pick(0);
+  // lotus: one long, eased breath: opens flat, blooms, rests while turning slowly, then opens again
+  const cam = () => mobile() ? { cx: 0.64, cy: 0.86, fov: 1.15 } : { cx: 0.74, cy: 0.83, fov: 1.32 };
+  const sc = new Origami.Scene(cv, Object.assign({ creature: 'lotus', form: 'T2125', shadow: null, yaw: -0.3, flatYaw: -0.3, pitch: 1.0, tgtY: 0.12, light: [-0.35, 1, 0.45], fps: 60, sway: 0.5 }, cam()));
+  const F = 1.4, B = 4.2, H = 7, U = 4.2, LOOP = F + B + H + U, ease = (x) => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, x)));
+  const kAt = (t) => { t %= LOOP; if (t < F) return 1; if (t < F + B) return 1 - ease((t - F) / B); if (t < F + B + H) return 0; return ease((t - F - B - H) / U); };
+  const draw = (t) => { sc.o.yaw = sc.o.flatYaw = -0.3 + t * 0.045; sc.draw(kAt(t), Math.floor(t * 60)); };
+  let l0 = null, lt = (reduce || CLIP) ? F + B + 1 : 0;
+  draw(lt);
+  const step = (now) => {
+    if (!vis) return;
+    const p = Math.min(1, (now - t0) / 1000 / DUR); its[cur].firstChild.style.height = `calc(${p * 100}% - ${p * 24}px)`;
+    if (p >= 1) pick((cur + 1) % its.length);
+    lt = (now - l0) / 1000; draw(lt);
+    requestAnimationFrame(step);
+  };
+  new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; const was = vis; vis = e.isIntersecting; if (vis && !was) { l0 = performance.now() - lt * 1000; t0 = performance.now(); requestAnimationFrame(step); } }), { threshold: 0.3 }).observe(box);
+  addEventListener('resize', () => { Object.assign(sc.o, cam()); draw(lt); });
+  window.__lotus = { seek: (t) => draw(t), pick };
 })();
 
 /* ---------- pricing toggle ---------- */
