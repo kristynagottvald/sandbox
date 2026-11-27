@@ -231,7 +231,7 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .art{display:flex!important;flex-direction:column}
 .art .tx{padding:24px 24px 26px;display:flex;flex-direction:column;flex:1}
 .art .more2{margin-top:auto;padding-top:24px;display:inline-flex;align-items:center;gap:10px;color:var(--blue);font:800 14px var(--sans);letter-spacing:.1em;text-transform:uppercase}
-.art .more2 svg{width:14px;height:12px;transition:transform .25s}
+.art .more2 svg{width:17px;height:12px;transition:transform .25s}
 .art:hover .more2 svg{transform:translateX(4px)}
 .art h3{font-size:21px;font-weight:600;line-height:1.27}
 .art p{font-size:17px;line-height:1.45;margin-top:16px}
@@ -515,9 +515,9 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <h2 class="sec serif navy-t">Level up your tax knowledge</h2>
     <p class="sub">Stop the tax time terror before it starts. Check out our guides to get prepared.</p>
     <div class="arts" id="arts">
-      <a class="art" href="#" data-c="spider" data-f="T4A" data-cam="0.5,0.5,1.3" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p><span class="more2">Read more<svg viewBox="0 0 14 12" aria-hidden="true"><path d="M5 6h7M7 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
-      <a class="art" href="#" data-c="hydra" data-f="T2125" data-cam="0.5,0.74,1.55" data-bleed="1" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p><span class="more2">Read more<svg viewBox="0 0 14 12" aria-hidden="true"><path d="M5 6h7M7 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
-      <a class="art" href="#" data-c="snake" data-f="GST34" data-cam="0.5,0.5,2.2" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p><span class="more2">Read more<svg viewBox="0 0 14 12" aria-hidden="true"><path d="M5 6h7M7 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+      <a class="art" href="#" data-c="spider" data-f="T4A" data-cam="0.5,0.5,1.3" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p><span class="more2">Read more<svg viewBox="0 0 17 12" aria-hidden="true"><path d="M3 6h12M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+      <a class="art" href="#" data-c="hydra" data-f="T2125" data-cam="0.5,0.74,1.55" data-bleed="1" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p><span class="more2">Read more<svg viewBox="0 0 17 12" aria-hidden="true"><path d="M3 6h12M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+      <a class="art" href="#" data-c="snake" data-f="GST34" data-cam="0.5,0.5,2.2" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p><span class="more2">Read more<svg viewBox="0 0 17 12" aria-hidden="true"><path d="M3 6h12M10 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
     </div>
   </div>
 </section>
@@ -711,7 +711,7 @@ const CREATURES = {
       let w = (s < 0.05 ? mix(0.035, 0.1, s / 0.05) : s < 0.3 ? 0.1 : 0.12) * pleatX(i);
       let p = tube(f, vv, Math.max(w, hood), w, 0.84);
       if (i === 0) p = V.add(p, V.mul(f.t, -0.07));
-      if (s > 0.8) p[1] -= ((s - 0.8) / 0.2) * 1.8; // the base of each neck runs on down, well past the frame, so it always bleeds off the bottom
+      if (s > 0.8) p[1] -= ((s - 0.8) / 0.2) * 6; // the base of each neck runs on down, well past the frame, so it always bleeds off the bottom
       return p;
     },
   },

@@ -400,7 +400,7 @@ const CREATURES = {
       let w = (s < 0.05 ? mix(0.035, 0.1, s / 0.05) : s < 0.3 ? 0.1 : 0.12) * pleatX(i);
       let p = tube(f, vv, Math.max(w, hood), w, 0.84);
       if (i === 0) p = V.add(p, V.mul(f.t, -0.07));
-      if (s > 0.8) p[1] -= ((s - 0.8) / 0.2) * 1.8; // the base of each neck runs on down, well past the frame, so it always bleeds off the bottom
+      if (s > 0.8) p[1] -= ((s - 0.8) / 0.2) * 6; // the base of each neck runs on down, well past the frame, so it always bleeds off the bottom
       return p;
     },
   },
@@ -813,7 +813,8 @@ const CTA=['Get tax-ready','Get tax-ready','Start free','Get tax-ready','Start f
 /* ad template: fills a box of w×h with art, headline, wordmark and CTA */
 const SUB=['Wave keeps your books ready, year-round.','Get your books ready by April 30.','Free accounting for Canadian small business.','Tax-ready books, all year long.','Tax-ready books, all year long.','Reports your accountant will thank you for.'];
 function adHTML(ai,hi,w,h,live){
-  const IMG=(st,aw)=>live?`<canvas class="art" data-live="${ai}" style="${st};height:${aw/1.3}px"></canvas>`:`<img class="art" data-art="${ai}" src="${ART[ai].src}" style="${st}">`;
+  const IMG=(st,aw)=>{if(ART[ai].kind==='hydra'){st=st.replace(/top:[^;]+/,`top:${h-aw/1.3/2+4}px`);}return IMG0(st,aw);};
+  const IMG0=(st,aw)=>live?`<canvas class="art" data-live="${ai}" style="${st};height:${aw/1.3}px"></canvas>`:`<img class="art" data-art="${ai}" src="${ART[ai].src}" style="${st}">`;
   const a=ART[ai],r=w/h,fg=a.dark?'#fff':'#001b65',em=a.dark?'#e8aaff':'#0041ff',ctaBg=a.dark?'#e8aaff':'#0041ff',ctaFg=a.dark?'#001b65':'#fff',H=rich(HEADR[hi],em);
   const u=Math.min(w,h);let s='';
   if(r<.8){ // vertical 9:16
