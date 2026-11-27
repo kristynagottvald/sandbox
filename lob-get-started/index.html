@@ -87,7 +87,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .chipfile .ok{width:22px;height:22px;border-radius:6px;background:var(--lime);display:grid;place-items:center}
 /* hero postcard: abstract blocks -> high fidelity -> bleed + crop -> QA scan -> checks */
 .hc{position:absolute;left:0;top:0;width:700px;height:430px;transform-origin:0 0;--pu:#4131f1;--mint:#c9f0e4;--hot:#d244de}
-.pcv{position:absolute;left:0;top:0;width:700px;height:430px}
+.pcv{position:absolute;left:-100px;top:-40px;width:900px;height:510px}
 .post{position:absolute;left:10px;top:34px;width:680px;height:371px;pointer-events:none}
 .blk{position:absolute;box-sizing:border-box;border:2.5px solid var(--lav);background:rgba(169,156,255,.12);border-radius:6px;opacity:0;transform:scale(.7);transition:opacity .3s,transform .45s cubic-bezier(.2,1.6,.4,1),background .5s,border-color .5s,border-radius .5s}
 .blk.in{opacity:1;transform:none}
@@ -127,15 +127,15 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .bleed i:nth-child(3){right:-22px;top:10px;width:16px;height:2px}.bleed i:nth-child(4){right:10px;top:-22px;width:2px;height:16px}
 .bleed i:nth-child(5){left:-22px;bottom:10px;width:16px;height:2px}.bleed i:nth-child(6){left:10px;bottom:-22px;width:2px;height:16px}
 .bleed i:nth-child(7){right:-22px;bottom:10px;width:16px;height:2px}.bleed i:nth-child(8){right:10px;bottom:-22px;width:2px;height:16px}
-.qa{position:absolute;left:50%;top:-34px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
+.qa{position:absolute;left:50%;top:-20px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
 .qa.on{opacity:1;transform:translateX(-50%)}
 .qa i{font-style:normal;font-size:13px;font-weight:700;color:var(--mint)}
-.rail{position:absolute;left:-88px;top:40px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.rail{position:absolute;left:-88px;top:40px;width:48px;padding:7px;border-radius:14px;background:#262a6b;display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .rail.on{opacity:1;transform:none}
 .rail b{height:34px;border-radius:9px;display:grid;place-items:center;color:#c9c4ff;transition:background .2s,color .2s}
 .rail b svg{width:16px;height:16px}
 .rail b.on{background:var(--pu);color:#fff}
-.gal{position:absolute;left:520px;top:-26px;width:284px;padding:16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.gal{position:absolute;left:520px;top:-26px;width:284px;padding:16px;border-radius:12px;background:#262a6b;color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .gal.on{opacity:1;transform:none}
 .gal .gt{display:flex;justify-content:space-between;font:600 12px var(--sans);margin-bottom:12px}
 .gal .gn{color:#a99cff;font-weight:500}
@@ -143,9 +143,10 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .gal .g div{aspect-ratio:1.05;border-radius:7px;background-size:cover;background-position:center;outline:3px solid transparent;outline-offset:2px;transition:outline-color .25s}
 .gal .g.on div{outline-color:var(--hot)}
 .gal .g small{display:block;margin-top:6px;font:600 10.5px var(--sans)}
-.chk{position:absolute;left:-64px;top:262px;width:272px;padding:16px 18px 16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
+.chk{position:absolute;left:-64px;top:276px;width:272px;padding:16px 18px 16px;border-radius:12px;background:#262a6b;color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
 .chk.on{opacity:1;transform:none}
 .chk .ct{font:700 10px var(--sans);letter-spacing:.14em;color:#a99cff;margin-bottom:8px;text-transform:uppercase}
+.chk .cr:first-of-type{border-top:0}
 .chk .cr{display:flex;align-items:center;justify-content:space-between;height:36px;font:500 13.5px var(--sans);border-top:1px solid rgba(255,255,255,.12)}
 .chk .cr i{width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.12);display:grid;place-items:center;transform:scale(.8);transition:background .25s,transform .35s cubic-bezier(.2,1.8,.4,1)}
 .chk .cr.ok i{background:var(--mint);transform:none}
@@ -292,6 +293,8 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 #ab.l2 #antsH{left:208px;top:50px;width:204px;height:100px}
 #ab.l2 #antsI{left:-6px;top:-6px;width:208px;height:292px}
 .ab .band p,.ab .band .qr{transition:all .6s cubic-bezier(.6,0,.2,1)}
+#tplH p{max-width:none;white-space:nowrap}
+@media (max-width:640px){#tplH p{white-space:normal}}
 #veH p{min-height:2.9em;max-width:520px;transition:opacity .3s,filter .3s,transform .3s}
 #veH p.sw{opacity:0;filter:blur(4px);transform:translateY(6px)}
 .steps{position:absolute;left:0;top:622px;width:960px;display:flex;justify-content:center;gap:10px}
@@ -413,7 +416,7 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
         </div>
         <div class="gal" id="gal"><div class="gt"><span>Images ›</span><span class="gn">Healthcare</span></div>
           <div class="gth"><div class="g" id="g1"><div style="background-image:url(assets/care-1.webp)"></div></div><div class="g" id="g2"><div style="background-image:url(assets/care-2.webp);background-position:62% 30%"></div></div><div class="g" id="g3"><div style="background-image:url(assets/care-3.webp);background-position:45% 30%"></div></div></div></div>
-        <div class="chk" id="chk"><div class="ct">QA checks</div>
+        <div class="chk" id="chk">
           <div class="cr" id="cr1"><span>Deliverability</span><i></i></div>
           <div class="cr" id="cr2"><span>QR code correct</span><i></i></div>
           <div class="cr" id="cr3"><span>Name matches CSV</span><i></i></div>
@@ -429,7 +432,7 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
 <!-- 1 templates: five stacked cards; the chosen one is dragged into the Visual Editor -->
 <section class="sec" id="tpl">
   <div class="stick" id="tplS">
-    <div class="hd" id="tplH" style="top:7%"><h2>Choose your <em class="s">template</em></h2><p>Start with 40+ ready-to-use mail pieces or design your own from scratch.</p></div>
+    <div class="hd" id="tplH" style="top:7%"><h2><em class="s">Choose your template</em></h2><p>Start with 40+ ready-to-use mail pieces or design your own.</p></div>
     <div class="hd" id="veH" style="opacity:0"><h2>Build in the <em class="s">Visual Editor</em></h2><p id="veSub">Start from a ready-to-use template or build your own from scratch.</p></div>
     <div class="box" id="veB">
       <div class="glow" id="veG"></div>
@@ -569,10 +572,10 @@ const EL_ORDER = [3, 4, 2, 0, 1];
 const IMG1 = new Image(); IMG1.src = 'assets/care-1.webp';
 const IMG2 = new Image(); IMG2.src = 'assets/care-2.webp';
 const IMG3 = new Image(); IMG3.src = 'assets/care-3.webp';
-const QRM = (() => { const out = [];   // a simplified 11 x 11 code: three finder squares and a few data blocks
-  const finder = (ox, oy) => { for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) if (x === 0 || y === 0 || x === 3 || y === 3) out.push([ox + x, oy + y]); out.push([ox + 1.5, oy + 1.5]); };
-  finder(0, 0); finder(7, 0); finder(0, 7);
-  for (const p of [[5, 1], [5, 3], [6, 5], [8, 5], [10, 5], [5, 6], [7, 7], [9, 7], [5, 8], [8, 8], [10, 9], [6, 10], [8, 10], [10, 10], [1, 5], [3, 5]]) out.push(p);
+const QRM = (() => { const out = [];   // a simplified 15 x 15 code: three thin finder squares and a few data blocks
+  const finder = (ox, oy) => { for (let y = 0; y < 5; y++) for (let x = 0; x < 5; x++) if (x === 0 || y === 0 || x === 4 || y === 4) out.push([ox + x, oy + y]); out.push([ox + 2, oy + 2]); };
+  finder(0, 0); finder(10, 0); finder(0, 10);
+  for (const p of [[7, 1], [7, 3], [6, 6], [8, 6], [10, 7], [12, 7], [14, 7], [1, 7], [3, 7], [7, 8], [9, 9], [11, 9], [13, 10], [7, 10], [8, 12], [10, 12], [12, 13], [14, 12], [7, 14], [10, 14], [13, 14]]) out.push(p);
   return out; })();
 const LOOP = 19.4;
 const span = (t, a, b) => cl((t - a) / (b - a));
@@ -604,7 +607,7 @@ function drawDesign(t){
   if (lw > 0) { cx.fillStyle = PU; cx.fillRect(560, 390, 320 * lw, 90); }
   // photo slot: image 1 fades and settles in, image 2 replaces it later
   const e1 = ease(span(t, 5.5, 6.3)), e2 = ease(span(t, 11.1, 11.7)), e3 = ease(span(t, 12.1, 12.7));
-  for (const [img, e, fx] of [[IMG1, e1, .5], [IMG2, e2, .62], [IMG3, e3, .45]]) {
+  for (const [img, e, fx] of [[IMG2, e1, .62], [IMG3, e2, .45], [IMG1, e3, .5]]) {   // check-up, wellness, then the care team photo is the one chosen
     if (e <= 0) continue;
     cx.save(); cx.beginPath(); cx.rect(500, 0, 380, 390); cx.clip(); cx.globalAlpha = e;
     cover(img, 500, 0, 380, 390, fx, .3, 1.1 - .1 * e); cx.restore();
@@ -662,7 +665,7 @@ function drawDesign(t){
     cx.save(); cx.globalAlpha = 1 - qr; cx.strokeStyle = PU; cx.lineWidth = 3.6;
     const br = (x, y, dx, dy) => { cx.beginPath(); cx.moveTo(x + dx * 16, y); cx.lineTo(x, y); cx.lineTo(x, y + dy * 16); cx.stroke(); };
     br(28, 28, 1, 1); br(88, 28, -1, 1); br(28, 88, 1, -1); br(88, 88, -1, -1); cx.restore();
-    if (qr > 0) { cx.save(); cx.beginPath(); cx.rect(12, 12, 92, 92 * qr); cx.clip(); cx.fillStyle = '#1e2245'; const m = 92 / 11; for (const [x, y] of QRM) cx.fillRect(12 + x * m, 12 + y * m, m + .2, m + .2); cx.restore(); }
+    if (qr > 0) { cx.save(); cx.beginPath(); cx.rect(12, 12, 92, 92 * qr); cx.clip(); cx.fillStyle = '#1e2245'; const m = 92 / 15; for (const [x, y] of QRM) cx.fillRect(12 + x * m, 12 + y * m, m + .2, m + .2); cx.restore(); }
     cx.restore();
   }
   // URL: two bars and a pill, later the PURL on hot pink
@@ -694,7 +697,7 @@ function drawCard(t){
   const radius = lerp(6, 3, d);
   cx.save();
   cx.translate(CW0 / 2, CH0 / 2); cx.scale(grow, grow); cx.translate(-CW0 / 2, -CH0 / 2);
-  rr(50, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.3)'; cx.fill();   // hard offset shadow, purple at 30%
+  rr(32, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.3)'; cx.fill();   // hard offset shadow, purple at 30%
   rr(0, 0, CW0, CH0, radius); cx.fillStyle = PINK; cx.fill();
   cx.save(); rr(0, 0, CW0, CH0, radius); cx.clip();
   if (wire > 0) { cx.globalAlpha = wire; hatch(520, -6, 370, 260, PU, 27, 6); cx.globalAlpha = 1; }
@@ -704,16 +707,16 @@ function drawCard(t){
   cx.restore();
 }
 // cursor keyframes in stage px: [t, x, y]
-const HK = [[0, 640, 470], [.4, -64, 65], [4.6, -64, 65], [5.0, 574, 50], [5.6, 574, 50], [6.2, -64, 145], [6.8, -64, 105], [7.6, -64, 225], [8.4, -64, 185], [8.8, -64, 145], [9.9, -64, 225], [10.5, -64, 185], [11.0, 660, 50], [11.6, 660, 52], [11.9, 746, 50], [12.6, 746, 52], [13.1, 760, 470], [LOOP, 760, 470]];
+const HK = [[0, 640, 470], [.4, -64, 65], [4.6, -64, 65], [5.0, 660, 50], [5.6, 660, 50], [6.2, -64, 145], [6.8, -64, 105], [7.6, -64, 225], [8.4, -64, 185], [8.8, -64, 145], [9.9, -64, 225], [10.5, -64, 185], [11.0, 746, 50], [11.6, 746, 52], [11.9, 574, 50], [12.6, 574, 52], [13.1, 760, 470], [LOOP, 760, 470]];
 function at(t, K){ for (let i = 1; i < K.length; i++) if (t <= K[i][0]) { const a = K[i - 1], b = K[i]; const k = easeIO((t - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k)]; } return K[K.length - 1].slice(1); }
 const tog = (el, c, on) => el.classList.toggle(c, !!on);
 function heroAt(t, S){
   const fade = t > LOOP - .5 ? 1 - (t - (LOOP - .5)) / .5 : 1;
   $('#hc').style.opacity = fade;
-  const dpr = Math.min(2, devicePixelRatio || 1), W = Math.round(700 * S * dpr), H = Math.round(430 * S * dpr);
+  const dpr = Math.min(2, devicePixelRatio || 1), W = Math.round(900 * S * dpr), H = Math.round(510 * S * dpr);   // canvas runs 100px past the stage sides so the shadow is never clipped
   if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
   cx.setTransform(1, 0, 0, 1, 0, 0); cx.clearRect(0, 0, W, H);
-  cx.setTransform(S * dpr * KS, 0, 0, S * dpr * KS, S * dpr * CX0, S * dpr * CY0);
+  cx.setTransform(S * dpr * KS, 0, 0, S * dpr * KS, S * dpr * (CX0 + 100), S * dpr * (CY0 + 40));
   drawCard(t);
   // tool rail: the tool placing the current element
   tog(HC.rail, 'on', t > .2 && t < 13.1);
@@ -721,9 +724,9 @@ function heroAt(t, S){
   for (const k in railB) tog(railB[k], 'on', k === tool);
   // gallery: image 1 then image 2, the photo slot follows
   tog(HC.gal, 'on', t >= 5.0 && t < 13.0);
-  tog($('#g1'), 'on', t >= 5.4 && t < 10.9);
-  tog($('#g2'), 'on', t >= 10.9 && t < 11.9);
-  tog($('#g3'), 'on', t >= 11.9 && t < 13.0);
+  tog($('#g2'), 'on', t >= 5.4 && t < 10.9);
+  tog($('#g3'), 'on', t >= 10.9 && t < 11.9);
+  tog($('#g1'), 'on', t >= 11.9 && t < 13.0);
   HC.ants.style.opacity = (t >= 5.4 && t < 6.4) || (t >= 10.9 && t < 12.8) ? 1 : 0;
   HC.bleed.style.opacity = t >= 13.2 && t < 14.6 ? 1 : 0;
   const sc = span(t, 14.8, 16.0);
