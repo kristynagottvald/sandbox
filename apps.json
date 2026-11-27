@@ -1,5 +1,14 @@
 [
   {
+    "id": "wave-file-without-fear",
+    "title": "Wave File Without Fear",
+    "category": "Landing Page",
+    "url": "wave-file-without-fear/",
+    "thumbnail": "wave-file-without-fear/thumb.png",
+    "preview": "wave-file-without-fear/thumb.webp",
+    "alt": "A Wave tax-season landing page for Canadians with a full-bleed bright blue hero headlined File without fear, where a paper dragon folded from a printed CRA T1 Income Tax and Benefit Return stands beside the headline, then unfolds in choppy 12 fps stop motion, its wings and tail opening out until it lies flat as a creased sheet of the tax form, before a GST/HST hydra, a T2125 cobra and a Notice of Assessment paper tiger take their turns."
+  },
+  {
     "id": "lob-get-started",
     "title": "Lob Get Started",
     "category": "Mockup",

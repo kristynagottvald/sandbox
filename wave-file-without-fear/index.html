@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wave File Without Fear</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%230041ff%22/%3E%3Cpath fill=%22%23ffffff%22 d=%22M8 44L26 14L34 34Z%22/%3E%3Cpath fill=%22%23c9d2e6%22 d=%22M26 14L44 10L34 34Z%22/%3E%3Cpath fill=%22%23f6f3ec%22 d=%22M34 34L56 30L46 48L18 50Z%22/%3E%3Cpath fill=%22%23e8aaff%22 d=%22M8 44L34 34L18 50Z%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;1,6..12,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400;1,6..72,500&family=Inter:wght@400&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0041ff;--navy:#001b65;--sky:#76c3fb;--pink:#e8aaff;--cream:#f9f4f1;--page:#f7f6f2;--ink:#232426;--purple:#8a3ffc;--orange:#f39a4c;--cta:#3090f7;
+--sans:"Nunito Sans","Avenir Next","Avenir",Helvetica,Arial,sans-serif;--serif:"Newsreader",Georgia,"Times New Roman",serif}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);letter-spacing:-.012em;font-size:18px;line-height:1.36;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:1352px;margin:0 auto;padding:0 24px}
+.narrow{max-width:1092px;margin:0 auto;padding:0 24px}
+.serif{font-family:var(--serif);font-weight:450;letter-spacing:-.01em;font-variation-settings:"opsz" 40}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 34px;border-radius:999px;background:var(--blue);color:#fff;font:600 18px var(--sans);text-decoration:none;border:2px solid var(--blue);white-space:nowrap;transition:background .2s,transform .2s}
+.btn:hover{background:#0035d1;border-color:#0035d1}
+.btn.ghost{background:transparent;color:var(--blue)}
+.btn.ghost:hover{background:#e5ecff}
+h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
+.navy-t{color:var(--navy)}
+
+/* Wave header */
+.wh{background:var(--cream);height:97px;position:relative;z-index:5}
+.wh .wrap{height:100%;display:flex;align-items:center}
+.wh .logo img{width:116px;height:auto;margin-left:-2px}
+.wh ul{list-style:none;display:flex;gap:40px;margin-left:40px;font-weight:500;font-size:18px}
+.wh ul a{text-decoration:none;display:flex;align-items:center;gap:12px}
+.wh ul a svg{width:13px;height:8px}
+.wh ul a.cur{color:#3c68ff}
+.wh ul a:hover{color:var(--blue)}
+.wh .act{margin-left:auto;display:flex;gap:17px}
+.wh .act .btn{height:49px;padding:0 24px}
+.wh .act .btn.ghost{padding:0 24px}
+.burger{display:none;margin-left:auto;background:none;border:0;width:40px;height:40px}
+
+/* HERO (new): full-bleed blue, paper creature stop motion */
+.hero{position:relative;background:var(--blue);color:#fff;overflow:hidden;height:clamp(620px,calc(100vh - 97px - 72px),820px);isolation:isolate}
+.hero canvas.stage{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.hero .floor{position:absolute;left:0;right:0;bottom:0;height:46%;background:linear-gradient(180deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.07) 100%);z-index:0}
+.hero .scrib{position:absolute;z-index:0;pointer-events:none}
+.hero .scrib.a{left:44%;bottom:-250px;width:560px;transform:rotate(172deg);opacity:.95}
+.hero .scrib.b{right:56px;top:-26px;width:340px}
+.hero .wrap{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:center;pointer-events:none}
+.hero .wrap>*{pointer-events:auto}
+.kick{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;font:600 15px/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#fff;background:rgba(0,27,101,.35);border:1px solid rgba(255,255,255,.28);padding:10px 16px 10px 12px;border-radius:99px;margin-bottom:30px}
+.kick i{width:10px;height:10px;border-radius:50%;background:#ff6a3d;box-shadow:0 0 0 4px rgba(255,106,61,.25)}
+.hero h1{font-size:128px;line-height:.94;letter-spacing:-.025em;max-width:820px}
+.hero h1 em{font-style:italic;color:var(--pink)}
+.hero p.lede{font-size:22px;line-height:1.4;max-width:470px;margin-top:30px;color:rgba(255,255,255,.92)}
+.hero .ctas{display:flex;align-items:center;gap:26px;margin-top:38px}
+.btn.pink{background:var(--pink);border-color:var(--pink);color:var(--navy);height:56px;padding:0 40px}
+.btn.pink:hover{background:#f1c8ff;border-color:#f1c8ff}
+.replay{background:none;border:0;color:#fff;font:600 17px var(--sans);display:inline-flex;gap:10px;align-items:center;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.5px}
+.replay svg{width:18px;height:18px}
+.cap{position:absolute;z-index:2;right:max(24px,calc((100vw - 1304px)/2));bottom:34px;display:flex;align-items:center;gap:18px;font:500 15px/1.3 var(--sans);color:rgba(255,255,255,.9)}
+.cap b{font-weight:700;color:#fff}
+.cap .dots{display:flex;gap:8px}
+.cap .dots button{width:34px;height:4px;border-radius:2px;border:0;background:rgba(255,255,255,.3);padding:0;position:relative;overflow:hidden}
+.cap .dots button i{position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(0)}
+.cap .frame{font:500 13px/1 ui-monospace,Menlo,monospace;letter-spacing:.06em;color:rgba(255,255,255,.6)}
+
+/* roadmap */
+.roadmap{padding:128px 0 96px}
+.roadmap h2{color:var(--ink)}
+.roadmap .sub{text-align:center;font-size:21px;margin-top:30px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:90px;max-width:1092px;margin:66px auto 0;padding:0 24px}
+.three img{width:38px;height:38px;margin-left:-2px;mix-blend-mode:multiply}
+.three h3{font-size:26px;font-weight:600;line-height:1.25;margin:22px 0 18px}
+.three p{font-size:17.5px;line-height:1.4}
+.three p a{color:var(--blue);font-weight:600}
+
+/* testimonials */
+.testi{background:var(--sky);padding:33px 0}
+.tq{max-width:896px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:1fr 278px;gap:42px;align-items:center}
+.tq blockquote{font-size:31px;line-height:1.24;color:var(--navy);font-weight:400}
+.tq blockquote b{font-weight:700}
+.tq .who{margin-top:44px;font-size:18px;color:var(--navy)}
+.tq .who b{font-weight:700}
+.tq img{width:278px;height:367px;object-fit:cover;border-radius:16px}
+
+/* features */
+.feat{padding:110px 0 98px}
+.feat .grid{display:grid;grid-template-columns:684px 1fr;align-items:center;margin-top:52px}
+.feat .cols{display:grid;grid-template-columns:1fr 1fr;column-gap:38px;padding-right:30px}
+.feat .cols>div>div{margin-bottom:44px}
+.feat .cols>div:nth-child(2)>div:nth-child(2){margin-top:32px}
+.feat h3{font-size:26px;font-weight:600;margin-bottom:18px}
+.feat p{font-size:17.5px;line-height:1.4}
+.feat .ph{width:100%;aspect-ratio:620/510;object-fit:cover;border-radius:22px}
+
+/* industries */
+.ind{background:var(--navy);color:#fff;padding:96px 0 98px}
+.ind h2{font-size:60px;line-height:1.1}
+.ind .four{display:grid;grid-template-columns:repeat(4,1fr);gap:68px;margin-top:32px}
+.ind h3{font-family:var(--serif);font-weight:400;font-size:31px;line-height:1;color:var(--sky);min-height:62px;font-variation-settings:"opsz" 30;font-weight:450}
+.ind .four img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:13px;margin:28px 0 34px}
+.ind .four p{font-size:17px;line-height:1.44}
+.pcard{background:var(--pink);border-radius:16px;max-width:912px;margin:84px auto 0;padding:33px 33px 33px 33px;display:grid;grid-template-columns:1fr 278px;gap:42px;align-items:center}
+.pcard img{width:278px;height:366px;object-fit:cover;border-radius:13px}
+
+/* why */
+.why{padding:98px 0 0}
+.why .top{display:grid;grid-template-columns:1fr 652px;gap:40px}
+.why h2{font-size:62px;line-height:1.02;text-align:left}
+.why ul{list-style:none;padding-top:4px}
+.why li{display:flex;gap:13px;font-size:17.5px;line-height:1.4;margin-bottom:16px}
+.why li svg{flex:none;width:26px;height:26px;margin-top:-1px}
+.stats{display:grid;grid-template-columns:407fr 456fr 407fr;gap:17px;margin-top:62px}
+.stats .r2{grid-column:1/-1;display:grid;grid-template-columns:782fr 506fr;gap:17px}
+.st{border-radius:20px;overflow:hidden;min-height:374px;padding:40px 33px}
+.st.n{background:var(--navy);color:#fff}
+.st.s{background:var(--sky);color:var(--navy)}
+.st .big{font-size:112px;font-weight:400;line-height:1;letter-spacing:-.02em}
+.st .big small{font-size:35px;letter-spacing:0;margin-left:8px}
+.st p{font-size:22px;line-height:1.3;margin-top:22px}
+.st.ph{padding:0}
+.st.ph img{width:100%;height:100%;object-fit:cover}
+.r2 .st{min-height:511px}
+
+/* pricing */
+.plans{padding:150px 0 0}
+.plans h2{color:var(--ink)}
+.tog{position:relative;max-width:796px;margin:60px auto 0;height:46px}
+.tog:before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:#dcdad6}
+.tog .pill{position:relative;margin:0 auto;width:326px;height:46px;background:#e0f2ff;border-radius:14px;padding:4px;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.tog .pill button{border:0;background:none;border-radius:11px;font:600 18px var(--sans);color:var(--navy)}
+.tog .pill button.on{background:#fff;box-shadow:0 1px 4px rgba(0,27,101,.12)}
+.tog .save{position:absolute;left:calc(50% + 97px);top:-48px;background:#adf1cc;color:#145c36;font:600 13.5px var(--sans);padding:6px 9px;border-radius:7px}
+.tog .arr{position:absolute;left:calc(50% + 70px);top:-32px;width:22px}
+.prices{display:grid;grid-template-columns:377px 377px;gap:18px;justify-content:center;margin-top:80px;align-items:start}
+.pc{border:1px solid #d6dbe0;border-radius:14px;background:#fff;overflow:hidden;position:relative;min-height:911px}
+.pc.pro{border:1.5px solid #1f6fe5;overflow:visible}
+.pc .head{background:#ecf0f3;padding:16px 16px 16px;border-radius:14px 14px 0 0}
+.pc.pro .head{background:#e5f1fd}
+.pc .tag{display:flex;align-items:center;gap:9px;font:700 22px var(--sans)}
+.pc .tag span{background:#b4c2cb;padding:4px 8px;border-radius:3px;letter-spacing:.01em}
+.pc.pro .tag{color:#1066da}
+.pc.pro .tag span{background:#1066da;color:#fff}
+.pc .desc{font-size:17.5px;line-height:1.4;margin-top:20px}
+.pc .price{font-size:50px;font-weight:600;margin-top:28px;line-height:1.1;min-height:108px}
+.pc.pro .price{color:#1066da}
+.pc .price small{font-size:26px}
+.pc .price em{display:block;font-style:normal;font-size:20px;font-weight:400;margin-top:-2px}
+.pc .head .btn{width:100%;height:36px;font-size:17px;margin-top:40px}
+.pc.pro .head .btn{background:#0041ff}
+.rec{position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:#0b63d6;color:#fff;font:600 15px var(--sans);padding:4px 8px;border-radius:5px 5px 0 0}
+.pc ul{list-style:none;padding:26px 14px 30px 16px}
+.pc li{display:flex;gap:20px;font-size:17px;line-height:1.43;margin-bottom:16px}
+.pc li svg{flex:none;width:17px;margin-top:4px}
+.pc .plus{color:#1066da;font-weight:600;padding:26px 24px 0;font-size:17px}
+.pc.pro ul{padding-top:16px}
+.pc li a{color:var(--blue);font-weight:600}
+
+/* advisors */
+.adv{max-width:1040px;margin:76px auto 0;border:1px solid #e4ded9;border-radius:20px;background:var(--cream);box-shadow:0 2px 8px rgba(0,0,0,.06);display:grid;grid-template-columns:1fr 368px;overflow:hidden;position:relative}
+.adv .l{padding:34px 0 34px 32px}
+.adv .lab{color:var(--purple);font:600 15px var(--sans);letter-spacing:.11em}
+.adv h3{font-size:26px;font-weight:600;line-height:1.24;margin-top:18px;max-width:540px}
+.adv h4{color:var(--purple);font-size:21.5px;font-weight:600;margin:46px 0 22px}
+.adv .cl{display:grid;grid-template-columns:1fr 1fr;column-gap:40px}
+.adv .cl div{display:flex;gap:14px;font-size:17.5px;line-height:1.4;margin-bottom:16px}
+.adv .cl svg{flex:none;width:21px;margin-top:3px}
+.adv .foot{font-style:italic;margin-top:30px;font-size:17px}
+.adv .r{display:flex;flex-direction:column;align-items:flex-end;padding-top:34px}
+.adv .r .from{font-size:21.5px;color:var(--navy);padding-right:32px}
+.adv .r .from b{font-weight:700}
+.adv .r .btn{margin:14px 32px 0 0;height:48px;padding:0 34px}
+.adv .r img{margin-top:auto;width:367px;border-top-left-radius:14px}
+
+/* partners */
+.tools{padding:162px 0 0}
+.tools h2{color:var(--ink)}
+.partners{display:grid;grid-template-columns:repeat(3,1fr);gap:100px;margin-top:40px}
+.partners .lg{height:66px;display:flex;align-items:flex-end}
+.partners .lg img{height:100%;width:auto}
+.partners h3{font-size:22px;font-weight:600;margin:18px 0 18px}
+.partners p{font-size:16.5px;line-height:1.48}
+
+/* articles */
+.learn{padding:130px 0 0}
+.learn .sub{text-align:center;font-size:21px;margin-top:30px}
+.arts{display:grid;grid-template-columns:repeat(3,1fr);gap:29px;margin-top:46px}
+.art{border:2px solid #4e6575;background:var(--cream);text-decoration:none;display:block;position:relative}
+.art .ill{height:205px;position:relative;overflow:hidden}
+.art .ill canvas{position:absolute;inset:0;width:100%;height:100%}
+.art .ill .fl{position:absolute;left:12px;bottom:10px;font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;padding:6px 8px;border-radius:99px;background:rgba(255,255,255,.75);color:var(--navy);opacity:0;transition:opacity .4s}
+.art.done .ill .fl{opacity:1}
+.art .tx{padding:24px 24px 26px}
+.art h3{font-size:21px;font-weight:600;line-height:1.27}
+.art p{font-size:17px;line-height:1.45;margin-top:16px}
+.arts .art:nth-child(n+4) .tx{padding-bottom:26px}
+.more{display:flex;justify-content:center;margin-top:33px}
+.more .btn{height:49px;padding:0 34px}
+
+/* faq */
+.faq{padding:120px 0 0;max-width:1092px;margin:0 auto;padding-left:24px;padding-right:24px;display:grid;grid-template-columns:336px 1fr;gap:0}
+.faq h2{font:700 34px/1.15 var(--sans);width:200px;padding-top:12px}
+.faq .ex{display:block;text-align:right;color:var(--blue);font-size:18px;text-decoration:underline;background:none;border:0;margin-left:auto}
+.faq details{border-bottom:1.5px solid var(--orange)}
+.faq summary{list-style:none;display:flex;justify-content:space-between;gap:20px;align-items:center;font-size:21px;font-weight:700;line-height:1.26;padding:24px 0;cursor:pointer}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary svg{flex:none;width:24px;height:24px;transition:transform .25s}
+.faq details[open] summary svg{transform:rotate(45deg)}
+.faq details p{font-size:17.5px;line-height:1.45;padding:0 50px 24px 0}
+.notes{max-width:1092px;margin:0 auto;padding:100px 24px 98px;font-size:14.5px;line-height:1.36}
+.notes p{margin-bottom:18px}
+.notes a{color:var(--blue)}
+
+/* final CTA */
+.fcta{background:var(--cta);padding:33px 0}
+.fcta .card{background:var(--cream);border-radius:20px;display:flex;align-items:center;justify-content:space-between;padding:52px 98px 60px}
+.fcta h2{font-size:60px;line-height:1.1}
+
+/* footer */
+footer{background:var(--navy);color:#fff;padding:86px 0 30px}
+.fg{display:grid;grid-template-columns:224px 198px 117px 247px 1fr;}
+.fg .soc{display:flex;gap:14px;margin-top:46px}
+.fg .soc a{width:32px;height:32px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center}
+.fg .soc svg{width:14px;height:14px;fill:#fff}
+.fg h4{font-size:18px;font-weight:700;letter-spacing:.02em;margin-bottom:30px;padding-top:12px}
+.fg ul{list-style:none}
+.fg li{font-size:16.5px;font-weight:500;margin-bottom:15.6px}
+.fg li a{text-decoration:none}
+.fg li a:hover{text-decoration:underline}
+.fb{border-top:2px solid #fff;margin-top:24px;padding-top:34px;display:flex;justify-content:space-between;align-items:flex-start}
+.fb p{font-size:16px}
+.fb nav{display:flex;flex-wrap:wrap;align-items:center;gap:17px;margin-top:20px;font-size:16.5px;font-weight:500}
+.fb nav a{text-decoration:none}
+.cookie{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid #5ec2c6;color:#1b9fa5;border-radius:99px;padding:4px 10px 4px 4px;font:700 14px var(--sans);letter-spacing:.06em}
+.cookie i{width:22px;height:22px;border-radius:50%;background:#1b9fa5}
+.bbb{width:128px;margin-right:16px}
+.btt{position:absolute;right:24px;bottom:28px;color:var(--pink);text-decoration:none;font-size:17px;display:flex;flex-direction:column;align-items:center}
+.btt svg{width:84px;height:46px}
+footer{position:relative}
+
+
+@media (max-width:1380px){.wh ul{gap:26px;margin-left:30px;font-size:17px}.wh .act{gap:12px}}
+@media (max-width:1180px){
+  .wh ul{gap:24px;margin-left:28px;font-size:16px}
+  .hero h1{font-size:104px}
+  .feat .grid{grid-template-columns:1fr}
+  .feat .ph{margin-top:20px}
+  .ind .four{gap:28px}
+  .why .top{grid-template-columns:1fr}
+  .adv{grid-template-columns:1fr}
+  .adv .r{align-items:flex-start;padding:0 32px 0}
+  .adv .r img{display:none}
+  .adv .r .from,.adv .r .btn{padding-right:0;margin-right:0}
+  .adv .r{padding-bottom:32px}
+  .fg{grid-template-columns:repeat(3,1fr);row-gap:40px}
+}
+@media (max-width:820px){
+  .wh{height:72px}
+  .wh ul,.wh .act{display:none}
+  .burger{display:block}
+  .hero{height:auto;min-height:0;padding:0;display:flex;flex-direction:column}
+  .hero .wrap{order:1}.hero canvas.stage{order:2}.hero .cap{order:3}.hero .scrib.a{left:-40px;width:340px;bottom:-200px}
+  .hero .wrap{height:auto;padding-top:48px;padding-bottom:20px}
+  .hero canvas.stage{position:relative;inset:auto;height:380px;display:block}
+  .hero h1{font-size:76px}
+  .hero p.lede{font-size:19px;margin-top:22px}
+  .hero .ctas{flex-wrap:wrap;gap:16px;margin-top:28px}
+  .hero .scrib.b{display:none}
+  .cap{position:relative;right:auto;bottom:auto;padding:0 24px 30px;flex-wrap:wrap;gap:12px}
+  h2.sec,.ind h2,.fcta h2{font-size:42px}
+  .why h2{font-size:44px}
+  .roadmap{padding:88px 0 70px}
+  .three,.ind .four,.partners,.arts{grid-template-columns:1fr;gap:44px}
+  .tq,.pcard{grid-template-columns:1fr}
+  .tq img,.pcard img{width:100%;height:auto;aspect-ratio:278/367;max-width:320px}
+  .tq blockquote{font-size:25px}
+  .pcard{margin-left:24px;margin-right:24px}
+  .feat .cols{grid-template-columns:1fr;padding:0}
+  .feat .cols>div:nth-child(2)>div:nth-child(2){margin-top:0}
+  .stats,.stats .r2{grid-template-columns:1fr}
+  .st,.r2 .st{min-height:300px}
+  .prices{grid-template-columns:minmax(0,377px)}
+  .pc{min-height:0}
+  .adv{margin-left:24px;margin-right:24px}
+  .adv .cl{grid-template-columns:1fr}
+  .adv .l{padding-right:24px}
+  .faq{grid-template-columns:1fr}
+  .faq h2{width:auto;margin-bottom:20px}
+  .fcta .card{flex-direction:column;align-items:flex-start;gap:28px;padding:40px 28px}
+  .fg{grid-template-columns:1fr 1fr}
+  .fb{flex-direction:column;gap:24px}
+  .btt{position:static;margin-top:20px}
+}
+/* sandbox project bar: the home page nav's 72px height, SANDBOX / PROJECT NAME in its all-caps label style, any controls on the right */
+nav.back{display:flex}
+html body nav.back{box-sizing:border-box;flex:none;align-self:stretch;width:auto;align-items:center;gap:10px;height:72px;min-height:72px;padding:0 30px;background:#181716;border-bottom:1px solid rgba(255,255,255,.1);color:#fff;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+html body nav.back>a,html body nav.back>span,html body nav.back>b{font:400 12px/1.3 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body nav.back>a{color:#989898;transition:color .2s}
+html body nav.back>a:hover,html body nav.back>a:focus-visible{color:#fff;text-decoration:none}
+html body nav.back>span{color:#6b6b6b}
+html body nav.back>b{font-weight:400;color:#fff;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html body nav.back:not(:has(>div))>b{display:block}
+html body nav.back>div{margin-left:auto}
+@media (min-width:641px){html body nav.back>b{display:block}}
+@media (max-width:640px){html body nav.back{padding:0 20px}}
+html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-panel):not(:has(>div))>span{display:block}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><b>Wave File Without Fear</b></nav>
+
+<header class="wh">
+  <div class="wrap">
+    <a class="logo" href="#" aria-label="Wave"><img src="img/logo.png" alt="Wave" width="118" height="40"></a>
+    <ul>
+      <li><a href="#">Solutions <svg viewBox="0 0 13 8"><path d="M1 1l5.5 5.5L12 1" fill="none" stroke="currentColor" stroke-width="2"/></svg></a></li>
+      <li><a href="#">Advisors</a></li>
+      <li><a href="#plans">Pricing</a></li>
+      <li><a href="#">Resources <svg viewBox="0 0 13 8"><path d="M1 1l5.5 5.5L12 1" fill="none" stroke="currentColor" stroke-width="2"/></svg></a></li>
+      <li><a class="cur" href="#">Tax Readiness</a></li>
+    </ul>
+    <div class="act"><a class="btn ghost" href="#">Log in</a><a class="btn" href="#plans">Get started now</a></div>
+    <button class="burger" aria-label="Menu"><svg viewBox="0 0 24 24" width="28" height="28"><path d="M3 6h18M3 12h18M3 18h18" stroke="#001b65" stroke-width="2.2"/></svg></button>
+  </div>
+</header>
+
+<section class="hero" id="hero" aria-label="File without fear">
+  <div class="floor"></div>
+  <svg class="scrib a" viewBox="0 0 440 420" fill="none" aria-hidden="true"><path d="M-20 40C120 0 300-10 330 40 360 95 90 130 -10 175 -80 210 60 220 210 190 350 160 400 180 360 230 320 285 110 300 40 340 -10 368 140 380 250 330" stroke="#ff7a1a" stroke-width="7" stroke-linecap="round"/></svg>
+  <svg class="scrib b" viewBox="0 0 340 260" fill="none" aria-hidden="true"><path d="M24 0V196C24 236 74 236 74 196V0M124 0V196C124 236 174 236 174 196V0M224 0V196C224 236 274 236 274 196V0" stroke="#001b65" stroke-width="5" stroke-linecap="round"/></svg>
+  <canvas class="stage" id="stage" aria-label="Stop motion: a dragon folded from a CRA tax form unfolds into a flat sheet of paper"></canvas>
+  <div class="wrap">
+    <span class="kick"><i></i>Tax season 2027 · Canada</span>
+    <h1 class="serif">File without <em>fear</em></h1>
+    <p class="lede">That T1 looks a lot scarier folded up. Wave keeps your books organized all year, so when the CRA comes calling, it’s just paper.</p>
+    <div class="ctas"><a class="btn pink" href="#plans">Get started now</a><button class="replay" id="replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>Watch it unfold</button></div>
+  </div>
+  <div class="cap" aria-live="polite"><span class="frame" id="frame">FR 001</span><span id="capt"><b>The T1 dragon</b> · Income Tax and Benefit Return</span><span class="dots" id="dots"></span></div>
+</section>
+
+<section class="roadmap">
+  <h2 class="sec serif">Your roadmap to a stress-free tax season</h2>
+  <p class="sub">Turn messy bookkeeping and shoeboxes of receipts into a neat, audit-proof plan.</p>
+  <div class="three">
+    <div><img src="img/ic-books.png" alt=""><h3>Get your books together</h3><p>Wave imports and categorizes transactions and generates key reports to get you ready for tax time, fast. No spreadsheets or complicated software needed.</p></div>
+    <div><img src="img/ic-receipt.png" alt=""><h3>Keep more of your money</h3><p>Don’t leave deductions on the table! Use our <a href="#">receipts feature</a> to digitally store expenses and back up every deduction you claim with OCR technology.</p></div>
+    <div><img src="img/ic-mistakes.png" alt=""><h3>Avoid costly mistakes</h3><p>Wave simplifies transaction uploads, categorization, and reconciliation, so your books stay more accurate. We use <a href="#">double-entry accounting</a> wrapped in a you-friendly design.</p></div>
+  </div>
+</section>
+
+<section class="testi">
+  <div class="tq">
+    <div><blockquote>"Being able to scan receipts or file them through email alone is worth the price. Wave is an <b>asset to my business and my sanity</b>…I’m not sweating bullets during tax season."</blockquote>
+    <p class="who"><b>Patrick Bazinet</b> – Graphic Designer</p></div>
+    <img src="img/patrick.jpg" alt="Patrick Bazinet smiling at his desk">
+  </div>
+</section>
+
+<section class="feat">
+  <div class="wrap">
+    <h2 class="sec serif navy-t">Features that do the heavy-lifting</h2>
+    <div class="grid">
+      <div class="cols">
+        <div><div><h3>Receipt scanning</h3><p>Snap a photo, track expenses, and stay organized year-round.</p></div><div><h3>Bank syncing</h3><p>With Wave’s Pro Plan, securely sync your bank and credit cards with Wave and spend less time typing in data.</p></div></div>
+        <div><div><h3>One-click tax reports</h3><p>Generate profit and loss statements, balance sheets, and cash flow reports in seconds.</p></div><div><h3>Collaborate with your team</h3><p>With Wave’s Pro Plan, give your accountant, payroll manager, or business partner access to your Wave account.</p></div></div>
+      </div>
+      <img class="ph" src="img/features.jpg" alt="A man in headphones checks his phone while Wave auto-categorizes United Airlines, TPH Printing and Green Dragon expenses">
+    </div>
+  </div>
+</section>
+
+<section class="ind">
+  <div class="wrap">
+    <h2 class="serif">Built for businesses like yours</h2>
+    <div class="four">
+      <div><h3>Construction and home services</h3><img src="img/ind-construction.jpg" alt="A contractor on a ladder cleaning a window"><p>Stop spending hours on tedious bookkeeping tasks after a long day on the jobsite. Wave does the heavy-lifting, even on-the-go, so you can rest easy knowing you’re prepped for tax time.</p></div>
+      <div><h3>Creatives and freelancers</h3><img src="img/ind-creatives.jpg" alt="A freelancer smiling at her laptop"><p>It’s easy to lose track of equipment and office supply costs. Wave’s receipts feature makes sure every expense is stored, helping you claim every deduction and stay prepped for audits.</p></div>
+      <div><h3>Real estate</h3><img src="img/ind-realestate.jpg" alt="A hand opening a front door"><p>Spending more time on your books than your properties? Safely and securely sync your bank account with Wave, get customizable accounts for each property, and access key reports for tax time.</p></div>
+      <div><h3>Consultants</h3><img src="img/ind-consultants.jpg" alt="A consultant leaning against a wall"><p>Wave makes it simple to organize and track income and expenses, so you know where things stand before you file taxes.</p></div>
+    </div>
+    <div class="pcard">
+      <div><blockquote style="font-size:31px;line-height:1.24;color:var(--navy)">"Wave has kind of taken the headache out of taxes… I can go to my reports, download my report, upload it to our tax portal and move about my day… it’s just not something to lose sleep over."</blockquote>
+      <p class="who" style="margin-top:44px;font-size:18px;color:var(--navy)"><b>Corey Kenerly</b> – Co-owner, Duo Custom Solutions</p></div>
+      <img src="img/corey.jpg" alt="Corey Kenerly smiling">
+    </div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="wrap">
+    <div class="top">
+      <h2 class="serif">Why Wave is the wiser choice</h2>
+      <ul>
+        <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Clunky interfaces and accounting jargon make tax time harder. Wave is easy (and fun!) to use.</span></li>
+        <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Don’t get bogged down with features you don’t even use. With Wave, you’ll access the time-saving tools you need, for less.</span></li>
+        <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Setting up or migrating from QuickBooks is easy. <b>You’ll get organized and prepared for tax season, fast</b>.</span></li>
+      </ul>
+    </div>
+    <div class="stats">
+      <div class="st n"><div class="big">9<small>out of 10</small></div><p>Wave small business owners say <b>Wave is easier</b> than QuickBooks.</p></div>
+      <div class="st ph"><img src="img/stat-photo.jpg" alt="A man using a drill on a wooden frame outdoors"></div>
+      <div class="st s"><div class="big">92%</div><p>of Wave small business owners who switched from QuickBooks agree <b>Wave offers more value.</b></p></div>
+      <div class="r2"><div class="st ph"><img src="img/dashboard.jpg" alt="The Wave dashboard with an expenses breakdown donut chart and a cash flow bar chart" style="object-position:left top"></div><div class="st ph"><img src="img/laptop.jpg" alt="A woman working on her laptop in a kitchen"></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="plans" id="plans">
+  <h2 class="sec serif">Plans to make your plans happen</h2>
+  <div class="tog">
+    <svg class="arr" viewBox="0 0 22 30" fill="none" stroke="#001b65" stroke-width="2" stroke-linecap="round"><path d="M18 2C8 4 6 14 10 26M10 26l-5-6M10 26l5-5"/></svg>
+    <span class="save">Save $50</span>
+    <div class="pill"><button data-p="m">Monthly</button><button class="on" data-p="a">Annual</button></div>
+  </div>
+  <div class="prices">
+    <div class="pc">
+      <div class="head"><div class="tag"><span>STARTER</span>Plan</div><p class="desc">Just starting your business or looking for the basics? This is the place.</p><div class="price">$0</div><a class="btn ghost" href="#">Get started now</a></div>
+      <ul>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Create unlimited estimates, invoices, bills, and bookkeeping records</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Option to accept online payments<br>2.9% + <b>$0.60</b> per credit card transaction<br>3.4% + <b>$0.60</b> per Amex transaction</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Invoice on-the-go with the mobile app</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Manage cash flow <i>and</i> customers in one dashboard</span></li>
+      </ul>
+    </div>
+    <div class="pc pro">
+      <span class="rec">Recommended</span>
+      <div class="head"><div class="tag"><span>PRO</span>Plan</div><p class="desc">Want to look more polished, save more time, and conquer cash flow? It’s Pro time.</p><div class="price" id="proPrice">$250<small>CAD/year</small><em>Billed annually</em></div><a class="btn" href="#">Get started now</a></div>
+      <p class="plus">Everything in Starter, plus….</p>
+      <ul>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span><b>Option to accept online payments at a discounted rate</b><br>2.9% + <b>$0**</b> per credit card transaction<br>3.4% + <b>$0**</b> per Amex transaction</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Auto-import bank transactions***</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Auto-merge and categorize bank transactions</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Digitally capture unlimited receipts and track expenses</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Automate late payment reminders</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>And <a href="#">more</a>!</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="adv">
+    <div class="l">
+      <div class="lab">WAVE ADVISORS</div>
+      <h3>Hands-off bookkeeping and financial guidance with in-house experts</h3>
+      <h4>Includes Pro Plan features*, plus:</h4>
+      <div class="cl">
+        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>A dedicated bookkeeper to keep your books accurate and up to date</div>
+        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>Be ready for tax time with clean, organized books and reports</div>
+        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>Monthly financial statements prepared for you</div>
+        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>Onboarding when switching from other accounting software, like Freshbooks</div>
+        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>Expert support to answer your bookkeeping questions, anytime</div>
+        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>Optional packages for one-on-one guidance from an accounting coach</div>
+      </div>
+      <p class="foot">*Mobile receipts not included</p>
+    </div>
+    <div class="r"><p class="from">Starting at <b>$199/month</b></p><a class="btn" href="#">Learn more</a><img src="img/advisor-ui.jpg" alt="Wave transactions list with a Wave Advisor"></div>
+  </div>
+</section>
+
+<section class="tools">
+  <div class="wrap">
+    <h2 class="sec serif">Powerful tools to keep you tax-ready</h2>
+    <div class="partners">
+      <div><div class="lg"><img src="img/hrblock.png" alt="H&amp;R Block" style="height:66px"></div><h3>H&amp;R Block</h3><p>Access exclusive rates with H&amp;R Block Small Business experts to breeze through tax season. Plus seamlessly import your Wave data to file with H&amp;R Block.</p></div>
+      <div><div class="lg"><img src="img/bluevine.png" alt="Bluevine" style="height:40px;margin-bottom:12px"></div><h3>Bluevine</h3><p>Get a Bluevine business checking account to make bookkeeping even easier. It’s built for small business owners and syncs with Wave!</p></div>
+      <div><div class="lg"><img src="img/make.png" alt="Make" style="height:42px;margin-bottom:10px"></div><h3>Make.com</h3><p>Connect Wave to thousands of other apps. Design, build, and automate your workflows in minutes, right in Wave.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="learn">
+  <div class="wrap">
+    <h2 class="sec serif navy-t">Level up your tax knowledge</h2>
+    <p class="sub">Stop the tax time terror before it starts. Check out our guides to get prepared.</p>
+    <div class="arts" id="arts">
+      <a class="art" href="#" data-c="snake" data-f="T1" data-bg="#f2a8ff" data-sh="rgba(80,0,110,.32)" data-name="T1 cobra"><div class="ill"><canvas></canvas><span class="fl">T1 cobra · unfolded</span></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p></div></a>
+      <a class="art" href="#" data-c="dragon" data-f="T2125" data-bg="#8f9cff" data-sh="rgba(0,20,110,.38)" data-name="T2125 dragon"><div class="ill"><canvas></canvas><span class="fl">T2125 dragon · unfolded</span></div><div class="tx"><h3>The complete guide to small business tax season (2026)</h3><p>Take the fear and stress out of tax season with this comprehensive guide to confidently managing your books, audit-proofing your business, and getting your taxes done right.</p></div></a>
+      <a class="art" href="#" data-c="hydra" data-f="T2125" data-bg="#001b65" data-sh="rgba(0,0,0,.5)" data-name="Deductions hydra"><div class="ill"><canvas></canvas><span class="fl">Deductions hydra · unfolded</span></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
+      <a class="art" href="#" data-c="tiger" data-f="T4A" data-bg="#ffe7d6" data-sh="rgba(120,50,0,.26)" data-name="T4A paper tiger"><div class="ill"><canvas></canvas><span class="fl">T4A paper tiger · unfolded</span></div><div class="tx"><h3>How to file self-employment taxes in Canada — 2026 guide</h3><p>Self-employed in Canada? Learn how to file your taxes: T2125, CPP/QPP, GST/HST, instalments, and deductions—plus how Wave helps you stay organized and CRA-ready.</p></div></a>
+      <a class="art" href="#" data-c="dragon" data-f="NOA" data-bg="linear-gradient(115deg,#ff9fd2,#ffb36b)" data-sh="rgba(130,20,40,.3)" data-name="Audit dragon"><div class="ill"><canvas></canvas><span class="fl">Audit dragon · unfolded</span></div><div class="tx"><h3>How to prepare for a business tax audit</h3><p>Audits can be a bit scary, but to get you prepared for the just-in-case scenario, we’re giving you a breakdown of what a business tax audit is, how it’s triggered, and how you can (hopefully) avoid one.</p></div></a>
+      <a class="art" href="#" data-c="snake" data-f="GST34" data-bg="#76c3fb" data-sh="rgba(0,40,110,.34)" data-name="GST/HST serpent"><div class="ill"><canvas></canvas><span class="fl">GST/HST serpent · unfolded</span></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
+    </div>
+    <div class="more"><a class="btn" href="#">More articles</a></div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div>
+    <button class="ex" id="expand">Expand all</button>
+    <div id="qs"></div>
+  </div>
+</section>
+
+<div class="notes">
+  <p>**While subscribed to Wave’s Pro Plan, get 2.9% + $0 (Visa, Mastercard, Discover) and 3.4% + $0 (Amex) per transaction for the first ten cumulative transactions in a monthly subscription period, then 2.9% + $0.60 (Visa, Mastercard, Discover) and 3.4% + $0.60 (Amex) per transaction thereafter. Discover processing is only available to US customers. See our <a href="#">Payments Terms of Service</a> for more details.</p>
+  <p>***We use Plaid to facilitate bank connections. Not all financial institutions are supported so we can’t guarantee that you will be able to connect an account. <a href="#">Check Plaid’s troubleshooting guide for more information</a>.</p>
+  <p>****Customers who enable payments on Wave invoices mark invoices paid 3x faster than those who are paid through cash or check.</p>
+</div>
+
+<section class="fcta">
+  <div class="wrap"><div class="card"><h2 class="serif">Ready to kick tax season's butt?</h2><a class="btn" href="#plans">Get started now</a></div></div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div><img src="img/footer-logo.png" alt="Wave" width="60">
+        <div class="soc">
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M14 8V6c0-1 .5-1.5 1.5-1.5H17V1h-3c-3 0-4 2-4 4.5V8H7.5v3.5H10V23h4V11.5h3l.5-3.5z"/></svg></a>
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6zM17.5 5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM7 1h10a6 6 0 0 1 6 6v10a6 6 0 0 1-6 6H7a6 6 0 0 1-6-6V7a6 6 0 0 1 6-6zm0 2a4 4 0 0 0-4 4v10a4 4 0 0 0 4 4h10a4 4 0 0 0 4-4V7a4 4 0 0 0-4-4z"/></svg></a>
+          <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M2 8h4.5v14H2zM4.2 1.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM9 8h4.3v2c.6-1.1 2.1-2.3 4.3-2.3 4.6 0 5.4 3 5.4 6.9V22h-4.5v-6.6c0-1.6 0-3.6-2.2-3.6s-2.6 1.7-2.6 3.5V22H9z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23 7.2a3 3 0 0 0-2.1-2.1C19 4.6 12 4.6 12 4.6s-7 0-8.9.5A3 3 0 0 0 1 7.2 31 31 0 0 0 .5 12a31 31 0 0 0 .5 4.8 3 3 0 0 0 2.1 2.1c1.9.5 8.9.5 8.9.5s7 0 8.9-.5a3 3 0 0 0 2.1-2.1 31 31 0 0 0 .5-4.8 31 31 0 0 0-.5-4.8zM9.8 15.1V8.9l5.6 3.1z"/></svg></a>
+        </div>
+      </div>
+      <div><h4>FEATURES</h4><ul><li><a href="#">Accounting</a></li><li><a href="#">Invoicing</a></li><li><a href="#">Estimates</a></li><li><a href="#">Wave app</a></li><li><a href="#">Receipts</a></li><li><a href="#">Payments</a></li><li><a href="#">Payroll</a></li><li><a href="#">Advisors</a></li><li><a href="#">Pricing</a></li><li><a href="#">Credit card payments</a></li><li><a href="#">Bank payments</a></li><li><a href="#">Recurring billing</a></li></ul></div>
+      <div><h4>WAVE</h4><ul><li><a href="#">About Us</a></li><li><a href="#">Careers</a></li><li><a href="#">Press</a></li><li><a href="#">Sitemap</a></li></ul></div>
+      <div><h4>HELPFUL LINKS</h4><ul><li><a href="#">Blog</a></li><li><a href="#">Help Center</a></li><li><a href="#">Invoice templates</a></li><li><a href="#">Estimate templates</a></li><li><a href="#">Accounting education center</a></li><li><a href="#">Payroll education center</a></li><li><a href="#">QuickBooks alternative</a></li><li><a href="#">Freelance Hub</a></li><li><a href="#">Small business study</a></li></ul></div>
+      <div><h4>SUPPORT &amp; TOOLS</h4><ul><li><a href="#">How support works</a></li><li><a href="#">System status</a></li><li><a href="#">Accounting calculators</a></li><li><a href="#">Invoicing generators</a></li><li><a href="#">Payroll calculators</a></li></ul></div>
+    </div>
+    <div class="fb">
+      <div><p>Copyright © 2010-2026 Wave Financial Inc. All Rights Reserved.</p>
+        <nav><a href="#">Privacy Policy</a><a href="#">Legal Disclosures</a><a href="#">Security</a><a href="#">Licensing</a><a href="#">Accessibility</a><a href="#">Social Media Disclaimer</a><a href="#">Privacy Choices</a><span class="cookie"><i></i>COOKIE PREFERENCES</span></nav></div>
+      <img class="bbb" src="img/bbb.png" alt="BBB Accredited Business">
+    </div>
+  </div>
+  <a class="btt" href="#"><svg viewBox="0 0 84 46" fill="none" stroke="#e8aaff" stroke-width="4"><path d="M3 43L42 4l39 39"/></svg>Back to top</a>
+</footer>
+
+<script>
+/* Paper stop-motion engine: a sheet of a CRA form, folded into a creature, unfolds flat.
+   A creature is a triangle grid over the sheet (u,v in 0..1). Every triangle corner gets a folded
+   position (from the creature's pose, which can use the triangle's centroid to treat flaps as cut
+   apart) and a flat position (the sheet lying on the table with soft crease relief). Facets carry the
+   printed form as a texture, are lit per facet, sorted back to front and cast a blurred shadow.
+   Time is stepped at 12 fps with a little camera boil, like hand-shot stop motion. */
+(function () {
+'use strict';
+const V = {
+  add: (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]],
+  sub: (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]],
+  mul: (a, s) => [a[0] * s, a[1] * s, a[2] * s],
+  dot: (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2],
+  cross: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]],
+  norm: (a) => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; },
+  lerp: (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t],
+};
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const sstep = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+const mix = (a, b, t) => a + (b - a) * t;
+function rng(seed) { let s = seed >>> 0 || 1; return () => ((s = Math.imul(s ^ (s >>> 15), 2246822519) ^ Math.imul(s ^ (s >>> 13), 3266489917), (s >>>= 0) / 4294967296)); }
+function hash(i, j, k = 0) { let h = Math.imul(i * 374761393 + j * 668265263 + k * 2147483647, 1274126177); h ^= h >>> 13; h = Math.imul(h, 1103515245); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; }
+
+/* ---------- spines: Catmull-Rom through points, parallel-transported frames ---------- */
+function spine(pts, n0, samples = 240) {
+  const P = [];
+  const cr = (p0, p1, p2, p3, t) => { const t2 = t * t, t3 = t2 * t; return [0, 1, 2].map((k) => 0.5 * (2 * p1[k] + (-p0[k] + p2[k]) * t + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * t2 + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * t3)); };
+  const seg = pts.length - 1;
+  for (let i = 0; i <= samples; i++) {
+    const g = (i / samples) * seg, k = Math.min(seg - 1, Math.floor(g)), t = g - k;
+    P.push(cr(pts[Math.max(0, k - 1)], pts[k], pts[k + 1], pts[Math.min(seg, k + 2)], t));
+  }
+  // arc-length parametrise
+  const L = [0]; for (let i = 1; i < P.length; i++) L.push(L[i - 1] + Math.hypot(...V.sub(P[i], P[i - 1])));
+  const tot = L[L.length - 1];
+  const T = P.map((p, i) => V.norm(V.sub(P[Math.min(P.length - 1, i + 1)], P[Math.max(0, i - 1)])));
+  const N = []; let n = V.norm(V.sub(n0, V.mul(T[0], V.dot(n0, T[0]))));
+  for (let i = 0; i < P.length; i++) { n = V.norm(V.sub(n, V.mul(T[i], V.dot(n, T[i])))); N.push(n); }
+  const B = T.map((t, i) => V.cross(N[i], t));
+  return {
+    length: tot,
+    at(s) { // s in 0..1 by arc length
+      const d = clamp(s) * tot; let lo = 0, hi = L.length - 1;
+      while (hi - lo > 1) { const m = (lo + hi) >> 1; (L[m] < d ? (lo = m) : (hi = m)); }
+      const t = (d - L[lo]) / ((L[hi] - L[lo]) || 1);
+      return { p: V.lerp(P[lo], P[hi], t), t: V.norm(V.lerp(T[lo], T[hi], t)), n: V.norm(V.lerp(N[lo], N[hi], t)), b: V.norm(V.lerp(B[lo], B[hi], t)) };
+    },
+  };
+}
+// tube cross-section: v 0..1 wraps around the spine (v=.5 on the B side), open underneath
+function tube(f, v, w, wn, open = 0.86) {
+  const phi = (v - 0.5) * 2 * Math.PI * open;
+  return V.add(f.p, V.add(V.mul(f.b, Math.cos(phi) * w), V.mul(f.n, Math.sin(phi) * (wn == null ? w : wn))));
+}
+const pleat = (i) => (i % 2 ? 1.07 : 0.93);
+
+/* ---------- creatures ---------- */
+const CREATURES = {
+  dragon: {
+    nu: 26, nv: 12, unfoldFrom: [1, 0.5],
+    init() {
+      this.sp = spine([[-1.18, 1.18, 0.12], [-1.02, 1.24, 0.1], [-0.82, 1.05, 0.06], [-0.6, 0.66, 0.02], [-0.3, 0.42, 0], [0.12, 0.38, 0], [0.5, 0.3, -0.04], [0.86, 0.2, -0.02], [1.16, 0.3, 0.05], [1.26, 0.6, 0.1], [1.08, 0.74, 0.12]], [0, 0, 1]);
+    },
+    width(u) {
+      if (u < 0.05) return mix(0.025, 0.1, u / 0.05);
+      if (u < 0.12) return 0.11;
+      if (u < 0.3) return mix(0.085, 0.2, sstep(0.18, 0.3, u));
+      if (u < 0.6) return 0.2;
+      return mix(0.18, 0.012, (u - 0.6) / 0.4);
+    },
+    pose(u, v, i, j, cu, cv) {
+      const sp = this.sp, wingU = cu > 0.32 && cu < 0.62, band = 0.22;
+      let w = this.width(u) * pleat(i);
+      const f = sp.at(u);
+      if (wingU && (cv < band || cv > 1 - band)) {
+        const left = cv < band, a = left ? (band - v) / band : (v - (1 - band)) / band;
+        const root = tube(f, left ? band : 1 - band, w);
+        const c = (u - 0.32) / 0.3; // chord 0 leading edge .. 1 trailing
+        const sweep = c * 0.95;
+        let d = left ? [0.12 + Math.sin(sweep) * 0.85, Math.cos(sweep) * 1, 0.55] : [0.25 + Math.sin(sweep) * 0.85, Math.cos(sweep) * 0.95, -0.5];
+        d = V.norm(d);
+        const len = (1.22 - 0.5 * c) * (0.82 + 0.18 * Math.abs(Math.cos(c * Math.PI * 2.5)));
+        let p = V.add(root, V.mul(d, a * len));
+        p = V.add(p, V.mul([0, 0, left ? 1 : -1], (i % 2 ? 0.06 : -0.03) * a)); // fan pleats
+        return p;
+      }
+      let p = tube(f, v, w);
+      // horns + dorsal spikes along the ridge
+      const ridge = 1 - Math.min(1, Math.abs(v - 0.5) / 0.09);
+      if (ridge > 0 && j === this.nv / 2) {
+        if (i === 3) p = V.add(p, V.add(V.mul(f.b, 0.24), V.mul(f.t, 0.2)));
+        else if (i > 7 && i < 22 && i % 2 === 0) p = V.add(p, V.mul(f.b, 0.12 * (1 - Math.abs(i - 14) / 10)));
+      }
+      if (i === 0) p = V.add(p, V.mul(f.t, -0.08)); // pointed snout
+      return p;
+    },
+  },
+  snake: {
+    nu: 34, nv: 10, unfoldFrom: [1, 0.5],
+    init() {
+      const pts = [[-0.08, 1.38, 0.52], [-0.18, 1.34, 0.32], [-0.2, 1.1, 0.12], [-0.08, 0.7, 0.04], [0.12, 0.36, 0.02]];
+      const c = [0.05, 0, -0.1];
+      for (let k = 0; k <= 22; k++) {
+        const q = k / 22, th = 0.9 + q * Math.PI * 2 * 1.55, r = 0.2 + q * 0.72;
+        pts.push([c[0] + Math.cos(th) * r, 0.1 + (1 - q) * 0.2, c[2] + Math.sin(th) * r * 0.8]);
+      }
+      this.sp = spine(pts, [1, 0, 0], 400);
+    },
+    width(u) {
+      if (u < 0.03) return mix(0.03, 0.11, u / 0.03);
+      if (u < 0.06) return 0.11;
+      if (u < 0.17) return mix(0.11, 0.2, Math.sin(((u - 0.06) / 0.11) * Math.PI)); // hood
+      if (u < 0.3) return mix(0.08, 0.1, (u - 0.17) / 0.13);
+      return mix(0.1, 0.01, Math.pow((u - 0.3) / 0.7, 1.4));
+    },
+    pose(u, v, i, j) {
+      const f = this.sp.at(u), w = this.width(u) * pleat(i);
+      const hood = u > 0.05 && u < 0.18 ? 0.45 : 1;
+      let p = tube(f, v, w * hood, w, 0.82);
+      if (i === 0) p = V.add(p, V.mul(f.t, -0.06));
+      return p;
+    },
+  },
+  hydra: {
+    nu: 26, nv: 15, unfoldFrom: [1, 0.5],
+    init() {
+      this.necks = [
+        spine([[-1.08, 1.02, 0.42], [-0.92, 1.12, 0.3], [-0.78, 0.92, 0.2], [-0.56, 0.62, 0.12], [-0.3, 0.4, 0.06]], [0, 0, 1]),
+        spine([[0.14, 1.62, 0.5], [0.06, 1.6, 0.32], [0.02, 1.3, 0.16], [0.04, 0.85, 0.05], [0.02, 0.5, -0.02]], [1, 0, 0]),
+        spine([[1.1, 1.0, 0.4], [0.96, 1.1, 0.28], [0.8, 0.88, 0.16], [0.58, 0.6, 0.06], [0.32, 0.4, 0.02]], [0, 0, 1]),
+      ];
+    },
+    pose(u, v, i, j, cu, cv) {
+      const split = 0.58;
+      if (cu < split) {
+        const k = Math.min(2, Math.floor(cv * 3)), vv = clamp((v - k / 3) * 3), s = clamp(u / split);
+        const f = this.necks[k].at(s);
+        let w = (s < 0.06 ? mix(0.03, 0.1, s / 0.06) : s < 0.18 ? 0.105 : mix(0.075, 0.11, (s - 0.18) / 0.82)) * pleat(i);
+        let p = tube(f, vv, w, w, 0.84);
+        const jj = j - k * 5;
+        if (i === 3 && jj === 2) p = V.add(p, V.add(V.mul(f.b, 0.18), V.mul(f.t, 0.16)));
+        if (i === 0) p = V.add(p, V.mul(f.t, -0.06));
+        return p;
+      }
+      // body: a pleated mound behind the necks
+      const a = (u - split) / (1 - split), x = (v - 0.5) * 1.55;
+      const h = 0.48 * Math.pow(Math.sin(Math.PI * clamp(v * 0.9 + 0.05)), 0.7) * (1 - a * 0.75);
+      const pl = (i % 2 ? 0.05 : -0.04) * (1 - a);
+      return [x * (1 - 0.15 * a), h + pl, 0.02 - a * 0.85];
+    },
+  },
+  tiger: {
+    nu: 26, nv: 12, unfoldFrom: [0, 0.5],
+    init() {
+      this.sp = spine([[-1.02, 0.86, 0.08], [-0.86, 0.92, 0.06], [-0.62, 0.78, 0.02], [-0.3, 0.72, 0], [0.2, 0.7, 0], [0.56, 0.7, 0], [0.82, 0.86, 0], [0.98, 1.12, 0.02], [0.92, 1.32, 0.04]], [0, 0, 1]);
+    },
+    width(u) {
+      if (u < 0.04) return mix(0.06, 0.13, u / 0.04);
+      if (u < 0.16) return 0.15;
+      if (u < 0.22) return 0.12;
+      if (u < 0.78) return 0.21;
+      return mix(0.12, 0.02, (u - 0.78) / 0.22);
+    },
+    pose(u, v, i, j, cu, cv) {
+      const f = this.sp.at(u), w = this.width(u) * pleat(i), band = 0.2;
+      const legU = (cu > 0.25 && cu < 0.36) || (cu > 0.6 && cu < 0.71);
+      if (legU && (cv < band || cv > 1 - band)) {
+        const left = cv < band, a = left ? (band - v) / band : (v - (1 - band)) / band;
+        const root = tube(f, left ? band : 1 - band, w, w, 0.8);
+        const foot = [root[0] + (cu < 0.5 ? -0.04 : 0.05), 0.004, root[2] + (left ? 0.07 : -0.07)];
+        return V.lerp(root, foot, a);
+      }
+      let p = tube(f, v, w, w, 0.8);
+      if (i === 3 && (j === 4 || j === 8)) p = V.add(p, V.add(V.mul(f.b, 0.16), V.mul(f.t, 0.05)));
+      if (i === 0) p = V.add(p, V.mul(f.t, -0.05));
+      return p;
+    },
+  },
+};
+
+/* ---------- printed CRA forms (texture) ---------- */
+const FORMS = {
+  T1: { code: 'T1 2026', title: 'Income Tax and Benefit Return', sub: 'Step 2 – Total income', lines: [['10100', 'Employment income (box 14 of all T4 slips)'], ['12000', 'Taxable amount of dividends'], ['12100', 'Interest and other investment income'], ['13500', 'Business income – Net'], ['15000', 'Total income'], ['20800', 'RRSP deduction'], ['23600', 'Net income'], ['26000', 'Taxable income'], ['35000', 'Total federal non-refundable tax credits'], ['43500', 'Total payable'], ['48200', 'Total credits'], ['48400', 'Refund'], ['48500', 'Balance owing']] },
+  T2125: { code: 'T2125 E (26)', title: 'Statement of Business or Professional Activities', sub: 'Part 4 – Net income (loss) before adjustments', lines: [['8000', 'Adjusted gross sales'], ['8299', 'Gross business income'], ['8521', 'Advertising'], ['8523', 'Meals and entertainment'], ['8690', 'Insurance'], ['8810', 'Office expenses'], ['8811', 'Office stationery and supplies'], ['8860', 'Professional fees'], ['9200', 'Travel expenses'], ['9220', 'Utilities'], ['9281', 'Motor vehicle expenses'], ['9368', 'Total expenses'], ['9369', 'Net income (loss)']] },
+  GST34: { code: 'GST34-2 E (26)', title: 'Goods and Services Tax / Harmonized Sales Tax Return', sub: 'Reporting period', lines: [['101', 'Sales and other revenue'], ['103', 'GST/HST collected or collectible'], ['104', 'Adjustments'], ['105', 'Total GST/HST and adjustments'], ['106', 'Input tax credits (ITCs)'], ['107', 'Adjustments'], ['108', 'Total ITCs and adjustments'], ['109', 'Net tax'], ['110', 'Instalments and other annual filer payments'], ['111', 'Rebates'], ['113', 'Balance'], ['114', 'Refund claimed'], ['115', 'Payment enclosed']] },
+  NOA: { code: 'Notice of Assessment', title: 'Notice of Assessment – Tax year 2026', sub: 'Summary', lines: [['15000', 'Total income'], ['23600', 'Net income'], ['26000', 'Taxable income'], ['35000', 'Federal non-refundable tax credits'], ['42000', 'Net federal tax'], ['42100', 'CPP contributions payable'], ['42800', 'Net provincial tax'], ['43500', 'Total payable'], ['43700', 'Total income tax deducted'], ['48200', 'Total credits'], ['', 'Balance from this assessment'], ['', 'Amount previously refunded'], ['', 'Balance owing']] },
+  T4A: { code: 'T4A (26)', title: 'Statement of Pension, Retirement, Annuity, and Other Income', sub: 'Box 048 – Fees for services', lines: [['016', 'Pension or superannuation'], ['018', 'Lump-sum payments'], ['020', 'Self-employed commissions'], ['022', 'Income tax deducted'], ['024', 'Annuities'], ['028', 'Other income'], ['048', 'Fees for services'], ['105', 'Scholarships, bursaries'], ['107', 'Wage loss replacement'], ['130', 'Apprenticeship grants'], ['135', 'Premiums – private health'], ['197', 'Canada emergency benefit'], ['', 'Recipient’s name and address']] },
+};
+const texCache = {};
+function formTexture(kind, S = 1024, page = 1) {
+  const key = kind + page;
+  if (texCache[key]) return texCache[key];
+  const F0 = FORMS[kind] || FORMS.T1, c = document.createElement('canvas'); c.width = c.height = S;
+  const F = page === 1 ? F0 : { code: F0.code, title: F0.title, sub: 'Continued – keep a copy for your records', lines: F0.lines.slice(6).concat(F0.lines.slice(0, 6)).map(([a, b], n) => [a ? String(+a.replace(/\D/g, '') + 40 + n) .padStart(a.length, '0') : '', b]) };
+  const g = c.getContext('2d'), r = rng(kind.length * 977 + 13 + page), k = S / 1024;
+  if (page === 2) { g.translate(S, 0); g.scale(-1, 1); }
+  g.fillStyle = '#f6f3ec'; g.fillRect(0, 0, S, S);
+  for (let n = 0; n < 2600; n++) { g.fillStyle = `rgba(${r() < 0.5 ? '120,110,90' : '255,255,255'},${0.05 + r() * 0.06})`; g.fillRect(r() * S, r() * S, 1 + r() * 2 * k, 1 + r() * 2 * k); }
+  const ink = '#26282b', grey = '#d9dbd7', sans = '"Helvetica Neue",Arial,sans-serif';
+  g.save(); g.scale(k, k);
+  g.fillStyle = ink; g.font = `600 22px ${sans}`; g.fillText('Canada Revenue', 60, 74); g.fillText('Agency', 60, 100);
+  g.font = `400 22px ${sans}`; g.fillText('Agence du revenu', 250, 74); g.fillText('du Canada', 250, 100);
+  g.fillStyle = '#d52b1e'; g.fillRect(890, 52, 16, 30); g.fillRect(942, 52, 16, 30); g.beginPath(); g.moveTo(924, 50); g.lineTo(936, 70); g.lineTo(930, 84); g.lineTo(918, 84); g.lineTo(912, 70); g.closePath(); g.fill();
+  g.fillStyle = '#d52b1e'; g.font = `700 17px ${sans}`; g.fillText('Protected B when completed', 700, 128);
+  g.fillStyle = ink; g.font = `700 46px ${sans}`; g.fillText(F.code, 60, 180);
+  g.font = `600 30px ${sans}`; g.fillText(F.title.length > 44 ? F.title.slice(0, 44).replace(/\s\S*$/, '') : F.title, 60, 226);
+  if (F.title.length > 44) g.fillText(F.title.slice(F.title.slice(0, 44).replace(/\s\S*$/, '').length + 1), 60, 262);
+  g.fillStyle = grey; g.fillRect(60, 292, 904, 46); g.fillStyle = ink; g.font = `700 21px ${sans}`; g.fillText(F.sub, 76, 323);
+  let y = 382;
+  F.lines.forEach(([code, txt], n) => {
+    g.fillStyle = ink; g.font = `400 20px ${sans}`; g.fillText(txt, 76, y);
+    const tw = g.measureText(txt).width;
+    g.fillStyle = '#8b8d8a'; for (let x = 90 + tw; x < 640; x += 9) g.fillRect(x, y - 3, 2.5, 2.5);
+    if (code) { g.fillStyle = ink; g.font = `700 19px ${sans}`; g.fillText(code, 662, y); }
+    g.strokeStyle = '#3a3c3f'; g.lineWidth = 1.6; g.strokeRect(742, y - 27, 222, 38);
+    g.beginPath(); g.moveTo(912, y - 27); g.lineTo(912, y + 11); g.stroke();
+    if (n % 4 === 3) { g.fillStyle = grey; g.fillRect(60, y + 18, 904, 3); }
+    y += 47;
+  });
+  g.fillStyle = ink; g.font = `400 15px ${sans}`; g.fillText('See the privacy notice on your return.', 60, 1000);
+  g.font = `700 15px ${sans}`; g.fillText(`Page ${page} of 8`, 880, 1000);
+  g.restore();
+  return (texCache[key] = c);
+}
+
+/* ---------- mesh build ---------- */
+function build(kind) {
+  const C = CREATURES[kind]; if (!C._init) { C.init(); C._init = true; }
+  const nu = C.nu, nv = C.nv, tris = [];
+  const fr = rng(nu * 31 + nv);
+  const relief = []; for (let i = 0; i <= nu; i++) { relief[i] = []; for (let j = 0; j <= nv; j++) relief[i][j] = (i === 0 || j === 0 || i === nu || j === nv ? 0.3 : 1) * ((i + j) % 2 ? 1 : -0.6) * (0.012 + fr() * 0.02); }
+  for (let i = 0; i < nu; i++) for (let j = 0; j < nv; j++) {
+    const a = [i, j], b = [i + 1, j], c = [i + 1, j + 1], d = [i, j + 1];
+    const quads = (i + j) % 2 ? [[a, b, c], [a, c, d]] : [[a, b, d], [b, c, d]];
+    for (const q of quads) {
+      const cu = (q[0][0] + q[1][0] + q[2][0]) / 3 / nu, cv = (q[0][1] + q[1][1] + q[2][1]) / 3 / nv;
+      tris.push(q.map(([ii, jj]) => {
+        const u = ii / nu, v = jj / nv;
+        return { u, v, fold: C.pose(u, v, ii, jj, cu, cv), flat: [(v - 0.5) * 2.05, relief[ii][jj], (u - 0.5) * 2.05], d: Math.hypot(u - C.unfoldFrom[0], v - C.unfoldFrom[1]) };
+      }));
+    }
+  }
+  const dmax = Math.max(...tris.flat().map((p) => p.d));
+  tris.forEach((t) => t.forEach((p) => (p.d /= dmax)));
+  return tris;
+}
+const meshCache = {};
+const mesh = (k) => meshCache[k] || (meshCache[k] = build(k));
+
+/* ---------- renderer ---------- */
+function Scene(canvas, opt = {}) {
+  this.c = canvas; this.g = canvas.getContext('2d');
+  this.sh = document.createElement('canvas'); this.sg = this.sh.getContext('2d');
+  this.o = Object.assign({ creature: 'dragon', form: 'T1', fov: 1.25, yaw: -0.5, flatYaw: 0.5, cx: 0.5, cy: 0.56, zoom: 1, shadow: 'rgba(0,12,70,.34)', back: '#e9e3d6', light: [-0.45, 0.85, 0.55], fps: 12 }, opt);
+  this.set(this.o.creature, this.o.form);
+}
+Scene.prototype.set = function (creature, form) { this.o.creature = creature; this.o.form = form; this.tris = mesh(creature); this.tex = formTexture(form); this.texB = formTexture(form, 1024, 2); };
+Scene.prototype.size = function () {
+  const r = this.c.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+  const w = Math.max(1, Math.round(r.width * dpr)), h = Math.max(1, Math.round(r.height * dpr));
+  if (this.c.width !== w || this.c.height !== h) { this.c.width = w; this.c.height = h; }
+  if (this.sh.width !== w || this.sh.height !== h) { this.sh.width = w; this.sh.height = h; }
+  return [w, h];
+};
+// k: 0 = folded creature, 1 = flat sheet. frame: integer stop-motion frame for boil.
+Scene.prototype.draw = function (k, frame = 0) {
+  const [W, H] = this.size(), g = this.g, o = this.o, TS = this.tex.width;
+  g.clearRect(0, 0, W, H);
+  const jr = rng(frame * 7919 + 17), jit = () => (jr() - 0.5) * 2;
+  const ek = k;
+  const yaw = mix(o.yaw, o.flatYaw, sstep(0.15, 0.95, ek)) + jit() * 0.006;
+  const pitch = mix(0.36, 0.62, sstep(0.2, 1, ek));
+  const dist = (4.1 / o.zoom) * mix(1, o.flatDist || 1, sstep(0.2, 1, ek));
+  const tgt = [jit() * 0.008, mix(0.62, 0.05, sstep(0.1, 1, ek)) + jit() * 0.008, 0];
+  const E = [tgt[0] + Math.sin(yaw) * Math.cos(pitch) * dist, tgt[1] + Math.sin(pitch) * dist, tgt[2] + Math.cos(yaw) * Math.cos(pitch) * dist];
+  const f = V.norm(V.sub(tgt, E)), r = V.norm(V.cross(f, [0, 1, 0])), up = V.cross(r, f);
+  const foc = Math.min(W, H * 1.35) * o.fov, ox = W * o.cx, oy = H * o.cy;
+  const L = V.norm(o.light), lf = 1 + jit() * 0.02;
+  const proj = (p) => { const d = V.sub(p, E), z = V.dot(d, f); return [ox + (foc * V.dot(d, r)) / z, oy - (foc * V.dot(d, up)) / z, z]; };
+  // per-corner position (staggered unfold from the creature's tail/start)
+  const tris = this.tris, out = [];
+  for (const t of tris) {
+    const P = t.map((p) => {
+      const e = clamp((ek * 1.45 - p.d * 0.45));
+      const ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2;
+      const q = V.lerp(p.fold, p.flat, ee);
+      q[1] += Math.sin(Math.PI * ee) * 0.22 * (1 - p.d * 0.5);
+      return q;
+    });
+    out.push(P);
+  }
+  // shadow
+  const sg = this.sg; sg.clearRect(0, 0, W, H); sg.fillStyle = '#000';
+  sg.beginPath();
+  for (const P of out) {
+    const s = P.map((p) => proj([p[0] - (L[0] / L[1]) * p[1], 0, p[2] - (L[2] / L[1]) * p[1]]));
+    sg.moveTo(s[0][0], s[0][1]); sg.lineTo(s[1][0], s[1][1]); sg.lineTo(s[2][0], s[2][1]); sg.closePath();
+  }
+  sg.fill();
+  g.save(); g.globalAlpha = 1; g.filter = `blur(${Math.round(W / 140)}px)`; g.globalCompositeOperation = 'source-over';
+  // tint the shadow
+  g.drawImage(this.sh, 0, 0);
+  g.globalCompositeOperation = 'source-in'; g.filter = 'none'; g.fillStyle = o.shadow; g.fillRect(0, 0, W, H);
+  g.restore();
+  g.globalCompositeOperation = 'source-over';
+  // facets, back to front
+  const list = out.map((P, n) => {
+    const s = P.map(proj), z = (s[0][2] + s[1][2] + s[2][2]) / 3;
+    return { s, P, n, z };
+  }).sort((a, b) => b.z - a.z);
+  for (const it of list) {
+    const { s, P, n } = it, t = tris[n];
+    const area = (s[1][0] - s[0][0]) * (s[2][1] - s[0][1]) - (s[2][0] - s[0][0]) * (s[1][1] - s[0][1]);
+    let nrm = V.norm(V.cross(V.sub(P[1], P[0]), V.sub(P[2], P[0])));
+    const front = area < 0;
+    if (V.dot(nrm, V.sub(E, P[0])) < 0) nrm = V.mul(nrm, -1);
+    const lam = Math.max(0, V.dot(nrm, L));
+    const shade = clamp((0.36 + 0.74 * lam) * lf, 0, 1.1);
+    // expand slightly to hide hairline seams
+    const cx = (s[0][0] + s[1][0] + s[2][0]) / 3, cy = (s[0][1] + s[1][1] + s[2][1]) / 3;
+    const ex = s.map((q) => { const dx = q[0] - cx, dy = q[1] - cy, l = Math.hypot(dx, dy) || 1, e = Math.min(0.9, l * 0.5); return [q[0] + (dx / l) * e, q[1] + (dy / l) * e]; });
+    g.save();
+    g.beginPath(); g.moveTo(ex[0][0], ex[0][1]); g.lineTo(ex[1][0], ex[1][1]); g.lineTo(ex[2][0], ex[2][1]); g.closePath(); g.clip();
+    {
+      const tex = front ? this.tex : this.texB;
+      // affine map texture triangle -> screen triangle (texture: x = v, y = u)
+      const u0 = t[0].v * TS, v0 = t[0].u * TS, u1 = t[1].v * TS, v1 = t[1].u * TS, u2 = t[2].v * TS, v2 = t[2].u * TS;
+      const den = u0 * (v1 - v2) + u1 * (v2 - v0) + u2 * (v0 - v1);
+      if (Math.abs(den) > 1e-6) {
+        const [x0, y0] = s[0], [x1, y1] = s[1], [x2, y2] = s[2];
+        const a = (x0 * (v1 - v2) + x1 * (v2 - v0) + x2 * (v0 - v1)) / den;
+        const b = (y0 * (v1 - v2) + y1 * (v2 - v0) + y2 * (v0 - v1)) / den;
+        const c2 = (x0 * (u2 - u1) + x1 * (u0 - u2) + x2 * (u1 - u0)) / den;
+        const d = (y0 * (u2 - u1) + y1 * (u0 - u2) + y2 * (u1 - u0)) / den;
+        const e = (x0 * (u1 * v2 - u2 * v1) + x1 * (u2 * v0 - u0 * v2) + x2 * (u0 * v1 - u1 * v0)) / den;
+        const f2 = (y0 * (u1 * v2 - u2 * v1) + y1 * (u2 * v0 - u0 * v2) + y2 * (u0 * v1 - u1 * v0)) / den;
+        g.transform(a, b, c2, d, e, f2);
+        g.drawImage(tex, 0, 0);
+        g.setTransform(1, 0, 0, 1, 0, 0);
+      }
+    }
+    if (shade < 1) { g.fillStyle = `rgba(28,24,40,${(1 - shade) * 0.92})`; g.fill(); }
+    else { g.fillStyle = `rgba(255,252,240,${(shade - 1) * 1.4})`; g.fill(); }
+    g.restore();
+  }
+  // crease lines once flat-ish
+  const cr = sstep(0.55, 1, ek) * 0.16;
+  if (cr > 0.01) {
+    g.strokeStyle = `rgba(60,50,40,${cr})`; g.lineWidth = Math.max(0.6, W / 1800);
+    g.beginPath();
+    for (const it of list) { const s = it.s; g.moveTo(s[0][0], s[0][1]); g.lineTo(s[1][0], s[1][1]); g.lineTo(s[2][0], s[2][1]); }
+    g.stroke();
+  }
+};
+
+/* ---------- player: hold creature -> unfold -> hold flat ---------- */
+function Player(canvas, opt = {}) {
+  this.scene = new Scene(canvas, opt);
+  this.hold = opt.hold ?? 1.2; this.dur = opt.dur ?? 2.6; this.rest = opt.rest ?? 1.6;
+  this.t = 0; this.playing = false; this.last = -1; this.onEnd = opt.onEnd || null;
+  this.render(0);
+}
+Player.prototype.total = function () { return this.hold + this.dur + this.rest; };
+Player.prototype.kAt = function (t) { return clamp((t - this.hold) / this.dur); };
+Player.prototype.render = function (t) {
+  const fps = this.scene.o.fps, frame = Math.floor(t * fps);
+  const tq = frame / fps; // stepped time
+  this.scene.draw(this.kAt(tq), frame);
+  this.last = frame;
+};
+Player.prototype.seek = function (t) { this.t = t; this.render(t); };
+Player.prototype.play = function (from) {
+  if (from != null) this.t = from;
+  this.playing = true; let prev = performance.now();
+  const tick = (now) => {
+    if (!this.playing) return;
+    this.t += (now - prev) / 1000; prev = now;
+    if (this.t >= this.total()) { this.t = this.total(); this.render(this.t); this.playing = false; if (this.onEnd) this.onEnd(this); return; }
+    const frame = Math.floor(this.t * this.scene.o.fps);
+    if (frame !== this.last) this.render(this.t);
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+};
+Player.prototype.pause = function () { this.playing = false; };
+
+window.Origami = { Scene, Player, CREATURES, FORMS, formTexture };
+})();
+
+</script>
+<script>
+(function(){
+const CLIP = location.hash.includes('clip');
+if (CLIP) document.documentElement.classList.add('clip');
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- hero: four creatures, each unfolds, then the next is cut in ---------- */
+const SEQ = [
+  { c: 'dragon', f: 'T1', name: 'The T1 dragon', form: 'Income Tax and Benefit Return' },
+  { c: 'hydra', f: 'GST34', name: 'The GST/HST hydra', form: 'Goods and Services Tax / Harmonized Sales Tax Return' },
+  { c: 'snake', f: 'T2125', name: 'The T2125 cobra', form: 'Statement of Business or Professional Activities' },
+  { c: 'tiger', f: 'NOA', name: 'The paper tiger', form: 'Notice of Assessment' },
+];
+const HOLD = 1.5, DUR = 2.8, REST = 1.7, SEG = HOLD + DUR + REST, TOTAL = SEG * SEQ.length;
+const stage = document.getElementById('stage');
+const mobile = () => innerWidth <= 820;
+const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.62, fov: 0.95, zoom: 1 } : { cx: 0.7, cy: 0.6, fov: 1.0, zoom: 1 };
+const scene = new Origami.Scene(stage, Object.assign({ creature: 'dragon', form: 'T1', shadow: 'rgba(0,14,80,.42)', yaw: -0.42, flatYaw: 0.22 }, heroOpt()));
+const dots = document.getElementById('dots'), capt = document.getElementById('capt'), frameEl = document.getElementById('frame');
+SEQ.forEach((s, i) => { const b = document.createElement('button'); b.setAttribute('aria-label', s.name); b.innerHTML = '<i></i>'; b.onclick = () => rb.play({ from: i * SEG }); dots.appendChild(b); });
+let cur = -1, T = 0, playing = false, lastF = -1, prev = 0, loop = true, speed = 1;
+function show(t) {
+  t = ((t % TOTAL) + TOTAL) % TOTAL;
+  const i = Math.floor(t / SEG), lt = t - i * SEG;
+  if (i !== cur) { cur = i; scene.set(SEQ[i].c, SEQ[i].f); capt.innerHTML = `<b>${SEQ[i].name}</b> · ${SEQ[i].form}`; }
+  const fr = Math.floor(t * 12), k = Math.max(0, Math.min(1, (Math.floor(lt * 12) / 12 - HOLD) / DUR));
+  scene.draw(k, fr);
+  frameEl.textContent = 'FR ' + String(fr + 1).padStart(3, '0');
+  [...dots.children].forEach((b, n) => b.firstChild.style.transform = `scaleX(${n < i ? 1 : n > i ? 0 : lt / SEG})`);
+  lastF = fr;
+}
+function tick(now) {
+  if (!playing) return;
+  T += (now - prev) / 1000 * speed; prev = now;
+  if (!loop && T >= rb.end) { T = rb.end; playing = false; }
+  if (Math.floor(T * 12) !== lastF) show(T);
+  requestAnimationFrame(tick);
+}
+const rb = window.__rb = {
+  end: TOTAL,
+  play(o = {}) { if (o.from != null) T = o.from; speed = o.speed || 1; loop = o.loop !== false; rb.end = o.to || TOTAL * 99; playing = true; prev = performance.now(); show(T); requestAnimationFrame(tick); },
+  pause() { playing = false; },
+  seek(t) { T = t; show(t); },
+};
+window.__pp = rb;
+document.getElementById('replay').onclick = () => rb.play({ from: cur * SEG });
+addEventListener('resize', () => { Object.assign(scene.o, heroOpt()); lastF = -1; show(T); });
+show(0);
+const vis = new IntersectionObserver((es) => es.forEach((e) => { if (CLIP) return; if (e.isIntersecting && !reduce) { if (!playing) rb.play(); } else rb.pause(); }), { threshold: 0.15 });
+document.fonts && document.fonts.ready.then(() => show(T));
+if (!CLIP) vis.observe(stage); else rb.seek(0);
+if (reduce && !CLIP) rb.seek(HOLD + DUR + 0.1);
+
+/* ---------- article cards: each creature unfolds once when it scrolls into view ---------- */
+document.querySelectorAll('.art').forEach((a) => {
+  const ill = a.querySelector('.ill'), cv = a.querySelector('canvas');
+  ill.style.background = a.dataset.bg;
+  const p = new Origami.Player(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: a.dataset.sh, cx: 0.5, cy: 0.66, fov: 1.5, flatDist: 1.75, yaw: -0.42, flatYaw: 0.25, hold: 1.1, dur: 2.4, rest: 0.3, onEnd: () => a.classList.add('done') });
+  let seen = false;
+  new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting && !seen) { seen = true; reduce ? p.seek(p.total()) : setTimeout(() => p.play(0), 250); } }), { threshold: 0.6 }).observe(a);
+  a.addEventListener('mouseenter', () => { if (!seen || p.playing) return; a.classList.remove('done'); p.play(0); });
+  addEventListener('resize', () => p.render(p.t));
+});
+
+/* ---------- pricing toggle ---------- */
+document.querySelectorAll('.pill button').forEach((b) => b.onclick = () => {
+  document.querySelectorAll('.pill button').forEach((x) => x.classList.toggle('on', x === b));
+  document.getElementById('proPrice').innerHTML = b.dataset.p === 'a' ? '$250<small>CAD/year</small><em>Billed annually</em>' : '$25<small>CAD/month</small><em>Billed monthly</em>';
+});
+
+/* ---------- FAQ ---------- */
+const QA = [
+  ['What does “tax-ready” bookkeeping mean for small business owners?', 'It means your income and expenses are recorded, categorized and reconciled as you go, with receipts attached, so the reports your accountant or the CRA needs are ready when you are.'],
+  ['How can Wave help me get my business ready for tax season?', 'Wave imports and categorizes your transactions, stores your receipts and builds the key reports, so most of the work is done before tax season starts.'],
+  ['Which Wave features are most helpful for preparing small business taxes?', 'Receipt scanning, bank syncing, automatic categorization and one-click reports like profit and loss, balance sheet and cash flow.'],
+  ['Can Wave automatically categorize my transactions for easier tax preparation?', 'Yes. On the Pro Plan, Wave auto-imports, merges and categorizes bank transactions, and you can review or change any category.'],
+  ['Does Wave generate the financial statements I need for tax filing?', 'Wave generates profit and loss statements, balance sheets and cash flow reports in seconds.'],
+  ['How do Wave’s reports help with filing small business taxes?', 'Your reports summarize your income and expenses by category, which is what you or your accountant need to fill in forms like the T2125.'],
+  ['Can Wave help me track deductible expenses throughout the year?', 'Yes. Categorize expenses as they happen and attach a receipt to each one so every deduction is backed up.'],
+  ['How does receipt scanning in Wave make my business more tax-ready?', 'Snap a photo and Wave reads the details with OCR, stores the receipt and links it to the expense.'],
+  ['Does Wave sync with my bank accounts for accurate tax records?', 'With the Pro Plan you can securely connect your bank and credit cards so transactions flow in automatically.'],
+  ['Can Wave help me catch up if I’m behind on my bookkeeping before tax season?', 'Import past transactions in bulk, categorize them in batches, or let a Wave Advisor bookkeeper catch you up.'],
+  ['What if I need professional help? Does Wave offer bookkeeping or tax support?', 'Wave Advisors offers a dedicated bookkeeper, monthly statements and optional one-on-one coaching.'],
+  ['How do I categorize income and expenses in Wave for tax purposes?', 'Pick a category for each transaction from Wave’s chart of accounts; Wave remembers your choices for similar transactions.'],
+  ['Does Wave store my financial data securely for tax reporting and audits?', 'Your data is encrypted and stored securely, and your records and receipts stay available if you ever need them for an audit.'],
+  ['Can I export my Wave data for my accountant or tax professional?', 'Yes. Export reports and transactions, or invite your accountant to your Wave account on the Pro Plan.'],
+  ['How early should small business owners start preparing for tax season?', 'Now. Keeping books up to date every month means tax season is a review, not a scramble.'],
+  ['Can Wave help me separate personal and business expenses for tax filing?', 'Connect only your business accounts, or mark personal transactions so they stay out of your business reports.'],
+];
+const plus = '<svg viewBox="0 0 24 24" fill="none" stroke="#232426" stroke-width="1.8"><circle cx="12" cy="12" r="10.5"/><path d="M12 7v10M7 12h10"/></svg>';
+document.getElementById('qs').innerHTML = QA.map(([q, a]) => `<details><summary>${q}${plus}</summary><p>${a}</p></details>`).join('');
+let all = false;
+document.getElementById('expand').onclick = (e) => { all = !all; document.querySelectorAll('#qs details').forEach((d) => d.open = all); e.target.textContent = all ? 'Collapse all' : 'Expand all'; };
+})();
+</script>
+</body>
+</html>
