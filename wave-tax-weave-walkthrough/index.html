@@ -171,7 +171,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .acct .fl{border:1px solid rgba(255,255,255,.7);border-radius:7px;padding:5px 9px;font:600 12px/1 var(--sans);margin-left:6px}
 .reel-cap{font:400 13px/1.4 var(--sans);margin:10px 60px 12px 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .reel-cta{background:#e8aaff;color:#001b65;border-radius:9px;padding:13px 14px;font:600 14px/1 var(--sans);display:flex;justify-content:space-between}
-.reel-prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.3);z-index:4}.reel-prog i{display:block;height:100%;background:#fff}
+.reel-prog{position:absolute;left:12px;right:12px;top:12px;height:3px;border-radius:2px;overflow:hidden;background:rgba(255,255,255,.3);z-index:4}.reel-prog i{display:block;height:100%;background:#fff}
 /* feed cards */
 .card{background:#fff;color:#1c1e21;border-radius:10px;border:1px solid #e3ded6;overflow:hidden;font-family:var(--sans)}
 .fb{width:520px}
@@ -239,7 +239,6 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
       <div class="prog"><i id="genprog"></i></div>
       <div class="cnt" id="gencnt">0<span>/ 480 frames</span></div>
     </div>
-    <div class="fg-sec"><h5>Data preview</h5><table class="mini" id="mini"></table></div>
     <div class="fg-sec"><h5>Templates</h5>
       <div class="buzzrow">Reel 9:16 <b>1080×1920</b></div><div class="buzzrow">Feed 1:1 <b>1080×1080</b></div><div class="buzzrow">LinkedIn 1.91:1 <b>1200×628</b></div><div class="buzzrow">Inline 12:5 <b>600×250</b></div>
     </div>
@@ -942,7 +941,7 @@ const W2=bx-BGAP,H2=rowH[0]+BGAP+rowH[1];
 // stagger: diagonal sweep per block, blocks overlap
 frames.forEach(f=>{f.t=.5+f.fi*.9+(f.r+f.c)*.075;});
 const layers=$('#layers');FMT.forEach((f,i)=>{el('div','lay'+(i===0?' on':''),`<i></i>${f.n}<small>120</small>`,layers);for(let k=0;k<(i===0?4:1);k++)el('div','lay sub',`<i></i>${f.n.split(' ')[0].toLowerCase()}-${ART[i===0?k:i].kind}-${String((i===0?k:i)+1).padStart(2,'0')}`,layers);});
-$('#mini').innerHTML='<tr><td>art</td><td>headline</td><td>cta</td></tr>'+[0,1,2,3,4].map(i=>`<tr><td>${ART[i].kind}-${ART[i].bgName}</td><td>${HEAD[i]}</td><td>${CTA[i]}</td></tr>`).join('');
+if($('#mini'))$('#mini').innerHTML='<tr><td>art</td><td>headline</td><td>cta</td></tr>'+[0,1,2,3,4].map(i=>`<tr><td>${ART[i].kind}-${ART[i].bgName}</td><td>${HEAD[i]}</td><td>${CTA[i]}</td></tr>`).join('');
 const genprog=$('#genprog'),gencnt=$('#gencnt');
 const CW=1100,CH=852; // canvas viewport
 const fitS=Math.min((CW-80)/W2,(CH-120)/H2);
