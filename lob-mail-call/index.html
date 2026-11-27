@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Lob Mail Call</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%234131f1%22/%3E%3Crect x=%228%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23ece8dd%22/%3E%3Crect x=%2234%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23ece8dd%22/%3E%3Crect x=%2211%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%2316151a%22/%3E%3Crect x=%2237%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%2316151a%22/%3E%3Crect x=%2211%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23d045dc%22/%3E%3Crect x=%2237%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23e4ee5c%22/%3E%3Crect x=%2230%22 y=%2210%22 width=%224%22 height=%2244%22 fill=%22%232b2d83%22/%3E%3C/svg%3E">
+<meta name="description" content="Mail Call, a four page printed newspaper about Lob's State of Direct Mail 2026: read it page by page on screen, or drag it around as a folded 3D paper from the outside pages to the inner spread.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@1,400;1,500&display=swap">
+<style>
+:root{--paper:#ece8dd;--ink:#16151a;--blue:#4131f1;--pink:#f7dffa;--mag:#d045dc;--lime:#e4ee5c;--navy:#2b2d83;--bg:#12143a;
+--sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--serif:"Newsreader",Georgia,"Times New Roman",serif}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--bg);color:#fff;font-family:var(--sans);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;height:100vh;height:100dvh;overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+
+/* sandbox project bar */
+nav.back{display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 var(--sans);white-space:nowrap;overflow:hidden}
+nav.back a{color:#8d8d8d;text-decoration:none}nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav.back span{color:#6e6e6e}nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+/* sandbox project bar: the home page nav's 72px height, SANDBOX / PROJECT NAME in its all-caps label style, any controls on the right */
+html body nav.back{box-sizing:border-box;flex:none;align-self:stretch;width:auto;align-items:center;gap:10px;height:72px;min-height:72px;padding:0 30px;background:#181716;border-bottom:1px solid rgba(255,255,255,.1);color:#fff;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+html body nav.back>a,html body nav.back>span,html body nav.back>b{font:400 12px/1.3 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body nav.back>a{color:#989898;transition:color .2s}
+html body nav.back>a:hover,html body nav.back>a:focus-visible{color:#fff;text-decoration:none}
+html body nav.back>span{color:#6b6b6b}
+html body nav.back>b{font-weight:400;color:#fff;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html body nav.back:not(:has(>div))>b{display:block}
+html body nav.back>div{margin-left:auto}
+@media (min-width:641px){html body nav.back>b{display:block}}
+@media (max-width:640px){html body nav.back{padding:0 20px}}
+/* phones: the bar's controls move to a panel (also a nav.back, so the page's own control styles still apply) under the visual */
+html body nav.back.sb-panel{position:static;height:auto;min-height:0;padding:12px 20px;justify-content:center;flex-wrap:wrap;border-bottom:0;border-top:1px solid rgba(255,255,255,.1);white-space:normal;overflow:visible;z-index:auto}
+html body nav.back.sb-panel>div{margin:0;flex:0 1 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;max-width:100%;min-width:0}
+html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-panel):not(:has(>div))>span{display:block}
+.ctl{display:flex;align-items:center;gap:18px;flex:none}
+.grp{display:flex;gap:6px}
+.grp[hidden]{display:none}
+.grp button{font:500 12px var(--sans);color:rgba(255,255,255,.72);background:none;border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:7px 14px;white-space:nowrap;transition:background .2s,color .2s}
+.grp button:hover{border-color:rgba(255,255,255,.5);color:#fff}
+.grp button.on{background:#fff;color:#12143a;border-color:#fff}
+.grp.pnum button{min-width:34px;padding:7px 0;text-align:center}
+@media(max-width:900px){.ctl{gap:10px}}
+
+/* stage */
+#stage{flex:1;min-height:0;position:relative;overflow:hidden;background:radial-gradient(ellipse 70% 60% at 50% 42%,#2a2d86 0%,#1b1e5a 45%,#12143a 100%)}
+#stage>section{position:absolute;inset:0}
+#stage.m-pages #d3,#stage.m-3d #flat{display:none}
+
+/* flat reading view */
+#scroll{position:absolute;inset:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.3) transparent}
+#pgbox{position:relative;margin:24px auto 72px;flex:none}
+#pgbox .pg{position:absolute;left:0;top:0;transform-origin:0 0;box-shadow:0 30px 70px -20px rgba(0,0,0,.65),0 6px 20px rgba(0,0,0,.35)}
+#pgbox.in-r .pg{animation:inr .45s cubic-bezier(.2,.8,.25,1)}
+#pgbox.in-l .pg{animation:inl .45s cubic-bezier(.2,.8,.25,1)}
+@keyframes inr{from{opacity:0;translate:40px 0}to{opacity:1;translate:0 0}}
+@keyframes inl{from{opacity:0;translate:-40px 0}to{opacity:1;translate:0 0}}
+.arr{position:absolute;top:50%;z-index:5;width:46px;height:46px;margin-top:-23px;border-radius:50%;border:1px solid rgba(255,255,255,.28);background:rgba(18,20,58,.72);backdrop-filter:blur(6px);display:grid;place-items:center;transition:background .2s,opacity .2s}
+.arr:hover{background:#fff;color:var(--bg)}
+.arr svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.arr.prev{left:18px}.arr.next{right:18px}
+.arr[disabled]{opacity:0;pointer-events:none}
+#pill{position:absolute;left:50%;bottom:18px;translate:-50% 0;z-index:5;font:500 12px var(--sans);letter-spacing:.04em;padding:8px 16px;border-radius:99px;background:rgba(18,20,58,.78);border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(6px);white-space:nowrap;pointer-events:none}
+
+/* 3D paper */
+#d3{touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+#d3.drag{cursor:grabbing}
+#scene{position:absolute;inset:44px 0 56px 0;perspective:4200px;perspective-origin:50% 50%}
+#floor{position:absolute;left:50%;bottom:2%;width:60%;height:7%;translate:-50% 0;border-radius:50%;background:radial-gradient(ellipse at center,rgba(0,0,0,.5),rgba(0,0,0,0) 70%);filter:blur(8px)}
+#sheet{position:absolute;left:50%;top:50%;width:1520px;height:1040px;margin:-520px 0 0 -760px;transform-style:preserve-3d}
+.half{position:absolute;top:0;width:760px;height:1040px;transform-style:preserve-3d}
+.half.l{left:0;transform-origin:100% 50%}
+.half.r{left:760px;transform-origin:0 50%}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.face.bk{transform:rotateY(180deg)}
+.face .pg{position:absolute;left:0;top:0}
+.face .sh{position:absolute;inset:0;background:#120f2c;opacity:0;pointer-events:none;z-index:9}
+#hint,#cap{position:absolute;left:50%;translate:-50% 0;z-index:5;font:500 12px var(--sans);letter-spacing:.04em;padding:8px 16px;border-radius:99px;background:rgba(18,20,58,.78);border:1px solid rgba(255,255,255,.2);white-space:nowrap;pointer-events:none;transition:opacity .5s}
+#hint{top:12px;display:flex;gap:10px;align-items:center}
+#hint svg{width:30px;height:12px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+#hint.gone{opacity:0}
+#cap{bottom:18px;color:rgba(255,255,255,.75)}
+html.clip .arr,html.clip #hint,html.clip #cap,html.clip #pill{display:none}
+@media(max-width:640px){.arr{display:none}#pgbox{margin:14px auto 64px}}
+@media(prefers-reduced-motion:reduce){#pgbox.in-r .pg,#pgbox.in-l .pg{animation:none}}
+
+/* ---------- the printed pages: 760 x 1040, newsprint with spot colour ---------- */
+.pg{width:760px;height:1040px;position:relative;overflow:hidden;background:var(--paper);color:var(--ink);padding:20px 30px 18px;display:flex;flex-direction:column;font-family:var(--sans);line-height:1.4}
+.pg::before{content:"";position:absolute;inset:0;z-index:20;pointer-events:none;background:
+ linear-gradient(to bottom,transparent 49.6%,rgba(0,0,0,.09) 50%,rgba(255,255,255,.5) 50.3%,transparent 50.9%),
+ url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .22 0 0 0 0 .15 0 0 0 .13 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
+.pg::after{content:"";position:absolute;top:0;bottom:0;width:46px;z-index:21;pointer-events:none}
+.pg.l::after{right:0;background:linear-gradient(to left,rgba(40,30,10,.20),rgba(40,30,10,.06) 40%,transparent)}
+.pg.r::after{left:0;background:linear-gradient(to right,rgba(40,30,10,.20),rgba(40,30,10,.06) 40%,transparent)}
+.k{font:700 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase}
+.ser{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.hx{font:800 54px/.96 var(--sans);letter-spacing:-.05em}
+.hl{font:800 31px/1 var(--sans);letter-spacing:-.04em}
+.hm{font:800 21px/1.04 var(--sans);letter-spacing:-.03em}
+.bd{font:400 12.4px/1.5 var(--sans);text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+.bd p+p{margin-top:.7em}
+.bd.cols{columns:3;column-gap:20px;column-rule:1px solid rgba(0,0,0,.28)}
+.bd.c2{columns:2;column-gap:20px;column-rule:1px solid rgba(0,0,0,.28)}
+.dc::first-letter{float:left;font:800 46px/.86 var(--sans);padding:3px 6px 0 0}
+.rule{height:3px;background:var(--ink)}
+.rule.t{height:1px}
+.folio{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px;border-top:1px solid var(--ink);font:600 9px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.tile{border-radius:16px;padding:14px 16px;position:relative}
+.t-b{background:var(--blue);color:#fff}
+.t-p{background:var(--pink);color:var(--blue)}
+.t-m{background:var(--mag);color:#fff}
+.t-n{background:var(--navy);color:#fff}
+.t-l{background:var(--lime);color:var(--ink)}
+.t-k{background:var(--ink);color:#f3efe4}
+.big{font:800 46px/.9 var(--sans);letter-spacing:-.06em}
+.cap2{font:500 11px/1.3 var(--sans)}
+.try{font:700 10px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.try::after{content:"";flex:1;height:1px;background:currentColor;opacity:.5}
+.sec{display:flex;gap:14px;align-items:flex-start}
+.num{flex:none;width:46px;height:46px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font:800 24px/1 var(--sans);letter-spacing:-.04em}
+.rep{display:block;white-space:nowrap;overflow:hidden;font:800 64px/.9 var(--sans);letter-spacing:-.05em;color:transparent;-webkit-text-stroke:1.3px var(--ink)}
+.band{background:var(--ink);color:#f3efe4;border-radius:14px}
+.pg>*{flex:none}
+html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgba(0,0,0,.09) 50%,rgba(255,255,255,.5) 50.3%,transparent 50.9%)}
+.cwg{display:grid;gap:1px;background:var(--ink);border:1px solid var(--ink);width:100%}
+.cw{background:#f3f0e6;color:var(--ink);display:grid;place-items:center;font:700 12px/1 var(--sans);font-style:normal;position:relative;aspect-ratio:1}
+.cw u{position:absolute;left:2px;top:1px;font:600 6.5px/1 var(--sans);text-decoration:none;color:var(--blue)}
+.cb{background:var(--ink);aspect-ratio:1}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><b>Mail Call</b>
+<div class="ctl">
+  <div class="grp" id="gm" role="group" aria-label="View"><button data-m="pages" class="on">Pages</button><button data-m="3d">3D paper</button></div>
+  <div class="grp pnum" id="gp" role="group" aria-label="Page"><button data-p="0" class="on" title="Front page">1</button><button data-p="1" title="Page 2">2</button><button data-p="2" title="Page 3">3</button><button data-p="3" title="Back page">4</button><button id="fit" style="min-width:0;padding:7px 14px" title="Show the whole page or fill the width">Fit page</button></div>
+  <div class="grp" id="g3" role="group" aria-label="Side" hidden><button data-s="out" class="on">Outside</button><button data-s="in">Inside</button></div>
+</div></nav>
+<main id="stage" class="m-pages">
+  <section id="flat" aria-label="Pages">
+    <div id="scroll"><div id="pgbox"></div></div>
+    <button class="arr prev" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="arr next" aria-label="Next page"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div id="pill">Page 1 of 4</div>
+  </section>
+  <section id="d3" aria-label="3D paper">
+    <div id="scene"><div id="floor"></div><div id="sheet"></div></div>
+    <div id="hint"><svg viewBox="0 0 30 12"><path d="M8 3L2 6l6 3M22 3l6 3-6 3M3 6h24"/></svg>Drag left or right to turn the paper</div>
+    <div id="cap">Outside · pages 4 | 1</div>
+  </section>
+</main>
+<script>
+/* ---------- ink illustrations (inline svg, no ids so every copy of a page is independent) ---------- */
+const INK='#16151a',PAP='#f1eee4',BLU='#4131f1',MAG='#d045dc',PNK='#f7dffa',LIM='#e4ee5c';
+const rect=(x,y,w,h,f='none',sw=2,extra='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" stroke="${INK}" stroke-width="${sw}" ${extra}/>`;
+const line=(x1,y1,x2,y2,sw=1.4)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${INK}" stroke-width="${sw}" stroke-linecap="round"/>`;
+function hatch(x,y,w,h,gap,sw=1){let s='';for(let i=gap;i<w+h;i+=gap){s+=line(x+Math.min(i,w),y+Math.max(0,i-w),x+Math.max(0,i-h),y+Math.min(i,h),sw)}return s}
+function swirl(cx,cy,r,turns=2.6,flip=1){let d='';for(let t=0;t<=turns*Math.PI*2;t+=.2){const rr=r*(t/(turns*Math.PI*2))+1.5;d+=(d?'L':'M')+(cx+flip*rr*Math.cos(t)).toFixed(1)+' '+(cy+rr*Math.sin(t)).toFixed(1)}return `<path d="${d}" fill="none" stroke="${INK}" stroke-width="1.8" stroke-linecap="round"/>`}
+function house(x,base,w,h,k){
+  const top=base-h,rh=Math.round(w*.34);let s='';
+  if(k%3===0){s+=`<path d="M${x-5} ${top}L${x+w/2} ${top-rh}L${x+w+5} ${top}Z" fill="${INK}" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>`}
+  else if(k%3===1){s+=`<path d="M${x-4} ${top}L${x+8} ${top-rh*.7}H${x+w-8}L${x+w+4} ${top}Z" fill="${PAP}" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/>`+hatch(x+8,top-rh*.7,w-16,rh*.7,5,1)}
+  else{s+=rect(x-3,top-8,w+6,8,INK,2)}
+  s+=rect(x,top,w,h,PAP,2);
+  const cols=Math.max(2,Math.floor(w/26)),rows=Math.max(2,Math.floor((h-34)/30));
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const wx=x+8+c*((w-16)/cols)+3,wy=top+10+r*30;const lit=(r*3+c+k)%5===0;s+=rect(wx,wy,(w-16)/cols-8,16,lit?PNK:'none',1.5)+line(wx+((w-16)/cols-8)/2,wy,wx+((w-16)/cols-8)/2,wy+16,1)}
+  s+=rect(x+w/2-7,base-24,14,24,k%2?BLU:INK,1.6);
+  if(k%4===1)s+=rect(x+w-16,top-rh*.55-14,8,14,PAP,1.8);
+  return s}
+function envelope(cx,cy,w,h,rot,fill=PAP,stamp=BLU,cancel=true){
+  const x=-w/2,y=-h/2;let s=`<g transform="translate(${cx} ${cy}) rotate(${rot})">`;
+  s+=rect(x,y,w,h,fill,2.2,'stroke-linejoin="round"');
+  s+=`<path d="M${x} ${y}L0 ${y+h*.58}L${x+w} ${y}" fill="none" stroke="${INK}" stroke-width="1.8" stroke-linejoin="round"/>`;
+  s+=rect(x+w-.27*w,y+h*.46,.2*w,.3*h,stamp,1.6,'stroke-dasharray="2.4 1.8"');
+  if(cancel){for(let i=0;i<3;i++)s+=`<path d="M${x+w*.34} ${y+h*(.66+i*.1)}q${w*.07} -${h*.06} ${w*.14} 0t${w*.14} 0" fill="none" stroke="${INK}" stroke-width="1.3"/>`}
+  s+=line(x+w*.1,y+h*.78,x+w*.3,y+h*.78)+line(x+w*.1,y+h*.9,x+w*.26,y+h*.9);
+  return s+'</g>'}
+function postmark(cx,cy,r){return `<g><circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${INK}" stroke-width="2.4"/><circle cx="${cx}" cy="${cy}" r="${r-7}" fill="none" stroke="${INK}" stroke-width="1.2" stroke-dasharray="3 3"/><text x="${cx}" y="${cy-2}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="${r*.42}" fill="${INK}" letter-spacing="-1">LOB</text><text x="${cx}" y="${cy+r*.36}" text-anchor="middle" font-family="Inter,sans-serif" font-weight="700" font-size="${r*.2}" fill="${INK}" letter-spacing="1.5">2026</text>${[0,1,2,3].map(i=>`<path d="M${cx+r+6} ${cy-12+i*8}q10 -6 20 0t20 0t20 0" fill="none" stroke="${INK}" stroke-width="2"/>`).join('')}</g>`}
+function mailbox(cx,base,sc=1){
+  return `<g transform="translate(${cx} ${base}) scale(${sc})">`+
+  rect(-6,-92,12,92,PAP,2.4)+hatch(-6,-92,12,92,6,.9)+
+  `<path d="M-64 -86V-122a40 40 0 0 1 40-40H24a40 40 0 0 1 40 40V-86Z" fill="${BLU}" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>`+
+  `<path d="M-52 -92V-122a28 28 0 0 1 28-28H20a28 28 0 0 1 28 28V-92" fill="none" stroke="#fff" stroke-width="2.4" opacity=".85"/>`+
+  `<text x="0" y="-108" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="19" fill="#fff" letter-spacing="-.5">lob</text>`+
+  rect(-72,-88,144,8,INK,0)+
+  rect(64,-150,5,64,PAP,2)+`<path d="M69 -150h34v22H69Z" fill="${MAG}" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>`+
+  envelope(-26,-170,56,38,-12,PAP,MAG,false)+envelope(8,-176,54,36,9,PNK,BLU,false)+
+  `</g>`}
+function skyline(){
+  let s='';
+  [[12,92,128],[96,84,160],[184,104,120],[296,92,146],[392,102,170],[494,90,126],[584,108,150]].forEach((a,i)=>s+=house(a[0],232,a[1],a[2],i));
+  s+=`<rect x="0" y="232" width="700" height="58" fill="${PAP}"/>`+line(0,232,700,232,3)+hatch(0,236,700,16,6,.9)+line(0,254,700,254,1.5);
+  for(let i=0;i<9;i++)s+=rect(14+i*80,266,44,8,INK,0);
+  s+=swirl(78,42,26,2.4)+swirl(630,34,22,2.2,-1)+swirl(560,92,13,2,1)+swirl(176,20,12,2,-1);
+  s+=postmark(250,62,34);
+  s+=envelope(470,70,72,50,10,PAP,MAG)+envelope(140,150,58,40,-16,PNK,BLU,false)+envelope(612,140,60,42,-8,PAP,BLU,false);
+  s+=mailbox(352,262,1.12);
+  return `<svg viewBox="0 30 700 246" width="100%" role="img" aria-label="Ink illustration of a mailbox with envelopes flying over a street of houses">${s}</svg>`}
+function mbIcon(c=INK){return `<svg viewBox="0 0 100 100" width="84" height="84" fill="none" stroke="${c}" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 64V46a20 20 0 0 1 20-20h34a20 20 0 0 1 20 20V64Z"/><path d="M47 64v28M36 92h22"/><path d="M80 24V8h14v10H80"/><path d="M30 42h30" stroke-width="3"/><path d="M26 14l-4-8M40 10V2M54 14l4-8" stroke-width="3.5"/></svg>`}
+function fatigue(){
+  let s='';const cw=34,ch=23;
+  for(let r=0;r<5;r++)for(let c=0;c<12;c++){const x=6+c*(cw+3),y=6+r*(ch+3);const hot=(r*12+c)%11===4;
+    s+=`<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="2" fill="${hot?'#c9c2b0':'none'}" stroke="${INK}" stroke-width="1.1" opacity=".55"/><path d="M${x} ${y}l${cw/2} ${ch*.55}l${cw/2} -${ch*.55}" fill="none" stroke="${INK}" stroke-width="1" opacity=".55"/>`;
+    if(hot)s+=`<circle cx="${x+cw-3}" cy="${y+3}" r="4.5" fill="${MAG}"/>`}
+  s+=`<rect x="472" y="2" width="226" height="140" rx="10" fill="${PNK}" stroke="${INK}" stroke-width="2.6"/>`+
+     `<rect x="486" y="16" width="102" height="112" rx="4" fill="${BLU}"/><path d="M486 128l34-40 26 26 16-14 26 28Z" fill="${INK}" opacity=".35"/><circle cx="548" cy="46" r="14" fill="${LIM}"/>`+
+     line(606,40,676,40,2)+line(606,54,664,54,2)+line(606,68,672,68,2)+line(606,82,650,82,2)+
+     `<rect x="632" y="88" width="46" height="40" fill="${LIM}" stroke="${INK}" stroke-width="2" stroke-dasharray="3 2.4"/><circle cx="655" cy="108" r="10" fill="none" stroke="${INK}" stroke-width="2"/>`;
+  return `<svg viewBox="0 0 700 146" width="100%" role="img" aria-label="Hundreds of small email icons beside one printed postcard">${s}</svg>`}
+function donut(p,c=BLU,sz=92){const r=36,C=2*Math.PI*r;return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}"><circle cx="50" cy="50" r="${r}" fill="none" stroke="${INK}" stroke-opacity=".18" stroke-width="14"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${c}" stroke-width="14" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/></svg>`}
+function dots(n,of=10,c=BLU){let s='';for(let i=0;i<of;i++)s+=`<circle cx="${9+i*17}" cy="9" r="7" fill="${i<n?c:'none'}" stroke="${INK}" stroke-width="1.6" ${i<n?'':'stroke-opacity=".45"'}/>`;return `<svg viewBox="0 0 ${of*17} 18" width="100%">${s}</svg>`}
+function crossword(){
+  const W=[['POSTCARD',3,1,'a'],['LETTER',1,4,'d'],['ROUTE',2,2,'d'],['MAILBOX',2,6,'d'],['DIGITAL',3,8,'d']];
+  const g={};let r0=99,c0=99,r1=0,c1=0;
+  W.forEach(([w,r,c,d])=>[...w].forEach((ch,i)=>{const rr=r+(d==='d'?i:0),cc=c+(d==='a'?i:0);g[rr+','+cc]=ch;r0=Math.min(r0,rr);r1=Math.max(r1,rr);c0=Math.min(c0,cc);c1=Math.max(c1,cc)}));
+  const starts={};W.slice().sort((a,b)=>a[1]-b[1]||a[2]-b[2]).forEach((w,i)=>starts[w[1]+','+w[2]]=i+1);
+  let cells='';for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++){const ch=g[r+','+c];cells+=ch?`<i class="cw">${starts[r+','+c]?`<u>${starts[r+','+c]}</u>`:''}${ch}</i>`:`<i class="cb"></i>`}
+  return `<div class="cwg" style="grid-template-columns:repeat(${c1-c0+1},1fr);aspect-ratio:${c1-c0+1}/${r1-r0+1}">${cells}</div>`}
+/* ---------- the four pages (Lob's State of Direct Mail 2026 article, set as a newspaper) ---------- */
+const foot=(n,t)=>`<div class="folio"><span>Mail Call · ${t}</span><span>lob.com</span><span>${n}</span></div>`;
+const trys=(items,cls)=>items.map((t,i)=>`<div class="tile ${cls[i]}" style="flex:1"><div class="hm" style="font-size:16px;margin-bottom:8px">${t[0]}</div><div style="font:400 11.5px/1.45 var(--sans)">${t[1]}</div></div>`).join('');
+const PG=[
+/* 1 · front page */
+()=>`
+<span class="rep" style="font-size:44px;height:36px;margin:-4px 0 5px">lob lob lob lob lob lob</span>
+<div class="rule"></div>
+<div class="k" style="text-align:center;padding:6px 0 5px;font-size:9px">Free limited edition printed issue · State of Direct Mail 2026</div>
+<div class="rule t"></div>
+<div style="display:flex;align-items:center;justify-content:center;gap:26px;padding:10px 0 4px">
+  <div style="font:800 80px/.82 var(--sans);letter-spacing:-.07em">MAIL<br>CALL</div>${mbIcon()}
+</div>
+<div class="ser" style="text-align:center;font-size:17px;padding-bottom:8px">Bite-sized direct mail insights</div>
+<div class="rule"></div>
+<div style="display:grid;grid-template-columns:1fr 1.05fr;border-bottom:1px solid var(--ink)">
+  <div style="padding:9px 18px 9px 0;border-right:1px solid var(--ink)">
+    <div class="hm" style="font-size:17px;margin-bottom:8px">IN THIS ISSUE</div>
+    <ul style="list-style:none;padding:0;font:500 12px/1.35 var(--sans);display:grid;gap:3px">
+      <li>▪ Why mail is a daily ritual <b>p.2</b></li><li>▪ What makes mail worth keeping <b>p.3</b></li><li>▪ Meeting people on their terms <b>p.4</b></li><li>▪ Solve our mailbox crossword <b>p.4</b></li>
+    </ul></div>
+  <div style="padding:9px 0 9px 18px"><div class="hm" style="font-size:17px;margin-bottom:6px">BREAKING NEWS</div>
+    <div style="font:500 12.4px/1.4 var(--sans)">Lob's State of Direct Mail 2026: more than <b>80%</b> of consumers collect their mail daily or nearly daily, and <b>87%</b> read it the same day they bring it inside.</div></div>
+</div>
+<div class="hx" style="margin:10px 0 0;font-size:50px">What the mailbox <span class="ser" style="font-size:57px;letter-spacing:-.03em">moment</span> really reveals</div>
+<div style="font:600 10px/1 var(--sans);letter-spacing:.06em;margin:8px 0 10px">BY THE LOB NEWSLETTER · <span style="font-weight:400">What the 2026 State of Direct Mail says about the one routine your customers never skip</span></div>
+<div style="border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:3px 0 1px">${skyline()}</div>
+<div class="bd cols" style="margin-top:14px">
+<p class="dc">Direct mail is one of the few marketing touchpoints that feels native. According to Lob's State of Direct Mail 2026: Consumer Insights, more than 80% of consumers collect their mail daily or nearly daily, and 87% read direct mail the same day they bring it in.</p>
+<p>Mail doesn't interrupt. It seamlessly blends into everyday life. Going to the mailbox is routine, a daily habit shared across demographics, geographies and generations.</p>
+<p><b>Your customers are already showing up to the mailbox. So give them something worth saving.</b></p></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 0">
+  <div class="tile t-b" style="padding:9px 14px"><div class="big" style="font-size:34px">80%+</div><div class="cap2" style="margin-top:6px">collect their mail daily or nearly daily</div></div>
+  <div class="tile t-p" style="padding:9px 14px"><div class="big" style="font-size:34px">87%</div><div class="cap2" style="margin-top:6px">read direct mail the same day it arrives</div></div>
+  <div class="tile t-m" style="padding:9px 14px"><div class="big" style="font-size:34px">70%</div><div class="cap2" style="margin-top:6px">took an online action after getting direct mail</div></div>
+</div>
+${foot(1,'Front page')}`,
+
+/* 2 · inside left */
+()=>`
+<div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:7px" class="k"><span>Mail Call</span><span>The mailbox moment</span><span>Page 2</span></div>
+<div class="rule"></div>
+<div style="display:grid;grid-template-columns:1.25fr 1fr;gap:22px;margin:16px 0 0;align-items:start">
+  <div><div class="k" style="color:var(--blue);margin-bottom:10px">Mail is a daily ritual</div>
+    <div class="hl" style="font-size:36px">Going to the mailbox is routine. <span class="ser" style="font-size:41px">That is the opportunity.</span></div>
+    <div class="bd" style="margin-top:12px"><p>Mail doesn't interrupt. Instead, it seamlessly blends into everyday life. It is a daily habit shared across demographics, geographies and generations.</p><p>People check for mail, sort through the stack and, in just a few seconds, decide whether it's worth opening, reading or keeping.</p></div></div>
+  <div class="tile t-b" style="padding:20px 20px 22px"><div class="ser" style="font-size:27px;line-height:1.08;letter-spacing:-.02em">“Your customers are already showing up to the mailbox. So give them something worth saving.”</div><div class="k" style="margin-top:14px;color:var(--pink)">Here's how</div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:18px 0 0">
+  <div style="border:1.5px solid var(--ink);border-radius:14px;padding:11px 14px"><div class="k" style="color:var(--blue)">Step 1</div><div class="hm" style="margin-top:5px">Check the mail</div><div class="cap2" style="margin-top:4px">Every day, or close to it</div></div>
+  <div style="border:1.5px solid var(--ink);border-radius:14px;padding:11px 14px"><div class="k" style="color:var(--blue)">Step 2</div><div class="hm" style="margin-top:5px">Sort the stack</div><div class="cap2" style="margin-top:4px">In just a few seconds</div></div>
+  <div style="background:var(--ink);color:#f3efe4;border-radius:14px;padding:11px 14px"><div class="k" style="color:var(--lime)">Step 3</div><div class="hm" style="margin-top:5px">Open, read or keep?</div><div class="cap2" style="margin-top:4px">Your window to win</div></div>
+</div>
+<div style="height:2px;background:var(--ink);margin:24px 0 18px"></div>
+<div class="sec"><div class="num">1</div><div style="flex:1"><div class="hl" style="font-size:42px">Build on existing routines</div></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0">
+  <div class="tile t-p" style="display:flex;gap:10px;align-items:center;padding:12px 12px">${donut(63,BLU,78)}<div><div class="big" style="font-size:34px">63%</div><div class="cap2" style="margin-top:4px">collect their mail every single day</div></div></div>
+  <div class="tile t-l" style="padding:12px 14px"><div class="big" style="font-size:34px">7 in 10</div><div class="cap2" style="margin:5px 0 9px">Boomers check mostly out of habit</div>${dots(7,10,INK)}</div>
+  <div class="tile t-m" style="padding:12px 14px"><div class="big" style="font-size:34px">49%</div><div class="cap2" style="margin:5px 0 9px">of Gen Z check because they're expecting something</div><div style="height:10px;border-radius:99px;background:rgba(255,255,255,.3)"><div style="width:49%;height:100%;border-radius:99px;background:#fff"></div></div></div>
+</div>
+<div class="bd c2" style="font-size:13px"><p>Nearly two thirds of consumers (63%) collect their mail every single day. But the motivations vary by generation. More than 7 in 10 Boomers say they check their mail primarily out of habit, while 49% of Gen Z check because they're expecting something.</p><p>No matter the reason, your goal is the same: land in the moment. Meet people where the routine already is, and the mailbox does the rest of the work for you.</p></div>
+<div class="try" style="margin:24px 0 12px;color:var(--blue)">Try this in your next campaign</div>
+<div style="display:flex;gap:10px;align-items:stretch;font-size:12px">${trys([
+['Time for relevance','Align your in-home delivery windows around seasonal needs, purchase cycles, milestones or product eligibility. A well-timed campaign feels more useful than mail that misses the moment.'],
+['Lead with your brand','When you use consistent branding, your mail becomes more credible and trustworthy before customers read a single word.'],
+['Design for split-second decisions','Use design strategically: white space, color theory, typography and hierarchy instantly signal that your mail deserves a closer look.']],['t-b','t-n','t-k'])}</div>
+${foot(2,'Page two')}`,
+
+/* 3 · inside right */
+()=>`
+<div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:7px" class="k"><span>Page 3</span><span>The mailbox moment</span><span>Mail Call</span></div>
+<div class="rule"></div>
+<div class="sec" style="margin-top:14px"><div class="num">2</div><div style="flex:1"><div class="hl" style="font-size:38px">Give people a reason to keep reading</div></div></div>
+<div style="margin:14px 0 4px;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:10px 0 6px">${fatigue()}
+  <div style="display:flex;justify-content:space-between" class="k"><span>Hundreds of digital messages a day</span><span>One piece of mail you can hold</span></div></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0">
+  <div class="tile t-b" style="padding:11px 14px"><div class="big" style="font-size:36px">27%</div><div class="cap2" style="margin-top:6px">say direct mail stands out from digital ads</div></div>
+  <div class="tile t-p" style="padding:11px 14px"><div class="big" style="font-size:36px">35%</div><div class="cap2" style="margin-top:6px">are more likely to notice and remember direct mail</div></div>
+  <div class="tile t-m" style="padding:11px 14px"><div class="big" style="font-size:36px">54%</div><div class="cap2" style="margin-top:6px">toss mail that looks like a scam or mass-produced</div></div>
+</div>
+<div class="bd c2"><p class="dc">Today's consumers are bombarded with hundreds, even thousands, of digital messages a day. As digital fatigue grows, the tactile quality of direct mail becomes even more impactful.</p><p>45% of people are turned off by mail with no clear value, and nearly half are tired of pushy language and manufactured deadlines.</p></div>
+<div class="try" style="margin:14px 0 9px;color:var(--blue)">Try this</div>
+<div style="display:flex;gap:10px">${trys([
+['Prove your value quickly','Make your mail something people actually want, and say what is in it for them before they decide to toss it.'],
+['Skip the fake urgency','Give them a real reason to act instead of just “ACT NOW” messaging.'],
+['Make it personal','Personalization can make or break campaign ROI.']],['t-k','t-n','t-b'])}</div>
+<div style="height:2px;background:var(--ink);margin:20px 0 14px"></div>
+<div class="sec"><div class="num" style="background:var(--mag)">3</div><div style="flex:1"><div class="hl" style="font-size:32px">Design for more than an immediate response</div></div></div>
+<div style="display:grid;grid-template-columns:150px 1fr;gap:16px;margin-top:12px;align-items:start">
+  <div class="tile t-l" style="padding:12px 14px"><div class="big" style="font-size:40px">33%</div><div class="cap2" style="margin-top:6px">value mail because they can remember it or come back to it later</div></div>
+  <div class="bd"><p>Useful mail is more likely to be read and held on to. Give yours a longer life by including information worth keeping: product comparisons, deadlines, pricing, checklists, special offers or discount codes turn mail into a resource people can return to when they're ready.</p></div>
+</div>
+<div class="try" style="margin:14px 0 9px;color:var(--blue)">Try this</div>
+<div style="display:flex;gap:10px">${trys([
+['Add staying power','Value that works instantly and over time.'],
+['Create for a longer look','Letters and catalogs give you room to tell your story.'],
+['Make it memorable','Distinctive creative and digital touchpoints invite interaction.']],['t-p','t-m','t-b'])}</div>
+${foot(3,'Page three')}`,
+
+/* 4 · back cover */
+()=>`
+<div style="display:grid;grid-template-columns:1fr 1.18fr;gap:14px">
+  <div class="tile" style="background:#dfe9d6;padding:16px 18px;display:flex;flex-direction:column;justify-content:space-between;min-height:232px">
+    <div><span class="rep" style="font-size:40px;height:35px;-webkit-text-stroke:1.1px var(--ink)">lob</span><span class="rep" style="font-size:40px;height:35px;-webkit-text-stroke:1.1px var(--ink)">lob</span><span class="rep" style="font-size:40px;height:35px;color:var(--ink)">lob</span><span class="rep" style="font-size:40px;height:35px;-webkit-text-stroke:1.1px var(--ink)">lob</span></div>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end"><div style="font:500 13px/1.25 var(--sans)">Great mail makes<br>great campaigns</div>${mbIcon()}</div></div>
+  <div class="tile t-n" style="padding:12px 14px 14px"><div style="display:flex;justify-content:space-between;align-items:baseline"><div class="hm" style="font-size:18px">Mailbox crossword</div><div class="k" style="font-size:8px;color:var(--pink)">Answer key</div></div>
+    <div style="display:grid;grid-template-columns:172px 1fr;gap:14px;margin-top:12px;align-items:start"><div>${crossword()}</div>
+    <div style="font:400 10.5px/1.45 var(--sans);color:rgba(255,255,255,.9)"><b style="color:var(--lime)">Across</b><br>4 A mail piece with a picture (8)<br><b style="color:var(--lime)">Down</b><br>1 Longer format with room for the story (6)<br>2 The carrier's daily path (5)<br>3 Where customers show up daily (7)<br>5 The fatigue that makes mail stand out (7)</div></div></div>
+</div>
+<div style="height:2px;background:var(--ink);margin:18px 0 14px"></div>
+<div class="sec"><div class="num" style="background:var(--navy)">4</div><div style="flex:1"><div class="hl" style="font-size:42px">Connect with customers on their terms</div></div></div>
+<div style="display:grid;grid-template-columns:150px 1fr;gap:16px;margin-top:14px;align-items:start">
+  <div class="tile t-b" style="padding:12px 14px"><div class="big" style="font-size:46px">70%</div><div class="cap2" style="margin-top:6px">of consumers have taken an online action after receiving direct mail</div></div>
+  <div class="bd" style="font-size:13px"><p class="dc">Direct mail campaigns thrive when you go beyond the mailbox. There's no single path from awareness to action to attribution. Some consumers may research the brand online. Another may head to the store. Others prefer to scan a QR code or visit a PURL.</p></div>
+</div>
+<div style="margin:14px 0 0;border-top:1px solid var(--ink);border-bottom:1px solid var(--ink);padding:10px 0 8px">
+  <div class="k" style="margin-bottom:8px">How people say they'd follow up on mail <span style="font-weight:500;letter-spacing:.04em;text-transform:none">· illustrative, see the full report for the data</span></div>
+  ${[['Scan a QR code',100,BLU],['Go to their store location',82,MAG],['Follow a personalized URL',68,BLU],['Call a phone number',54,MAG],['Follow a general URL',44,BLU],['Search the brand themselves',34,MAG]].map(r=>`<div style="display:grid;grid-template-columns:174px 1fr;gap:8px;align-items:center;margin:4px 0;font:500 11.5px/1 var(--sans)"><span>${r[0]}</span><i style="display:block;height:15px;width:${r[1]}%;background:${r[2]};border-radius:0 6px 6px 0"></i></div>`).join('')}</div>
+<div class="try" style="margin:14px 0 9px;color:var(--blue)">Try this in your next campaign</div>
+<div style="display:flex;gap:10px">${trys([
+['Flexible response paths','Let people engage in their preferred format. More entry points means more conversion opportunities.'],
+['Omnichannel, aligned','Continue the journey your mail started with continuity across digital and physical touchpoints.'],
+['Track multiple signals','Use direct and indirect metrics to remove blind spots and see customer behavior clearly.']],['t-k','t-p','t-b'])}</div>
+<div class="band" style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;margin-top:14px;background:var(--mag);color:#fff"><div class="hm" style="font-size:21px">Get more consumer insights in the 2026 State of Direct Mail report.</div><div style="flex:none;background:#fff;color:var(--ink);border-radius:99px;padding:9px 16px;font:700 12px/1 var(--sans)">lob.com →</div></div>
+${foot(4,'Back page')}`
+];
+const SIDE=['r','l','r','l'];            // gutter side of each page when it is part of a spread
+const pageEl=(i,side)=>`<div class="pg ${side||''}" data-n="${i+1}">${PG[i]()}</div>`;
+/* ---------- viewer: flat pages + 3D folded paper ---------- */
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const H=location.hash,CLIP=/clip/.test(H);
+if(CLIP)document.documentElement.classList.add('clip');
+const st={mode:/3d|clip/.test(H)?'3d':'pages',page:Math.max(0,Math.min(3,(+(H.match(/p=(\d)/)||[])[1]||1)-1)),fit:false,th:CLIP?-7:0,vel:0,drag:false,anim:0};
+const stage=$('#stage'),box=$('#pgbox'),scroll=$('#scroll'),sheet=$('#sheet'),pill=$('#pill');
+
+/* the sheet: a double sided, folded broadsheet. Outside spread = pages 4 | 1, turn it over = inside spread 2 | 3 */
+const face=(i,side,bk)=>`<div class="face ${bk?'bk':''}">${pageEl(i,side)}<div class="sh"></div></div>`;
+sheet.innerHTML=`<div class="half l">${face(3,'l')}${face(2,'r',1)}</div><div class="half r">${face(0,'r')}${face(1,'l',1)}</div>`;
+const hl=$('.half.l'),hr=$('.half.r'),sh=$$('.sh');   // sh: Lfront, Lback, Rfront, Rback
+
+/* flat view */
+function layoutFlat(){
+  const w=scroll.clientWidth,h=scroll.clientHeight,pad=w<641?20:56;
+  const s=st.fit?Math.min((w-pad)/760,(h-(w<641?60:70))/1040):Math.min((w-pad)/760,1.4);
+  box.style.width=760*s+'px';box.style.height=1040*s+'px';
+  const pg=box.firstElementChild;if(pg)pg.style.transform='scale('+s+')'}
+function showPage(i,dir){
+  st.page=i;box.className='';box.innerHTML=pageEl(i,'');void box.offsetWidth;if(dir)box.className=dir>0?'in-r':'in-l';
+  layoutFlat();scroll.scrollTop=0;
+  $$('#gp [data-p]').forEach(b=>b.classList.toggle('on',+b.dataset.p===i));
+  $('.arr.prev').disabled=i===0;$('.arr.next').disabled=i===3;pill.textContent='Page '+(i+1)+' of 4'}
+function setMode(m){
+  st.mode=m;stage.className='m-'+m;$$('#gm button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));
+  $('#gp').hidden=m!=='pages';$('#g3').hidden=m!=='3d';
+  if(m==='pages')layoutFlat();else{layout3();draw(performance.now())}}
+
+/* 3D */
+let S=.5;
+function layout3(){const w=$('#scene').clientWidth,h=$('#scene').clientHeight;S=Math.min(w*.94/1600,h*.94/1060)}
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),rad=Math.PI/180;
+const shade=(phi,back)=>clamp((1-Math.cos((phi+(back?180:0)+22)*rad))*.4,0,.6);
+let lastSide=null;
+function draw(t){
+  const c=Math.cos(st.th*rad),a=11*c,idle=(st.drag||CLIP)?0:1;
+  const rx=-3+idle*Math.sin(t/1900)*1.6,ry=idle*Math.sin(t/2700)*2.2,y=idle*Math.sin(t/2300)*5;
+  sheet.style.transform=`translateY(${y}px) scale(${S}) rotateX(${rx}deg) rotateY(${st.th+ry}deg)`;
+  hl.style.transform=`rotateY(${a}deg)`;hr.style.transform=`rotateY(${-a}deg)`;
+  const T=st.th+ry,pl=T+a,pr=T-a;
+  sh[0].style.opacity=shade(pl,0);sh[1].style.opacity=shade(pl,1);sh[2].style.opacity=shade(pr,0);sh[3].style.opacity=shade(pr,1);
+  $('#floor').style.width=(26+34*Math.abs(c))+'%';
+  const side=c>=0?'out':'in';
+  if(side!==lastSide){lastSide=side;$('#cap').textContent=side==='out'?'Outside · pages 4 | 1':'Inside · pages 2 | 3';$$('#g3 [data-s]').forEach(b=>b.classList.toggle('on',b.dataset.s===side))}}
+function loop(t){draw(t);requestAnimationFrame(loop)}
+function goTo(target,ms){
+  cancelAnimationFrame(st.anim);const from=st.th,t0=performance.now(),d=ms||clamp(Math.abs(target-from)*7+250,350,1400);
+  (function f(t){const k=clamp((t-t0)/d,0,1),e=1-Math.pow(1-k,3);st.th=from+(target-from)*e;if(k<1)st.anim=requestAnimationFrame(f)})(t0)}
+const near=(v,off)=>Math.round((v-off)/360)*360+off;
+function turn(side,ms){goTo(side==='out'?near(st.th,0):near(st.th,180),ms)}
+
+/* dragging turns the paper; letting go settles on the nearest face */
+const d3=$('#d3');let px=0,pt=0;
+d3.addEventListener('pointerdown',e=>{if(e.button)return;cancelAnimationFrame(st.anim);st.drag=true;st.vel=0;px=e.clientX;pt=performance.now();d3.classList.add('drag');d3.setPointerCapture(e.pointerId);$('#hint').classList.add('gone')});
+d3.addEventListener('pointermove',e=>{if(!st.drag)return;const now=performance.now(),dx=e.clientX-px,dt=Math.max(1,now-pt);st.th+=dx*.34;st.vel=st.vel*.6+(dx*.34/dt)*.4;px=e.clientX;pt=now});
+const up=()=>{if(!st.drag)return;st.drag=false;d3.classList.remove('drag');goTo(Math.round((st.th+st.vel*170)/180)*180)};
+d3.addEventListener('pointerup',up);d3.addEventListener('pointercancel',up);
+
+/* controls */
+$$('#gm button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+$$('#gp [data-p]').forEach(b=>b.onclick=()=>{const i=+b.dataset.p;if(i!==st.page)showPage(i,i>st.page?1:-1)});
+$$('#g3 [data-s]').forEach(b=>b.onclick=()=>turn(b.dataset.s));
+$('#fit').onclick=e=>{st.fit=!st.fit;e.target.classList.toggle('on',st.fit);e.target.textContent=st.fit?'Fill width':'Fit page';layoutFlat();scroll.scrollTop=0};
+$('.arr.prev').onclick=()=>st.page>0&&showPage(st.page-1,-1);
+$('.arr.next').onclick=()=>st.page<3&&showPage(st.page+1,1);
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const r=e.key==='ArrowRight';
+    if(st.mode==='pages'){const i=st.page+(r?1:-1);if(i>=0&&i<4)showPage(i,r?1:-1)}else goTo(Math.round(st.th/180)*180+(r?180:-180))}});
+let sx=0,sy=0;
+scroll.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+scroll.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>70&&Math.abs(dx)>Math.abs(dy)*2){const i=st.page+(dx<0?1:-1);if(i>=0&&i<4)showPage(i,dx<0?1:-1)}},{passive:true});
+addEventListener('resize',()=>{layoutFlat();layout3()});
+
+showPage(st.page,0);layout3();setMode(st.mode);requestAnimationFrame(loop);
+/* recorder hooks */
+window.__np={set:d=>{cancelAnimationFrame(st.anim);st.th=d},go:(d,ms)=>goTo(d,ms),mode:setMode,state:st};
+</script>
+<script>/* sandbox project bar: on phones its controls move to a panel under the visual */
+(function(){var nav=document.querySelector('nav.back'),c=nav&&nav.querySelector(':scope>div');if(!c)return;var mq=matchMedia('(max-width:640px)'),p=document.createElement('nav');p.className='back sb-panel';p.setAttribute('aria-label','Controls');var at=(nav.dataset.panelAfter&&document.querySelector(nav.dataset.panelAfter))||nav.nextElementSibling;at.after(p);function put(){(mq.matches?p:nav).appendChild(c);p.style.display=mq.matches?'':'none'}put();mq.addEventListener('change',put)})();
+</script>
+</body>
+</html>
