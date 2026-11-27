@@ -1,5 +1,14 @@
 [
   {
+    "id": "wave-tax-weave-walkthrough",
+    "title": "Wave Tax Weave Walkthrough",
+    "category": "Motion",
+    "url": "wave-tax-weave-walkthrough/",
+    "thumbnail": "wave-tax-weave-walkthrough/thumb.png",
+    "preview": "wave-tax-weave-walkthrough/thumb.webp",
+    "alt": "A three-stage walkthrough of a Figma Weave paid ads pipeline for Wave's File without fear tax campaign: on a dark node canvas, subject, art direction, camera and palette prompts feed a Prompt Concatenator and Prompt Enhancer into Nano Banana, which renders twelve origami dragons, tigers, snakes and hydras folded from printed tax forms on Wave blue, navy and cream, while a copy brief runs through a copywriter node into ten headlines, both landing in a sheet and a Figma Buzz node that counts up to 480 ad variants; then a Figma page fills with 480 frames across Reel, Feed, LinkedIn and Inline templates and zooms out to show them all; then an Instagram Reel, Facebook feed post, LinkedIn sponsored post and inline article ad cycle with the campaign copy."
+  },
+  {
     "id": "wave-file-without-fear",
     "title": "Wave File Without Fear",
     "category": "Landing Page",
