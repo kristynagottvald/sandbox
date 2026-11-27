@@ -34,6 +34,13 @@ const APPS = {
     await p.evaluate(() => window.__rb.play({ from: 26.1, speed: 1.3, loop: false }));
     await sleep(1500);
   } },
+  // Wave File Without Fear, a Wave tax-season landing page: on full-bleed blue, a paper dragon folded from a CRA T1 form holds, then unfolds in 12 fps stop motion into a flat creased sheet (starts on the folded dragon)
+  'wave-file-without-fear': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1200, q: 44, run: async (p) => {
+    await p.evaluate(() => window.__rb.seek(0));
+    await sleep(700);
+    await p.evaluate(() => window.__rb.play({ from: 0, speed: 1.05, loop: false, to: 5.95 }));
+    await sleep(5800);
+  } },
   // Lob Get Started mockup on dark navy: "build your way" around the cycling mail collage, then the page scrolls into the five stacked templates and the middle one opens into the full template preview
   'lob-get-started': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
     await p.evaluate(() => window.__rb.play());
