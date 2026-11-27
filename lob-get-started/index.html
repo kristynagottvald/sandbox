@@ -87,8 +87,8 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .chipfile .ok{width:22px;height:22px;border-radius:6px;background:var(--lime);display:grid;place-items:center}
 /* hero postcard: abstract blocks -> high fidelity -> bleed + crop -> QA scan -> checks */
 .hc{position:absolute;left:0;top:0;width:700px;height:430px;transform-origin:0 0;--pu:#4131f1;--mint:#c9f0e4;--hot:#d244de}
-.post{position:absolute;left:80px;top:62px;width:540px;height:300px;border-radius:4px;transition:box-shadow .5s}
-.post.on{box-shadow:0 26px 60px rgba(0,0,0,.45)}
+.pcv{position:absolute;left:0;top:0;width:700px;height:430px}
+.post{position:absolute;left:80px;top:34px;width:540px;height:363px;pointer-events:none}
 .blk{position:absolute;box-sizing:border-box;border:2.5px solid var(--lav);background:rgba(169,156,255,.12);border-radius:6px;opacity:0;transform:scale(.7);transition:opacity .3s,transform .45s cubic-bezier(.2,1.6,.4,1),background .5s,border-color .5s,border-radius .5s}
 .blk.in{opacity:1;transform:none}
 .blk.hf{background:var(--hf);border-color:transparent;border-radius:0}
@@ -119,56 +119,55 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 #bU.hf .url{background:var(--hot);border-color:var(--hot)}
 .blk .logo{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font:700 19px var(--sans);letter-spacing:-.03em;color:#fff;opacity:0;transition:opacity .4s}
 #bL.hf .logo{opacity:1}#bL.hf .bar{opacity:0}
-.ants2{position:absolute;left:283px;top:-4px;width:261px;height:252px;border:2.5px dashed var(--mint);border-radius:5px;opacity:0;transition:opacity .25s}
+.ants2{position:absolute;left:283px;top:-4px;width:261px;height:303px;border:2.5px dashed var(--mint);border-radius:5px;opacity:0;transition:opacity .25s}
 .scanl{position:absolute;left:-14px;right:-14px;top:0;height:3px;background:var(--mint);box-shadow:0 0 18px 4px rgba(201,240,228,.8);opacity:0}
-.bleed{position:absolute;left:68px;top:50px;width:564px;height:324px;border:2px dashed var(--hot);border-radius:3px;opacity:0;transition:opacity .4s}
+.bleed{position:absolute;left:68px;top:22px;width:564px;height:387px;border:2px dashed var(--hot);border-radius:3px;opacity:0;transition:opacity .4s}
 .bleed i{position:absolute;background:#fff;opacity:.9}
 .bleed i:nth-child(1){left:-22px;top:10px;width:16px;height:2px}.bleed i:nth-child(2){left:10px;top:-22px;width:2px;height:16px}
 .bleed i:nth-child(3){right:-22px;top:10px;width:16px;height:2px}.bleed i:nth-child(4){right:10px;top:-22px;width:2px;height:16px}
 .bleed i:nth-child(5){left:-22px;bottom:10px;width:16px;height:2px}.bleed i:nth-child(6){left:10px;bottom:-22px;width:2px;height:16px}
 .bleed i:nth-child(7){right:-22px;bottom:10px;width:16px;height:2px}.bleed i:nth-child(8){right:10px;bottom:-22px;width:2px;height:16px}
-.qa{position:absolute;left:50%;top:8px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#fff;color:#1e2245;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
+.qa{position:absolute;left:50%;top:8px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;border:1px solid rgba(169,156,255,.5);color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
 .qa.on{opacity:1;transform:translateX(-50%)}
 .qa i{width:18px;height:18px;border-radius:5px;background:var(--mint);display:grid;place-items:center;font-style:normal;font-size:11px;color:var(--pu)}
-.rail{position:absolute;left:52px;top:96px;width:48px;padding:7px;border-radius:14px;background:#fff;display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.rail{position:absolute;left:52px;top:72px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .rail.on{opacity:1;transform:none}
-.rail b{height:34px;border-radius:9px;display:grid;place-items:center;color:#3a3e5c;transition:background .2s,color .2s}
+.rail b{height:34px;border-radius:9px;display:grid;place-items:center;color:#c9c4ff;transition:background .2s,color .2s}
 .rail b svg{width:16px;height:16px}
 .rail b.on{background:var(--pu);color:#fff}
-.gal{position:absolute;left:500px;top:-6px;width:220px;padding:12px;border-radius:12px;background:#fff;color:#1e2245;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.gal{position:absolute;left:500px;top:-6px;width:220px;padding:12px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .gal.on{opacity:1;transform:none}
 .gal .gt{display:flex;justify-content:space-between;font:600 12px var(--sans);margin-bottom:9px}
-.gal .gn{color:#8a8aa0;font-weight:500}
+.gal .gn{color:#a99cff;font-weight:500}
 .gal .gth{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .gal .g div{aspect-ratio:1.05;border-radius:7px;background-size:cover;background-position:center;outline:3px solid transparent;outline-offset:2px;transition:outline-color .25s}
 .gal .g.on div{outline-color:var(--hot)}
 .gal .g small{display:block;margin-top:6px;font:600 10.5px var(--sans)}
-.chk{position:absolute;left:22px;top:300px;width:250px;padding:12px 12px 10px;border-radius:12px;background:#fff;color:#1e2245;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
+.chk{position:absolute;left:22px;top:292px;width:250px;padding:12px 12px 10px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
 .chk.on{opacity:1;transform:none}
-.chk .ct{font:700 10px var(--sans);letter-spacing:.14em;color:#8a8aa0;margin-bottom:4px;text-transform:uppercase}
-.chk .cr{display:flex;align-items:center;justify-content:space-between;height:27px;font:500 13px var(--sans);border-top:1px solid #efeff6}
-.chk .cr i{width:20px;height:20px;border-radius:6px;background:#efeff6;display:grid;place-items:center;transform:scale(.8);transition:background .25s,transform .35s cubic-bezier(.2,1.8,.4,1)}
+.chk .ct{font:700 10px var(--sans);letter-spacing:.14em;color:#a99cff;margin-bottom:4px;text-transform:uppercase}
+.chk .cr{display:flex;align-items:center;justify-content:space-between;height:27px;font:500 13px var(--sans);border-top:1px solid rgba(255,255,255,.12)}
+.chk .cr i{width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.12);display:grid;place-items:center;transform:scale(.8);transition:background .25s,transform .35s cubic-bezier(.2,1.8,.4,1)}
 .chk .cr.ok i{background:var(--mint);transform:none}
 .chk .cr.ok i::after{content:"";width:8px;height:4px;border-left:2px solid var(--pu);border-bottom:2px solid var(--pu);transform:rotate(-45deg) translate(1px,-1px)}
-.chk .csv{display:flex;align-items:center;gap:7px;margin-top:6px;padding:6px 8px;border-radius:8px;background:#f6f5ff;font:700 9.5px var(--sans);letter-spacing:.1em;opacity:0;transition:opacity .3s}
+.chk .csv{display:flex;align-items:center;gap:7px;margin-top:6px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.08);font:700 9.5px var(--sans);letter-spacing:.1em;opacity:0;transition:opacity .3s}
 .chk .csv.on{opacity:1}
 .chk .csv b{margin-left:auto;font:600 10px ui-monospace,Menlo,monospace;letter-spacing:0;color:var(--hot)}
 .hcur{position:absolute;left:0;top:0;width:22px;height:22px;z-index:5;opacity:0;transition:opacity .3s;pointer-events:none}
-.words{position:relative;z-index:2;width:100%;display:flex;justify-content:space-between;align-items:baseline;pointer-events:none;font-weight:400;font-size:clamp(64px,13.4vw,196px);line-height:1;letter-spacing:-.055em;padding:0 2%}
+.words{position:relative;z-index:2;width:100%;display:flex;justify-content:center;gap:.3em;align-items:baseline;pointer-events:none;font-weight:400;font-size:clamp(64px,13.4vw,196px);line-height:1;letter-spacing:-.055em;padding:0 2%}
 .words span{display:inline-block}
 .words em.s{letter-spacing:-.03em;font-size:1.14em}
 .w-in{opacity:0;filter:blur(8px);transform:translateY(.12em);transition:opacity .8s cubic-bezier(.2,.8,.2,1),filter .8s,transform .8s cubic-bezier(.2,.8,.2,1)}
 .ready .w-in{opacity:1;filter:none;transform:none}
 .sub{position:relative;z-index:2;display:flex;align-items:center;gap:30px;margin-top:clamp(14px,3vh,34px)}
-.sub p{margin:0;font-size:clamp(24px,3vw,44px);letter-spacing:-.035em;line-height:1.1}
-.sub .pill{height:58px;padding:0 30px;font-size:18px}
+.sub p{margin:0;font-size:clamp(18px,1.6vw,24px);letter-spacing:-.02em;line-height:1.2}
+.sub .tl{color:#fff;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px;font-size:clamp(16px,1.4vw,20px);font-weight:400;white-space:nowrap}
+.sub .tl span{display:inline-block;margin-left:4px;transition:transform .2s}.sub .tl:hover span{transform:translateX(3px)}
 @media (max-width:640px){
   .stage{height:min(62vh,460px)}
   .col{width:92vw}
-  .words{flex-direction:column;align-items:flex-start;justify-content:space-between;height:100%;padding:4% 0}
-  .words span:last-child{align-self:flex-end}
-  .sub{flex-direction:column;gap:16px;text-align:center}
-  .sub .pill{height:50px;font-size:16px}
+  .words{font-size:12.5vw;white-space:nowrap}
+  .sub{flex-direction:column;gap:10px;text-align:center}
 }
 
 /* scroll sections */
@@ -380,15 +379,8 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
       <div class="hc" id="hc">
         <div class="qa" id="qaChip"></div>
         <div class="bleed" id="bleed"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <canvas class="pcv" id="pcv"></canvas>
         <div class="post" id="post">
-          <div class="blk" id="bP" style="left:0;top:0;width:287px;height:201px;--hf:#4131f1"></div>
-          <div class="blk" id="bM" style="left:0;top:201px;width:332px;height:99px;--hf:#c9f0e4"></div>
-          <div class="blk img" id="bI" style="left:287px;top:0;width:253px;height:244px"><div class="ph" id="ph1" style="background-image:url(assets/care-1.webp)"></div><div class="ph" id="ph2" style="background-image:url(assets/care-2.webp);background-position:62% 30%"></div></div>
-          <div class="blk" id="bL" style="left:332px;top:244px;width:208px;height:56px;--hf:#4131f1"><b class="logo">+ LobHealth</b><i class="bar" style="width:92px;left:58px;top:23px"></i></div>
-          <div class="blk ln" id="bH" style="left:30px;top:34px;width:236px;height:56px"><span class="tx" id="hlT"></span><i class="bar" style="width:170px;top:6px"></i><i class="bar" style="width:120px;top:30px"></i></div>
-          <div class="blk ln" id="bC" style="left:30px;top:110px;width:236px;height:50px"><span class="tx ck"><b>✓</b>Same-week appointments<br><b>✓</b>Covered by your plan</span><i class="bar" style="width:150px;top:4px;left:22px"></i><i class="bar" style="width:110px;top:28px;left:22px"></i><i class="tick" style="top:2px"></i><i class="tick" style="top:26px"></i></div>
-          <div class="blk qrc" id="bQ" style="left:43px;top:178px;width:72px;height:100px"><div class="q" id="qrH"></div><svg class="brk" viewBox="0 0 24 24"><path d="M2 8V2h6M16 2h6v6M22 16v6h-6M8 22H2v-6" fill="none" stroke="#4131f1" stroke-width="2.6"/></svg><i class="l1"></i><i class="l2"></i></div>
-          <div class="blk ln" id="bU" style="left:134px;top:214px;width:176px;height:60px"><i class="bar2" style="width:110px;top:0"></i><i class="bar2" style="width:80px;top:11px"></i><span class="url" id="urlH"></span></div>
           <div class="ants2" id="antsP"></div>
           <div class="scanl" id="scanl"></div>
         </div>
@@ -405,14 +397,14 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
           <div class="cr" id="cr1"><span>Deliverability</span><i></i></div>
           <div class="cr" id="cr2"><span>QR code correct</span><i></i></div>
           <div class="cr" id="cr3"><span>Name matches CSV</span><i></i></div>
-          <div class="csv" id="csv"><svg width="13" height="16" viewBox="0 0 16 20"><path d="M1 1h9l5 5v13H1z" fill="#fff" stroke="#4131f1" stroke-width="1.6" stroke-linejoin="round"/><rect x="4" y="10" width="11" height="5" rx="1" fill="#d244de"/></svg>AUDIENCE.CSV<b>first_name: Maya</b></div>
+          <div class="csv" id="csv"><svg width="13" height="16" viewBox="0 0 16 20"><path d="M1 1h9l5 5v13H1z" fill="#fff" stroke="#4131f1" stroke-width="1.6" stroke-linejoin="round"/><rect x="4" y="10" width="11" height="5" rx="1" fill="#d244de"/></svg>AUDIENCE.CSV<b>FirstName: Maya</b></div>
         </div>
         <svg class="hcur" id="hcur" viewBox="0 0 24 24"><path d="M.7.7L23.8 10.3 13.4 13 10.6 23.8z" fill="#fff" stroke="#4333f0" stroke-width="1.7" stroke-linejoin="round"/></svg>
       </div>
     </div>
-    <h1 class="words" aria-label="Build your way"><span class="w-in">build</span><span class="w-in" style="transition-delay:.18s">your <em class="s">way</em></span></h1>
+    <h1 class="words" aria-label="Build your way"><span class="w-in">Build</span><span class="w-in" style="transition-delay:.18s">your way</span></h1>
   </div>
-  <div class="sub w-in" style="transition-delay:.4s"><p>Go from idea to mailbox <em class="s">faster</em></p><a class="pill w" href="#fin">Get started</a></div>
+  <div class="sub w-in" style="transition-delay:.4s"><p>Go from idea to mailbox faster</p><a class="tl" href="#fin">Get started <span aria-hidden="true">→</span></a></div>
 </section>
 
 <!-- 1 templates: five stacked cards; the chosen one is dragged into the Visual Editor -->
@@ -548,71 +540,199 @@ function qr(seed){
 }
 $('#qr1').innerHTML = qr(7); $('#qr2').innerHTML = qr(11); $('#qr3').innerHTML = qr(11);
 
-/* ---------- hero: a healthcare postcard builds, goes high fidelity and passes QA ---------- */
+/* ---------- hero: a healthcare postcard builds like the Lob template card sketch, goes high fidelity and passes QA ---------- */
 requestAnimationFrame(() => document.body.classList.add('ready'));
-const HC = { post: $('#post'), bleed: $('#bleed'), qa: $('#qaChip'), rail: $('#rail'), gal: $('#gal'), chk: $('#chk'), cur: $('#hcur'), scan: $('#scanl'), ants: $('#antsP') };
-const B = { P: $('#bP'), M: $('#bM'), I: $('#bI'), L: $('#bL'), H: $('#bH'), C: $('#bC'), Q: $('#bQ'), U: $('#bU') };
-$('#qrH').innerHTML = qr(23);
+const HC = { bleed: $('#bleed'), qa: $('#qaChip'), rail: $('#rail'), gal: $('#gal'), chk: $('#chk'), cur: $('#hcur'), scan: $('#scanl'), ants: $('#antsP') };
 const railB = {}; document.querySelectorAll('#rail b').forEach((b) => (railB[b.dataset.t] = b));
-const LOOP = 15.6;
-const HL_T = 'Maya, meet your care team', URL_T2 = 'lobhealth.com/maya';
-// [time, block] abstract build order, then [time, block] high fidelity order
-const BUILD = [[.3, 'P'], [.55, 'M'], [.8, 'I'], [1.05, 'L'], [1.4, 'H'], [1.7, 'C'], [2.0, 'Q'], [2.3, 'U']];
-const HIFI = [[3.0, 'P'], [3.0, 'M'], [3.0, 'L'], [4.1, 'I'], [4.6, 'H'], [5.7, 'C'], [6.0, 'Q'], [6.4, 'U']];
+const PU = '#4131f1', MINT = '#c9f0e4', HOT = '#d244de', WHITE = '#ffffff', SOFT = '#9d94f7';
+const CW0 = 714, CH0 = 480, KS = 540 / CW0, CX0 = 80, CY0 = 34;   // card space -> stage px
+const SWL = 7;
+// the sketch's three layout poses for the five outlined boxes, moved into card space
+const POSES = [
+  [[285, 405, 108, 60], [147, 654, 284, 160], [976, 809, 80, 80], [302, 873, 284, 46], [661, 873, 130, 46]],
+  [[407, 838, 108, 58], [302, 574, 284, 160], [302, 827, 80, 80], [610, 827, 285, 48], [764, 895, 130, 48]],
+  [[302, 562, 108, 58], [302, 668, 284, 160], [819, 853, 80, 80], [302, 873, 284, 46], [661, 873, 130, 46]]
+].map((p) => p.map(([x, y, w, h]) => [x - 243, y - 516, w, h]));
+const EL_ORDER = [3, 4, 2, 0, 1];
+const IMG1 = new Image(); IMG1.src = 'assets/care-1.webp';
+const IMG2 = new Image(); IMG2.src = 'assets/care-2.webp';
+const QRM = (() => { const n = 25; let s = 23; const out = []; const rnd = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
+  const fd = (x, y) => x < 7 && y < 7 || x >= n - 7 && y < 7 || x < 7 && y >= n - 7;
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { let on; if (fd(x, y)) { const fx = x >= n - 7 ? x - (n - 7) : x, fy = y >= n - 7 ? y - (n - 7) : y; on = fx === 0 || fy === 0 || fx === 6 || fy === 6 || (fx >= 2 && fx <= 4 && fy >= 2 && fy <= 4); } else on = rnd() > .52; if (on) out.push([x, y]); }
+  return out; })();
+const LOOP = 18.4;
+const span = (t, a, b) => cl((t - a) / (b - a));
+const cv = $('#pcv'); const cx = cv.getContext('2d');
+function rr(x, y, w, h, r){ cx.beginPath(); if (cx.roundRect) cx.roundRect(x, y, w, h, Math.max(0, Math.min(r, w / 2, h / 2))); else cx.rect(x, y, w, h); }
+function hatch(x, y, w, h, col, gap, lw){ cx.save(); cx.beginPath(); cx.rect(x, y, w, h); cx.clip(); cx.strokeStyle = col; cx.lineWidth = lw; cx.beginPath(); for (let d = -h; d < w; d += gap) { cx.moveTo(x + d, y + h); cx.lineTo(x + d + h, y); } cx.stroke(); cx.restore(); }
+function cover(img, x, y, w, h, fx, fy, z){ if (!img.complete || !img.naturalWidth) return; const k = Math.max(w / img.naturalWidth, h / img.naturalHeight) * z, iw = img.naturalWidth * k, ih = img.naturalHeight * k; cx.drawImage(img, x + (w - iw) * fx, y + (h - ih) * fy, iw, ih); }
+// a box from the sketch: pops in, hops between the three poses (no tilt), fades as the real design takes over
+function drawEl(i, t){
+  const grow = popIn((t - .5 - i * .08) / .35), fade = 1 - easeIO(span(t, 4.6, 5.1));
+  if (grow <= 0 || fade <= 0) return;
+  const u1 = easeIO(span(t, 1.3 + i * .12, 2.1 + i * .12)), u2 = easeIO(span(t, 3.0 + i * .12, 3.8 + i * .12));
+  const a = POSES[0][i], b = POSES[1][i], c = POSES[2][i], v = [];
+  for (let k = 0; k < 4; k++) v.push(lerp(lerp(a[k], b[k], u1), c[k], u2));
+  const hop = Math.sin(Math.PI * u1) + Math.sin(Math.PI * u2);
+  cx.save(); cx.globalAlpha = fade;
+  cx.translate(v[0] + v[2] / 2, v[1] + v[3] / 2 - hop * 24);
+  const g = grow * (.92 + .08 * fade); cx.scale(g, g);
+  cx.fillStyle = MINT; cx.strokeStyle = PU; cx.lineWidth = SWL;
+  cx.beginPath(); cx.rect(-v[2] / 2, -v[3] / 2, v[2], v[3]); cx.fill(); cx.stroke();
+  cx.restore();
+}
+function checkMark(x, y, s){ cx.save(); cx.translate(x, y); cx.scale(s, s); cx.fillStyle = WHITE; cx.beginPath(); cx.arc(0, 0, 12, 0, Math.PI * 2); cx.fill(); cx.strokeStyle = PU; cx.lineWidth = 2.6; cx.lineCap = 'round'; cx.lineJoin = 'round'; cx.beginPath(); cx.moveTo(-5, 0); cx.lineTo(-1.5, 3.5); cx.lineTo(5, -3.5); cx.stroke(); cx.restore(); }
+// the LobHealth design: panel wipe, photo, headline, checks, QR card, URL, logo; then each goes high fidelity
+function drawDesign(t){
+  const ew = easeIO(span(t, 5.2, 5.8));
+  if (ew > 0) { cx.fillStyle = PU; cx.fillRect(0, 0, 379 * ew, 321); }
+  const lw = easeIO(span(t, 5.5, 6.1));
+  if (lw > 0) { cx.fillStyle = PU; cx.fillRect(439, 390, 275 * lw, 90); }
+  // photo slot: image 1 fades and settles in, image 2 replaces it later
+  const e1 = ease(span(t, 5.5, 6.3)), e2 = ease(span(t, 11.1, 11.7));
+  for (const [img, e, fx] of [[IMG1, e1, .5], [IMG2, e2, .62]]) {
+    if (e <= 0) continue;
+    cx.save(); cx.beginPath(); cx.rect(379, 0, 335, 390); cx.clip(); cx.globalAlpha = e;
+    cover(img, 379, 0, 335, 390, fx, .3, 1.1 - .1 * e); cx.restore();
+  }
+  // headline: two bars, later the real text
+  const hi = span(t, 8.7, 9.0);
+  for (let k = 0; k < 2; k++) {
+    const g = easeIO(span(t, 6.3 + k * .15, 6.8 + k * .15));
+    if (g <= 0 || hi >= 1) continue;
+    cx.save(); cx.globalAlpha = 1 - hi; cx.fillStyle = WHITE; cx.shadowColor = 'rgba(30,20,170,.45)'; cx.shadowBlur = 36; cx.shadowOffsetY = 16;
+    rr(53, 64 + k * 34, (k ? 170 : 240) * g, 17, 8.5); cx.fill(); cx.restore();
+  }
+  if (t >= 8.7) {
+    // {{FirstName}} goes in as a merge tag, later it resolves to the CSV record's name
+    const res = t >= 11.8, REST = 'meet your care team';
+    const chipIn = popIn((t - 8.8) / .35), n = Math.round(span(t, 9.0, 9.7) * (REST.length + 1));
+    cx.save(); cx.textBaseline = 'alphabetic';
+    if (!res) {
+      cx.font = '600 22px ui-monospace, Menlo, monospace';
+      const tw = cx.measureText('{{FirstName}}').width;
+      if (chipIn > 0) { cx.save(); cx.translate(53, 74); cx.scale(chipIn, chipIn); rr(0, -22, tw + 18, 34, 7); cx.fillStyle = HOT; cx.fill(); cx.fillStyle = WHITE; cx.fillText('{{FirstName}}', 9, 3); cx.restore(); }
+      cx.font = '500 30px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
+      if (n > 0) cx.fillText(',', 53 + tw + 22, 86);
+    } else {
+      const pop = popIn((t - 11.8) / .35);
+      cx.font = '500 30px Inter, Helvetica, Arial, sans-serif';
+      const w = cx.measureText('Maya').width;
+      if (t >= 16.4 && t < 17.4) { cx.fillStyle = HOT; rr(47, 52, w + 12, 44, 6); cx.fill(); }
+      cx.save(); cx.translate(53, 88); cx.scale(pop, pop); cx.fillStyle = WHITE; cx.fillText('Maya', 0, 0); cx.restore();
+      cx.fillStyle = WHITE; cx.fillText(',', 53 + w, 88);
+    }
+    cx.font = '500 30px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
+    const l2 = REST.slice(0, Math.max(0, n - 1));
+    cx.fillText(l2, 53, 130);
+    if (t < 9.8 && Math.floor(t * 4) % 2 === 0) { cx.fillStyle = MINT; cx.fillRect(53 + cx.measureText(l2).width + 3, 102, 3, 34); }
+    cx.restore();
+  }
+  // checklist: check circles pop, bars grow, later real text
+  const ct = span(t, 9.8, 10.1);
+  for (let k = 0; k < 2; k++) {
+    const y = 186 + k * 40;
+    const pc = popIn((t - 6.9 - k * .25) / .35);
+    if (pc > 0) checkMark(65, y, pc);
+    const g = easeIO(span(t, 7.0 + k * .25, 7.5 + k * .25));
+    if (g > 0 && ct < 1) { cx.save(); cx.globalAlpha = 1 - ct; cx.fillStyle = SOFT; rr(92, y - 8, [190, 150][k] * g, 16, 8); cx.fill(); cx.restore(); }
+    if (ct > 0) { cx.save(); cx.globalAlpha = ct; cx.fillStyle = WHITE; cx.font = '500 19px Inter, Helvetica, Arial, sans-serif'; cx.textBaseline = 'middle'; cx.fillText(['Same-week appointments', 'Covered by your plan'][k], 92, y + 1); cx.restore(); }
+  }
+  // QR card: pops in with brackets, later the real code draws in
+  const q = popIn((t - 8.1) / .4);
+  if (q > 0) {
+    cx.save(); cx.translate(57 + 46, 298 + 75); cx.scale(q, q); cx.translate(-46, -75);
+    cx.fillStyle = WHITE; cx.fillRect(0, 0, 92, 150);
+    if (t >= 15.7 && t < 16.4) { cx.strokeStyle = HOT; cx.lineWidth = 6; cx.strokeRect(-3, -3, 98, 156); }
+    const qr = span(t, 10.3, 10.9);
+    cx.save(); cx.globalAlpha = 1 - qr; cx.strokeStyle = PU; cx.lineWidth = 3.4;
+    const br = (x, y, dx, dy) => { cx.beginPath(); cx.moveTo(x + dx * 14, y); cx.lineTo(x, y); cx.lineTo(x, y + dy * 14); cx.stroke(); };
+    br(22, 22, 1, 1); br(70, 22, -1, 1); br(22, 70, 1, -1); br(70, 70, -1, -1); cx.restore();
+    if (qr > 0) { cx.save(); cx.beginPath(); cx.rect(10, 10, 72, 72 * qr); cx.clip(); cx.fillStyle = '#1e2245'; const m = 72 / 25; for (const [x, y] of QRM) cx.fillRect(10 + x * m, 10 + y * m, m + .2, m + .2); cx.restore(); }
+    cx.fillStyle = '#e4e4f0'; rr(16, 98, 60, 8, 4); cx.fill(); rr(16, 114, 46, 8, 4); cx.fill();
+    cx.restore();
+  }
+  // URL: two bars and a pill, later the PURL on hot pink
+  const g1 = easeIO(span(t, 7.7, 8.2)), g2 = easeIO(span(t, 7.85, 8.35));
+  cx.fillStyle = PU;
+  if (g1 > 0) { rr(176, 346, 160 * g1, 12, 6); cx.fill(); }
+  if (g2 > 0) { rr(176, 366, 118 * g2, 12, 6); cx.fill(); }
+  const pp = popIn((t - 8.0) / .4);
+  if (pp > 0) {
+    const fillp = span(t, 10.0, 10.3);
+    cx.save(); cx.translate(176, 418); cx.scale(pp, pp);
+    rr(0, -18, 244, 36, 18); cx.fillStyle = 'rgba(210,68,222,' + fillp + ')'; cx.fill(); cx.strokeStyle = HOT; cx.lineWidth = 4; cx.stroke();
+    const U = 'lobhealth.com/' + (t >= 11.8 ? 'maya' : '{{FirstName}}'), un = t >= 11.8 ? U.length : Math.round(span(t, 10.05, 10.6) * U.length);
+    if (un > 0) { cx.fillStyle = WHITE; cx.font = '600 15px Inter, Helvetica, Arial, sans-serif'; cx.textBaseline = 'middle'; cx.fillText(U.slice(0, un), 18, 1); }
+    cx.restore();
+  }
+  // logo block: a white bar, later the LobHealth wordmark
+  const lb = easeIO(span(t, 6.1, 6.5)), lt = span(t, 10.6, 10.9);
+  if (lb > 0 && lt < 1) { cx.save(); cx.globalAlpha = 1 - lt; cx.fillStyle = WHITE; rr(519, 429, 115 * lb, 13, 6.5); cx.fill(); cx.restore(); }
+  if (lt > 0) { cx.save(); cx.globalAlpha = lt; cx.fillStyle = WHITE; cx.font = '700 30px Inter, Helvetica, Arial, sans-serif'; cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillText('+ LobHealth', 576, 436); cx.restore(); }
+}
+function drawCard(t){
+  const grow = popIn(t / .5);
+  if (grow <= .001) return;
+  const d = easeIO(span(t, 4.7, 5.3)), wire = 1 - d;
+  const radius = lerp(6, 3, d);
+  cx.save();
+  cx.translate(CW0 / 2, CH0 / 2); cx.scale(grow, grow); cx.translate(-CW0 / 2, -CH0 / 2);
+  rr(32, 32, CW0, CH0, radius); cx.fillStyle = HOT; cx.fill();   // hard offset shadow
+  rr(0, 0, CW0, CH0, radius); cx.fillStyle = MINT; cx.fill();
+  cx.save(); rr(0, 0, CW0, CH0, radius); cx.clip();
+  if (wire > 0) { cx.globalAlpha = wire; hatch(400, -6, 320, 260, PU, 27, 6); cx.globalAlpha = 1; }
+  drawDesign(t);
+  cx.restore();
+  if (wire > 0) { cx.globalAlpha = wire; rr(0, 0, CW0, CH0, radius); cx.strokeStyle = PU; cx.lineWidth = SWL; cx.stroke(); cx.globalAlpha = 1; }
+  for (const i of EL_ORDER) drawEl(i, t);
+  cx.restore();
+}
 // cursor keyframes in stage px: [t, x, y]
-const HK = [[0, 640, 470], [.4, 76, 113], [1.3, 76, 113], [1.5, 76, 193], [2.1, 76, 233], [2.4, 76, 273], [3.2, 640, 120], [3.8, 556, 90], [4.3, 556, 90], [7.2, 652, 90], [7.9, 652, 92], [8.6, 760, 470], [15.6, 760, 470]];
+const HK = [[0, 640, 470], [.4, 76, 89], [4.6, 76, 89], [5.0, 556, 90], [5.6, 556, 90], [6.2, 76, 169], [6.8, 76, 129], [7.6, 76, 249], [8.4, 76, 209], [8.8, 76, 169], [9.9, 76, 249], [10.5, 76, 209], [11.0, 652, 90], [11.6, 652, 92], [12.1, 760, 470], [LOOP, 760, 470]];
 function at(t, K){ for (let i = 1; i < K.length; i++) if (t <= K[i][0]) { const a = K[i - 1], b = K[i]; const k = easeIO((t - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k)]; } return K[K.length - 1].slice(1); }
 const tog = (el, c, on) => el.classList.toggle(c, !!on);
-function heroAt(t){
+function heroAt(t, S){
   const fade = t > LOOP - .5 ? 1 - (t - (LOOP - .5)) / .5 : 1;
   $('#hc').style.opacity = fade;
-  for (const k in B) { tog(B[k], 'in', BUILD.some(([bt, b]) => b === k && t >= bt)); tog(B[k], 'hf', HIFI.some(([bt, b]) => b === k && t >= bt)); }
-  tog(HC.post, 'on', t >= 3);
-  // tool rail: the tool that is placing the current block
-  tog(HC.rail, 'on', t > .2 && t < 8.6);
-  const tool = t < .3 ? null : t < 1.3 ? 'shape' : t < 1.4 ? 'image' : t < 2 ? 'text' : t < 2.3 ? 'qr' : t < 2.7 ? 'link' : t < 6 ? (t >= 4.6 && t < 5.7 ? 'text' : t >= 3.4 && t < 4.6 ? 'image' : null) : t < 6.4 ? 'qr' : t < 6.9 ? 'link' : t >= 7.2 && t < 8.2 ? 'image' : null;
+  const dpr = Math.min(2, devicePixelRatio || 1), W = Math.round(700 * S * dpr), H = Math.round(430 * S * dpr);
+  if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+  cx.setTransform(1, 0, 0, 1, 0, 0); cx.clearRect(0, 0, W, H);
+  cx.setTransform(S * dpr * KS, 0, 0, S * dpr * KS, S * dpr * CX0, S * dpr * CY0);
+  drawCard(t);
+  // tool rail: the tool placing the current element
+  tog(HC.rail, 'on', t > .2 && t < 12.1);
+  const tool = t < .4 ? null : t < 5.0 ? 'shape' : t < 6.2 ? 'image' : t < 6.9 ? 'text' : t < 7.7 ? 'shape' : t < 8.1 ? 'link' : t < 8.6 ? 'qr' : t < 9.9 ? 'text' : t < 10.3 ? 'link' : t < 10.9 ? 'qr' : t < 11.7 ? 'image' : null;
   for (const k in railB) tog(railB[k], 'on', k === tool);
-  // gallery: picks image 1, later image 2, and the photo slot follows
-  tog(HC.gal, 'on', t >= 3.4 && t < 8.6);
-  tog($('#g1'), 'on', t >= 3.8 && t < 7.5);
-  tog($('#g2'), 'on', t >= 7.5 && t < 8.6);
-  $('#ph1').style.opacity = t >= 4.1 ? 1 : 0;
-  $('#ph2').style.opacity = t >= 7.8 ? 1 : 0;
-  HC.ants.style.opacity = (t >= 3.9 && t < 4.6) || (t >= 7.5 && t < 8.4) ? 1 : 0;
-  // headline and URL type in
-  const hn = Math.round(seg(t, 4.7, 5.5) * HL_T.length);
-  const typing = t >= 4.6 && t < 5.6;
-  const ht = HL_T.slice(0, hn);
-  $('#hlT').innerHTML = (ht.length >= 4 ? '<span class="nm' + (t >= 13.6 && t < 14.6 ? ' hl' : '') + '">Maya</span>' + ht.slice(4) : ht) + (typing ? '<span class="car"></span>' : '');
-  $('#urlH').textContent = URL_T2.slice(0, Math.round(seg(t, 6.5, 7.0) * URL_T2.length));
-  // bleed and crop marks
-  HC.bleed.style.opacity = t >= 8.8 && t < 10.4 ? 1 : 0;
-  // QA scan sweeps the card
-  const sc = seg(t, 10.6, 11.9);
+  // gallery: image 1 then image 2, the photo slot follows
+  tog(HC.gal, 'on', t >= 5.0 && t < 12.0);
+  tog($('#g1'), 'on', t >= 5.4 && t < 10.9);
+  tog($('#g2'), 'on', t >= 10.9 && t < 12.0);
+  HC.ants.style.opacity = (t >= 5.4 && t < 6.4) || (t >= 10.9 && t < 11.8) ? 1 : 0;
+  HC.bleed.style.opacity = t >= 12.2 && t < 13.6 ? 1 : 0;
+  const sc = span(t, 13.8, 15.0);
   HC.scan.style.opacity = sc > 0 && sc < 1 ? 1 : 0;
-  HC.scan.style.top = (sc * 300) + 'px';
-  const chip = t >= 9.3 && t < 10.4 ? 'BLEED + CROP MARKS <i>✓</i>' : t >= 10.5 && t < 12 ? 'QA SCAN' : t >= 12 && t < 12.2 ? 'QA SCAN <i>✓</i>' : '';
+  HC.scan.style.top = (sc * 363) + 'px';
+  const chip = t >= 11.8 && t < 12.5 ? 'FirstName → Maya <i>✓</i>' : t >= 12.6 && t < 13.6 ? 'BLEED + CROP MARKS <i>✓</i>' : t >= 13.7 && t < 15.0 ? 'QA SCAN' : t >= 15.0 && t < 15.3 ? 'QA SCAN <i>✓</i>' : '';
   if (chip && HC.qa.innerHTML !== chip) HC.qa.innerHTML = chip;
   tog(HC.qa, 'on', !!chip);
-  // three checks
-  tog(HC.chk, 'on', t >= 12.1 && t < LOOP - .4);
-  tog($('#cr1'), 'ok', t >= 12.6); tog($('#cr2'), 'ok', t >= 13.1); tog($('#cr3'), 'ok', t >= 13.8);
-  tog(B.Q, 'flag', t >= 12.9 && t < 13.5);
-  tog($('#csv'), 'on', t >= 13.5);
-  // cursor
-  const [cx, cy] = at(t, HK);
-  HC.cur.style.opacity = t > .3 && t < 8.4 ? 1 : 0;
-  HC.cur.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
+  tog(HC.chk, 'on', t >= 15.1 && t < LOOP - .4);
+  tog($('#cr1'), 'ok', t >= 15.5); tog($('#cr2'), 'ok', t >= 16.0); tog($('#cr3'), 'ok', t >= 16.7);
+  tog($('#csv'), 'on', t >= 16.4);
+  const [px, py] = at(t, HK);
+  HC.cur.style.opacity = t > .3 && t < 11.9 ? 1 : 0;
+  HC.cur.style.transform = 'translate(' + px + 'px,' + py + 'px)';
 }
-let hT0 = performance.now(), hOff = CLIP ? 2.7 : 0, hRun = !CLIP;
+let hT0 = performance.now(), hOff = CLIP ? 4.3 : 0, hRun = !CLIP;
 function heroLoop(now){
-  const col = $('#col'); $('#hc').style.transform = 'scale(' + (col.clientWidth / 700) + ')';
+  const S = $('#col').clientWidth / 700;
+  $('#hc').style.transform = 'scale(' + S + ')';
   const t = hRun ? (((now - hT0) / 1000 + hOff) % LOOP) : hOff;
-  heroAt(t);
+  heroAt(t, S);
   requestAnimationFrame(heroLoop);
 }
 requestAnimationFrame(heroLoop);
-// #clip: hold the built abstract card until the recorder starts the timeline
+// #clip: hold the outlined layout until the recorder starts the timeline
 window.__rb = { play: () => { hT0 = performance.now(); hRun = true; }, seek: (t) => { hRun = false; hOff = t; } };
 
 /* ---------- 1 templates fan ---------- */
@@ -855,8 +975,8 @@ function ctaUpdate(p, SW, SH){
 const LINE = [['mail-3', 'Insurance Co', 'QR CODE', '#e4ee5c', '70% 40%'], ['mail-8', 'VIP Weekend', 'COUPON CODE', '#d045dc', '30% 50%'], ['mail-9', 'Full Report', 'PURL', '#a99cff', '75% 60%'], ['mail-11', 'Coffee Co', 'QR CODE', '#ffc94d', '0% 50%'], ['mail-1', 'Automotive', 'PURL', '#e4ee5c', '72% 40%'], ['mail-7', 'Health', 'COUPON CODE', '#f7a6f7', '78% 30%'], ['mail-6', 'Co.', 'QR CODE', '#a99cff', '72% 40%']];
 const ICON = { 'QR CODE': '<svg viewBox="0 0 12 12"><path d="M1 3.5V1h2.5M8.5 1H11v2.5M11 8.5V11H8.5M3.5 11H1V8.5" fill="none" stroke="#1e2245" stroke-width="1.5"/></svg>', 'PURL': '<svg viewBox="0 0 12 12"><path d="M5 7l2-2M4.5 5.5L3 7a1.8 1.8 0 002.5 2.5L7 8M7.5 6.5L9 5a1.8 1.8 0 00-2.5-2.5L5 4" fill="none" stroke="#1e2245" stroke-width="1.3" stroke-linecap="round"/></svg>', 'COUPON CODE': '<svg viewBox="0 0 12 12"><path d="M1 3h10v2a1 1 0 000 2v2H1V7a1 1 0 000-2z" fill="none" stroke="#1e2245" stroke-width="1.3"/></svg>' };
 const row = $('#row');
-row.innerHTML = LINE.map((l, i) => '<div class="lc" style="background:' + l[3] + ';transform:rotate(' + [-4, 3, -2, 4, -3, 2, -4][i] + 'deg) translateY(' + [8, -4, 10, -6, 6, -2, 8][i] + 'px);z-index:' + (i + 1) + '"><div class="im" style="background-image:url(assets/' + l[0] + '.webp);background-position:' + l[4] + '"></div><h4>' + l[1] + '</h4></div>').join('') +
-  '<div class="lc last" style="transform:rotate(-2deg);z-index:20"><div class="in2"><h4>Your mailer here</h4><a class="pill w" href="#fin">Start building →</a><small>QR codes, PURLs and coupon codes on every template</small></div></div>';
+row.innerHTML = LINE.map((l, i) => '<div class="lc" style="background:' + l[3] + ';transform:translateY(' + [8, -4, 10, -6, 6, -2, 8][i] + 'px);z-index:' + (i + 1) + '"><div class="im" style="background-image:url(assets/' + l[0] + '.webp);background-position:' + l[4] + '"></div><h4>' + l[1] + '</h4></div>').join('') +
+  '<div class="lc last" style="z-index:20"><div class="in2"><h4>Your mailer here</h4><a class="pill w" href="#fin">Start building →</a><small>QR codes, PURLs and coupon codes on every template</small></div></div>';
 function lineUpdate(p, SW, SH){
   const head = $('#lineH');
   const top = head.offsetTop + head.offsetHeight;
