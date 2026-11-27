@@ -151,10 +151,14 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .s3copy dl{margin-top:30px;display:grid;grid-template-columns:120px 1fr;gap:9px 14px;font:400 13px/1.35 var(--sans);border-top:1px solid #cfccc3;padding-top:20px}
 .s3copy dt{font:500 11px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#888}
 .s3copy dd{color:#111}
-.tabs{position:absolute;left:90px;top:350px;display:flex;gap:8px}
-.tabs div{cursor:pointer;font:500 12px/1 var(--sans);padding:10px 14px;border-radius:999px;border:1px solid #c9c6bd;color:#555;position:relative;overflow:hidden}
-.tabs div:hover{border-color:var(--navy);color:var(--navy)}.tabs div.on{background:var(--navy);border-color:var(--navy);color:#fff}
-.tabs div i{position:absolute;left:0;bottom:0;height:2px;background:var(--sky)}
+.tabs{position:absolute;left:90px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:8px;width:470px}
+.tabs .it{cursor:pointer;position:relative;padding:12px 0 14px 34px}
+.tabs .it:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:2px;background:#d9d3cb}
+.tabs .it>i{position:absolute;left:0;top:14px;width:2px;height:0;background:var(--navy)}
+.tabs .it b{display:block;font:700 34px/1.1 var(--wsans);letter-spacing:-.015em;color:#a8a29c;transition:color .4s}
+.tabs .it.on b,.tabs .it:hover b{color:var(--navy)}
+.tabs .it span{display:block;font:400 17px/1.45 var(--wsans);color:#3b3d40;max-height:0;opacity:0;overflow:hidden;transition:max-height .5s,opacity .4s,margin .5s}
+.tabs .it.on span{max-height:80px;opacity:1;margin-top:10px}
 .mk{position:absolute;left:700px;top:0;width:900px;height:900px;display:grid;place-items:center}
 .mk>div{position:absolute;opacity:0}
 /* phone */
@@ -247,7 +251,6 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 <!-- 3 · In market -->
 <section class="scene" id="s3">
-  <div class="s3copy"><h2 id="h3">Instagram Reel</h2></div>
   <div class="tabs" id="tabs3"></div>
   <div class="mk" id="mk"></div>
 </section>
@@ -384,7 +387,7 @@ const CREATURES = {
     },
   },
   hydra: {
-    nu: 26, nv: 15, unfoldFrom: [1, 0.5],
+    nu: 30, nv: 15, unfoldFrom: [1, 0.5],
     init() {
       // three cobra heads facing left; their bodies run straight down off the bottom of the frame
       const neck = (x, y, z, lean) => spine([[x - 0.16, y + 0.02, z], [x, y + 0.07, z], [x + 0.14, y - 0.08, z], [x + 0.2 + lean, y - 0.45, z], [x + 0.14 + lean, y - 0.95, z], [x + 0.2 + lean, -0.9, z]], [0, 0, 1]);
@@ -397,6 +400,7 @@ const CREATURES = {
       let w = (s < 0.05 ? mix(0.035, 0.1, s / 0.05) : s < 0.3 ? 0.1 : 0.12) * pleatX(i);
       let p = tube(f, vv, Math.max(w, hood), w, 0.84);
       if (i === 0) p = V.add(p, V.mul(f.t, -0.07));
+      if (s > 0.8) p[1] -= ((s - 0.8) / 0.2) * 1.8; // the base of each neck runs on down, well past the frame, so it always bleeds off the bottom
       return p;
     },
   },
@@ -1005,7 +1009,7 @@ const art=el('div','',`<div class="artc" style="position:relative"><div class="a
 <p>Fourth, forgetting instalments. If you owed more than $3,000 last year, the CRA may expect quarterly payments.</p></div></div>`,mk);
 const artIn=art.querySelector('#artin');
 const MOCKS=[reel,fb,li,art];
-const tabs3=$('#tabs3');const tabEls=PL.map(p=>el('div','',p.name+'<i></i>',tabs3));
+const tabs3=$('#tabs3');const BLURB=['A 9:16 reel where the creature unfolds into a still sheet.','A 1:1 feed post with the headline and a short tagline.','A 1.91:1 sponsored post for business owners and accountants.','A 12:5 native unit, placed mid-article.'];const tabEls=PL.map((p,j)=>{const e=el('div','it',`<i></i><b>${p.name}</b><span>${BLURB[j]}</span>`,tabs3);return e;});
 tabEls.forEach((e,j)=>{e.setAttribute('role','button');e.tabIndex=0;e.onclick=()=>{T=SC[2].t0+j*SEG+.001;render();};e.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();e.click();}};});
 const SEG=8.2,BEAT=0.9,UNF=2.3,FLAT=1.1; // folded beat, unfold, perfectly still flat sheet, refold into the next creature, beat
 const NEXT=['scorpion','spider','snake','snake'];
@@ -1017,9 +1021,9 @@ const liveAds=MOCKS.map((m,i)=>{const c=m.querySelector('canvas[data-live]');ret
 let cur3=-1;
 function scene3(t){
   const i=Math.min(3,Math.floor(t/SEG)),lt=t-i*SEG;
-  if(i!==cur3){cur3=i;const p=PL[i];$('#h3').textContent=p.name;tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
-  tabEls.forEach((e,j)=>e.lastChild.style.width=(j===i?P(lt,0,SEG)*100:0)+'%');
-  const cp=$('.s3copy');const ck=E(lt,0,.5)*(1-E(lt,SEG-.35,SEG));cp.style.opacity=ck;cp.style.transform=`translateY(${(1-ck)*12}px)`;
+  if(i!==cur3){cur3=i;const p=PL[i];tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
+  tabEls.forEach((e,j)=>{const k=j===i?P(lt,0,SEG):0;e.firstChild.style.height=`calc(${k*100}% - ${k*28}px)`;});
+  
   MOCKS.forEach((m,j)=>{
     if(j!==i){m.style.opacity=0;return;}
     const a=E(lt,0,.6),b=E(lt,SEG-.4,SEG);
