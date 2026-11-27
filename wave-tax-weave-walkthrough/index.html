@@ -813,7 +813,7 @@ const CTA=['Get tax-ready','Get tax-ready','Start free','Get tax-ready','Start f
 /* ad template: fills a box of w×h with art, headline, wordmark and CTA */
 const SUB=['Wave keeps your books ready, year-round.','Get your books ready by April 30.','Free accounting for Canadian small business.','Tax-ready books, all year long.','Tax-ready books, all year long.','Reports your accountant will thank you for.'];
 function adHTML(ai,hi,w,h,live){
-  const IMG=(st,aw)=>{if(ART[ai].kind==='hydra'){st=st.replace(/top:[^;]+/,`top:${h-aw/1.3/2+4}px`);}return IMG0(st,aw);};
+  const IMG=(st,aw,up=0)=>{if(ART[ai].kind==="hydra"){st=st.replace(/top:[^;]+/,`top:${h-aw/1.3/2+4-up}px`);}return IMG0(st,aw);};
   const IMG0=(st,aw)=>live?`<canvas class="art" data-live="${ai}" style="${st};height:${aw/1.3}px"></canvas>`:`<img class="art" data-art="${ai}" src="${ART[ai].src}" style="${st}">`;
   const a=ART[ai],r=w/h,fg=a.dark?'#fff':'#001b65',em=a.dark?'#e8aaff':'#0041ff',ctaBg=a.dark?'#e8aaff':'#0041ff',ctaFg=a.dark?'#001b65':'#fff',H=rich(HEADR[hi],em);
   const u=Math.min(w,h);let s='';
@@ -827,7 +827,7 @@ function adHTML(ai,hi,w,h,live){
     s+=`<div class="wm" style="right:${w*.045}px;top:${w*.04}px;font-size:${w*.06}px;color:${fg}">wave</div>`;
     s+=`<div style="position:absolute;left:${w*.07}px;top:${h*.17}px;width:${w*.8}px"><div class="h" style="position:static;font-size:${w*.095}px;color:${fg}">${H}</div><div class="sub" style="position:static;margin-top:${w*.012}px;width:${w*.7}px;font-size:${w*.033}px;color:${fg}">${SUB[hi]||''}</div></div>`;
   }else{ // wide 1.91 / 12:5
-    s+=r>2.2?IMG(`width:${h*1.55}px;left:${w*.69}px;top:${h*.34}px`,h*1.55):IMG(`width:${h*2.4}px;left:${w*.72}px;top:${h*.46}px`,h*2.4);
+    s+=r>2.2?IMG(`width:${h*1.55}px;left:${w*.69}px;top:${h*.34}px`,h*1.55,h*.05):IMG(`width:${h*2.4}px;left:${w*.72}px;top:${h*.46}px`,h*2.4);
     s+=`<div class="wm" style="left:${h*.1}px;top:${h*.1}px;font-size:${h*.1}px;color:${fg}">wave</div>`;
     s+=`<div class="h" style="left:${h*.1}px;width:${w*.48}px;top:${h*.3}px;font-size:${h*(r>2.2?.15:.13)}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${h*.1}px;bottom:${h*.1}px;font-size:${h*.065}px;padding:${h*.04}px ${h*.075}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
