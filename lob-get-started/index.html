@@ -87,7 +87,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .chipfile .ok{width:22px;height:22px;border-radius:6px;background:var(--lime);display:grid;place-items:center}
 /* hero postcard: abstract blocks -> high fidelity -> bleed + crop -> QA scan -> checks */
 .hc{position:absolute;left:0;top:0;width:700px;height:430px;transform-origin:0 0;--pu:#4131f1;--mint:#c9f0e4;--hot:#d244de}
-.pcv{position:absolute;left:0;top:0;width:700px;height:430px}
+.pcv{position:absolute;left:-100px;top:-40px;width:900px;height:510px}
 .post{position:absolute;left:10px;top:34px;width:680px;height:371px;pointer-events:none}
 .blk{position:absolute;box-sizing:border-box;border:2.5px solid var(--lav);background:rgba(169,156,255,.12);border-radius:6px;opacity:0;transform:scale(.7);transition:opacity .3s,transform .45s cubic-bezier(.2,1.6,.4,1),background .5s,border-color .5s,border-radius .5s}
 .blk.in{opacity:1;transform:none}
@@ -127,7 +127,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .bleed i:nth-child(3){right:-22px;top:10px;width:16px;height:2px}.bleed i:nth-child(4){right:10px;top:-22px;width:2px;height:16px}
 .bleed i:nth-child(5){left:-22px;bottom:10px;width:16px;height:2px}.bleed i:nth-child(6){left:10px;bottom:-22px;width:2px;height:16px}
 .bleed i:nth-child(7){right:-22px;bottom:10px;width:16px;height:2px}.bleed i:nth-child(8){right:10px;bottom:-22px;width:2px;height:16px}
-.qa{position:absolute;left:50%;top:-34px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
+.qa{position:absolute;left:50%;top:-20px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
 .qa.on{opacity:1;transform:translateX(-50%)}
 .qa i{font-style:normal;font-size:13px;font-weight:700;color:var(--mint)}
 .rail{position:absolute;left:-88px;top:40px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
@@ -694,7 +694,7 @@ function drawCard(t){
   const radius = lerp(6, 3, d);
   cx.save();
   cx.translate(CW0 / 2, CH0 / 2); cx.scale(grow, grow); cx.translate(-CW0 / 2, -CH0 / 2);
-  rr(50, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.3)'; cx.fill();   // hard offset shadow, purple at 30%
+  rr(32, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.3)'; cx.fill();   // hard offset shadow, purple at 30%
   rr(0, 0, CW0, CH0, radius); cx.fillStyle = PINK; cx.fill();
   cx.save(); rr(0, 0, CW0, CH0, radius); cx.clip();
   if (wire > 0) { cx.globalAlpha = wire; hatch(520, -6, 370, 260, PU, 27, 6); cx.globalAlpha = 1; }
@@ -710,10 +710,10 @@ const tog = (el, c, on) => el.classList.toggle(c, !!on);
 function heroAt(t, S){
   const fade = t > LOOP - .5 ? 1 - (t - (LOOP - .5)) / .5 : 1;
   $('#hc').style.opacity = fade;
-  const dpr = Math.min(2, devicePixelRatio || 1), W = Math.round(700 * S * dpr), H = Math.round(430 * S * dpr);
+  const dpr = Math.min(2, devicePixelRatio || 1), W = Math.round(900 * S * dpr), H = Math.round(510 * S * dpr);   // canvas runs 100px past the stage sides so the shadow is never clipped
   if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
   cx.setTransform(1, 0, 0, 1, 0, 0); cx.clearRect(0, 0, W, H);
-  cx.setTransform(S * dpr * KS, 0, 0, S * dpr * KS, S * dpr * CX0, S * dpr * CY0);
+  cx.setTransform(S * dpr * KS, 0, 0, S * dpr * KS, S * dpr * (CX0 + 100), S * dpr * (CY0 + 40));
   drawCard(t);
   // tool rail: the tool placing the current element
   tog(HC.rail, 'on', t > .2 && t < 13.1);
