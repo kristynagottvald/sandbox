@@ -135,6 +135,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .ad canvas.live{position:absolute;left:0;width:100%;display:block}
 .ad img.art{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:block}
 .ad .wm{position:absolute;font-weight:800;letter-spacing:-.04em}
+.ad .sub{position:absolute;font-family:var(--wsans);font-weight:500;line-height:1.3;opacity:.86}
 .ad .h{position:absolute;font-family:var(--serif);font-weight:500;letter-spacing:-.025em;line-height:.96}
 .ad .h em{font-style:italic;white-space:nowrap}
 .ad .h{text-wrap:balance}
@@ -145,14 +146,14 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 #s3{background:#f9f4f1}
 .s3copy{position:absolute;left:90px;top:170px;width:520px;color:#111}
 .s3copy .k{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#666}
-.s3copy h2{font:500 72px/.96 var(--serif);letter-spacing:-.025em;margin:18px 0 16px;color:var(--navy)}
+.s3copy h2{font:500 72px/.96 var(--serif);letter-spacing:-.025em;margin:0 0 16px;color:var(--navy)}
 .s3copy p{font:400 18px/1.45 var(--wsans);color:#333;max-width:470px}
 .s3copy dl{margin-top:30px;display:grid;grid-template-columns:120px 1fr;gap:9px 14px;font:400 13px/1.35 var(--sans);border-top:1px solid #cfccc3;padding-top:20px}
 .s3copy dt{font:500 11px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#888}
 .s3copy dd{color:#111}
 .tabs{position:absolute;left:90px;bottom:70px;display:flex;gap:8px}
-.tabs div{font:500 12px/1 var(--sans);padding:10px 14px;border-radius:999px;border:1px solid #c9c6bd;color:#555;position:relative;overflow:hidden}
-.tabs div.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.tabs div{cursor:pointer;font:500 12px/1 var(--sans);padding:10px 14px;border-radius:999px;border:1px solid #c9c6bd;color:#555;position:relative;overflow:hidden}
+.tabs div:hover{border-color:var(--navy);color:var(--navy)}.tabs div.on{background:var(--navy);border-color:var(--navy);color:#fff}
 .tabs div i{position:absolute;left:0;bottom:0;height:2px;background:var(--sky)}
 .mk{position:absolute;left:700px;top:0;width:900px;height:900px;display:grid;place-items:center}
 .mk>div{position:absolute;opacity:0}
@@ -161,7 +162,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .scr{position:relative;width:100%;height:100%;border-radius:41px;overflow:hidden;background:#000;color:#fff}
 .reel-top{position:absolute;left:0;right:0;top:0;padding:46px 18px 0;display:flex;justify-content:space-between;font:700 18px/1 var(--sans);z-index:3;text-shadow:0 1px 6px rgba(0,0,0,.3)}
 .reel-side{position:absolute;right:12px;bottom:150px;display:flex;flex-direction:column;gap:20px;align-items:center;z-index:3;font:600 11px/1 var(--sans)}
-.reel-side i{width:28px;height:28px;border:2.4px solid #fff;border-radius:50%;display:block;margin:0 auto 5px}
+.reel-side svg{width:30px;height:30px;display:block;margin:0 auto 6px;fill:none;stroke:#fff;stroke-width:2;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 1px 2px rgba(0,0,0,.55)) drop-shadow(0 0 6px rgba(0,0,0,.35))}
 .reel-side i.hrt{border-radius:50% 50% 50% 0;transform:rotate(-45deg);width:24px;height:24px}
 .reel-bot{position:absolute;left:0;right:0;bottom:0;padding:0 16px 22px;z-index:3;background:linear-gradient(transparent,rgba(0,0,0,.55) 40%)}
 .acct{display:flex;align-items:center;gap:9px;font:600 13.5px/1.2 var(--sans)}
@@ -247,7 +248,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 <!-- 3 · In market -->
 <section class="scene" id="s3">
-  <div class="s3copy"><div class="k" id="k3">Placement 1 / 4</div><h2 id="h3">Instagram Reel</h2><p id="p3"></p><dl id="dl3"></dl></div>
+  <div class="s3copy"><h2 id="h3">Instagram Reel</h2><p id="p3"></p><dl id="dl3"></dl></div>
   <div class="tabs" id="tabs3"></div>
   <div class="mk" id="mk"></div>
 </section>
@@ -689,6 +690,7 @@ const rich=(h,c)=>h.replace(/\*([^*]+)\*/g,`<em style="color:${c}">$1</em>`);
 const CTA=['Get tax-ready','Get tax-ready','Start free','Get tax-ready','Start free','Learn more','Learn more','Start free','Get tax-ready','Learn more'];
 
 /* ad template: fills a box of w×h with art, headline, wordmark and CTA */
+const SUB=['Wave keeps your books ready, year-round.','Receipts sorted, books ready by April 30.','Free accounting for Canadian small business.','Tax-ready books, all year long.','Tax-ready books, all year long.','Reports your accountant will thank you for.'];
 function adHTML(ai,hi,w,h,live){
   const IMG=(st,aw)=>live?`<canvas class="art" data-live="${ai}" style="${st};height:${aw/1.3}px"></canvas>`:`<img class="art" data-art="${ai}" src="${ART[ai].src}" style="${st}">`;
   const a=ART[ai],r=w/h,fg=a.dark?'#fff':'#001b65',em=a.dark?'#e8aaff':'#0041ff',ctaBg=a.dark?'#e8aaff':'#0041ff',ctaFg=a.dark?'#001b65':'#fff',H=rich(HEADR[hi],em);
@@ -699,9 +701,10 @@ function adHTML(ai,hi,w,h,live){
     s+=`<div class="h" style="left:${w*.08}px;right:${w*.08}px;top:${h*.14}px;font-size:${w*.125}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${w*.08}px;bottom:${h*.05}px;font-size:${w*.055}px;padding:${w*.035}px ${w*.06}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
   }else if(r<1.3){ // square: headline lower, no CTA, creature bottom right bleeding off the right edge
-    s+=IMG(`width:${w*1.3}px;top:${h*.66}px;left:${w*.82}px`,w*1.3);
-    s+=`<div class="wm" style="right:${w*.07}px;top:${w*.07}px;font-size:${w*.06}px;color:${fg}">wave</div>`;
+    s+=IMG(`width:${w*1.5}px;top:${h*.6}px;left:${w*.76}px`,w*1.5);
+    s+=`<div class="wm" style="right:${w*.045}px;top:${w*.04}px;font-size:${w*.06}px;color:${fg}">wave</div>`;
     s+=`<div class="h" style="left:${w*.07}px;top:${h*.2}px;width:${w*.7}px;font-size:${w*.1}px;color:${fg}">${H}</div>`;
+    s+=`<div class="sub" style="left:${w*.07}px;top:${h*.2+w*.13}px;width:${w*.6}px;font-size:${w*.033}px;color:${fg}">${SUB[hi]||''}</div>`;
   }else{ // wide 1.91 / 12:5
     s+=IMG(`width:${h*1.9}px;left:${w*.8}px;top:${h*.52}px`,h*1.9);
     s+=`<div class="wm" style="left:${h*.1}px;top:${h*.1}px;font-size:${h*.1}px;color:${fg}">wave</div>`;
@@ -857,7 +860,7 @@ const PL=[
 ];
 // 1 reel
 const reel=el('div','',`<div class="phone"><div class="scr"><div class="ad" id="reelad"></div><div class="reel-top"><span>Reels</span><span>◎</span></div>
-<div class="reel-side"><div><i class="hrt"></i>2.4K</div><div><i></i>186</div><div><i style="border-radius:4px;transform:rotate(15deg)"></i>Share</div></div>
+<div class="reel-side"><div><svg viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.3C1.6 7.9 3.6 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.4 3.4 4.2 6.7-1.7 4.7-9.2 9.3-9.2 9.3z"/></svg>2.4K</div><div><svg viewBox="0 0 24 24"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5l1.5-4.4A8.4 8.4 0 1 1 20.5 11.6z"/></svg>186</div><div><svg viewBox="0 0 24 24"><path d="M21.5 3 2.5 10.2l7.3 3 2.9 7.8L21.5 3z"/><path d="M9.8 13.2 21.5 3"/></svg>Share</div></div>
 <div class="reel-bot"><div class="acct"><div class="lg">w</div><div>waveapps<small>Sponsored</small></div><span class="fl">Follow</span></div>
 <div class="reel-cap">That T1 looks a lot scarier folded up. Wave keeps your books organized all year, so when the CRA comes calling, it’s just paper.</div>
 <div class="reel-cta"><span>Get started now</span><span>›</span></div></div><div class="reel-prog"><i></i></div></div></div>`,mk);
@@ -887,6 +890,7 @@ const art=el('div','',`<div class="artc" style="position:relative"><div class="a
 const artIn=art.querySelector('#artin');
 const MOCKS=[reel,fb,li,art];
 const tabs3=$('#tabs3');const tabEls=PL.map(p=>el('div','',p.name+'<i></i>',tabs3));
+tabEls.forEach((e,j)=>{e.setAttribute('role','button');e.tabIndex=0;e.onclick=()=>{T=SC[2].t0+j*SEG+.001;render();};e.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();e.click();}};});
 const SEG=8.2,BEAT=0.9,UNF=2.3,FLAT=1.1; // folded beat, unfold, perfectly still flat sheet, refold into the next creature, beat
 const NEXT=['tiger','dragon','hydra','snake'];
 function loopDraw(L,lt){const tq=Math.floor(lt*12)/12,T1=BEAT,T2=T1+UNF,T3=T2+FLAT,T4=T3+UNF;
@@ -897,7 +901,7 @@ const liveAds=MOCKS.map((m,i)=>{const c=m.querySelector('canvas[data-live]');ret
 let cur3=-1;
 function scene3(t){
   const i=Math.min(3,Math.floor(t/SEG)),lt=t-i*SEG;
-  if(i!==cur3){cur3=i;const p=PL[i];$('#k3').textContent=`Placement ${i+1} / 4 · ${p.k}`;$('#h3').textContent=p.name;$('#p3').textContent=p.p;$('#dl3').innerHTML=p.dl.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
+  if(i!==cur3){cur3=i;const p=PL[i];$('#h3').textContent=p.name;$('#p3').textContent=p.p;$('#dl3').innerHTML=p.dl.filter(([a])=>a!=='Variant'&&a!=='CTA').map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
   tabEls.forEach((e,j)=>e.lastChild.style.width=(j===i?P(lt,0,SEG)*100:0)+'%');
   const cp=$('.s3copy');const ck=E(lt,0,.5)*(1-E(lt,SEG-.35,SEG));cp.style.opacity=ck;cp.style.transform=`translateY(${(1-ck)*12}px)`;
   MOCKS.forEach((m,j)=>{
