@@ -277,20 +277,24 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .cursor{position:absolute;left:0;top:0;width:24px;height:24px;z-index:9;pointer-events:none}
 .fly{position:absolute;z-index:8;opacity:0}
 /* editor: floating tool rail, layouts that animate between the template and the imported insurance design */
-.erail{left:28px;top:214px;box-shadow:none}
+.etools{position:absolute;left:18px;top:212px;width:164px;padding-top:16px;border-top:1px solid rgba(255,255,255,.22);z-index:3}
+.etools h6{margin:0 0 8px 10px;font:600 10px var(--sans);letter-spacing:.18em;color:rgba(255,255,255,.6)}
+.etools b{height:34px;margin-bottom:4px;padding:0 10px;display:flex;align-items:center;gap:11px;border-radius:8px;font:500 13px var(--sans);color:rgba(255,255,255,.88);transition:background .2s,color .2s}
+.etools b svg{width:15px;height:15px;flex:none}
+.etools b.on{background:#fff;color:var(--indigo)}
 .ab .p{transition:left .6s cubic-bezier(.6,0,.2,1),top .6s cubic-bezier(.6,0,.2,1),width .6s cubic-bezier(.6,0,.2,1),height .6s cubic-bezier(.6,0,.2,1),background .6s,color .6s,border-radius .6s}
 #antsH{left:12px;top:52px;width:216px;height:96px}#antsI{left:222px;top:-6px;width:204px;height:192px}
 .ants rect{width:calc(100% - 4px);height:calc(100% - 4px)}
 .ab.l2 .img{left:0;top:0;width:196px;height:280px;border-radius:4px 0 0 4px}
 .ab.l2 .tag{left:216px;top:20px}
-.ab.l2 .hl{left:216px;top:56px;width:190px}
-.ab.l2 .dt{left:216px;top:160px}
-.ab.l2 .band{left:216px;top:206px;width:188px;height:58px;border-radius:6px}
-.ab.l2 .band p{left:12px;top:11px;width:110px}
-.ab.l2 .band .qr{left:140px;top:9px;width:40px;height:40px;padding:3px}
+.ab.l2 .hl{left:216px;top:50px;width:186px}
+.ab.l2 .dt{left:216px;top:126px}
+.ab.l2 .band{left:216px;top:192px;width:184px;height:68px;border-radius:8px}
+.ab.l2 .band p{left:14px;top:16px;width:100px;font-size:12px}
+.ab.l2 .band .qr{left:126px;top:12px;width:44px;height:44px;padding:3px;box-sizing:border-box}
 .ab.l2 .img .b1{opacity:1}
 .ab.l2 #antsH,.ab.l2 ~ * #antsH{left:208px}
-#ab.l2 #antsH{left:208px;top:50px;width:204px;height:100px}
+#ab.l2 #antsH{left:208px;top:42px;width:202px;height:74px}
 #ab.l2 #antsI{left:-6px;top:-6px;width:208px;height:292px}
 .ab .band p,.ab .band .qr{transition:all .6s cubic-bezier(.6,0,.2,1)}
 #tplH p{max-width:none;white-space:nowrap}
@@ -473,7 +477,7 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
         </div>
         <div class="foot"><span id="saved">Autosaved</span><b>Continue to review</b></div>
       </div>
-      <div class="rail on erail" id="edRail"><b data-t="shape"><svg viewBox="0 0 14 14"><rect x="2" y="2" width="10" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></b><b data-t="text"><svg viewBox="0 0 14 14"><path d="M2.5 3h9M7 3v9" stroke="currentColor" stroke-width="1.7" fill="none"/></svg></b><b data-t="image"><svg viewBox="0 0 14 14"><rect x="1.5" y="2.5" width="11" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 10l3.5-3.5 2.5 2.5 2-2 2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></b><b data-t="qr"><svg viewBox="0 0 14 14"><path d="M1.5 4.5v-3h3M9.5 1.5h3v3M12.5 9.5v3h-3M4.5 12.5h-3v-3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></b><b data-t="merge"><svg viewBox="0 0 14 14"><path d="M5 2C3 2 3.5 4 3.5 5S2 7 2 7s1.5 0 1.5 2S3 12 5 12M9 2c2 0 1.5 2 1.5 3S12 7 12 7s-1.5 0-1.5 2 .5 3-1.5 3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></b><b data-t="import"><svg viewBox="0 0 14 14"><path d="M7 9.5V2M4 5l3-3 3 3M2 9v3h10V9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></b></div>
+      <div class="etools" id="edRail"><h6>TOOLS</h6><b data-t="shape"><svg viewBox="0 0 14 14"><rect x="2" y="2" width="10" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Shape</b><b data-t="text"><svg viewBox="0 0 14 14"><path d="M2.5 3h9M7 3v9" stroke="currentColor" stroke-width="1.7" fill="none"/></svg>Text</b><b data-t="image"><svg viewBox="0 0 14 14"><rect x="1.5" y="2.5" width="11" height="9" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M2 10l3.5-3.5 2.5 2.5 2-2 2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Image</b><b data-t="qr"><svg viewBox="0 0 14 14"><path d="M1.5 4.5v-3h3M9.5 1.5h3v3M12.5 9.5v3h-3M4.5 12.5h-3v-3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>QR code</b><b data-t="merge"><svg viewBox="0 0 14 14"><path d="M5 2C3 2 3.5 4 3.5 5S2 7 2 7s1.5 0 1.5 2S3 12 5 12M9 2c2 0 1.5 2 1.5 3S12 7 12 7s-1.5 0-1.5 2 .5 3-1.5 3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>Merge field</b><b data-t="import"><svg viewBox="0 0 14 14"><path d="M7 9.5V2M4 5l3-3 3 3M2 9v3h10V9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Import</b></div>
       <span class="mchip fly" id="fly">{{first_name}}</span>
       <svg class="cursor" id="cur" viewBox="0 0 24 24"><path d="M.7.7L23.8 10.3 13.4 13 10.6 23.8z" fill="#fff" stroke="#4333f0" stroke-width="1.7" stroke-linejoin="round"/></svg>
     </div>
@@ -780,7 +784,7 @@ const T_EDIT = 'Spring into savings';
 const NAMES = [['Jordan', 'Austin, TX'], ['Priya', 'Denver, CO'], ['Sam', 'Raleigh, NC'], ['Alex', 'Tacoma, WA']];
 let antsOff = 0;
 // cursor keyframes in editor coordinates: [progress, x, y]
-const CK = [[0, 900, 640], [.06, 270, 118], [.1, 344, 118], [.13, 417, 118], [.17, 344, 118], [.2, 270, 118], [.23, 500, 118], [.27, 52, 438], [.34, 820, 470], [.37, 560, 380], [.42, 840, 520], [.5, 560, 262], [.62, 560, 272], [.68, 380, 330], [.78, 400, 340], [.82, 800, 446], [.9, 560, 262], [1, 560, 262]];
+const CK = [[0, 900, 640], [.06, 270, 118], [.1, 344, 118], [.13, 417, 118], [.17, 344, 118], [.2, 270, 118], [.23, 500, 118], [.27, 92, 444], [.34, 820, 470], [.37, 560, 380], [.42, 840, 520], [.5, 560, 262], [.62, 560, 272], [.68, 380, 330], [.78, 400, 340], [.82, 800, 446], [.9, 560, 262], [1, 560, 262]];
 function cursorAt(p){
   for (let i = 1; i < CK.length; i++) if (p <= CK[i][0]) { const a = CK[i - 1], b = CK[i]; const t = easeIO((p - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], t), lerp(a[2], b[2], t)]; }
   return CK[CK.length - 1].slice(1);
