@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lob Mail Call</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%231c2170%22/%3E%3Crect x=%228%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23ece8dd%22/%3E%3Crect x=%2234%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23ece8dd%22/%3E%3Crect x=%2211%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%231c2170%22/%3E%3Crect x=%2237%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%231c2170%22/%3E%3Crect x=%2211%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%238a8cbd%22/%3E%3Crect x=%2237%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23b9bad6%22/%3E%3Crect x=%2230%22 y=%2210%22 width=%224%22 height=%2244%22 fill=%22%231c2170%22/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%231c2170%22/%3E%3Crect x=%228%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23cfe9dd%22/%3E%3Crect x=%2234%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23cfe9dd%22/%3E%3Crect x=%2211%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%231c2170%22/%3E%3Crect x=%2237%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%231c2170%22/%3E%3Crect x=%2211%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23ab9eff%22/%3E%3Crect x=%2237%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23ab9eff%22/%3E%3Crect x=%2230%22 y=%2210%22 width=%224%22 height=%2244%22 fill=%22%231c2170%22/%3E%3C/svg%3E">
 <meta name="description" content="Mail Call, a four page printed newspaper about Lob's State of Direct Mail 2026: read it page by page on screen, or drag it around as a folded 3D paper from the outside pages to the inner spread.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -88,7 +88,7 @@ html.clip .arr,html.clip #hint,html.clip #cap,html.clip #pill{display:none}
 @media(prefers-reduced-motion:reduce){#pgbox.in-r .pg,#pgbox.in-l .pg{animation:none}}
 
 /* ---------- the printed pages: 760 x 1040, grey newsprint, one navy ink (the Printing Press look) ---------- */
-.pg{--paper:#dddbd3;--ink:#1c2170;--box:#e8e7e0;--spot:color-mix(in srgb,var(--ink) 34%,var(--paper));--an:"Anton",Impact,"Arial Narrow",sans-serif;--slab:"Alfa Slab One",Georgia,serif;--wide:"Archivo","Arial Black",Arial,sans-serif;--nar:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+.pg{--paper:#cfe9dd;--ink:#1c2170;--box:#e1f3ea;--spot:#ab9eff;--an:"Anton",Impact,"Arial Narrow",sans-serif;--slab:"Alfa Slab One",Georgia,serif;--wide:"Archivo","Arial Black",Arial,sans-serif;--nar:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
  width:760px;height:1040px;position:relative;overflow:hidden;background:var(--paper);color:var(--ink);padding:20px 24px 14px;display:flex;flex-direction:column;font:500 12px/1.32 var(--nar)}
 .pg>*{flex:none}
 .pg::before{content:"";position:absolute;inset:0;z-index:20;pointer-events:none;background:
@@ -118,7 +118,7 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .folio{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:7px;border-top:2.6px solid var(--ink);font:700 9.5px/1 var(--nar);letter-spacing:.18em;text-transform:uppercase}
 .hi{position:relative;display:inline-block;white-space:nowrap}
 .hi svg{position:absolute;left:-16%;top:-42%;width:132%;height:184%;overflow:visible;pointer-events:none;mix-blend-mode:multiply}
-.hi svg path{stroke:var(--ink);stroke-opacity:.55;stroke-width:3.4;stroke-linecap:round}
+.hi svg path{stroke:var(--spot);stroke-width:5;stroke-linecap:round}
 .badge{position:relative;aspect-ratio:1}
 .badge .bt{position:absolute;inset:0;display:grid;place-content:center;text-align:center;padding:14%;font:400 22px/.95 var(--an);text-transform:uppercase}
 .ic{width:44px;height:44px;flex:none}
@@ -136,7 +136,7 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .cb{display:grid;grid-template-columns:168px 1fr;gap:8px;align-items:center;margin:6px 0;font:700 11.5px/1 var(--nar);text-transform:uppercase;letter-spacing:.05em}
 .cb i{display:block;height:20px;background:var(--ink)}.cb:nth-child(even) i{background:var(--spot);border:2px solid var(--ink)}
 .cwg{display:grid;gap:0;background:var(--ink);border:2px solid var(--ink);width:100%}
-.cw{background:#f3f2ec;color:var(--ink);display:grid;place-items:center;font:400 13px/1 var(--an);font-style:normal;position:relative;aspect-ratio:1;border:.5px solid var(--ink)}
+.cw{background:#f2fbf6;color:var(--ink);display:grid;place-items:center;font:400 13px/1 var(--an);font-style:normal;position:relative;aspect-ratio:1;border:.5px solid var(--ink)}
 .cw u{position:absolute;left:1px;top:0;font:700 6px/1 var(--nar);text-decoration:none}
 .cb2{background:var(--ink);aspect-ratio:1}
 .stamp{padding:11px;background:radial-gradient(circle 5.5px at 7px 0,var(--paper) 97%,transparent) 0 0/14px 11px repeat-x,radial-gradient(circle 5.5px at 7px 11px,var(--paper) 97%,transparent) 0 100%/14px 11px repeat-x,radial-gradient(circle 5.5px at 0 7px,var(--paper) 97%,transparent) 0 0/11px 14px repeat-y,radial-gradient(circle 5.5px at 11px 7px,var(--paper) 97%,transparent) 100% 0/11px 14px repeat-y,var(--ink)}
@@ -165,8 +165,8 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 </main>
 <script>
 /* ---------- one-ink cartoon illustrations (inline svg, no ids so every copy of a page is independent) ---------- */
-const INK='#1c2170',PAP='#dddbd3',WH='#f3f2ec';
-const tint=k=>{const P=[0xdd,0xdb,0xd3],N=[0x1c,0x21,0x70];return '#'+[0,1,2].map(i=>Math.round(P[i]+(N[i]-P[i])*k).toString(16).padStart(2,'0')).join('')};
+const INK='#1c2170',PAP='#cfe9dd',WH='#f2fbf6',PUR='#ab9eff';
+const tint=k=>{const P=[0xcf,0xe9,0xdd],N=[0x1c,0x21,0x70];return '#'+[0,1,2].map(i=>Math.round(P[i]+(N[i]-P[i])*k).toString(16).padStart(2,'0')).join('')};
 const sk=(w=2.6)=>`stroke="${INK}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
 const svg=(vb,body,label)=>`<svg viewBox="${vb}" width="100%" height="100%" role="img" aria-label="${label}" preserveAspectRatio="xMidYMid meet">${body}</svg>`;
 const line=(x1,y1,x2,y2,w=1.6)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" ${sk(w)}/>`;
@@ -180,25 +180,25 @@ const shoe=(x,y,f)=>`<g transform="translate(${x} ${y}) scale(${f} 1)"><path d="
 function dotsIn(x,y,w,h,gap=5,r=.95){let s='';for(let j=0;y+j*gap<y+h;j++)for(let i=0;x+i*gap+(j%2)*gap/2<x+w;i++)s+=`<circle cx="${(x+i*gap+(j%2)*gap/2).toFixed(1)}" cy="${y+j*gap}" r="${r}" fill="${INK}"/>`;return s}
 function head(cx,cy,mood='shut'){const e=mood==='peek'?`<circle cx="-8" cy="2" r="3.6" fill="${INK}"/><circle cx="9" cy="2" r="3.6" fill="${INK}"/>`:`<path d="M-12 3q4 4 8 0M4 3q4 4 8 0" fill="none" ${sk(2.4)}/>`;
   return `<g transform="translate(${cx} ${cy})"><circle cx="-22" cy="3" r="4.6" fill="${WH}" ${sk(2.4)}/><ellipse cx="0" cy="0" rx="22" ry="24" fill="${WH}" ${sk(2.8)}/>
-<circle cx="-14" cy="11" r="5.2" fill="${tint(.4)}"/><circle cx="15" cy="11" r="5.2" fill="${tint(.4)}"/>${e}<path d="M-1 7q4 1 1 5" fill="none" ${sk(1.8)}/><path d="M-7 14q8 7 16 0" fill="none" ${sk(2.4)}/>
+<circle cx="-14" cy="11" r="5.2" fill="${PUR}"/><circle cx="15" cy="11" r="5.2" fill="${PUR}"/>${e}<path d="M-1 7q4 1 1 5" fill="none" ${sk(1.8)}/><path d="M-7 14q8 7 16 0" fill="none" ${sk(2.4)}/>
 <path d="M-21 -4C-26 -24 -6 -34 12 -28C24 -34 36 -24 27 -13C23 -8 17 -12 13 -12C5 -16 -8 -12 -14 -2Z" fill="${INK}"/><path d="M-6 -24q8 -5 16 -2" fill="none" stroke="${WH}" stroke-width="1.8" stroke-linecap="round" opacity=".75"/></g>`}
 function tee(x,y,label){return `<path d="M${x-30} ${y+8} L${x-12} ${y} H${x+12} L${x+30} ${y+8} L${x+24} ${y+30} L${x+16} ${y+26} V${y+56} H${x-16} V${y+26} L${x-24} ${y+30} Z" fill="${WH}" ${sk()}/>${dotsIn(x+4,y+30,11,24,4.6,.9)}<text x="${x-1}" y="${y+22}" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="12" fill="${INK}" stroke="none">${label}</text>`}
-function mailPiece(x,y,w,h,rot=0){return `<g transform="rotate(${rot} ${x+w/2} ${y+h/2})"><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${WH}" ${sk()}/><path d="M${x} ${y}L${x+w/2} ${y+h*.56}L${x+w} ${y}" fill="none" ${sk(2.2)}/>${dotsIn(x+4,y+h*.62,w*.45,h*.3,4.6,.9)}<rect x="${x+w-17}" y="${y+5}" width="12" height="13" fill="${tint(.4)}" ${sk(1.8)} stroke-dasharray="2.4 1.8"/></g>`}
+function mailPiece(x,y,w,h,rot=0){return `<g transform="rotate(${rot} ${x+w/2} ${y+h/2})"><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${WH}" ${sk()}/><path d="M${x} ${y}L${x+w/2} ${y+h*.56}L${x+w} ${y}" fill="none" ${sk(2.2)}/>${dotsIn(x+4,y+h*.62,w*.45,h*.3,4.6,.9)}<rect x="${x+w-17}" y="${y+5}" width="12" height="13" fill="${PUR}" ${sk(1.8)} stroke-dasharray="2.4 1.8"/></g>`}
 function carrierChar(){return svg('0 0 124 160',`<g ${sk()}>${tube('M52 114L47 142')}${tube('M74 114L80 142')}${shoe(40,150,-1)}${shoe(86,150,1)}${tee(63,66,'LOB')}${tube('M35 76Q22 96 38 108',7)}${tube('M91 76Q104 96 88 108',7)}${mailPiece(36,94,54,36,-3)}${mitt(38,108)}${mitt(88,108)}${head(63,40)}</g>`,'A cartoon mail carrier holding a big letter')}
 function mailboxChar(){return svg('0 0 140 164',`<g ${sk()}>${tube('M54 114L49 144')}${tube('M84 114L90 144')}${shoe(42,152,-1)}${shoe(98,152,1)}
 ${tube('M20 88Q4 98 12 116',7)}${mitt(12,118)}
 <path d="M18 112V66a34 34 0 0 1 34-34H88a34 34 0 0 1 34 34V112Z" fill="${WH}" ${sk(2.8)}/>${dotsIn(96,56,22,52,4.8,.95)}
 <path d="M28 106V68a24 24 0 0 1 24-24H88" fill="none" stroke-width="1.8"/>
 <path d="M-0 0" fill="none"/>
-${tube('M116 90Q132 80 130 58',7)}${mitt(130,54)}<path d="M130 50V14" stroke-width="3.4" fill="none"/><path d="M130 14h22v16h-22z" fill="${tint(.5)}" stroke-width="2.6"/>
-<g transform="translate(70 76)"><path d="M-22 2q4 4 8 0M12 2q4 4 8 0" fill="none" stroke-width="2.4"/><circle cx="-26" cy="14" r="5.2" fill="${tint(.4)}" stroke="none"/><circle cx="26" cy="14" r="5.2" fill="${tint(.4)}" stroke="none"/><path d="M-9 16q9 8 18 0" fill="none" stroke-width="2.4"/><path d="M-1 8q4 1 1 5" fill="none" stroke-width="1.8"/></g>
+${tube('M116 90Q132 80 130 58',7)}${mitt(130,54)}<path d="M130 50V14" stroke-width="3.4" fill="none"/><path d="M130 14h22v16h-22z" fill="${PUR}" stroke-width="2.6"/>
+<g transform="translate(70 76)"><path d="M-22 2q4 4 8 0M12 2q4 4 8 0" fill="none" stroke-width="2.4"/><circle cx="-26" cy="14" r="5.2" fill="${PUR}" stroke="none"/><circle cx="26" cy="14" r="5.2" fill="${PUR}" stroke="none"/><path d="M-9 16q9 8 18 0" fill="none" stroke-width="2.4"/><path d="M-1 8q4 1 1 5" fill="none" stroke-width="1.8"/></g>
 ${mailPiece(44,12,40,26,-9)}</g>`,'A cartoon mailbox mascot waving a flag')}
 function envelopeChar(){return svg('0 0 128 140',`<g ${sk()}><path d="M2 70h14M0 84h20M6 98h14" fill="none" stroke-width="2"/>
 ${tube('M50 92L44 120')}${tube('M82 92L90 118')}${shoe(38,128,-1)}${shoe(100,126,1)}
 ${tube('M30 62Q12 60 8 44',7)}${mitt(8,40)}${tube('M104 62Q120 70 120 84',7)}${mitt(120,88)}
 <rect x="26" y="22" width="80" height="72" rx="3" fill="${WH}" ${sk(2.8)}/><path d="M26 22L66 58L106 22" fill="none" ${sk(2.6)}/>${dotsIn(80,52,22,38,4.8,.95)}
-<rect x="84" y="28" width="16" height="18" fill="${tint(.4)}" stroke-width="2" stroke-dasharray="2.6 2"/>
-<path d="M44 70q4 4 8 0M70 70q4 4 8 0" fill="none" stroke-width="2.4"/><circle cx="40" cy="80" r="5" fill="${tint(.4)}" stroke="none"/><circle cx="84" cy="80" r="5" fill="${tint(.4)}" stroke="none"/><path d="M56 80q8 7 16 0" fill="none" stroke-width="2.4"/></g>`,'A cartoon envelope mascot running')}
+<rect x="84" y="28" width="16" height="18" fill="${PUR}" stroke-width="2" stroke-dasharray="2.6 2"/>
+<path d="M44 70q4 4 8 0M70 70q4 4 8 0" fill="none" stroke-width="2.4"/><circle cx="40" cy="80" r="5" fill="${PUR}" stroke="none"/><circle cx="84" cy="80" r="5" fill="${PUR}" stroke="none"/><path d="M56 80q8 7 16 0" fill="none" stroke-width="2.4"/></g>`,'A cartoon envelope mascot running')}
 /* the reading guy: an open mailer held up, eyes peeking over it */
 function readerChar(){return svg('0 0 150 170',`<g ${sk()}>${tube('M62 138L56 156')}${tube('M88 138L96 156')}${shoe(50,160,-1)}${shoe(104,160,1)}
 ${head(75,34,'peek')}
@@ -211,7 +211,7 @@ function phoneChar(){return svg('0 0 120 100',`<g ${sk()}><path d="M12 82L26 46H
 <circle cx="60" cy="64" r="15" fill="${WH}"/><circle cx="60" cy="64" r="3.4" fill="${INK}"/>${[0,1,2,3,4,5].map(i=>`<circle cx="${(60+9.5*Math.cos(i*1.05)).toFixed(1)}" cy="${(64+9.5*Math.sin(i*1.05)).toFixed(1)}" r="1.8" fill="${INK}" stroke="none"/>`).join('')}
 <path d="M4 84h112" fill="none"/><path d="M104 40q12 6 6 22" fill="none" stroke-width="2"/></g>`,'A retro telephone')}
 function vanChar(){return svg('0 0 200 110',`<g ${sk()}><path d="M2 62h20M6 76h24M0 90h16" fill="none" stroke-width="2"/>
-<rect x="28" y="22" width="118" height="62" fill="${WH}"/>${dotsIn(118,28,24,52,4.8,.95)}<rect x="44" y="34" width="56" height="36" fill="#fff"/><path d="M44 34L72 56L100 34" fill="none"/><rect x="88" y="52" width="16" height="14" fill="${tint(.4)}" stroke-width="2" stroke-dasharray="2.6 2"/>
+<rect x="28" y="22" width="118" height="62" fill="${WH}"/>${dotsIn(118,28,24,52,4.8,.95)}<rect x="44" y="34" width="56" height="36" fill="#fff"/><path d="M44 34L72 56L100 34" fill="none"/><rect x="88" y="52" width="16" height="14" fill="${PUR}" stroke-width="2" stroke-dasharray="2.6 2"/>
 <path d="M146 40h32l22 24v22h-54Z" fill="${WH}"/><path d="M154 46h22l14 16h-36Z" fill="${INK}"/>
 <circle cx="62" cy="88" r="14" fill="${INK}"/><circle cx="62" cy="88" r="5" fill="${WH}" stroke="none"/><circle cx="164" cy="88" r="14" fill="${INK}"/><circle cx="164" cy="88" r="5" fill="${WH}" stroke="none"/></g>`,'A delivery van')}
 function storeChar(){let st='';for(let i=0;i<6;i++)st+=`<path d="M${14+i*16} 30h16v22a8 8 0 0 1-16 0Z" fill="${i%2?WH:INK}"/>`;
@@ -223,31 +223,31 @@ function qrChar(){let s='';const n=11;const f=(x,y)=>(x<4&&y<4)||(x>6&&y<4)||(x<
   return svg('0 0 100 100',`<rect x="1" y="1" width="98" height="98" fill="${WH}" ${sk(3)}/>${s}`,'A QR code')}
 /* a stack of mail drawn like the stack of papers in the reference: stripes, thick and thin */
 function stackChar(){let s='';for(let k=0;k<4;k++){const y=96-k*26;s+=`<path d="M14 ${y}h92l6 -12H20Z" fill="${WH}" ${sk(2.6)}/><rect x="14" y="${y}" width="92" height="14" fill="${WH}" ${sk(2.6)}/>`+[0,1,2,3].map(i=>`<path d="M16 ${y+3+i*3.2}H104" stroke="${INK}" stroke-width="${i%2?1.1:1.8}" fill="none"/>`).join('')}
-  s+=`<path d="M30 14h60l14 -8H44Z" fill="${INK}"/><rect x="30" y="14" width="60" height="10" fill="${tint(.4)}" ${sk(2.6)}/>`;
+  s+=`<path d="M30 14h60l14 -8H44Z" fill="${INK}"/><rect x="30" y="14" width="60" height="10" fill="${PUR}" ${sk(2.6)}/>`;
   return svg('0 0 124 128',s,'A stack of mail')}
 /* small spot icons */
 function icon(n){const g={
  clock:`<circle cx="30" cy="30" r="22" fill="${WH}"/><path d="M30 16V30L40 36" fill="none" stroke-width="3.4"/><path d="M12 8l8 6M48 8l-8 6" fill="none" stroke-width="3.4"/>`,
- seal:`<path d="M30 6l6 5 8-1 3 7 7 4-3 8 3 8-7 4-3 7-8-1-6 5-6-5-8 1-3-7-7-4 3-8-3-8 7-4 3-7 8 1Z" fill="${tint(.35)}"/><text x="30" y="36" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="15" fill="${INK}" stroke="none">LOB</text>`,
+ seal:`<path d="M30 6l6 5 8-1 3 7 7 4-3 8 3 8-7 4-3 7-8-1-6 5-6-5-8 1-3-7-7-4 3-8-3-8 7-4 3-7 8 1Z" fill="${PUR}"/><text x="30" y="36" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="15" fill="${INK}" stroke="none">LOB</text>`,
  eye:`<path d="M4 30Q30 6 56 30Q30 54 4 30Z" fill="${WH}"/><circle cx="30" cy="30" r="10" fill="${INK}"/><circle cx="34" cy="26" r="3" fill="${WH}" stroke="none"/>`,
- coin:`<circle cx="30" cy="30" r="22" fill="${tint(.3)}"/><circle cx="30" cy="30" r="15" fill="none" stroke-width="1.8"/><text x="30" y="38" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="22" fill="${INK}" stroke="none">$</text>`,
+ coin:`<circle cx="30" cy="30" r="22" fill="${PUR}"/><circle cx="30" cy="30" r="15" fill="none" stroke-width="1.8"/><text x="30" y="38" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="22" fill="${INK}" stroke="none">$</text>`,
  hello:`<rect x="6" y="12" width="48" height="36" rx="4" fill="${WH}"/><rect x="6" y="12" width="48" height="12" fill="${INK}"/><text x="30" y="22" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="9" fill="${WH}" stroke="none">HELLO</text><path d="M14 36h32M14 42h20" fill="none" stroke-width="2.4"/>`,
- mark:`<path d="M16 6h28v48L30 42 16 54Z" fill="${tint(.35)}"/><path d="M22 18h16M22 26h16" fill="none" stroke-width="2.4"/>`,
+ mark:`<path d="M16 6h28v48L30 42 16 54Z" fill="${PUR}"/><path d="M22 18h16M22 26h16" fill="none" stroke-width="2.4"/>`,
  book:`<path d="M6 12q12-6 24 2 12-8 24-2v38q-12-6-24 2-12-8-24-2Z" fill="${WH}"/><path d="M30 14v38" fill="none"/><path d="M12 24h12M12 32h12M36 24h12M36 32h12" fill="none" stroke-width="2"/>`,
- star:`<path d="M30 4l7 17 18 1-14 12 5 18-16-10-16 10 5-18L5 22l18-1Z" fill="${tint(.4)}"/>`,
+ star:`<path d="M30 4l7 17 18 1-14 12 5 18-16-10-16 10 5-18L5 22l18-1Z" fill="${PUR}"/>`,
  paths:`<path d="M30 54V30M30 30L12 12M30 30L48 12" fill="none" stroke-width="4"/><circle cx="12" cy="12" r="6" fill="${WH}"/><circle cx="48" cy="12" r="6" fill="${WH}"/><circle cx="30" cy="54" r="5" fill="${INK}"/>`,
  chain:`<rect x="4" y="20" width="26" height="20" rx="10" fill="none" stroke-width="5"/><rect x="30" y="20" width="26" height="20" rx="10" fill="none" stroke-width="5"/>`,
- chart:`<rect x="8" y="34" width="10" height="20" fill="${WH}"/><rect x="25" y="20" width="10" height="34" fill="${tint(.4)}"/><rect x="42" y="8" width="10" height="46" fill="${INK}"/><path d="M4 56h52" fill="none"/>`};
+ chart:`<rect x="8" y="34" width="10" height="20" fill="${WH}"/><rect x="25" y="20" width="10" height="34" fill="${PUR}"/><rect x="42" y="8" width="10" height="46" fill="${INK}"/><path d="M4 56h52" fill="none"/>`};
  return `<svg viewBox="0 0 60 60" width="100%" height="100%" ${sk(2.4)} fill="none" aria-hidden="true">${g[n]}</svg>`}
 /* scalloped sticker with text on top */
 function badge(inner,cls=''){const N=26,R=58,r=53;let p='';for(let i=0;i<N*2;i++){const a=i*Math.PI/N-Math.PI/2,rr=i%2?r:R;p+=(60+rr*Math.cos(a)).toFixed(1)+','+(60+rr*Math.sin(a)).toFixed(1)+' '}
-  return `<div class="badge ${cls}"><svg viewBox="0 0 120 120" width="100%" height="100%"><polygon points="${p}" fill="${WH}" ${sk(3)}/><circle cx="60" cy="60" r="46" fill="none" stroke="${INK}" stroke-width="1.4" stroke-dasharray="2 3"/></svg><div class="bt">${inner}</div></div>`}
+  return `<div class="badge ${cls}"><svg viewBox="0 0 120 120" width="100%" height="100%"><polygon points="${p}" fill="${PUR}" ${sk(3)}/><circle cx="60" cy="60" r="46" fill="none" stroke="${INK}" stroke-width="1.4" stroke-dasharray="2 3"/></svg><div class="bt">${inner}</div></div>`}
 /* hand drawn highlighter ring around a phrase */
 const hi=(t)=>`<span class="hi">${t}<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M8 20C4 8 34 2 58 3S99 9 96 21 74 38 46 37 3 33 7 17 40 5 70 8" fill="none" vector-effect="non-scaling-stroke"/></svg></span>`;
 /* the front page picture: a carrier and a mailbox on Main St, with a giant number behind them like the reference's ISSUE 2 */
 const inner=s=>s.replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'');
 function scene(){return svg('0 0 236 384',`
-<text x="118" y="222" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="230" fill="${tint(.42)}" stroke="none" transform="rotate(-6 118 160)">80</text>
+<text x="118" y="222" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="230" fill="${PUR}" stroke="none" transform="rotate(-6 118 160)">80</text>
 <g ${sk()}><path d="M0 284H236V384H0Z" fill="${INK}"/><path d="M0 284H236" fill="none" stroke-width="3.4"/><path d="M10 296h216" stroke="${WH}" stroke-width="1.6" stroke-dasharray="3 5" fill="none"/>
 <text x="118" y="332" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="26" letter-spacing="3" fill="${WH}" stroke="none">MAIN ST.</text><text x="118" y="354" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="15" letter-spacing="4" fill="${WH}" stroke="none">MAIL DAY</text>
 ${mailPiece(150,20,60,40,12)}${mailPiece(14,30,52,34,-10)}</g>
@@ -260,15 +260,15 @@ function arcBadge(top,big,bottom){return svg('0 0 150 176',`<rect x="3" y="3" wi
 ${arcText(top,75,106,68,-148,-32,13)}<text x="75" y="118" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="56" fill="${INK}" stroke="none">${big}</text>
 <path d="M22 126H128" stroke="${INK}" stroke-width="1.6" fill="none"/><text x="75" y="144" text-anchor="middle" font-family="Archivo Narrow,Arial Narrow,sans-serif" font-weight="700" font-size="12.5" fill="${INK}" stroke="none" letter-spacing=".5">${bottom[0]}</text><text x="75" y="159" text-anchor="middle" font-family="Archivo Narrow,Arial Narrow,sans-serif" font-weight="700" font-size="12.5" fill="${INK}" stroke="none" letter-spacing=".5">${bottom[1]}</text>`,'A framed ad: 70 percent took an online action after mail')}
 /* mini data graphics */
-function donut(p,sz=84){const r=36,C=2*Math.PI*r;return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}"><circle cx="50" cy="50" r="${r}" fill="${WH}" stroke="${INK}" stroke-width="14"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${tint(.4)}" stroke-width="12" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="${r+7}" fill="none" stroke="${INK}" stroke-width="2.4"/><circle cx="50" cy="50" r="${r-7}" fill="none" stroke="${INK}" stroke-width="2.4"/></svg>`}
+function donut(p,sz=84){const r=36,C=2*Math.PI*r;return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}"><circle cx="50" cy="50" r="${r}" fill="${WH}" stroke="${INK}" stroke-width="14"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${PUR}" stroke-width="12" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="${r+7}" fill="none" stroke="${INK}" stroke-width="2.4"/><circle cx="50" cy="50" r="${r-7}" fill="none" stroke="${INK}" stroke-width="2.4"/></svg>`}
 function dots(n,of=10){let s='';for(let i=0;i<of;i++)s+=`<circle cx="${9+i*17}" cy="9" r="7" fill="${i<n?INK:WH}" stroke="${INK}" stroke-width="2"/>`;return `<svg viewBox="0 0 ${of*17} 18" width="100%">${s}</svg>`}
 function fatigue(){let s='';const cw=34,ch=23;
   for(let r=0;r<4;r++)for(let c=0;c<11;c++){const x=4+c*(cw+3),y=4+r*(ch+3),hot=(r*11+c)%7===3;
-    s+=`<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="2" fill="${hot?tint(.35):WH}" stroke="${INK}" stroke-width="1.6"/><path d="M${x} ${y}l${cw/2} ${ch*.55}l${cw/2} -${ch*.55}" fill="none" stroke="${INK}" stroke-width="1.3"/>`;
+    s+=`<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="2" fill="${hot?PUR:WH}" stroke="${INK}" stroke-width="1.6"/><path d="M${x} ${y}l${cw/2} ${ch*.55}l${cw/2} -${ch*.55}" fill="none" stroke="${INK}" stroke-width="1.3"/>`;
     if(hot)s+=`<circle cx="${x+cw-2}" cy="${y+2}" r="5.5" fill="${INK}"/>`}
-  s+=`<g transform="rotate(3 560 66)"><rect x="440" y="6" width="230" height="124" fill="${WH}" ${sk(3.2)}/><rect x="452" y="18" width="92" height="100" fill="${tint(.35)}" ${sk(2.4)}/><circle cx="498" cy="48" r="13" fill="${WH}" ${sk(2)}/><path d="M452 118l30-34 22 22 14-12 26 24Z" fill="${INK}"/>`+
+  s+=`<g transform="rotate(3 560 66)"><rect x="440" y="6" width="230" height="124" fill="${WH}" ${sk(3.2)}/><rect x="452" y="18" width="92" height="100" fill="${PUR}" ${sk(2.4)}/><circle cx="498" cy="48" r="13" fill="${WH}" ${sk(2)}/><path d="M452 118l30-34 22 22 14-12 26 24Z" fill="${INK}"/>`+
      line(560,34,654,34,2.4)+line(560,50,646,50,2.4)+line(560,66,650,66,2.4)+line(560,82,628,82,2.4)+
-     `<rect x="610" y="92" width="46" height="26" fill="${tint(.45)}" ${sk(2)} stroke-dasharray="3 2.4"/></g>`;
+     `<rect x="610" y="92" width="46" height="26" fill="${PUR}" ${sk(2)} stroke-dasharray="3 2.4"/></g>`;
   return svg('0 0 680 140',s,'Hundreds of small email icons beside one printed postcard')}
 function chartBars(rows){return rows.map(r=>`<div class="cb"><span>${r[0]}</span><i style="width:${r[1]}%"></i></div>`).join('')}
 function crossword(){
