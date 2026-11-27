@@ -8,7 +8,7 @@
 <meta name="description" content="Mail Call, a four page printed newspaper about Lob's State of Direct Mail 2026: read it page by page on screen, or drag it around as a folded 3D paper from the outside pages to the inner spread.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Anton&family=Alfa+Slab+One&family=Archivo:wdth,wght@62..125,100..900&family=Archivo+Narrow:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Anton&family=Alfa+Slab+One&family=Archivo:wdth,wght@62..125,100..900&family=Archivo+Narrow:wght@400;500;600;700&family=Space+Mono:ital,wght@1,700&display=swap">
 <style>
 :root{--paper:#ece8dd;--ink:#1c2170;--blue:var(--ink);--pink:color-mix(in srgb,var(--ink) 14%,var(--paper));--mag:color-mix(in srgb,var(--ink) 34%,var(--paper));--lime:color-mix(in srgb,var(--ink) 22%,var(--paper));--navy:color-mix(in srgb,var(--ink) 72%,var(--paper));--bg:#12143a;
 --sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--serif:"Newsreader",Georgia,"Times New Roman",serif}
@@ -139,6 +139,8 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .cw{background:#f3f2ec;color:var(--ink);display:grid;place-items:center;font:400 13px/1 var(--an);font-style:normal;position:relative;aspect-ratio:1;border:.5px solid var(--ink)}
 .cw u{position:absolute;left:1px;top:0;font:700 6px/1 var(--nar);text-decoration:none}
 .cb2{background:var(--ink);aspect-ratio:1}
+.stamp{padding:11px;background:radial-gradient(circle 5.5px at 7px 0,var(--paper) 97%,transparent) 0 0/14px 11px repeat-x,radial-gradient(circle 5.5px at 7px 11px,var(--paper) 97%,transparent) 0 100%/14px 11px repeat-x,radial-gradient(circle 5.5px at 0 7px,var(--paper) 97%,transparent) 0 0/11px 14px repeat-y,radial-gradient(circle 5.5px at 11px 7px,var(--paper) 97%,transparent) 100% 0/11px 14px repeat-y,var(--ink)}
+.dotband{height:16px;background:radial-gradient(circle,var(--ink) 0 38%,transparent 42%) 0 0/8px 8px;-webkit-mask:linear-gradient(90deg,#000,transparent);mask:linear-gradient(90deg,#000,transparent)}
 </style>
 </head>
 <body>
@@ -171,66 +173,58 @@ const line=(x1,y1,x2,y2,w=1.6)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2
 function hatch(x,y,w,h,gap,sw=1){let s='';for(let i=gap;i<w+h;i+=gap)s+=line(x+Math.min(i,w),y+Math.max(0,i-w),x+Math.max(0,i-h),y+Math.min(i,h),sw);return s}
 const eyes=(x1,x2,y,r=7)=>`<circle cx="${x1}" cy="${y}" r="${r}" fill="#fff" ${sk(2.2)}/><circle cx="${x2}" cy="${y}" r="${r}" fill="#fff" ${sk(2.2)}/><circle cx="${x1+1.5}" cy="${y+1}" r="${r*.45}" fill="${INK}"/><circle cx="${x2+1.5}" cy="${y+1}" r="${r*.45}" fill="${INK}"/>`;
 
-/* characters */
-function mailboxChar(){return svg('0 0 134 150',`<g ${sk()}>
-<path d="M2 144H132" fill="none"/>
-<rect x="50" y="98" width="20" height="46" fill="${tint(.28)}"/>${hatch(50,98,20,46,7,.9)}
-<path d="M108 74V16" stroke-width="4" fill="none"/><path d="M108 16h22v17h-22z" fill="${tint(.5)}"/>
-<path d="M14 98V64a32 32 0 0 1 32-32H74a32 32 0 0 1 32 32V98Z" fill="${WH}"/>
-<path d="M25 92V66a21 21 0 0 1 21-21H74" fill="none" stroke-width="1.8"/>
-${eyes(44,76,66)}<path d="M33 53l12 4M87 53l-12 4" fill="none"/>
-<path d="M42 82q18 15 36 0Z" fill="${INK}"/>
-<g transform="rotate(-10 40 28)"><rect x="20" y="14" width="42" height="28" fill="#fff"/><path d="M20 14l21 15 21-15" fill="none"/></g>
-</g>`,'A cartoon mailbox with a face and a raised flag')}
-function envelopeChar(){return svg('0 0 124 124',`<g ${sk()}>
-<path d="M2 74h14M0 88h20M6 102h14" fill="none" stroke-width="2"/>
-<path d="M42 76L32 106M82 76L92 102" fill="none" stroke-width="4.5"/>
-<ellipse cx="28" cy="110" rx="11" ry="5.5" fill="${INK}"/><ellipse cx="96" cy="106" rx="11" ry="5.5" fill="${INK}"/>
-<path d="M26 52L10 36M98 52L114 62" fill="none" stroke-width="4"/>
-<circle cx="8" cy="34" r="6" fill="#fff"/><circle cx="116" cy="63" r="6" fill="#fff"/>
-<rect x="24" y="22" width="76" height="56" fill="${WH}"/>
-<path d="M24 22L62 52L100 22" fill="none"/>
-<rect x="80" y="28" width="14" height="16" fill="${tint(.45)}" stroke-dasharray="2.6 2"/>
-${eyes(48,76,62,6.4)}<path d="M52 72q10 8 20 0" fill="none"/>
-</g>`,'A cartoon envelope running')}
-function carrierChar(){return svg('0 0 124 152',`<g ${sk()}>
-<rect x="38" y="118" width="17" height="28" fill="${INK}"/><rect x="66" y="118" width="17" height="28" fill="${INK}"/>
-<ellipse cx="42" cy="147" rx="14" ry="5" fill="${INK}"/><ellipse cx="80" cy="147" rx="14" ry="5" fill="${INK}"/>
-<path d="M28 72Q62 58 96 72V122H28Z" fill="${tint(.32)}"/>
-<path d="M34 70L92 120" stroke-width="7" fill="none"/>
-<circle cx="62" cy="40" r="21" fill="${tint(.08)}"/>
-<path d="M39 34a23 21 0 0 1 46 0Z" fill="${INK}"/><path d="M62 30h40v8H62z" fill="${INK}"/>
-<circle cx="54" cy="44" r="2.6" fill="${INK}" stroke="none"/><circle cx="72" cy="44" r="2.6" fill="${INK}" stroke="none"/>
-<path d="M52 54q10 9 20 0" fill="none"/>
-<rect x="40" y="86" width="46" height="32" fill="#fff"/><path d="M40 86L63 104L86 86" fill="none"/>
-<circle cx="36" cy="94" r="6.5" fill="${tint(.08)}"/><circle cx="90" cy="94" r="6.5" fill="${tint(.08)}"/>
-</g>`,'A cartoon mail carrier holding a letter')}
-function phoneChar(){return svg('0 0 112 92',`<g ${sk()}>
-<path d="M10 76L24 44H88L102 76Z" fill="${tint(.3)}"/>
-<path d="M14 40Q56 6 98 40" fill="none" stroke-width="9"/><path d="M14 40Q56 6 98 40" fill="none" stroke="${WH}" stroke-width="3"/>
-<circle cx="56" cy="60" r="13" fill="${WH}"/><circle cx="56" cy="60" r="3" fill="${INK}"/>
-${[0,1,2,3,4,5].map(i=>`<circle cx="${56+8*Math.cos(i*1.05)}" cy="${60+8*Math.sin(i*1.05)}" r="1.5" fill="${INK}" stroke="none"/>`).join('')}
-<path d="M4 76h104" fill="none"/>
-</g>`,'A retro telephone')}
-function vanChar(){return svg('0 0 190 104',`<g ${sk()}>
-<path d="M0 60h18M4 72h22M0 84h14" fill="none" stroke-width="2"/>
-<rect x="24" y="24" width="112" height="56" fill="${WH}"/>
-<path d="M136 40h30l22 22v18h-52Z" fill="${tint(.28)}"/><path d="M144 46h20l14 14h-34Z" fill="${WH}"/>
-<rect x="44" y="36" width="52" height="34" fill="#fff"/><path d="M44 36L70 56L96 36" fill="none"/>
-<rect x="88" y="52" width="14" height="14" fill="${tint(.45)}" stroke-dasharray="2.4 2"/>
-<circle cx="56" cy="82" r="13" fill="${INK}"/><circle cx="56" cy="82" r="5" fill="${WH}" stroke="none"/>
-<circle cx="150" cy="82" r="13" fill="${INK}"/><circle cx="150" cy="82" r="5" fill="${WH}" stroke="none"/>
-</g>`,'A delivery van')}
-function storeChar(){let st='';for(let i=0;i<6;i++)st+=`<path d="M${14+i*16} 28h16v22a8 8 0 0 1-16 0Z" fill="${i%2?WH:INK}"/>`;
-  return svg('0 0 124 104',`<g ${sk()}><rect x="16" y="48" width="92" height="52" fill="${WH}"/><path d="M8 28h108l-6-18H14Z" fill="${tint(.4)}"/>${st}
-<rect x="26" y="62" width="32" height="26" fill="#fff"/><rect x="70" y="60" width="26" height="40" fill="${tint(.3)}"/><circle cx="90" cy="82" r="2" fill="${INK}"/>
-<path d="M2 100H122" fill="none"/></g>`,'A little shop with a striped awning')}
+/* mascot kit: flat black quiff, closed-eye smile, tinted cheeks, outlined tube limbs, big black shoes, halftone shading */
+const tube=(d,w=8)=>`<path d="${d}" fill="none" stroke="${INK}" stroke-width="${w+5}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${WH}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+const mitt=(x,y,r=6.5)=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${WH}" ${sk(2.4)}/><path d="M${x-1} ${y+r-1}v-3" ${sk(1.6)} fill="none"/>`;
+const shoe=(x,y,f)=>`<g transform="translate(${x} ${y}) scale(${f} 1)"><path d="M-13 7C-15 -4 -7 -10 3 -9C12 -8 17 -3 17 3C17 7 15 7 12 7Z" fill="${INK}"/><path d="M-3 -5q6 -2 10 2" stroke="${WH}" stroke-width="1.6" fill="none" stroke-linecap="round" opacity=".7"/></g>`;
+function dotsIn(x,y,w,h,gap=5,r=.95){let s='';for(let j=0;y+j*gap<y+h;j++)for(let i=0;x+i*gap+(j%2)*gap/2<x+w;i++)s+=`<circle cx="${(x+i*gap+(j%2)*gap/2).toFixed(1)}" cy="${y+j*gap}" r="${r}" fill="${INK}"/>`;return s}
+function head(cx,cy,mood='shut'){const e=mood==='peek'?`<circle cx="-8" cy="2" r="3.6" fill="${INK}"/><circle cx="9" cy="2" r="3.6" fill="${INK}"/>`:`<path d="M-12 3q4 4 8 0M4 3q4 4 8 0" fill="none" ${sk(2.4)}/>`;
+  return `<g transform="translate(${cx} ${cy})"><circle cx="-22" cy="3" r="4.6" fill="${WH}" ${sk(2.4)}/><ellipse cx="0" cy="0" rx="22" ry="24" fill="${WH}" ${sk(2.8)}/>
+<circle cx="-14" cy="11" r="5.2" fill="${tint(.4)}"/><circle cx="15" cy="11" r="5.2" fill="${tint(.4)}"/>${e}<path d="M-1 7q4 1 1 5" fill="none" ${sk(1.8)}/><path d="M-7 14q8 7 16 0" fill="none" ${sk(2.4)}/>
+<path d="M-21 -4C-26 -24 -6 -34 12 -28C24 -34 36 -24 27 -13C23 -8 17 -12 13 -12C5 -16 -8 -12 -14 -2Z" fill="${INK}"/><path d="M-6 -24q8 -5 16 -2" fill="none" stroke="${WH}" stroke-width="1.8" stroke-linecap="round" opacity=".75"/></g>`}
+function tee(x,y,label){return `<path d="M${x-30} ${y+8} L${x-12} ${y} H${x+12} L${x+30} ${y+8} L${x+24} ${y+30} L${x+16} ${y+26} V${y+56} H${x-16} V${y+26} L${x-24} ${y+30} Z" fill="${WH}" ${sk()}/>${dotsIn(x+4,y+30,11,24,4.6,.9)}<text x="${x-1}" y="${y+22}" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="12" fill="${INK}" stroke="none">${label}</text>`}
+function mailPiece(x,y,w,h,rot=0){return `<g transform="rotate(${rot} ${x+w/2} ${y+h/2})"><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${WH}" ${sk()}/><path d="M${x} ${y}L${x+w/2} ${y+h*.56}L${x+w} ${y}" fill="none" ${sk(2.2)}/>${dotsIn(x+4,y+h*.62,w*.45,h*.3,4.6,.9)}<rect x="${x+w-17}" y="${y+5}" width="12" height="13" fill="${tint(.4)}" ${sk(1.8)} stroke-dasharray="2.4 1.8"/></g>`}
+function carrierChar(){return svg('0 0 124 160',`<g ${sk()}>${tube('M52 114L47 142')}${tube('M74 114L80 142')}${shoe(40,150,-1)}${shoe(86,150,1)}${tee(63,66,'LOB')}${tube('M35 76Q22 96 38 108',7)}${tube('M91 76Q104 96 88 108',7)}${mailPiece(36,94,54,36,-3)}${mitt(38,108)}${mitt(88,108)}${head(63,40)}</g>`,'A cartoon mail carrier holding a big letter')}
+function mailboxChar(){return svg('0 0 140 164',`<g ${sk()}>${tube('M54 114L49 144')}${tube('M84 114L90 144')}${shoe(42,152,-1)}${shoe(98,152,1)}
+${tube('M20 88Q4 98 12 116',7)}${mitt(12,118)}
+<path d="M18 112V66a34 34 0 0 1 34-34H88a34 34 0 0 1 34 34V112Z" fill="${WH}" ${sk(2.8)}/>${dotsIn(96,56,22,52,4.8,.95)}
+<path d="M28 106V68a24 24 0 0 1 24-24H88" fill="none" stroke-width="1.8"/>
+<path d="M-0 0" fill="none"/>
+${tube('M116 90Q132 80 130 58',7)}${mitt(130,54)}<path d="M130 50V14" stroke-width="3.4" fill="none"/><path d="M130 14h22v16h-22z" fill="${tint(.5)}" stroke-width="2.6"/>
+<g transform="translate(70 76)"><path d="M-22 2q4 4 8 0M12 2q4 4 8 0" fill="none" stroke-width="2.4"/><circle cx="-26" cy="14" r="5.2" fill="${tint(.4)}" stroke="none"/><circle cx="26" cy="14" r="5.2" fill="${tint(.4)}" stroke="none"/><path d="M-9 16q9 8 18 0" fill="none" stroke-width="2.4"/><path d="M-1 8q4 1 1 5" fill="none" stroke-width="1.8"/></g>
+${mailPiece(44,12,40,26,-9)}</g>`,'A cartoon mailbox mascot waving a flag')}
+function envelopeChar(){return svg('0 0 128 140',`<g ${sk()}><path d="M2 70h14M0 84h20M6 98h14" fill="none" stroke-width="2"/>
+${tube('M50 92L44 120')}${tube('M82 92L90 118')}${shoe(38,128,-1)}${shoe(100,126,1)}
+${tube('M30 62Q12 60 8 44',7)}${mitt(8,40)}${tube('M104 62Q120 70 120 84',7)}${mitt(120,88)}
+<rect x="26" y="22" width="80" height="72" rx="3" fill="${WH}" ${sk(2.8)}/><path d="M26 22L66 58L106 22" fill="none" ${sk(2.6)}/>${dotsIn(80,52,22,38,4.8,.95)}
+<rect x="84" y="28" width="16" height="18" fill="${tint(.4)}" stroke-width="2" stroke-dasharray="2.6 2"/>
+<path d="M44 70q4 4 8 0M70 70q4 4 8 0" fill="none" stroke-width="2.4"/><circle cx="40" cy="80" r="5" fill="${tint(.4)}" stroke="none"/><circle cx="84" cy="80" r="5" fill="${tint(.4)}" stroke="none"/><path d="M56 80q8 7 16 0" fill="none" stroke-width="2.4"/></g>`,'A cartoon envelope mascot running')}
+/* the reading guy: an open mailer held up, eyes peeking over it */
+function readerChar(){return svg('0 0 150 170',`<g ${sk()}>${tube('M62 138L56 156')}${tube('M88 138L96 156')}${shoe(50,160,-1)}${shoe(104,160,1)}
+${head(75,34,'peek')}
+<path d="M30 56L72 46V128L30 138Z" fill="${WH}" ${sk(2.8)}/><path d="M78 46L120 56V138L78 128Z" fill="${WH}" ${sk(2.8)}/><path d="M75 46V128" fill="none" stroke-width="3"/>
+<rect x="38" y="58" width="26" height="22" fill="none" stroke-width="2"/><path d="M38 58L64 80M64 58L38 80" fill="none" stroke-width="1.6"/>
+<path d="M38 90h26M38 98h26M38 106h20M38 114h26" fill="none" stroke-width="2"/>
+<rect x="86" y="60" width="26" height="14" fill="${INK}" stroke="none"/>${dotsIn(86,80,26,24,4.6,.95)}<path d="M86 112h26M86 120h20" fill="none" stroke-width="2"/>
+${mitt(28,92)}${mitt(122,96)}</g>`,'A cartoon reader holding an open mailer')}
+function phoneChar(){return svg('0 0 120 100',`<g ${sk()}><path d="M12 82L26 46H94L108 82Z" fill="${INK}"/><path d="M16 42Q60 4 104 42" fill="none" stroke-width="12"/><path d="M16 42Q60 4 104 42" fill="none" stroke="${WH}" stroke-width="5"/>
+<circle cx="60" cy="64" r="15" fill="${WH}"/><circle cx="60" cy="64" r="3.4" fill="${INK}"/>${[0,1,2,3,4,5].map(i=>`<circle cx="${(60+9.5*Math.cos(i*1.05)).toFixed(1)}" cy="${(64+9.5*Math.sin(i*1.05)).toFixed(1)}" r="1.8" fill="${INK}" stroke="none"/>`).join('')}
+<path d="M4 84h112" fill="none"/><path d="M104 40q12 6 6 22" fill="none" stroke-width="2"/></g>`,'A retro telephone')}
+function vanChar(){return svg('0 0 200 110',`<g ${sk()}><path d="M2 62h20M6 76h24M0 90h16" fill="none" stroke-width="2"/>
+<rect x="28" y="22" width="118" height="62" fill="${WH}"/>${dotsIn(118,28,24,52,4.8,.95)}<rect x="44" y="34" width="56" height="36" fill="#fff"/><path d="M44 34L72 56L100 34" fill="none"/><rect x="88" y="52" width="16" height="14" fill="${tint(.4)}" stroke-width="2" stroke-dasharray="2.6 2"/>
+<path d="M146 40h32l22 24v22h-54Z" fill="${WH}"/><path d="M154 46h22l14 16h-36Z" fill="${INK}"/>
+<circle cx="62" cy="88" r="14" fill="${INK}"/><circle cx="62" cy="88" r="5" fill="${WH}" stroke="none"/><circle cx="164" cy="88" r="14" fill="${INK}"/><circle cx="164" cy="88" r="5" fill="${WH}" stroke="none"/></g>`,'A delivery van')}
+function storeChar(){let st='';for(let i=0;i<6;i++)st+=`<path d="M${14+i*16} 30h16v22a8 8 0 0 1-16 0Z" fill="${i%2?WH:INK}"/>`;
+  return svg('0 0 124 108',`<g ${sk()}><rect x="16" y="50" width="92" height="52" fill="${WH}"/>${dotsIn(20,86,22,12,4.6,.9)}<path d="M8 30h108l-6-20H14Z" fill="${INK}"/>${st}
+<rect x="26" y="62" width="32" height="26" fill="#fff"/><path d="M42 62v26M26 75h32" fill="none" stroke-width="1.6"/><rect x="70" y="60" width="26" height="42" fill="${INK}"/><circle cx="90" cy="82" r="2" fill="${WH}" stroke="none"/><path d="M2 102H122" fill="none"/></g>`,'A little shop with a striped awning')}
 function qrChar(){let s='';const n=11;const f=(x,y)=>(x<4&&y<4)||(x>6&&y<4)||(x<4&&y>6);
   for(let y=0;y<n;y++)for(let x=0;x<n;x++){const fin=f(x,y);const on=fin?false:((x*7+y*13+x*y)%5<2);if(on)s+=`<rect x="${6+x*8}" y="${6+y*8}" width="8" height="8" fill="${INK}"/>`}
   [[0,0],[7,0],[0,7]].forEach(([a,b])=>{s+=`<rect x="${6+a*8}" y="${6+b*8}" width="32" height="32" fill="${INK}"/><rect x="${10+a*8}" y="${10+b*8}" width="24" height="24" fill="${WH}"/><rect x="${14+a*8}" y="${14+b*8}" width="16" height="16" fill="${INK}"/>`});
-  return svg('0 0 100 100',`<rect x="1" y="1" width="98" height="98" fill="${WH}" ${sk(2.4)}/>${s}`,'A QR code')}
-function stackChar(){let s='';for(let i=0;i<4;i++){const y=88-i*20,r=(i%2?-5:4);s+=`<g transform="rotate(${r} 60 ${y})"><rect x="22" y="${y-14}" width="76" height="30" fill="${i===3?tint(.3):WH}" ${sk(2.4)}/><path d="M22 ${y-14}L60 ${y+6}L98 ${y-14}" fill="none" ${sk(2)}/></g>`}
-  return svg('0 0 120 110',s+`<path d="M12 106h96" ${sk()} fill="none"/>`,'A stack of mail')}
+  return svg('0 0 100 100',`<rect x="1" y="1" width="98" height="98" fill="${WH}" ${sk(3)}/>${s}`,'A QR code')}
+/* a stack of mail drawn like the stack of papers in the reference: stripes, thick and thin */
+function stackChar(){let s='';for(let k=0;k<4;k++){const y=96-k*26;s+=`<path d="M14 ${y}h92l6 -12H20Z" fill="${WH}" ${sk(2.6)}/><rect x="14" y="${y}" width="92" height="14" fill="${WH}" ${sk(2.6)}/>`+[0,1,2,3].map(i=>`<path d="M16 ${y+3+i*3.2}H104" stroke="${INK}" stroke-width="${i%2?1.1:1.8}" fill="none"/>`).join('')}
+  s+=`<path d="M30 14h60l14 -8H44Z" fill="${INK}"/><rect x="30" y="14" width="60" height="10" fill="${tint(.4)}" ${sk(2.6)}/>`;
+  return svg('0 0 124 128',s,'A stack of mail')}
 /* small spot icons */
 function icon(n){const g={
  clock:`<circle cx="30" cy="30" r="22" fill="${WH}"/><path d="M30 16V30L40 36" fill="none" stroke-width="3.4"/><path d="M12 8l8 6M48 8l-8 6" fill="none" stroke-width="3.4"/>`,
@@ -250,18 +244,21 @@ function badge(inner,cls=''){const N=26,R=58,r=53;let p='';for(let i=0;i<N*2;i++
   return `<div class="badge ${cls}"><svg viewBox="0 0 120 120" width="100%" height="100%"><polygon points="${p}" fill="${WH}" ${sk(3)}/><circle cx="60" cy="60" r="46" fill="none" stroke="${INK}" stroke-width="1.4" stroke-dasharray="2 3"/></svg><div class="bt">${inner}</div></div>`}
 /* hand drawn highlighter ring around a phrase */
 const hi=(t)=>`<span class="hi">${t}<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true"><path d="M8 20C4 8 34 2 58 3S99 9 96 21 74 38 46 37 3 33 7 17 40 5 70 8" fill="none" vector-effect="non-scaling-stroke"/></svg></span>`;
-/* the front page picture: a carrier and a mailbox on Main St, in halftone */
-function scene(){return svg('0 0 250 330',`
-<g ${sk()}>
-<path d="M0 262H250V330H0Z" fill="${INK}"/><text x="125" y="304" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="22" letter-spacing="3" fill="${WH}" stroke="none">MAIN ST. · MAIL DAY</text>
-<path d="M0 262H250" fill="none" stroke-width="3"/>
-<rect x="18" y="44" width="70" height="86" fill="${WH}"/><path d="M53 44v86M18 87h70" fill="none" stroke-width="2"/>
-<path d="M170 104c-22-6-30-36-6-48 8 22 24 24 30 48M190 120c-6-30 12-50 40-44-10 26-24 34-40 44" fill="${tint(.4)}"/><rect x="176" y="112" width="30" height="40" fill="${tint(.3)}"/>
-<g transform="rotate(-14 200 40)"><rect x="168" y="22" width="56" height="38" fill="#fff"/><path d="M168 22L196 44L224 22" fill="none"/><rect x="202" y="26" width="14" height="14" fill="${tint(.45)}" stroke-dasharray="2.4 2"/></g>
-<g transform="rotate(10 60 160)"><rect x="34" y="148" width="44" height="30" fill="#fff"/><path d="M34 148L56 166L78 148" fill="none"/></g>
-</g>
-<svg x="6" y="112" width="132" height="160" viewBox="0 0 124 152">${carrierChar().replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'')}</svg>
-<svg x="126" y="130" width="116" height="132" viewBox="0 0 134 150">${mailboxChar().replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'')}</svg>`,'A cartoon mail carrier waving beside a talking mailbox')}
+/* the front page picture: a carrier and a mailbox on Main St, with a giant number behind them like the reference's ISSUE 2 */
+const inner=s=>s.replace(/^<svg[^>]*>/,'').replace(/<\/svg>$/,'');
+function scene(){return svg('0 0 236 384',`
+<text x="118" y="222" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="230" fill="${tint(.42)}" stroke="none" transform="rotate(-6 118 160)">80</text>
+<g ${sk()}><path d="M0 284H236V384H0Z" fill="${INK}"/><path d="M0 284H236" fill="none" stroke-width="3.4"/><path d="M10 296h216" stroke="${WH}" stroke-width="1.6" stroke-dasharray="3 5" fill="none"/>
+<text x="118" y="332" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="26" letter-spacing="3" fill="${WH}" stroke="none">MAIN ST.</text><text x="118" y="354" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="15" letter-spacing="4" fill="${WH}" stroke="none">MAIL DAY</text>
+${mailPiece(150,20,60,40,12)}${mailPiece(14,30,52,34,-10)}</g>
+<svg x="-6" y="118" width="136" height="176" viewBox="0 0 124 160">${inner(carrierChar())}</svg>
+<svg x="108" y="140" width="130" height="156" viewBox="0 0 140 164">${inner(mailboxChar())}</svg>`,'A cartoon mail carrier waving beside a talking mailbox')}
+/* text set around an arc (per letter, no ids) */
+function arcText(str,cx,cy,r,a0,a1,size,out=1){const n=str.length;return [...str].map((ch,i)=>{const a=(a0+(a1-a0)*(n===1?.5:i/(n-1)))*Math.PI/180,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a),rot=a*180/Math.PI+90*out;return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" transform="rotate(${rot.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})" text-anchor="middle" dominant-baseline="middle" font-family="Anton,Impact,sans-serif" font-size="${size}" fill="${INK}" stroke="none">${ch}</text>`}).join('')}
+/* the framed ad with a double rule and a headline bent over the picture */
+function arcBadge(top,big,bottom){return svg('0 0 150 176',`<rect x="3" y="3" width="144" height="170" fill="${WH}" ${sk(3.6)}/><rect x="10" y="10" width="130" height="156" fill="none" ${sk(1.4)}/>
+${arcText(top,75,106,68,-148,-32,13)}<text x="75" y="118" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="56" fill="${INK}" stroke="none">${big}</text>
+<path d="M22 126H128" stroke="${INK}" stroke-width="1.6" fill="none"/><text x="75" y="144" text-anchor="middle" font-family="Archivo Narrow,Arial Narrow,sans-serif" font-weight="700" font-size="12.5" fill="${INK}" stroke="none" letter-spacing=".5">${bottom[0]}</text><text x="75" y="159" text-anchor="middle" font-family="Archivo Narrow,Arial Narrow,sans-serif" font-weight="700" font-size="12.5" fill="${INK}" stroke="none" letter-spacing=".5">${bottom[1]}</text>`,'A framed ad: 70 percent took an online action after mail')}
 /* mini data graphics */
 function donut(p,sz=84){const r=36,C=2*Math.PI*r;return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}"><circle cx="50" cy="50" r="${r}" fill="${WH}" stroke="${INK}" stroke-width="14"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${tint(.4)}" stroke-width="12" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="${r+7}" fill="none" stroke="${INK}" stroke-width="2.4"/><circle cx="50" cy="50" r="${r-7}" fill="none" stroke="${INK}" stroke-width="2.4"/></svg>`}
 function dots(n,of=10){let s='';for(let i=0;i<of;i++)s+=`<circle cx="${9+i*17}" cy="9" r="7" fill="${i<n?INK:WH}" stroke="${INK}" stroke-width="2"/>`;return `<svg viewBox="0 0 ${of*17} 18" width="100%">${s}</svg>`}
@@ -382,13 +379,13 @@ ${foot(3,'Page three')}`,
     <div style="display:flex;gap:10px;align-items:center"><div class="num" style="background:var(--ink)">4</div><div class="an" style="font-size:37px;line-height:.9">Connect with customers on their terms</div></div>
     <div class="tx" style="margin-top:8px;font-size:12.2px"><p>Direct mail campaigns thrive when you go beyond the mailbox. There's no single path from awareness to action to attribution. Some consumers may research the brand online. Another may head to the store. Others prefer to scan a QR code or visit a PURL.</p></div>
   </div>
-  <div style="align-self:center;margin:-2px">${badge('<span style="font-size:38px">70%</span><span style="font-size:13.5px;line-height:1.02;margin-top:2px">took an online action after mail</span>')}</div>
+  <div style="align-self:stretch;height:150px">${arcBadge('TOOK AN ONLINE ACTION','70%',['AFTER RECEIVING','DIRECT MAIL'])}</div>
   ${[[qrChar(),'Scan a QR code','bx ht'],[phoneChar(),'Call a number','bx'],[storeChar(),'Go to the store','bx ht']].map(t=>`<div class="${t[2]}" style="padding:0"><div style="height:84px;padding:6px 18px 3px">${t[0]}</div><div class="cap" style="font-size:15px">${t[1]}</div></div>`).join('')}
-  <div class="bx" style="grid-column:span 2;padding:8px 10px;border-width:4px;display:grid;grid-template-columns:116px 1fr;gap:8px;align-items:center">
-    <div style="height:66px">${vanChar()}</div>
-    <div><div class="an" style="font-size:21px">Lob's worldwide delivery service</div><div class="tx" style="font-size:11.4px;margin-top:4px">Every mailbox. Every day. Put your message where more than <b>80%</b> of people look daily.</div></div>
-  </div>
-  <div class="bx sp" style="grid-column:span 2;padding:8px 12px;display:grid;grid-template-columns:1fr 62px;gap:8px;align-items:center"><div><div class="an" style="font-size:25px">Free: the full report</div><div class="tx" style="font-size:11.6px;margin-top:4px">Get more consumer insights in the 2026 State of Direct Mail Consumer Insights webinar, or read the full report at <b>lob.com</b>.</div></div><div style="height:78px">${carrierChar()}</div></div>
+  <div class="stamp" style="grid-column:span 2"><div style="background:var(--box);display:grid;grid-template-columns:104px 1fr;gap:8px;align-items:center;padding:7px 10px">
+    <div style="height:62px">${vanChar()}</div>
+    <div><div style="font:italic 700 15.5px/1.08 'Space Mono','Courier New',monospace">Lob's Worldwide Delivery Service</div><div class="tx" style="font-size:11.2px;margin-top:4px">Every mailbox. Every day. More than <b>80%</b> of people look daily.</div></div>
+  </div></div>
+  <div class="bx sp" style="grid-column:span 2;padding:8px 12px;display:grid;grid-template-columns:1fr 62px;gap:8px;align-items:center"><div><div class="an" style="font-size:25px">Free: the full report</div><div class="tx" style="font-size:11.6px;margin-top:4px">Get more consumer insights in the 2026 State of Direct Mail Consumer Insights webinar, or read the full report at <b>lob.com</b>.</div></div><div style="height:88px">${readerChar()}</div></div>
 </div>
 <div style="margin-top:8px">${trys('Try this in your next campaign',[
 ['paths','Flexible response paths','Let people engage in their preferred format. More entry points means more conversion opportunities.'],
