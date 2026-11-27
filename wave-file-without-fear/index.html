@@ -77,7 +77,7 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .three p a:hover,.pc li a:hover{color:var(--blue)}
 
 /* testimonials */
-.testi{background:var(--sky);padding:33px 0}
+.testi{background:var(--sky);padding:88px 0}
 .tq{max-width:1352px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:367px minmax(0,780px);justify-content:space-between;gap:42px;align-items:center}
 .tq blockquote,.pcard blockquote{font-family:var(--serif);font-size:34px;line-height:1.18;letter-spacing:-.01em;color:var(--navy);font-weight:400;font-variation-settings:"opsz" 36}
 .tq blockquote b,.pcard blockquote b{font-weight:600}
@@ -319,7 +319,7 @@ footer{position:relative;overflow:hidden}
   .lotus{aspect-ratio:4/5}.feat .lotus .ui{left:4%;top:5%;width:92%;max-width:none}.feat .lotus .hd{font-size:12px;white-space:normal;padding-right:10px}.feat .lotus .hd br{display:none}.feat .lotus .row{font-size:12.5px;height:40px}.feat .lotus .row span{width:92px}.feat .lotus .row i{margin-right:12px}.lotus canvas{top:30%;height:70%}
   .stats,.stats .r2{grid-template-columns:1fr}
   .st,.r2 .st{min-height:300px}
-  .prices{grid-template-columns:1fr}.pc+.pc{border-left:0;border-top:1.5px solid var(--navy)}.phead{flex-direction:column;align-items:flex-start}.phead h2{font-size:42px}.pc .head,.pc ul{padding-left:24px;padding-right:24px}.pc .plus{padding-left:24px}.pc ul{grid-template-columns:1fr}.rec{top:24px;right:24px}
+  .tog{flex-wrap:wrap;gap:10px}.tog .pill button{padding:0 18px}.prices{grid-template-columns:1fr}.pc+.pc{border-left:0;border-top:1.5px solid var(--navy)}.phead{flex-direction:column;align-items:flex-start}.phead h2{font-size:42px}.pc .head,.pc ul{padding-left:24px;padding-right:24px}.pc .plus{padding-left:24px}.pc ul{grid-template-columns:1fr}.rec{top:24px;right:24px}
   .pc{min-height:0}
   .adv .cl{grid-template-columns:1fr}
   .adv .l{padding-right:24px}
@@ -466,8 +466,8 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 <section class="plans" id="plans">
   <div class="wrap">
   <div class="phead">
-    <div><h2 class="serif">Pricing with nothing to <em>fear.</em></h2><p>Start free. Upgrade when you want the books to run themselves.</p></div>
-    <div class="tog"><span class="save"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c.6 4.2 3.8 7.4 8 8-4.2.6-7.4 3.8-8 8-.6-4.2-3.8-7.4-8-8 4.2-.6 7.4-3.8 8-8z"/></svg>Save $50 annually</span><div class="pill"><button data-p="m">Monthly</button><button class="on" data-p="a">Annual</button></div></div>
+    <div><h2 class="serif">Pricing with nothing to <em>fear</em></h2><p>Start free. Upgrade when you want the books to run themselves.</p></div>
+    <div class="tog"><div class="pill"><button data-p="m">Monthly</button><button class="on" data-p="a">Annual</button></div></div>
   </div>
   <div class="prices">
     <div class="pc">
@@ -609,6 +609,21 @@ const pleat = (i) => (i % 2 ? 1.07 : 0.93);
 const pleatX = (i) => (i % 2 ? 1.2 : 0.8); // sharper, more angular pleats
 
 /* ---------- creatures ---------- */
+function lotusShape(petals, rings, notch) {
+  return {
+    nu: 24, nv: 24, unfoldFrom: [0.5, 0.5], init() {},
+    pose(u, v, i, j, cu, cv) {
+      const x = v - 0.5, y = u - 0.5, s = Math.min(1, Math.max(Math.abs(x), Math.abs(y)) * 2);
+      const cs = Math.min(1, Math.max(Math.abs(cv - 0.5), Math.abs(cu - 0.5)) * 2);
+      const L = cs < rings[0][1] ? rings[0] : cs < rings[1][1] ? rings[1] : rings[2];
+      const [s0, s1, R0, R1, H0, H1, ph, pw] = L, t = clamp((s - s0) / (s1 - s0));
+      const th = Math.atan2(y, x) + ph, m = 0.5 + 0.5 * Math.cos(petals * th);
+      let R = mix(R0, R1, t) * (1 - (1 - m) * notch * t), H = mix(H0, H1, Math.pow(t, pw)) * (1 - (1 - m) * 0.28 * t);
+      H += (i + j) % 2 ? 0.025 * t : -0.01 * t;
+      return [Math.cos(th - ph) * R * 1.05, H, Math.sin(th - ph) * R * 0.95];
+    },
+  };
+}
 const CREATURES = {
   dragon: {
     // three-headed origami dragon: tall flat-folded necks with angular heads, two upright diamond wings,
@@ -750,22 +765,12 @@ const CREATURES = {
     },
   },
 
-  lotus: {
-    nu: 24, nv: 24, unfoldFrom: [0.5, 0.5],
-    init() {},
-    pose(u, v, i, j, cu, cv) {
-      const x = v - 0.5, y = u - 0.5, s = Math.min(1, Math.max(Math.abs(x), Math.abs(y)) * 2);
-      const cs = Math.min(1, Math.max(Math.abs(cv - 0.5), Math.abs(cu - 0.5)) * 2);
-      // three petal rings, cut apart at the ring boundaries: upright inner cup, opening middle, low outer
-      const L = cs < 0.36 ? [0, 0.36, 0.0, 0.34, 0.02, 1.05, 0, 2.2] : cs < 0.7 ? [0.36, 0.7, 0.12, 0.78, 0.04, 0.72, Math.PI / 8, 1.6] : [0.7, 1, 0.22, 1.18, 0.03, 0.3, 0, 1.25];
-      const [s0, s1, R0, R1, H0, H1, ph, pw] = L, t = clamp((s - s0) / (s1 - s0));
-      const th = Math.atan2(y, x) + ph;
-      const m = 0.5 + 0.5 * Math.cos(8 * th); // 1 on a petal's midrib, 0 between petals
-      let R = mix(R0, R1, t) * (1 - (1 - m) * 0.42 * t), H = mix(H0, H1, Math.pow(t, pw)) * (1 - (1 - m) * 0.28 * t);
-      H += (i + j) % 2 ? 0.025 * t : -0.01 * t; // crease relief along the petals
-      return [Math.cos(th - ph) * R * 1.05, H, Math.sin(th - ph) * R * 0.95];
-    },
-  },
+  lotus: lotusShape(8, [[0, 0.36, 0.0, 0.34, 0.02, 1.05, 0, 2.2], [0.36, 0.7, 0.12, 0.78, 0.04, 0.72, Math.PI / 8, 1.6], [0.7, 1, 0.22, 1.18, 0.03, 0.3, 0, 1.25]], 0.42),
+  // water lily: five broad, pointed petals per ring, opened wide and low
+  lotus2: lotusShape(5, [[0, 0.3, 0.0, 0.28, 0.02, 0.62, 0, 1.6], [0.3, 0.66, 0.1, 0.86, 0.03, 0.36, Math.PI / 5, 1.3], [0.66, 1, 0.24, 1.22, 0.02, 0.14, 0, 1.1]], 0.62),
+  // tight bud: twelve narrow petals, rings standing tall and closed
+  lotus3: lotusShape(12, [[0, 0.4, 0.0, 0.2, 0.02, 1.2, 0, 2.6], [0.4, 0.72, 0.1, 0.48, 0.04, 1.0, Math.PI / 12, 2.0], [0.72, 1, 0.2, 0.92, 0.03, 0.58, 0, 1.5]], 0.3),
+
 };
 
 /* ---------- printed CRA forms (texture) ---------- */
@@ -944,7 +949,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   if (o.center) {
     let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
     for (const P of out) for (const p of P) { const q = proj(p); if (q[0] < x0) x0 = q[0]; if (q[0] > x1) x1 = q[0]; if (q[1] < y0) y0 = q[1]; if (q[1] > y1) y1 = q[1]; }
-    const dx = W * 0.5 - (x0 + x1) / 2, dy = H * (o.centerY || 0.5) - (y0 + y1) / 2, p0 = proj;
+    const ca = o.centerAmt == null ? 1 : o.centerAmt, dx = (W * (o.centerX || 0.5) - (x0 + x1) / 2) * ca, dy = (H * (o.centerY || 0.5) - (y0 + y1) / 2) * ca, p0 = proj;
     proj = (p) => { const q = p0(p); return [q[0] + dx, q[1] + dy, q[2]]; };
   }
   // shadow (off when o.shadow is falsy: no drop shadows)
@@ -1060,28 +1065,27 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- hero: each creature sways, unfolds, lies perfectly still while its print turns into the next CRA form, then refolds into the next creature ---------- */
 const SEQ = [
+  { c: 'scorpion', z: 0.9, f: 'PD7A', name: 'The payroll scorpion', form: 'PD7A Statement of Account for Current Source Deductions' },
   { c: 'dragon', f: 'T2', name: 'The T2 dragon', form: 'T2 Corporation Income Tax Return' },
-  { c: 'hydra', f: 'GST34', name: 'The GST/HST hydra', form: 'GST/HST Return' },
-  { c: 'scorpion', f: 'PD7A', name: 'The payroll scorpion', form: 'PD7A Statement of Account for Current Source Deductions' },
-  { c: 'spider', f: 'T5018', name: 'The T5018 spider', form: 'T5018 Summary of Contract Payments' },
+  { c: 'spider', z: 0.62, f: 'T5018', name: 'The T5018 spider', form: 'T5018 Summary of Contract Payments' },
   { c: 'snake', f: 'T2125', name: 'The T2125 cobra', form: 'Statement of Business or Professional Activities' },
 ];
 const HOLD = 1.5, DUR = 2.6, FLAT = 1.6, REFOLD = 2.6, SEG = HOLD + DUR + FLAT + REFOLD, TOTAL = SEG * SEQ.length;
 const stage = document.getElementById('stage');
 const mobile = () => innerWidth <= 820;
-const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.6, fov: 1.25, zoom: 1, flatDist: 1.2 } : { cx: innerWidth < 1400 ? 0.755 : 0.74, cy: 0.58, fov: innerWidth < 1400 ? 1.2 : 1.24, zoom: 1, flatDist: 1.22 };
-const scene = new Origami.Scene(stage, Object.assign({ creature: 'dragon', form: 'T2', shadow: null, yaw: -0.42, flatYaw: 0.22 }, heroOpt()));
+const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.6, fov: 1.25, flatDist: 1.2, centerX: 0.5, centerY: 0.62 } : { centerX: innerWidth < 1400 ? 0.74 : 0.72, centerY: 0.55, cx: innerWidth < 1400 ? 0.755 : 0.74, cy: 0.58, fov: innerWidth < 1400 ? 1.2 : 1.24, zoom: 1, flatDist: 1.22 };
+const scene = new Origami.Scene(stage, Object.assign({ creature: 'scorpion', form: 'PD7A', shadow: null, yaw: -0.42, flatYaw: 0.22 }, heroOpt()));
 let cur = -1, T = 0, playing = false, lastF = -1, prev = 0, loop = true, speed = 1;
 function show(t) {
   t = ((t % TOTAL) + TOTAL) % TOTAL;
   const i = Math.floor(t / SEG), lt = t - i * SEG, n = (i + 1) % SEQ.length;
   const T1 = HOLD, T2 = T1 + DUR, T3 = T2 + FLAT;
   const refold = lt >= T3, key = refold ? n + 100 : i;
-  if (key !== cur) { cur = key; const c = refold ? SEQ[n] : SEQ[i]; scene.set(c.c, c.f); scene.next(refold ? null : SEQ[n].f); stage.setAttribute('aria-label', `Paper animation: ${c.name}, folded from a CRA ${c.form}, unfolds into a flat sheet and refolds into the next creature`); }
+  if (key !== cur) { cur = key; const c = refold ? SEQ[n] : SEQ[i]; scene.set(c.c, c.f); scene.o.zoom = c.z || 1; scene.next(refold ? null : SEQ[n].f); stage.setAttribute('aria-label', `Paper animation: ${c.name}, folded from a CRA ${c.form}, unfolds into a flat sheet and refolds into the next creature`); }
   const k = lt < T1 ? 0 : lt < T2 ? (lt - T1) / DUR : lt < T3 ? 1 : 1 - (lt - T3) / REFOLD;
   scene.o.texMix = refold ? 0 : Math.max(0, Math.min(1, (lt - T2 - 0.35) / (FLAT - 0.7)));
   const fr = Math.floor(t * 30);
-  scene.draw(Math.max(0, Math.min(1, k)), fr);
+  scene.o.center = true; scene.o.centerAmt = 1 - Math.min(1, Math.max(0, k) * 1.6); scene.draw(Math.max(0, Math.min(1, k)), fr);
   lastF = fr;
 }
 function tick(now) {
@@ -1126,10 +1130,11 @@ if (reduce && !CLIP) rb.seek(0);
   pick(0);
   // lotus: one long, eased breath: opens flat, blooms, rests while turning slowly, then opens again
   const cam = () => mobile() ? { cx: 0.64, cy: 0.86, fov: 1.15 } : { cx: 0.74, cy: 0.83, fov: 1.32 };
-  const sc = new Origami.Scene(cv, Object.assign({ creature: 'lotus', form: 'T2125', shadow: null, yaw: -0.3, flatYaw: -0.3, pitch: 1.0, tgtY: 0.12, light: [-0.55, 0.9, 0.6], fps: 60, sway: 0.5 }, cam()));
+  const sc = new Origami.Scene(cv, Object.assign({ creature: 'lotus', form: 'T2125', shadow: null, bright: 0.5, yaw: -0.3, flatYaw: -0.3, pitch: 1.0, tgtY: 0.12, light: [-0.55, 0.9, 0.6], fps: 60, sway: 0.5 }, cam()));
   const F = 1.4, B = 4.2, H = 7, U = 4.2, LOOP = F + B + H + U, ease = (x) => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, x)));
   const kAt = (t) => { t %= LOOP; if (t < F) return 1; if (t < F + B) return 1 - ease((t - F) / B); if (t < F + B + H) return 0; return ease((t - F - B - H) / U); };
-  const draw = (t) => { sc.o.yaw = sc.o.flatYaw = -0.3 + t * 0.045; sc.draw(kAt(t), Math.floor(t * 60)); };
+  const SHAPES = ['lotus', 'lotus2', 'lotus3']; let shape = 'lotus';
+  const draw = (t) => { const want = SHAPES[Math.floor(Math.max(0, t) / LOOP) % SHAPES.length]; if (want !== shape) { shape = want; sc.set(shape, 'T2125'); } sc.o.yaw = sc.o.flatYaw = -0.3 + t * 0.045; sc.draw(kAt(t), Math.floor(t * 60)); };
   let l0 = null, lt = (reduce || CLIP) ? F + B + 1 : 0;
   draw(lt);
   const step = (now) => {
