@@ -256,7 +256,7 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 
 /* footer */
 footer{background:var(--navy);color:#fff;padding:56px 0 26px}
-.fg{display:grid;grid-template-columns:224px 198px 117px 247px 1fr;}
+.fg{display:grid;grid-template-columns:1fr 200px 130px 250px 210px;column-gap:24px}
 .fg .soc{display:flex;gap:12px;margin-top:26px}
 .fg .soc a{width:32px;height:32px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center}
 .fg .soc svg{width:14px;height:14px;fill:#fff}
@@ -508,9 +508,9 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <h2 class="sec serif navy-t">Level up your tax knowledge</h2>
     <p class="sub">Stop the tax time terror before it starts. Check out our guides to get prepared.</p>
     <div class="arts" id="arts">
-      <a class="art" href="#" data-c="spider" data-f="T4A" data-cam="0.5,0.97,2.4" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p></div></a>
+      <a class="art" href="#" data-c="spider" data-f="T4A" data-cam="0.5,0.5,1.3" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p></div></a>
       <a class="art" href="#" data-c="hydra" data-f="T2125" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
-      <a class="art" href="#" data-c="snake" data-f="GST34" data-cam="0.5,0.9,2.9" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
+      <a class="art" href="#" data-c="snake" data-f="GST34" data-cam="0.5,0.5,2.2" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
     </div>
   </div>
 </section>
@@ -826,6 +826,20 @@ function formTexture(kind, S = 1024, page = 1) {
 }
 
 /* ---------- mesh build ---------- */
+// curled sheets: a flat page with a soft roll along one edge and a gentle wave, each seeded differently
+[[0.32, -0.5, 0.06, -0.34, [-0.16, 0, 0.1], 0.5], [-0.22, 0.7, 0.04, 0.08, [0.05, 0.05, -0.04], -0.4], [0.4, 0.4, 0.08, 0.36, [0.18, 0.1, 0.06], 0.9]].forEach(([roll, wave, lift, rot, off, ph], n) => {
+  CREATURES['curl' + n] = {
+    nu: 16, nv: 16, unfoldFrom: [0.5, 0.5], init() {},
+    pose(u, v) {
+      const x = (v - 0.5) * 2.05, z = (u - 0.5) * 2.05, e = Math.max(0, (u - 0.62) / 0.38);
+      const y = lift + roll * e * e * 0.9 + 0.06 * Math.sin(x * 2.4 * wave + ph) + 0.03 * Math.sin(z * 3 + ph * 2);
+      const zz = z - Math.abs(roll) * e * e * 0.35;
+      const c = Math.cos(rot), sn = Math.sin(rot);
+      return [x * c - zz * sn + off[0], y + off[1], x * sn + zz * c + off[2]];
+    },
+  };
+});
+
 // crumpled paper: the sheet wrapped onto a lumpy ball (octahedral map of the square onto a sphere), knife-edge crinkles from per-vertex noise
 [0, 1, 2].forEach((seed) => {
   CREATURES['crumple' + seed] = {
@@ -898,7 +912,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   const f = V.norm(V.sub(tgt, E)), r = V.norm(V.cross(f, [0, 1, 0])), up = V.cross(r, f);
   const foc = Math.min(W, H * 1.35) * o.fov, ox = W * o.cx, oy = H * o.cy;
   const L = V.norm(o.light), lf = 1 + jit() * 0.02;
-  const proj = (p) => { const d = V.sub(p, E), z = V.dot(d, f); return [ox + (foc * V.dot(d, r)) / z, oy - (foc * V.dot(d, up)) / z, z]; };
+  let proj = (p) => { const d = V.sub(p, E), z = V.dot(d, f); return [ox + (foc * V.dot(d, r)) / z, oy - (foc * V.dot(d, up)) / z, z]; };
   // per-corner position (staggered unfold from the creature's tail/start)
   const tris = this.tris, out = [];
   for (const t of tris) {
@@ -914,6 +928,13 @@ Scene.prototype.draw = function (k, frame = 0) {
       return q;
     });
     out.push(P);
+  }
+  // optional: keep the shape centred in the frame as it moves
+  if (o.center) {
+    let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+    for (const P of out) for (const p of P) { const q = proj(p); if (q[0] < x0) x0 = q[0]; if (q[0] > x1) x1 = q[0]; if (q[1] < y0) y0 = q[1]; if (q[1] > y1) y1 = q[1]; }
+    const dx = W * 0.5 - (x0 + x1) / 2, dy = H * (o.centerY || 0.5) - (y0 + y1) / 2, p0 = proj;
+    proj = (p) => { const q = p0(p); return [q[0] + dx, q[1] + dy, q[2]]; };
   }
   // shadow (off when o.shadow is falsy: no drop shadows)
   if (o.shadow) {
@@ -1079,7 +1100,7 @@ if (reduce && !CLIP) rb.seek(0);
     const ill = a.querySelector('.ill'), cv = a.querySelector('canvas');
     ill.style.background = a.dataset.bg;
     const cam = (a.dataset.cam || '0.5,0.78,1.95').split(',').map(Number);
-    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: cam[0], cy: cam[1], fov: cam[2], flatDist: 2.1 * cam[2] / 1.95, yaw: -0.42, flatYaw: 0.25, fps: 30, sway: 0.8 });
+    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: cam[0], cy: cam[1], fov: cam[2], flatDist: 2.1 * cam[2] / 1.95, center: true, centerY: 0.52, yaw: -0.42, flatYaw: 0.25, fps: 30, sway: 0.8 });
     let vis = false, t = PH[n % PH.length], last = 0;
     const draw = () => sc.draw(kAt(t), Math.floor(t * 30));
     draw();
@@ -1116,19 +1137,13 @@ if (reduce && !CLIP) rb.seek(0);
   window.__lotus = { seek: (t) => draw(t), pick };
 })();
 
-/* ---------- footer: a crumpled ball of three forms opens out into a stack of three forms lying flat, then crumples again ---------- */
+/* ---------- closing CTA: three CRA forms lying still, each with its own soft curl ---------- */
 (function(){
-  const cv = document.getElementById('ftart'); if (!cv || getComputedStyle(cv).display === 'none') return;
-  const base = { shadow: null, cx: 0.6, cy: 0.46, fov: 0.92, yaw: 0.35, flatYaw: 0.35, pitch: 0.85, tgtY: 0.15, fps: 60, sway: 0.6, light: [-0.4, 1, 0.5] };
-  const SH = [['crumple0', 'T2125', -0.32, [-0.08, 0.004, 0.04]], ['crumple1', 'GST34', 0.06, [0.04, 0.016, -0.02]], ['crumple2', 'T4SUM', 0.28, [0.1, 0.028, 0.06]]];
-  const sc = SH.map(([c, f, rot, off], n) => new Origami.Scene(cv, Object.assign({}, base, { creature: c, form: f, flatRot: rot, flatOff: off, noClear: n > 0 })));
-  const B = 1.6, U = 3.2, R = 3.4, C = 2.6, LOOP = B + U + R + C, ease = (x) => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, x)));
-  const kAt = (t, n) => { t = (t + LOOP) % LOOP; const d = n * 0.35; if (t < B + d) return 0; if (t < B + U) return ease((t - B - d) / (U - d)); if (t < B + U + R) return 1; return 1 - ease((t - B - U - R) / C); };
-  const draw = (t) => { const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; } cv.getContext('2d').clearRect(0, 0, w, h); sc.forEach((s, n) => s.draw(kAt(t, n), Math.floor(t * 60))); };
-  let vis = false, t0 = performance.now(), t = (reduce || CLIP) ? B + U + 1 : 0;
-  draw(t);
-  const step = (now) => { if (!vis) return; t = (now - t0) / 1000; draw(t); requestAnimationFrame(step); };
-  new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; const was = vis; vis = e.isIntersecting; if (vis && !was) { t0 = performance.now() - t * 1000; requestAnimationFrame(step); } }), { threshold: 0.2 }).observe(cv);
+  const cv = document.getElementById('ftart'); if (!cv) return;
+  const base = { shadow: null, cx: 0.55, cy: 0.5, fov: 0.95, yaw: 0.35, flatYaw: 0.35, pitch: 0.85, tgtY: 0.15, sway: 0, light: [-0.4, 1, 0.5] };
+  const sc = [['curl0', 'T2125'], ['curl1', 'GST34'], ['curl2', 'T4SUM']].map(([c, f], n) => new Origami.Scene(cv, Object.assign({}, base, { creature: c, form: f, noClear: n > 0 })));
+  const draw = () => { if (getComputedStyle(cv).display === 'none') return; const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; } cv.getContext('2d').clearRect(0, 0, w, h); sc.forEach((x) => x.draw(0, 0)); };
+  draw(); addEventListener('resize', draw); document.fonts && document.fonts.ready.then(draw);
   window.__ft = { seek: draw };
 })();
 
@@ -1142,20 +1157,12 @@ document.querySelectorAll('.pill button').forEach((b) => b.onclick = () => {
 const QA = [
   ['What does “tax-ready” bookkeeping mean for small business owners?', 'It means your income and expenses are recorded, categorized and reconciled as you go, with receipts attached, so the reports your accountant or the CRA needs are ready when you are.'],
   ['How can Wave help me get my business ready for tax season?', 'Wave imports and categorizes your transactions, stores your receipts and builds the key reports, so most of the work is done before tax season starts.'],
-  ['Which Wave features are most helpful for preparing small business taxes?', 'Receipt scanning, bank syncing, automatic categorization and one-click reports like profit and loss, balance sheet and cash flow.'],
   ['Can Wave automatically categorize my transactions for easier tax preparation?', 'Yes. On the Pro Plan, Wave auto-imports, merges and categorizes bank transactions, and you can review or change any category.'],
   ['Does Wave generate the financial statements I need for tax filing?', 'Wave generates profit and loss statements, balance sheets and cash flow reports in seconds.'],
-  ['How do Wave’s reports help with filing small business taxes?', 'Your reports summarize your income and expenses by category, which is what you or your accountant need to fill in forms like the T2125.'],
   ['Can Wave help me track deductible expenses throughout the year?', 'Yes. Categorize expenses as they happen and attach a receipt to each one so every deduction is backed up.'],
   ['How does receipt scanning in Wave make my business more tax-ready?', 'Snap a photo and Wave reads the details with OCR, stores the receipt and links it to the expense.'],
-  ['Does Wave sync with my bank accounts for accurate tax records?', 'With the Pro Plan you can securely connect your bank and credit cards so transactions flow in automatically.'],
-  ['Can Wave help me catch up if I’m behind on my bookkeeping before tax season?', 'Import past transactions in bulk, categorize them in batches, or let a Wave Advisor bookkeeper catch you up.'],
   ['What if I need professional help? Does Wave offer bookkeeping or tax support?', 'Wave Advisors offers a dedicated bookkeeper, monthly statements and optional one-on-one coaching.'],
-  ['How do I categorize income and expenses in Wave for tax purposes?', 'Pick a category for each transaction from Wave’s chart of accounts; Wave remembers your choices for similar transactions.'],
-  ['Does Wave store my financial data securely for tax reporting and audits?', 'Your data is encrypted and stored securely, and your records and receipts stay available if you ever need them for an audit.'],
-  ['Can I export my Wave data for my accountant or tax professional?', 'Yes. Export reports and transactions, or invite your accountant to your Wave account on the Pro Plan.'],
   ['How early should small business owners start preparing for tax season?', 'Now. Keeping books up to date every month means tax season is a review, not a scramble.'],
-  ['Can Wave help me separate personal and business expenses for tax filing?', 'Connect only your business accounts, or mark personal transactions so they stay out of your business reports.'],
 ];
 const plus = '<svg viewBox="0 0 24 24" fill="none" stroke="#001b65" stroke-width="2"><circle cx="12" cy="12" r="10.5"/><path d="M12 7v10M7 12h10"/></svg>';
 document.getElementById('qs').innerHTML = QA.map(([q, a]) => `<details><summary>${q}${plus}</summary><p>${a}</p></details>`).join('');
