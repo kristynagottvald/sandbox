@@ -608,42 +608,42 @@ const pleatX = (i) => (i % 2 ? 1.2 : 0.8); // sharper, more angular pleats
 /* ---------- creatures ---------- */
 const CREATURES = {
   dragon: {
-    nu: 26, nv: 8, unfoldFrom: [1, 0.5],
+    // three-headed origami dragon: tall flat-folded necks with angular heads, two upright diamond wings,
+    // a low crouched body on small legs and a long tail trailing along the ground
+    nu: 30, nv: 15, unfoldFrom: [1, 0.5],
     init() {
-      this.sp = spine([[-1.18, 1.18, 0.12], [-1.02, 1.24, 0.1], [-0.82, 1.05, 0.06], [-0.6, 0.66, 0.02], [-0.3, 0.42, 0], [0.12, 0.38, 0], [0.5, 0.3, -0.04], [0.86, 0.2, -0.02], [1.16, 0.3, 0.05], [1.26, 0.6, 0.1], [1.08, 0.74, 0.12]], [0, 0, 1]);
-    },
-    width(u) {
-      if (u < 0.05) return mix(0.025, 0.1, u / 0.05);
-      if (u < 0.12) return 0.11;
-      if (u < 0.3) return mix(0.085, 0.2, sstep(0.18, 0.3, u));
-      if (u < 0.6) return 0.2;
-      return mix(0.18, 0.012, (u - 0.6) / 0.4);
+      const neck = (x, z, top, lean) => spine([[x + 0.3, top, z], [x + 0.08, top + 0.03, z], [x, top - 0.12, z], [x + lean, top - 0.55, z * 0.85], [x * 0.6 + 0.05, 0.6, z * 0.5]], [0, 0, 1], 160);
+      this.necks = [neck(-0.32, 0.2, 1.42, 0.02), neck(0.02, -0.06, 1.62, -0.02), neck(0.34, 0.1, 1.38, 0.04)];
+      this.tail = spine([[-0.12, 0.38, 0], [-0.5, 0.2, 0.04], [-0.85, 0.1, -0.02], [-1.2, 0.05, 0.03], [-1.55, 0.02, 0]], [0, 1, 0]);
     },
     pose(u, v, i, j, cu, cv) {
-      const sp = this.sp, wingU = cu > 0.32 && cu < 0.62, band = 0.26;
-      let w = this.width(u) * pleatX(i);
-      const f = sp.at(u);
-      if (wingU && (cv < band || cv > 1 - band)) {
-        const left = cv < band, a = left ? (band - v) / band : (v - (1 - band)) / band;
-        const root = tube(f, left ? band : 1 - band, w);
-        const c = (u - 0.32) / 0.3; // chord 0 leading edge .. 1 trailing
-        const sweep = c * 0.95;
-        let d = left ? [0.12 + Math.sin(sweep) * 0.85, Math.cos(sweep) * 1, 0.55] : [0.25 + Math.sin(sweep) * 0.85, Math.cos(sweep) * 0.95, -0.5];
-        d = V.norm(d);
-        const len = (1.22 - 0.5 * c) * (0.82 + 0.18 * Math.abs(Math.cos(c * Math.PI * 2.5)));
-        let p = V.add(root, V.mul(d, a * len));
-        p = V.add(p, V.mul([0, 0, left ? 1 : -1], (i % 2 ? 0.13 : -0.07) * a)); // fan pleats, sharper
+      const SPLIT = 0.44, BODY = 0.6;
+      if (cu < SPLIT) { // necks + heads (head is the horizontal run at the top of each neck)
+        const k = Math.min(2, Math.floor(cv * 3)), vv = clamp((v - k / 3) * 3), s = clamp(u / SPLIT);
+        const f = this.necks[k].at(s), head = s < 0.28;
+        const w = (head ? mix(0.02, 0.13, Math.min(1, s / 0.16)) : 0.1) * pleat(i), wn = head ? 0.04 : 0.035;
+        let p = tube(f, vv, w, wn, 0.9);
+        if (head && Math.abs(vv - 0.5) < 0.2 && s > 0.12) p = V.add(p, [0, 0.07, 0]); // crest
         return p;
       }
-      let p = tube(f, v, w);
-      // horns + dorsal spikes along the ridge
-      const ridge = 1 - Math.min(1, Math.abs(v - 0.5) / 0.09);
-      if (ridge > 0 && j === this.nv / 2) {
-        if (i === 3) p = V.add(p, V.add(V.mul(f.b, 0.24), V.mul(f.t, 0.2)));
-        else if (i > 7 && i < 22 && i % 2 === 0) p = V.add(p, V.mul(f.b, 0.2 * (1 - Math.abs(i - 14) / 12)));
+      if (cu < BODY) {
+        const a = (u - SPLIT) / (BODY - SPLIT), side = cv < 0.3 ? 1 : cv > 0.7 ? -1 : 0;
+        if (side) { // upright diamond wings, flat panels rising up and back
+          const t = side > 0 ? (0.3 - v) / 0.3 : (v - 0.7) / 0.3;
+          const root = [-0.02 - a * 0.26, 0.55, side * 0.12], span = [-0.46, 0.86, side * 0.3], chord = [-0.5, -0.12, 0];
+          const len = Math.max(0, 1 - Math.abs(t - 0.38) / 0.62); // diamond: widest a third of the way out
+          return V.add(root, V.add(V.mul(span, t), V.mul(chord, (a - 0.5) * len + 0.2 * t)));
+        }
+        const x = mix(0.34, -0.14, a), vv = (v - 0.3) / 0.4, ph = (vv - 0.5) * Math.PI * 1.6;
+        return [x, 0.4 + Math.cos(ph) * 0.18 + (i % 2 ? 0.02 : -0.01), Math.sin(ph) * 0.2];
       }
-      if (i === 0) p = V.add(p, V.mul(f.t, -0.08)); // pointed snout
-      return p;
+      const a = (u - BODY) / (1 - BODY), f = this.tail.at(a);
+      if (a < 0.2 && (cv < 0.22 || cv > 0.78)) { // back legs
+        const side = cv < 0.5 ? 1 : -1, t = side > 0 ? (0.22 - v) / 0.22 : (v - 0.78) / 0.22, root = f.p;
+        return V.lerp(root, [root[0] + 0.12, 0.0, side * 0.2], t);
+      }
+      const w = mix(0.15, 0.012, Math.pow(a, 0.8)) * pleatX(i);
+      return tube(f, v, w, w * 0.45, 0.85);
     },
   },
   snake: {
