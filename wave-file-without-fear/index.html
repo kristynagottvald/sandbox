@@ -246,23 +246,23 @@ h2.sec{font-size:60px;line-height:1.12;text-align:center;text-wrap:balance}
 .fcta .btn{margin-top:38px}
 
 /* footer */
-footer{background:var(--navy);color:#fff;padding:86px 0 30px}
+footer{background:var(--navy);color:#fff;padding:56px 0 26px}
 .fg{display:grid;grid-template-columns:224px 198px 117px 247px 1fr;}
-.fg .soc{display:flex;gap:14px;margin-top:46px}
+.fg .soc{display:flex;gap:12px;margin-top:26px}
 .fg .soc a{width:32px;height:32px;border:2px solid #fff;border-radius:50%;display:grid;place-items:center}
 .fg .soc svg{width:14px;height:14px;fill:#fff}
-.fg h4{font-size:18px;font-weight:700;letter-spacing:.02em;margin-bottom:30px;padding-top:12px}
+.fg h4{font-size:15px;font-weight:700;letter-spacing:.06em;margin-bottom:16px;padding-top:6px}
 .fg ul{list-style:none}
-.fg li{font-size:16.5px;font-weight:500;margin-bottom:15.6px}
+.fg li{font-size:15px;font-weight:500;margin-bottom:8px}
 .fg li a{text-decoration:none}
 .fg li a:hover{text-decoration:underline}
-.fb{border-top:2px solid #fff;margin-top:24px;padding-top:34px;display:flex;justify-content:space-between;align-items:flex-start}
+.fb{border-top:1px solid rgba(255,255,255,.35);margin-top:20px;padding-top:22px;display:flex;justify-content:space-between;align-items:flex-start}
 .fb p{font-size:16px}
-.fb nav{display:flex;flex-wrap:wrap;align-items:center;gap:17px;margin-top:20px;font-size:16.5px;font-weight:500}
+.fb nav{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:12px;font-size:14.5px;font-weight:500}
 .fb nav a{text-decoration:none}
 .cookie{display:inline-flex;align-items:center;gap:8px;background:#fff;border:2px solid #5ec2c6;color:#1b9fa5;border-radius:99px;padding:4px 10px 4px 4px;font:700 14px var(--sans);letter-spacing:.06em}
 .cookie i{width:22px;height:22px;border-radius:50%;background:#1b9fa5}
-.bbb{width:128px;margin-right:16px}
+.bbb{width:104px;margin-right:0}
 .btt{position:absolute;right:24px;bottom:28px;color:var(--pink);text-decoration:none;font-size:17px;display:flex;flex-direction:column;align-items:center}
 .btt svg{width:84px;height:46px}
 footer{position:relative}
@@ -557,7 +557,6 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
       <img class="bbb" src="img/bbb.png" alt="BBB Accredited Business">
     </div>
   </div>
-  <a class="btt" href="#"><svg viewBox="0 0 84 46" fill="none" stroke="#e8aaff" stroke-width="4"><path d="M3 43L42 4l39 39"/></svg>Back to top</a>
 </footer>
 
 <script>
@@ -1072,7 +1071,7 @@ if (reduce && !CLIP) rb.seek(0);
   document.querySelectorAll('.art').forEach((a, n) => {
     const ill = a.querySelector('.ill'), cv = a.querySelector('canvas');
     ill.style.background = a.dataset.bg;
-    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: 0.5, cy: 0.66, fov: 1.5, flatDist: 1.75, yaw: -0.42, flatYaw: 0.25, fps: 30, sway: 0.8 });
+    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: 0.5, cy: 0.78, fov: 1.95, flatDist: 2.1, yaw: -0.42, flatYaw: 0.25, fps: 30, sway: 0.8 });
     const stage = STAGE[n % STAGE.length]; let k = reduce || CLIP ? stage : 0, from = k, to = stage, t0 = 0, D = 2.2, vis = false, t = n * 0.9;
     const go = (target, dur) => { from = k; to = target; t0 = performance.now(); D = dur; };
     let last = performance.now();
