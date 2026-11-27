@@ -228,7 +228,11 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .art{border:2px solid #4e6575;background:var(--cream);text-decoration:none;display:block;position:relative}
 .art .ill{height:205px;position:relative;overflow:hidden}
 .art .ill canvas{position:absolute;inset:0;width:100%;height:100%}
-.art .tx{padding:24px 24px 26px}
+.art{display:flex!important;flex-direction:column}
+.art .tx{padding:24px 24px 26px;display:flex;flex-direction:column;flex:1}
+.art .more2{margin-top:auto;padding-top:24px;display:inline-flex;align-items:center;gap:10px;color:var(--blue);font:800 14px var(--sans);letter-spacing:.1em;text-transform:uppercase}
+.art .more2 svg{width:20px;height:12px;transition:transform .25s}
+.art:hover .more2 svg{transform:translateX(4px)}
 .art h3{font-size:21px;font-weight:600;line-height:1.27}
 .art p{font-size:17px;line-height:1.45;margin-top:16px}
 .arts .art:nth-child(n+4) .tx{padding-bottom:26px}
@@ -277,7 +281,7 @@ footer{background:var(--navy);color:#fff;padding:56px 0 26px}
 .btt{position:absolute;right:24px;bottom:28px;color:var(--pink);text-decoration:none;font-size:17px;display:flex;flex-direction:column;align-items:center}
 .btt svg{width:84px;height:46px}
 footer{position:relative;overflow:hidden}
-.ftart{position:absolute;right:max(0px,calc((100vw - 1352px) / 2));top:50%;transform:translateY(-50%);width:760px;height:600px;pointer-events:none}
+.ftart{position:absolute;right:max(0px,calc((100vw - 1352px) / 2));top:50%;transform:translateY(-50%);width:820px;height:640px;pointer-events:none}
 @media (max-width:1180px){.ftart{display:none}}
 
 
@@ -511,9 +515,9 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <h2 class="sec serif navy-t">Level up your tax knowledge</h2>
     <p class="sub">Stop the tax time terror before it starts. Check out our guides to get prepared.</p>
     <div class="arts" id="arts">
-      <a class="art" href="#" data-c="spider" data-f="T4A" data-cam="0.5,0.5,1.3" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p></div></a>
-      <a class="art" href="#" data-c="hydra" data-f="T2125" data-cam="0.5,0.9,1.55" data-bleed="1" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
-      <a class="art" href="#" data-c="snake" data-f="GST34" data-cam="0.5,0.5,2.2" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
+      <a class="art" href="#" data-c="spider" data-f="T4A" data-cam="0.5,0.5,1.3" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p><span class="more2">Read article<svg viewBox="0 0 20 12" aria-hidden="true"><path d="M1 6h17M13 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+      <a class="art" href="#" data-c="hydra" data-f="T2125" data-cam="0.5,0.74,1.55" data-bleed="1" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p><span class="more2">Read article<svg viewBox="0 0 20 12" aria-hidden="true"><path d="M1 6h17M13 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
+      <a class="art" href="#" data-c="snake" data-f="GST34" data-cam="0.5,0.5,2.2" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p><span class="more2">Read article<svg viewBox="0 0 20 12" aria-hidden="true"><path d="M1 6h17M13 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div></a>
     </div>
   </div>
 </section>
@@ -936,6 +940,7 @@ Scene.prototype.draw = function (k, frame = 0) {
       const e = clamp((ek * 1.45 - p.d * 0.45));
       const ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2;
       let fp = p.fold;
+      if (o.lift) fp = [fp[0], fp[1] * (1 + o.lift), fp[2]]; // gentle breathing of curled paper; flat parts (y = 0) stay put
       if (sw) { const a = Math.sin(st * 1.35) * 0.075 * sw, c = Math.cos(a), sn = Math.sin(a), lean = Math.sin(st * 1.35 - 0.7) * 0.045 * sw; fp = [fp[0] * c - fp[2] * sn + lean * fp[1], fp[1] * (1 + Math.sin(st * 2.7) * 0.012 * sw), fp[0] * sn + fp[2] * c]; }
       const fl = (fa || o.flatOff) ? [p.flat[0] * fca - p.flat[2] * fsa + fo[0], p.flat[1] + fo[1], p.flat[0] * fsa + p.flat[2] * fca + fo[2]] : p.flat;
       const q = V.lerp(fp, fl, ee);
@@ -991,7 +996,7 @@ Scene.prototype.draw = function (k, frame = 0) {
     {
       const tex = front ? this.tex : this.texB;
       // affine map texture triangle -> screen triangle (texture: x = v, y = u)
-      const u0 = t[0].v * TS, v0 = t[0].u * TS, u1 = t[1].v * TS, v1 = t[1].u * TS, u2 = t[2].v * TS, v2 = t[2].u * TS;
+      const fl = o.texFlip, U = (q) => (fl ? 1 - q.v : q.v) * TS, Vv = (q) => (fl ? 1 - q.u : q.u) * TS; const u0 = U(t[0]), v0 = Vv(t[0]), u1 = U(t[1]), v1 = Vv(t[1]), u2 = U(t[2]), v2 = Vv(t[2]);
       const den = u0 * (v1 - v2) + u1 * (v2 - v0) + u2 * (v0 - v1);
       if (Math.abs(den) > 1e-6) {
         const [x0, y0] = s[0], [x1, y1] = s[1], [x2, y2] = s[2];
@@ -1149,13 +1154,23 @@ if (reduce && !CLIP) rb.seek(0);
   window.__lotus = { seek: (t) => draw(t), pick };
 })();
 
-/* ---------- closing CTA: three CRA forms lying still, each with its own soft curl ---------- */
+/* ---------- closing CTA: three CRA forms, pink flat, blue half-lifted, white lifted high; the curls breathe very slightly ---------- */
 (function(){
   const cv = document.getElementById('ftart'); if (!cv) return;
-  const base = { shadow: null, cx: 0.5, cy: 0.58, fov: 1.3, yaw: -1.12, flatYaw: -1.12, pitch: 0.3, tgtY: 0.45, sway: 0, light: [-0.4, 1, 0.5] };
-  const sc = [['curl0', 'T2125', '#f2b6ff'], ['curl1', 'GST34', '#a9d6ff'], ['curl2', 'T4SUM', null]].map(([c, f, tint], n) => new Origami.Scene(cv, Object.assign({}, base, { creature: c, form: f, tint, bright: 0.6, noClear: n > 0 })));
-  const draw = () => { if (getComputedStyle(cv).display === 'none') return; const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; } cv.getContext('2d').clearRect(0, 0, w, h); sc.forEach((x) => x.draw(0, 0)); };
-  draw(); addEventListener('resize', draw); document.fonts && document.fonts.ready.then(draw);
+  const base = { shadow: null, cx: 0.6, cy: 0.56, fov: 1.0, yaw: -1.12, flatYaw: -1.12, pitch: 0.3, tgtY: 0.45, sway: 0, light: [-0.4, 1, 0.5] };
+  const sc = [['curl0', 'T2125', '#f2b6ff'], ['curl1', 'GST34', '#a9d6ff'], ['curl2', 'T4SUM', null]].map(([c, f, tint], n) => new Origami.Scene(cv, Object.assign({}, base, { creature: c, form: f, tint, bright: 0.6, texFlip: true, noClear: n > 0 })));
+  // all three share one frame offset (taken from the top sheet, which spans the most) so they stay stacked
+  const draw = (t) => {
+    if (getComputedStyle(cv).display === 'none') return;
+    const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
+    if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
+    cv.getContext('2d').clearRect(0, 0, w, h);
+    sc.forEach((x, n) => { x.o.lift = Math.sin(t * 0.9 + n * 0.8) * 0.025; x.draw(0, 0); });
+  };
+  let vis = false, t0 = performance.now();
+  const step = (now) => { if (!vis) return; draw((now - t0) / 1000); requestAnimationFrame(step); };
+  draw(0); addEventListener('resize', () => draw(0)); document.fonts && document.fonts.ready.then(() => draw(0));
+  new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; const was = vis; vis = e.isIntersecting; if (vis && !was) requestAnimationFrame(step); }), { threshold: 0.1 }).observe(cv);
   window.__ft = { seek: draw };
 })();
 
