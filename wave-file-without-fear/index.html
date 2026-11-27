@@ -944,7 +944,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   if (o.center) {
     let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
     for (const P of out) for (const p of P) { const q = proj(p); if (q[0] < x0) x0 = q[0]; if (q[0] > x1) x1 = q[0]; if (q[1] < y0) y0 = q[1]; if (q[1] > y1) y1 = q[1]; }
-    const dx = W * 0.5 - (x0 + x1) / 2, dy = H * (o.centerY || 0.5) - (y0 + y1) / 2, p0 = proj;
+    const ca = o.centerAmt == null ? 1 : o.centerAmt, dx = (W * (o.centerX || 0.5) - (x0 + x1) / 2) * ca, dy = (H * (o.centerY || 0.5) - (y0 + y1) / 2) * ca, p0 = proj;
     proj = (p) => { const q = p0(p); return [q[0] + dx, q[1] + dy, q[2]]; };
   }
   // shadow (off when o.shadow is falsy: no drop shadows)
@@ -1060,28 +1060,27 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- hero: each creature sways, unfolds, lies perfectly still while its print turns into the next CRA form, then refolds into the next creature ---------- */
 const SEQ = [
+  { c: 'scorpion', z: 0.9, f: 'PD7A', name: 'The payroll scorpion', form: 'PD7A Statement of Account for Current Source Deductions' },
   { c: 'dragon', f: 'T2', name: 'The T2 dragon', form: 'T2 Corporation Income Tax Return' },
-  { c: 'hydra', f: 'GST34', name: 'The GST/HST hydra', form: 'GST/HST Return' },
-  { c: 'scorpion', f: 'PD7A', name: 'The payroll scorpion', form: 'PD7A Statement of Account for Current Source Deductions' },
-  { c: 'spider', f: 'T5018', name: 'The T5018 spider', form: 'T5018 Summary of Contract Payments' },
+  { c: 'spider', z: 0.62, f: 'T5018', name: 'The T5018 spider', form: 'T5018 Summary of Contract Payments' },
   { c: 'snake', f: 'T2125', name: 'The T2125 cobra', form: 'Statement of Business or Professional Activities' },
 ];
 const HOLD = 1.5, DUR = 2.6, FLAT = 1.6, REFOLD = 2.6, SEG = HOLD + DUR + FLAT + REFOLD, TOTAL = SEG * SEQ.length;
 const stage = document.getElementById('stage');
 const mobile = () => innerWidth <= 820;
-const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.6, fov: 1.25, zoom: 1, flatDist: 1.2 } : { cx: innerWidth < 1400 ? 0.755 : 0.74, cy: 0.58, fov: innerWidth < 1400 ? 1.2 : 1.24, zoom: 1, flatDist: 1.22 };
-const scene = new Origami.Scene(stage, Object.assign({ creature: 'dragon', form: 'T2', shadow: null, yaw: -0.42, flatYaw: 0.22 }, heroOpt()));
+const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.6, fov: 1.25, flatDist: 1.2, centerX: 0.5, centerY: 0.62 } : { centerX: innerWidth < 1400 ? 0.74 : 0.72, centerY: 0.55, cx: innerWidth < 1400 ? 0.755 : 0.74, cy: 0.58, fov: innerWidth < 1400 ? 1.2 : 1.24, zoom: 1, flatDist: 1.22 };
+const scene = new Origami.Scene(stage, Object.assign({ creature: 'scorpion', form: 'PD7A', shadow: null, yaw: -0.42, flatYaw: 0.22 }, heroOpt()));
 let cur = -1, T = 0, playing = false, lastF = -1, prev = 0, loop = true, speed = 1;
 function show(t) {
   t = ((t % TOTAL) + TOTAL) % TOTAL;
   const i = Math.floor(t / SEG), lt = t - i * SEG, n = (i + 1) % SEQ.length;
   const T1 = HOLD, T2 = T1 + DUR, T3 = T2 + FLAT;
   const refold = lt >= T3, key = refold ? n + 100 : i;
-  if (key !== cur) { cur = key; const c = refold ? SEQ[n] : SEQ[i]; scene.set(c.c, c.f); scene.next(refold ? null : SEQ[n].f); stage.setAttribute('aria-label', `Paper animation: ${c.name}, folded from a CRA ${c.form}, unfolds into a flat sheet and refolds into the next creature`); }
+  if (key !== cur) { cur = key; const c = refold ? SEQ[n] : SEQ[i]; scene.set(c.c, c.f); scene.o.zoom = c.z || 1; scene.next(refold ? null : SEQ[n].f); stage.setAttribute('aria-label', `Paper animation: ${c.name}, folded from a CRA ${c.form}, unfolds into a flat sheet and refolds into the next creature`); }
   const k = lt < T1 ? 0 : lt < T2 ? (lt - T1) / DUR : lt < T3 ? 1 : 1 - (lt - T3) / REFOLD;
   scene.o.texMix = refold ? 0 : Math.max(0, Math.min(1, (lt - T2 - 0.35) / (FLAT - 0.7)));
   const fr = Math.floor(t * 30);
-  scene.draw(Math.max(0, Math.min(1, k)), fr);
+  scene.o.center = true; scene.o.centerAmt = 1 - Math.min(1, Math.max(0, k) * 1.6); scene.draw(Math.max(0, Math.min(1, k)), fr);
   lastF = fr;
 }
 function tick(now) {
