@@ -514,7 +514,8 @@ Scene.prototype.size = function () {
 Scene.prototype.draw = function (k, frame = 0) {
   const [W, H] = this.size(), g = this.g, o = this.o, TS = this.tex.width;
   g.clearRect(0, 0, W, H);
-  const jr = rng(frame * 7919 + 17), jit = () => (jr() - 0.5) * 2;
+  const calm = sstep(0.82, 1, k); // walkthrough: the flat sheet lies perfectly still
+  const jr = rng(frame * 7919 + 17), jit = () => (jr() - 0.5) * 2 * (1 - calm);
   const ek = k;
   const yaw = mix(o.yaw, o.flatYaw, sstep(0.15, 0.95, ek)) + jit() * 0.006;
   const pitch = mix(0.36, 0.62, sstep(0.2, 1, ek));
@@ -533,6 +534,7 @@ Scene.prototype.draw = function (k, frame = 0) {
       const ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2;
       const q = V.lerp(p.fold, p.flat, ee);
       q[1] += Math.sin(Math.PI * ee) * 0.22 * (1 - p.d * 0.5);
+      q[1] -= p.flat[1] * ee * calm * 0.94; // flatten the crease relief
       return q;
     });
     out.push(P);
@@ -594,7 +596,7 @@ Scene.prototype.draw = function (k, frame = 0) {
     g.restore();
   }
   // crease lines once flat-ish
-  const cr = sstep(0.55, 1, ek) * 0.16;
+  const cr = sstep(0.55, 1, ek) * 0.16 * (1 - calm * 0.9);
   if (cr > 0.01) {
     g.strokeStyle = `rgba(60,50,40,${cr})`; g.lineWidth = Math.max(0.6, W / 1800);
     g.beginPath();
@@ -692,17 +694,16 @@ function adHTML(ai,hi,w,h,live){
   const a=ART[ai],r=w/h,fg=a.dark?'#fff':'#001b65',em=a.dark?'#e8aaff':'#0041ff',ctaBg=a.dark?'#e8aaff':'#0041ff',ctaFg=a.dark?'#001b65':'#fff',H=rich(HEADR[hi],em);
   const u=Math.min(w,h);let s='';
   if(r<.8){ // vertical 9:16
-    const aw=w*1.3;s+=IMG(`width:${aw}px;top:${h*.6}px;left:${w*.56}px`,aw);
+    const aw=w*1.45;s+=IMG(`width:${aw}px;top:${h*.6}px;left:${w*.74}px`,aw);
     s+=`<div class="wm" style="right:${w*.08}px;top:${w*.08}px;font-size:${w*.085}px;color:${fg}">wave</div>`;
     s+=`<div class="h" style="left:${w*.08}px;right:${w*.08}px;top:${h*.14}px;font-size:${w*.125}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${w*.08}px;bottom:${h*.05}px;font-size:${w*.055}px;padding:${w*.035}px ${w*.06}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
-  }else if(r<1.3){ // square: headline lower, CTA right under it, creature bottom right bleeding off the right edge
-    s+=IMG(`width:${w*1.2}px;top:${h*.68}px;left:${w*.74}px`,w*1.2);
+  }else if(r<1.3){ // square: headline lower, no CTA, creature bottom right bleeding off the right edge
+    s+=IMG(`width:${w*1.3}px;top:${h*.66}px;left:${w*.82}px`,w*1.3);
     s+=`<div class="wm" style="right:${w*.07}px;top:${w*.07}px;font-size:${w*.06}px;color:${fg}">wave</div>`;
-    s+=`<div style="position:absolute;left:${w*.07}px;top:${h*.2}px;width:${w*.62}px"><div class="h" style="position:relative;font-size:${w*.085}px;color:${fg}">${H}</div>`;
-    s+=`<div class="cta" style="position:relative;display:inline-block;margin-top:${w*.05}px;font-size:${w*.038}px;padding:${w*.025}px ${w*.045}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div></div>`;
+    s+=`<div class="h" style="left:${w*.07}px;top:${h*.2}px;width:${w*.7}px;font-size:${w*.1}px;color:${fg}">${H}</div>`;
   }else{ // wide 1.91 / 12:5
-    s+=IMG(`width:${h*1.9}px;left:${w*.75}px;top:${h*.52}px`,h*1.9);
+    s+=IMG(`width:${h*1.9}px;left:${w*.8}px;top:${h*.52}px`,h*1.9);
     s+=`<div class="wm" style="left:${h*.1}px;top:${h*.1}px;font-size:${h*.1}px;color:${fg}">wave</div>`;
     s+=`<div class="h" style="left:${h*.1}px;width:${w*.48}px;top:${h*.3}px;font-size:${h*(r>2.2?.15:.13)}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${h*.1}px;bottom:${h*.1}px;font-size:${h*.065}px;padding:${h*.04}px ${h*.075}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
@@ -886,8 +887,13 @@ const art=el('div','',`<div class="artc" style="position:relative"><div class="a
 const artIn=art.querySelector('#artin');
 const MOCKS=[reel,fb,li,art];
 const tabs3=$('#tabs3');const tabEls=PL.map(p=>el('div','',p.name+'<i></i>',tabs3));
-const SEG=6.4,BEAT=1.0,UNF=2.8; // folded beat, unfold, flat beat, out
-const liveAds=MOCKS.map(m=>{const c=m.querySelector('canvas[data-live]');return c?{c,a:ART[+c.dataset.live],sc:null}:null;});
+const SEG=8.2,BEAT=0.9,UNF=2.3,FLAT=1.1; // folded beat, unfold, perfectly still flat sheet, refold into the next creature, beat
+const NEXT=['tiger','dragon','hydra','snake'];
+function loopDraw(L,lt){const tq=Math.floor(lt*12)/12,T1=BEAT,T2=T1+UNF,T3=T2+FLAT,T4=T3+UNF;
+  const kind=tq<T3?L.a.kind:L.b,k=tq<T1?0:tq<T2?(tq-T1)/UNF:tq<T3?1:tq<T4?1-(tq-T3)/UNF:0;
+  if(L.cur!==kind){L.cur=kind;L.sc.set(kind,L.a.form);L.c._f=-1;}
+  const f=k===1?-7:Math.floor(lt*12);if(L.c._f!==f){L.c._f=f;L.sc.draw(clamp(k),f);}}
+const liveAds=MOCKS.map((m,i)=>{const c=m.querySelector('canvas[data-live]');return c?{c,a:ART[+c.dataset.live],b:NEXT[i],sc:null}:null;});
 let cur3=-1;
 function scene3(t){
   const i=Math.min(3,Math.floor(t/SEG)),lt=t-i*SEG;
@@ -899,9 +905,9 @@ function scene3(t){
     const a=E(lt,0,.6),b=E(lt,SEG-.4,SEG);
     m.style.opacity=a*(1-b);m.style.transform=`translateY(${(1-a)*60-b*40}px) scale(${.96+.04*a})`;
   });
-  if(i===0){if(!reelScene)reelScene=liveScene(reelCv,ART[0],{cx:.47,cy:.47,fov:1,zoom:1.18,flatDist:1.15});const f=Math.floor(lt*12);if(reelCv._f!==f){reelCv._f=f;reelScene.draw(unfoldK(lt,BEAT,UNF),f);}
+  if(i===0){if(!reelScene){reelScene=liveScene(reelCv,ART[0],{cx:.47,cy:.47,fov:1,zoom:1.18,flatDist:1.15});liveAds[0]={c:reelCv,a:ART[0],b:NEXT[0],sc:reelScene};}loopDraw(liveAds[0],lt);
     const words=HEADR[0].split(' '),nw=Math.floor(P(lt,.4,1.4)*words.length+.001);reelH.innerHTML=rich(words.slice(0,Math.max(0,nw)).join(' '),'#e8aaff');reelProg.style.width=(lt/SEG*100)+'%';}
-  const L=liveAds[i];if(L){if(!L.sc)L.sc=liveScene(L.c,L.a);const f=Math.floor(lt*12);if(L.c._f!==f){L.c._f=f;L.sc.draw(unfoldK(lt,BEAT,UNF),f);}}
+  const L=liveAds[i];if(L){if(!L.sc)L.sc=liveScene(L.c,L.a);loopDraw(L,lt);}
   if(i===3){artIn.style.transform=`translateY(${-E(lt,.2,1)*210}px)`;}
 }
 
@@ -933,7 +939,7 @@ function fit(){const r=view.getBoundingClientRect(),s=Math.min(r.width/W,r.heigh
 addEventListener('resize',fit);fit();
 if(location.hash.includes('clip'))view.classList.add('clip');
 window.__rb={play(o={}){if(o.from!=null)T=o.from;speed=o.speed||1;loop=o.loop!==false;playing=true;last=null;},pause(){playing=false;},seek(t){T=t;render();},scenes:SC.map(s=>s.t0),total:TOTAL};
-document.fonts&&document.fonts.ready.then(()=>{renderArt();document.querySelectorAll('img[data-art]').forEach(im=>im.src=ART[+im.dataset.art].src);if(reelScene)reelScene.set(ART[0].kind,ART[0].form);vidScene.set(ART[0].kind,ART[0].form);reelCv._f=vid._f=-1;});
+document.fonts&&document.fonts.ready.then(()=>{renderArt();document.querySelectorAll('img[data-art]').forEach(im=>im.src=ART[+im.dataset.art].src);liveAds.forEach(L=>{if(L)L.cur=null;});vidScene.set(ART[0].kind,ART[0].form);reelCv._f=vid._f=-1;});
 requestAnimationFrame(tick);
 })();
 </script>
