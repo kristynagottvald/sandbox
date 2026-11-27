@@ -544,7 +544,7 @@ $('#qr1').innerHTML = qr(7); $('#qr2').innerHTML = qr(11); $('#qr3').innerHTML =
 requestAnimationFrame(() => document.body.classList.add('ready'));
 const HC = { bleed: $('#bleed'), qa: $('#qaChip'), rail: $('#rail'), gal: $('#gal'), chk: $('#chk'), cur: $('#hcur'), scan: $('#scanl'), ants: $('#antsP') };
 const railB = {}; document.querySelectorAll('#rail b').forEach((b) => (railB[b.dataset.t] = b));
-const PU = '#4131f1', MINT = '#c9f0e4', PINK = '#fba4ff', HOT = '#d244de', WHITE = '#ffffff', SOFT = '#9d94f7';
+const PU = '#4131f1', MINT = '#c9f0e4', PINK = '#d244de', HOT = '#d244de', WHITE = '#ffffff', SOFT = '#9d94f7';
 const CW0 = 880, CH0 = 480, KS = 620 / CW0, CX0 = 40, CY0 = 46;   // card space -> stage px
 const SWL = 7;
 // the sketch's three layout poses for the five outlined boxes, moved into card space
@@ -680,7 +680,7 @@ function drawCard(t){
   const radius = lerp(6, 3, d);
   cx.save();
   cx.translate(CW0 / 2, CH0 / 2); cx.scale(grow, grow); cx.translate(-CW0 / 2, -CH0 / 2);
-  rr(32, 32, CW0, CH0, radius); cx.fillStyle = HOT; cx.fill();   // hard offset shadow
+  rr(32, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.55)'; cx.fill();   // hard offset shadow, see-through purple
   rr(0, 0, CW0, CH0, radius); cx.fillStyle = PINK; cx.fill();
   cx.save(); rr(0, 0, CW0, CH0, radius); cx.clip();
   if (wire > 0) { cx.globalAlpha = wire; hatch(520, -6, 370, 260, PU, 27, 6); cx.globalAlpha = 1; }
