@@ -88,7 +88,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 /* hero postcard: abstract blocks -> high fidelity -> bleed + crop -> QA scan -> checks */
 .hc{position:absolute;left:0;top:0;width:700px;height:430px;transform-origin:0 0;--pu:#4131f1;--mint:#c9f0e4;--hot:#d244de}
 .pcv{position:absolute;left:0;top:0;width:700px;height:430px}
-.post{position:absolute;left:80px;top:34px;width:540px;height:363px;pointer-events:none}
+.post{position:absolute;left:40px;top:46px;width:620px;height:338px;pointer-events:none}
 .blk{position:absolute;box-sizing:border-box;border:2.5px solid var(--lav);background:rgba(169,156,255,.12);border-radius:6px;opacity:0;transform:scale(.7);transition:opacity .3s,transform .45s cubic-bezier(.2,1.6,.4,1),background .5s,border-color .5s,border-radius .5s}
 .blk.in{opacity:1;transform:none}
 .blk.hf{background:var(--hf);border-color:transparent;border-radius:0}
@@ -119,9 +119,9 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 #bU.hf .url{background:var(--hot);border-color:var(--hot)}
 .blk .logo{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;font:700 19px var(--sans);letter-spacing:-.03em;color:#fff;opacity:0;transition:opacity .4s}
 #bL.hf .logo{opacity:1}#bL.hf .bar{opacity:0}
-.ants2{position:absolute;left:283px;top:-4px;width:261px;height:303px;border:2.5px dashed var(--mint);border-radius:5px;opacity:0;transition:opacity .25s}
+.ants2{position:absolute;left:348px;top:-4px;width:276px;height:283px;border:2.5px dashed var(--mint);border-radius:5px;opacity:0;transition:opacity .25s}
 .scanl{position:absolute;left:-14px;right:-14px;top:0;height:3px;background:var(--mint);box-shadow:0 0 18px 4px rgba(201,240,228,.8);opacity:0}
-.bleed{position:absolute;left:68px;top:22px;width:564px;height:387px;border:2px dashed var(--hot);border-radius:3px;opacity:0;transition:opacity .4s}
+.bleed{position:absolute;left:28px;top:34px;width:644px;height:362px;border:2px dashed var(--hot);border-radius:3px;opacity:0;transition:opacity .4s}
 .bleed i{position:absolute;background:#fff;opacity:.9}
 .bleed i:nth-child(1){left:-22px;top:10px;width:16px;height:2px}.bleed i:nth-child(2){left:10px;top:-22px;width:2px;height:16px}
 .bleed i:nth-child(3){right:-22px;top:10px;width:16px;height:2px}.bleed i:nth-child(4){right:10px;top:-22px;width:2px;height:16px}
@@ -130,20 +130,20 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .qa{position:absolute;left:50%;top:8px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;border:1px solid rgba(169,156,255,.5);color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
 .qa.on{opacity:1;transform:translateX(-50%)}
 .qa i{width:18px;height:18px;border-radius:5px;background:var(--mint);display:grid;place-items:center;font-style:normal;font-size:11px;color:var(--pu)}
-.rail{position:absolute;left:52px;top:72px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.rail{position:absolute;left:14px;top:48px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .rail.on{opacity:1;transform:none}
 .rail b{height:34px;border-radius:9px;display:grid;place-items:center;color:#c9c4ff;transition:background .2s,color .2s}
 .rail b svg{width:16px;height:16px}
 .rail b.on{background:var(--pu);color:#fff}
-.gal{position:absolute;left:500px;top:-6px;width:220px;padding:12px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.gal{position:absolute;left:430px;top:-10px;width:280px;padding:12px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .gal.on{opacity:1;transform:none}
 .gal .gt{display:flex;justify-content:space-between;font:600 12px var(--sans);margin-bottom:9px}
 .gal .gn{color:#a99cff;font-weight:500}
-.gal .gth{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.gal .gth{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
 .gal .g div{aspect-ratio:1.05;border-radius:7px;background-size:cover;background-position:center;outline:3px solid transparent;outline-offset:2px;transition:outline-color .25s}
 .gal .g.on div{outline-color:var(--hot)}
 .gal .g small{display:block;margin-top:6px;font:600 10.5px var(--sans)}
-.chk{position:absolute;left:22px;top:292px;width:250px;padding:12px 12px 10px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
+.chk{position:absolute;left:0;top:300px;width:250px;padding:12px 12px 10px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
 .chk.on{opacity:1;transform:none}
 .chk .ct{font:700 10px var(--sans);letter-spacing:.14em;color:#a99cff;margin-bottom:4px;text-transform:uppercase}
 .chk .cr{display:flex;align-items:center;justify-content:space-between;height:27px;font:500 13px var(--sans);border-top:1px solid rgba(255,255,255,.12)}
@@ -392,7 +392,7 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
           <b data-t="link"><svg viewBox="0 0 16 16"><path d="M6.5 9.5l3-3M6 7.5L4.3 9.2a2.2 2.2 0 003.1 3.1L9 10.6M10 8.5l1.7-1.7a2.2 2.2 0 00-3.1-3.1L7 5.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></b>
         </div>
         <div class="gal" id="gal"><div class="gt"><span>Images ›</span><span class="gn">Healthcare</span></div>
-          <div class="gth"><div class="g" id="g1"><div style="background-image:url(assets/care-1.webp)"></div><small>Care team</small></div><div class="g" id="g2"><div style="background-image:url(assets/care-2.webp);background-position:62% 30%"></div><small>Check-up</small></div></div></div>
+          <div class="gth"><div class="g" id="g1"><div style="background-image:url(assets/care-1.webp)"></div><small>Care team</small></div><div class="g" id="g2"><div style="background-image:url(assets/care-2.webp);background-position:62% 30%"></div><small>Check-up</small></div><div class="g" id="g3"><div style="background-image:url(assets/care-3.webp);background-position:45% 30%"></div><small>Wellness</small></div></div></div>
         <div class="chk" id="chk"><div class="ct">QA checks</div>
           <div class="cr" id="cr1"><span>Deliverability</span><i></i></div>
           <div class="cr" id="cr2"><span>QR code correct</span><i></i></div>
@@ -544,23 +544,24 @@ $('#qr1').innerHTML = qr(7); $('#qr2').innerHTML = qr(11); $('#qr3').innerHTML =
 requestAnimationFrame(() => document.body.classList.add('ready'));
 const HC = { bleed: $('#bleed'), qa: $('#qaChip'), rail: $('#rail'), gal: $('#gal'), chk: $('#chk'), cur: $('#hcur'), scan: $('#scanl'), ants: $('#antsP') };
 const railB = {}; document.querySelectorAll('#rail b').forEach((b) => (railB[b.dataset.t] = b));
-const PU = '#4131f1', MINT = '#c9f0e4', HOT = '#d244de', WHITE = '#ffffff', SOFT = '#9d94f7';
-const CW0 = 714, CH0 = 480, KS = 540 / CW0, CX0 = 80, CY0 = 34;   // card space -> stage px
+const PU = '#4131f1', MINT = '#c9f0e4', ORANGE = '#ff9a42', HOT = '#d244de', WHITE = '#ffffff', SOFT = '#9d94f7';
+const CW0 = 880, CH0 = 480, KS = 620 / CW0, CX0 = 40, CY0 = 46;   // card space -> stage px
 const SWL = 7;
 // the sketch's three layout poses for the five outlined boxes, moved into card space
 const POSES = [
   [[285, 405, 108, 60], [147, 654, 284, 160], [976, 809, 80, 80], [302, 873, 284, 46], [661, 873, 130, 46]],
   [[407, 838, 108, 58], [302, 574, 284, 160], [302, 827, 80, 80], [610, 827, 285, 48], [764, 895, 130, 48]],
   [[302, 562, 108, 58], [302, 668, 284, 160], [819, 853, 80, 80], [302, 873, 284, 46], [661, 873, 130, 46]]
-].map((p) => p.map(([x, y, w, h]) => [x - 243, y - 516, w, h]));
+].map((p) => p.map(([x, y, w, h]) => [(x - 243) * CW0 / 714, y - 516, w * CW0 / 714, h]));
 const EL_ORDER = [3, 4, 2, 0, 1];
 const IMG1 = new Image(); IMG1.src = 'assets/care-1.webp';
 const IMG2 = new Image(); IMG2.src = 'assets/care-2.webp';
+const IMG3 = new Image(); IMG3.src = 'assets/care-3.webp';
 const QRM = (() => { const n = 25; let s = 23; const out = []; const rnd = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
   const fd = (x, y) => x < 7 && y < 7 || x >= n - 7 && y < 7 || x < 7 && y >= n - 7;
   for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { let on; if (fd(x, y)) { const fx = x >= n - 7 ? x - (n - 7) : x, fy = y >= n - 7 ? y - (n - 7) : y; on = fx === 0 || fy === 0 || fx === 6 || fy === 6 || (fx >= 2 && fx <= 4 && fy >= 2 && fy <= 4); } else on = rnd() > .52; if (on) out.push([x, y]); }
   return out; })();
-const LOOP = 18.4;
+const LOOP = 19.4;
 const span = (t, a, b) => cl((t - a) / (b - a));
 const cv = $('#pcv'); const cx = cv.getContext('2d');
 function rr(x, y, w, h, r){ cx.beginPath(); if (cx.roundRect) cx.roundRect(x, y, w, h, Math.max(0, Math.min(r, w / 2, h / 2))); else cx.rect(x, y, w, h); }
@@ -577,7 +578,7 @@ function drawEl(i, t){
   cx.save(); cx.globalAlpha = fade;
   cx.translate(v[0] + v[2] / 2, v[1] + v[3] / 2 - hop * 24);
   const g = grow * (.92 + .08 * fade); cx.scale(g, g);
-  cx.fillStyle = MINT; cx.strokeStyle = PU; cx.lineWidth = SWL;
+  cx.fillStyle = ORANGE; cx.strokeStyle = PU; cx.lineWidth = SWL;
   cx.beginPath(); cx.rect(-v[2] / 2, -v[3] / 2, v[2], v[3]); cx.fill(); cx.stroke();
   cx.restore();
 }
@@ -585,15 +586,15 @@ function checkMark(x, y, s){ cx.save(); cx.translate(x, y); cx.scale(s, s); cx.f
 // the LobHealth design: panel wipe, photo, headline, checks, QR card, URL, logo; then each goes high fidelity
 function drawDesign(t){
   const ew = easeIO(span(t, 5.2, 5.8));
-  if (ew > 0) { cx.fillStyle = PU; cx.fillRect(0, 0, 379 * ew, 321); }
+  if (ew > 0) { cx.fillStyle = PU; cx.fillRect(0, 0, 500 * ew, 321); }
   const lw = easeIO(span(t, 5.5, 6.1));
-  if (lw > 0) { cx.fillStyle = PU; cx.fillRect(439, 390, 275 * lw, 90); }
+  if (lw > 0) { cx.fillStyle = PU; cx.fillRect(560, 390, 320 * lw, 90); }
   // photo slot: image 1 fades and settles in, image 2 replaces it later
-  const e1 = ease(span(t, 5.5, 6.3)), e2 = ease(span(t, 11.1, 11.7));
-  for (const [img, e, fx] of [[IMG1, e1, .5], [IMG2, e2, .62]]) {
+  const e1 = ease(span(t, 5.5, 6.3)), e2 = ease(span(t, 11.1, 11.7)), e3 = ease(span(t, 12.1, 12.7));
+  for (const [img, e, fx] of [[IMG1, e1, .5], [IMG2, e2, .62], [IMG3, e3, .45]]) {
     if (e <= 0) continue;
-    cx.save(); cx.beginPath(); cx.rect(379, 0, 335, 390); cx.clip(); cx.globalAlpha = e;
-    cover(img, 379, 0, 335, 390, fx, .3, 1.1 - .1 * e); cx.restore();
+    cx.save(); cx.beginPath(); cx.rect(500, 0, 380, 390); cx.clip(); cx.globalAlpha = e;
+    cover(img, 500, 0, 380, 390, fx, .3, 1.1 - .1 * e); cx.restore();
   }
   // headline: two bars, later the real text
   const hi = span(t, 8.7, 9.0);
@@ -601,49 +602,49 @@ function drawDesign(t){
     const g = easeIO(span(t, 6.3 + k * .15, 6.8 + k * .15));
     if (g <= 0 || hi >= 1) continue;
     cx.save(); cx.globalAlpha = 1 - hi; cx.fillStyle = WHITE; cx.shadowColor = 'rgba(30,20,170,.45)'; cx.shadowBlur = 36; cx.shadowOffsetY = 16;
-    rr(53, 64 + k * 34, (k ? 170 : 240) * g, 17, 8.5); cx.fill(); cx.restore();
+    rr(53, 66 + k * 40, (k ? 230 : 330) * g, 19, 9.5); cx.fill(); cx.restore();
   }
   if (t >= 8.7) {
     // {{FirstName}} goes in as a merge tag, later it resolves to the CSV record's name
-    const res = t >= 11.8, REST = 'meet your care team';
+    const res = t >= 13.0, REST = 'meet your care team';
     const chipIn = popIn((t - 8.8) / .35), n = Math.round(span(t, 9.0, 9.7) * (REST.length + 1));
     cx.save(); cx.textBaseline = 'alphabetic';
     if (!res) {
-      cx.font = '600 22px ui-monospace, Menlo, monospace';
+      cx.font = '600 25px ui-monospace, Menlo, monospace';
       const tw = cx.measureText('{{FirstName}}').width;
-      if (chipIn > 0) { cx.save(); cx.translate(53, 74); cx.scale(chipIn, chipIn); rr(0, -22, tw + 18, 34, 7); cx.fillStyle = HOT; cx.fill(); cx.fillStyle = WHITE; cx.fillText('{{FirstName}}', 9, 3); cx.restore(); }
-      cx.font = '500 30px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
-      if (n > 0) cx.fillText(',', 53 + tw + 22, 86);
+      if (chipIn > 0) { cx.save(); cx.translate(53, 76); cx.scale(chipIn, chipIn); rr(0, -25, tw + 20, 38, 8); cx.fillStyle = HOT; cx.fill(); cx.fillStyle = WHITE; cx.fillText('{{FirstName}}', 10, 3); cx.restore(); }
+      cx.font = '500 38px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
+      if (n > 0) cx.fillText(',', 53 + tw + 24, 90);
     } else {
-      const pop = popIn((t - 11.8) / .35);
-      cx.font = '500 30px Inter, Helvetica, Arial, sans-serif';
+      const pop = popIn((t - 13.0) / .35);
+      cx.font = '500 38px Inter, Helvetica, Arial, sans-serif';
       const w = cx.measureText('Maya').width;
-      if (t >= 16.4 && t < 17.4) { cx.fillStyle = HOT; rr(47, 52, w + 12, 44, 6); cx.fill(); }
-      cx.save(); cx.translate(53, 88); cx.scale(pop, pop); cx.fillStyle = WHITE; cx.fillText('Maya', 0, 0); cx.restore();
-      cx.fillStyle = WHITE; cx.fillText(',', 53 + w, 88);
+      if (t >= 17.4 && t < 18.4) { cx.fillStyle = HOT; rr(47, 52, w + 12, 50, 6); cx.fill(); }
+      cx.save(); cx.translate(53, 90); cx.scale(pop, pop); cx.fillStyle = WHITE; cx.fillText('Maya', 0, 0); cx.restore();
+      cx.fillStyle = WHITE; cx.fillText(',', 53 + w, 90);
     }
-    cx.font = '500 30px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
+    cx.font = '500 38px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
     const l2 = REST.slice(0, Math.max(0, n - 1));
-    cx.fillText(l2, 53, 130);
-    if (t < 9.8 && Math.floor(t * 4) % 2 === 0) { cx.fillStyle = MINT; cx.fillRect(53 + cx.measureText(l2).width + 3, 102, 3, 34); }
+    cx.fillText(l2, 53, 140);
+    if (t < 9.8 && Math.floor(t * 4) % 2 === 0) { cx.fillStyle = ORANGE; cx.fillRect(53 + cx.measureText(l2).width + 3, 108, 3, 38); }
     cx.restore();
   }
   // checklist: check circles pop, bars grow, later real text
   const ct = span(t, 9.8, 10.1);
   for (let k = 0; k < 2; k++) {
-    const y = 186 + k * 40;
+    const y = 200 + k * 42;
     const pc = popIn((t - 6.9 - k * .25) / .35);
     if (pc > 0) checkMark(65, y, pc);
     const g = easeIO(span(t, 7.0 + k * .25, 7.5 + k * .25));
-    if (g > 0 && ct < 1) { cx.save(); cx.globalAlpha = 1 - ct; cx.fillStyle = SOFT; rr(92, y - 8, [190, 150][k] * g, 16, 8); cx.fill(); cx.restore(); }
-    if (ct > 0) { cx.save(); cx.globalAlpha = ct; cx.fillStyle = WHITE; cx.font = '500 19px Inter, Helvetica, Arial, sans-serif'; cx.textBaseline = 'middle'; cx.fillText(['Same-week appointments', 'Covered by your plan'][k], 92, y + 1); cx.restore(); }
+    if (g > 0 && ct < 1) { cx.save(); cx.globalAlpha = 1 - ct; cx.fillStyle = SOFT; rr(92, y - 8, [240, 190][k] * g, 16, 8); cx.fill(); cx.restore(); }
+    if (ct > 0) { cx.save(); cx.globalAlpha = ct; cx.fillStyle = WHITE; cx.font = '500 22px Inter, Helvetica, Arial, sans-serif'; cx.textBaseline = 'middle'; cx.fillText(['Same-week appointments', 'Covered by your plan'][k], 92, y + 1); cx.restore(); }
   }
   // QR card: pops in with brackets, later the real code draws in
   const q = popIn((t - 8.1) / .4);
   if (q > 0) {
     cx.save(); cx.translate(57 + 46, 298 + 75); cx.scale(q, q); cx.translate(-46, -75);
     cx.fillStyle = WHITE; cx.fillRect(0, 0, 92, 150);
-    if (t >= 15.7 && t < 16.4) { cx.strokeStyle = HOT; cx.lineWidth = 6; cx.strokeRect(-3, -3, 98, 156); }
+    if (t >= 16.7 && t < 17.4) { cx.strokeStyle = HOT; cx.lineWidth = 6; cx.strokeRect(-3, -3, 98, 156); }
     const qr = span(t, 10.3, 10.9);
     cx.save(); cx.globalAlpha = 1 - qr; cx.strokeStyle = PU; cx.lineWidth = 3.4;
     const br = (x, y, dx, dy) => { cx.beginPath(); cx.moveTo(x + dx * 14, y); cx.lineTo(x, y); cx.lineTo(x, y + dy * 14); cx.stroke(); };
@@ -661,15 +662,16 @@ function drawDesign(t){
   if (pp > 0) {
     const fillp = span(t, 10.0, 10.3);
     cx.save(); cx.translate(176, 418); cx.scale(pp, pp);
-    rr(0, -18, 244, 36, 18); cx.fillStyle = 'rgba(210,68,222,' + fillp + ')'; cx.fill(); cx.strokeStyle = HOT; cx.lineWidth = 4; cx.stroke();
-    const U = 'lobhealth.com/' + (t >= 11.8 ? 'maya' : '{{FirstName}}'), un = t >= 11.8 ? U.length : Math.round(span(t, 10.05, 10.6) * U.length);
-    if (un > 0) { cx.fillStyle = WHITE; cx.font = '600 15px Inter, Helvetica, Arial, sans-serif'; cx.textBaseline = 'middle'; cx.fillText(U.slice(0, un), 18, 1); }
+    const res = t >= 13.0, U = res ? 'lobhealth.com/you' : '{{URL}}';
+    rr(0, -19, res ? 230 : 130, 38, 19); cx.fillStyle = 'rgba(65,49,241,' + fillp + ')'; cx.fill(); cx.strokeStyle = PU; cx.lineWidth = 4; cx.stroke();
+    const un = res ? U.length : Math.round(span(t, 10.05, 10.6) * U.length);
+    if (un > 0) { cx.fillStyle = WHITE; cx.font = res ? '600 17px Inter, Helvetica, Arial, sans-serif' : '600 17px ui-monospace, Menlo, monospace'; cx.textBaseline = 'middle'; cx.fillText(U.slice(0, un), 20, 1); }
     cx.restore();
   }
   // logo block: a white bar, later the LobHealth wordmark
   const lb = easeIO(span(t, 6.1, 6.5)), lt = span(t, 10.6, 10.9);
-  if (lb > 0 && lt < 1) { cx.save(); cx.globalAlpha = 1 - lt; cx.fillStyle = WHITE; rr(519, 429, 115 * lb, 13, 6.5); cx.fill(); cx.restore(); }
-  if (lt > 0) { cx.save(); cx.globalAlpha = lt; cx.fillStyle = WHITE; cx.font = '700 30px Inter, Helvetica, Arial, sans-serif'; cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillText('+ LobHealth', 576, 436); cx.restore(); }
+  if (lb > 0 && lt < 1) { cx.save(); cx.globalAlpha = 1 - lt; cx.fillStyle = WHITE; rr(662, 429, 115 * lb, 13, 6.5); cx.fill(); cx.restore(); }
+  if (lt > 0) { cx.save(); cx.globalAlpha = lt; cx.fillStyle = WHITE; cx.font = '700 30px Inter, Helvetica, Arial, sans-serif'; cx.textAlign = 'center'; cx.textBaseline = 'middle'; cx.fillText('+ LobHealth', 720, 436); cx.restore(); }
 }
 function drawCard(t){
   const grow = popIn(t / .5);
@@ -679,9 +681,9 @@ function drawCard(t){
   cx.save();
   cx.translate(CW0 / 2, CH0 / 2); cx.scale(grow, grow); cx.translate(-CW0 / 2, -CH0 / 2);
   rr(32, 32, CW0, CH0, radius); cx.fillStyle = HOT; cx.fill();   // hard offset shadow
-  rr(0, 0, CW0, CH0, radius); cx.fillStyle = MINT; cx.fill();
+  rr(0, 0, CW0, CH0, radius); cx.fillStyle = ORANGE; cx.fill();
   cx.save(); rr(0, 0, CW0, CH0, radius); cx.clip();
-  if (wire > 0) { cx.globalAlpha = wire; hatch(400, -6, 320, 260, PU, 27, 6); cx.globalAlpha = 1; }
+  if (wire > 0) { cx.globalAlpha = wire; hatch(520, -6, 370, 260, PU, 27, 6); cx.globalAlpha = 1; }
   drawDesign(t);
   cx.restore();
   if (wire > 0) { cx.globalAlpha = wire; rr(0, 0, CW0, CH0, radius); cx.strokeStyle = PU; cx.lineWidth = SWL; cx.stroke(); cx.globalAlpha = 1; }
@@ -689,7 +691,7 @@ function drawCard(t){
   cx.restore();
 }
 // cursor keyframes in stage px: [t, x, y]
-const HK = [[0, 640, 470], [.4, 76, 89], [4.6, 76, 89], [5.0, 556, 90], [5.6, 556, 90], [6.2, 76, 169], [6.8, 76, 129], [7.6, 76, 249], [8.4, 76, 209], [8.8, 76, 169], [9.9, 76, 249], [10.5, 76, 209], [11.0, 652, 90], [11.6, 652, 92], [12.1, 760, 470], [LOOP, 760, 470]];
+const HK = [[0, 640, 470], [.4, 38, 65], [4.6, 38, 65], [5.0, 481, 66], [5.6, 481, 66], [6.2, 38, 145], [6.8, 38, 105], [7.6, 38, 225], [8.4, 38, 185], [8.8, 38, 145], [9.9, 38, 225], [10.5, 38, 185], [11.0, 570, 66], [11.6, 570, 68], [11.9, 659, 66], [12.6, 659, 68], [13.1, 760, 470], [LOOP, 760, 470]];
 function at(t, K){ for (let i = 1; i < K.length; i++) if (t <= K[i][0]) { const a = K[i - 1], b = K[i]; const k = easeIO((t - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k)]; } return K[K.length - 1].slice(1); }
 const tog = (el, c, on) => el.classList.toggle(c, !!on);
 function heroAt(t, S){
@@ -701,26 +703,27 @@ function heroAt(t, S){
   cx.setTransform(S * dpr * KS, 0, 0, S * dpr * KS, S * dpr * CX0, S * dpr * CY0);
   drawCard(t);
   // tool rail: the tool placing the current element
-  tog(HC.rail, 'on', t > .2 && t < 12.1);
-  const tool = t < .4 ? null : t < 5.0 ? 'shape' : t < 6.2 ? 'image' : t < 6.9 ? 'text' : t < 7.7 ? 'shape' : t < 8.1 ? 'link' : t < 8.6 ? 'qr' : t < 9.9 ? 'text' : t < 10.3 ? 'link' : t < 10.9 ? 'qr' : t < 11.7 ? 'image' : null;
+  tog(HC.rail, 'on', t > .2 && t < 13.1);
+  const tool = t < .4 ? null : t < 5.0 ? 'shape' : t < 6.2 ? 'image' : t < 6.9 ? 'text' : t < 7.7 ? 'shape' : t < 8.1 ? 'link' : t < 8.6 ? 'qr' : t < 9.9 ? 'text' : t < 10.3 ? 'link' : t < 10.9 ? 'qr' : t < 12.7 ? 'image' : null;
   for (const k in railB) tog(railB[k], 'on', k === tool);
   // gallery: image 1 then image 2, the photo slot follows
-  tog(HC.gal, 'on', t >= 5.0 && t < 12.0);
+  tog(HC.gal, 'on', t >= 5.0 && t < 13.0);
   tog($('#g1'), 'on', t >= 5.4 && t < 10.9);
-  tog($('#g2'), 'on', t >= 10.9 && t < 12.0);
-  HC.ants.style.opacity = (t >= 5.4 && t < 6.4) || (t >= 10.9 && t < 11.8) ? 1 : 0;
-  HC.bleed.style.opacity = t >= 12.2 && t < 13.6 ? 1 : 0;
-  const sc = span(t, 13.8, 15.0);
+  tog($('#g2'), 'on', t >= 10.9 && t < 11.9);
+  tog($('#g3'), 'on', t >= 11.9 && t < 13.0);
+  HC.ants.style.opacity = (t >= 5.4 && t < 6.4) || (t >= 10.9 && t < 12.8) ? 1 : 0;
+  HC.bleed.style.opacity = t >= 13.2 && t < 14.6 ? 1 : 0;
+  const sc = span(t, 14.8, 16.0);
   HC.scan.style.opacity = sc > 0 && sc < 1 ? 1 : 0;
-  HC.scan.style.top = (sc * 363) + 'px';
-  const chip = t >= 11.8 && t < 12.5 ? 'FirstName → Maya <i>✓</i>' : t >= 12.6 && t < 13.6 ? 'BLEED + CROP MARKS <i>✓</i>' : t >= 13.7 && t < 15.0 ? 'QA SCAN' : t >= 15.0 && t < 15.3 ? 'QA SCAN <i>✓</i>' : '';
+  HC.scan.style.top = (sc * 338) + 'px';
+  const chip = t >= 13.0 && t < 13.5 ? 'MERGE FIELDS FILLED <i>✓</i>' : t >= 13.6 && t < 14.6 ? 'BLEED + CROP MARKS <i>✓</i>' : t >= 14.7 && t < 16.0 ? 'QA SCAN' : t >= 16.0 && t < 16.3 ? 'QA SCAN <i>✓</i>' : '';
   if (chip && HC.qa.innerHTML !== chip) HC.qa.innerHTML = chip;
   tog(HC.qa, 'on', !!chip);
-  tog(HC.chk, 'on', t >= 15.1 && t < LOOP - .4);
-  tog($('#cr1'), 'ok', t >= 15.5); tog($('#cr2'), 'ok', t >= 16.0); tog($('#cr3'), 'ok', t >= 16.7);
-  tog($('#csv'), 'on', t >= 16.4);
+  tog(HC.chk, 'on', t >= 16.1 && t < LOOP - .4);
+  tog($('#cr1'), 'ok', t >= 16.5); tog($('#cr2'), 'ok', t >= 17.0); tog($('#cr3'), 'ok', t >= 17.7);
+  tog($('#csv'), 'on', t >= 17.4);
   const [px, py] = at(t, HK);
-  HC.cur.style.opacity = t > .3 && t < 11.9 ? 1 : 0;
+  HC.cur.style.opacity = t > .3 && t < 12.9 ? 1 : 0;
   HC.cur.style.transform = 'translate(' + px + 'px,' + py + 'px)';
 }
 let hT0 = performance.now(), hOff = CLIP ? 4.3 : 0, hRun = !CLIP;
