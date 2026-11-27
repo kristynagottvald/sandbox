@@ -130,7 +130,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .qa{position:absolute;left:50%;top:-34px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
 .qa.on{opacity:1;transform:translateX(-50%)}
 .qa i{font-style:normal;font-size:13px;font-weight:700;color:var(--mint)}
-.rail{position:absolute;left:-64px;top:40px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.rail{position:absolute;left:-88px;top:40px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .rail.on{opacity:1;transform:none}
 .rail b{height:34px;border-radius:9px;display:grid;place-items:center;color:#c9c4ff;transition:background .2s,color .2s}
 .rail b svg{width:16px;height:16px}
@@ -397,7 +397,6 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
           <div class="cr" id="cr1"><span>Deliverability</span><i></i></div>
           <div class="cr" id="cr2"><span>QR code correct</span><i></i></div>
           <div class="cr" id="cr3"><span>Name matches CSV</span><i></i></div>
-          <div class="csv" id="csv"><svg width="13" height="16" viewBox="0 0 16 20"><path d="M1 1h9l5 5v13H1z" fill="#fff" stroke="#4131f1" stroke-width="1.6" stroke-linejoin="round"/><rect x="4" y="10" width="11" height="5" rx="1" fill="#d244de"/></svg>AUDIENCE.CSV<b>FirstName: Maya</b></div>
         </div>
         <svg class="hcur" id="hcur" viewBox="0 0 24 24"><path d="M.7.7L23.8 10.3 13.4 13 10.6 23.8z" fill="#fff" stroke="#4333f0" stroke-width="1.7" stroke-linejoin="round"/></svg>
       </div>
@@ -558,9 +557,10 @@ const EL_ORDER = [3, 4, 2, 0, 1];
 const IMG1 = new Image(); IMG1.src = 'assets/care-1.webp';
 const IMG2 = new Image(); IMG2.src = 'assets/care-2.webp';
 const IMG3 = new Image(); IMG3.src = 'assets/care-3.webp';
-const QRM = (() => { const n = 25; let s = 23; const out = []; const rnd = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-  const fd = (x, y) => x < 7 && y < 7 || x >= n - 7 && y < 7 || x < 7 && y >= n - 7;
-  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) { let on; if (fd(x, y)) { const fx = x >= n - 7 ? x - (n - 7) : x, fy = y >= n - 7 ? y - (n - 7) : y; on = fx === 0 || fy === 0 || fx === 6 || fy === 6 || (fx >= 2 && fx <= 4 && fy >= 2 && fy <= 4); } else on = rnd() > .52; if (on) out.push([x, y]); }
+const QRM = (() => { const out = [];   // a simplified 11 x 11 code: three finder squares and a few data blocks
+  const finder = (ox, oy) => { for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) if (x === 0 || y === 0 || x === 3 || y === 3) out.push([ox + x, oy + y]); out.push([ox + 1.5, oy + 1.5]); };
+  finder(0, 0); finder(7, 0); finder(0, 7);
+  for (const p of [[5, 1], [5, 3], [6, 5], [8, 5], [10, 5], [5, 6], [7, 7], [9, 7], [5, 8], [8, 8], [10, 9], [6, 10], [8, 10], [10, 10], [1, 5], [3, 5]]) out.push(p);
   return out; })();
 const LOOP = 19.4;
 const span = (t, a, b) => cl((t - a) / (b - a));
@@ -613,7 +613,7 @@ function drawDesign(t){
     if (!res) {
       cx.font = '600 25px ui-monospace, Menlo, monospace';
       const tw = cx.measureText('{{FirstName}}').width;
-      if (chipIn > 0) { cx.save(); cx.translate(53, 76); cx.scale(chipIn, chipIn); rr(0, -30, tw + 36, 50, 12); cx.fillStyle = HOT; cx.fill(); cx.fillStyle = WHITE; cx.textBaseline = 'middle'; cx.fillText('{{FirstName}}', 18, -4); cx.restore(); }
+      if (chipIn > 0) { cx.save(); cx.translate(53, 76); cx.scale(chipIn, chipIn); rr(0, -28, tw + 36, 46, 11); cx.fillStyle = HOT; cx.fill(); cx.fillStyle = WHITE; cx.textBaseline = 'middle'; cx.fillText('{{FirstName}}', 18, -5); cx.restore(); }
       cx.font = '500 38px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
       if (n > 0) cx.fillText(',', 53 + tw + 40, 90);
     } else {
@@ -626,8 +626,8 @@ function drawDesign(t){
     }
     cx.font = '500 38px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
     const l2 = REST.slice(0, Math.max(0, n - 1));
-    cx.fillText(l2, 53, 148);
-    if (t < 9.8 && Math.floor(t * 4) % 2 === 0) { cx.fillStyle = PINK; cx.fillRect(53 + cx.measureText(l2).width + 3, 116, 3, 38); }
+    cx.fillText(l2, 53, 134);
+    if (t < 9.8 && Math.floor(t * 4) % 2 === 0) { cx.fillStyle = PINK; cx.fillRect(53 + cx.measureText(l2).width + 3, 102, 3, 38); }
     cx.restore();
   }
   // checklist: check circles pop, bars grow, later real text
@@ -637,7 +637,7 @@ function drawDesign(t){
     const pc = popIn((t - 6.9 - k * .25) / .35);
     if (pc > 0) checkMark(65, y, pc);
     const g = easeIO(span(t, 7.0 + k * .25, 7.5 + k * .25));
-    if (g > 0 && ct < 1) { cx.save(); cx.globalAlpha = 1 - ct; cx.fillStyle = SOFT; rr(92, y - 8, [240, 190][k] * g, -40, 8); cx.fill(); cx.restore(); }
+    if (g > 0 && ct < 1) { cx.save(); cx.globalAlpha = 1 - ct; cx.fillStyle = SOFT; rr(92, y - 8, [240, 190][k] * g, 16, 8); cx.fill(); cx.restore(); }
     if (ct > 0) { cx.save(); cx.globalAlpha = ct; cx.fillStyle = WHITE; cx.font = '500 22px Inter, Helvetica, Arial, sans-serif'; cx.textBaseline = 'middle'; cx.fillText(['Same-week appointments', 'Covered by your plan'][k], 92, y + 1); cx.restore(); }
   }
   // QR card: pops in with brackets, later the real code draws in
@@ -650,7 +650,7 @@ function drawDesign(t){
     cx.save(); cx.globalAlpha = 1 - qr; cx.strokeStyle = PU; cx.lineWidth = 3.6;
     const br = (x, y, dx, dy) => { cx.beginPath(); cx.moveTo(x + dx * 16, y); cx.lineTo(x, y); cx.lineTo(x, y + dy * 16); cx.stroke(); };
     br(28, 28, 1, 1); br(88, 28, -1, 1); br(28, 88, 1, -1); br(88, 88, -1, -1); cx.restore();
-    if (qr > 0) { cx.save(); cx.beginPath(); cx.rect(12, 12, 92, 92 * qr); cx.clip(); cx.fillStyle = '#1e2245'; const m = 92 / 25; for (const [x, y] of QRM) cx.fillRect(12 + x * m, 12 + y * m, m + .2, m + .2); cx.restore(); }
+    if (qr > 0) { cx.save(); cx.beginPath(); cx.rect(12, 12, 92, 92 * qr); cx.clip(); cx.fillStyle = '#1e2245'; const m = 92 / 11; for (const [x, y] of QRM) cx.fillRect(12 + x * m, 12 + y * m, m + .2, m + .2); cx.restore(); }
     cx.restore();
   }
   // URL: two bars and a pill, later the PURL on hot pink
@@ -682,7 +682,7 @@ function drawCard(t){
   const radius = lerp(6, 3, d);
   cx.save();
   cx.translate(CW0 / 2, CH0 / 2); cx.scale(grow, grow); cx.translate(-CW0 / 2, -CH0 / 2);
-  rr(32, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.85)'; cx.fill();   // hard offset shadow, purple
+  rr(50, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.3)'; cx.fill();   // hard offset shadow, purple at 30%
   rr(0, 0, CW0, CH0, radius); cx.fillStyle = PINK; cx.fill();
   cx.save(); rr(0, 0, CW0, CH0, radius); cx.clip();
   if (wire > 0) { cx.globalAlpha = wire; hatch(520, -6, 370, 260, PU, 27, 6); cx.globalAlpha = 1; }
@@ -692,7 +692,7 @@ function drawCard(t){
   cx.restore();
 }
 // cursor keyframes in stage px: [t, x, y]
-const HK = [[0, 640, 470], [.4, -40, 65], [4.6, -40, 65], [5.0, 574, 50], [5.6, 574, 50], [6.2, -40, 145], [6.8, -40, 105], [7.6, -40, 225], [8.4, -40, 185], [8.8, -40, 145], [9.9, -40, 225], [10.5, -40, 185], [11.0, 660, 50], [11.6, 660, 52], [11.9, 746, 50], [12.6, 746, 52], [13.1, 760, 470], [LOOP, 760, 470]];
+const HK = [[0, 640, 470], [.4, -64, 65], [4.6, -64, 65], [5.0, 574, 50], [5.6, 574, 50], [6.2, -64, 145], [6.8, -64, 105], [7.6, -64, 225], [8.4, -64, 185], [8.8, -64, 145], [9.9, -64, 225], [10.5, -64, 185], [11.0, 660, 50], [11.6, 660, 52], [11.9, 746, 50], [12.6, 746, 52], [13.1, 760, 470], [LOOP, 760, 470]];
 function at(t, K){ for (let i = 1; i < K.length; i++) if (t <= K[i][0]) { const a = K[i - 1], b = K[i]; const k = easeIO((t - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k)]; } return K[K.length - 1].slice(1); }
 const tog = (el, c, on) => el.classList.toggle(c, !!on);
 function heroAt(t, S){
@@ -722,7 +722,6 @@ function heroAt(t, S){
   tog(HC.qa, 'on', !!chip);
   tog(HC.chk, 'on', t >= 16.1 && t < LOOP - .4);
   tog($('#cr1'), 'ok', t >= 16.5); tog($('#cr2'), 'ok', t >= 17.0); tog($('#cr3'), 'ok', t >= 17.7);
-  tog($('#csv'), 'on', t >= 17.4);
   const [px, py] = at(t, HK);
   HC.cur.style.opacity = t > .3 && t < 12.9 ? 1 : 0;
   HC.cur.style.transform = 'translate(' + px + 'px,' + py + 'px)';
