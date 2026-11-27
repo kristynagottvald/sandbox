@@ -532,7 +532,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 <section class="fcta">
   <canvas class="ftart" id="ftart" aria-label="Three crumpled CRA forms open out into a neat stack of paper"></canvas>
-  <div class="wrap"><h2 class="serif">Ready to kick tax season’s <em>butt?</em></h2><p>Get organized, stay tax-ready all year, and file without fear.</p><a class="btn pink" href="#plans">Get started now</a></div>
+  <div class="wrap"><h2 class="serif">Ready to make tax season <em>painless?</em></h2><p>Get organized, stay tax-ready all year, and file without fear.</p><a class="btn pink" href="#plans">Get started now</a></div>
 </section>
 
 <footer>
@@ -1165,7 +1165,7 @@ if (reduce && !CLIP) rb.seek(0);
     const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     cv.getContext('2d').clearRect(0, 0, w, h);
-    sc.forEach((x, n) => { x.o.lift = Math.sin(t * 0.9 + n * 0.8) * 0.025; x.draw(0, 0); });
+    sc.forEach((x, n) => { x.o.lift = -0.16 * (0.4 + 0.3 * n) * (0.5 - 0.5 * Math.cos(t * 0.95 + n * 0.7)); x.draw(0, 0); });
   };
   let vis = false, t0 = performance.now();
   const step = (now) => { if (!vis) return; draw((now - t0) / 1000); requestAnimationFrame(step); };
