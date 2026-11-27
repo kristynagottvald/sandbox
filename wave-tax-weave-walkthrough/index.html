@@ -151,7 +151,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .s3copy dl{margin-top:30px;display:grid;grid-template-columns:120px 1fr;gap:9px 14px;font:400 13px/1.35 var(--sans);border-top:1px solid #cfccc3;padding-top:20px}
 .s3copy dt{font:500 11px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#888}
 .s3copy dd{color:#111}
-.tabs{position:absolute;left:90px;bottom:70px;display:flex;gap:8px}
+.tabs{position:absolute;left:90px;top:350px;display:flex;gap:8px}
 .tabs div{cursor:pointer;font:500 12px/1 var(--sans);padding:10px 14px;border-radius:999px;border:1px solid #c9c6bd;color:#555;position:relative;overflow:hidden}
 .tabs div:hover{border-color:var(--navy);color:var(--navy)}.tabs div.on{background:var(--navy);border-color:var(--navy);color:#fff}
 .tabs div i{position:absolute;left:0;bottom:0;height:2px;background:var(--sky)}
@@ -248,7 +248,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 <!-- 3 · In market -->
 <section class="scene" id="s3">
-  <div class="s3copy"><h2 id="h3">Instagram Reel</h2><dl id="dl3"></dl></div>
+  <div class="s3copy"><h2 id="h3">Instagram Reel</h2></div>
   <div class="tabs" id="tabs3"></div>
   <div class="mk" id="mk"></div>
 </section>
@@ -325,7 +325,10 @@ const CREATURES = {
       this.necks = [neck(-0.32, 0.2, 1.42, 0.02), neck(0.02, -0.06, 1.62, -0.02), neck(0.34, 0.1, 1.38, 0.04)];
       this.tail = spine([[-0.12, 0.38, 0], [-0.5, 0.2, 0.04], [-0.85, 0.1, -0.02], [-1.2, 0.05, 0.03], [-1.55, 0.02, 0]], [0, 1, 0]);
     },
-    pose(u, v, i, j, cu, cv) {
+    pose(u, v, i, j, cu, cv) { // mirrored so the dragon faces left; the paper is mirrored too so its print still reads
+      const q = this._pose(u, 1 - v, i, this.nv - j, cu, 1 - cv); return [-q[0], q[1], q[2]];
+    },
+    _pose(u, v, i, j, cu, cv) {
       const SPLIT = 0.44, BODY = 0.6;
       if (cu < SPLIT) { // necks + heads (head is the horizontal run at the top of each neck)
         const k = Math.min(2, Math.floor(cv * 3)), vv = clamp((v - k / 3) * 3), s = clamp(u / SPLIT);
@@ -996,7 +999,7 @@ const liveAds=MOCKS.map((m,i)=>{const c=m.querySelector('canvas[data-live]');ret
 let cur3=-1;
 function scene3(t){
   const i=Math.min(3,Math.floor(t/SEG)),lt=t-i*SEG;
-  if(i!==cur3){cur3=i;const p=PL[i];$('#h3').textContent=p.name;$('#dl3').innerHTML=p.dl.filter(([a])=>a!=='Variant'&&a!=='CTA').map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
+  if(i!==cur3){cur3=i;const p=PL[i];$('#h3').textContent=p.name;tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
   tabEls.forEach((e,j)=>e.lastChild.style.width=(j===i?P(lt,0,SEG)*100:0)+'%');
   const cp=$('.s3copy');const ck=E(lt,0,.5)*(1-E(lt,SEG-.35,SEG));cp.style.opacity=ck;cp.style.transform=`translateY(${(1-ck)*12}px)`;
   MOCKS.forEach((m,j)=>{

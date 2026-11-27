@@ -78,13 +78,13 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 
 /* testimonials */
 .testi{background:var(--sky);padding:33px 0}
-.tq{max-width:1352px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,780px) 367px;justify-content:space-between;gap:42px;align-items:center}
+.tq{max-width:1352px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:367px minmax(0,780px);justify-content:space-between;gap:42px;align-items:center}
 .tq blockquote,.pcard blockquote{font-family:var(--serif);font-size:34px;line-height:1.18;letter-spacing:-.01em;color:var(--navy);font-weight:400;font-variation-settings:"opsz" 36}
 .tq blockquote b,.pcard blockquote b{font-weight:600}
 .tq blockquote b{font-weight:700}
 .tq .who{margin-top:44px;font-size:18px;color:var(--navy)}
 .tq .who b{font-weight:700}
-.tq img{width:367px;height:367px;object-fit:cover;border-radius:16px}
+.tq img{order:-1;width:367px;height:367px;object-fit:cover;border-radius:16px}
 
 /* features */
 .feat{padding:110px 0 98px}
@@ -616,7 +616,10 @@ const CREATURES = {
       this.necks = [neck(-0.32, 0.2, 1.42, 0.02), neck(0.02, -0.06, 1.62, -0.02), neck(0.34, 0.1, 1.38, 0.04)];
       this.tail = spine([[-0.12, 0.38, 0], [-0.5, 0.2, 0.04], [-0.85, 0.1, -0.02], [-1.2, 0.05, 0.03], [-1.55, 0.02, 0]], [0, 1, 0]);
     },
-    pose(u, v, i, j, cu, cv) {
+    pose(u, v, i, j, cu, cv) { // mirrored so the dragon faces left; the paper is mirrored too so its print still reads
+      const q = this._pose(u, 1 - v, i, this.nv - j, cu, 1 - cv); return [-q[0], q[1], q[2]];
+    },
+    _pose(u, v, i, j, cu, cv) {
       const SPLIT = 0.44, BODY = 0.6;
       if (cu < SPLIT) { // necks + heads (head is the horizontal run at the top of each neck)
         const k = Math.min(2, Math.floor(cv * 3)), vv = clamp((v - k / 3) * 3), s = clamp(u / SPLIT);
