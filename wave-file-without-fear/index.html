@@ -330,15 +330,12 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 <section class="hero" id="hero" aria-label="File without fear">
   <div class="floor"></div>
   <svg class="scrib a" viewBox="0 0 440 420" fill="none" aria-hidden="true"><path d="M-20 40C120 0 300-10 330 40 360 95 90 130 -10 175 -80 210 60 220 210 190 350 160 400 180 360 230 320 285 110 300 40 340 -10 368 140 380 250 330" stroke="#ff7a1a" stroke-width="7" stroke-linecap="round"/></svg>
-  <svg class="scrib b" viewBox="0 0 340 260" fill="none" aria-hidden="true"><path d="M24 0V196C24 236 74 236 74 196V0M124 0V196C124 236 174 236 174 196V0M224 0V196C224 236 274 236 274 196V0" stroke="#001b65" stroke-width="5" stroke-linecap="round"/></svg>
   <canvas class="stage" id="stage" aria-label="Stop motion: a dragon folded from a CRA tax form unfolds into a flat sheet of paper"></canvas>
   <div class="wrap">
-    <span class="kick"><i></i>Tax season 2027 · Canada</span>
     <h1 class="serif">File without <em>fear</em></h1>
-    <p class="lede">That T1 looks a lot scarier folded up. Wave keeps your books organized all year, so when the CRA comes calling, it’s just paper.</p>
+    <p class="lede">Tax time panic setting in? Wave’s small business software keeps you organized and ready for anything tax season throws at you.</p>
     <div class="ctas"><a class="btn pink" href="#plans">Get started now</a><button class="replay" id="replay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>Watch it unfold</button></div>
   </div>
-  <div class="cap" aria-live="polite"><span class="frame" id="frame">FR 001</span><span id="capt"><b>The T1 dragon</b> · Income Tax and Benefit Return</span><span class="dots" id="dots"></span></div>
 </section>
 
 <section class="roadmap">
@@ -937,17 +934,13 @@ const stage = document.getElementById('stage');
 const mobile = () => innerWidth <= 820;
 const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.62, fov: 0.95, zoom: 1 } : { cx: 0.7, cy: 0.6, fov: 1.0, zoom: 1 };
 const scene = new Origami.Scene(stage, Object.assign({ creature: 'dragon', form: 'T1', shadow: 'rgba(0,14,80,.42)', yaw: -0.42, flatYaw: 0.22 }, heroOpt()));
-const dots = document.getElementById('dots'), capt = document.getElementById('capt'), frameEl = document.getElementById('frame');
-SEQ.forEach((s, i) => { const b = document.createElement('button'); b.setAttribute('aria-label', s.name); b.innerHTML = '<i></i>'; b.onclick = () => rb.play({ from: i * SEG }); dots.appendChild(b); });
 let cur = -1, T = 0, playing = false, lastF = -1, prev = 0, loop = true, speed = 1;
 function show(t) {
   t = ((t % TOTAL) + TOTAL) % TOTAL;
   const i = Math.floor(t / SEG), lt = t - i * SEG;
-  if (i !== cur) { cur = i; scene.set(SEQ[i].c, SEQ[i].f); capt.innerHTML = `<b>${SEQ[i].name}</b> · ${SEQ[i].form}`; }
+  if (i !== cur) { cur = i; scene.set(SEQ[i].c, SEQ[i].f); stage.setAttribute('aria-label', `Stop motion: ${SEQ[i].name}, folded from a CRA ${SEQ[i].form}, unfolds into a flat sheet`); }
   const fr = Math.floor(t * 12), k = Math.max(0, Math.min(1, (Math.floor(lt * 12) / 12 - HOLD) / DUR));
   scene.draw(k, fr);
-  frameEl.textContent = 'FR ' + String(fr + 1).padStart(3, '0');
-  [...dots.children].forEach((b, n) => b.firstChild.style.transform = `scaleX(${n < i ? 1 : n > i ? 0 : lt / SEG})`);
   lastF = fr;
 }
 function tick(now) {
