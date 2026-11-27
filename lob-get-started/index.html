@@ -130,27 +130,27 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .qa{position:absolute;left:50%;top:8px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;border:1px solid rgba(169,156,255,.5);color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
 .qa.on{opacity:1;transform:translateX(-50%)}
 .qa i{width:18px;height:18px;border-radius:5px;background:var(--mint);display:grid;place-items:center;font-style:normal;font-size:11px;color:var(--pu)}
-.rail{position:absolute;left:14px;top:48px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.rail{position:absolute;left:-8px;top:48px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .rail.on{opacity:1;transform:none}
 .rail b{height:34px;border-radius:9px;display:grid;place-items:center;color:#c9c4ff;transition:background .2s,color .2s}
 .rail b svg{width:16px;height:16px}
 .rail b.on{background:var(--pu);color:#fff}
-.gal{position:absolute;left:430px;top:-10px;width:280px;padding:12px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.gal{position:absolute;left:468px;top:-14px;width:284px;padding:16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .gal.on{opacity:1;transform:none}
-.gal .gt{display:flex;justify-content:space-between;font:600 12px var(--sans);margin-bottom:9px}
+.gal .gt{display:flex;justify-content:space-between;font:600 12px var(--sans);margin-bottom:12px}
 .gal .gn{color:#a99cff;font-weight:500}
-.gal .gth{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px}
+.gal .gth{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .gal .g div{aspect-ratio:1.05;border-radius:7px;background-size:cover;background-position:center;outline:3px solid transparent;outline-offset:2px;transition:outline-color .25s}
 .gal .g.on div{outline-color:var(--hot)}
 .gal .g small{display:block;margin-top:6px;font:600 10.5px var(--sans)}
-.chk{position:absolute;left:0;top:300px;width:250px;padding:12px 12px 10px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
+.chk{position:absolute;left:0;top:252px;width:272px;padding:16px 18px 16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
 .chk.on{opacity:1;transform:none}
-.chk .ct{font:700 10px var(--sans);letter-spacing:.14em;color:#a99cff;margin-bottom:4px;text-transform:uppercase}
-.chk .cr{display:flex;align-items:center;justify-content:space-between;height:27px;font:500 13px var(--sans);border-top:1px solid rgba(255,255,255,.12)}
+.chk .ct{font:700 10px var(--sans);letter-spacing:.14em;color:#a99cff;margin-bottom:8px;text-transform:uppercase}
+.chk .cr{display:flex;align-items:center;justify-content:space-between;height:36px;font:500 13.5px var(--sans);border-top:1px solid rgba(255,255,255,.12)}
 .chk .cr i{width:20px;height:20px;border-radius:6px;background:rgba(255,255,255,.12);display:grid;place-items:center;transform:scale(.8);transition:background .25s,transform .35s cubic-bezier(.2,1.8,.4,1)}
 .chk .cr.ok i{background:var(--mint);transform:none}
 .chk .cr.ok i::after{content:"";width:8px;height:4px;border-left:2px solid var(--pu);border-bottom:2px solid var(--pu);transform:rotate(-45deg) translate(1px,-1px)}
-.chk .csv{display:flex;align-items:center;gap:7px;margin-top:6px;padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.08);font:700 9.5px var(--sans);letter-spacing:.1em;opacity:0;transition:opacity .3s}
+.chk .csv{display:flex;align-items:center;gap:8px;margin-top:10px;padding:9px 11px;border-radius:8px;background:rgba(255,255,255,.08);font:700 9.5px var(--sans);letter-spacing:.1em;opacity:0;transition:opacity .3s}
 .chk .csv.on{opacity:1}
 .chk .csv b{margin-left:auto;font:600 10px ui-monospace,Menlo,monospace;letter-spacing:0;color:var(--hot)}
 .hcur{position:absolute;left:0;top:0;width:22px;height:22px;z-index:5;opacity:0;transition:opacity .3s;pointer-events:none}
@@ -165,7 +165,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .sub .tl span{display:inline-block;margin-left:4px;transition:transform .2s}.sub .tl:hover span{transform:translateX(3px)}
 @media (max-width:640px){
   .stage{height:min(62vh,460px)}
-  .col{width:92vw}
+  .col{width:82vw;margin-left:-2vw}
   .words{font-size:12.5vw;white-space:nowrap}
   .sub{flex-direction:column;gap:10px;text-align:center}
 }
@@ -392,7 +392,7 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
           <b data-t="link"><svg viewBox="0 0 16 16"><path d="M6.5 9.5l3-3M6 7.5L4.3 9.2a2.2 2.2 0 003.1 3.1L9 10.6M10 8.5l1.7-1.7a2.2 2.2 0 00-3.1-3.1L7 5.4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></b>
         </div>
         <div class="gal" id="gal"><div class="gt"><span>Images ›</span><span class="gn">Healthcare</span></div>
-          <div class="gth"><div class="g" id="g1"><div style="background-image:url(assets/care-1.webp)"></div><small>Care team</small></div><div class="g" id="g2"><div style="background-image:url(assets/care-2.webp);background-position:62% 30%"></div><small>Check-up</small></div><div class="g" id="g3"><div style="background-image:url(assets/care-3.webp);background-position:45% 30%"></div><small>Wellness</small></div></div></div>
+          <div class="gth"><div class="g" id="g1"><div style="background-image:url(assets/care-1.webp)"></div></div><div class="g" id="g2"><div style="background-image:url(assets/care-2.webp);background-position:62% 30%"></div></div><div class="g" id="g3"><div style="background-image:url(assets/care-3.webp);background-position:45% 30%"></div></div></div></div>
         <div class="chk" id="chk"><div class="ct">QA checks</div>
           <div class="cr" id="cr1"><span>Deliverability</span><i></i></div>
           <div class="cr" id="cr2"><span>QR code correct</span><i></i></div>
@@ -552,7 +552,8 @@ const POSES = [
   [[285, 405, 108, 60], [147, 654, 284, 160], [976, 809, 80, 80], [302, 873, 284, 46], [661, 873, 130, 46]],
   [[407, 838, 108, 58], [302, 574, 284, 160], [302, 827, 80, 80], [610, 827, 285, 48], [764, 895, 130, 48]],
   [[302, 562, 108, 58], [302, 668, 284, 160], [819, 853, 80, 80], [302, 873, 284, 46], [661, 873, 130, 46]]
-].map((p) => p.map(([x, y, w, h]) => [(x - 243) * CW0 / 714, y - 516, w * CW0 / 714, h]));
+].map((p) => p.map(([x, y, w, h]) => { w = w * CW0 / 714; const pad = 30;   // every box starts and stays inside the card
+  return [Math.min(Math.max((x - 243) * CW0 / 714, pad), CW0 - w - pad), Math.min(Math.max(y - 516, pad), CH0 - h - pad), w, h]; }));
 const EL_ORDER = [3, 4, 2, 0, 1];
 const IMG1 = new Image(); IMG1.src = 'assets/care-1.webp';
 const IMG2 = new Image(); IMG2.src = 'assets/care-2.webp';
@@ -612,9 +613,9 @@ function drawDesign(t){
     if (!res) {
       cx.font = '600 25px ui-monospace, Menlo, monospace';
       const tw = cx.measureText('{{FirstName}}').width;
-      if (chipIn > 0) { cx.save(); cx.translate(53, 76); cx.scale(chipIn, chipIn); rr(0, -25, tw + 20, 38, 8); cx.fillStyle = HOT; cx.fill(); cx.fillStyle = WHITE; cx.fillText('{{FirstName}}', 10, 3); cx.restore(); }
+      if (chipIn > 0) { cx.save(); cx.translate(53, 76); cx.scale(chipIn, chipIn); rr(0, -30, tw + 36, 50, 12); cx.fillStyle = HOT; cx.fill(); cx.fillStyle = WHITE; cx.textBaseline = 'middle'; cx.fillText('{{FirstName}}', 18, -4); cx.restore(); }
       cx.font = '500 38px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
-      if (n > 0) cx.fillText(',', 53 + tw + 24, 90);
+      if (n > 0) cx.fillText(',', 53 + tw + 40, 90);
     } else {
       const pop = popIn((t - 13.0) / .35);
       cx.font = '500 38px Inter, Helvetica, Arial, sans-serif';
@@ -625,14 +626,14 @@ function drawDesign(t){
     }
     cx.font = '500 38px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
     const l2 = REST.slice(0, Math.max(0, n - 1));
-    cx.fillText(l2, 53, 140);
-    if (t < 9.8 && Math.floor(t * 4) % 2 === 0) { cx.fillStyle = PINK; cx.fillRect(53 + cx.measureText(l2).width + 3, 108, 3, 38); }
+    cx.fillText(l2, 53, 148);
+    if (t < 9.8 && Math.floor(t * 4) % 2 === 0) { cx.fillStyle = PINK; cx.fillRect(53 + cx.measureText(l2).width + 3, 116, 3, 38); }
     cx.restore();
   }
   // checklist: check circles pop, bars grow, later real text
   const ct = span(t, 9.8, 10.1);
   for (let k = 0; k < 2; k++) {
-    const y = 200 + k * 42;
+    const y = 206 + k * 42;
     const pc = popIn((t - 6.9 - k * .25) / .35);
     if (pc > 0) checkMark(65, y, pc);
     const g = easeIO(span(t, 7.0 + k * .25, 7.5 + k * .25));
@@ -642,30 +643,31 @@ function drawDesign(t){
   // QR card: pops in with brackets, later the real code draws in
   const q = popIn((t - 8.1) / .4);
   if (q > 0) {
-    cx.save(); cx.translate(57 + 46, 298 + 75); cx.scale(q, q); cx.translate(-46, -75);
-    cx.fillStyle = WHITE; cx.fillRect(0, 0, 92, 150);
-    if (t >= 16.7 && t < 17.4) { cx.strokeStyle = HOT; cx.lineWidth = 6; cx.strokeRect(-3, -3, 98, 156); }
+    cx.save(); cx.translate(57 + 58, 336 + 58); cx.scale(q, q); cx.translate(-58, -58);
+    cx.fillStyle = WHITE; cx.fillRect(0, 0, 116, 116);
+    if (t >= 16.7 && t < 17.4) { cx.strokeStyle = HOT; cx.lineWidth = 6; cx.strokeRect(-3, -3, 122, 122); }
     const qr = span(t, 10.3, 10.9);
-    cx.save(); cx.globalAlpha = 1 - qr; cx.strokeStyle = PU; cx.lineWidth = 3.4;
-    const br = (x, y, dx, dy) => { cx.beginPath(); cx.moveTo(x + dx * 14, y); cx.lineTo(x, y); cx.lineTo(x, y + dy * 14); cx.stroke(); };
-    br(22, 22, 1, 1); br(70, 22, -1, 1); br(22, 70, 1, -1); br(70, 70, -1, -1); cx.restore();
-    if (qr > 0) { cx.save(); cx.beginPath(); cx.rect(10, 10, 72, 72 * qr); cx.clip(); cx.fillStyle = '#1e2245'; const m = 72 / 25; for (const [x, y] of QRM) cx.fillRect(10 + x * m, 10 + y * m, m + .2, m + .2); cx.restore(); }
-    cx.fillStyle = '#e4e4f0'; rr(16, 98, 60, 8, 4); cx.fill(); rr(16, 114, 46, 8, 4); cx.fill();
+    cx.save(); cx.globalAlpha = 1 - qr; cx.strokeStyle = PU; cx.lineWidth = 3.6;
+    const br = (x, y, dx, dy) => { cx.beginPath(); cx.moveTo(x + dx * 16, y); cx.lineTo(x, y); cx.lineTo(x, y + dy * 16); cx.stroke(); };
+    br(28, 28, 1, 1); br(88, 28, -1, 1); br(28, 88, 1, -1); br(88, 88, -1, -1); cx.restore();
+    if (qr > 0) { cx.save(); cx.beginPath(); cx.rect(12, 12, 92, 92 * qr); cx.clip(); cx.fillStyle = '#1e2245'; const m = 92 / 25; for (const [x, y] of QRM) cx.fillRect(12 + x * m, 12 + y * m, m + .2, m + .2); cx.restore(); }
     cx.restore();
   }
   // URL: two bars and a pill, later the PURL on hot pink
   const g1 = easeIO(span(t, 7.7, 8.2)), g2 = easeIO(span(t, 7.85, 8.35));
   cx.fillStyle = PU;
-  if (g1 > 0) { rr(176, 346, 160 * g1, 12, 6); cx.fill(); }
-  if (g2 > 0) { rr(176, 366, 118 * g2, 12, 6); cx.fill(); }
+  if (g1 > 0) { rr(200, 350, 160 * g1, 12, 6); cx.fill(); }
+  if (g2 > 0) { rr(200, 371, 118 * g2, 12, 6); cx.fill(); }
   const pp = popIn((t - 8.0) / .4);
   if (pp > 0) {
     const fillp = span(t, 10.0, 10.3);
-    cx.save(); cx.translate(176, 418); cx.scale(pp, pp);
+    cx.save(); cx.translate(200, 428); cx.scale(pp, pp);
     const res = t >= 13.0, U = res ? 'lobhealth.com/you' : '{{URL}}';
-    rr(0, -19, res ? 230 : 130, 38, 19); cx.fillStyle = 'rgba(65,49,241,' + fillp + ')'; cx.fill(); cx.strokeStyle = PU; cx.lineWidth = 4; cx.stroke();
+    cx.font = res ? '600 18px Inter, Helvetica, Arial, sans-serif' : '600 18px ui-monospace, Menlo, monospace';
+    const pw = Math.max(150, cx.measureText(U).width + 52);
+    rr(0, -24, pw, 48, 24); cx.fillStyle = 'rgba(65,49,241,' + fillp + ')'; cx.fill(); cx.strokeStyle = PU; cx.lineWidth = 4; cx.stroke();
     const un = res ? U.length : Math.round(span(t, 10.05, 10.6) * U.length);
-    if (un > 0) { cx.fillStyle = WHITE; cx.font = res ? '600 17px Inter, Helvetica, Arial, sans-serif' : '600 17px ui-monospace, Menlo, monospace'; cx.textBaseline = 'middle'; cx.fillText(U.slice(0, un), 20, 1); }
+    if (un > 0) { cx.fillStyle = WHITE; cx.textBaseline = 'middle'; cx.fillText(U.slice(0, un), 26, 1); }
     cx.restore();
   }
   // logo block: a white bar, later the LobHealth wordmark
@@ -691,7 +693,7 @@ function drawCard(t){
   cx.restore();
 }
 // cursor keyframes in stage px: [t, x, y]
-const HK = [[0, 640, 470], [.4, 38, 65], [4.6, 38, 65], [5.0, 481, 66], [5.6, 481, 66], [6.2, 38, 145], [6.8, 38, 105], [7.6, 38, 225], [8.4, 38, 185], [8.8, 38, 145], [9.9, 38, 225], [10.5, 38, 185], [11.0, 570, 66], [11.6, 570, 68], [11.9, 659, 66], [12.6, 659, 68], [13.1, 760, 470], [LOOP, 760, 470]];
+const HK = [[0, 640, 470], [.4, 16, 65], [4.6, 16, 65], [5.0, 522, 62], [5.6, 522, 62], [6.2, 16, 145], [6.8, 16, 105], [7.6, 16, 225], [8.4, 16, 185], [8.8, 16, 145], [9.9, 16, 225], [10.5, 16, 185], [11.0, 608, 62], [11.6, 608, 64], [11.9, 694, 62], [12.6, 694, 64], [13.1, 760, 470], [LOOP, 760, 470]];
 function at(t, K){ for (let i = 1; i < K.length; i++) if (t <= K[i][0]) { const a = K[i - 1], b = K[i]; const k = easeIO((t - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k)]; } return K[K.length - 1].slice(1); }
 const tog = (el, c, on) => el.classList.toggle(c, !!on);
 function heroAt(t, S){
