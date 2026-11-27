@@ -88,7 +88,7 @@ html.clip .arr,html.clip #hint,html.clip #cap,html.clip #pill{display:none}
 @media(prefers-reduced-motion:reduce){#pgbox.in-r .pg,#pgbox.in-l .pg{animation:none}}
 
 /* ---------- the printed pages: 760 x 1040, grey newsprint, one navy ink (the Printing Press look) ---------- */
-.pg{--paper:#cfe9dd;--ink:#1c2170;--box:#e1f3ea;--spot:#79e6b8;--an:"Anton",Impact,"Arial Narrow",sans-serif;--slab:"Alfa Slab One",Georgia,serif;--wide:"Archivo","Arial Black",Arial,sans-serif;--nar:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+.pg{--paper:#cfe9dd;--ink:#1c2170;--box:#cfe9dd;--spot:#79e6b8;--an:"Anton",Impact,"Arial Narrow",sans-serif;--slab:"Alfa Slab One",Georgia,serif;--wide:"Archivo","Arial Black",Arial,sans-serif;--nar:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
  --rg:10px;--bg:8px;--gc:14px;width:760px;height:1040px;position:relative;overflow:hidden;background:var(--paper);color:var(--ink);padding:20px 24px 14px;display:grid;grid-template-columns:minmax(0,1fr);row-gap:var(--rg);font:500 12px/1.32 var(--nar)}
 .pg>*{min-width:0;min-height:0}
 .pg[data-n="1"]{grid-template-rows:auto minmax(0,1fr) auto auto auto}
@@ -96,9 +96,9 @@ html.clip .arr,html.clip #hint,html.clip #cap,html.clip #pill{display:none}
 .pg[data-n="3"]{grid-template-rows:auto auto auto auto auto auto auto auto auto auto auto}
 .pg[data-n="4"]{grid-template-rows:auto minmax(0,1fr) auto}
 .pg::before{content:"";position:absolute;inset:0;z-index:20;pointer-events:none;background:
- linear-gradient(to bottom,transparent 49.6%,rgba(0,0,40,.12) 50%,rgba(255,255,255,.45) 50.3%,transparent 50.9%),
+ linear-gradient(to bottom,transparent 49.6%,rgba(0,0,40,.12) 50%,rgba(150,235,200,.5) 50.3%,transparent 50.9%),
  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2 0 0 0 0 .2 0 0 0 0 .3 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
-html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgba(0,0,40,.12) 50%,rgba(255,255,255,.45) 50.3%,transparent 50.9%)}
+html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgba(0,0,40,.12) 50%,rgba(150,235,200,.5) 50.3%,transparent 50.9%)}
 .pg::after{content:"";position:absolute;top:0;bottom:0;width:46px;z-index:21;pointer-events:none}
 .pg.l::after{right:0;background:linear-gradient(to left,rgba(20,20,60,.24),rgba(20,20,60,.07) 40%,transparent)}
 .pg.r::after{left:0;background:linear-gradient(to right,rgba(20,20,60,.24),rgba(20,20,60,.07) 40%,transparent)}
@@ -141,7 +141,7 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .cb{display:grid;grid-template-columns:168px 1fr;gap:8px;align-items:center;margin:5px 0;font:700 11.5px/1 var(--nar);text-transform:uppercase;letter-spacing:.05em}
 .cb i{display:block;height:15px;background:var(--ink)}.cb:nth-child(even) i{background:var(--spot);border:2px solid var(--ink)}
 .cwg{display:grid;gap:0;background:var(--ink);border:2px solid var(--ink);width:100%}
-.cw{background:#f2fbf6;color:var(--ink);display:grid;place-items:center;font:400 13px/1 var(--an);font-style:normal;position:relative;aspect-ratio:1;border:.5px solid var(--ink)}
+.cw{background:#cfe9dd;color:var(--ink);display:grid;place-items:center;font:400 13px/1 var(--an);font-style:normal;position:relative;aspect-ratio:1;border:.5px solid var(--ink)}
 .cw u{position:absolute;left:1px;top:0;font:700 6px/1 var(--nar);text-decoration:none}
 .cb2{background:var(--ink);aspect-ratio:1}
 .stamp{padding:11px;background:radial-gradient(circle 5.5px at 7px 0,var(--paper) 97%,transparent) 0 0/14px 11px repeat-x,radial-gradient(circle 5.5px at 7px 11px,var(--paper) 97%,transparent) 0 100%/14px 11px repeat-x,radial-gradient(circle 5.5px at 0 7px,var(--paper) 97%,transparent) 0 0/11px 14px repeat-y,radial-gradient(circle 5.5px at 11px 7px,var(--paper) 97%,transparent) 100% 0/11px 14px repeat-y,var(--ink)}
@@ -202,13 +202,13 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 </main>
 <script>
 /* ---------- one-ink cartoon illustrations (inline svg, no ids so every copy of a page is independent) ---------- */
-const INK='#1c2170',PAP='#cfe9dd',WH='#f2fbf6',MNT='#79e6b8';
+const INK='#1c2170',PAP='#cfe9dd',WH='#cfe9dd',MNT='#79e6b8';
 const tint=k=>{const P=[0xcf,0xe9,0xdd],N=[0x1c,0x21,0x70];return '#'+[0,1,2].map(i=>Math.round(P[i]+(N[i]-P[i])*k).toString(16).padStart(2,'0')).join('')};
 const sk=(w=2.6)=>`stroke="${INK}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
 const svg=(vb,body,label)=>`<svg viewBox="${vb}" width="100%" height="100%" role="img" aria-label="${label}" preserveAspectRatio="xMidYMid meet">${body}</svg>`;
 const line=(x1,y1,x2,y2,w=1.6)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" ${sk(w)}/>`;
 function hatch(x,y,w,h,gap,sw=1){let s='';for(let i=gap;i<w+h;i+=gap)s+=line(x+Math.min(i,w),y+Math.max(0,i-w),x+Math.max(0,i-h),y+Math.min(i,h),sw);return s}
-const eyes=(x1,x2,y,r=7)=>`<circle cx="${x1}" cy="${y}" r="${r}" fill="#fff" ${sk(2.2)}/><circle cx="${x2}" cy="${y}" r="${r}" fill="#fff" ${sk(2.2)}/><circle cx="${x1+1.5}" cy="${y+1}" r="${r*.45}" fill="${INK}"/><circle cx="${x2+1.5}" cy="${y+1}" r="${r*.45}" fill="${INK}"/>`;
+const eyes=(x1,x2,y,r=7)=>`<circle cx="${x1}" cy="${y}" r="${r}" fill="#cfe9dd" ${sk(2.2)}/><circle cx="${x2}" cy="${y}" r="${r}" fill="#cfe9dd" ${sk(2.2)}/><circle cx="${x1+1.5}" cy="${y+1}" r="${r*.45}" fill="${INK}"/><circle cx="${x2+1.5}" cy="${y+1}" r="${r*.45}" fill="${INK}"/>`;
 
 /* object illustrations (the winding-teeth reference): two flat colours, mint and navy, meeting along an edge that dissolves into spray grain;
    the cream highlights flip to mint across the same edge. Every call makes its own ids so the flat page and the 3D copies never share a mask. */
