@@ -32,6 +32,15 @@ const APPS = {
     await p.evaluate(() => window.__rb.play({ from: 0, speed: 1.05, loop: false, to: 5.95 }));
     await sleep(5800);
   } },
+  // Wave Tax Weave Walkthrough: the Figma Weave node canvas finishes (Nano Banana origami creatures, headlines, sheet, Buzz counting to 480), the Figma page fills with 480 Buzz frames and zooms out, then the Instagram Reel ad (starts on the filled Weave graph; timeline runs at 2.4x)
+  'wave-tax-weave-walkthrough': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 2500, q: 38, run: async (p) => {
+    await p.evaluate(() => window.__rb.seek(10.2));
+    await sleep(700);
+    await p.evaluate(() => window.__rb.play({ from: 10.2, speed: 2.4, loop: false }));
+    await sleep(4300);
+    await p.evaluate(() => window.__rb.play({ from: 26.1, speed: 1.3, loop: false }));
+    await sleep(1500);
+  } },
   // Lob Get Started mockup on dark navy: "build your way" around the cycling mail collage, then the page scrolls into the five stacked templates and the middle one opens into the full template preview
   'lob-get-started': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1200, q: 62, run: async (p) => {
     await p.evaluate(() => window.__rb.play());

@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wave Tax Weave Walkthrough</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%230041ff%22/%3E%3Cpath fill=%22%23f9f4f1%22 d=%22M10 44L30 14L34 40Z%22/%3E%3Cpath fill=%22%23c9c3b5%22 d=%22M30 14L54 26L34 40Z%22/%3E%3Cpath fill=%22%23e3ddcf%22 d=%22M10 44L34 40L44 52Z%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&family=Newsreader:ital,opsz,wght@0,6..72,500;1,6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0041ff;--navy:#001b65;--red:#d52b1e;--cream:#f9f4f1;--sky:#76c3fb;--pink:#e8aaff;--wsans:"Nunito Sans","Avenir Next",Helvetica,Arial,sans-serif;--serif:"Newsreader",Georgia,"Times New Roman",serif;
+--sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{background:#0b0b0d;color:#fff;font-family:var(--sans);-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh;overflow:hidden}
+nav.back{display:flex}
+/* sandbox project bar: the home page nav's 72px height, SANDBOX / PROJECT NAME in its all-caps label style, any controls on the right */
+html body nav.back{box-sizing:border-box;flex:none;align-self:stretch;width:auto;align-items:center;gap:10px;height:72px;min-height:72px;padding:0 30px;background:#181716;border-bottom:1px solid rgba(255,255,255,.1);color:#fff;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+html body nav.back>a,html body nav.back>span,html body nav.back>b{font:400 12px/1.3 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body nav.back>a{color:#989898;transition:color .2s}
+html body nav.back>a:hover,html body nav.back>a:focus-visible{color:#fff;text-decoration:none}
+html body nav.back>span{color:#6b6b6b}
+html body nav.back>b{font-weight:400;color:#fff;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html body nav.back:not(:has(>div))>b{display:block}
+html body nav.back>div{margin-left:auto}
+@media (min-width:641px){html body nav.back>b{display:block}}
+@media (max-width:640px){html body nav.back{padding:0 20px}}
+/* phones: the bar's controls move to a panel (also a nav.back, so the page's own control styles still apply) under the visual */
+html body nav.back.sb-panel{position:static;height:auto;min-height:0;padding:12px 20px;justify-content:center;flex-wrap:wrap;border-bottom:0;border-top:1px solid rgba(255,255,255,.1);white-space:normal;overflow:visible;z-index:auto}
+html body nav.back.sb-panel>div{margin:0;flex:0 1 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;max-width:100%;min-width:0}
+html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-panel):not(:has(>div))>span{display:block}
+.ctl{display:flex;gap:6px;align-items:center}
+.ctl button{font:500 12px/1 var(--sans);color:#cfcfcf;background:transparent;border:1px solid #3a3a3a;border-radius:999px;padding:8px 13px;cursor:pointer;display:flex;gap:7px;align-items:center}
+.ctl button i{font-style:normal;font:500 10px/1 var(--mono);color:#777}
+.ctl button.on{background:#fff;color:#111;border-color:#fff}.ctl button.on i{color:var(--blue)}
+.ctl button:hover{border-color:#777}
+.ctl #pp{width:32px;justify-content:center;padding:8px 0}
+
+#view{flex:1;position:relative;overflow:hidden;min-height:0}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:0 0;overflow:hidden;background:#0d0d10}
+.scene{position:absolute;inset:0;overflow:hidden;visibility:hidden}
+.cap{position:absolute;left:28px;top:24px;z-index:20;display:flex;gap:12px;align-items:center;font:500 12px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;pointer-events:none}
+.cap b{background:var(--blue);color:#fff;padding:7px 9px;border-radius:5px;font-weight:500}
+.cap span{color:#d9d9de;background:rgba(20,20,24,.86);padding:7px 10px;border-radius:5px;border:1px solid #2a2a30}
+.cap.lt span{background:rgba(255,255,255,.92);color:#222;border-color:#ddd}
+
+/* ---------- 1 · Weave canvas ---------- */
+#s1{background:#0e0e11;background-image:radial-gradient(#2a2a30 1px,transparent 1.2px);background-size:22px 22px}
+#w1{position:absolute;left:0;top:0;width:1600px;height:900px;transform-origin:0 0}
+#wires{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
+.wire{fill:none;stroke-width:1.7}
+.node{position:absolute;background:#1b1b1f;border:1px solid #2d2d33;border-radius:11px;padding:10px 11px 11px;box-shadow:0 10px 30px rgba(0,0,0,.35);font-size:11px;color:#e8e8ec}
+.node.sel{border-color:#6b6bff;box-shadow:0 0 0 1px #6b6bff,0 10px 30px rgba(0,0,0,.35)}
+.node h4{display:flex;justify-content:space-between;align-items:center;font:500 11px/1 var(--sans);color:#a6a6ae;margin-bottom:8px;gap:6px}
+.node h4 em{font-style:normal;color:#5f5f68;letter-spacing:.1em}
+.node h4 .tag{font:500 9px/1 var(--mono);color:#c79bff;background:#2a2238;border-radius:4px;padding:3px 5px;letter-spacing:.04em}
+.node h4 .tag.img{color:#8fd3ff;background:#1d2a36}
+.node h4 .tag.vid{color:#9ff0c6;background:#1b2e26}
+.field{background:#26262b;border-radius:7px;padding:8px 9px;font:400 10.5px/1.45 var(--sans);color:#ececf0;white-space:pre-wrap;overflow:hidden}
+.field.dim{color:#a0a0a8}
+.field+.field{margin-top:6px}
+.port{position:absolute;width:9px;height:9px;border-radius:50%;border:1.6px solid #e8aaff;background:#1b1b1f}
+.port.img{border-color:#76c3fb}.port.vid{border-color:#7fe0b0}
+.port.on{background:#e8aaff}.port.img.on{background:#76c3fb}.port.vid.on{background:#7fe0b0}
+.run{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font:500 10px/1 var(--sans);color:#8d8d96}
+.run b{font-weight:500;color:#eee;border:1px solid #3c3c44;border-radius:6px;padding:5px 8px}
+.run b.go{background:#fff;color:#111;border-color:#fff}
+.sw{display:flex;gap:5px;margin-bottom:6px}.sw i{width:22px;height:22px;border-radius:5px;display:block;border:1px solid rgba(255,255,255,.12)}
+.chips{display:flex;flex-wrap:wrap;gap:5px}.chips span{font:500 10px/1 var(--sans);padding:5px 7px;border-radius:5px;background:#2c2c33;color:#ddd}
+.grid12{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.grid12 div{aspect-ratio:1;border-radius:5px;overflow:hidden;background:#26262b;position:relative}
+.grid12 img{width:100%;height:100%;display:block;object-fit:cover}
+.shim{position:absolute;inset:0;background:linear-gradient(110deg,#26262b 30%,#3a3a44 50%,#26262b 70%);background-size:300% 100%}
+.sizes{display:flex;gap:6px;align-items:flex-end}
+.sizes div{border-radius:4px;overflow:hidden;background:#26262b;position:relative}
+.sizes img{width:100%;height:100%;object-fit:cover;display:block}
+.sizes span{display:block;font:500 9px/1 var(--mono);color:#8d8d96;margin-top:4px;text-align:center}
+.vbox{position:relative;border-radius:7px;overflow:hidden;height:128px;background:#26262b}
+.vbox canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vbox .bar{position:absolute;left:8px;right:8px;bottom:7px;height:3px;border-radius:2px;background:rgba(255,255,255,.25)}
+.vbox .bar i{display:block;height:100%;background:#fff;border-radius:2px}
+.hl{list-style:none;font:400 10.5px/1.35 var(--sans);counter-reset:h}
+.hl li{display:flex;gap:7px;padding:4.5px 0;border-bottom:1px solid #2a2a30;color:#ececf0;white-space:nowrap;overflow:hidden}
+.hl li:before{counter-increment:h;content:counter(h,decimal-leading-zero);font:500 9px/1.5 var(--mono);color:#6f6f78}
+.sheet{width:100%;border-collapse:collapse;font:400 9.5px/1.2 var(--mono);color:#cfcfd6}
+.sheet th{color:#7c7c86;font-weight:500;text-align:left;padding:4px 4px;border-bottom:1px solid #33333a}
+.sheet td{padding:4px 4px;border-bottom:1px solid #26262c;white-space:nowrap;overflow:hidden;max-width:80px;text-overflow:ellipsis}
+.sheet td img{width:16px;height:16px;border-radius:3px;display:block}
+.buzz .big{font:700 54px/1 var(--sans);letter-spacing:-.03em;color:#fff;margin:6px 0 2px}
+.buzz .sub{font:400 10.5px/1.4 var(--sans);color:#a0a0a8}
+.buzz .mult{font:500 10.5px/1.6 var(--mono);color:#cfcfd6;margin-top:10px;border-top:1px solid #2c2c33;padding-top:8px}
+.buzz .mult b{color:#fff;font-weight:500}
+.buzz .fig{display:flex;align-items:center;gap:7px;font:600 11px/1 var(--sans);color:#fff;margin-bottom:4px}
+.figlogo{width:12px;height:18px;display:inline-grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr 1fr}
+.figlogo i{display:block}
+.pulse{position:absolute;width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#fff;box-shadow:0 0 10px 3px rgba(232,170,255,.8);pointer-events:none}
+
+/* ---------- 2 · Figma page ---------- */
+#s2{background:#f5f5f5;color:#222}
+.fg-top{position:absolute;left:0;right:0;top:0;height:48px;background:#2c2c2c;display:flex;align-items:center;padding:0 14px;gap:14px;z-index:5;color:#fff;font:500 12px/1 var(--sans)}
+.fg-top .tools{display:flex;gap:4px}.fg-top .tools i{width:30px;height:30px;border-radius:6px;display:block;background:#3a3a3a}
+.fg-top .tools i:first-child{background:#0d99ff}
+.fg-top .file{margin:0 auto;color:#ddd}.fg-top .file span{color:#888}
+.fg-top .share{background:#0d99ff;border-radius:6px;padding:8px 12px}
+.fg-top .av{width:26px;height:26px;border-radius:50%;background:var(--pink);color:#111;display:grid;place-items:center;font-size:11px}
+.fg-l,.fg-r{position:absolute;top:48px;bottom:0;width:250px;background:#fff;z-index:4;font:400 11.5px/1.3 var(--sans);color:#333}
+.fg-l{left:0;border-right:1px solid #e5e5e5}.fg-r{right:0;border-left:1px solid #e5e5e5}
+.fg-sec{padding:12px 14px;border-bottom:1px solid #eee}
+.fg-sec h5{font:600 11.5px/1 var(--sans);color:#111;margin-bottom:10px;display:flex;justify-content:space-between}
+.fg-sec h5 span{color:#999;font-weight:400}
+.lay{padding:5px 0;display:flex;gap:8px;align-items:center;color:#333;white-space:nowrap}
+.lay i{width:10px;height:10px;border:1.5px solid #999;border-radius:2px;display:block;flex:none}
+.lay.p{color:#111;font-weight:600}.lay.p i{border:0;width:0}
+.lay.on{background:#e5f4ff;margin:0 -14px;padding:5px 14px}
+.lay.sub{padding-left:18px;color:#666}
+.lay small{margin-left:auto;color:#aaa;font-size:10px}
+#fgc{position:absolute;left:250px;right:250px;top:48px;bottom:0;overflow:hidden;background:#f5f5f5}
+#w2{position:absolute;left:0;top:0;transform-origin:0 0}
+.blk{position:absolute}
+.blk h6{position:absolute;left:0;top:-58px;font:600 40px/1 var(--sans);color:#555;white-space:nowrap}
+.blk h6 span{color:#aaa;font-weight:400}
+.fr{position:absolute;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.06);opacity:0}
+.fr .fl{position:absolute;left:0;top:-15px;font:400 10px/1 var(--sans);color:#999;white-space:nowrap}
+.buzzrow{display:flex;justify-content:space-between;padding:4px 0;color:#555}.buzzrow b{color:#111;font-weight:600}
+.bigbtn{margin-top:10px;background:#0d99ff;color:#fff;border-radius:7px;text-align:center;padding:10px;font:600 12px/1 var(--sans)}
+.prog{height:6px;background:#eee;border-radius:3px;margin-top:10px;overflow:hidden}.prog i{display:block;height:100%;background:#0d99ff;width:0}
+.cnt{font:700 40px/1 var(--sans);letter-spacing:-.03em;color:#111;margin-top:12px}
+.cnt span{font:400 12px/1 var(--sans);color:#888;letter-spacing:0;margin-left:4px}
+.mini{width:100%;border-collapse:collapse;font:400 10px/1.2 var(--mono);color:#444}
+.mini td{border:1px solid #eee;padding:4px;white-space:nowrap;overflow:hidden;max-width:90px;text-overflow:ellipsis}
+.mini tr:first-child td{background:#fafafa;color:#888}
+
+/* ---------- ad template (Figma frames + mockups) ---------- */
+.ad{position:absolute;inset:0;overflow:hidden;font-family:var(--wsans)}
+.ad canvas.live{position:absolute;left:0;width:100%;display:block}
+.ad img.art{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:block}
+.ad .wm{position:absolute;font-weight:800;letter-spacing:-.04em}
+.ad .h{position:absolute;font-family:var(--serif);font-weight:500;letter-spacing:-.025em;line-height:.96}
+.ad .h em{font-style:italic}
+.ad .cta{position:absolute;font-weight:700;border-radius:999px;white-space:nowrap}
+
+/* ---------- 3 · Ads ---------- */
+#s3{background:#f9f4f1}
+.s3copy{position:absolute;left:90px;top:170px;width:520px;color:#111}
+.s3copy .k{font:500 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:#666}
+.s3copy h2{font:500 72px/.96 var(--serif);letter-spacing:-.025em;margin:18px 0 16px;color:var(--navy)}
+.s3copy p{font:400 18px/1.45 var(--wsans);color:#333;max-width:470px}
+.s3copy dl{margin-top:30px;display:grid;grid-template-columns:120px 1fr;gap:9px 14px;font:400 13px/1.35 var(--sans);border-top:1px solid #cfccc3;padding-top:20px}
+.s3copy dt{font:500 11px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#888}
+.s3copy dd{color:#111}
+.tabs{position:absolute;left:90px;bottom:70px;display:flex;gap:8px}
+.tabs div{font:500 12px/1 var(--sans);padding:10px 14px;border-radius:999px;border:1px solid #c9c6bd;color:#555;position:relative;overflow:hidden}
+.tabs div.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.tabs div i{position:absolute;left:0;bottom:0;height:2px;background:var(--sky)}
+.mk{position:absolute;left:700px;top:0;width:900px;height:900px;display:grid;place-items:center}
+.mk>div{position:absolute;opacity:0}
+/* phone */
+.phone{width:380px;height:780px;border-radius:52px;background:#111;padding:12px;box-shadow:0 40px 80px rgba(0,0,0,.25)}
+.scr{position:relative;width:100%;height:100%;border-radius:41px;overflow:hidden;background:#000;color:#fff}
+.reel-top{position:absolute;left:0;right:0;top:0;padding:46px 18px 0;display:flex;justify-content:space-between;font:700 18px/1 var(--sans);z-index:3;text-shadow:0 1px 6px rgba(0,0,0,.3)}
+.reel-side{position:absolute;right:12px;bottom:150px;display:flex;flex-direction:column;gap:20px;align-items:center;z-index:3;font:600 11px/1 var(--sans)}
+.reel-side i{width:28px;height:28px;border:2.4px solid #fff;border-radius:50%;display:block;margin:0 auto 5px}
+.reel-side i.hrt{border-radius:50% 50% 50% 0;transform:rotate(-45deg);width:24px;height:24px}
+.reel-bot{position:absolute;left:0;right:0;bottom:0;padding:0 16px 22px;z-index:3;background:linear-gradient(transparent,rgba(0,0,0,.55) 40%)}
+.acct{display:flex;align-items:center;gap:9px;font:600 13.5px/1.2 var(--sans)}
+.acct .lg{width:32px;height:32px;border-radius:50%;background:var(--blue);display:grid;place-items:center;font:800 13px/1 var(--sans);color:#fff;letter-spacing:-.04em;flex:none}
+.acct small{display:block;font:400 11.5px/1.2 var(--sans);opacity:.85}
+.acct .fl{border:1px solid rgba(255,255,255,.7);border-radius:7px;padding:5px 9px;font:600 12px/1 var(--sans);margin-left:6px}
+.reel-cap{font:400 13px/1.4 var(--sans);margin:10px 60px 12px 0}
+.reel-cta{background:#e8aaff;color:#001b65;border-radius:9px;padding:13px 14px;font:600 14px/1 var(--sans);display:flex;justify-content:space-between}
+.reel-prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.3);z-index:4}.reel-prog i{display:block;height:100%;background:#fff}
+/* feed cards */
+.card{background:#fff;color:#1c1e21;border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.16);overflow:hidden;font-family:var(--sans)}
+.fb{width:520px}
+.c-head{display:flex;gap:10px;align-items:center;padding:14px 16px 10px;font:600 15px/1.2 var(--sans)}
+.c-head .lg{width:40px;height:40px;border-radius:50%;background:var(--blue);display:grid;place-items:center;font:800 15px/1 var(--sans);color:#fff;letter-spacing:-.04em;flex:none}
+.c-head small{display:block;font:400 12.5px/1.3 var(--sans);color:#65676b}
+.c-head .dots{margin-left:auto;color:#65676b;font-size:20px;letter-spacing:1px}
+.c-txt{padding:0 16px 12px;font:400 15px/1.4 var(--sans)}
+.c-img{position:relative;width:100%;overflow:hidden}
+.c-foot{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#f0f2f5}
+.c-foot .u{font:400 12px/1.2 var(--sans);color:#65676b;text-transform:uppercase}
+.c-foot b{display:block;font:700 16px/1.25 var(--sans);color:#050505;margin-top:3px}
+.c-foot .btn{margin-left:auto;background:#e4e6eb;border-radius:6px;padding:10px 14px;font:600 14px/1 var(--sans);white-space:nowrap}
+.c-acts{display:flex;justify-content:space-around;padding:10px 16px;border-top:1px solid #e4e6eb;font:600 14px/1 var(--sans);color:#65676b}
+.c-react{display:flex;justify-content:space-between;padding:10px 16px;font:400 13.5px/1 var(--sans);color:#65676b}
+.c-react i{display:inline-block;width:18px;height:18px;border-radius:50%;background:#1877f2;vertical-align:-4px;margin-right:5px;border:2px solid #fff}
+.c-react i+i{background:#f33e58;margin-left:-9px}
+.li{width:560px;border-radius:8px}
+.li .c-head{font:600 14.5px/1.25 var(--sans)}
+.li .c-head .lg{border-radius:4px;width:48px;height:48px}
+.li .c-foot{background:#eef3f8}
+.li .c-foot .btn{background:#fff;border:1.5px solid #0a66c2;color:#0a66c2;border-radius:999px;padding:9px 16px}
+.li .c-acts{font:600 13.5px/1 var(--sans);color:#5e5e5e}
+/* article */
+.artc{width:720px;height:820px;background:#fff;border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.16);overflow:hidden;color:#1a1a1a}
+.art-bar{position:relative;z-index:2;background:#fff;height:56px;display:flex;align-items:center;padding:0 26px;border-bottom:1px solid #eee;font:800 22px/1 Georgia,"Times New Roman",serif;letter-spacing:-.02em;gap:24px}
+.art-bar span{font:500 12px/1 var(--sans);color:#777;letter-spacing:0}
+.art-in{position:absolute;left:0;right:0;top:56px;padding:30px 60px}
+.art-in .kick{font:600 12px/1 var(--sans);color:var(--red);text-transform:uppercase;letter-spacing:.08em}
+.art-in h3{font:700 34px/1.12 Georgia,"Times New Roman",serif;letter-spacing:-.01em;margin:12px 0 14px}
+.art-in .by{font:400 13px/1 var(--sans);color:#777;margin-bottom:22px}
+.art-in p{font:400 16.5px/1.62 Georgia,"Times New Roman",serif;color:#2b2b2b;margin-bottom:16px}
+.inl{margin:8px 0 24px;border-top:1px solid #eee;border-bottom:1px solid #eee;padding:10px 0 16px}
+.inl small{display:block;text-align:center;font:500 10px/1 var(--sans);letter-spacing:.14em;color:#aaa;text-transform:uppercase;margin-bottom:10px}
+.inl .box{position:relative;width:600px;height:250px;margin:0 auto;overflow:hidden;border-radius:4px}
+
+#view.clip .cap{display:none}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><b>Wave Tax Weave Walkthrough</b>
+<div class="ctl" id="ctl"><button data-s="0"><i>01</i>Weave flow</button><button data-s="1"><i>02</i>Figma page</button><button data-s="2"><i>03</i>In market</button><button id="pp" aria-label="Pause">❚❚</button></div></nav>
+<div id="view"><div id="stage">
+
+<!-- 1 · Weave flow -->
+<section class="scene" id="s1">
+  <div class="cap"><b>01</b><span>Figma Weave · brief → prompts → images + copy → 480 assets</span></div>
+  <div id="w1"><svg id="wires" width="1600" height="900"></svg></div>
+</section>
+
+<!-- 2 · Figma page -->
+<section class="scene" id="s2">
+  <div class="fg-top"><div class="tools"><i></i><i></i><i></i><i></i></div><div class="file"><span>Wave Brand / </span>Tax Season 2027 · Paid Social</div><div class="av">KG</div><div class="share">Share</div></div>
+  <div class="fg-l">
+    <div class="fg-sec"><h5>Pages <span>+</span></h5><div class="lay p">Cover</div><div class="lay p on">🔶 Buzz output · File without fear</div><div class="lay p">Templates</div><div class="lay p">Weave exports</div></div>
+    <div class="fg-sec" id="layers"><h5>Layers</h5></div>
+  </div>
+  <div id="fgc"><div class="cap lt"><b>02</b><span>Figma Buzz · sheet × templates → every combination</span></div><div id="w2"></div></div>
+  <div class="fg-r">
+    <div class="fg-sec"><h5>Figma Buzz <span>Bulk create</span></h5>
+      <div class="buzzrow">Data <b>wave_tax_weave.csv</b></div>
+      <div class="buzzrow">Rows <b>12 art × 10 lines</b></div>
+      <div class="buzzrow">Templates <b>4 placements</b></div>
+      <div class="buzzrow">Bind <b>{art} {headline} {cta}</b></div>
+      <div class="bigbtn" id="genbtn">Generate 480 frames</div>
+      <div class="prog"><i id="genprog"></i></div>
+      <div class="cnt" id="gencnt">0<span>/ 480 frames</span></div>
+    </div>
+    <div class="fg-sec"><h5>Data preview</h5><table class="mini" id="mini"></table></div>
+    <div class="fg-sec"><h5>Templates</h5>
+      <div class="buzzrow">Reel 9:16 <b>1080×1920</b></div><div class="buzzrow">Feed 1:1 <b>1080×1080</b></div><div class="buzzrow">LinkedIn 1.91:1 <b>1200×628</b></div><div class="buzzrow">Inline 12:5 <b>600×250</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 · In market -->
+<section class="scene" id="s3">
+  <div class="cap lt"><b>03</b><span>In market · one variant per placement</span></div>
+  <div class="s3copy"><div class="k" id="k3">Placement 1 / 4</div><h2 id="h3">Instagram Reel</h2><p id="p3"></p><dl id="dl3"></dl></div>
+  <div class="tabs" id="tabs3"></div>
+  <div class="mk" id="mk"></div>
+</section>
+
+</div></div>
+
+<!-- paper stop-motion engine, copied from wave-file-without-fear/index.html (the origami art direction) -->
+<script>
+/* Paper stop-motion engine: a sheet of a CRA form, folded into a creature, unfolds flat.
+   A creature is a triangle grid over the sheet (u,v in 0..1). Every triangle corner gets a folded
+   position (from the creature's pose, which can use the triangle's centroid to treat flaps as cut
+   apart) and a flat position (the sheet lying on the table with soft crease relief). Facets carry the
+   printed form as a texture, are lit per facet, sorted back to front and cast a blurred shadow.
+   Time is stepped at 12 fps with a little camera boil, like hand-shot stop motion. */
+(function () {
+'use strict';
+const V = {
+  add: (a, b) => [a[0] + b[0], a[1] + b[1], a[2] + b[2]],
+  sub: (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]],
+  mul: (a, s) => [a[0] * s, a[1] * s, a[2] * s],
+  dot: (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2],
+  cross: (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]],
+  norm: (a) => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; },
+  lerp: (a, b, t) => [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t],
+};
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const sstep = (a, b, x) => { const t = clamp((x - a) / (b - a)); return t * t * (3 - 2 * t); };
+const mix = (a, b, t) => a + (b - a) * t;
+function rng(seed) { let s = seed >>> 0 || 1; return () => ((s = Math.imul(s ^ (s >>> 15), 2246822519) ^ Math.imul(s ^ (s >>> 13), 3266489917), (s >>>= 0) / 4294967296)); }
+function hash(i, j, k = 0) { let h = Math.imul(i * 374761393 + j * 668265263 + k * 2147483647, 1274126177); h ^= h >>> 13; h = Math.imul(h, 1103515245); return ((h ^ (h >>> 16)) >>> 0) / 4294967296; }
+
+/* ---------- spines: Catmull-Rom through points, parallel-transported frames ---------- */
+function spine(pts, n0, samples = 240) {
+  const P = [];
+  const cr = (p0, p1, p2, p3, t) => { const t2 = t * t, t3 = t2 * t; return [0, 1, 2].map((k) => 0.5 * (2 * p1[k] + (-p0[k] + p2[k]) * t + (2 * p0[k] - 5 * p1[k] + 4 * p2[k] - p3[k]) * t2 + (-p0[k] + 3 * p1[k] - 3 * p2[k] + p3[k]) * t3)); };
+  const seg = pts.length - 1;
+  for (let i = 0; i <= samples; i++) {
+    const g = (i / samples) * seg, k = Math.min(seg - 1, Math.floor(g)), t = g - k;
+    P.push(cr(pts[Math.max(0, k - 1)], pts[k], pts[k + 1], pts[Math.min(seg, k + 2)], t));
+  }
+  // arc-length parametrise
+  const L = [0]; for (let i = 1; i < P.length; i++) L.push(L[i - 1] + Math.hypot(...V.sub(P[i], P[i - 1])));
+  const tot = L[L.length - 1];
+  const T = P.map((p, i) => V.norm(V.sub(P[Math.min(P.length - 1, i + 1)], P[Math.max(0, i - 1)])));
+  const N = []; let n = V.norm(V.sub(n0, V.mul(T[0], V.dot(n0, T[0]))));
+  for (let i = 0; i < P.length; i++) { n = V.norm(V.sub(n, V.mul(T[i], V.dot(n, T[i])))); N.push(n); }
+  const B = T.map((t, i) => V.cross(N[i], t));
+  return {
+    length: tot,
+    at(s) { // s in 0..1 by arc length
+      const d = clamp(s) * tot; let lo = 0, hi = L.length - 1;
+      while (hi - lo > 1) { const m = (lo + hi) >> 1; (L[m] < d ? (lo = m) : (hi = m)); }
+      const t = (d - L[lo]) / ((L[hi] - L[lo]) || 1);
+      return { p: V.lerp(P[lo], P[hi], t), t: V.norm(V.lerp(T[lo], T[hi], t)), n: V.norm(V.lerp(N[lo], N[hi], t)), b: V.norm(V.lerp(B[lo], B[hi], t)) };
+    },
+  };
+}
+// tube cross-section: v 0..1 wraps around the spine (v=.5 on the B side), open underneath
+function tube(f, v, w, wn, open = 0.86) {
+  const phi = (v - 0.5) * 2 * Math.PI * open;
+  return V.add(f.p, V.add(V.mul(f.b, Math.cos(phi) * w), V.mul(f.n, Math.sin(phi) * (wn == null ? w : wn))));
+}
+const pleat = (i) => (i % 2 ? 1.07 : 0.93);
+
+/* ---------- creatures ---------- */
+const CREATURES = {
+  dragon: {
+    nu: 26, nv: 12, unfoldFrom: [1, 0.5],
+    init() {
+      this.sp = spine([[-1.18, 1.18, 0.12], [-1.02, 1.24, 0.1], [-0.82, 1.05, 0.06], [-0.6, 0.66, 0.02], [-0.3, 0.42, 0], [0.12, 0.38, 0], [0.5, 0.3, -0.04], [0.86, 0.2, -0.02], [1.16, 0.3, 0.05], [1.26, 0.6, 0.1], [1.08, 0.74, 0.12]], [0, 0, 1]);
+    },
+    width(u) {
+      if (u < 0.05) return mix(0.025, 0.1, u / 0.05);
+      if (u < 0.12) return 0.11;
+      if (u < 0.3) return mix(0.085, 0.2, sstep(0.18, 0.3, u));
+      if (u < 0.6) return 0.2;
+      return mix(0.18, 0.012, (u - 0.6) / 0.4);
+    },
+    pose(u, v, i, j, cu, cv) {
+      const sp = this.sp, wingU = cu > 0.32 && cu < 0.62, band = 0.22;
+      let w = this.width(u) * pleat(i);
+      const f = sp.at(u);
+      if (wingU && (cv < band || cv > 1 - band)) {
+        const left = cv < band, a = left ? (band - v) / band : (v - (1 - band)) / band;
+        const root = tube(f, left ? band : 1 - band, w);
+        const c = (u - 0.32) / 0.3; // chord 0 leading edge .. 1 trailing
+        const sweep = c * 0.95;
+        let d = left ? [0.12 + Math.sin(sweep) * 0.85, Math.cos(sweep) * 1, 0.55] : [0.25 + Math.sin(sweep) * 0.85, Math.cos(sweep) * 0.95, -0.5];
+        d = V.norm(d);
+        const len = (1.22 - 0.5 * c) * (0.82 + 0.18 * Math.abs(Math.cos(c * Math.PI * 2.5)));
+        let p = V.add(root, V.mul(d, a * len));
+        p = V.add(p, V.mul([0, 0, left ? 1 : -1], (i % 2 ? 0.06 : -0.03) * a)); // fan pleats
+        return p;
+      }
+      let p = tube(f, v, w);
+      // horns + dorsal spikes along the ridge
+      const ridge = 1 - Math.min(1, Math.abs(v - 0.5) / 0.09);
+      if (ridge > 0 && j === this.nv / 2) {
+        if (i === 3) p = V.add(p, V.add(V.mul(f.b, 0.24), V.mul(f.t, 0.2)));
+        else if (i > 7 && i < 22 && i % 2 === 0) p = V.add(p, V.mul(f.b, 0.12 * (1 - Math.abs(i - 14) / 10)));
+      }
+      if (i === 0) p = V.add(p, V.mul(f.t, -0.08)); // pointed snout
+      return p;
+    },
+  },
+  snake: {
+    nu: 34, nv: 10, unfoldFrom: [1, 0.5],
+    init() {
+      const pts = [[-0.08, 1.38, 0.52], [-0.18, 1.34, 0.32], [-0.2, 1.1, 0.12], [-0.08, 0.7, 0.04], [0.12, 0.36, 0.02]];
+      const c = [0.05, 0, -0.1];
+      for (let k = 0; k <= 22; k++) {
+        const q = k / 22, th = 0.9 + q * Math.PI * 2 * 1.55, r = 0.2 + q * 0.72;
+        pts.push([c[0] + Math.cos(th) * r, 0.1 + (1 - q) * 0.2, c[2] + Math.sin(th) * r * 0.8]);
+      }
+      this.sp = spine(pts, [1, 0, 0], 400);
+    },
+    width(u) {
+      if (u < 0.03) return mix(0.03, 0.11, u / 0.03);
+      if (u < 0.06) return 0.11;
+      if (u < 0.17) return mix(0.11, 0.2, Math.sin(((u - 0.06) / 0.11) * Math.PI)); // hood
+      if (u < 0.3) return mix(0.08, 0.1, (u - 0.17) / 0.13);
+      return mix(0.1, 0.01, Math.pow((u - 0.3) / 0.7, 1.4));
+    },
+    pose(u, v, i, j) {
+      const f = this.sp.at(u), w = this.width(u) * pleat(i);
+      const hood = u > 0.05 && u < 0.18 ? 0.45 : 1;
+      let p = tube(f, v, w * hood, w, 0.82);
+      if (i === 0) p = V.add(p, V.mul(f.t, -0.06));
+      return p;
+    },
+  },
+  hydra: {
+    nu: 26, nv: 15, unfoldFrom: [1, 0.5],
+    init() {
+      this.necks = [
+        spine([[-1.08, 1.02, 0.42], [-0.92, 1.12, 0.3], [-0.78, 0.92, 0.2], [-0.56, 0.62, 0.12], [-0.3, 0.4, 0.06]], [0, 0, 1]),
+        spine([[0.14, 1.62, 0.5], [0.06, 1.6, 0.32], [0.02, 1.3, 0.16], [0.04, 0.85, 0.05], [0.02, 0.5, -0.02]], [1, 0, 0]),
+        spine([[1.1, 1.0, 0.4], [0.96, 1.1, 0.28], [0.8, 0.88, 0.16], [0.58, 0.6, 0.06], [0.32, 0.4, 0.02]], [0, 0, 1]),
+      ];
+    },
+    pose(u, v, i, j, cu, cv) {
+      const split = 0.58;
+      if (cu < split) {
+        const k = Math.min(2, Math.floor(cv * 3)), vv = clamp((v - k / 3) * 3), s = clamp(u / split);
+        const f = this.necks[k].at(s);
+        let w = (s < 0.06 ? mix(0.03, 0.1, s / 0.06) : s < 0.18 ? 0.105 : mix(0.075, 0.11, (s - 0.18) / 0.82)) * pleat(i);
+        let p = tube(f, vv, w, w, 0.84);
+        const jj = j - k * 5;
+        if (i === 3 && jj === 2) p = V.add(p, V.add(V.mul(f.b, 0.18), V.mul(f.t, 0.16)));
+        if (i === 0) p = V.add(p, V.mul(f.t, -0.06));
+        return p;
+      }
+      // body: a pleated mound behind the necks
+      const a = (u - split) / (1 - split), x = (v - 0.5) * 1.55;
+      const h = 0.48 * Math.pow(Math.sin(Math.PI * clamp(v * 0.9 + 0.05)), 0.7) * (1 - a * 0.75);
+      const pl = (i % 2 ? 0.05 : -0.04) * (1 - a);
+      return [x * (1 - 0.15 * a), h + pl, 0.02 - a * 0.85];
+    },
+  },
+  tiger: {
+    nu: 26, nv: 12, unfoldFrom: [0, 0.5],
+    init() {
+      this.sp = spine([[-1.02, 0.86, 0.08], [-0.86, 0.92, 0.06], [-0.62, 0.78, 0.02], [-0.3, 0.72, 0], [0.2, 0.7, 0], [0.56, 0.7, 0], [0.82, 0.86, 0], [0.98, 1.12, 0.02], [0.92, 1.32, 0.04]], [0, 0, 1]);
+    },
+    width(u) {
+      if (u < 0.04) return mix(0.06, 0.13, u / 0.04);
+      if (u < 0.16) return 0.15;
+      if (u < 0.22) return 0.12;
+      if (u < 0.78) return 0.21;
+      return mix(0.12, 0.02, (u - 0.78) / 0.22);
+    },
+    pose(u, v, i, j, cu, cv) {
+      const f = this.sp.at(u), w = this.width(u) * pleat(i), band = 0.2;
+      const legU = (cu > 0.25 && cu < 0.36) || (cu > 0.6 && cu < 0.71);
+      if (legU && (cv < band || cv > 1 - band)) {
+        const left = cv < band, a = left ? (band - v) / band : (v - (1 - band)) / band;
+        const root = tube(f, left ? band : 1 - band, w, w, 0.8);
+        const foot = [root[0] + (cu < 0.5 ? -0.04 : 0.05), 0.004, root[2] + (left ? 0.07 : -0.07)];
+        return V.lerp(root, foot, a);
+      }
+      let p = tube(f, v, w, w, 0.8);
+      if (i === 3 && (j === 4 || j === 8)) p = V.add(p, V.add(V.mul(f.b, 0.16), V.mul(f.t, 0.05)));
+      if (i === 0) p = V.add(p, V.mul(f.t, -0.05));
+      return p;
+    },
+  },
+};
+
+/* ---------- printed CRA forms (texture) ---------- */
+const FORMS = {
+  T1: { code: 'T1 2026', title: 'Income Tax and Benefit Return', sub: 'Step 2 – Total income', lines: [['10100', 'Employment income (box 14 of all T4 slips)'], ['12000', 'Taxable amount of dividends'], ['12100', 'Interest and other investment income'], ['13500', 'Business income – Net'], ['15000', 'Total income'], ['20800', 'RRSP deduction'], ['23600', 'Net income'], ['26000', 'Taxable income'], ['35000', 'Total federal non-refundable tax credits'], ['43500', 'Total payable'], ['48200', 'Total credits'], ['48400', 'Refund'], ['48500', 'Balance owing']] },
+  T2125: { code: 'T2125 E (26)', title: 'Statement of Business or Professional Activities', sub: 'Part 4 – Net income (loss) before adjustments', lines: [['8000', 'Adjusted gross sales'], ['8299', 'Gross business income'], ['8521', 'Advertising'], ['8523', 'Meals and entertainment'], ['8690', 'Insurance'], ['8810', 'Office expenses'], ['8811', 'Office stationery and supplies'], ['8860', 'Professional fees'], ['9200', 'Travel expenses'], ['9220', 'Utilities'], ['9281', 'Motor vehicle expenses'], ['9368', 'Total expenses'], ['9369', 'Net income (loss)']] },
+  GST34: { code: 'GST34-2 E (26)', title: 'Goods and Services Tax / Harmonized Sales Tax Return', sub: 'Reporting period', lines: [['101', 'Sales and other revenue'], ['103', 'GST/HST collected or collectible'], ['104', 'Adjustments'], ['105', 'Total GST/HST and adjustments'], ['106', 'Input tax credits (ITCs)'], ['107', 'Adjustments'], ['108', 'Total ITCs and adjustments'], ['109', 'Net tax'], ['110', 'Instalments and other annual filer payments'], ['111', 'Rebates'], ['113', 'Balance'], ['114', 'Refund claimed'], ['115', 'Payment enclosed']] },
+  NOA: { code: 'Notice of Assessment', title: 'Notice of Assessment – Tax year 2026', sub: 'Summary', lines: [['15000', 'Total income'], ['23600', 'Net income'], ['26000', 'Taxable income'], ['35000', 'Federal non-refundable tax credits'], ['42000', 'Net federal tax'], ['42100', 'CPP contributions payable'], ['42800', 'Net provincial tax'], ['43500', 'Total payable'], ['43700', 'Total income tax deducted'], ['48200', 'Total credits'], ['', 'Balance from this assessment'], ['', 'Amount previously refunded'], ['', 'Balance owing']] },
+  T4A: { code: 'T4A (26)', title: 'Statement of Pension, Retirement, Annuity, and Other Income', sub: 'Box 048 – Fees for services', lines: [['016', 'Pension or superannuation'], ['018', 'Lump-sum payments'], ['020', 'Self-employed commissions'], ['022', 'Income tax deducted'], ['024', 'Annuities'], ['028', 'Other income'], ['048', 'Fees for services'], ['105', 'Scholarships, bursaries'], ['107', 'Wage loss replacement'], ['130', 'Apprenticeship grants'], ['135', 'Premiums – private health'], ['197', 'Canada emergency benefit'], ['', 'Recipient’s name and address']] },
+};
+const texCache = {};
+function formTexture(kind, S = 1024, page = 1) {
+  const key = kind + page;
+  if (texCache[key]) return texCache[key];
+  const F0 = FORMS[kind] || FORMS.T1, c = document.createElement('canvas'); c.width = c.height = S;
+  const F = page === 1 ? F0 : { code: F0.code, title: F0.title, sub: 'Continued – keep a copy for your records', lines: F0.lines.slice(6).concat(F0.lines.slice(0, 6)).map(([a, b], n) => [a ? String(+a.replace(/\D/g, '') + 40 + n) .padStart(a.length, '0') : '', b]) };
+  const g = c.getContext('2d'), r = rng(kind.length * 977 + 13 + page), k = S / 1024;
+  if (page === 2) { g.translate(S, 0); g.scale(-1, 1); }
+  g.fillStyle = '#f6f3ec'; g.fillRect(0, 0, S, S);
+  for (let n = 0; n < 2600; n++) { g.fillStyle = `rgba(${r() < 0.5 ? '120,110,90' : '255,255,255'},${0.05 + r() * 0.06})`; g.fillRect(r() * S, r() * S, 1 + r() * 2 * k, 1 + r() * 2 * k); }
+  const ink = '#26282b', grey = '#d9dbd7', sans = '"Helvetica Neue",Arial,sans-serif';
+  g.save(); g.scale(k, k);
+  g.fillStyle = ink; g.font = `600 22px ${sans}`; g.fillText('Canada Revenue', 60, 74); g.fillText('Agency', 60, 100);
+  g.font = `400 22px ${sans}`; g.fillText('Agence du revenu', 250, 74); g.fillText('du Canada', 250, 100);
+  g.fillStyle = '#d52b1e'; g.fillRect(890, 52, 16, 30); g.fillRect(942, 52, 16, 30); g.beginPath(); g.moveTo(924, 50); g.lineTo(936, 70); g.lineTo(930, 84); g.lineTo(918, 84); g.lineTo(912, 70); g.closePath(); g.fill();
+  g.fillStyle = '#d52b1e'; g.font = `700 17px ${sans}`; g.fillText('Protected B when completed', 700, 128);
+  g.fillStyle = ink; g.font = `700 46px ${sans}`; g.fillText(F.code, 60, 180);
+  g.font = `600 30px ${sans}`; g.fillText(F.title.length > 44 ? F.title.slice(0, 44).replace(/\s\S*$/, '') : F.title, 60, 226);
+  if (F.title.length > 44) g.fillText(F.title.slice(F.title.slice(0, 44).replace(/\s\S*$/, '').length + 1), 60, 262);
+  g.fillStyle = grey; g.fillRect(60, 292, 904, 46); g.fillStyle = ink; g.font = `700 21px ${sans}`; g.fillText(F.sub, 76, 323);
+  let y = 382;
+  F.lines.forEach(([code, txt], n) => {
+    g.fillStyle = ink; g.font = `400 20px ${sans}`; g.fillText(txt, 76, y);
+    const tw = g.measureText(txt).width;
+    g.fillStyle = '#8b8d8a'; for (let x = 90 + tw; x < 640; x += 9) g.fillRect(x, y - 3, 2.5, 2.5);
+    if (code) { g.fillStyle = ink; g.font = `700 19px ${sans}`; g.fillText(code, 662, y); }
+    g.strokeStyle = '#3a3c3f'; g.lineWidth = 1.6; g.strokeRect(742, y - 27, 222, 38);
+    g.beginPath(); g.moveTo(912, y - 27); g.lineTo(912, y + 11); g.stroke();
+    if (n % 4 === 3) { g.fillStyle = grey; g.fillRect(60, y + 18, 904, 3); }
+    y += 47;
+  });
+  g.fillStyle = ink; g.font = `400 15px ${sans}`; g.fillText('See the privacy notice on your return.', 60, 1000);
+  g.font = `700 15px ${sans}`; g.fillText(`Page ${page} of 8`, 880, 1000);
+  g.restore();
+  return (texCache[key] = c);
+}
+
+/* ---------- mesh build ---------- */
+function build(kind) {
+  const C = CREATURES[kind]; if (!C._init) { C.init(); C._init = true; }
+  const nu = C.nu, nv = C.nv, tris = [];
+  const fr = rng(nu * 31 + nv);
+  const relief = []; for (let i = 0; i <= nu; i++) { relief[i] = []; for (let j = 0; j <= nv; j++) relief[i][j] = (i === 0 || j === 0 || i === nu || j === nv ? 0.3 : 1) * ((i + j) % 2 ? 1 : -0.6) * (0.012 + fr() * 0.02); }
+  for (let i = 0; i < nu; i++) for (let j = 0; j < nv; j++) {
+    const a = [i, j], b = [i + 1, j], c = [i + 1, j + 1], d = [i, j + 1];
+    const quads = (i + j) % 2 ? [[a, b, c], [a, c, d]] : [[a, b, d], [b, c, d]];
+    for (const q of quads) {
+      const cu = (q[0][0] + q[1][0] + q[2][0]) / 3 / nu, cv = (q[0][1] + q[1][1] + q[2][1]) / 3 / nv;
+      tris.push(q.map(([ii, jj]) => {
+        const u = ii / nu, v = jj / nv;
+        return { u, v, fold: C.pose(u, v, ii, jj, cu, cv), flat: [(v - 0.5) * 2.05, relief[ii][jj], (u - 0.5) * 2.05], d: Math.hypot(u - C.unfoldFrom[0], v - C.unfoldFrom[1]) };
+      }));
+    }
+  }
+  const dmax = Math.max(...tris.flat().map((p) => p.d));
+  tris.forEach((t) => t.forEach((p) => (p.d /= dmax)));
+  return tris;
+}
+const meshCache = {};
+const mesh = (k) => meshCache[k] || (meshCache[k] = build(k));
+
+/* ---------- renderer ---------- */
+function Scene(canvas, opt = {}) {
+  this.c = canvas; this.g = canvas.getContext('2d');
+  this.sh = document.createElement('canvas'); this.sg = this.sh.getContext('2d');
+  this.o = Object.assign({ creature: 'dragon', form: 'T1', fov: 1.25, yaw: -0.5, flatYaw: 0.5, cx: 0.5, cy: 0.56, zoom: 1, shadow: 'rgba(0,12,70,.34)', back: '#e9e3d6', light: [-0.45, 0.85, 0.55], fps: 12 }, opt);
+  this.set(this.o.creature, this.o.form);
+}
+Scene.prototype.set = function (creature, form) { this.o.creature = creature; this.o.form = form; this.tris = mesh(creature); this.tex = formTexture(form); this.texB = formTexture(form, 1024, 2); };
+Scene.prototype.size = function () {
+  const r = this.c.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1);
+  const w = Math.max(1, Math.round(r.width * dpr)), h = Math.max(1, Math.round(r.height * dpr));
+  if (this.c.width !== w || this.c.height !== h) { this.c.width = w; this.c.height = h; }
+  if (this.sh.width !== w || this.sh.height !== h) { this.sh.width = w; this.sh.height = h; }
+  return [w, h];
+};
+// k: 0 = folded creature, 1 = flat sheet. frame: integer stop-motion frame for boil.
+Scene.prototype.draw = function (k, frame = 0) {
+  const [W, H] = this.size(), g = this.g, o = this.o, TS = this.tex.width;
+  g.clearRect(0, 0, W, H);
+  const jr = rng(frame * 7919 + 17), jit = () => (jr() - 0.5) * 2;
+  const ek = k;
+  const yaw = mix(o.yaw, o.flatYaw, sstep(0.15, 0.95, ek)) + jit() * 0.006;
+  const pitch = mix(0.36, 0.62, sstep(0.2, 1, ek));
+  const dist = (4.1 / o.zoom) * mix(1, o.flatDist || 1, sstep(0.2, 1, ek));
+  const tgt = [jit() * 0.008, mix(0.62, 0.05, sstep(0.1, 1, ek)) + jit() * 0.008, 0];
+  const E = [tgt[0] + Math.sin(yaw) * Math.cos(pitch) * dist, tgt[1] + Math.sin(pitch) * dist, tgt[2] + Math.cos(yaw) * Math.cos(pitch) * dist];
+  const f = V.norm(V.sub(tgt, E)), r = V.norm(V.cross(f, [0, 1, 0])), up = V.cross(r, f);
+  const foc = Math.min(W, H * 1.35) * o.fov, ox = W * o.cx, oy = H * o.cy;
+  const L = V.norm(o.light), lf = 1 + jit() * 0.02;
+  const proj = (p) => { const d = V.sub(p, E), z = V.dot(d, f); return [ox + (foc * V.dot(d, r)) / z, oy - (foc * V.dot(d, up)) / z, z]; };
+  // per-corner position (staggered unfold from the creature's tail/start)
+  const tris = this.tris, out = [];
+  for (const t of tris) {
+    const P = t.map((p) => {
+      const e = clamp((ek * 1.45 - p.d * 0.45));
+      const ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2;
+      const q = V.lerp(p.fold, p.flat, ee);
+      q[1] += Math.sin(Math.PI * ee) * 0.22 * (1 - p.d * 0.5);
+      return q;
+    });
+    out.push(P);
+  }
+  // shadow
+  const sg = this.sg; sg.clearRect(0, 0, W, H); sg.fillStyle = '#000';
+  sg.beginPath();
+  for (const P of out) {
+    const s = P.map((p) => proj([p[0] - (L[0] / L[1]) * p[1], 0, p[2] - (L[2] / L[1]) * p[1]]));
+    sg.moveTo(s[0][0], s[0][1]); sg.lineTo(s[1][0], s[1][1]); sg.lineTo(s[2][0], s[2][1]); sg.closePath();
+  }
+  sg.fill();
+  g.save(); g.globalAlpha = 1; g.filter = `blur(${Math.round(W / 140)}px)`; g.globalCompositeOperation = 'source-over';
+  // tint the shadow
+  g.drawImage(this.sh, 0, 0);
+  g.globalCompositeOperation = 'source-in'; g.filter = 'none'; g.fillStyle = o.shadow; g.fillRect(0, 0, W, H);
+  g.restore();
+  g.globalCompositeOperation = 'source-over';
+  // facets, back to front
+  const list = out.map((P, n) => {
+    const s = P.map(proj), z = (s[0][2] + s[1][2] + s[2][2]) / 3;
+    return { s, P, n, z };
+  }).sort((a, b) => b.z - a.z);
+  for (const it of list) {
+    const { s, P, n } = it, t = tris[n];
+    const area = (s[1][0] - s[0][0]) * (s[2][1] - s[0][1]) - (s[2][0] - s[0][0]) * (s[1][1] - s[0][1]);
+    let nrm = V.norm(V.cross(V.sub(P[1], P[0]), V.sub(P[2], P[0])));
+    const front = area < 0;
+    if (V.dot(nrm, V.sub(E, P[0])) < 0) nrm = V.mul(nrm, -1);
+    const lam = Math.max(0, V.dot(nrm, L));
+    const shade = clamp((0.36 + 0.74 * lam) * lf, 0, 1.1);
+    // expand slightly to hide hairline seams
+    const cx = (s[0][0] + s[1][0] + s[2][0]) / 3, cy = (s[0][1] + s[1][1] + s[2][1]) / 3;
+    const ex = s.map((q) => { const dx = q[0] - cx, dy = q[1] - cy, l = Math.hypot(dx, dy) || 1, e = Math.min(0.9, l * 0.5); return [q[0] + (dx / l) * e, q[1] + (dy / l) * e]; });
+    g.save();
+    g.beginPath(); g.moveTo(ex[0][0], ex[0][1]); g.lineTo(ex[1][0], ex[1][1]); g.lineTo(ex[2][0], ex[2][1]); g.closePath(); g.clip();
+    {
+      const tex = front ? this.tex : this.texB;
+      // affine map texture triangle -> screen triangle (texture: x = v, y = u)
+      const u0 = t[0].v * TS, v0 = t[0].u * TS, u1 = t[1].v * TS, v1 = t[1].u * TS, u2 = t[2].v * TS, v2 = t[2].u * TS;
+      const den = u0 * (v1 - v2) + u1 * (v2 - v0) + u2 * (v0 - v1);
+      if (Math.abs(den) > 1e-6) {
+        const [x0, y0] = s[0], [x1, y1] = s[1], [x2, y2] = s[2];
+        const a = (x0 * (v1 - v2) + x1 * (v2 - v0) + x2 * (v0 - v1)) / den;
+        const b = (y0 * (v1 - v2) + y1 * (v2 - v0) + y2 * (v0 - v1)) / den;
+        const c2 = (x0 * (u2 - u1) + x1 * (u0 - u2) + x2 * (u1 - u0)) / den;
+        const d = (y0 * (u2 - u1) + y1 * (u0 - u2) + y2 * (u1 - u0)) / den;
+        const e = (x0 * (u1 * v2 - u2 * v1) + x1 * (u2 * v0 - u0 * v2) + x2 * (u0 * v1 - u1 * v0)) / den;
+        const f2 = (y0 * (u1 * v2 - u2 * v1) + y1 * (u2 * v0 - u0 * v2) + y2 * (u0 * v1 - u1 * v0)) / den;
+        g.transform(a, b, c2, d, e, f2);
+        g.drawImage(tex, 0, 0);
+        g.setTransform(1, 0, 0, 1, 0, 0);
+      }
+    }
+    if (shade < 1) { g.fillStyle = `rgba(28,24,40,${(1 - shade) * 0.92})`; g.fill(); }
+    else { g.fillStyle = `rgba(255,252,240,${(shade - 1) * 1.4})`; g.fill(); }
+    g.restore();
+  }
+  // crease lines once flat-ish
+  const cr = sstep(0.55, 1, ek) * 0.16;
+  if (cr > 0.01) {
+    g.strokeStyle = `rgba(60,50,40,${cr})`; g.lineWidth = Math.max(0.6, W / 1800);
+    g.beginPath();
+    for (const it of list) { const s = it.s; g.moveTo(s[0][0], s[0][1]); g.lineTo(s[1][0], s[1][1]); g.lineTo(s[2][0], s[2][1]); }
+    g.stroke();
+  }
+};
+
+/* ---------- player: hold creature -> unfold -> hold flat ---------- */
+function Player(canvas, opt = {}) {
+  this.scene = new Scene(canvas, opt);
+  this.hold = opt.hold ?? 1.2; this.dur = opt.dur ?? 2.6; this.rest = opt.rest ?? 1.6;
+  this.t = 0; this.playing = false; this.last = -1; this.onEnd = opt.onEnd || null;
+  this.render(0);
+}
+Player.prototype.total = function () { return this.hold + this.dur + this.rest; };
+Player.prototype.kAt = function (t) { return clamp((t - this.hold) / this.dur); };
+Player.prototype.render = function (t) {
+  const fps = this.scene.o.fps, frame = Math.floor(t * fps);
+  const tq = frame / fps; // stepped time
+  this.scene.draw(this.kAt(tq), frame);
+  this.last = frame;
+};
+Player.prototype.seek = function (t) { this.t = t; this.render(t); };
+Player.prototype.play = function (from) {
+  if (from != null) this.t = from;
+  this.playing = true; let prev = performance.now();
+  const tick = (now) => {
+    if (!this.playing) return;
+    this.t += (now - prev) / 1000; prev = now;
+    if (this.t >= this.total()) { this.t = this.total(); this.render(this.t); this.playing = false; if (this.onEnd) this.onEnd(this); return; }
+    const frame = Math.floor(this.t * this.scene.o.fps);
+    if (frame !== this.last) this.render(this.t);
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+};
+Player.prototype.pause = function () { this.playing = false; };
+
+window.Origami = { Scene, Player, CREATURES, FORMS, formTexture };
+})();
+
+</script>
+<script>
+(function(){
+'use strict';
+const W=1600,H=900;
+const clamp=(x,a=0,b=1)=>Math.max(a,Math.min(b,x));
+const ease=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const eo=x=>1-Math.pow(1-x,3);
+const P=(t,a,b)=>clamp((t-a)/(b-a));
+const E=(t,a,b)=>ease(P(t,a,b));
+const lerp=(a,b,k)=>a+(b-a)*k;
+const $=s=>document.querySelector(s);
+const el=(tag,cls,html,parent)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;if(parent)parent.appendChild(e);return e;};
+const stop=t=>Math.floor(t*12)/12; // 12 fps stop motion
+
+/* =====================================================================
+   ART: the "File without fear" origami direction. Every still is rendered by the
+   paper stop-motion engine from wave-file-without-fear (window.Origami): a creature
+   folded from a printed CRA form, lit per facet, with a soft contact shadow.
+   ===================================================================== */
+const BG={blue:'#0041ff',navy:'#001b65',pink:'#f2a8ff',sky:'#76c3fb',peach:'#ffe7d6',peri:'#8f9cff',cream:'#f9f4f1'};
+const SHADOW={blue:'rgba(0,14,80,.42)',navy:'rgba(0,0,0,.5)',pink:'rgba(80,0,110,.32)',sky:'rgba(0,40,110,.34)',peach:'rgba(120,50,0,.26)',peri:'rgba(0,20,110,.38)',cream:'rgba(60,40,20,.22)'};
+const FORM={dragon:'T1',hydra:'GST34',snake:'T2125',tiger:'NOA'};
+const NAME={dragon:'T1 dragon',hydra:'GST/HST hydra',snake:'T2125 cobra',tiger:'paper tiger'};
+const ARTDEF=[['dragon','blue'],['tiger','navy'],['snake','pink'],['hydra','sky'],['dragon','navy'],['tiger','peach'],['snake','blue'],['hydra','navy'],['dragon','pink'],['tiger','peri'],['snake','peach'],['hydra','cream']];
+const ART=ARTDEF.map(([k,b])=>({kind:k,form:FORM[k],bgName:b,bg:BG[b],shadow:SHADOW[b],dark:b==='blue'||b==='navy',src:''}));
+const OPT=a=>({creature:a.kind,form:a.form,shadow:a.shadow,cx:.5,cy:.6,fov:1.3,yaw:-0.42,flatYaw:0.22});
+const hid=document.createElement('canvas');hid.style.cssText='position:fixed;left:-3000px;top:0;width:520px;height:400px;pointer-events:none';document.body.appendChild(hid);
+const out=document.createElement('canvas');out.width=1040;out.height=800;const og=out.getContext('2d');
+let hidScene=null;
+function renderArt(){
+  ART.forEach(a=>{
+    if(!hidScene)hidScene=new Origami.Scene(hid,OPT(a));else{Object.assign(hidScene.o,OPT(a));hidScene.set(a.kind,a.form);}
+    hidScene.draw(0,3);
+    og.fillStyle=a.bg;og.fillRect(0,0,1040,800);og.drawImage(hid,0,0,1040,800);
+    a.src=out.toDataURL('image/jpeg',.86);
+  });
+}
+renderArt();
+/* live scenes (image-to-video node, reel): hold folded, unfold to a flat sheet, rest */
+function liveScene(cv,a,extra){return new Origami.Scene(cv,Object.assign(OPT(a),extra||{}));}
+function unfoldK(t,hold,dur){return clamp((Math.floor(t*12)/12-hold)/dur);}
+
+/* campaign copy */
+const HEADR=['File without *fear*.','Tame tax *season*.','Don’t let your T2125 *bite*.','Receipts sorted before *April 30*.','Taxes, minus the *monster*.','Your books, *tax-ready*.','It’s just *paper*.','Face the forms. We’ve *got you*.','Slay the shoebox of *receipts*.','Less paperwork. More *peace*.'];
+const HEAD=HEADR.map(h=>h.replace(/\*/g,''));
+const rich=(h,c)=>h.replace(/\*([^*]+)\*/g,`<em style="color:${c}">$1</em>`);
+const CTA=['Get tax-ready','Get tax-ready','Start free','Get tax-ready','Start free','Learn more','Learn more','Start free','Get tax-ready','Learn more'];
+
+/* ad template: fills a box of w×h with art, headline, wordmark and CTA */
+function adHTML(ai,hi,w,h){
+  const a=ART[ai],r=w/h,fg=a.dark?'#fff':'#001b65',em=a.dark?'#e8aaff':'#0041ff',ctaBg=a.dark?'#e8aaff':'#0041ff',ctaFg=a.dark?'#001b65':'#fff',H=rich(HEADR[hi],em);
+  const u=Math.min(w,h);let s='';
+  if(r<.8){ // vertical 9:16
+    const aw=w*1.3;s+=`<img class="art" data-art="${ai}" src="${a.src}" style="width:${aw}px;top:${h*.6}px">`;
+    s+=`<div class="wm" style="left:${w*.08}px;top:${w*.08}px;font-size:${w*.085}px;color:${fg}">wave</div>`;
+    s+=`<div class="h" style="left:${w*.08}px;right:${w*.08}px;top:${h*.14}px;font-size:${w*.125}px;color:${fg}">${H}</div>`;
+    s+=`<div class="cta" style="left:${w*.08}px;bottom:${h*.05}px;font-size:${w*.055}px;padding:${w*.035}px ${w*.06}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
+  }else if(r<1.3){ // square
+    s+=`<img class="art" data-art="${ai}" src="${a.src}" style="width:${w*1.25}px;top:${h*.63}px;left:${w*.52}px">`;
+    s+=`<div class="wm" style="right:${w*.07}px;top:${w*.07}px;font-size:${w*.06}px;color:${fg}">wave</div>`;
+    s+=`<div class="h" style="left:${w*.07}px;width:${w*.66}px;top:${w*.07}px;font-size:${w*.085}px;color:${fg}">${H}</div>`;
+    s+=`<div class="cta" style="left:${w*.07}px;bottom:${w*.07}px;font-size:${w*.038}px;padding:${w*.025}px ${w*.045}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
+  }else{ // wide 1.91 / 12:5
+    s+=`<img class="art" data-art="${ai}" src="${a.src}" style="width:${h*1.75}px;left:${w*.73}px;top:${h*.5}px">`;
+    s+=`<div class="wm" style="left:${h*.1}px;top:${h*.1}px;font-size:${h*.1}px;color:${fg}">wave</div>`;
+    s+=`<div class="h" style="left:${h*.1}px;width:${w*.48}px;top:${h*.3}px;font-size:${h*(r>2.2?.15:.13)}px;color:${fg}">${H}</div>`;
+    s+=`<div class="cta" style="left:${h*.1}px;bottom:${h*.1}px;font-size:${h*.065}px;padding:${h*.04}px ${h*.075}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
+  }
+  return `<div class="ad" style="background:${a.bg}">${s}</div>`;
+}
+
+/* =====================================================================
+   SCENE 1 · Figma Weave flow
+   ===================================================================== */
+const w1=$('#w1'),wires=$('#wires');
+const T_SUBJECT='An origami {creature} folded from a single printed CRA {form} form, rearing up, crisp knife-edge creases';
+const T_ART='Paper stop-motion, 12 fps. Form print, boxes and line numbers wrap every facet. Soft key light from upper left, one tone per facet, soft contact shadow. Then it unfolds flat: it’s just paper';
+const T_ENH='A hero still of an origami {creature} hand-folded from one sheet of a Canadian {form} tax form. The printed boxes, line numbers and ruled lines wrap across every faceted plane. Captured from a low 3/4 angle, centred, with crisp knife-edge creases catching a soft studio key light from the upper left and a gentle contact shadow. Flat seamless backdrop in one Wave colour (blue #0041FF, navy #001B65, pink #F2A8FF, sky #76C3FB or peach #FFE7D6). Tactile paper grain, stop-motion stillness, no text, generous negative space above for a headline.';
+const T_BRIEF='Wave · Tax season 2027 (Canada)\nAudience: freelancers + small business owners\nIdea: that T1 looks a lot scarier folded up. With Wave it’s just paper.\nTone: warm, confident, a little playful. No jargon.\nWrite 10 headlines ≤ 6 words + CTAs.';
+const NODES={
+  subj:{x:30,y:40,w:240,h:132,t:'Subject',tag:'TEXT',html:'<div class="field" data-type="subj"></div>'},
+  art:{x:30,y:188,w:240,h:150,t:'Art direction',tag:'TEXT',html:'<div class="field" data-type="art"></div>'},
+  cam:{x:30,y:354,w:240,h:72,t:'Camera angle',tag:'TEXT',html:'<div class="field" data-type="cam"></div>'},
+  pal:{x:30,y:442,w:240,h:84,t:'Palette',tag:'TEXT',html:'<div class="sw"><i style="background:#0041ff"></i><i style="background:#001b65"></i><i style="background:#f2a8ff"></i><i style="background:#76c3fb"></i><i style="background:#ffe7d6"></i><i style="background:#8f9cff"></i></div><div class="field dim" style="padding:5px 8px">Wave blue, navy, pink, sky, peach</div>'},
+  crea:{x:30,y:542,w:240,h:70,t:'List · {creature}',tag:'×4',html:'<div class="chips"><span>T1 dragon</span><span>GST/HST hydra</span><span>T2125 cobra</span><span>NOA tiger</span></div>'},
+  brief:{x:30,y:640,w:240,h:226,t:'Copy brief',tag:'TEXT',html:'<div class="field" data-type="brief" style="height:178px"></div>'},
+  cat:{x:312,y:150,w:230,h:330,t:'Prompt Concatenator',tag:'TEXT',html:'<div class="field dim" data-type="cat1" style="height:96px"></div><div class="field dim" data-type="cat2" style="height:150px"></div><div class="run">+ Add another text input</div>'},
+  enh:{x:584,y:96,w:244,h:392,t:'Prompt Enhancer',tag:'LLM',html:'<div class="field" data-type="enh" style="height:318px"></div><div class="run">Claude · image prompt <b class="rb">→ Run</b></div>'},
+  copy:{x:584,y:560,w:244,h:300,t:'Copywriter',tag:'LLM',html:'<div class="field dim" style="height:62px">System: You are Wave’s senior copywriter. Plain words, Canadian spelling, never promise refunds.</div><div class="field" data-type="copyout" style="height:150px"></div><div class="run">Claude · ×10 <b class="rb2">→ Run</b></div>'},
+  nano:{x:870,y:80,w:250,h:344,t:'Nano Banana',tag:'IMG',ti:'img',html:'<div class="grid12" id="g12"></div><div class="field dim" style="margin-top:8px;padding:6px 8px">1:1 · 2048px · 4 forms × 3 backdrops</div><div class="run">12 images <b class="rb3">→ Run model</b></div>'},
+  hl:{x:870,y:530,w:250,h:330,t:'Headlines · split',tag:'TEXT ×10',html:'<ol class="hl" id="hl"></ol>'},
+  rs:{x:1160,y:52,w:208,h:224,t:'Crop + outpaint',tag:'IMG ×4',ti:'img',html:'<div class="sizes" id="sizes"></div><div class="field dim" style="margin-top:9px;padding:6px 8px">Extend backdrop, keep creature centred</div>'},
+  vid:{x:1160,y:296,w:208,h:224,t:'Image → video',tag:'VID',ti:'vid',html:'<div class="vbox" id="vid"><canvas></canvas><div class="bar"><i></i></div></div><div class="field dim" style="margin-top:8px;padding:6px 8px">Kling · 6s · unfolds flat, 12 fps</div>'},
+  sheet:{x:1160,y:546,w:208,h:314,t:'Export → sheet',tag:'CSV',html:'<table class="sheet" id="sheet"></table>'},
+  buzz:{x:1400,y:250,w:176,h:340,t:'Send to Figma',tag:'BUZZ',html:'<div class="buzz"><div class="fig"><span class="figlogo"><i style="background:#f24e1e;border-radius:6px 0 0 6px"></i><i style="background:#ff7262;border-radius:0 6px 6px 0"></i><i style="background:#a259ff;border-radius:6px 0 0 6px"></i><i style="background:#1abcfe;border-radius:50%"></i><i style="background:#0acf83;border-radius:6px 0 6px 6px"></i></span>Figma Buzz</div><div class="big" id="bigc">0</div><div class="sub">ad variants queued</div><div class="mult"><b>12</b> images<br>× <b>10</b> headlines<br>× <b>4</b> placements<br>= <b>480</b> assets</div><div class="run" style="margin-top:12px"><span></span><b class="go">Generate</b></div></div>'}
+};
+// ports: [from,to,type,toSlot]
+const LINKS=[['subj','cat','t',0],['art','cat','t',1],['cam','cat','t',2],['pal','cat','t',3],['crea','cat','t',4],['cat','enh','t',0],['enh','nano','t',0],['brief','copy','t',0],['copy','hl','t',0],['nano','rs','img',0],['nano','vid','img',0],['rs','sheet','img',0],['hl','sheet','t',1],['sheet','buzz','t',0],['vid','buzz','vid',1]];
+// timing (scene-local seconds)
+const NT={subj:.2,art:.45,cam:.7,pal:.95,crea:1.2,cat:2.5,enh:4.2,brief:3.4,copy:5.4,nano:7,hl:7.4,rs:9.6,vid:10,sheet:11,buzz:12};
+const LT={}; LINKS.forEach(L=>{LT[L.join('-')]=Math.max(NT[L[0]],NT[L[1]]-.35);});
+Object.entries(NODES).forEach(([k,n])=>{
+  const d=el('div','node',`<h4>${n.t}<span style="display:flex;gap:6px;align-items:center"><span class="tag ${n.ti||''}">${n.tag}</span><em>···</em></span></h4>${n.html}`,w1);
+  d.style.cssText=`left:${n.x}px;top:${n.y}px;width:${n.w}px;height:${n.h}px`;n.el=d;n.fields={};
+  d.querySelectorAll('[data-type]').forEach(f=>n.fields[f.dataset.type]=f);
+});
+const portIn=(n,slot,count)=>[n.x,n.y+40+slot*Math.min(26,(n.h-56)/Math.max(1,count-1||1))];
+const portOut=n=>[n.x+n.w,n.y+40];
+const inCount={};LINKS.forEach(L=>inCount[L[1]]=(inCount[L[1]]||0)+1);
+const COLORS={t:'#e8aaff',img:'#76c3fb',vid:'#7fe0b0'};
+const wireEls=LINKS.map(L=>{
+  const a=NODES[L[0]],b=NODES[L[1]];const p0=portOut(a),p1=portIn(b,L[3],inCount[L[1]]);
+  const dx=Math.max(40,(p1[0]-p0[0])*.5);
+  const d=`M${p0[0]} ${p0[1]} C${p0[0]+dx} ${p0[1]} ${p1[0]-dx} ${p1[1]} ${p1[0]} ${p1[1]}`;
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',d);path.setAttribute('class','wire');path.setAttribute('stroke',COLORS[L[2]]);wires.appendChild(path);
+  const len=path.getTotalLength();path.style.strokeDasharray=len;path.style.strokeDashoffset=len;
+  const po=el('i','port '+(L[2]==='t'?'':L[2]),null,w1),pi=el('i','port '+(L[2]==='t'?'':L[2]),null,w1);
+  po.style.cssText=`left:${p0[0]-5}px;top:${p0[1]-5}px`;pi.style.cssText=`left:${p1[0]-5}px;top:${p1[1]-5}px`;
+  const pulse=el('i','pulse',null,w1);pulse.style.boxShadow=`0 0 10px 3px ${COLORS[L[2]]}`;
+  return{L,path,len,po,pi,pulse,t:LT[L.join('-')]};
+});
+// node contents
+const g12=$('#g12');const tiles=ART.map((a,i)=>{const d=el('div','',`<img data-art="${i}" src="${a.src}" alt=""><i class="shim"></i>`,g12);return d;});
+const hlEl=$('#hl');const hlItems=HEAD.map(h=>el('li','',h,hlEl));
+const sizes=$('#sizes');const SZ=[['9:16',34,60],['1:1',46,46],['1.91',64,34],['12:5',58,24]];
+SZ.forEach(([l,w,h],i)=>{const d=el('div','',`<img data-art="${i*3%12}" src="${ART[i*3%12].src}" alt="">`,null);d.style.cssText=`width:${w}px;height:${h}px`;const c=el('div','',null,sizes);c.appendChild(d);el('span','',l,c);c.style.background='transparent';});
+const vid=$('#vid'),vidCv=vid.querySelector('canvas'),vidBar=vid.querySelector('.bar i');vid.style.background=ART[0].bg;const vidScene=liveScene(vidCv,ART[0],{cy:.62,fov:1.15});
+const sheet=$('#sheet');sheet.innerHTML='<tr><th>art</th><th>headline</th><th>cta</th></tr>'+[0,1,2,3,4,5,6,7,8,9].map(i=>`<tr><td><img data-art="${i}" src="${ART[i].src}" alt=""></td><td>${HEAD[i]}</td><td>${CTA[i]}</td></tr>`).join('');
+const sheetRows=[...sheet.querySelectorAll('tr')].slice(1);
+const bigc=$('#bigc');
+const COPYOUT='1. File without fear.\n2. Tame tax season.\n3. Don’t let your T2125 bite.\n4. Receipts sorted before April 30.\n5. Taxes, minus the monster.\n…\nCTA: Get started now · Start free';
+const typeTo=(f,txt,k)=>{const n=Math.round(txt.length*clamp(k));if(f._n!==n){f._n=n;f.textContent=txt.slice(0,n)+(k>0&&k<1?'▍':'');}};
+const CAM1=[[0,1.55,330,300],[2.4,1.55,330,300],[4.2,1.32,560,330],[6.6,1.22,760,380],[9,1.08,1010,420],[11,1.02,1130,470],[12.6,.94,800,450],[15,.94,800,450]];
+function camAt(K,t){let i=0;while(i<K.length-2&&t>K[i+1][0])i++;const a=K[i],b=K[i+1];const k=ease(P(t,a[0],b[0]));return[lerp(a[1],b[1],k),lerp(a[2],b[2],k),lerp(a[3],b[3],k)];}
+function scene1(t){
+  const [s,fx,fy]=camAt(CAM1,t);
+  w1.style.transform=`translate(${W/2-fx*s}px,${H/2-fy*s}px) scale(${s})`;
+  for(const k in NODES){const n=NODES[k],k2=E(t,NT[k],NT[k]+.5);n.el.style.opacity=k2;n.el.style.transform=`translateY(${(1-k2)*14}px)`;}
+  NODES.subj.fields.subj&&typeTo(NODES.subj.fields.subj,T_SUBJECT,P(t,.4,2));
+  typeTo(NODES.art.fields.art,T_ART,P(t,.7,2.5));
+  typeTo(NODES.cam.fields.cam,'Low 3/4 hero angle, centred',P(t,1,1.8));
+  typeTo(NODES.brief.fields.brief,T_BRIEF,P(t,3.6,5.6));
+  typeTo(NODES.cat.fields.cat1,T_SUBJECT.replace('{creature}','dragon').replace('{form}','T1')+'. Low 3/4 hero angle, centred.',P(t,3,3.7));
+  typeTo(NODES.cat.fields.cat2,T_ART+'. Palette: Wave blue, navy, pink, sky, peach.',P(t,3.3,4.1));
+  typeTo(NODES.enh.fields.enh,T_ENH,P(t,4.7,7));
+  typeTo(NODES.copy.fields.copyout,COPYOUT,P(t,5.9,7.4));
+  NODES.enh.el.classList.toggle('sel',t>4.5&&t<7.2);NODES.nano.el.classList.toggle('sel',t>7.2&&t<9.6);NODES.buzz.el.classList.toggle('sel',t>12.2);
+  tiles.forEach((d,i)=>{const a=7.5+i*.12,k=P(t,a+.7,a+1.1);const sh=d.lastChild;sh.style.opacity=1-k;sh.style.backgroundPosition=`${100-((t*90)%100)}% 0`;d.firstChild.style.opacity=k;d.style.opacity=P(t,7.2,7.6);});
+  hlItems.forEach((li,i)=>{li.style.opacity=P(t,7.7+i*.13,7.95+i*.13);});
+  SZ.forEach((_,i)=>{sizes.children[i].style.opacity=P(t,10+i*.15,10.3+i*.15);});
+  const vt=Math.max(0,t-10.3)%6,vf=Math.floor(t*12);if(t>9.8&&vid._f!==vf){vid._f=vf;vidScene.draw(unfoldK(vt,1,2.8),vf);}vidBar.style.width=(vt/6*100)+'%';
+  sheetRows.forEach((r,i)=>r.style.opacity=P(t,11.3+i*.09,11.5+i*.09));
+  const c=Math.round(eo(P(t,12.4,14))*480);if(bigc._c!==c){bigc._c=c;bigc.textContent=c;}
+  wireEls.forEach(w=>{const k=E(t,w.t,w.t+.5);w.path.style.strokeDashoffset=w.len*(1-k);w.po.classList.toggle('on',k>0);w.pi.classList.toggle('on',k>=1);
+    w.po.style.opacity=w.pi.style.opacity=P(t,w.t-.2,w.t);
+    if(k>=1){const ph=((t-w.t-.5)*.55+w.L[3]*.13)%1;const pt=w.path.getPointAtLength(ph*w.len);w.pulse.style.cssText=`left:${pt.x}px;top:${pt.y}px;opacity:${Math.sin(ph*Math.PI)}`;w.pulse.style.boxShadow=`0 0 10px 3px ${COLORS[w.L[2]]}`;}else w.pulse.style.opacity=0;});
+  const rb=NODES.enh.el.querySelector('.rb');rb.classList.toggle('go',t>4.5&&t<7);
+  NODES.copy.el.querySelector('.rb2').classList.toggle('go',t>5.8&&t<7.4);
+  NODES.nano.el.querySelector('.rb3').classList.toggle('go',t>7.3&&t<9.4);
+}
+
+/* =====================================================================
+   SCENE 2 · Figma page of Buzz output (480 frames)
+   ===================================================================== */
+const w2=$('#w2');
+const FMT=[{n:'Reel 9:16',w:108,h:192,cols:15,X:0,Y:0},{n:'Feed 1:1',w:150,h:150,cols:12,X:1,Y:0},{n:'LinkedIn 1.91:1',w:230,h:120,cols:8,X:0,Y:1},{n:'Inline 12:5',w:240,h:100,cols:8,X:1,Y:1}];
+const GAP=18,ROWGAP=34,BGAP=220;
+const frames=[];
+FMT.forEach(f=>{f.rows=Math.ceil(120/f.cols);f.bw=f.cols*(f.w+GAP)-GAP;f.bh=f.rows*(f.h+ROWGAP)-ROWGAP;});
+const colW=[Math.max(FMT[0].bw,FMT[2].bw),Math.max(FMT[1].bw,FMT[3].bw)],rowH=[Math.max(FMT[0].bh,FMT[1].bh),Math.max(FMT[2].bh,FMT[3].bh)];
+FMT.forEach((f,fi)=>{
+  f.x=f.X?colW[0]+BGAP:0;f.y=f.Y?rowH[0]+BGAP:0;
+  const blk=el('div','blk',`<h6>${f.n} <span>· 120</span></h6>`,w2);blk.style.left=f.x+'px';blk.style.top=f.y+'px';
+  for(let i=0;i<120;i++){const r=Math.floor(i/f.cols),c=i%f.cols,x=c*(f.w+GAP),y=r*(f.h+ROWGAP);
+    const fr=el('div','fr',adHTML(Math.floor(i/10),i%10,f.w,f.h),blk);fr.style.cssText=`left:${x}px;top:${y}px;width:${f.w}px;height:${f.h}px`;
+    frames.push({el:fr,fi,r,c,x:f.x+x,y:f.y+y});}
+});
+let bx=colW[0]+BGAP+colW[1]+BGAP;
+const W2=bx-BGAP,H2=rowH[0]+BGAP+rowH[1];
+// stagger: diagonal sweep per block, blocks overlap
+frames.forEach(f=>{f.t=.5+f.fi*.9+(f.r+f.c)*.075;});
+const layers=$('#layers');FMT.forEach((f,i)=>{el('div','lay'+(i===0?' on':''),`<i></i>${f.n}<small>120</small>`,layers);for(let k=0;k<(i===0?4:1);k++)el('div','lay sub',`<i></i>${f.n.split(' ')[0].toLowerCase()}-${ART[k].kind}-${String(k+1).padStart(2,'0')}`,layers);});
+$('#mini').innerHTML='<tr><td>art</td><td>headline</td><td>cta</td></tr>'+[0,1,2,3,4].map(i=>`<tr><td>${ART[i].kind}-${ART[i].bgName}</td><td>${HEAD[i]}</td><td>${CTA[i]}</td></tr>`).join('');
+const genprog=$('#genprog'),gencnt=$('#gencnt');
+const CW=1100,CH=852; // canvas viewport
+const fitS=Math.min((CW-80)/W2,(CH-120)/H2);
+const CAM2=[[0,1.2,330,250],[1.5,1.2,330,250],[3.6,.55,800,560],[6.2,.28,1700,1300],[8.2,fitS,W2/2,H2/2],[12,fitS,W2/2,H2/2]];
+function scene2(t){
+  const [s,fx,fy]=camAt(CAM2,t);
+  w2.style.transform=`translate(${CW/2-fx*s}px,${CH/2+18-fy*s}px) scale(${s})`;
+  let n=0;
+  for(const f of frames){const k=P(t,f.t,f.t+.35);if(k>0)n++;if(f._k!==k){f._k=k;f.el.style.opacity=k;f.el.style.transform=k<1?`scale(${.85+.15*eo(k)})`:'';}}
+  const c=n;if(gencnt._c!==c){gencnt._c=c;gencnt.firstChild.nodeValue=c;}
+  genprog.style.width=(c/480*100)+'%';
+  $('#genbtn').style.opacity=t<.4?1:.55;
+}
+
+/* =====================================================================
+   SCENE 3 · In market: Reel, Facebook, LinkedIn, inline article
+   ===================================================================== */
+const mk=$('#mk');
+const PL=[
+ {name:'Instagram Reel',k:'9:16 · 1080×1920 · 6s loop',art:0,hl:0,
+  p:'Weave’s image-to-video pass folds the T1 dragon open at 12 fps until it’s just paper. Headline and CTA are bound by Buzz, so each of the 120 reels ships as its own variant.',
+  dl:[['Variant','reel-dragon-blue-01'],['Headline','File without fear.'],['Caption','That T1 looks a lot scarier folded up. Wave keeps your books organized all year, so when the CRA comes calling, it’s just paper.'],['CTA','Get started now']]},
+ {name:'Facebook feed',k:'1:1 · 1080×1080',art:1,hl:1,
+  p:'The paper tiger, folded from a Notice of Assessment, carries the most playful line in the set. Same template, same binding, swapped by row in the sheet.',
+  dl:[['Variant','feed-tiger-navy-02'],['Headline','Tame tax season.'],['Primary text','Every receipt in one place, every expense categorized. Get your books tax-ready before April 30 with Wave’s free accounting software.'],['CTA','Get tax-ready']]},
+ {name:'LinkedIn sponsored',k:'1.91:1 · 1200×628',art:2,hl:5,
+  p:'For accountants and business owners the copy turns practical. The T2125 cobra keeps the folded-form idea readable at a glance in the feed.',
+  dl:[['Variant','li-snake-pink-06'],['Headline','Your books, tax-ready.'],['Intro','Self-employed in Canada? Wave turns a year of invoices and receipts into tax-ready reports your accountant will actually thank you for.'],['CTA','Learn more']]},
+ {name:'Inline article',k:'12:5 · 600×250 · native',art:3,hl:2,
+  p:'Placed mid-article on small business publishers, where the reader is already thinking about tax season.',
+  dl:[['Variant','inline-hydra-sky-03'],['Headline','Don’t let your T2125 bite.'],['Line','Track self-employment income and expenses all year. Free accounting from Wave.'],['CTA','Start free']]}
+];
+// 1 reel
+const reel=el('div','',`<div class="phone"><div class="scr"><div class="ad" id="reelad"></div><div class="reel-top"><span>Reels</span><span>◎</span></div>
+<div class="reel-side"><div><i class="hrt"></i>2.4K</div><div><i></i>186</div><div><i style="border-radius:4px;transform:rotate(15deg)"></i>Share</div></div>
+<div class="reel-bot"><div class="acct"><div class="lg">w</div><div>waveapps<small>Sponsored</small></div><span class="fl">Follow</span></div>
+<div class="reel-cap">That T1 looks a lot scarier folded up. Wave keeps your books organized all year, so when the CRA comes calling, it’s just paper.</div>
+<div class="reel-cta"><span>Get started now</span><span>›</span></div></div><div class="reel-prog"><i></i></div></div></div>`,mk);
+const reelAd=reel.querySelector('#reelad');
+reelAd.innerHTML=`<div class="ad" style="background:${ART[0].bg}"><canvas class="live" style="top:300px;height:420px"></canvas><div class="wm" style="left:22px;top:92px;font-size:24px;color:#fff">wave</div><div class="h" id="reelh" style="left:22px;right:30px;top:130px;font-size:60px;color:#fff"></div></div>`;
+const reelCv=reelAd.querySelector('canvas'),reelH=reelAd.querySelector('#reelh'),reelProg=reel.querySelector('.reel-prog i');let reelScene=null;
+// 2 facebook
+const fb=el('div','',`<div class="card fb"><div class="c-head"><div class="lg">w</div><div>Wave<small>Sponsored · 🌐</small></div><span class="dots">···</span></div>
+<div class="c-txt">Every receipt in one place, every expense categorized. Get your books tax-ready before April 30 with Wave’s free accounting software. 🧾</div>
+<div class="c-img" style="height:520px">${adHTML(1,1,520,520)}</div>
+<div class="c-foot"><div><span class="u">waveapps.com</span><b>Tame tax season with Wave</b></div><span class="btn">Get tax-ready</span></div>
+<div class="c-react"><span><i></i><i></i>1.1K</span><span>84 comments · 52 shares</span></div><div class="c-acts"><span>👍 Like</span><span>💬 Comment</span><span>↗ Share</span></div></div>`,mk);
+// 3 linkedin
+const li=el('div','',`<div class="card li"><div class="c-head"><div class="lg">w</div><div>Wave Financial<small>48,210 followers<br>Promoted</small></div><span class="dots">···</span></div>
+<div class="c-txt" style="font-size:14.5px">Self-employed in Canada? Wave turns a year of invoices and receipts into tax-ready reports your accountant will actually thank you for.</div>
+<div class="c-img" style="height:293px">${adHTML(2,5,560,293)}</div>
+<div class="c-foot"><div><b style="font-size:15px;margin:0">Your books, tax-ready.</b><span class="u" style="text-transform:none">waveapps.com</span></div><span class="btn">Learn more</span></div>
+<div class="c-react"><span><i></i><i></i>612</span><span>38 comments · 21 reposts</span></div><div class="c-acts"><span>Like</span><span>Comment</span><span>Repost</span><span>Send</span></div></div>`,mk);
+// 4 article
+const art=el('div','',`<div class="artc" style="position:relative"><div class="art-bar">The Ledger<span>Small Business</span><span>Money</span><span>Tax</span><span>Tools</span></div>
+<div class="art-in" id="artin"><div class="kick">Tax season</div><h3>Five tax-season mistakes Canadian freelancers still make</h3><div class="by">By Maya Chen · 6 min read</div>
+<p>The deadline for most self-employed Canadians to file is June 15, but any balance owing is still due April 30. Mixing those two dates up is the most expensive mistake on this list.</p>
+<p>The second is the shoebox. A year of paper receipts sorted in a single weekend is how home office and vehicle expenses get missed, and missed expenses are money left on the table.</p>
+<div class="inl"><small>Advertisement</small><div class="box">${adHTML(3,2,600,250)}</div></div>
+<p>Third, treating the T2125 as an afterthought. The Statement of Business or Professional Activities is where your income and expenses meet, and it is far easier to fill in from tidy books.</p>
+<p>Fourth, forgetting instalments. If you owed more than $3,000 last year, the CRA may expect quarterly payments.</p></div></div>`,mk);
+const artIn=art.querySelector('#artin');
+const MOCKS=[reel,fb,li,art];
+const tabs3=$('#tabs3');const tabEls=PL.map(p=>el('div','',p.name+'<i></i>',tabs3));
+const SEG=4.2;
+let cur3=-1;
+function scene3(t){
+  const i=Math.min(3,Math.floor(t/SEG)),lt=t-i*SEG;
+  if(i!==cur3){cur3=i;const p=PL[i];$('#k3').textContent=`Placement ${i+1} / 4 · ${p.k}`;$('#h3').textContent=p.name;$('#p3').textContent=p.p;$('#dl3').innerHTML=p.dl.map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
+  tabEls.forEach((e,j)=>e.lastChild.style.width=(j===i?P(lt,0,SEG)*100:0)+'%');
+  const cp=$('.s3copy');const ck=E(lt,0,.5)*(1-E(lt,SEG-.35,SEG));cp.style.opacity=ck;cp.style.transform=`translateY(${(1-ck)*12}px)`;
+  MOCKS.forEach((m,j)=>{
+    if(j!==i){m.style.opacity=0;return;}
+    const a=E(lt,0,.6),b=E(lt,SEG-.4,SEG);
+    m.style.opacity=a*(1-b);m.style.transform=`translateY(${(1-a)*60-b*40}px) scale(${.96+.04*a})`;
+  });
+  if(i===0){if(!reelScene)reelScene=liveScene(reelCv,ART[0],{cy:.5,fov:.9});const f=Math.floor(lt*12);if(reelCv._f!==f){reelCv._f=f;reelScene.draw(unfoldK(lt,1.2,2.4),f);}
+    const words=HEADR[0].split(' '),nw=Math.floor(P(lt,.4,1.4)*words.length+.001);reelH.innerHTML=rich(words.slice(0,Math.max(0,nw)).join(' '),'#e8aaff');reelProg.style.width=(lt/SEG*100)+'%';}
+  if(i===3){artIn.style.transform=`translateY(${-E(lt,.6,2.4)*210}px)`;}
+}
+
+/* =====================================================================
+   timeline
+   ===================================================================== */
+const SC=[{el:$('#s1'),d:15,f:scene1},{el:$('#s2'),d:11,f:scene2},{el:$('#s3'),d:SEG*4,f:scene3}];
+let acc=0;SC.forEach(s=>{s.t0=acc;acc+=s.d;});const TOTAL=acc;
+const btns=[...document.querySelectorAll('#ctl [data-s]')],pp=$('#pp');
+let T=0,playing=true,last=null,speed=1,loop=true,curS=-1;
+function render(){
+  let si=SC.findIndex(s=>T>=s.t0&&T<s.t0+s.d);if(si<0)si=SC.length-1;
+  if(si!==curS){SC.forEach((s,j)=>s.el.style.visibility=j===si?'visible':'hidden');btns.forEach((b,j)=>b.classList.toggle('on',j===si));curS=si;}
+  const s=SC[si],lt=T-s.t0;
+  // cross-dissolve at scene edges
+  s.el.style.opacity=Math.min(1,P(lt,0,.35)*(si===0?1:1)+(si===0&&T<.35?1:0))*(1-P(lt,s.d-.3,s.d));
+  s.f(lt);
+}
+function tick(now){
+  if(playing){if(last!=null)T+=(now-last)/1000*speed;if(T>=TOTAL){if(loop)T=T%TOTAL;else{T=TOTAL-.001;playing=false;}}}
+  last=now;render();requestAnimationFrame(tick);
+}
+btns.forEach((b,j)=>b.onclick=()=>{T=SC[j].t0+.001;render();});
+pp.onclick=()=>{playing=!playing;pp.textContent=playing?'❚❚':'▶';pp.setAttribute('aria-label',playing?'Pause':'Play');};
+addEventListener('keydown',e=>{if(e.key===' '){e.preventDefault();pp.click();}if(e.key==='ArrowRight'){T=SC[(curS+1)%3].t0+.001;}if(e.key==='ArrowLeft'){T=SC[(curS+2)%3].t0+.001;}});
+// fit 1600×900 stage
+const view=$('#view'),stage=$('#stage');
+function fit(){const r=view.getBoundingClientRect(),s=Math.min(r.width/W,r.height/H);stage.style.transform=`scale(${s}) translate(-50%,-50%)`;stage.style.transformOrigin='0 0';stage.style.left=(r.width/2)+'px';stage.style.top=(r.height/2)+'px';stage.style.transform=`translate(${-W*s/2}px,${-H*s/2}px) scale(${s})`;}
+addEventListener('resize',fit);fit();
+if(location.hash.includes('clip'))view.classList.add('clip');
+window.__rb={play(o={}){if(o.from!=null)T=o.from;speed=o.speed||1;loop=o.loop!==false;playing=true;last=null;},pause(){playing=false;},seek(t){T=t;render();},scenes:SC.map(s=>s.t0),total:TOTAL};
+document.fonts&&document.fonts.ready.then(()=>{renderArt();document.querySelectorAll('img[data-art]').forEach(im=>im.src=ART[+im.dataset.art].src);if(reelScene)reelScene.set(ART[0].kind,ART[0].form);vidScene.set(ART[0].kind,ART[0].form);reelCv._f=vid._f=-1;});
+requestAnimationFrame(tick);
+})();
+</script>
+<script>/* sandbox project bar: on phones its controls move to a panel under the visual */
+(function(){var nav=document.querySelector('nav.back'),c=nav&&nav.querySelector(':scope>div');if(!c)return;var mq=matchMedia('(max-width:640px)'),p=document.createElement('nav');p.className='back sb-panel';p.setAttribute('aria-label','Controls');var at=(nav.dataset.panelAfter&&document.querySelector(nav.dataset.panelAfter))||nav.nextElementSibling;at.after(p);function put(){(mq.matches?p:nav).appendChild(c);p.style.display=mq.matches?'':'none';window.dispatchEvent(new Event('resize'))}put();mq.addEventListener('change',put)})();
+</script>
+</body>
+</html>

@@ -9,13 +9,22 @@
     "alt": "A Wave tax-season landing page for Canadians with a full-bleed bright blue hero headlined File without fear, where a paper dragon folded from a printed CRA T1 Income Tax and Benefit Return stands beside the headline and the line Tax time panic setting in?, then unfolds in choppy 12 fps stop motion, its wings and tail opening out until it lies flat as a creased sheet of the tax form, before a GST/HST hydra, a T2125 cobra and a Notice of Assessment paper tiger take their turns."
   },
   {
+    "id": "wave-tax-weave-walkthrough",
+    "title": "Wave Tax Weave Walkthrough",
+    "category": "Motion",
+    "url": "wave-tax-weave-walkthrough/",
+    "thumbnail": "wave-tax-weave-walkthrough/thumb.png",
+    "preview": "wave-tax-weave-walkthrough/thumb.webp",
+    "alt": "A three-stage walkthrough of a Figma Weave paid ads pipeline for Wave's File without fear tax campaign: on a dark node canvas, subject, art direction, camera and palette prompts feed a Prompt Concatenator and Prompt Enhancer into Nano Banana, which renders twelve origami dragons, tigers, snakes and hydras folded from printed tax forms on Wave blue, navy and cream, while a copy brief runs through a copywriter node into ten headlines, both landing in a sheet and a Figma Buzz node that counts up to 480 ad variants; then a Figma page fills with 480 frames across Reel, Feed, LinkedIn and Inline templates and zooms out to show them all; then an Instagram Reel, Facebook feed post, LinkedIn sponsored post and inline article ad cycle with the campaign copy."
+  },
+  {
     "id": "lob-get-started",
     "title": "Lob Get Started",
     "category": "Mockup",
     "url": "lob-get-started/",
     "thumbnail": "lob-get-started/thumb.png",
     "preview": "lob-get-started/thumb.webp",
-    "alt": "A dark navy Lob Get started page mockup: the giant words build your way sit either side of a collage of colourful Lob postcards that pops in and swaps for a Create screen and a cropped proof, with Go from idea to mailbox faster and a white Get started button below, then the page scrolls into Choose your template where five stacked mailer templates fan out, the insurance postcard is picked and dropped into the Visual Editor's canvas, where it opens up into editable layers."
+    "alt": "A dark navy Lob Get started page mockup: behind the giant words build your way a healthcare postcard is laid out as purple, mint and hot pink abstract blocks from a white tool rail, then goes high fidelity as an image gallery drops a nurse photo into it, the headline Maya, meet your care team types in, a QR code, a lobhealth.com URL and the LobHealth logo fill in, before the page scrolls into Choose your template where the stacked insurance postcard is picked and dropped into the Visual Editor."
   },
   {
     "id": "lob-visual-editor",
