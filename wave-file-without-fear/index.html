@@ -161,28 +161,28 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .tog .pill button.on{background:#fff;box-shadow:0 1px 4px rgba(0,27,101,.12)}
 .tog .save{position:absolute;left:calc(50% + 97px);top:-48px;background:#adf1cc;color:#145c36;font:600 13.5px var(--sans);padding:6px 9px;border-radius:7px}
 .tog .arr{position:absolute;left:calc(50% + 70px);top:-32px;width:22px}
-.prices{display:grid;grid-template-columns:377px 377px;gap:18px;justify-content:center;margin-top:80px;align-items:start}
-.pc{border:1px solid #d6dbe0;border-radius:14px;background:#fff;overflow:hidden;position:relative;min-height:911px}
+.prices{display:grid;grid-template-columns:400px 400px;gap:32px;justify-content:center;margin-top:80px;align-items:start}
+.pc{border:1px solid #d6dbe0;border-radius:14px;background:#fff;overflow:hidden;position:relative;}
 .pc.pro{border:1.5px solid #1f6fe5;overflow:visible}
-.pc .head{background:#ecf0f3;padding:16px 16px 16px;border-radius:14px 14px 0 0}
+.pc .head{background:#ecf0f3;padding:30px 30px 32px;border-radius:14px 14px 0 0}
 .pc.pro .head{background:#e5f1fd}
 .pc .tag{display:flex;align-items:center;gap:9px;font:700 22px var(--sans)}
 .pc .tag span{background:#b4c2cb;padding:4px 8px;border-radius:3px;letter-spacing:.01em}
 .pc.pro .tag{color:#1066da}
 .pc.pro .tag span{background:#1066da;color:#fff}
 .pc .desc{font-size:17.5px;line-height:1.4;margin-top:20px}
-.pc .price{font-size:50px;font-weight:600;margin-top:28px;line-height:1.1;min-height:108px}
+.pc .price{font-size:50px;font-weight:600;margin-top:32px;line-height:1.1;min-height:108px}
 .pc.pro .price{color:#1066da}
 .pc .price small{font-size:26px}
 .pc .price em{display:block;font-style:normal;font-size:20px;font-weight:400;margin-top:-2px}
 .pc .head .btn{width:auto;height:50px;padding:0 34px;font-size:17px;margin-top:34px}
 .pc.pro .head .btn{background:#0041ff}
 .rec{position:absolute;top:-28px;left:50%;transform:translateX(-50%);background:#0b63d6;color:#fff;font:600 15px var(--sans);padding:4px 8px;border-radius:5px 5px 0 0}
-.pc ul{list-style:none;padding:26px 14px 30px 16px}
-.pc li{display:flex;gap:20px;font-size:17px;line-height:1.43;margin-bottom:16px}
+.pc ul{list-style:none;padding:30px 30px 36px}
+.pc li{display:flex;gap:16px;font-size:17px;line-height:1.43;margin-bottom:18px}
 .pc li svg{flex:none;width:17px;margin-top:4px}
-.pc .plus{color:#1066da;font-weight:600;padding:26px 24px 0;font-size:17px}
-.pc.pro ul{padding-top:16px}
+.pc .plus{color:#1066da;font-weight:600;padding:30px 30px 0;font-size:17px}
+.pc.pro ul{padding-top:18px}
 
 
 /* advisors */
@@ -435,9 +435,9 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <div class="top">
       <h2 class="serif">Why Wave is the<br>wiser choice</h2>
       <ul>
-        <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Clunky interfaces and accounting jargon make tax time harder. Wave is easy (and fun!) to use.</span></li>
-        <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Don’t get bogged down with features you don’t even use. With Wave, you’ll access the time-saving tools you need, for less.</span></li>
-        <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Setting up or migrating from QuickBooks is easy. <b>You’ll get organized and prepared for tax season, fast</b>.</span></li>
+        <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Easy (and fun!) to use. No clunky screens or jargon.</span></li>
+        <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Only the tools you need, for less.</span></li>
+        <li><svg viewBox="0 0 26 26"><circle cx="13" cy="13" r="13" fill="#8a3ffc"/><path d="M7.5 13.3l3.6 3.4 7.4-7.6" fill="none" stroke="#fff" stroke-width="2"/></svg><span>Switch from QuickBooks and get tax-ready fast.</span></li>
       </ul>
     </div>
     <div class="stats">
@@ -460,42 +460,24 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <div class="pc">
       <div class="head"><div class="tag"><span>STARTER</span>Plan</div><p class="desc">Just starting your business or looking for the basics? This is the place.</p><div class="price">$0</div><a class="btn ghost" href="#">Get started now</a></div>
       <ul>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Create unlimited estimates, invoices, bills, and bookkeeping records</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Option to accept online payments<br>2.9% + <b>$0.60</b> per credit card transaction<br>3.4% + <b>$0.60</b> per Amex transaction</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Invoice on-the-go with the mobile app</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Manage cash flow <i>and</i> customers in one dashboard</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Unlimited estimates, invoices and bills</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Accept online payments</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Invoice on the go with the mobile app</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#232426" stroke-width="1.8"/></svg><span>Cash flow and customers in one place</span></li>
       </ul>
     </div>
     <div class="pc pro">
       <span class="rec">Recommended</span>
       <div class="head"><div class="tag"><span>PRO</span>Plan</div><p class="desc">Want to look more polished, save more time, and conquer cash flow? It’s Pro time.</p><div class="price" id="proPrice">$250<small>CAD/year</small><em>Billed annually</em></div><a class="btn" href="#">Get started now</a></div>
-      <p class="plus">Everything in Starter, plus….</p>
+      <p class="plus">Everything in Starter, plus:</p>
       <ul>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span><b>Option to accept online payments at a discounted rate</b><br>2.9% + <b>$0</b> per credit card transaction<br>3.4% + <b>$0</b> per Amex transaction</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Lower card processing fees</span></li>
         <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Auto-import bank transactions</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Auto-merge and categorize bank transactions</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Digitally capture unlimited receipts and track expenses</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Automate late payment reminders</span></li>
-        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>And <a href="#">more</a>!</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Auto-categorize transactions</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Unlimited receipt capture</span></li>
+        <li><svg viewBox="0 0 17 13"><path d="M1 6.5l5 5L16 1" fill="none" stroke="#1066da" stroke-width="1.8"/></svg><span>Automatic payment reminders</span></li>
       </ul>
     </div>
-  </div>
-  <div class="adv">
-    <div class="l">
-      <div class="lab">WAVE ADVISORS</div>
-      <h3>Hands-off bookkeeping and financial guidance with in-house experts</h3>
-      <h4>Includes Pro Plan features*, plus:</h4>
-      <div class="cl">
-        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>A dedicated bookkeeper to keep your books accurate and up to date</div>
-        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>Be ready for tax time with clean, organized books and reports</div>
-        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>Monthly financial statements prepared for you</div>
-        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>Onboarding when switching from other accounting software, like Freshbooks</div>
-        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>Expert support to answer your bookkeeping questions, anytime</div>
-        <div><svg viewBox="0 0 21 17"><path d="M1 8.5l6 6.5L20 1" fill="none" stroke="#0041ff" stroke-width="2"/></svg>Optional packages for one-on-one guidance from an accounting coach</div>
-      </div>
-      <p class="foot">*Mobile receipts not included</p>
-    </div>
-    <div class="r"><p class="from">Starting at <b>$199/month</b></p><a class="btn" href="#">Learn more</a><img src="img/advisor-ui.jpg" alt="Wave transactions list with a Wave Advisor"></div>
   </div>
 </section>
 
@@ -516,13 +498,9 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <p class="sub">Stop the tax time terror before it starts. Check out our guides to get prepared.</p>
     <div class="arts" id="arts">
       <a class="art" href="#" data-c="spider" data-f="T4A" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p></div></a>
-      <a class="art" href="#" data-c="dragon" data-f="T2" data-bg="#8f9cff" data-sh="" data-name="T2 dragon"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The complete guide to small business tax season (2026)</h3><p>Take the fear and stress out of tax season with this comprehensive guide to confidently managing your books, audit-proofing your business, and getting your taxes done right.</p></div></a>
       <a class="art" href="#" data-c="hydra" data-f="T2125" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
-      <a class="art" href="#" data-c="scorpion" data-f="T5018" data-bg="#ffe7d6" data-sh="" data-name="T5018 scorpion"><div class="ill"><canvas></canvas></div><div class="tx"><h3>How to file self-employment taxes in Canada — 2026 guide</h3><p>Self-employed in Canada? Learn how to file your taxes: T2125, CPP/QPP, GST/HST, instalments, and deductions—plus how Wave helps you stay organized and CRA-ready.</p></div></a>
-      <a class="art" href="#" data-c="bat" data-f="NOA" data-bg="#8a3ffc" data-sh="" data-name="Audit bat"><div class="ill"><canvas></canvas></div><div class="tx"><h3>How to prepare for a business tax audit</h3><p>Audits can be a bit scary, but to get you prepared for the just-in-case scenario, we’re giving you a breakdown of what a business tax audit is, how it’s triggered, and how you can (hopefully) avoid one.</p></div></a>
-      <a class="art" href="#" data-c="snake" data-f="GST34" data-bg="#76c3fb" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
+      <a class="art" href="#" data-c="snake" data-f="GST34" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
     </div>
-    <div class="more"><a class="btn" href="#">More articles</a></div>
   </div>
 </section>
 
@@ -1087,23 +1065,20 @@ document.fonts && document.fonts.ready.then(() => show(T));
 if (!CLIP) vis.observe(stage); else rb.seek(0);
 if (reduce && !CLIP) rb.seek(0);
 
-/* ---------- article cards: each creature rests at its own stage of unfolding and sways; hover opens it flat ---------- */
+/* ---------- article cards: each creature loops fold -> unfold -> rest -> refold, every card at its own phase ---------- */
 (function(){
-  const STAGE = [0.22, 0.6, 0.05, 0.42, 0.78, 0.3], ease = (x) => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, x)));
+  const PH = [0, 3.4, 6.8], H = 2.2, U = 3, R = 2, F = 3, LOOP = H + U + R + F, ease = (x) => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, x)));
+  const kAt = (t) => { t = ((t % LOOP) + LOOP) % LOOP; if (t < H) return 0; if (t < H + U) return ease((t - H) / U); if (t < H + U + R) return 1; return 1 - ease((t - H - U - R) / F); };
   document.querySelectorAll('.art').forEach((a, n) => {
     const ill = a.querySelector('.ill'), cv = a.querySelector('canvas');
     ill.style.background = a.dataset.bg;
     const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: 0.5, cy: 0.78, fov: 1.95, flatDist: 2.1, yaw: -0.42, flatYaw: 0.25, fps: 30, sway: 0.8 });
-    const stage = STAGE[n % STAGE.length]; let k = reduce || CLIP ? stage : 0, from = k, to = stage, t0 = 0, D = 2.2, vis = false, t = n * 0.9;
-    const go = (target, dur) => { from = k; to = target; t0 = performance.now(); D = dur; };
-    let last = performance.now();
-    const step = (now) => { if (!vis) return; t += (now - last) / 1000; last = now; k = from + (to - from) * ease((now - t0) / 1000 / D); sc.draw(k, Math.floor(t * 30)); requestAnimationFrame(step); };
-    sc.draw(k, 0);
-    let seen = false;
-    new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; const was = vis; vis = e.isIntersecting; if (vis && !was) { if (!seen) { seen = true; go(stage, 2.4); } last = performance.now(); requestAnimationFrame(step); } }), { threshold: 0.4 }).observe(a);
-    a.addEventListener('mouseenter', () => { if (!reduce) go(1, 1.6); });
-    a.addEventListener('mouseleave', () => { if (!reduce) go(stage, 1.8); });
-    addEventListener('resize', () => sc.draw(k, Math.floor(t * 30)));
+    let vis = false, t = PH[n % PH.length], last = 0;
+    const draw = () => sc.draw(kAt(t), Math.floor(t * 30));
+    draw();
+    const step = (now) => { if (!vis) return; t += (now - last) / 1000; last = now; draw(); requestAnimationFrame(step); };
+    new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; const was = vis; vis = e.isIntersecting; if (vis && !was) { last = performance.now(); requestAnimationFrame(step); } }), { threshold: 0.2 }).observe(a);
+    addEventListener('resize', draw);
   });
 })();
 
