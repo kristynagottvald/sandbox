@@ -682,7 +682,7 @@ function drawCard(t){
   const radius = lerp(6, 3, d);
   cx.save();
   cx.translate(CW0 / 2, CH0 / 2); cx.scale(grow, grow); cx.translate(-CW0 / 2, -CH0 / 2);
-  rr(32, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.85)'; cx.fill();   // hard offset shadow, purple
+  rr(50, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.3)'; cx.fill();   // hard offset shadow, purple at 30%
   rr(0, 0, CW0, CH0, radius); cx.fillStyle = PINK; cx.fill();
   cx.save(); rr(0, 0, CW0, CH0, radius); cx.clip();
   if (wire > 0) { cx.globalAlpha = wire; hatch(520, -6, 370, 260, PU, 27, 6); cx.globalAlpha = 1; }
