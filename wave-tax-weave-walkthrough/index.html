@@ -797,11 +797,11 @@ function adHTML(ai,hi,w,h,live){
     s+=`<div class="h" style="left:${w*.08}px;right:${w*.08}px;top:${h*.14}px;font-size:${w*.125}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${w*.08}px;bottom:${h*.05}px;font-size:${w*.055}px;padding:${w*.035}px ${w*.06}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
   }else if(r<1.3){ // square: headline lower, no CTA, creature bottom right bleeding off the right edge
-    s+=IMG(`width:${w*1.5}px;top:${h*.6}px;left:${w*.76}px`,w*1.5);
+    s+=IMG(`width:${w*1.08}px;top:${h*.6}px;left:${w*.58}px`,w*1.08);
     s+=`<div class="wm" style="right:${w*.045}px;top:${w*.04}px;font-size:${w*.06}px;color:${fg}">wave</div>`;
     s+=`<div style="position:absolute;left:${w*.07}px;top:${h*.17}px;width:${w*.8}px"><div class="h" style="position:static;font-size:${w*.095}px;color:${fg}">${H}</div><div class="sub" style="position:static;margin-top:${w*.012}px;width:${w*.7}px;font-size:${w*.033}px;color:${fg}">${SUB[hi]||''}</div></div>`;
   }else{ // wide 1.91 / 12:5
-    s+=IMG(`width:${h*2.6}px;left:${w*.72}px;top:${h*.3}px`,h*2.6);
+    s+=IMG(`width:${h*2.4}px;left:${w*.72}px;top:${h*.46}px`,h*2.4);
     s+=`<div class="wm" style="left:${h*.1}px;top:${h*.1}px;font-size:${h*.1}px;color:${fg}">wave</div>`;
     s+=`<div class="h" style="left:${h*.1}px;width:${w*.48}px;top:${h*.3}px;font-size:${h*(r>2.2?.15:.13)}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${h*.1}px;bottom:${h*.1}px;font-size:${h*.065}px;padding:${h*.04}px ${h*.075}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
