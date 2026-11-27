@@ -544,7 +544,7 @@ $('#qr1').innerHTML = qr(7); $('#qr2').innerHTML = qr(11); $('#qr3').innerHTML =
 requestAnimationFrame(() => document.body.classList.add('ready'));
 const HC = { bleed: $('#bleed'), qa: $('#qaChip'), rail: $('#rail'), gal: $('#gal'), chk: $('#chk'), cur: $('#hcur'), scan: $('#scanl'), ants: $('#antsP') };
 const railB = {}; document.querySelectorAll('#rail b').forEach((b) => (railB[b.dataset.t] = b));
-const PU = '#4131f1', MINT = '#c9f0e4', ORANGE = '#ff9a42', HOT = '#d244de', WHITE = '#ffffff', SOFT = '#9d94f7';
+const PU = '#4131f1', MINT = '#c9f0e4', PINK = '#fba4ff', HOT = '#d244de', WHITE = '#ffffff', SOFT = '#9d94f7';
 const CW0 = 880, CH0 = 480, KS = 620 / CW0, CX0 = 40, CY0 = 46;   // card space -> stage px
 const SWL = 7;
 // the sketch's three layout poses for the five outlined boxes, moved into card space
@@ -578,7 +578,7 @@ function drawEl(i, t){
   cx.save(); cx.globalAlpha = fade;
   cx.translate(v[0] + v[2] / 2, v[1] + v[3] / 2 - hop * 24);
   const g = grow * (.92 + .08 * fade); cx.scale(g, g);
-  cx.fillStyle = ORANGE; cx.strokeStyle = PU; cx.lineWidth = SWL;
+  cx.fillStyle = PINK; cx.strokeStyle = PU; cx.lineWidth = SWL;
   cx.beginPath(); cx.rect(-v[2] / 2, -v[3] / 2, v[2], v[3]); cx.fill(); cx.stroke();
   cx.restore();
 }
@@ -626,7 +626,7 @@ function drawDesign(t){
     cx.font = '500 38px Inter, Helvetica, Arial, sans-serif'; cx.fillStyle = WHITE;
     const l2 = REST.slice(0, Math.max(0, n - 1));
     cx.fillText(l2, 53, 140);
-    if (t < 9.8 && Math.floor(t * 4) % 2 === 0) { cx.fillStyle = ORANGE; cx.fillRect(53 + cx.measureText(l2).width + 3, 108, 3, 38); }
+    if (t < 9.8 && Math.floor(t * 4) % 2 === 0) { cx.fillStyle = PINK; cx.fillRect(53 + cx.measureText(l2).width + 3, 108, 3, 38); }
     cx.restore();
   }
   // checklist: check circles pop, bars grow, later real text
@@ -681,7 +681,7 @@ function drawCard(t){
   cx.save();
   cx.translate(CW0 / 2, CH0 / 2); cx.scale(grow, grow); cx.translate(-CW0 / 2, -CH0 / 2);
   rr(32, 32, CW0, CH0, radius); cx.fillStyle = HOT; cx.fill();   // hard offset shadow
-  rr(0, 0, CW0, CH0, radius); cx.fillStyle = ORANGE; cx.fill();
+  rr(0, 0, CW0, CH0, radius); cx.fillStyle = PINK; cx.fill();
   cx.save(); rr(0, 0, CW0, CH0, radius); cx.clip();
   if (wire > 0) { cx.globalAlpha = wire; hatch(520, -6, 370, 260, PU, 27, 6); cx.globalAlpha = 1; }
   drawDesign(t);
