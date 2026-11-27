@@ -20,7 +20,7 @@ button{font:inherit;cursor:pointer}
 .wrap{max-width:1352px;margin:0 auto;padding:0 24px}
 .narrow{max-width:1092px;margin:0 auto;padding:0 24px}
 .serif{font-family:var(--serif);font-weight:450;letter-spacing:-.01em;font-variation-settings:"opsz" 40}
-.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 34px;border-radius:999px;background:var(--blue);color:#fff;font:600 18px var(--sans);text-decoration:none;border:2px solid var(--blue);white-space:nowrap;transition:background .2s,transform .2s}
+.btn{display:inline-flex;align-items:center;justify-content:center;height:48px;padding:0 34px;border-radius:999px;background:var(--blue);color:#fff;font:700 18px var(--sans);text-decoration:none;border:2px solid var(--blue);white-space:nowrap;transition:background .2s,transform .2s}
 .btn:hover{background:#0035d1;border-color:#0035d1}
 .btn.ghost{background:transparent;color:var(--blue)}
 .btn.ghost:hover{background:#e5ecff}
@@ -163,17 +163,17 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .phead{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
 .phead h2{font-size:64px;line-height:1;letter-spacing:-.02em;color:var(--navy);white-space:nowrap}
 @media (max-width:1180px){.phead h2{white-space:normal}}
-.phead h2 em{font-style:italic;color:var(--purple)}
+.phead h2 em{font-style:italic;color:inherit}
 .phead p{font-size:20px;line-height:1.4;margin-top:16px;color:#3b3d40}
-.tog .pill{display:flex;gap:4px;height:56px;background:#fff;border:1.5px solid var(--navy);border-radius:999px;padding:5px}
+.tog .pill{display:flex;gap:4px;height:56px;background:#eaf5ff;border:1.5px solid var(--navy);border-radius:999px;padding:5px}
 .tog .pill button{border:0;background:none;border-radius:999px;font:600 17px var(--sans);color:var(--navy);padding:0 24px;display:flex;align-items:center;gap:10px;white-space:nowrap}
 .tog .pill button.on{background:var(--navy);color:#fff}
 .tog{display:flex;align-items:center;gap:18px}
 .tog .save{display:flex;align-items:center;gap:7px;color:var(--purple);font:700 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
 .tog .save svg{width:15px;height:15px;fill:currentColor}
-.prices{display:grid;grid-template-columns:1fr 1fr;margin-top:48px;border:1.5px solid var(--navy);border-radius:24px;overflow:hidden;background:#fff}
+.prices{display:grid;grid-template-columns:1fr 1fr;margin-top:48px;border:1.5px solid #a9d3f7;border-radius:24px;overflow:hidden;background:#fff}
 .pc{position:relative;display:flex;flex-direction:column}
-.pc+.pc{border-left:1.5px solid var(--navy)}
+.pc+.pc{border-left:1.5px solid #a9d3f7}
 .pc .head{background:#eaf5ff;color:var(--navy);padding:40px 44px 40px}
 .pc.pro .head{background:var(--navy);color:#fff}
 .pc .tag{display:flex;align-items:center;gap:9px;font:700 22px var(--sans)}
@@ -225,7 +225,7 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .learn{padding:130px 0 0}
 .learn .sub{text-align:center;font-size:21px;margin-top:14px}
 .arts{display:grid;grid-template-columns:repeat(3,1fr);gap:29px;margin-top:46px}
-.art{border:2px solid #4e6575;background:var(--cream);text-decoration:none;display:block;position:relative}
+.art{border:2px solid #a9d3f7;background:var(--cream);text-decoration:none;display:block;position:relative}
 .art .ill{height:205px;position:relative;overflow:hidden}
 .art .ill canvas{position:absolute;inset:0;width:100%;height:100%}
 .art{display:flex!important;flex-direction:column}
@@ -443,7 +443,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
         <p>Hand your books to a dedicated Wave bookkeeper. They catch you up, keep every transaction categorized and reconciled, and hand you clean, tax-ready reports before the CRA deadline.</p>
         <a class="btn" href="#">Meet your advisor</a>
       </div>
-      <img src="img/advisor-duo.jpg" alt="A smiling Wave advisor in a grey suit takes notes at her desk, in front of a purple background repeating the word ADVISOR in outline type">
+      <img src="img/advisor-duo.jpg" alt="A smiling Wave advisor in a grey suit takes notes at her desk, in front of a purple background repeating the word ADVISORS in outline type">
     </div>
   </div>
 </section>
@@ -462,7 +462,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
       <div class="st n"><div class="big">9<small>out of 10</small></div><p>Wave small business owners say <b>Wave is easier</b> than QuickBooks.</p></div>
       <div class="st ph"><img src="img/stat-photo-duo.jpg" alt="A man in full colour drives a screw into a wooden frame, the desert behind him tinted purple"></div>
       <div class="st s"><div class="big">92%</div><p>of Wave small business owners who switched from QuickBooks agree <b>Wave offers more value.</b></p></div>
-      <div class="r2"><div class="st ph"><img src="img/dashboard.jpg" alt="The Wave dashboard with an expenses breakdown donut chart and a cash flow bar chart" style="object-position:left top"></div><div class="st ph"><img src="img/laptop-duo.jpg" alt="A woman in full colour works on her laptop, the kitchen behind her tinted pink"></div></div>
+      <div class="r2"><div class="st ph" style="border:1.5px solid #c9ccd2"><img src="img/dashboard.jpg" alt="The Wave dashboard with an expenses breakdown donut chart and a cash flow bar chart" style="object-position:left top"></div><div class="st ph"><img src="img/laptop-duo.jpg" alt="A woman in full colour works on her laptop, the kitchen behind her tinted pink"></div></div>
     </div>
   </div>
 </section>
@@ -532,7 +532,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 <section class="fcta">
   <canvas class="ftart" id="ftart" aria-label="Three crumpled CRA forms open out into a neat stack of paper"></canvas>
-  <div class="wrap"><h2 class="serif">Ready to kick tax season’s <em>butt?</em></h2><p>Get organized, stay tax-ready all year, and file without fear.</p><a class="btn pink" href="#plans">Get started now</a></div>
+  <div class="wrap"><h2 class="serif">Ready to make tax season <em>painless?</em></h2><p>Get organized, stay tax-ready all year, and file without fear.</p><a class="btn pink" href="#plans">Get started now</a></div>
 </section>
 
 <footer>
@@ -1165,7 +1165,7 @@ if (reduce && !CLIP) rb.seek(0);
     const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
     cv.getContext('2d').clearRect(0, 0, w, h);
-    sc.forEach((x, n) => { x.o.lift = Math.sin(t * 0.9 + n * 0.8) * 0.025; x.draw(0, 0); });
+    sc.forEach((x, n) => { x.o.lift = -0.16 * (0.4 + 0.3 * n) * (0.5 - 0.5 * Math.cos(t * 0.95 + n * 0.7)); x.draw(0, 0); });
   };
   let vis = false, t0 = performance.now();
   const step = (now) => { if (!vis) return; draw((now - t0) / 1000); requestAnimationFrame(step); };
