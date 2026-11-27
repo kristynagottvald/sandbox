@@ -1,5 +1,14 @@
 [
   {
+    "id": "lob-mail-call",
+    "title": "Lob Mail Call",
+    "category": "Mockup",
+    "url": "lob-mail-call/",
+    "thumbnail": "lob-mail-call/thumb.png",
+    "preview": "lob-mail-call/thumb.webp",
+    "alt": "A folded four page newspaper called Mail Call, set from Lob's State of Direct Mail 2026 article, floating on dark navy: the outside spread shows the back cover with a mailbox crossword and the front page with a black ink mailbox illustration and big stat tiles in purple, pink and magenta, then it turns on its vertical axis as if dragged, showing the inside spread of pages two and three before turning back to the outside."
+  },
+  {
     "id": "wave-file-without-fear",
     "title": "Wave File Without Fear",
     "category": "Landing Page",

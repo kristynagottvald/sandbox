@@ -25,6 +25,13 @@ const domClick = (p, sel) => p.evaluate((s) => document.querySelector(s).click()
 /* vp: viewport, crop: [x, y, w, h] in css px (16:9, becomes 960x540), run: timeline of actions (ms after the page is ready).
    Apps that move on their own just wait; the others are driven the way a visitor would use them. */
 const APPS = {
+  // Lob Mail Call, a folded four page newspaper in 3D on dark navy: starts on the outside spread (back cover | front page) at a slight angle, turns over to the inside spread (pages 2 | 3) as if dragged, and turns back round to the outside
+  'lob-mail-call': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1200, q: 28, run: async (p) => {
+    const t0 = Date.now(), go = (d, ms) => p.evaluate(([a, b]) => window.__np.go(a, b), [d, ms]);
+    await at(t0, 800, () => go(180, 1700));
+    await at(t0, 3500, () => go(353, 1700));
+    await sleep(1100);
+  } },
   // Wave File Without Fear, a Wave tax-season landing page: on full-bleed blue, a paper dragon folded from a CRA T1 form holds, then unfolds in 12 fps stop motion into a flat creased sheet (starts on the folded dragon)
   'wave-file-without-fear': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1200, q: 44, run: async (p) => {
     await p.evaluate(() => window.__rb.seek(0));
