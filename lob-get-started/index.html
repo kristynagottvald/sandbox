@@ -277,7 +277,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .cursor{position:absolute;left:0;top:0;width:24px;height:24px;z-index:9;pointer-events:none}
 .fly{position:absolute;z-index:8;opacity:0}
 /* editor: floating tool rail, layouts that animate between the template and the imported insurance design */
-.etools{position:absolute;left:18px;top:212px;width:164px;padding-top:16px;border-top:1px solid rgba(255,255,255,.22);z-index:3}
+.etools{position:absolute;left:18px;top:84px;width:164px;padding-top:16px;border-top:1px solid rgba(255,255,255,.22);z-index:3}
 .etools h6{margin:0 0 8px 10px;font:600 10px var(--sans);letter-spacing:.18em;color:rgba(255,255,255,.6)}
 .etools b{height:34px;margin-bottom:4px;padding:0 10px;display:flex;align-items:center;gap:11px;border-radius:8px;font:500 13px var(--sans);color:rgba(255,255,255,.88);transition:background .2s,color .2s}
 .etools b svg{width:15px;height:15px;flex:none}
@@ -298,8 +298,8 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 #ab.l2 #antsI{left:-6px;top:-6px;width:208px;height:292px}
 .ab .band p,.ab .band .qr{transition:all .6s cubic-bezier(.6,0,.2,1)}
 #tplH p{max-width:none;white-space:nowrap}
-@media (max-width:640px){#tplH p{white-space:normal}}
-#veH p{min-height:2.9em;max-width:520px;transition:opacity .3s,filter .3s,transform .3s}
+@media (max-width:640px){#tplH p,#veH p{white-space:normal}#veH p{min-height:2.9em}}
+#veH p{min-height:1.45em;max-width:none;white-space:nowrap;transition:opacity .3s,filter .3s,transform .3s}
 #veH p.sw{opacity:0;filter:blur(4px);transform:translateY(6px)}
 .steps{position:absolute;left:0;top:622px;width:960px;display:flex;justify-content:center;gap:10px}
 .steps b{height:38px;padding:0 16px;display:flex;align-items:center;gap:8px;border-radius:99px;border:1px solid rgba(255,255,255,.22);font:500 14px var(--sans);color:rgba(255,255,255,.7);transition:background .3s,color .3s,border-color .3s;white-space:nowrap}
@@ -442,9 +442,6 @@ footer nav{display:flex;gap:22px;margin-left:auto;flex-wrap:wrap}
       <div class="glow" id="veG"></div>
       <div class="ed">
         <div class="side"><img src="assets/logo.png" alt="Lob">
-          <div class="st" style="top:84px"><span>1</span><svg width="11" height="11" viewBox="0 0 12 12"><path d="M2.5 6.2l2.3 2.3 4.7-5" fill="none" stroke="#4131f1" stroke-width="1.8" stroke-linecap="round"/></svg><i>AUDIENCE</i></div>
-          <div class="st" style="top:122px"><span>2</span>CREATIVE</div>
-          <div class="st dim" style="top:160px"><span>3</span><i>REVIEW</i></div>
         </div>
         <div class="cap">CHOOSE YOUR CREATIVE</div>
         <div class="ph" style="left:236px;top:56px;width:90px"></div><div class="ph" style="left:236px;top:72px;width:260px"></div>
@@ -784,7 +781,7 @@ const T_EDIT = 'Spring into savings';
 const NAMES = [['Jordan', 'Austin, TX'], ['Priya', 'Denver, CO'], ['Sam', 'Raleigh, NC'], ['Alex', 'Tacoma, WA']];
 let antsOff = 0;
 // cursor keyframes in editor coordinates: [progress, x, y]
-const CK = [[0, 900, 640], [.06, 270, 118], [.1, 344, 118], [.13, 417, 118], [.17, 344, 118], [.2, 270, 118], [.23, 500, 118], [.27, 92, 444], [.34, 820, 470], [.37, 560, 380], [.42, 840, 520], [.5, 560, 262], [.62, 560, 272], [.68, 380, 330], [.78, 400, 340], [.82, 800, 446], [.9, 560, 262], [1, 560, 262]];
+const CK = [[0, 900, 640], [.06, 270, 118], [.1, 344, 118], [.13, 417, 118], [.17, 344, 118], [.2, 270, 118], [.23, 500, 118], [.27, 92, 316], [.34, 820, 470], [.37, 560, 380], [.42, 840, 520], [.5, 560, 262], [.62, 560, 272], [.68, 380, 330], [.78, 400, 340], [.82, 800, 446], [.9, 560, 262], [1, 560, 262]];
 function cursorAt(p){
   for (let i = 1; i < CK.length; i++) if (p <= CK[i][0]) { const a = CK[i - 1], b = CK[i]; const t = easeIO((p - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], t), lerp(a[2], b[2], t)]; }
   return CK[CK.length - 1].slice(1);
