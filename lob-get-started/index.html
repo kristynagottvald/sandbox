@@ -569,10 +569,10 @@ const EL_ORDER = [3, 4, 2, 0, 1];
 const IMG1 = new Image(); IMG1.src = 'assets/care-1.webp';
 const IMG2 = new Image(); IMG2.src = 'assets/care-2.webp';
 const IMG3 = new Image(); IMG3.src = 'assets/care-3.webp';
-const QRM = (() => { const out = [];   // a simplified 11 x 11 code: three finder squares and a few data blocks
-  const finder = (ox, oy) => { for (let y = 0; y < 4; y++) for (let x = 0; x < 4; x++) if (x === 0 || y === 0 || x === 3 || y === 3) out.push([ox + x, oy + y]); out.push([ox + 1.5, oy + 1.5]); };
-  finder(0, 0); finder(7, 0); finder(0, 7);
-  for (const p of [[5, 1], [5, 3], [6, 5], [8, 5], [10, 5], [5, 6], [7, 7], [9, 7], [5, 8], [8, 8], [10, 9], [6, 10], [8, 10], [10, 10], [1, 5], [3, 5]]) out.push(p);
+const QRM = (() => { const out = [];   // a simplified 15 x 15 code: three thin finder squares and a few data blocks
+  const finder = (ox, oy) => { for (let y = 0; y < 5; y++) for (let x = 0; x < 5; x++) if (x === 0 || y === 0 || x === 4 || y === 4) out.push([ox + x, oy + y]); out.push([ox + 2, oy + 2]); };
+  finder(0, 0); finder(10, 0); finder(0, 10);
+  for (const p of [[7, 1], [7, 3], [6, 6], [8, 6], [10, 7], [12, 7], [14, 7], [1, 7], [3, 7], [7, 8], [9, 9], [11, 9], [13, 10], [7, 10], [8, 12], [10, 12], [12, 13], [14, 12], [7, 14], [10, 14], [13, 14]]) out.push(p);
   return out; })();
 const LOOP = 19.4;
 const span = (t, a, b) => cl((t - a) / (b - a));
@@ -604,7 +604,7 @@ function drawDesign(t){
   if (lw > 0) { cx.fillStyle = PU; cx.fillRect(560, 390, 320 * lw, 90); }
   // photo slot: image 1 fades and settles in, image 2 replaces it later
   const e1 = ease(span(t, 5.5, 6.3)), e2 = ease(span(t, 11.1, 11.7)), e3 = ease(span(t, 12.1, 12.7));
-  for (const [img, e, fx] of [[IMG1, e1, .5], [IMG2, e2, .62], [IMG3, e3, .45]]) {
+  for (const [img, e, fx] of [[IMG2, e1, .62], [IMG3, e2, .45], [IMG1, e3, .5]]) {   // check-up, wellness, then the care team photo is the one chosen
     if (e <= 0) continue;
     cx.save(); cx.beginPath(); cx.rect(500, 0, 380, 390); cx.clip(); cx.globalAlpha = e;
     cover(img, 500, 0, 380, 390, fx, .3, 1.1 - .1 * e); cx.restore();
@@ -662,7 +662,7 @@ function drawDesign(t){
     cx.save(); cx.globalAlpha = 1 - qr; cx.strokeStyle = PU; cx.lineWidth = 3.6;
     const br = (x, y, dx, dy) => { cx.beginPath(); cx.moveTo(x + dx * 16, y); cx.lineTo(x, y); cx.lineTo(x, y + dy * 16); cx.stroke(); };
     br(28, 28, 1, 1); br(88, 28, -1, 1); br(28, 88, 1, -1); br(88, 88, -1, -1); cx.restore();
-    if (qr > 0) { cx.save(); cx.beginPath(); cx.rect(12, 12, 92, 92 * qr); cx.clip(); cx.fillStyle = '#1e2245'; const m = 92 / 11; for (const [x, y] of QRM) cx.fillRect(12 + x * m, 12 + y * m, m + .2, m + .2); cx.restore(); }
+    if (qr > 0) { cx.save(); cx.beginPath(); cx.rect(12, 12, 92, 92 * qr); cx.clip(); cx.fillStyle = '#1e2245'; const m = 92 / 15; for (const [x, y] of QRM) cx.fillRect(12 + x * m, 12 + y * m, m + .2, m + .2); cx.restore(); }
     cx.restore();
   }
   // URL: two bars and a pill, later the PURL on hot pink
@@ -704,7 +704,7 @@ function drawCard(t){
   cx.restore();
 }
 // cursor keyframes in stage px: [t, x, y]
-const HK = [[0, 640, 470], [.4, -64, 65], [4.6, -64, 65], [5.0, 574, 50], [5.6, 574, 50], [6.2, -64, 145], [6.8, -64, 105], [7.6, -64, 225], [8.4, -64, 185], [8.8, -64, 145], [9.9, -64, 225], [10.5, -64, 185], [11.0, 660, 50], [11.6, 660, 52], [11.9, 746, 50], [12.6, 746, 52], [13.1, 760, 470], [LOOP, 760, 470]];
+const HK = [[0, 640, 470], [.4, -64, 65], [4.6, -64, 65], [5.0, 660, 50], [5.6, 660, 50], [6.2, -64, 145], [6.8, -64, 105], [7.6, -64, 225], [8.4, -64, 185], [8.8, -64, 145], [9.9, -64, 225], [10.5, -64, 185], [11.0, 746, 50], [11.6, 746, 52], [11.9, 574, 50], [12.6, 574, 52], [13.1, 760, 470], [LOOP, 760, 470]];
 function at(t, K){ for (let i = 1; i < K.length; i++) if (t <= K[i][0]) { const a = K[i - 1], b = K[i]; const k = easeIO((t - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k)]; } return K[K.length - 1].slice(1); }
 const tog = (el, c, on) => el.classList.toggle(c, !!on);
 function heroAt(t, S){
@@ -721,9 +721,9 @@ function heroAt(t, S){
   for (const k in railB) tog(railB[k], 'on', k === tool);
   // gallery: image 1 then image 2, the photo slot follows
   tog(HC.gal, 'on', t >= 5.0 && t < 13.0);
-  tog($('#g1'), 'on', t >= 5.4 && t < 10.9);
-  tog($('#g2'), 'on', t >= 10.9 && t < 11.9);
-  tog($('#g3'), 'on', t >= 11.9 && t < 13.0);
+  tog($('#g2'), 'on', t >= 5.4 && t < 10.9);
+  tog($('#g3'), 'on', t >= 10.9 && t < 11.9);
+  tog($('#g1'), 'on', t >= 11.9 && t < 13.0);
   HC.ants.style.opacity = (t >= 5.4 && t < 6.4) || (t >= 10.9 && t < 12.8) ? 1 : 0;
   HC.bleed.style.opacity = t >= 13.2 && t < 14.6 ? 1 : 0;
   const sc = span(t, 14.8, 16.0);
