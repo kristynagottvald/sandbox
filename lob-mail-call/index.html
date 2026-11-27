@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lob Mail Call</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%234131f1%22/%3E%3Crect x=%228%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23ece8dd%22/%3E%3Crect x=%2234%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23ece8dd%22/%3E%3Crect x=%2211%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%2316151a%22/%3E%3Crect x=%2237%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%2316151a%22/%3E%3Crect x=%2211%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23d045dc%22/%3E%3Crect x=%2237%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23e4ee5c%22/%3E%3Crect x=%2230%22 y=%2210%22 width=%224%22 height=%2244%22 fill=%22%232b2d83%22/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%231c2170%22/%3E%3Crect x=%228%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23ece8dd%22/%3E%3Crect x=%2234%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23ece8dd%22/%3E%3Crect x=%2211%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%231c2170%22/%3E%3Crect x=%2237%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%231c2170%22/%3E%3Crect x=%2211%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%238a8cbd%22/%3E%3Crect x=%2237%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23b9bad6%22/%3E%3Crect x=%2230%22 y=%2210%22 width=%224%22 height=%2244%22 fill=%22%231c2170%22/%3E%3C/svg%3E">
 <meta name="description" content="Mail Call, a four page printed newspaper about Lob's State of Direct Mail 2026: read it page by page on screen, or drag it around as a folded 3D paper from the outside pages to the inner spread.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:ital,wght@1,400;1,500&display=swap">
 <style>
-:root{--paper:#ece8dd;--ink:#16151a;--blue:#4131f1;--pink:#f7dffa;--mag:#d045dc;--lime:#e4ee5c;--navy:#2b2d83;--bg:#12143a;
+:root{--paper:#ece8dd;--ink:#1c2170;--blue:var(--ink);--pink:color-mix(in srgb,var(--ink) 14%,var(--paper));--mag:color-mix(in srgb,var(--ink) 34%,var(--paper));--lime:color-mix(in srgb,var(--ink) 22%,var(--paper));--navy:color-mix(in srgb,var(--ink) 72%,var(--paper));--bg:#12143a;
 --sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--serif:"Newsreader",Georgia,"Times New Roman",serif}
 *{box-sizing:border-box;margin:0}
 html,body{height:100%}
@@ -109,10 +109,10 @@ html.clip .arr,html.clip #hint,html.clip #cap,html.clip #pill{display:none}
 .rule.t{height:1px}
 .folio{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:10px;border-top:1px solid var(--ink);font:600 9px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase}
 .tile{border-radius:16px;padding:14px 16px;position:relative}
-.t-b{background:var(--blue);color:#fff}
+.t-b{background:var(--blue);color:#f3efe4}
 .t-p{background:var(--pink);color:var(--blue)}
-.t-m{background:var(--mag);color:#fff}
-.t-n{background:var(--navy);color:#fff}
+.t-m{background:var(--mag);color:var(--ink)}
+.t-n{background:var(--navy);color:#f3efe4}
 .t-l{background:var(--lime);color:var(--ink)}
 .t-k{background:var(--ink);color:#f3efe4}
 .big{font:800 46px/.9 var(--sans);letter-spacing:-.06em}
@@ -153,7 +153,9 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 </main>
 <script>
 /* ---------- ink illustrations (inline svg, no ids so every copy of a page is independent) ---------- */
-const INK='#16151a',PAP='#f1eee4',BLU='#4131f1',MAG='#d045dc',PNK='#f7dffa',LIM='#e4ee5c';
+const INK='#1c2170',PAP='#f1eee4',BLU=INK;
+const tint=k=>'#'+[0,1,2].map(i=>{const p=parseInt(PAP.slice(1+2*i,3+2*i),16),n=parseInt(INK.slice(1+2*i,3+2*i),16);return Math.round(p+(n-p)*k).toString(16).padStart(2,'0')}).join('');
+const MAG=tint(.42),PNK=tint(.16),LIM=tint(.26);
 const rect=(x,y,w,h,f='none',sw=2,extra='')=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}" stroke="${INK}" stroke-width="${sw}" ${extra}/>`;
 const line=(x1,y1,x2,y2,sw=1.4)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${INK}" stroke-width="${sw}" stroke-linecap="round"/>`;
 function hatch(x,y,w,h,gap,sw=1){let s='';for(let i=gap;i<w+h;i+=gap){s+=line(x+Math.min(i,w),y+Math.max(0,i-w),x+Math.max(0,i-h),y+Math.min(i,h),sw)}return s}
@@ -182,8 +184,8 @@ function mailbox(cx,base,sc=1){
   return `<g transform="translate(${cx} ${base}) scale(${sc})">`+
   rect(-6,-92,12,92,PAP,2.4)+hatch(-6,-92,12,92,6,.9)+
   `<path d="M-64 -86V-122a40 40 0 0 1 40-40H24a40 40 0 0 1 40 40V-86Z" fill="${BLU}" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/>`+
-  `<path d="M-52 -92V-122a28 28 0 0 1 28-28H20a28 28 0 0 1 28 28V-92" fill="none" stroke="#fff" stroke-width="2.4" opacity=".85"/>`+
-  `<text x="0" y="-108" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="19" fill="#fff" letter-spacing="-.5">lob</text>`+
+  `<path d="M-52 -92V-122a28 28 0 0 1 28-28H20a28 28 0 0 1 28 28V-92" fill="none" stroke="${PAP}" stroke-width="2.4" opacity=".85"/>`+
+  `<text x="0" y="-108" text-anchor="middle" font-family="Inter,sans-serif" font-weight="800" font-size="19" fill="${PAP}" letter-spacing="-.5">lob</text>`+
   rect(-72,-88,144,8,INK,0)+
   rect(64,-150,5,64,PAP,2)+`<path d="M69 -150h34v22H69Z" fill="${MAG}" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round"/>`+
   envelope(-26,-170,56,38,-12,PAP,MAG,false)+envelope(8,-176,54,36,9,PNK,BLU,false)+
@@ -202,7 +204,7 @@ function mbIcon(c=INK){return `<svg viewBox="0 0 100 100" width="84" height="84"
 function fatigue(){
   let s='';const cw=34,ch=23;
   for(let r=0;r<5;r++)for(let c=0;c<12;c++){const x=6+c*(cw+3),y=6+r*(ch+3);const hot=(r*12+c)%11===4;
-    s+=`<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="2" fill="${hot?'#c9c2b0':'none'}" stroke="${INK}" stroke-width="1.1" opacity=".55"/><path d="M${x} ${y}l${cw/2} ${ch*.55}l${cw/2} -${ch*.55}" fill="none" stroke="${INK}" stroke-width="1" opacity=".55"/>`;
+    s+=`<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="2" fill="${hot?tint(.22):'none'}" stroke="${INK}" stroke-width="1.1" opacity=".55"/><path d="M${x} ${y}l${cw/2} ${ch*.55}l${cw/2} -${ch*.55}" fill="none" stroke="${INK}" stroke-width="1" opacity=".55"/>`;
     if(hot)s+=`<circle cx="${x+cw-3}" cy="${y+3}" r="4.5" fill="${MAG}"/>`}
   s+=`<rect x="472" y="2" width="226" height="140" rx="10" fill="${PNK}" stroke="${INK}" stroke-width="2.6"/>`+
      `<rect x="486" y="16" width="102" height="112" rx="4" fill="${BLU}"/><path d="M486 128l34-40 26 26 16-14 26 28Z" fill="${INK}" opacity=".35"/><circle cx="548" cy="46" r="14" fill="${LIM}"/>`+
@@ -276,7 +278,7 @@ ${foot(1,'Front page')}`,
 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:16px 0">
   <div class="tile t-p" style="display:flex;gap:10px;align-items:center;padding:12px 12px">${donut(63,BLU,78)}<div><div class="big" style="font-size:34px">63%</div><div class="cap2" style="margin-top:4px">collect their mail every single day</div></div></div>
   <div class="tile t-l" style="padding:12px 14px"><div class="big" style="font-size:34px">7 in 10</div><div class="cap2" style="margin:5px 0 9px">Boomers check mostly out of habit</div>${dots(7,10,INK)}</div>
-  <div class="tile t-m" style="padding:12px 14px"><div class="big" style="font-size:34px">49%</div><div class="cap2" style="margin:5px 0 9px">of Gen Z check because they're expecting something</div><div style="height:10px;border-radius:99px;background:rgba(255,255,255,.3)"><div style="width:49%;height:100%;border-radius:99px;background:#fff"></div></div></div>
+  <div class="tile t-m" style="padding:12px 14px"><div class="big" style="font-size:34px">49%</div><div class="cap2" style="margin:5px 0 9px">of Gen Z check because they're expecting something</div><div style="height:10px;border-radius:99px;background:rgba(28,33,112,.22)"><div style="width:49%;height:100%;border-radius:99px;background:var(--ink)"></div></div></div>
 </div>
 <div class="bd c2" style="font-size:13px"><p>Nearly two thirds of consumers (63%) collect their mail every single day. But the motivations vary by generation. More than 7 in 10 Boomers say they check their mail primarily out of habit, while 49% of Gen Z check because they're expecting something.</p><p>No matter the reason, your goal is the same: land in the moment. Meet people where the routine already is, and the mailbox does the rest of the work for you.</p></div>
 <div class="try" style="margin:24px 0 12px;color:var(--blue)">Try this in your next campaign</div>
@@ -305,7 +307,7 @@ ${foot(2,'Page two')}`,
 ['Skip the fake urgency','Give them a real reason to act instead of just “ACT NOW” messaging.'],
 ['Make it personal','Personalization can make or break campaign ROI.']],['t-k','t-n','t-b'])}</div>
 <div style="height:2px;background:var(--ink);margin:20px 0 14px"></div>
-<div class="sec"><div class="num" style="background:var(--mag)">3</div><div style="flex:1"><div class="hl" style="font-size:32px">Design for more than an immediate response</div></div></div>
+<div class="sec"><div class="num" style="background:var(--navy)">3</div><div style="flex:1"><div class="hl" style="font-size:32px">Design for more than an immediate response</div></div></div>
 <div style="display:grid;grid-template-columns:150px 1fr;gap:16px;margin-top:12px;align-items:start">
   <div class="tile t-l" style="padding:12px 14px"><div class="big" style="font-size:40px">33%</div><div class="cap2" style="margin-top:6px">value mail because they can remember it or come back to it later</div></div>
   <div class="bd"><p>Useful mail is more likely to be read and held on to. Give yours a longer life by including information worth keeping: product comparisons, deadlines, pricing, checklists, special offers or discount codes turn mail into a resource people can return to when they're ready.</p></div>
@@ -320,7 +322,7 @@ ${foot(3,'Page three')}`,
 /* 4 · back cover */
 ()=>`
 <div style="display:grid;grid-template-columns:1fr 1.18fr;gap:14px">
-  <div class="tile" style="background:#dfe9d6;padding:16px 18px;display:flex;flex-direction:column;justify-content:space-between;min-height:232px">
+  <div class="tile" style="background:var(--lime);padding:16px 18px;display:flex;flex-direction:column;justify-content:space-between;min-height:232px">
     <div><span class="rep" style="font-size:40px;height:35px;-webkit-text-stroke:1.1px var(--ink)">lob</span><span class="rep" style="font-size:40px;height:35px;-webkit-text-stroke:1.1px var(--ink)">lob</span><span class="rep" style="font-size:40px;height:35px;color:var(--ink)">lob</span><span class="rep" style="font-size:40px;height:35px;-webkit-text-stroke:1.1px var(--ink)">lob</span></div>
     <div style="display:flex;justify-content:space-between;align-items:flex-end"><div style="font:500 13px/1.25 var(--sans)">Great mail makes<br>great campaigns</div>${mbIcon()}</div></div>
   <div class="tile t-n" style="padding:12px 14px 14px"><div style="display:flex;justify-content:space-between;align-items:baseline"><div class="hm" style="font-size:18px">Mailbox crossword</div><div class="k" style="font-size:8px;color:var(--pink)">Answer key</div></div>
@@ -328,7 +330,7 @@ ${foot(3,'Page three')}`,
     <div style="font:400 10.5px/1.45 var(--sans);color:rgba(255,255,255,.9)"><b style="color:var(--lime)">Across</b><br>4 A mail piece with a picture (8)<br><b style="color:var(--lime)">Down</b><br>1 Longer format with room for the story (6)<br>2 The carrier's daily path (5)<br>3 Where customers show up daily (7)<br>5 The fatigue that makes mail stand out (7)</div></div></div>
 </div>
 <div style="height:2px;background:var(--ink);margin:18px 0 14px"></div>
-<div class="sec"><div class="num" style="background:var(--navy)">4</div><div style="flex:1"><div class="hl" style="font-size:42px">Connect with customers on their terms</div></div></div>
+<div class="sec"><div class="num">4</div><div style="flex:1"><div class="hl" style="font-size:42px">Connect with customers on their terms</div></div></div>
 <div style="display:grid;grid-template-columns:150px 1fr;gap:16px;margin-top:14px;align-items:start">
   <div class="tile t-b" style="padding:12px 14px"><div class="big" style="font-size:46px">70%</div><div class="cap2" style="margin-top:6px">of consumers have taken an online action after receiving direct mail</div></div>
   <div class="bd" style="font-size:13px"><p class="dc">Direct mail campaigns thrive when you go beyond the mailbox. There's no single path from awareness to action to attribution. Some consumers may research the brand online. Another may head to the store. Others prefer to scan a QR code or visit a PURL.</p></div>
@@ -341,7 +343,7 @@ ${foot(3,'Page three')}`,
 ['Flexible response paths','Let people engage in their preferred format. More entry points means more conversion opportunities.'],
 ['Omnichannel, aligned','Continue the journey your mail started with continuity across digital and physical touchpoints.'],
 ['Track multiple signals','Use direct and indirect metrics to remove blind spots and see customer behavior clearly.']],['t-k','t-p','t-b'])}</div>
-<div class="band" style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;margin-top:14px;background:var(--mag);color:#fff"><div class="hm" style="font-size:21px">Get more consumer insights in the 2026 State of Direct Mail report.</div><div style="flex:none;background:#fff;color:var(--ink);border-radius:99px;padding:9px 16px;font:700 12px/1 var(--sans)">lob.com →</div></div>
+<div class="band" style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 18px;margin-top:14px;background:var(--ink);color:#f3efe4"><div class="hm" style="font-size:21px">Get more consumer insights in the 2026 State of Direct Mail report.</div><div style="flex:none;background:#fff;color:var(--ink);border-radius:99px;padding:9px 16px;font:700 12px/1 var(--sans)">lob.com →</div></div>
 ${foot(4,'Back page')}`
 ];
 const SIDE=['r','l','r','l'];            // gutter side of each page when it is part of a spread
