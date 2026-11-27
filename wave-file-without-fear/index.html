@@ -277,7 +277,7 @@ footer{background:var(--navy);color:#fff;padding:56px 0 26px}
 .btt{position:absolute;right:24px;bottom:28px;color:var(--pink);text-decoration:none;font-size:17px;display:flex;flex-direction:column;align-items:center}
 .btt svg{width:84px;height:46px}
 footer{position:relative;overflow:hidden}
-.ftart{position:absolute;right:max(0px,calc((100vw - 1352px) / 2));top:50%;transform:translateY(-50%);width:600px;height:480px;pointer-events:none}
+.ftart{position:absolute;right:max(0px,calc((100vw - 1352px) / 2));top:50%;transform:translateY(-50%);width:760px;height:600px;pointer-events:none}
 @media (max-width:1180px){.ftart{display:none}}
 
 
@@ -784,41 +784,60 @@ function formTexture(kind, S = 1024, page = 1) {
   const key = kind + page;
   if (texCache[key]) return texCache[key];
   const F0 = FORMS[kind] || FORMS.T1, c = document.createElement('canvas'); c.width = c.height = S;
-  const F = page === 1 ? F0 : { code: F0.code, title: F0.title, sub: 'Continued – keep a copy for your records', lines: F0.lines.slice(6).concat(F0.lines.slice(0, 6)).map(([a, b], n) => [a ? String(+a.replace(/\D/g, '') + 40 + n) .padStart(a.length, '0') : '', b]) };
+  const F = page === 1 ? F0 : { code: F0.code, title: F0.title, sub: 'Continued – keep a copy for your records', lines: F0.lines.slice(6).concat(F0.lines.slice(0, 6)).map(([a, b], n) => [a ? String(+a.replace(/\D/g, '') + 40 + n).padStart(a.length, '0') : '', b]) };
   const g = c.getContext('2d'), r = rng(kind.length * 977 + 13 + page), k = S / 1024;
   if (page === 2) { g.translate(S, 0); g.scale(-1, 1); }
-  g.fillStyle = '#f6f3ec'; g.fillRect(0, 0, S, S);
-  for (let n = 0; n < 2600; n++) { g.fillStyle = `rgba(${r() < 0.5 ? '120,110,90' : '255,255,255'},${0.05 + r() * 0.06})`; g.fillRect(r() * S, r() * S, 1 + r() * 2 * k, 1 + r() * 2 * k); }
-  const ink = '#26282b', grey = '#d9dbd7', sans = '"Helvetica Neue",Arial,sans-serif';
+  g.fillStyle = '#f7f4ee'; g.fillRect(0, 0, S, S);
+  for (let n = 0; n < 2200; n++) { g.fillStyle = `rgba(${r() < 0.5 ? '120,110,90' : '255,255,255'},${0.04 + r() * 0.05})`; g.fillRect(r() * S, r() * S, 1 + r() * 2 * k, 1 + r() * 2 * k); }
+  const ink = '#24262a', mid = '#6d7075', rule = '#3a3c3f', tint = '#e3e5e1', red = '#d52b1e', sans = '"Helvetica Neue",Arial,sans-serif';
   g.save(); g.scale(k, k);
-  g.fillStyle = ink; g.font = `600 22px ${sans}`; g.fillText('Canada Revenue', 60, 74); g.fillText('Agency', 60, 100);
-  g.font = `400 22px ${sans}`; g.fillText('Agence du revenu', 250, 74); g.fillText('du Canada', 250, 100);
-  g.fillStyle = '#d52b1e'; g.fillRect(890, 52, 16, 30); g.fillRect(942, 52, 16, 30); g.beginPath(); g.moveTo(924, 50); g.lineTo(936, 70); g.lineTo(930, 84); g.lineTo(918, 84); g.lineTo(912, 70); g.closePath(); g.fill();
-  g.fillStyle = '#d52b1e'; g.font = `700 17px ${sans}`; g.fillText('Protected B when completed', 700, 128);
-  g.fillStyle = ink; g.font = `700 46px ${sans}`; g.fillText(F.code, 60, 180);
-  g.font = `600 30px ${sans}`; g.fillText(F.title.length > 44 ? F.title.slice(0, 44).replace(/\s\S*$/, '') : F.title, 60, 226);
-  if (F.title.length > 44) g.fillText(F.title.slice(F.title.slice(0, 44).replace(/\s\S*$/, '').length + 1), 60, 262);
-  g.fillStyle = grey; g.fillRect(60, 292, 904, 46); g.fillStyle = ink; g.font = `700 21px ${sans}`; g.fillText(F.sub, 76, 323);
-  let y = 382;
-  F.lines.forEach(([code, txt], n) => {
-    g.fillStyle = ink; g.font = `400 20px ${sans}`; g.fillText(txt, 76, y);
-    const tw = g.measureText(txt).width;
-    g.fillStyle = '#8b8d8a'; for (let x = 90 + tw; x < 640; x += 9) g.fillRect(x, y - 3, 2.5, 2.5);
-    if (code) { g.fillStyle = ink; g.font = `700 19px ${sans}`; g.fillText(code, 662, y); }
-    g.strokeStyle = '#3a3c3f'; g.lineWidth = 1.6; g.strokeRect(742, y - 27, 222, 38);
-    g.beginPath(); g.moveTo(912, y - 27); g.lineTo(912, y + 11); g.stroke();
-    if (n % 4 === 3) { g.fillStyle = grey; g.fillRect(60, y + 18, 904, 3); }
-    y += 47;
+  // federal identity: flag (red bar, white square with maple leaf, red bar) + bilingual agency name
+  const flag = (x, y, h) => {
+    const w = h * 2; g.fillStyle = red; g.fillRect(x, y, w / 4, h); g.fillRect(x + w * 0.75, y, w / 4, h);
+    g.fillStyle = '#fff'; g.fillRect(x + w / 4, y, w / 2, h);
+    const cx = x + w / 2, cy = y + h * 0.52, s = h / 2.1;
+    const L = [[0, -1], [0.14, -0.72], [0.3, -0.8], [0.25, -0.42], [0.58, -0.62], [0.5, -0.44], [0.86, -0.4], [0.74, -0.26], [0.84, -0.06], [0.46, 0.1], [0.52, 0.3], [0.06, 0.24], [0.06, 0.62], [-0.06, 0.62], [-0.06, 0.24], [-0.52, 0.3], [-0.46, 0.1], [-0.84, -0.06], [-0.74, -0.26], [-0.86, -0.4], [-0.5, -0.44], [-0.58, -0.62], [-0.25, -0.42], [-0.3, -0.8], [-0.14, -0.72]];
+    g.fillStyle = red; g.beginPath(); L.forEach(([a, b], i) => (i ? g.lineTo : g.moveTo).call(g, cx + a * s, cy + b * s)); g.closePath(); g.fill();
+  };
+  flag(56, 40, 26);
+  g.fillStyle = ink; g.font = `700 15px ${sans}`; g.fillText('Canada Revenue', 120, 52); g.fillText('Agency', 120, 70);
+  g.font = `400 15px ${sans}`; g.fillText('Agence du revenu', 262, 52); g.fillText('du Canada', 262, 70);
+  g.fillStyle = red; g.font = `700 13px ${sans}`; g.fillText('Protected B when completed', 776, 52);
+  g.fillStyle = ink; g.font = `700 12px ${sans}`; g.fillText(F.code, 880, 72);
+  g.font = `700 36px ${sans}`; g.fillText(F.code.replace(/ E \(\d+\)|\s*\(\d+\)/, ''), 56, 128);
+  g.font = `600 21px ${sans}`;
+  const t1 = F.title.length > 52 ? F.title.slice(0, 52).replace(/\s\S*$/, '') : F.title; g.fillText(t1, 56, 158); if (t1 !== F.title) g.fillText(F.title.slice(t1.length + 1), 56, 182);
+  // identification block
+  const box = (x, y, w, h, label) => { g.strokeStyle = rule; g.lineWidth = 1.2; g.strokeRect(x, y, w, h); g.fillStyle = mid; g.font = `400 10.5px ${sans}`; g.fillText(label, x + 5, y + 12); };
+  g.fillStyle = tint; g.fillRect(56, 198, 912, 22); g.fillStyle = ink; g.font = `700 13px ${sans}`; g.fillText('Identification', 64, 214);
+  box(56, 222, 300, 36, 'First name and initial'); box(356, 222, 330, 36, 'Last name'); box(686, 222, 282, 36, 'Social insurance number (SIN)');
+  for (let n = 0; n < 9; n++) { g.strokeRect(700 + n * 28, 238, 24, 16); }
+  box(56, 258, 430, 36, 'Mailing address: Apt No. – Street No. Street name'); box(486, 258, 220, 36, 'City'); box(706, 258, 90, 36, 'Prov./Terr.'); box(796, 258, 172, 36, 'Postal code');
+  box(56, 294, 300, 36, 'Date of birth (YYYY/MM/DD)'); box(356, 294, 330, 36, 'Business number (BN)'); box(686, 294, 282, 36, 'Period: from – to');
+  // section + lines
+  g.fillStyle = tint; g.fillRect(56, 342, 912, 26); g.fillStyle = ink; g.font = `700 14px ${sans}`; g.fillText(F.sub, 64, 360);
+  const extra = [['', 'Other income (specify)'], ['', 'Subtotal (add lines above)'], ['', 'Amount from line above'], ['', 'Total (enter on the next page)'], ['', 'Adjustments, if applicable']];
+  const rows = F.lines.concat(extra).slice(0, 18);
+  let y = 392;
+  rows.forEach(([code, txt], n) => {
+    g.fillStyle = ink; g.font = `400 14px ${sans}`; g.fillText(txt, 64, y);
+    const tw = g.measureText(txt).width; g.fillStyle = '#9a9c98'; for (let x = 74 + tw; x < 650; x += 7) g.fillRect(x, y - 3, 1.8, 1.8);
+    if (code) { g.fillStyle = ink; g.font = `700 13px ${sans}`; g.fillText(code, 664, y); }
+    g.strokeStyle = rule; g.lineWidth = 1.1; g.strokeRect(734, y - 17, 234, 24); g.beginPath(); g.moveTo(930, y - 17); g.lineTo(930, y + 7); g.stroke();
+    if (n % 5 === 4) { g.fillStyle = tint; g.fillRect(56, y + 9, 912, 2); }
+    y += 30;
   });
-  g.fillStyle = ink; g.font = `400 15px ${sans}`; g.fillText('See the privacy notice on your return.', 60, 1000);
-  g.font = `700 15px ${sans}`; g.fillText(`Page ${page} of 8`, 880, 1000);
+  g.fillStyle = mid; g.font = `400 11px ${sans}`; g.fillText('Do not use this area', 64, y + 4); g.strokeStyle = rule; g.strokeRect(56, y + 10, 420, 34); g.strokeRect(500, y + 10, 468, 34);
+  g.fillStyle = ink; g.font = `400 11.5px ${sans}`; g.fillText('I certify that the information given on this return is correct and complete.', 506, y + 24); g.fillText('Sign here  ____________________   Date  ____________', 506, y + 39);
+  g.font = `400 11px ${sans}`; g.fillText('See the privacy notice on your return.', 56, 1004);
+  g.font = `700 11px ${sans}`; g.fillText(`Page ${page} of 8`, 900, 1004);
   g.restore();
   return (texCache[key] = c);
 }
 
 /* ---------- mesh build ---------- */
 // curled sheets: each lies flat on the table, then curves up in one smooth sweep (bottom sheet barely, top sheet high)
-[[1.3, 0.5, 0.45, [0, 0, 0.0], 0.0], [0.85, 0.42, 1.0, [0.03, 0.01, 0.14], 0.0], [0.7, 0.34, 1.5, [0.06, 0.02, 0.3], 0.0]].forEach(([R0, start, tmax, off, rot], n) => {
+[[1.3, 0.5, 0.0, [0, 0, 0.0], 0.0], [0.9, 0.42, 0.75, [0.03, 0.01, 0.14], 0.0], [0.7, 0.34, 1.5, [0.06, 0.02, 0.3], 0.0]].forEach(([R0, start, tmax, off, rot], n) => {
   CREATURES['curl' + n] = {
     nu: 30, nv: 14, unfoldFrom: [0.5, 0.5], smooth: true, init() {},
     pose(u, v) {
@@ -1127,7 +1146,7 @@ if (reduce && !CLIP) rb.seek(0);
 /* ---------- closing CTA: three CRA forms lying still, each with its own soft curl ---------- */
 (function(){
   const cv = document.getElementById('ftart'); if (!cv) return;
-  const base = { shadow: null, cx: 0.5, cy: 0.6, fov: 1.1, yaw: -1.12, flatYaw: -1.12, pitch: 0.3, tgtY: 0.45, sway: 0, light: [-0.4, 1, 0.5] };
+  const base = { shadow: null, cx: 0.5, cy: 0.58, fov: 1.3, yaw: -1.12, flatYaw: -1.12, pitch: 0.3, tgtY: 0.45, sway: 0, light: [-0.4, 1, 0.5] };
   const sc = [['curl0', 'T2125', '#f2b6ff'], ['curl1', 'GST34', '#a9d6ff'], ['curl2', 'T4SUM', null]].map(([c, f, tint], n) => new Origami.Scene(cv, Object.assign({}, base, { creature: c, form: f, tint, bright: 0.6, noClear: n > 0 })));
   const draw = () => { if (getComputedStyle(cv).display === 'none') return; const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; } cv.getContext('2d').clearRect(0, 0, w, h); sc.forEach((x) => x.draw(0, 0)); };
   draw(); addEventListener('resize', draw); document.fonts && document.fonts.ready.then(draw);
