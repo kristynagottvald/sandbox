@@ -168,7 +168,9 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .tog .pill{display:flex;gap:4px;height:56px;background:#fff;border:1.5px solid var(--navy);border-radius:999px;padding:5px}
 .tog .pill button{border:0;background:none;border-radius:999px;font:600 17px var(--sans);color:var(--navy);padding:0 24px;display:flex;align-items:center;gap:10px;white-space:nowrap}
 .tog .pill button.on{background:var(--navy);color:#fff}
-.tog .save{background:var(--pink);color:var(--navy);font:700 12.5px var(--sans);padding:4px 9px;border-radius:99px}
+.tog{display:flex;align-items:center;gap:18px}
+.tog .save{display:flex;align-items:center;gap:7px;color:var(--purple);font:700 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.tog .save svg{width:15px;height:15px;fill:currentColor}
 .prices{display:grid;grid-template-columns:1fr 1fr;margin-top:48px;border:1.5px solid var(--navy);border-radius:24px;overflow:hidden;background:#fff}
 .pc{position:relative;display:flex;flex-direction:column}
 .pc+.pc{border-left:1.5px solid var(--navy)}
@@ -465,7 +467,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
   <div class="wrap">
   <div class="phead">
     <div><h2 class="serif">Pricing with nothing to <em>fear.</em></h2><p>Start free. Upgrade when you want the books to run themselves.</p></div>
-    <div class="tog"><div class="pill"><button data-p="m">Monthly</button><button class="on" data-p="a">Annual <span class="save">Save $50</span></button></div></div>
+    <div class="tog"><span class="save"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c.6 4.2 3.8 7.4 8 8-4.2.6-7.4 3.8-8 8-.6-4.2-3.8-7.4-8-8 4.2-.6 7.4-3.8 8-8z"/></svg>Save $50 annually</span><div class="pill"><button data-p="m">Monthly</button><button class="on" data-p="a">Annual</button></div></div>
   </div>
   <div class="prices">
     <div class="pc">
@@ -510,7 +512,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <p class="sub">Stop the tax time terror before it starts. Check out our guides to get prepared.</p>
     <div class="arts" id="arts">
       <a class="art" href="#" data-c="spider" data-f="T4A" data-cam="0.5,0.5,1.3" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p></div></a>
-      <a class="art" href="#" data-c="hydra" data-f="T2125" data-cam="0.5,0.5,1.2" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
+      <a class="art" href="#" data-c="hydra" data-f="T2125" data-cam="0.5,0.9,1.55" data-bleed="1" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
       <a class="art" href="#" data-c="snake" data-f="GST34" data-cam="0.5,0.5,2.2" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
     </div>
   </div>
@@ -1089,7 +1091,7 @@ if (reduce && !CLIP) rb.seek(0);
     const ill = a.querySelector('.ill'), cv = a.querySelector('canvas');
     ill.style.background = a.dataset.bg;
     const cam = (a.dataset.cam || '0.5,0.5,1.95').split(',').map(Number);
-    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: cam[0], cy: cam[1], fov: cam[2], center: true, centerY: 0.52, yaw: -0.42, flatYaw: -0.42, sway: 0 });
+    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: cam[0], cy: cam[1], fov: cam[2], center: !a.dataset.bleed, centerY: 0.52, yaw: -0.42, flatYaw: -0.42, sway: 0 });
     const draw = () => sc.draw(0, 0);
     draw(); addEventListener('resize', draw); document.fonts && document.fonts.ready.then(draw);
   });
