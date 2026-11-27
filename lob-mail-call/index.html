@@ -266,7 +266,7 @@ const hi=(t)=>`<span class="hi">${t}<svg viewBox="0 0 100 40" preserveAspectRati
 /* the front page picture: a still life of mail objects on a baseline, with a giant number behind, like the row of bottles */
 const at=(s,x,y,w,h)=>s.replace('width="100%" height="100%"',`x="${x}" y="${y}" width="${w}" height="${h}"`);
 function scene(){return svg('0 0 236 384',`
-<text x="118" y="226" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="236" fill="${WH}" ${sk(3.4)}>80</text>
+<text x="118" y="226" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="236" fill="#4cc9a0" stroke="none">80</text>
 <g ${sk()}><path d="M0 284H236V384H0Z" fill="${INK}"/><path d="M0 284H236" fill="none" stroke-width="3.4"/>
 <text x="118" y="332" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="26" letter-spacing="3" fill="${WH}" stroke="none">MAIN ST.</text><text x="118" y="354" text-anchor="middle" font-family="Anton,Impact,sans-serif" font-size="15" letter-spacing="4" fill="${WH}" stroke="none">MAIL DAY</text></g>
 ${at(envelopeChar(),12,34,88,77)}${at(mailboxChar(),2,126,146,156)}${at(parcelChar(),132,196,100,91)}${at(stackChar(),138,126,88,81)}`,'A mailbox, a parcel and a stack of mail').replace('xMidYMid meet','xMidYMax meet')}
