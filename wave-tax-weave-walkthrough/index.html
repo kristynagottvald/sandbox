@@ -49,8 +49,8 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 #w1{position:absolute;left:0;top:0;width:1600px;height:900px;transform-origin:0 0}
 #wires{position:absolute;left:0;top:0;overflow:visible;pointer-events:none}
 .wire{fill:none;stroke-width:1.7}
-.node{position:absolute;background:#1b1b1f;border:1px solid #2d2d33;border-radius:11px;padding:10px 11px 11px;box-shadow:0 10px 30px rgba(0,0,0,.35);font-size:11px;color:#e8e8ec}
-.node.sel{border-color:#6b6bff;box-shadow:0 0 0 1px #6b6bff,0 10px 30px rgba(0,0,0,.35)}
+.node{position:absolute;background:#1b1b1f;border:1px solid #2d2d33;border-radius:11px;padding:10px 11px 11px;font-size:11px;color:#e8e8ec}
+.node.sel{border-color:#6b6bff;box-shadow:0 0 0 1px #6b6bff}
 .node h4{display:flex;justify-content:space-between;align-items:center;font:500 11px/1 var(--sans);color:#a6a6ae;margin-bottom:8px;gap:6px}
 .node h4 em{font-style:normal;color:#5f5f68;letter-spacing:.1em}
 .node h4 .tag{font:500 9px/1 var(--mono);color:#c79bff;background:#2a2238;border-radius:4px;padding:3px 5px;letter-spacing:.04em}
@@ -157,7 +157,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .mk{position:absolute;left:700px;top:0;width:900px;height:900px;display:grid;place-items:center}
 .mk>div{position:absolute;opacity:0}
 /* phone */
-.phone{width:380px;height:780px;border-radius:52px;background:#111;padding:12px;box-shadow:0 40px 80px rgba(0,0,0,.25)}
+.phone{width:380px;height:780px;border-radius:52px;background:#111;padding:12px}
 .scr{position:relative;width:100%;height:100%;border-radius:41px;overflow:hidden;background:#000;color:#fff}
 .reel-top{position:absolute;left:0;right:0;top:0;padding:46px 18px 0;display:flex;justify-content:space-between;font:700 18px/1 var(--sans);z-index:3;text-shadow:0 1px 6px rgba(0,0,0,.3)}
 .reel-side{position:absolute;right:12px;bottom:150px;display:flex;flex-direction:column;gap:20px;align-items:center;z-index:3;font:600 11px/1 var(--sans)}
@@ -172,7 +172,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .reel-cta{background:#e8aaff;color:#001b65;border-radius:9px;padding:13px 14px;font:600 14px/1 var(--sans);display:flex;justify-content:space-between}
 .reel-prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgba(255,255,255,.3);z-index:4}.reel-prog i{display:block;height:100%;background:#fff}
 /* feed cards */
-.card{background:#fff;color:#1c1e21;border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.16);overflow:hidden;font-family:var(--sans)}
+.card{background:#fff;color:#1c1e21;border-radius:10px;border:1px solid #e3ded6;overflow:hidden;font-family:var(--sans)}
 .fb{width:520px}
 .c-head{display:flex;gap:10px;align-items:center;padding:14px 16px 10px;font:600 15px/1.2 var(--sans)}
 .c-head .lg{width:40px;height:40px;border-radius:50%;background:var(--blue);display:grid;place-items:center;font:800 15px/1 var(--sans);color:#fff;letter-spacing:-.04em;flex:none}
@@ -195,7 +195,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .li .c-foot .btn{background:#fff;border:1.5px solid #0a66c2;color:#0a66c2;border-radius:999px;padding:9px 16px}
 .li .c-acts{font:600 13.5px/1 var(--sans);color:#5e5e5e}
 /* article */
-.artc{width:720px;height:820px;background:#fff;border-radius:10px;box-shadow:0 30px 70px rgba(0,0,0,.16);overflow:hidden;color:#1a1a1a}
+.artc{width:720px;height:820px;background:#fff;border-radius:10px;border:1px solid #e3ded6;overflow:hidden;color:#1a1a1a}
 .art-bar{position:relative;z-index:2;background:#fff;height:56px;display:flex;align-items:center;padding:0 26px;border-bottom:1px solid #eee;font:800 22px/1 Georgia,"Times New Roman",serif;letter-spacing:-.02em;gap:24px}
 .art-bar span{font:500 12px/1 var(--sans);color:#777;letter-spacing:0}
 .art-in{position:absolute;left:0;right:0;top:56px;padding:30px 60px}
@@ -537,7 +537,8 @@ Scene.prototype.draw = function (k, frame = 0) {
     });
     out.push(P);
   }
-  // shadow
+  // shadow (off when o.shadow is falsy: this walkthrough runs with no drop shadows)
+  if (o.shadow) {
   const sg = this.sg; sg.clearRect(0, 0, W, H); sg.fillStyle = '#000';
   sg.beginPath();
   for (const P of out) {
@@ -550,6 +551,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   g.drawImage(this.sh, 0, 0);
   g.globalCompositeOperation = 'source-in'; g.filter = 'none'; g.fillStyle = o.shadow; g.fillRect(0, 0, W, H);
   g.restore();
+  }
   g.globalCompositeOperation = 'source-over';
   // facets, back to front
   const list = out.map((P, n) => {
@@ -661,7 +663,7 @@ const FORM={dragon:'T1',hydra:'GST34',snake:'T2125',tiger:'NOA'};
 const NAME={dragon:'T1 dragon',hydra:'GST/HST hydra',snake:'T2125 cobra',tiger:'paper tiger'};
 const ARTDEF=[['dragon','blue'],['tiger','navy'],['snake','pink'],['hydra','sky'],['dragon','navy'],['tiger','peach'],['snake','blue'],['hydra','navy'],['dragon','pink'],['tiger','peri'],['snake','peach'],['hydra','cream']];
 const ART=ARTDEF.map(([k,b])=>({kind:k,form:FORM[k],bgName:b,bg:BG[b],shadow:SHADOW[b],dark:b==='blue'||b==='navy',src:''}));
-const OPT=a=>({creature:a.kind,form:a.form,shadow:a.shadow,cx:.5,cy:.6,fov:1.3,yaw:-0.42,flatYaw:0.22});
+const OPT=a=>({creature:a.kind,form:a.form,shadow:null,cx:.5,cy:.6,fov:1.3,yaw:-0.42,flatYaw:0.22});
 const hid=document.createElement('canvas');hid.style.cssText='position:fixed;left:-3000px;top:0;width:520px;height:400px;pointer-events:none';document.body.appendChild(hid);
 const out=document.createElement('canvas');out.width=1040;out.height=800;const og=out.getContext('2d');
 let hidScene=null;
@@ -694,11 +696,11 @@ function adHTML(ai,hi,w,h,live){
     s+=`<div class="wm" style="right:${w*.08}px;top:${w*.08}px;font-size:${w*.085}px;color:${fg}">wave</div>`;
     s+=`<div class="h" style="left:${w*.08}px;right:${w*.08}px;top:${h*.14}px;font-size:${w*.125}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${w*.08}px;bottom:${h*.05}px;font-size:${w*.055}px;padding:${w*.035}px ${w*.06}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
-  }else if(r<1.3){ // square
-    s+=IMG(`width:${w*1.35}px;top:${h*.62}px;left:${w*.6}px`,w*1.35);
+  }else if(r<1.3){ // square: headline lower, CTA right under it, creature bottom right bleeding off the right edge
+    s+=IMG(`width:${w*1.2}px;top:${h*.68}px;left:${w*.74}px`,w*1.2);
     s+=`<div class="wm" style="right:${w*.07}px;top:${w*.07}px;font-size:${w*.06}px;color:${fg}">wave</div>`;
-    s+=`<div class="h" style="left:${w*.07}px;width:${w*.66}px;top:${w*.07}px;font-size:${w*.085}px;color:${fg}">${H}</div>`;
-    s+=`<div class="cta" style="left:${w*.07}px;bottom:${w*.07}px;font-size:${w*.038}px;padding:${w*.025}px ${w*.045}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
+    s+=`<div style="position:absolute;left:${w*.07}px;top:${h*.2}px;width:${w*.62}px"><div class="h" style="position:relative;font-size:${w*.085}px;color:${fg}">${H}</div>`;
+    s+=`<div class="cta" style="position:relative;display:inline-block;margin-top:${w*.05}px;font-size:${w*.038}px;padding:${w*.025}px ${w*.045}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div></div>`;
   }else{ // wide 1.91 / 12:5
     s+=IMG(`width:${h*1.9}px;left:${w*.75}px;top:${h*.52}px`,h*1.9);
     s+=`<div class="wm" style="left:${h*.1}px;top:${h*.1}px;font-size:${h*.1}px;color:${fg}">wave</div>`;
