@@ -451,22 +451,7 @@ const CREATURES = {
       return [Math.cos(ang) * R * 1.05 + 0.08, H + ((i + j) % 2 ? 0.03 : -0.01) * a, Math.sin(ang) * R * 0.78];
     },
   },
-  bat: {
-    nu: 14, nv: 30, unfoldFrom: [0, 0.5],
-    init() {},
-    pose(u, v, i, j, cu, cv) {
-      const x = (v - 0.5) * 2.3, ax = Math.abs(x), q = Math.min(1, ax / 1.15);
-      const top = 1.5 - 0.05 * ax + 0.3 * Math.sin(q * Math.PI * 0.9) - (q > 0.92 ? (q - 0.92) * 2 : 0); // arm arch up to the wrist
-      const fingers = Math.abs(Math.sin(q * Math.PI * 2.5)); // three finger tips, scalloped membrane between
-      const bottom = 0.72 + 0.35 * q - 0.32 * (1 - fingers) * q;
-      const body = Math.max(0, 1 - ax / 0.2);
-      let y = mix(top, ax < 0.2 ? 0.62 : bottom, u);
-      let z = 0.5 * Math.pow(q, 1.5) + (j % 2 ? 0.035 : -0.02) * q + body * 0.2 * Math.sin(Math.PI * u);
-      if (i === 0 && (j === 13 || j === 17)) y += 0.24; // ears
-      const a = -0.42, c = Math.cos(a), sn = Math.sin(a); // face the camera
-      return [x * c + z * sn, y, -x * sn + z * c];
-    },
-  },
+
   tiger: {
     nu: 26, nv: 12, unfoldFrom: [0, 0.5],
     init() {
@@ -773,9 +758,9 @@ const stop=t=>t; // smooth motion, same as the landing page
    ===================================================================== */
 const BG={blue:'#0041ff',navy:'#001b65',pink:'#f2a8ff',sky:'#76c3fb',peach:'#ffe7d6',peri:'#8f9cff',cream:'#f9f4f1'};
 const SHADOW={blue:'rgba(0,14,80,.42)',navy:'rgba(0,0,0,.5)',pink:'rgba(80,0,110,.32)',sky:'rgba(0,40,110,.34)',peach:'rgba(120,50,0,.26)',peri:'rgba(0,20,110,.38)',cream:'rgba(60,40,20,.22)'};
-const FORM={dragon:'T1',hydra:'GST34',snake:'T2125',tiger:'NOA'};
-const NAME={dragon:'T1 dragon',hydra:'GST/HST hydra',snake:'T2125 cobra',tiger:'paper tiger'};
-const ARTDEF=[['dragon','blue'],['tiger','navy'],['snake','pink'],['hydra','sky'],['dragon','navy'],['tiger','peach'],['snake','blue'],['hydra','navy'],['dragon','pink'],['tiger','peri'],['snake','peach'],['hydra','cream']];
+const FORM={dragon:'T2',hydra:'GST34',scorpion:'PD7A',spider:'T5018',snake:'T2125'};
+const NAME={dragon:'T2 dragon',hydra:'GST/HST hydra',scorpion:'payroll scorpion',spider:'T5018 spider',snake:'T2125 cobra'};
+const ARTDEF=[['dragon','blue'],['scorpion','navy'],['snake','pink'],['hydra','sky'],['spider','peri'],['dragon','navy'],['scorpion','peach'],['snake','blue'],['hydra','navy'],['spider','pink'],['snake','peach'],['scorpion','cream']];
 const ART=ARTDEF.map(([k,b])=>({kind:k,form:FORM[k],bgName:b,bg:BG[b],shadow:SHADOW[b],dark:b==='blue'||b==='navy',src:''}));
 const OPT=a=>({creature:a.kind,form:a.form,shadow:null,cx:.5,cy:.6,fov:1.3,yaw:-0.42,flatYaw:0.22});
 const hid=document.createElement('canvas');hid.style.cssText='position:fixed;left:-3000px;top:0;width:520px;height:400px;pointer-events:none';document.body.appendChild(hid);
@@ -812,11 +797,11 @@ function adHTML(ai,hi,w,h,live){
     s+=`<div class="h" style="left:${w*.08}px;right:${w*.08}px;top:${h*.14}px;font-size:${w*.125}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${w*.08}px;bottom:${h*.05}px;font-size:${w*.055}px;padding:${w*.035}px ${w*.06}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
   }else if(r<1.3){ // square: headline lower, no CTA, creature bottom right bleeding off the right edge
-    s+=IMG(`width:${w*1.5}px;top:${h*.6}px;left:${w*.76}px`,w*1.5);
+    s+=IMG(`width:${w*1.08}px;top:${h*.6}px;left:${w*.58}px`,w*1.08);
     s+=`<div class="wm" style="right:${w*.045}px;top:${w*.04}px;font-size:${w*.06}px;color:${fg}">wave</div>`;
-    s+=`<div style="position:absolute;left:${w*.07}px;top:${h*.17}px;width:${w*.8}px"><div class="h" style="position:static;font-size:${w*.095}px;color:${fg}">${H}</div><div class="sub" style="position:static;margin-top:${w*.03}px;width:${w*.7}px;font-size:${w*.033}px;color:${fg}">${SUB[hi]||''}</div></div>`;
+    s+=`<div style="position:absolute;left:${w*.07}px;top:${h*.17}px;width:${w*.8}px"><div class="h" style="position:static;font-size:${w*.095}px;color:${fg}">${H}</div><div class="sub" style="position:static;margin-top:${w*.012}px;width:${w*.7}px;font-size:${w*.033}px;color:${fg}">${SUB[hi]||''}</div></div>`;
   }else{ // wide 1.91 / 12:5
-    s+=IMG(`width:${h*2.6}px;left:${w*.72}px;top:${h*.3}px`,h*2.6);
+    s+=IMG(`width:${h*2.4}px;left:${w*.72}px;top:${h*.46}px`,h*2.4);
     s+=`<div class="wm" style="left:${h*.1}px;top:${h*.1}px;font-size:${h*.1}px;color:${fg}">wave</div>`;
     s+=`<div class="h" style="left:${h*.1}px;width:${w*.48}px;top:${h*.3}px;font-size:${h*(r>2.2?.15:.13)}px;color:${fg}">${H}</div>`;
     s+=`<div class="cta" style="left:${h*.1}px;bottom:${h*.1}px;font-size:${h*.065}px;padding:${h*.04}px ${h*.075}px;background:${ctaBg};color:${ctaFg}">${CTA[hi]}</div>`;
@@ -837,12 +822,12 @@ const NODES={
   art:{x:30,y:188,w:240,h:150,t:'Art direction',tag:'TEXT',html:'<div class="field" data-type="art"></div>'},
   cam:{x:30,y:354,w:240,h:72,t:'Camera angle',tag:'TEXT',html:'<div class="field" data-type="cam"></div>'},
   pal:{x:30,y:442,w:240,h:84,t:'Palette',tag:'TEXT',html:'<div class="sw"><i style="background:#0041ff"></i><i style="background:#001b65"></i><i style="background:#f2a8ff"></i><i style="background:#76c3fb"></i><i style="background:#ffe7d6"></i><i style="background:#8f9cff"></i></div><div class="field dim" style="padding:5px 8px">Wave blue, navy, pink, sky, peach</div>'},
-  crea:{x:30,y:542,w:240,h:70,t:'List · {creature}',tag:'×4',html:'<div class="chips"><span>T1 dragon</span><span>GST/HST hydra</span><span>T2125 cobra</span><span>NOA tiger</span></div>'},
+  crea:{x:30,y:542,w:240,h:70,t:'List · {creature}',tag:'×5',html:'<div class="chips"><span>T2 dragon</span><span>GST/HST hydra</span><span>PD7A scorpion</span><span>T5018 spider</span><span>T2125 cobra</span></div>'},
   brief:{x:30,y:640,w:240,h:226,t:'Copy brief',tag:'TEXT',html:'<div class="field" data-type="brief" style="height:178px"></div>'},
   cat:{x:312,y:150,w:230,h:330,t:'Prompt Concatenator',tag:'TEXT',html:'<div class="field dim" data-type="cat1" style="height:96px"></div><div class="field dim" data-type="cat2" style="height:150px"></div><div class="run">+ Add another text input</div>'},
   enh:{x:584,y:96,w:244,h:392,t:'Prompt Enhancer',tag:'LLM',html:'<div class="field" data-type="enh" style="height:318px"></div><div class="run">Claude · image prompt <b class="rb">→ Run</b></div>'},
   copy:{x:584,y:560,w:244,h:300,t:'Copywriter',tag:'LLM',html:'<div class="field dim" style="height:62px">System: You are Wave’s senior copywriter. Plain words, Canadian spelling, never promise refunds.</div><div class="field" data-type="copyout" style="height:150px"></div><div class="run">Claude · ×10 <b class="rb2">→ Run</b></div>'},
-  nano:{x:870,y:80,w:250,h:344,t:'Nano Banana',tag:'IMG',ti:'img',html:'<div class="grid12" id="g12"></div><div class="field dim" style="margin-top:8px;padding:6px 8px">1:1 · 2048px · 4 forms × 3 backdrops</div><div class="run">12 images <b class="rb3">→ Run model</b></div>'},
+  nano:{x:870,y:80,w:250,h:344,t:'Nano Banana',tag:'IMG',ti:'img',html:'<div class="grid12" id="g12"></div><div class="field dim" style="margin-top:8px;padding:6px 8px">1:1 · 2048px · 5 forms × 12 backdrops</div><div class="run">12 images <b class="rb3">→ Run model</b></div>'},
   hl:{x:870,y:530,w:250,h:330,t:'Headlines · split',tag:'TEXT ×10',html:'<ol class="hl" id="hl"></ol>'},
   rs:{x:1160,y:52,w:208,h:224,t:'Crop + outpaint',tag:'IMG ×4',ti:'img',html:'<div class="sizes" id="sizes"></div><div class="field dim" style="margin-top:9px;padding:6px 8px">Extend backdrop, keep creature centred</div>'},
   vid:{x:1160,y:296,w:208,h:224,t:'Image → video',tag:'VID',ti:'vid',html:'<div class="vbox" id="vid"><canvas></canvas><div class="bar"><i></i></div></div><div class="field dim" style="margin-top:8px;padding:6px 8px">Kling · 6s · unfolds flat, 12 fps</div>'},
@@ -934,7 +919,7 @@ let bx=colW[0]+BGAP+colW[1]+BGAP;
 const W2=bx-BGAP,H2=rowH[0]+BGAP+rowH[1];
 // stagger: diagonal sweep per block, blocks overlap
 frames.forEach(f=>{f.t=.5+f.fi*.9+(f.r+f.c)*.075;});
-const layers=$('#layers');FMT.forEach((f,i)=>{el('div','lay'+(i===0?' on':''),`<i></i>${f.n}<small>120</small>`,layers);for(let k=0;k<(i===0?4:1);k++)el('div','lay sub',`<i></i>${f.n.split(' ')[0].toLowerCase()}-${ART[k].kind}-${String(k+1).padStart(2,'0')}`,layers);});
+const layers=$('#layers');FMT.forEach((f,i)=>{el('div','lay'+(i===0?' on':''),`<i></i>${f.n}<small>120</small>`,layers);for(let k=0;k<(i===0?4:1);k++)el('div','lay sub',`<i></i>${f.n.split(' ')[0].toLowerCase()}-${ART[i===0?k:i].kind}-${String((i===0?k:i)+1).padStart(2,'0')}`,layers);});
 $('#mini').innerHTML='<tr><td>art</td><td>headline</td><td>cta</td></tr>'+[0,1,2,3,4].map(i=>`<tr><td>${ART[i].kind}-${ART[i].bgName}</td><td>${HEAD[i]}</td><td>${CTA[i]}</td></tr>`).join('');
 const genprog=$('#genprog'),gencnt=$('#gencnt');
 const CW=1100,CH=852; // canvas viewport
@@ -956,11 +941,11 @@ function scene2(t){
 const mk=$('#mk');
 const PL=[
  {name:'Instagram Reel',k:'9:16 · 1080×1920 · 6s loop',art:0,hl:0,
-  p:'Weave’s image-to-video pass folds the T1 dragon open until it’s just still, flat paper. Headline and CTA are bound in Figma, so each of the 120 reels ships as its own variant.',
+  p:'Weave’s image-to-video pass folds the T2 dragon open until it’s just still, flat paper. Headline and CTA are bound in Figma, so each of the 120 reels ships as its own variant.',
   dl:[['Variant','reel-dragon-blue-01'],['Headline','File without fear.'],['Caption','That T1 looks a lot scarier folded up. Wave keeps your books organized all year, so when the CRA comes calling, it’s just paper.'],['CTA','Get started now']]},
  {name:'Facebook feed',k:'1:1 · 1080×1080',art:1,hl:1,
-  p:'The paper tiger, folded from a Notice of Assessment, carries the most playful line in the set. Same template, same binding, swapped by row in the sheet.',
-  dl:[['Variant','feed-tiger-navy-02'],['Headline','Tame tax season.'],['Subheading','Get your books ready by April 30.'],['Primary text','Every receipt in one place, every expense categorized. Get your books tax-ready before April 30 with Wave’s free accounting software.'],['CTA','Get tax-ready']]},
+  p:'The payroll scorpion, folded from a PD7A remittance, carries the most playful line in the set. Same template, same binding, swapped by row in the sheet.',
+  dl:[['Variant','feed-scorpion-navy-02'],['Headline','Tame tax season.'],['Subheading','Get your books ready by April 30.'],['Primary text','Every receipt in one place, every expense categorized. Get your books tax-ready before April 30 with Wave’s free accounting software.'],['CTA','Get tax-ready']]},
  {name:'LinkedIn sponsored',k:'1.91:1 · 1200×628',art:2,hl:5,
   p:'For accountants and business owners the copy turns practical. The T2125 cobra keeps the folded-form idea readable at a glance in the feed.',
   dl:[['Variant','li-snake-pink-06'],['Headline','Your books, tax-ready.'],['Intro','Self-employed in Canada? Wave turns a year of invoices and receipts into tax-ready reports your accountant will actually thank you for.'],['CTA','Learn more']]},
@@ -1002,7 +987,7 @@ const MOCKS=[reel,fb,li,art];
 const tabs3=$('#tabs3');const tabEls=PL.map(p=>el('div','',p.name+'<i></i>',tabs3));
 tabEls.forEach((e,j)=>{e.setAttribute('role','button');e.tabIndex=0;e.onclick=()=>{T=SC[2].t0+j*SEG+.001;render();};e.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();e.click();}};});
 const SEG=8.2,BEAT=0.9,UNF=2.3,FLAT=1.1; // folded beat, unfold, perfectly still flat sheet, refold into the next creature, beat
-const NEXT=['tiger','dragon','hydra','snake'];
+const NEXT=['scorpion','spider','dragon','snake'];
 function loopDraw(L,lt){const tq=lt,T1=BEAT,T2=T1+UNF,T3=T2+FLAT,T4=T3+UNF;
   const kind=tq<T3?L.a.kind:L.b,k=tq<T1?0:tq<T2?(tq-T1)/UNF:tq<T3?1:tq<T4?1-(tq-T3)/UNF:0;
   if(L.cur!==kind){L.cur=kind;L.sc.set(kind,L.a.form);L.c._f=-1;}
