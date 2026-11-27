@@ -679,7 +679,7 @@ const CREATURES = {
     },
   },
   hydra: {
-    nu: 26, nv: 15, unfoldFrom: [1, 0.5],
+    nu: 30, nv: 15, unfoldFrom: [1, 0.5],
     init() {
       // three cobra heads facing left; their bodies run straight down off the bottom of the frame
       const neck = (x, y, z, lean) => spine([[x - 0.16, y + 0.02, z], [x, y + 0.07, z], [x + 0.14, y - 0.08, z], [x + 0.2 + lean, y - 0.45, z], [x + 0.14 + lean, y - 0.95, z], [x + 0.2 + lean, -0.9, z]], [0, 0, 1]);
@@ -692,6 +692,7 @@ const CREATURES = {
       let w = (s < 0.05 ? mix(0.035, 0.1, s / 0.05) : s < 0.3 ? 0.1 : 0.12) * pleatX(i);
       let p = tube(f, vv, Math.max(w, hood), w, 0.84);
       if (i === 0) p = V.add(p, V.mul(f.t, -0.07));
+      if (s > 0.8) p[1] -= ((s - 0.8) / 0.2) * 1.8; // the base of each neck runs on down, well past the frame, so it always bleeds off the bottom
       return p;
     },
   },
