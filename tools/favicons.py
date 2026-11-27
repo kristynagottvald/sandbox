@@ -35,7 +35,7 @@ DROP = 'M32 8C32 8 16 28 16 40a16 16 0 0 0 32 0C48 28 32 8 32 8Z'
 STAR8 = ''.join(L('M32 8V56', '#e8f066', 7) if False else '' for _ in range(1))
 
 ICONS = {
-    'wave-tax-weave-walkthrough': ('#0040fe', P('M10 44L30 14L34 40Z', '#f6f3ec') + P('M30 14L54 26L34 40Z', '#c9c3b5') + P('M10 44L34 40L44 52Z', '#e3ddcf')),
+    'wave-tax-weave-walkthrough': ('#0041ff', P('M10 44L30 14L34 40Z', '#f9f4f1') + P('M30 14L54 26L34 40Z', '#c9c3b5') + P('M10 44L34 40L44 52Z', '#e3ddcf')),
     'lob-visual-editor': ('#2b2d83', R(10, 15, 44, 34, '#3f33f2') + R(34, 15, 20, 34, '#a28bff') + R(15, 21, 14, 5, '#e4ee5c') + R(15, 31, 14, 3, '#ffffff')),
     'brickanta-enterprise': ('#0e1f4c', P('M14 14H38L50 26V50H26L14 38Z', '#e8584f')),
     'brickanta-enterprise-visuals': ('#e8584f', P('M14 14H38L50 26V50H26L14 38Z', '#0e1f4c')),
