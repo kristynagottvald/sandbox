@@ -130,12 +130,12 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .qa{position:absolute;left:50%;top:8px;transform:translateX(-50%) translateY(6px);height:30px;padding:0 14px;border-radius:99px;background:#262a6b;border:1px solid rgba(169,156,255,.5);color:#fff;display:flex;align-items:center;gap:8px;font:700 11px var(--sans);letter-spacing:.12em;white-space:nowrap;opacity:0;transition:opacity .3s,transform .3s;z-index:3}
 .qa.on{opacity:1;transform:translateX(-50%)}
 .qa i{width:18px;height:18px;border-radius:5px;background:var(--mint);display:grid;place-items:center;font-style:normal;font-size:11px;color:var(--pu)}
-.rail{position:absolute;left:-8px;top:48px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.rail{position:absolute;left:-34px;top:48px;width:48px;padding:7px;border-radius:14px;background:#262a6b;border:1px solid rgba(169,156,255,.4);display:flex;flex-direction:column;gap:6px;box-shadow:0 14px 30px rgba(0,0,0,.35);opacity:0;transform:translateX(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .rail.on{opacity:1;transform:none}
 .rail b{height:34px;border-radius:9px;display:grid;place-items:center;color:#c9c4ff;transition:background .2s,color .2s}
 .rail b svg{width:16px;height:16px}
 .rail b.on{background:var(--pu);color:#fff}
-.gal{position:absolute;left:468px;top:-14px;width:284px;padding:16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
+.gal{position:absolute;left:500px;top:-14px;width:284px;padding:16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(-8px);transition:opacity .35s,transform .35s;z-index:3}
 .gal.on{opacity:1;transform:none}
 .gal .gt{display:flex;justify-content:space-between;font:600 12px var(--sans);margin-bottom:12px}
 .gal .gn{color:#a99cff;font-weight:500}
@@ -143,7 +143,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .gal .g div{aspect-ratio:1.05;border-radius:7px;background-size:cover;background-position:center;outline:3px solid transparent;outline-offset:2px;transition:outline-color .25s}
 .gal .g.on div{outline-color:var(--hot)}
 .gal .g small{display:block;margin-top:6px;font:600 10.5px var(--sans)}
-.chk{position:absolute;left:0;top:252px;width:272px;padding:16px 18px 16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
+.chk{position:absolute;left:-34px;top:252px;width:272px;padding:16px 18px 16px;border-radius:12px;background:#262a6b;border:1px solid rgba(169,156,255,.4);color:#fff;box-shadow:0 18px 40px rgba(0,0,0,.4);opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s;z-index:3}
 .chk.on{opacity:1;transform:none}
 .chk .ct{font:700 10px var(--sans);letter-spacing:.14em;color:#a99cff;margin-bottom:8px;text-transform:uppercase}
 .chk .cr{display:flex;align-items:center;justify-content:space-between;height:36px;font:500 13.5px var(--sans);border-top:1px solid rgba(255,255,255,.12)}
@@ -637,7 +637,7 @@ function drawDesign(t){
     const pc = popIn((t - 6.9 - k * .25) / .35);
     if (pc > 0) checkMark(65, y, pc);
     const g = easeIO(span(t, 7.0 + k * .25, 7.5 + k * .25));
-    if (g > 0 && ct < 1) { cx.save(); cx.globalAlpha = 1 - ct; cx.fillStyle = SOFT; rr(92, y - 8, [240, 190][k] * g, 16, 8); cx.fill(); cx.restore(); }
+    if (g > 0 && ct < 1) { cx.save(); cx.globalAlpha = 1 - ct; cx.fillStyle = SOFT; rr(92, y - 8, [240, 190][k] * g, -10, 8); cx.fill(); cx.restore(); }
     if (ct > 0) { cx.save(); cx.globalAlpha = ct; cx.fillStyle = WHITE; cx.font = '500 22px Inter, Helvetica, Arial, sans-serif'; cx.textBaseline = 'middle'; cx.fillText(['Same-week appointments', 'Covered by your plan'][k], 92, y + 1); cx.restore(); }
   }
   // QR card: pops in with brackets, later the real code draws in
@@ -682,18 +682,17 @@ function drawCard(t){
   const radius = lerp(6, 3, d);
   cx.save();
   cx.translate(CW0 / 2, CH0 / 2); cx.scale(grow, grow); cx.translate(-CW0 / 2, -CH0 / 2);
-  rr(32, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.55)'; cx.fill();   // hard offset shadow, see-through purple
+  rr(32, 32, CW0, CH0, radius); cx.fillStyle = 'rgba(65,49,241,.85)'; cx.fill();   // hard offset shadow, purple
   rr(0, 0, CW0, CH0, radius); cx.fillStyle = PINK; cx.fill();
   cx.save(); rr(0, 0, CW0, CH0, radius); cx.clip();
   if (wire > 0) { cx.globalAlpha = wire; hatch(520, -6, 370, 260, PU, 27, 6); cx.globalAlpha = 1; }
   drawDesign(t);
   cx.restore();
-  if (wire > 0) { cx.globalAlpha = wire; rr(0, 0, CW0, CH0, radius); cx.strokeStyle = PU; cx.lineWidth = SWL; cx.stroke(); cx.globalAlpha = 1; }
   for (const i of EL_ORDER) drawEl(i, t);
   cx.restore();
 }
 // cursor keyframes in stage px: [t, x, y]
-const HK = [[0, 640, 470], [.4, 16, 65], [4.6, 16, 65], [5.0, 522, 62], [5.6, 522, 62], [6.2, 16, 145], [6.8, 16, 105], [7.6, 16, 225], [8.4, 16, 185], [8.8, 16, 145], [9.9, 16, 225], [10.5, 16, 185], [11.0, 608, 62], [11.6, 608, 64], [11.9, 694, 62], [12.6, 694, 64], [13.1, 760, 470], [LOOP, 760, 470]];
+const HK = [[0, 640, 470], [.4, -10, 65], [4.6, -10, 65], [5.0, 554, 62], [5.6, 554, 62], [6.2, -10, 145], [6.8, -10, 105], [7.6, -10, 225], [8.4, -10, 185], [8.8, -10, 145], [9.9, -10, 225], [10.5, -10, 185], [11.0, 640, 62], [11.6, 640, 64], [11.9, 726, 62], [12.6, 726, 64], [13.1, 760, 470], [LOOP, 760, 470]];
 function at(t, K){ for (let i = 1; i < K.length; i++) if (t <= K[i][0]) { const a = K[i - 1], b = K[i]; const k = easeIO((t - a[0]) / (b[0] - a[0] || 1)); return [lerp(a[1], b[1], k), lerp(a[2], b[2], k)]; } return K[K.length - 1].slice(1); }
 const tog = (el, c, on) => el.classList.toggle(c, !!on);
 function heroAt(t, S){
