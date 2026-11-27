@@ -151,7 +151,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 .s3copy dl{margin-top:30px;display:grid;grid-template-columns:120px 1fr;gap:9px 14px;font:400 13px/1.35 var(--sans);border-top:1px solid #cfccc3;padding-top:20px}
 .s3copy dt{font:500 11px/1.6 var(--mono);text-transform:uppercase;letter-spacing:.06em;color:#888}
 .s3copy dd{color:#111}
-.tabs{position:absolute;left:90px;bottom:70px;display:flex;gap:8px}
+.tabs{position:absolute;left:90px;top:350px;display:flex;gap:8px}
 .tabs div{cursor:pointer;font:500 12px/1 var(--sans);padding:10px 14px;border-radius:999px;border:1px solid #c9c6bd;color:#555;position:relative;overflow:hidden}
 .tabs div:hover{border-color:var(--navy);color:var(--navy)}.tabs div.on{background:var(--navy);border-color:var(--navy);color:#fff}
 .tabs div i{position:absolute;left:0;bottom:0;height:2px;background:var(--sky)}
@@ -248,7 +248,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 
 <!-- 3 · In market -->
 <section class="scene" id="s3">
-  <div class="s3copy"><h2 id="h3">Instagram Reel</h2><dl id="dl3"></dl></div>
+  <div class="s3copy"><h2 id="h3">Instagram Reel</h2></div>
   <div class="tabs" id="tabs3"></div>
   <div class="mk" id="mk"></div>
 </section>
@@ -317,42 +317,45 @@ const pleatX = (i) => (i % 2 ? 1.2 : 0.8); // sharper, more angular pleats
 /* ---------- creatures ---------- */
 const CREATURES = {
   dragon: {
-    nu: 26, nv: 8, unfoldFrom: [1, 0.5],
+    // three-headed origami dragon: tall flat-folded necks with angular heads, two upright diamond wings,
+    // a low crouched body on small legs and a long tail trailing along the ground
+    nu: 30, nv: 15, unfoldFrom: [1, 0.5],
     init() {
-      this.sp = spine([[-1.18, 1.18, 0.12], [-1.02, 1.24, 0.1], [-0.82, 1.05, 0.06], [-0.6, 0.66, 0.02], [-0.3, 0.42, 0], [0.12, 0.38, 0], [0.5, 0.3, -0.04], [0.86, 0.2, -0.02], [1.16, 0.3, 0.05], [1.26, 0.6, 0.1], [1.08, 0.74, 0.12]], [0, 0, 1]);
+      const neck = (x, z, top, lean) => spine([[x + 0.3, top, z], [x + 0.08, top + 0.03, z], [x, top - 0.12, z], [x + lean, top - 0.55, z * 0.85], [x * 0.6 + 0.05, 0.6, z * 0.5]], [0, 0, 1], 160);
+      this.necks = [neck(-0.32, 0.2, 1.42, 0.02), neck(0.02, -0.06, 1.62, -0.02), neck(0.34, 0.1, 1.38, 0.04)];
+      this.tail = spine([[-0.12, 0.38, 0], [-0.5, 0.2, 0.04], [-0.85, 0.1, -0.02], [-1.2, 0.05, 0.03], [-1.55, 0.02, 0]], [0, 1, 0]);
     },
-    width(u) {
-      if (u < 0.05) return mix(0.025, 0.1, u / 0.05);
-      if (u < 0.12) return 0.11;
-      if (u < 0.3) return mix(0.085, 0.2, sstep(0.18, 0.3, u));
-      if (u < 0.6) return 0.2;
-      return mix(0.18, 0.012, (u - 0.6) / 0.4);
+    pose(u, v, i, j, cu, cv) { // mirrored so the dragon faces left; the paper is mirrored too so its print still reads
+      const q = this._pose(u, 1 - v, i, this.nv - j, cu, 1 - cv); return [-q[0], q[1], q[2]];
     },
-    pose(u, v, i, j, cu, cv) {
-      const sp = this.sp, wingU = cu > 0.32 && cu < 0.62, band = 0.26;
-      let w = this.width(u) * pleatX(i);
-      const f = sp.at(u);
-      if (wingU && (cv < band || cv > 1 - band)) {
-        const left = cv < band, a = left ? (band - v) / band : (v - (1 - band)) / band;
-        const root = tube(f, left ? band : 1 - band, w);
-        const c = (u - 0.32) / 0.3; // chord 0 leading edge .. 1 trailing
-        const sweep = c * 0.95;
-        let d = left ? [0.12 + Math.sin(sweep) * 0.85, Math.cos(sweep) * 1, 0.55] : [0.25 + Math.sin(sweep) * 0.85, Math.cos(sweep) * 0.95, -0.5];
-        d = V.norm(d);
-        const len = (1.22 - 0.5 * c) * (0.82 + 0.18 * Math.abs(Math.cos(c * Math.PI * 2.5)));
-        let p = V.add(root, V.mul(d, a * len));
-        p = V.add(p, V.mul([0, 0, left ? 1 : -1], (i % 2 ? 0.13 : -0.07) * a)); // fan pleats, sharper
+    _pose(u, v, i, j, cu, cv) {
+      const SPLIT = 0.44, BODY = 0.6;
+      if (cu < SPLIT) { // necks + heads (head is the horizontal run at the top of each neck)
+        const k = Math.min(2, Math.floor(cv * 3)), vv = clamp((v - k / 3) * 3), s = clamp(u / SPLIT);
+        const f = this.necks[k].at(s), head = s < 0.28;
+        const w = (head ? mix(0.02, 0.13, Math.min(1, s / 0.16)) : 0.1) * pleat(i), wn = head ? 0.04 : 0.035;
+        let p = tube(f, vv, w, wn, 0.9);
+        if (head && Math.abs(vv - 0.5) < 0.2 && s > 0.12) p = V.add(p, [0, 0.07, 0]); // crest
         return p;
       }
-      let p = tube(f, v, w);
-      // horns + dorsal spikes along the ridge
-      const ridge = 1 - Math.min(1, Math.abs(v - 0.5) / 0.09);
-      if (ridge > 0 && j === this.nv / 2) {
-        if (i === 3) p = V.add(p, V.add(V.mul(f.b, 0.24), V.mul(f.t, 0.2)));
-        else if (i > 7 && i < 22 && i % 2 === 0) p = V.add(p, V.mul(f.b, 0.2 * (1 - Math.abs(i - 14) / 12)));
+      if (cu < BODY) {
+        const a = (u - SPLIT) / (BODY - SPLIT), side = cv < 0.3 ? 1 : cv > 0.7 ? -1 : 0;
+        if (side) { // upright diamond wings, flat panels rising up and back
+          const t = side > 0 ? (0.3 - v) / 0.3 : (v - 0.7) / 0.3;
+          const root = [-0.02 - a * 0.26, 0.55, side * 0.12], span = [-0.46, 0.86, side * 0.3], chord = [-0.5, -0.12, 0];
+          const len = Math.max(0, 1 - Math.abs(t - 0.38) / 0.62); // diamond: widest a third of the way out
+          return V.add(root, V.add(V.mul(span, t), V.mul(chord, (a - 0.5) * len + 0.2 * t)));
+        }
+        const x = mix(0.34, -0.14, a), vv = (v - 0.3) / 0.4, ph = (vv - 0.5) * Math.PI * 1.6;
+        return [x, 0.4 + Math.cos(ph) * 0.18 + (i % 2 ? 0.02 : -0.01), Math.sin(ph) * 0.2];
       }
-      if (i === 0) p = V.add(p, V.mul(f.t, -0.08)); // pointed snout
-      return p;
+      const a = (u - BODY) / (1 - BODY), f = this.tail.at(a);
+      if (a < 0.2 && (cv < 0.22 || cv > 0.78)) { // back legs
+        const side = cv < 0.5 ? 1 : -1, t = side > 0 ? (0.22 - v) / 0.22 : (v - 0.78) / 0.22, root = f.p;
+        return V.lerp(root, [root[0] + 0.12, 0.0, side * 0.2], t);
+      }
+      const w = mix(0.15, 0.012, Math.pow(a, 0.8)) * pleatX(i);
+      return tube(f, v, w, w * 0.45, 0.85);
     },
   },
   snake: {
@@ -762,7 +765,7 @@ const FORM={dragon:'T2',hydra:'GST34',scorpion:'PD7A',spider:'T5018',snake:'T212
 const NAME={dragon:'T2 dragon',hydra:'GST/HST hydra',scorpion:'payroll scorpion',spider:'T5018 spider',snake:'T2125 cobra'};
 const ARTDEF=[['dragon','blue'],['scorpion','navy'],['snake','pink'],['hydra','sky'],['spider','peri'],['dragon','navy'],['scorpion','peach'],['snake','blue'],['hydra','navy'],['spider','pink'],['snake','peach'],['scorpion','cream']];
 const ART=ARTDEF.map(([k,b])=>({kind:k,form:FORM[k],bgName:b,bg:BG[b],shadow:SHADOW[b],dark:b==='blue'||b==='navy',src:''}));
-const OPT=a=>({creature:a.kind,form:a.form,shadow:null,cx:.5,cy:.6,fov:1.3,yaw:-0.42,flatYaw:0.22});
+const OPT=a=>Object.assign({creature:a.kind,form:a.form,shadow:null,cx:.5,cy:.6,fov:1.3,yaw:-0.42,flatYaw:0.22},a.kind==='hydra'?{cy:.86,fov:1.6}:{}); // hydra: necks run off the bottom edge
 const hid=document.createElement('canvas');hid.style.cssText='position:fixed;left:-3000px;top:0;width:520px;height:400px;pointer-events:none';document.body.appendChild(hid);
 const out=document.createElement('canvas');out.width=1040;out.height=800;const og=out.getContext('2d');
 let hidScene=null;
@@ -960,7 +963,7 @@ const reel=el('div','',`<div class="phone"><div class="scr"><div class="ad" id="
 <div class="reel-cap">That T1 looks a lot scarier folded up. Wave keeps your books organized all year, so when the CRA comes calling, it’s just paper.</div>
 <div class="reel-cta"><span>Get started now</span><span>›</span></div></div><div class="reel-prog"><i></i></div></div></div>`,mk);
 const reelAd=reel.querySelector('#reelad');
-reelAd.innerHTML=`<div class="ad" style="background:${ART[0].bg}"><canvas class="live" style="top:250px;height:520px;left:-4%;width:150%"></canvas><div class="wm" style="right:24px;top:96px;font-size:24px;color:#fff">wave</div><div class="h" id="reelh" style="left:34px;right:30px;top:132px;font-size:60px;color:#fff"></div></div>`;
+reelAd.innerHTML=`<div class="ad" style="background:${ART[0].bg}"><canvas class="live" style="top:170px;height:520px;left:-4%;width:150%"></canvas><div class="wm" style="right:24px;top:96px;font-size:24px;color:#fff">wave</div><div class="h" id="reelh" style="left:34px;right:30px;top:132px;font-size:60px;color:#fff"></div></div>`;
 const reelCv=reelAd.querySelector('canvas'),reelH=reelAd.querySelector('#reelh'),reelProg=reel.querySelector('.reel-prog i');let reelScene=null;
 // 2 facebook
 const fb=el('div','',`<div class="card fb"><div class="c-head"><div class="lg">w</div><div>Wave<small>Sponsored · 🌐</small></div><span class="dots">···</span></div>
@@ -987,7 +990,7 @@ const MOCKS=[reel,fb,li,art];
 const tabs3=$('#tabs3');const tabEls=PL.map(p=>el('div','',p.name+'<i></i>',tabs3));
 tabEls.forEach((e,j)=>{e.setAttribute('role','button');e.tabIndex=0;e.onclick=()=>{T=SC[2].t0+j*SEG+.001;render();};e.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();e.click();}};});
 const SEG=8.2,BEAT=0.9,UNF=2.3,FLAT=1.1; // folded beat, unfold, perfectly still flat sheet, refold into the next creature, beat
-const NEXT=['scorpion','spider','dragon','snake'];
+const NEXT=['scorpion','spider','snake','snake'];
 function loopDraw(L,lt){const tq=lt,T1=BEAT,T2=T1+UNF,T3=T2+FLAT,T4=T3+UNF;
   const kind=tq<T3?L.a.kind:L.b,k=tq<T1?0:tq<T2?(tq-T1)/UNF:tq<T3?1:tq<T4?1-(tq-T3)/UNF:0;
   if(L.cur!==kind){L.cur=kind;L.sc.set(kind,L.a.form);L.c._f=-1;}
@@ -996,7 +999,7 @@ const liveAds=MOCKS.map((m,i)=>{const c=m.querySelector('canvas[data-live]');ret
 let cur3=-1;
 function scene3(t){
   const i=Math.min(3,Math.floor(t/SEG)),lt=t-i*SEG;
-  if(i!==cur3){cur3=i;const p=PL[i];$('#h3').textContent=p.name;$('#dl3').innerHTML=p.dl.filter(([a])=>a!=='Variant'&&a!=='CTA').map(([a,b])=>`<dt>${a}</dt><dd>${b}</dd>`).join('');tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
+  if(i!==cur3){cur3=i;const p=PL[i];$('#h3').textContent=p.name;tabEls.forEach((e,j)=>e.classList.toggle('on',j===i));}
   tabEls.forEach((e,j)=>e.lastChild.style.width=(j===i?P(lt,0,SEG)*100:0)+'%');
   const cp=$('.s3copy');const ck=E(lt,0,.5)*(1-E(lt,SEG-.35,SEG));cp.style.opacity=ck;cp.style.transform=`translateY(${(1-ck)*12}px)`;
   MOCKS.forEach((m,j)=>{

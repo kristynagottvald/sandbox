@@ -78,13 +78,13 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 
 /* testimonials */
 .testi{background:var(--sky);padding:33px 0}
-.tq{max-width:1352px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:minmax(0,780px) 367px;justify-content:space-between;gap:42px;align-items:center}
+.tq{max-width:1352px;margin:0 auto;padding:0 24px;display:grid;grid-template-columns:367px minmax(0,780px);justify-content:space-between;gap:42px;align-items:center}
 .tq blockquote,.pcard blockquote{font-family:var(--serif);font-size:34px;line-height:1.18;letter-spacing:-.01em;color:var(--navy);font-weight:400;font-variation-settings:"opsz" 36}
 .tq blockquote b,.pcard blockquote b{font-weight:600}
 .tq blockquote b{font-weight:700}
 .tq .who{margin-top:44px;font-size:18px;color:var(--navy)}
 .tq .who b{font-weight:700}
-.tq img{width:367px;height:367px;object-fit:cover;border-radius:16px}
+.tq img{order:-1;width:367px;height:367px;object-fit:cover;border-radius:16px}
 
 /* features */
 .feat{padding:110px 0 98px}
@@ -123,11 +123,11 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 .lotus .row b:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--d)}
 
 /* industries */
-.ind{background:var(--navy);color:#fff;padding:96px 0 98px}
+.ind{background:var(--navy);color:#fff;padding:136px 0 140px}
 .ind h2{font-size:60px;line-height:1.1}
 .ind .four{display:grid;grid-template-columns:repeat(4,1fr);gap:68px;margin-top:32px}
 .ind h3{font-family:var(--sans);font-weight:700;font-size:24px;line-height:1.18;color:var(--sky);min-height:62px;font-variation-settings:"opsz" 30;font-weight:450}
-.ind .four img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:13px;margin:28px 0 34px}
+.ind .four img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:13px;margin:21px 0 27px}
 .ind .four p{font-size:17px;line-height:1.44}
 .pcard{background:var(--pink);border-radius:20px;margin:84px 0 0;padding:56px;display:grid;grid-template-columns:minmax(0,620px) 470px;justify-content:space-between;gap:42px;align-items:center}
 .pcard img{width:470px;height:auto;aspect-ratio:1;object-fit:cover;border-radius:14px}
@@ -161,13 +161,16 @@ h2.sec{font-size:60px;line-height:1.02;text-align:center;text-wrap:balance}
 /* pricing */
 .plans{padding:140px 0 0}
 .phead{display:flex;align-items:flex-end;justify-content:space-between;gap:40px}
-.phead h2{font-size:64px;line-height:1;letter-spacing:-.02em;color:var(--navy);max-width:620px}
+.phead h2{font-size:64px;line-height:1;letter-spacing:-.02em;color:var(--navy);white-space:nowrap}
+@media (max-width:1180px){.phead h2{white-space:normal}}
 .phead h2 em{font-style:italic;color:var(--purple)}
 .phead p{font-size:20px;line-height:1.4;margin-top:16px;color:#3b3d40}
 .tog .pill{display:flex;gap:4px;height:56px;background:#fff;border:1.5px solid var(--navy);border-radius:999px;padding:5px}
 .tog .pill button{border:0;background:none;border-radius:999px;font:600 17px var(--sans);color:var(--navy);padding:0 24px;display:flex;align-items:center;gap:10px;white-space:nowrap}
 .tog .pill button.on{background:var(--navy);color:#fff}
-.tog .save{background:var(--pink);color:var(--navy);font:700 12.5px var(--sans);padding:4px 9px;border-radius:99px}
+.tog{display:flex;align-items:center;gap:18px}
+.tog .save{display:flex;align-items:center;gap:7px;color:var(--purple);font:700 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.tog .save svg{width:15px;height:15px;fill:currentColor}
 .prices{display:grid;grid-template-columns:1fr 1fr;margin-top:48px;border:1.5px solid var(--navy);border-radius:24px;overflow:hidden;background:#fff}
 .pc{position:relative;display:flex;flex-direction:column}
 .pc+.pc{border-left:1.5px solid var(--navy)}
@@ -426,8 +429,8 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <div class="four">
       <div><h3>Construction and home services</h3><img src="img/ind-construction-duo.jpg" alt="A contractor on a ladder cleaning a window"><p>Stop spending hours on tedious bookkeeping tasks after a long day on the jobsite. Wave does the heavy-lifting, even on-the-go, so you can rest easy knowing you’re prepped for tax time.</p></div>
       <div><h3>Creatives and freelancers</h3><img src="img/ind-creatives-duo.jpg" alt="A freelancer smiling at her laptop"><p>It’s easy to lose track of equipment and office supply costs. Wave’s receipts feature makes sure every expense is stored, helping you claim every deduction and stay prepped for audits.</p></div>
-      <div><h3>Real estate</h3><img src="img/ind-realestate-duo.jpg" alt="A smiling real estate agent in a black blazer holds up a set of house keys"><p>Spending more time on your books than your properties? Safely and securely sync your bank account with Wave, get customizable accounts for each property, and access key reports for tax time.</p></div>
-      <div><h3>Consultants</h3><img src="img/ind-consultants-duo.jpg" alt="A smiling consultant in a yellow blazer holds a tablet"><p>Wave makes it simple to organize and track income and expenses, so you know where things stand before you file taxes.</p></div>
+      <div><h3>Real estate</h3><img src="img/ind-realestate-duo.jpg" alt="A real estate agent holding a folder stands at the front door of a modern house"><p>Spending more time on your books than your properties? Safely and securely sync your bank account with Wave, get customizable accounts for each property, and access key reports for tax time.</p></div>
+      <div><h3>Consultants</h3><img src="img/ind-consultants-duo.jpg" alt="A smiling consultant in glasses stands in a bright office"><p>Wave makes it simple to organize and track income and expenses, so you know where things stand before you file taxes.</p></div>
     </div>
     <div class="pcard">
       <div class="adv2">
@@ -464,7 +467,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
   <div class="wrap">
   <div class="phead">
     <div><h2 class="serif">Pricing with nothing to <em>fear.</em></h2><p>Start free. Upgrade when you want the books to run themselves.</p></div>
-    <div class="tog"><div class="pill"><button data-p="m">Monthly</button><button class="on" data-p="a">Annual <span class="save">Save $50</span></button></div></div>
+    <div class="tog"><span class="save"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0c.6 4.2 3.8 7.4 8 8-4.2.6-7.4 3.8-8 8-.6-4.2-3.8-7.4-8-8 4.2-.6 7.4-3.8 8-8z"/></svg>Save $50 annually</span><div class="pill"><button data-p="m">Monthly</button><button class="on" data-p="a">Annual</button></div></div>
   </div>
   <div class="prices">
     <div class="pc">
@@ -509,7 +512,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <p class="sub">Stop the tax time terror before it starts. Check out our guides to get prepared.</p>
     <div class="arts" id="arts">
       <a class="art" href="#" data-c="spider" data-f="T4A" data-cam="0.5,0.5,1.3" data-bg="#f2a8ff" data-sh="" data-name="T4A spider"><div class="ill"><canvas></canvas></div><div class="tx"><h3>2026 tax checklist: Get ready for tax season</h3><p>As we kick off the new year, it’s time to get your business ready for tax filing season. Follow these steps to get your books in shape.</p></div></a>
-      <a class="art" href="#" data-c="hydra" data-f="T2125" data-cam="0.5,0.5,1.2" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
+      <a class="art" href="#" data-c="hydra" data-f="T2125" data-cam="0.5,0.9,1.55" data-bleed="1" data-bg="#001b65" data-sh="" data-name="Deductions hydra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>The ultimate guide to self-employed tax deductions</h3><p>Everything you need to know about tax deductions for the self-employed, common examples of what you can deduct, and how to maximize those deductions.</p></div></a>
       <a class="art" href="#" data-c="snake" data-f="GST34" data-cam="0.5,0.5,2.2" data-bg="#8a3ffc" data-sh="" data-name="GST/HST cobra"><div class="ill"><canvas></canvas></div><div class="tx"><h3>5 reasons why you should file your taxes ASAP</h3><p>Although filing your taxes might not be top of mind right now, we’ve looked into the top reasons why filing your taxes now can benefit you, your business, and others.</p></div></a>
     </div>
   </div>
@@ -608,42 +611,45 @@ const pleatX = (i) => (i % 2 ? 1.2 : 0.8); // sharper, more angular pleats
 /* ---------- creatures ---------- */
 const CREATURES = {
   dragon: {
-    nu: 26, nv: 8, unfoldFrom: [1, 0.5],
+    // three-headed origami dragon: tall flat-folded necks with angular heads, two upright diamond wings,
+    // a low crouched body on small legs and a long tail trailing along the ground
+    nu: 30, nv: 15, unfoldFrom: [1, 0.5],
     init() {
-      this.sp = spine([[-1.18, 1.18, 0.12], [-1.02, 1.24, 0.1], [-0.82, 1.05, 0.06], [-0.6, 0.66, 0.02], [-0.3, 0.42, 0], [0.12, 0.38, 0], [0.5, 0.3, -0.04], [0.86, 0.2, -0.02], [1.16, 0.3, 0.05], [1.26, 0.6, 0.1], [1.08, 0.74, 0.12]], [0, 0, 1]);
+      const neck = (x, z, top, lean) => spine([[x + 0.3, top, z], [x + 0.08, top + 0.03, z], [x, top - 0.12, z], [x + lean, top - 0.55, z * 0.85], [x * 0.6 + 0.05, 0.6, z * 0.5]], [0, 0, 1], 160);
+      this.necks = [neck(-0.32, 0.2, 1.42, 0.02), neck(0.02, -0.06, 1.62, -0.02), neck(0.34, 0.1, 1.38, 0.04)];
+      this.tail = spine([[-0.12, 0.38, 0], [-0.5, 0.2, 0.04], [-0.85, 0.1, -0.02], [-1.2, 0.05, 0.03], [-1.55, 0.02, 0]], [0, 1, 0]);
     },
-    width(u) {
-      if (u < 0.05) return mix(0.025, 0.1, u / 0.05);
-      if (u < 0.12) return 0.11;
-      if (u < 0.3) return mix(0.085, 0.2, sstep(0.18, 0.3, u));
-      if (u < 0.6) return 0.2;
-      return mix(0.18, 0.012, (u - 0.6) / 0.4);
+    pose(u, v, i, j, cu, cv) { // mirrored so the dragon faces left; the paper is mirrored too so its print still reads
+      const q = this._pose(u, 1 - v, i, this.nv - j, cu, 1 - cv); return [-q[0], q[1], q[2]];
     },
-    pose(u, v, i, j, cu, cv) {
-      const sp = this.sp, wingU = cu > 0.32 && cu < 0.62, band = 0.26;
-      let w = this.width(u) * pleatX(i);
-      const f = sp.at(u);
-      if (wingU && (cv < band || cv > 1 - band)) {
-        const left = cv < band, a = left ? (band - v) / band : (v - (1 - band)) / band;
-        const root = tube(f, left ? band : 1 - band, w);
-        const c = (u - 0.32) / 0.3; // chord 0 leading edge .. 1 trailing
-        const sweep = c * 0.95;
-        let d = left ? [0.12 + Math.sin(sweep) * 0.85, Math.cos(sweep) * 1, 0.55] : [0.25 + Math.sin(sweep) * 0.85, Math.cos(sweep) * 0.95, -0.5];
-        d = V.norm(d);
-        const len = (1.22 - 0.5 * c) * (0.82 + 0.18 * Math.abs(Math.cos(c * Math.PI * 2.5)));
-        let p = V.add(root, V.mul(d, a * len));
-        p = V.add(p, V.mul([0, 0, left ? 1 : -1], (i % 2 ? 0.13 : -0.07) * a)); // fan pleats, sharper
+    _pose(u, v, i, j, cu, cv) {
+      const SPLIT = 0.44, BODY = 0.6;
+      if (cu < SPLIT) { // necks + heads (head is the horizontal run at the top of each neck)
+        const k = Math.min(2, Math.floor(cv * 3)), vv = clamp((v - k / 3) * 3), s = clamp(u / SPLIT);
+        const f = this.necks[k].at(s), head = s < 0.28;
+        const w = (head ? mix(0.02, 0.13, Math.min(1, s / 0.16)) : 0.1) * pleat(i), wn = head ? 0.04 : 0.035;
+        let p = tube(f, vv, w, wn, 0.9);
+        if (head && Math.abs(vv - 0.5) < 0.2 && s > 0.12) p = V.add(p, [0, 0.07, 0]); // crest
         return p;
       }
-      let p = tube(f, v, w);
-      // horns + dorsal spikes along the ridge
-      const ridge = 1 - Math.min(1, Math.abs(v - 0.5) / 0.09);
-      if (ridge > 0 && j === this.nv / 2) {
-        if (i === 3) p = V.add(p, V.add(V.mul(f.b, 0.24), V.mul(f.t, 0.2)));
-        else if (i > 7 && i < 22 && i % 2 === 0) p = V.add(p, V.mul(f.b, 0.2 * (1 - Math.abs(i - 14) / 12)));
+      if (cu < BODY) {
+        const a = (u - SPLIT) / (BODY - SPLIT), side = cv < 0.3 ? 1 : cv > 0.7 ? -1 : 0;
+        if (side) { // upright diamond wings, flat panels rising up and back
+          const t = side > 0 ? (0.3 - v) / 0.3 : (v - 0.7) / 0.3;
+          const root = [-0.02 - a * 0.26, 0.55, side * 0.12], span = [-0.46, 0.86, side * 0.3], chord = [-0.5, -0.12, 0];
+          const len = Math.max(0, 1 - Math.abs(t - 0.38) / 0.62); // diamond: widest a third of the way out
+          return V.add(root, V.add(V.mul(span, t), V.mul(chord, (a - 0.5) * len + 0.2 * t)));
+        }
+        const x = mix(0.34, -0.14, a), vv = (v - 0.3) / 0.4, ph = (vv - 0.5) * Math.PI * 1.6;
+        return [x, 0.4 + Math.cos(ph) * 0.18 + (i % 2 ? 0.02 : -0.01), Math.sin(ph) * 0.2];
       }
-      if (i === 0) p = V.add(p, V.mul(f.t, -0.08)); // pointed snout
-      return p;
+      const a = (u - BODY) / (1 - BODY), f = this.tail.at(a);
+      if (a < 0.2 && (cv < 0.22 || cv > 0.78)) { // back legs
+        const side = cv < 0.5 ? 1 : -1, t = side > 0 ? (0.22 - v) / 0.22 : (v - 0.78) / 0.22, root = f.p;
+        return V.lerp(root, [root[0] + 0.12, 0.0, side * 0.2], t);
+      }
+      const w = mix(0.15, 0.012, Math.pow(a, 0.8)) * pleatX(i);
+      return tube(f, v, w, w * 0.45, 0.85);
     },
   },
   snake: {
@@ -811,18 +817,16 @@ function formTexture(kind, S = 1024, page = 1) {
 }
 
 /* ---------- mesh build ---------- */
-// curled sheets: lying flat at the front, sweeping up into a tall curve at the back (like pages fanning open)
-[[0.9, 0.34, [-0.5, 0, 0.18], 0.0, 0.35], [1.25, 0.26, [0.0, 0.012, 0.0], 0.4, 0.0], [1.6, 0.18, [0.45, 0.024, -0.16], 0.8, -0.3]].forEach(([rise, start, off, ph, rot], n) => {
+// curled sheets: each lies flat on the table, then curves up in one smooth sweep (bottom sheet barely, top sheet high)
+[[1.3, 0.5, 0.45, [0, 0, 0.0], 0.0], [0.85, 0.42, 1.0, [0.03, 0.01, 0.14], 0.0], [0.7, 0.34, 1.5, [0.06, 0.02, 0.3], 0.0]].forEach(([R0, start, tmax, off, rot], n) => {
   CREATURES['curl' + n] = {
-    nu: 26, nv: 14, unfoldFrom: [0.5, 0.5], smooth: true, init() {},
+    nu: 30, nv: 14, unfoldFrom: [0.5, 0.5], smooth: true, init() {},
     pose(u, v) {
-      // u runs front (0) to back (1); the back part bends up around a cylinder, so the sheet keeps its length
-      const L = 2.05, R = rise * 0.62, s0 = start * L, sa = u * L, x = (v - 0.5) * 1.6;
-      let y, z;
-      if (sa <= s0) { y = 0; z = sa; }
-      else { const th = Math.min((sa - s0) / R, 1.5); const rem = Math.max(0, (sa - s0) - th * R); y = R * (1 - Math.cos(th)) + rem * Math.sin(th); z = s0 + R * Math.sin(th) + rem * Math.cos(th); }
-      const zz = z - L / 2, c = Math.cos(rot), sn = Math.sin(rot);
-      return [x * c - zz * sn + off[0], y + off[1], x * sn + zz * c + off[2]];
+      // u runs from the flat end (0) to the lifted end (1); the lifted part bends around a cylinder so the sheet keeps its length
+      const L = 2.4, s0 = start * L, sa = u * L, x = (v - 0.5) * 1.7, R = R0;
+      let y = 0, z = sa;
+      if (sa > s0) { const th = Math.min((sa - s0) / R, tmax), rem = Math.max(0, (sa - s0) - th * R); y = R * (1 - Math.cos(th)) + rem * Math.sin(th); z = s0 + R * Math.sin(th) + rem * Math.cos(th); }
+      return [x + off[0], y + off[1], -(z - L / 2) + off[2]];
     },
   };
 });
@@ -1087,7 +1091,7 @@ if (reduce && !CLIP) rb.seek(0);
     const ill = a.querySelector('.ill'), cv = a.querySelector('canvas');
     ill.style.background = a.dataset.bg;
     const cam = (a.dataset.cam || '0.5,0.5,1.95').split(',').map(Number);
-    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: cam[0], cy: cam[1], fov: cam[2], center: true, centerY: 0.52, yaw: -0.42, flatYaw: -0.42, sway: 0 });
+    const sc = new Origami.Scene(cv, { creature: a.dataset.c, form: a.dataset.f, shadow: null, cx: cam[0], cy: cam[1], fov: cam[2], center: !a.dataset.bleed, centerY: 0.52, yaw: -0.42, flatYaw: -0.42, sway: 0 });
     const draw = () => sc.draw(0, 0);
     draw(); addEventListener('resize', draw); document.fonts && document.fonts.ready.then(draw);
   });
@@ -1123,7 +1127,7 @@ if (reduce && !CLIP) rb.seek(0);
 /* ---------- closing CTA: three CRA forms lying still, each with its own soft curl ---------- */
 (function(){
   const cv = document.getElementById('ftart'); if (!cv) return;
-  const base = { shadow: null, cx: 0.5, cy: 0.6, fov: 0.95, yaw: 2.2, flatYaw: 2.2, pitch: 0.34, tgtY: 0.4, sway: 0, light: [-0.4, 1, 0.5] };
+  const base = { shadow: null, cx: 0.5, cy: 0.6, fov: 1.1, yaw: -1.12, flatYaw: -1.12, pitch: 0.3, tgtY: 0.45, sway: 0, light: [-0.4, 1, 0.5] };
   const sc = [['curl0', 'T2125', '#f2b6ff'], ['curl1', 'GST34', '#a9d6ff'], ['curl2', 'T4SUM', null]].map(([c, f, tint], n) => new Origami.Scene(cv, Object.assign({}, base, { creature: c, form: f, tint, bright: 0.6, noClear: n > 0 })));
   const draw = () => { if (getComputedStyle(cv).display === 'none') return; const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr); if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; } cv.getContext('2d').clearRect(0, 0, w, h); sc.forEach((x) => x.draw(0, 0)); };
   draw(); addEventListener('resize', draw); document.fonts && document.fonts.ready.then(draw);
