@@ -288,7 +288,7 @@ function buildTextures() {
       ctx.font = '700 ' + 6.5 * S + 'px ' + SANS; ctx.letterSpacing = 3 * S + 'px'; ctx.textAlign = 'center'; ctx.fillText('SLIDE TO OPEN', cx, 24 * S); ctx.fillText('←', cx, 38 * S);
     };
     deboss(c, w, h, shape, 2.2, 1.1);
-    ringShape(c, cx, cz, 22 * S, '#fff', 0.84, 1.2, -0.08); // the logo's perforated stamp, small and white, dead centre
+    ringShape(c, cx, cz, 22 * S, '#fff', 0.84, 1.2, 0); // the logo's perforated stamp, small and white, dead centre, square to the sleeve
     c.fillStyle = '#fff'; c.textAlign = 'center'; c.font = '700 ' + 7.5 * S + 'px ' + SANS; c.letterSpacing = 4 * S + 'px'; c.fillText('POSTMARK AWARDS', cx, 330 * S); c.fillStyle = '#7A4BFF'; c.fillText('2026', cx, 340 * S + 8);
     T.sleeveTop = g;
   }
