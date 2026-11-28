@@ -196,7 +196,7 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .cb{display:grid;grid-template-columns:200px 1fr;gap:10px;align-items:center;margin:5px 0;font:500 10px/1 var(--sn);text-transform:uppercase;letter-spacing:.14em}
 .cb .bw{display:flex;align-items:center;gap:8px;min-width:0}
 .cb em{font:600 21px/1 "Caveat",cursive;font-style:normal;letter-spacing:0;text-transform:none;color:var(--ink);filter:url(#pen);flex:none;margin-top:-2px}
-.cb i{display:block;height:13px;background:var(--royal);border-radius:99px;flex:none}.cb:nth-child(even) i{background:transparent;border:var(--hl) solid var(--ink)}
+.cb i{display:block;height:13px;background:var(--royal);border-radius:0;flex:none}.cb:nth-child(even) i{background:transparent;border:var(--hl) solid var(--ink)}
 .cwg{display:grid;gap:0;border:var(--hl) solid var(--ink);width:100%;background:var(--ink)}
 .cw{background:var(--card);color:var(--ink);display:grid;place-items:center;font:500 10px/1 var(--sn);position:relative;aspect-ratio:1;outline:.6px solid var(--ink)}
 .cw u{position:absolute;left:1.5px;top:1px;font:500 5.5px/1 var(--sn);text-decoration:none}
@@ -525,7 +525,7 @@ ${foot(3,'Page three')}`,
 [mailTruck,'Flexible response paths','Let people engage in their preferred format. More entry points means more conversion opportunities.'],
 ['chain','Omnichannel, aligned','Continue the journey your mail started with continuity across digital and physical touchpoints.'],
 ['chart','Track multiple signals','It isn’t only direct response. Use direct and indirect metrics to remove blind spots.']])}</div>
-  <div class="panel" style="grid-column:span 3;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:12px 16px"><div class="tc" style="font-size:10px;padding-bottom:8px;border-bottom:var(--hl) solid var(--ink)">How people say they'd follow up · illustrative, see the report</div><div style="padding-top:4px">${chartBars([['Scan a QR code',44],['Go to their store location',36],['Follow a personalized URL',30],['Call a phone number',24],['Follow a general URL',19],['Search the brand themselves',15]])}</div></div>
+  <div class="panel" style="grid-column:span 3;display:flex;flex-direction:column;padding:0 0 10px"><div class="tc" style="font-size:10px;padding:10px 16px 9px;background:var(--ink);color:#bdd6fd">How people say they'd follow up · illustrative, see the report</div><div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:6px 16px 0">${chartBars([['Scan a QR code',44],['Go to their store location',36],['Follow a personalized URL',30],['Call a phone number',24],['Follow a general URL',19],['Search the brand themselves',15]])}</div></div>
   <div class="panel" style="padding:9px 12px 10px;display:flex;flex-direction:column;align-items:center"><div class="tc c" style="font-size:10px;padding-bottom:7px;margin-bottom:8px;border-bottom:var(--hl) solid var(--ink);align-self:stretch">Puzzle · solved</div><div style="width:138px">${crossword()}</div></div>
   <div style="grid-column:span 4;display:grid;grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr);align-items:center;gap:0;border-top:var(--hl) solid var(--ink);border-bottom:var(--hl) solid var(--ink)">
     <div class="tc c" style="padding:15px 8px;font-size:11.5px;display:flex;justify-content:center;gap:10px;align-items:center">For all direct mail dilemmas ${arw()}</div>
