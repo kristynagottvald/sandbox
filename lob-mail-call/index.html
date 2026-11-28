@@ -418,7 +418,7 @@ function crossword(){
 /* ---------- the four pages (Lob's State of Direct Mail 2026 article) ----------
    Every page is a grid: 12px between bands, 10px between boxes, 16px between columns, one 1.3px hairline, one row that absorbs the slack. */
 const foot=(n,t)=>`<div class="folio"><span>The Mail Call · ${t}</span><span>lob.com</span><span>${String(n).padStart(2,'0')}</span></div>`;
-const trys=(title,items,cls='panel')=>`<div class="${cls}"><div class="tbh tc">${title} ${arw()}</div><div class="tb">${items.map(t=>`<div><div class="ic">${icon(t[0])}</div><h4>${t[1]}</h4><div class="tx">${t[2]}</div></div>`).join('')}</div></div>`;
+const trys=(title,items,cls='panel')=>`<div class="${cls}"><div class="tbh tc">${title} ${arw()}</div><div class="tb">${items.map(t=>`<div><div class="ic">${typeof t[0]=='function'?t[0]():icon(t[0])}</div><h4>${t[1]}</h4><div class="tx">${t[2]}</div></div>`).join('')}</div></div>`;
 const sec=(n,head)=>`<div class="sech">${num(n)}<div class="an">${head}</div></div>`;
 const stat=(big,lab,cls='rcard')=>`<div class="${cls} st"><div class="stat">${big}</div><div class="hr"></div><div class="tc">${lab}</div></div>`;
 const dtk=(art,big,lab,cw,v)=>`<div class="perf dtk${v?' v':''}"${cw?` style="--cw:${cw}px"`:''}><div class="in"><div class="cell">${art}</div><div class="txt"><div class="stat">${big}</div><div class="tc">${lab}</div></div></div></div>`;
@@ -514,7 +514,7 @@ ${foot(3,'Page three')}`,
     <div><div class="tc" style="font-size:11px;line-height:1.35;white-space:nowrap">Lob's Worldwide<br>Delivery Service</div><div class="tx s" style="margin-top:5px">Every mailbox. Every day. More than <b>80%</b> of people look daily.</div></div></div>
   <div class="rcard" style="grid-column:span 2;display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:12px;align-items:center;padding:12px 16px"><div><div class="tc" style="font-size:12px">Free · the full report</div><div class="tx s" style="margin-top:4px">More consumer insights in the 2026 State of Direct Mail webinar and report.</div><div class="lnk tc" style="margin-top:8px;padding:7px 0;font-size:10px;justify-content:flex-start">Read the report ${arw(1)}</div></div><div style="height:66px">${rubberStamp()}</div></div>
   <div style="grid-column:span 4">${trys('Try this in your next campaign',[
-['paths','Flexible response paths','Let people engage in their preferred format. More entry points means more conversion opportunities.'],
+[mailTruck,'Flexible response paths','Let people engage in their preferred format. More entry points means more conversion opportunities.'],
 ['chain','Omnichannel, aligned','Continue the journey your mail started with continuity across digital and physical touchpoints.'],
 ['chart','Track multiple signals','It isn’t only direct response. Use direct and indirect metrics to remove blind spots.']])}</div>
   <div class="rcard" style="grid-column:span 3;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:12px 16px"><div class="tc" style="font-size:10px;padding-bottom:8px;border-bottom:var(--hl) solid var(--ink)">How people say they'd follow up · illustrative, see the report</div><div style="padding-top:4px">${chartBars([['Scan a QR code',100],['Go to their store location',82],['Follow a personalized URL',68],['Call a phone number',54],['Follow a general URL',44],['Search the brand themselves',34]])}</div></div>
