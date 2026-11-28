@@ -17,7 +17,7 @@ nav.back{box-sizing:border-box;display:flex;align-items:center;gap:8px;height:49
 nav.back a{color:#8d8d8d;text-decoration:none}
 nav.back span{color:#6e6e6e}
 nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
-#stage{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;background:#14141a}
+#stage{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;background:#7A4BFF}
 #stage.drag{cursor:grabbing}
 #stage canvas{display:block;width:100%!important;height:100%!important}
 #cap{position:absolute;left:clamp(14px,2.4vw,34px);bottom:clamp(14px,2.4vw,30px);display:flex;align-items:stretch;gap:0;pointer-events:none;font:700 clamp(11px,1vw,14px)/1.2 "Archivo","Inter",Helvetica,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
@@ -194,7 +194,19 @@ const WIN_TOP = triangulate(rectPts((SL_XB - SL_XA) / 2, 173)); // the sleeve to
 const porcP = (x, y) => [(x - 501) * PK, -(y - 490) * PK];
 const pairs = (a) => { const o = []; for (let i = 0; i < a.length; i += 2) o.push(porcP(a[i], a[i + 1])); return o; };
 const BODY_P = pairs(PORC_BODY), BODY_T = triangulate(BODY_P);
-const STEM_P = PORC_STEMS.map(pairs), STEM_T = STEM_P.map((p) => triangulate(p));
+/* pierced stamps: each quill is lengthened so its tip runs through its stamp and pokes out past the far edge */
+const stampTrace = ([x, y, hw, hh, rot]) => { const cs = Math.cos(rot), sn = Math.sin(rot); return stampPoly(hw / hh, 0.62, 0.12, 4).map(([px, py]) => { const X = px * hh, Y = -py * hh; return [x + X * cs - Y * sn, y + X * sn + Y * cs]; }); };
+const inPoly = (P, x, y) => { let c = false; for (let i = 0, j = P.length - 1; i < P.length; j = i++) { const a = P[i], b = P[j]; if ((a[1] > y) !== (b[1] > y) && x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0]) c = !c; } return c; };
+const STEM_P = PORC_STEMS.map((flat) => {
+  const pts = []; for (let i = 0; i < flat.length; i += 2) pts.push([flat[i], flat[i + 1]]);
+  const cx = pts.reduce((a, p) => a + p[0], 0) / pts.length, cy = pts.reduce((a, p) => a + p[1], 0) / pts.length;
+  const tip = pts.reduce((m, p) => (Math.hypot(p[0] - cx, p[1] - cy) > Math.hypot(m[0] - cx, m[1] - cy) ? p : m));
+  const st = PORC_STAMPS.reduce((m, q) => (Math.hypot(q[0] - tip[0], q[1] - tip[1]) < Math.hypot(m[0] - tip[0], m[1] - tip[1]) ? q : m)), SP = stampTrace(st);
+  const l = Math.hypot(tip[0] - cx, tip[1] - cy), dx = (tip[0] - cx) / l, dy = (tip[1] - cy) / l;
+  let k = 0; while (k < 400 && inPoly(SP, tip[0] + dx * k, tip[1] + dy * k)) k += 2;  // walk out of the stamp
+  const ext = k + 34; // and poke this far beyond it
+  return pts.map((p) => { const along = (p[0] - cx) * dx + (p[1] - cy) * dy, w = cl((along - l * 0.35) / (l * 0.65), 0, 1); return porcP(p[0] + dx * ext * w * w, p[1] + dy * ext * w * w); });
+}), STEM_T = STEM_P.map((p) => triangulate(p));
 const STAMP_P = PORC_STAMPS.map(([x, y, hw, hh, rot, c]) => { const cs = Math.cos(rot), sn = Math.sin(rot), p = stampPoly(hw / hh, 0.62, 0.12, 4).map(([px, py]) => { const X = px * hh, Y = -py * hh; return porcP(x + X * cs - Y * sn, y + X * sn + Y * cs); }); return { p, t: triangulate(p), c: c ? RED : PURPLE }; });
 const ellipseP = (cx, cy, rx, ry) => Array.from({ length: 28 }, (_, i) => porcP(cx + rx * Math.cos(TAU * i / 28), cy + ry * Math.sin(TAU * i / 28)));
 const EYE_P = ellipseP(648, 692, 98, 38), PUPIL_P = ellipseP(673, 707, 24, 15);
@@ -306,7 +318,7 @@ function buildTextures() {
   { const g = G(256, 256), c = g.drawingContext; c.shadowColor = '#000'; c.shadowBlur = 36; c.fillStyle = '#000'; c.shadowOffsetX = 400; c.fillRect(-400 + 70, 70, 116, 116); T.shRect = g; }
   { const g = G(128, 128), c = g.drawingContext, gr = c.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.12, 'rgba(255,255,255,.55)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); c.fillStyle = gr; c.fillRect(0, 0, 128, 128);
     c.fillStyle = '#fff'; c.beginPath(); c.moveTo(64, 0); c.quadraticCurveTo(68, 60, 128, 64); c.quadraticCurveTo(68, 68, 64, 128); c.quadraticCurveTo(60, 68, 0, 64); c.quadraticCurveTo(60, 60, 64, 0); c.fill(); T.spark = g; }
-  { const g = G(512, 512), c = g.drawingContext, gr = c.createRadialGradient(256, 256, 0, 256, 256, 256); gr.addColorStop(0, 'rgb(236,234,242)'); gr.addColorStop(0.2, 'rgb(226,224,234)'); gr.addColorStop(0.5, 'rgb(150,148,164)'); gr.addColorStop(0.8, 'rgb(46,46,56)'); gr.addColorStop(1, 'rgb(20,20,24)'); c.fillStyle = gr; c.fillRect(0, 0, 512, 512); T.floor = g; }
+  { const g = G(512, 512), c = g.drawingContext, gr = c.createRadialGradient(256, 256, 0, 256, 256, 256); gr.addColorStop(0, 'rgb(150,114,255)'); gr.addColorStop(0.25, 'rgb(140,100,255)'); gr.addColorStop(0.6, 'rgb(126,80,255)'); gr.addColorStop(0.85, 'rgb(122,75,255)'); gr.addColorStop(1, 'rgb(122,75,255)'); /* brand purple, a touch lighter under the box */ c.fillStyle = gr; c.fillRect(0, 0, 512, 512); T.floor = g; }
   for (const k in T) { const g = T[k]; T[k] = g.get(); g.remove(); } // static images: p5 uploads a Graphics to the GPU every frame, an image only once
   texReady = true;
 }
@@ -407,7 +419,7 @@ function drawScene(P, t) {
     };
     solid(BODY_T, BODY_P, -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85);
     STEM_T.forEach((tr, i) => solid(tr, STEM_P[i], -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85));
-    STAMP_P.forEach((sp) => solid(sp.t, sp.p, 0, AT / 2 + 5, sp.c, 0.72, 0.95));
+    STAMP_P.forEach((sp) => solid(sp.t, sp.p, -AT / 2 - 2.5, AT / 2 + 2.5, sp.c, 0.72, 0.95)); // threaded on the quill: through both faces of the glass
     const fan = (P, y, col) => F(AM, [[0, y, 0]].concat(P.map((p) => toW(p, y))).concat([toW(P[0], y)]), col, 1.25);
     const ctr = (P) => [P.reduce((a, p) => a + p[0], 0) / P.length, P.reduce((a, p) => a + p[1], 0) / P.length];
     { const e = ctr(EYE_P), pu = ctr(PUPIL_P); F(AM, [[e[0], AT / 2 + 0.4, -e[1]]].concat(EYE_P.map((p) => toW(p, AT / 2 + 0.4))).concat([toW(EYE_P[0], AT / 2 + 0.4)]), [250, 250, 250], 1.2);
@@ -476,7 +488,7 @@ function ovDraw(list, additive) {
   if (additive) blendMode(BLEND); gl.depthMask(true); tint(255, 255, 255, 255);
 }
 function draw() {
-  background(20, 20, 24);
+  background(122, 75, 255); // brand purple #7A4BFF
   if (!texReady) return;
   const dt = Math.min(0.1, deltaTime / 1000);
   if (CLIP) clock = (window.__clock != null ? window.__clock : clock + dt); else if (!reduce) clock += dt;
