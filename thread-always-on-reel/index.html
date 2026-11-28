@@ -428,14 +428,13 @@ const lineify = (a) => a.map((h) => { const m = /^\*(.+)\*$/.exec(h); return m ?
 function sList(ctx, c) {
   const s = c.sc; kicker(ctx, c, 300);
   headline(ctx, c, lineify(s.head), 410, 300, 130, 0.4);
-  const RH = 176, n = s.rows.length, y0 = 860;
+  const RH = 214, n = s.rows.length, y0 = 860;
   s.rows.forEach((r, i) => {
     const d = 1.0 + i * 0.28, p = rise(c.lt, d, 0.8), y = y0 + i * RH;
     ctx.save(); ctx.strokeStyle = c.th.fg; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(M, y); ctx.lineTo(M + CW * ease((c.lt - d + 0.2) / 0.7), y); ctx.stroke(); ctx.restore();
     fadeIn(ctx, p, () => {
       sansText(ctx, r.k.toUpperCase(), M, y + 52, 22, c.th.fg, { wt: 700, ls: 5 });
-      let fs = 72; while (fs > 34 && measureSlide(ctx, r.h, fs, false) > CW) fs *= 0.96;
-      slide(ctx, r.h, M, y + 52 + 18 + fs * 0.78, fs, false, c.th.fg);
+      para(ctx, r.h, M, y + 112, 40, c.th.fg, CW, 1.25, 2);
     }, 28);
   });
   const last = y0 + n * RH; ctx.save(); ctx.strokeStyle = c.th.fg; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(M, last); ctx.lineTo(M + CW * ease((c.lt - 1.0 - n * 0.28 + 0.2) / 0.7), last); ctx.stroke(); ctx.restore();
