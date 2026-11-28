@@ -361,7 +361,7 @@ function pinesChar(spec,W,H,sd){return obj(W,H,spec.map(t=>pineSil(...t)).join('
 const at=(s,x,y,w,h)=>s.replace('width="100%" height="100%"',`x="${x}" y="${y}" width="${w}" height="${h}"`);
 function scene(){return svg('0 0 236 430',`
 <text x="118" y="300" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="300" font-size="236" fill="#bdd6fd" stroke="none" letter-spacing="-10">80</text>
-${at(flyingEnvelope(),30,64,160,75)}${at(pinesChar([[20,150,146,38,9],[44,150,120,34,8],[64,150,78,24,6]],80,152,97),94,268,80,152)}${at(pinesChar([[16,110,104,30,8],[36,110,70,22,6]],50,112,103),-4,306,50,112)}${at(twoStoryHouse(),126,262,110,150)}${at(ranchHouse(),0,330,108,73)}<svg x="44" y="350" width="108" height="73" viewBox="0 0 124 84" preserveAspectRatio="xMidYMid meet"><g fill="${PER}" stroke="${PER}" stroke-width="7" stroke-linejoin="round"><path d="M30 8H118V66H30Z"/><path d="M30 20H14L6 40V66H30Z"/><circle cx="26" cy="70" r="11"/><circle cx="98" cy="70" r="11"/></g></svg>${at(mailTruck(),44,350,108,73)}<path d="M2 420H234" stroke="${INK}" stroke-width="1.2" opacity=".7"/>`,'A flying envelope over a street with a one storey house, a two storey house and a mail truck').replace('xMidYMid meet','xMidYMax meet')}
+${at(pinesChar([[20,150,146,38,9],[44,150,120,34,8],[64,150,78,24,6]],80,152,97),94,268,80,152)}${at(pinesChar([[16,110,104,30,8],[36,110,70,22,6]],50,112,103),-4,306,50,112)}${at(twoStoryHouse(),126,262,110,150)}${at(ranchHouse(),0,330,108,73)}<svg x="44" y="350" width="108" height="73" viewBox="0 0 124 84" preserveAspectRatio="xMidYMid meet"><g fill="${PER}" stroke="${PER}" stroke-width="7" stroke-linejoin="round"><path d="M30 8H118V66H30Z"/><path d="M30 20H14L6 40V66H30Z"/><circle cx="26" cy="70" r="11"/><circle cx="98" cy="70" r="11"/></g></svg>${at(mailTruck(),44,350,108,73)}<path d="M2 420H234" stroke="${INK}" stroke-width="1.2" opacity=".7"/>`,'A flying envelope over a street with a one storey house, a two storey house and a mail truck').replace('xMidYMid meet','xMidYMax meet')}
 function donut(p,sz=72){const r=36,C=2*Math.PI*r;return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}" aria-hidden="true"><circle cx="50" cy="50" r="${r}" fill="none" stroke="${PER}" stroke-width="12"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${ROY}" stroke-width="12" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="${r+8}" fill="none" stroke="${INK}" stroke-width="1"/><circle cx="50" cy="50" r="${r-8}" fill="none" stroke="${INK}" stroke-width="1"/></svg>`}
 function dots(n,of=10){let s='';for(let i=0;i<of;i++)s+=`<circle cx="${9+i*17}" cy="9" r="6.5" fill="${i<n?ROY:'none'}" stroke="${i<n?ROY:INK}" stroke-width="1.1"/>`;return `<svg viewBox="0 0 ${of*17} 18" width="100%" aria-hidden="true">${s}</svg>`}
 /* the route map: full bleed royal blue, pencil pines, a river, dotted highways with interstate shields,
@@ -392,7 +392,7 @@ function routeMap(){
 ${win}
 ${dotted('M236 -10C232 40 248 80 240 120S228 180 236 220')}${dotted('M512 -10C506 40 520 90 510 140S500 190 506 220')}
 ${dotted('M-10 112C60 104 120 100 180 104S300 118 360 110 480 110 540 120 680 132 780 128')}${dotted('M400 -10C396 40 408 80 398 130S392 180 396 220')}
-${shield(186,112,'74')}${shield(452,96,'65')}${shield(574,102,'70')}
+
 ${state(150,52,'ILLINOIS')}${state(452,22,'INDIANA')}${state(592,20,'OHIO')}
 <path d="${route}" fill="none" stroke="${CARD}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)"/>
 ${stop(82,106)}${stop(360,72)}${stop(652,38)}
@@ -437,7 +437,7 @@ const PG=[
     <div class="toc" style="margin-top:auto;padding-top:14px"><div class="tc" style="font-size:9.5px;padding:0 0 9px;border-bottom:var(--hl) solid var(--ink)">In this issue</div>${[['02','Mail is a daily ritual'],['03','Keep them reading'],['04','Classifieds &amp; the crossword']].map(r=>`<div class="tocr"><span>${r[0]}</span><span>—</span><span>${r[1]}</span></div>`).join('')}</div>
   </div>
   <div class="fl" style="gap:12px">
-    <div style="flex:1;position:relative;display:flex"><div class="scal" style="--p:28px;--h:6.5px;--n:11px;flex:1;padding:26px 14px 16px">${scene()}</div><div class="callout" style="left:-22px;top:-16px;width:100px;height:100px">${rubber('MAIL DAY','80%','EVERY DAY',-14,'Stamp: 80 percent check daily')}</div></div>
+    <div style="flex:1;position:relative;display:flex"><div class="scal" style="--p:28px;--h:6.5px;--n:11px;flex:1;padding:26px 14px 16px">${scene()}</div><div class="callout" style="left:-30px;top:-22px;width:148px;height:148px">${rubber('MAIL DAY','80%','EVERY DAY',-14,'Stamp: 80 percent check daily')}</div></div>
     <div class="tkt" style="padding:13px 30px"><span class="tc" style="font-size:11px;letter-spacing:.22em;white-space:nowrap">Main St. · mail day</span></div>
   </div>
 </div>
@@ -477,7 +477,7 @@ ${foot(2,'Page two')}`,
 /* 3 · inside right */
 ()=>`
 <div class="tkt"><span class="tc" style="font-size:15px;letter-spacing:.3em">Keep Them Reading</span></div>
-<div class="sech">${num(2)}<div style="display:flex;align-items:baseline;gap:14px;white-space:nowrap"><span class="sf" style="font-size:24px">Give people a reason to</span><span class="an" style="font-size:76px;line-height:.86">Keep reading</span></div></div>
+<div class="sech">${num(2)}<div style="display:flex;align-items:flex-end;gap:16px;white-space:nowrap"><span class="sf" style="font-size:30px;line-height:1.02;padding-bottom:3px">Give people<br>a reason to</span><span class="an" style="font-size:84px;line-height:.86">Keep reading</span></div></div>
 <div style="margin:0 -26px;display:flex;flex-direction:column"><div style="flex:1;position:relative;min-height:176px"><div style="position:absolute;inset:0">${routeMap()}</div><div class="tc" style="position:absolute;left:26px;top:12px;font-size:9px;color:var(--card);letter-spacing:.22em">One piece of mail · three stops</div></div><div class="band c3" style="padding:0 26px;margin-top:-40px;position:relative">${dtk(envelopeChar(),'27%','say mail stands out<br>from digital ads',52,1)}${dtk(icon('eye'),'35%','more likely to<br>remember mail',52,1)}${dtk(stackChar(),'54%','toss mail that<br>looks like a scam',52,1)}</div></div>
 <div class="tx cols2"><p>Today's consumers are bombarded with hundreds, even thousands, of digital messages a day. As digital fatigue grows, the tactile quality of direct mail becomes even more impactful.</p><p>${hi('45%')} of people are turned off by mail with no clear value, and nearly half are tired of pushy language and manufactured deadlines.</p></div>
 ${trys('Try this',[
