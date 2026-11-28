@@ -485,11 +485,9 @@ function chrome(ctx, c, T) {
   const th = c.th, fg = th.fg, g = ease(c.lt / 0.9), fs = 19, ls = 4;
   ctx.save(); ctx.strokeStyle = fg; ctx.lineWidth = 2;
   ctx.beginPath(); ctx.moveTo(GX, 0); ctx.lineTo(GX, H * g); ctx.moveTo(W - GX, H); ctx.lineTo(W - GX, H * (1 - g)); ctx.moveTo(W, GY1); ctx.lineTo(W * (1 - g), GY1); ctx.stroke(); ctx.restore();
-  const yT = 98, yB = GY1 + 76;
+  const yT = 98;
   sansText(ctx, 'THREAD 2026', GX + 40, yT, fs, fg, { wt: 700, ls });
   sansText(ctx, (PHASES.find((p) => p.id === S.ph).label + (S.ph === 'during' ? ' · day ' + S.day : '')).toUpperCase(), W - GX - 40, yT, fs, fg, { wt: 700, ls, align: 'right' });
-  sansText(ctx, 'THE SMS MARKETING CONFERENCE', GX + 40, yB, fs, fg, { wt: 700, ls });
-  sansText(ctx, 'MAY 12–14 · NEW YORK', W - GX - 40, yB, fs, fg, { wt: 700, ls, align: 'right' });
   const n = T.scenes.length, gap = 8, bw = (W - 2 * GX - 80 - gap * (n - 1)) / n;
   T.scenes.forEach((s, i) => { const x = GX + 40 + i * (bw + gap), f = i < c.idx ? 1 : i === c.idx ? cl(c.lt / s.dur, 0, 1) : 0; ctx.save(); ctx.globalAlpha = 0.28; ctx.fillStyle = fg; ctx.fillRect(x, 38, bw, 5); ctx.globalAlpha = 1; ctx.fillRect(x, 38, bw * f, 5); ctx.restore(); });
 }
