@@ -476,7 +476,7 @@ ${foot(2,'Page two')}`,
 
 /* 3 · inside right */
 ()=>`
-<div class="tkt"><span class="tc" style="font-size:15px;letter-spacing:.3em">Keep Them Reading</span></div>
+<div class="tkt"><span class="tc" style="font-size:15px;letter-spacing:.3em">Digital Fatigue</span></div>
 <div class="sech">${num(2)}<div style="display:flex;align-items:flex-end;gap:16px;white-space:nowrap"><span class="sf" style="font-size:30px;line-height:1.02;padding-bottom:3px">Give people<br>a reason to</span><span class="an" style="font-size:84px;line-height:.86">Keep reading</span></div></div>
 <div style="margin:0 -26px;display:flex;flex-direction:column"><div style="flex:1;position:relative;min-height:176px"><div style="position:absolute;inset:0">${routeMap()}</div><div class="tc" style="position:absolute;left:26px;top:12px;font-size:9px;color:var(--card);letter-spacing:.22em">One piece of mail · three stops</div></div><div class="band c3" style="padding:0 26px;margin-top:-40px;position:relative">${dtk(envelopeChar(),'27%','say mail stands out<br>from digital ads',52,1)}${dtk(icon('eye'),'35%','more likely to<br>remember mail',52,1)}${dtk(stackChar(),'54%','toss mail that<br>looks like a scam',52,1)}</div></div>
 <div class="tx cols2"><p>Today's consumers are bombarded with hundreds, even thousands, of digital messages a day. As digital fatigue grows, the tactile quality of direct mail becomes even more impactful.</p><p>${hi('45%')} of people are turned off by mail with no clear value, and nearly half are tired of pushy language and manufactured deadlines.</p></div>
@@ -487,7 +487,7 @@ ${trys('Try this',[
 ${sec(3,'Design for more than an immediate response')}
 <div style="display:grid;grid-template-columns:330px minmax(0,1fr);gap:var(--gc);align-items:center">
   ${dtk(pocketWatch(),'33%','value mail they can<br>return to later',76)}
-  <div class="tx"><p>Useful mail is more likely to be read and held on to. Give yours a longer life by including information worth keeping: product comparisons, deadlines, pricing, checklists, special offers or discount codes turn mail into a resource people can return to when they're ready.</p></div>
+  <div class="tx"><p>Useful mail is more likely to be read and kept. Give yours a longer life with information worth keeping: comparisons, deadlines, pricing, checklists, offers or discount codes turn mail into a resource people come back to.</p></div>
 </div>
 ${trys('Try this',[
 ['mark','Add staying power','Value that works now and later: reference guides, product details, incentives.'],
@@ -505,7 +505,7 @@ ${foot(3,'Page three')}`,
     ${['QR code','Store visit','Personalized URL','Phone call','General URL','Search the brand'].map((t,i)=>`<span class="pill ${i%2?'':'f'}">${t}</span>`).join('')}
   </div>
   <div class="perf" style="grid-column:span 2;padding:16px 18px 14px">
-    <div style="display:flex;gap:12px;align-items:center">${num(4)}<div class="an" style="font-size:33px;line-height:.9">Connect with customers on their terms</div></div>
+    <div style="display:flex;gap:12px;align-items:center"><div style="width:46px;height:46px;flex:none;display:grid">${num(4).replace('class="num"','class="num" style="width:46px;height:46px"')}</div><div class="an c4h" style="font-size:28px;line-height:.92;white-space:nowrap">Connect with customers<br>on their terms</div></div>
     <div class="tx s" style="margin-top:9px"><p>Direct mail thrives when you go beyond the mailbox. There's no single path from awareness to action to attribution: some people research the brand online, some head to the store, others scan a QR code or visit a PURL.</p></div>
   </div>
   <div style="display:grid;place-items:center">${rubber('WENT ONLINE','70%','AFTER MAIL',-12,'Stamp: 70 percent took an online action after receiving direct mail')}</div>
