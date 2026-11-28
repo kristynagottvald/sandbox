@@ -806,26 +806,10 @@ MODELS.lotus3 = lotusModel([[12, 0.26, 0.02, 40, 20, 1.15, 0.2, 0, 0.35], [12, 0
   MODELS['curl' + n].fn = (u, v, tmax, start) => { const L = 2.4, s0 = start * L, sa = u * L, x = (v - 0.5) * 1.7; let y = 0, z = sa; if (sa > s0) { const th = Math.min((sa - s0) / R0, tmax), rem = Math.max(0, (sa - s0) - th * R0); y = R0 * (1 - Math.cos(th)) + rem * Math.sin(th); z = s0 + R0 * Math.sin(th) + rem * Math.cos(th); } return [x + off[0], y + off[1], -(z - L / 2) + off[2]]; };
 });
 
-// the plain sheet, finely gridded so it can fold along any of the crease lines below
-MODELS.sheet = () => [{ fixed: true, nu: 64, nv: 64, d0: 0, d1: 0, f: (u, v) => [(u - 0.5) * SHEET, 0, (v - 0.5) * SHEET] }];
-/* origami folds: the sheet is folded in half four times (book, cupboard, book, cupboard) into a small square packet.
-   f: 0 = flat, 1 = packet. Each fold turns the paper beyond the crease over the top of the stack. */
-const FOLD_G = 0.006;
-const FOLDS = [[0, 0], [2, 0], [0, -0.25], [2, -0.25]];
-const foldEase = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
-function foldPoint(x, z, f, out) {
-  let p = [x, 0, z], H = 0, sx = 0, sz = 0;
-  for (let i = 0; i < FOLDS.length; i++) {
-    const e = foldEase(f * FOLDS.length - i), [ax, hf] = FOLDS[i], h = hf * SHEET, ya = H + FOLD_G / 2;
-    if (e > 0 && p[ax] > h) { const th = Math.PI * e, dc = p[ax] - h, dy = p[1] - ya; p[ax] = h + dc * Math.cos(th) - dy * Math.sin(th); p[1] = ya + dc * Math.sin(th) + dy * Math.cos(th); }
-    H = 2 * H + FOLD_G;
-    const sh = (i < 2 ? 0.25 : 0.125) * SHEET * e; if (ax === 0) sx += sh; else sz += sh;
-  }
-  out[0] = p[0] + sx; out[1] = p[1]; out[2] = p[2] + sz;
-  return out;
-}
+// the plain sheet: a portrait CRA form (8.5 x 11)
+MODELS.sheet = () => [{ fixed: true, nu: 40, nv: 52, d0: 0, d1: 0, f: (u, v) => [(u - 0.5) * SHEET_W, 0, (v - 0.5) * SHEET] }];
 /* ---------- patches -> one mesh: split long patches, lay all patches out on the sheet by area, weld, find creases ---------- */
-const SHEET = 3.3;
+const SHEET = 3.3, FORM_ASP = 11 / 8.5, SHEET_W = SHEET / FORM_ASP;
 function measure(p) {
   const nu = p.nu, nv = p.nv, G = [];
   for (let i = 0; i <= nu; i++) { G[i] = []; for (let j = 0; j <= nv; j++) G[i][j] = p.f(i / nu, j / nv); }
@@ -870,18 +854,18 @@ function buildMesh(patches) {
   // lay every patch out on the unit sheet in proportion to its paper area, so the print has the same scale everywhere
   if (list.length === 1) list[0].rect = [0, 0, 1, 1]; else {
     const items = list.map((p, id) => ({ id, w: Math.max(p.area, 0.0008) })).sort((a, b) => b.w - a.w), R = {};
-    treemap(items, 0, 0, 1, 1, R); list.forEach((p, id) => (p.rect = R[id]));
+    treemap(items, 0, 0, 1, FORM_ASP, R); list.forEach((p, id) => { const [x, y, w, h] = R[id]; p.rect = [x, y / FORM_ASP, w, h / FORM_ASP]; });
   }
   const V0 = [], FLAT = [], UV = [], DL = [], WELD = [], TRI = [], SGN = [], wmap = new Map();
   list.forEach((p) => {
-    const [x, y, w, h] = p.rect, asp = p.ls / p.lt, swap = !p.fixed && !p.keep && Math.abs(Math.log(asp * (w / h))) < Math.abs(Math.log(asp / (w / h)));
+    const [x, y, w, h] = p.rect, asp = p.ls / p.lt, pw = w / (h * (p.fixed ? 1 : FORM_ASP)), swap = !p.fixed && !p.keep && Math.abs(Math.log(asp * pw)) < Math.abs(Math.log(asp / pw));
     const base = V0.length, nu = p.nu, nv = p.nv, id = (i, j) => base + i * (nv + 1) + j;
     for (let i = 0; i <= nu; i++) for (let j = 0; j <= nv; j++) {
       const s = i / nu, t = j / nv, f = p.f(s, t);
       let a, b; if (swap) { a = x + w * t; b = y + h * s; } else { a = x + w * s; b = y + h * t; }
       if (p.uvFlip) { a = 1 - a; b = 1 - b; }
       if (p.portrait) { const a2 = 1 - t, b2 = 1 - s; a = a2; b = b2; }
-      V0.push(f); UV.push([a, b]); FLAT.push([(a - 0.5) * SHEET, 0, (b - 0.5) * SHEET]); DL.push(p.d0 + (p.d1 - p.d0) * s);
+      V0.push(f); UV.push([a, b]); FLAT.push([(a - 0.5) * SHEET_W, 0, (b - 0.5) * SHEET]); DL.push(p.d0 + (p.d1 - p.d0) * s);
       const k = wkey(f); let wi = wmap.get(k); if (wi == null) { wi = wmap.size; wmap.set(k, wi); } WELD.push(wi);
     }
     for (let i = 0; i < nu; i++) for (let j = 0; j < nv; j++) {
@@ -1000,12 +984,13 @@ void main(){ vPos=aPos; vN=aN; vUV=aUV; vBary=aBary; vCrease=aCrease; gl_Positio
 precision highp float; precision highp sampler2DShadow;
 in vec3 vPos,vN,vBary,vCrease; in vec2 vUV; out vec4 oC;
 uniform sampler2D uT0,uT1,uT2; uniform sampler2DShadow uSM;
-uniform float uMix,uK,uCalm,uBright,uAO,uLR,uSM_px,uSheen; uniform vec3 uTint,uL,uE,uBounce,uSky,uLC,uLX,uLY;
+uniform float uMix,uK,uCalm,uBright,uAO,uLR,uSM_px,uSheen,uPlanar; uniform vec2 uSheet; uniform vec3 uTint,uL,uE,uBounce,uSky,uLC,uLX,uLY;
 float h21(vec2 p){ p=fract(p*vec2(123.34,456.21)); p+=dot(p,p+45.32); return fract(p.x*p.y); }
 float vn(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f); return mix(mix(h21(i),h21(i+vec2(1,0)),f.x),mix(h21(i+vec2(0,1)),h21(i+vec2(1,1)),f.x),f.y); }
 void main(){
   vec3 N=normalize(vN); bool fr=gl_FrontFacing; if(!fr) N=-N;
   vec3 alb; if(fr){ alb=texture(uT0,vUV).rgb; if(uMix>0.) alb=mix(alb,texture(uT2,vUV).rgb,uMix); } else alb=texture(uT1,vUV).rgb;
+  if(uPlanar>0.){ vec2 pu=vPos.xz/uSheet+.5; vec3 pa=texture(uT0,pu).rgb; if(uMix>0.) pa=mix(pa,texture(uT2,pu).rgb,uMix); alb=mix(alb,pa,uPlanar); }
   alb*=uTint;
   float g=vn(vUV*700.)*.55+vn(vUV*1900.)*.45; alb*=.965+.075*g;               // paper tooth
   float ndl=dot(N,uL), wrap=clamp((ndl+.08)/1.08,0.,1.); wrap=wrap*wrap*(3.-2.*wrap);
@@ -1090,27 +1075,31 @@ const meshCache = {};
 const mesh = (k) => meshCache[k] || (meshCache[k] = (() => { const m = buildMesh(MODELS[k]()); m.name = k; return m; })());
 const BARY = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
 function Geo(m) { this.m = m; this.n = m.nT * 3; this.buf = new Float32Array(this.n * 14); this.pos = new Float32Array(m.nVtx * 3); this.fnr = new Float32Array(m.nT * 3); this.vbo = null; }
-function Layer(creature, form, tint) { this.creature = creature; this.form = form; this.tint = tint || null; this.m = mesh(creature); this.gc = new Geo(this.m); this.act = this.gc; const asp = this.m.asp || 1; this.tex = formTexture(form, 2048, 1, asp); this.texB = formTexture(form, 2048, 2, asp); this.tex2 = null; }
-// where each corner of a creature's sheet ends up inside the folded packet
-// the creature pressed flat into the packet's square: the body flattens in place, the legs fold in to the packet's edges
-let PKT = null;
-function packetBox() { if (PKT) return PKT; const q = [0, 0, 0]; let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9, y1 = 0; for (let a = 0; a <= 8; a++) for (let b = 0; b <= 8; b++) { foldPoint((a / 8 - 0.5) * SHEET, (b / 8 - 0.5) * SHEET, 1, q); x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); z0 = Math.min(z0, q[2]); z1 = Math.max(z1, q[2]); y1 = Math.max(y1, q[1]); } return (PKT = { cx: (x0 + x1) / 2, cz: (z0 + z1) / 2, h: Math.min(x1 - x0, z1 - z0) / 2, top: y1 }); }
-function packetOf(m) {
-  if (m.pk) return m.pk; const B = packetBox(), pk = new Float32Array(m.nVtx * 3);
-  let cx = 0, cz = 0; for (let i = 0; i < m.nVtx; i++) { cx += m.fold[i * 3]; cz += m.fold[i * 3 + 2]; } cx /= m.nVtx; cz /= m.nVtx;
-  let rmax = 1e-6; for (let i = 0; i < m.nVtx; i++) rmax = Math.max(rmax, Math.hypot(m.fold[i * 3] - cx, m.fold[i * 3 + 2] - cz));
-  for (let i = 0; i < m.nVtx; i++) {
-    const x = m.fold[i * 3] - cx, z = m.fold[i * 3 + 2] - cz, r = Math.max(Math.abs(x), Math.abs(z)) || 1e-6, rho = Math.hypot(x, z) / rmax, sc = (B.h * 0.98 * Math.pow(rho, 0.55)) / r;
-    pk[i * 3] = B.cx + x * sc; pk[i * 3 + 1] = B.top * (0.35 + 0.65 * clamp(m.fold[i * 3 + 1] / 1.2)) + 0.002; pk[i * 3 + 2] = B.cz + z * sc;
+function Layer(creature, form, tint) { this.creature = creature; this.form = form; this.tint = tint || null; this.m = mesh(creature); this.gc = new Geo(this.m); this.act = this.gc; const asp = this.m.asp || FORM_ASP; this.tex = formTexture(form, 2048, 1, asp); this.texB = formTexture(form, 2048, 2, asp); this.tex2 = null; }
+/* unfolding: every point swings outward and down about the ground below it (a stalk tipping over), so legs, wings and petals open flat;
+   the opened shape then spreads to fill the portrait sheet, direction by direction, and the print settles into the whole form. */
+function unfoldOf(m) {
+  if (m.uf) return m.uf;
+  const n = m.nVtx, F = m.fold, NB = 96; let cx = 0, cz = 0;
+  for (let i = 0; i < n; i++) { cx += F[i * 3]; cz += F[i * 3 + 2]; } cx /= n; cz /= n;
+  const ang = new Float32Array(n), rho = new Float32Array(n), mx = new Float32Array(NB);
+  for (let i = 0; i < n; i++) { const x = F[i * 3] - cx, z = F[i * 3 + 2] - cz; ang[i] = Math.atan2(z, x); rho[i] = Math.hypot(x, z) + 0.6 * Math.max(0, F[i * 3 + 1]); const b = ((Math.floor((ang[i] + Math.PI) / TAU * NB) % NB) + NB) % NB; mx[b] = Math.max(mx[b], rho[i]); }
+  // per-direction reach, filled and smoothed round the circle, so the opened shape maps onto the rectangle without gaps
+  let sm = mx; for (let it = 0; it < 6; it++) { const o = new Float32Array(NB); for (let b = 0; b < NB; b++) o[b] = Math.max(sm[b], 0.5 * (sm[(b + NB - 1) % NB] + sm[(b + 1) % NB]), 0.92 * Math.max(sm[(b + NB - 2) % NB], sm[(b + 2) % NB])); sm = o; }
+  const rect = new Float32Array(n * 3); let rmin = 1e9; for (let i = 0; i < n; i++) rmin = Math.min(rmin, rho[i]); rmin *= 0.97;
+  for (let i = 0; i < n; i++) {
+    const a = ang[i], c = Math.cos(a), s2 = Math.sin(a), bf = (a + Math.PI) / TAU * NB - 0.5, b0 = ((Math.floor(bf) % NB) + NB) % NB, t = bf - Math.floor(bf), R = mix(sm[b0], sm[(b0 + 1) % NB], t) || 1;
+    const bd = Math.min(SHEET_W / 2 / Math.max(1e-6, Math.abs(c)), SHEET / 2 / Math.max(1e-6, Math.abs(s2))), q = Math.min(1, Math.pow(Math.max(0, rho[i] - rmin) / Math.max(1e-6, R - rmin), 0.85)) * bd;
+    rect[i * 3] = c * q; rect[i * 3 + 1] = 0; rect[i * 3 + 2] = s2 * q;
   }
-  return (m.pk = pk);
+  return (m.uf = { cx, cz, rect });
 }
 function Scene(canvas, opt = {}) {
   this.c = canvas; this.g = canvas.getContext('2d');
   this.o = Object.assign({ creature: 'dragon', form: 'T1', fov: 1.25, yaw: -0.5, flatYaw: 0.5, cx: 0.5, cy: 0.56, zoom: 1, shadow: null, light: [-0.5, 0.85, 0.5], fps: 30, sway: 1, ao: 1, sheen: 0.05, bounce: [0.62, 0.7, 0.92], sky: [1, 0.99, 0.97] }, opt);
   if (this.o.layers) this.layers = this.o.layers.map((l) => new Layer(l.creature, l.form, l.tint)); else this.layers = [new Layer(this.o.creature, this.o.form, this.o.tint)];
 }
-Scene.prototype.next = function (form) { this.layers[0].tex2 = form ? formTexture(form, 2048) : null; };
+Scene.prototype.next = function (form) { this.layers[0].tex2 = form ? formTexture(form, 2048, 1, this.layers[0].m.asp || FORM_ASP) : null; };
 Scene.prototype.set = function (creature, form) { this.o.creature = creature; this.o.form = form; this.layers = [new Layer(creature, form, this.o.tint)]; };
 Scene.prototype.size = function () {
   const r = this.c.getBoundingClientRect(), dpr = Math.min(2, window.devicePixelRatio || 1, Math.sqrt(3.0e6 / Math.max(1, r.width * r.height)));
@@ -1122,7 +1111,7 @@ Scene.prototype.size = function () {
 Scene.prototype.draw = function (k, frame = 0) {
   const G = getGL(); if (!G) return; const gl = G.gl;
   const [W, H] = this.size(), o = this.o, calm = sstep(0.82, 1, k), st = frame / o.fps, sw = o.sway || 0;
-  const yaw = mix(o.yaw, o.flatYaw, sstep(0.15, 0.95, k)), pitch = o.pitch != null ? o.pitch : mix(0.36, 0.62, sstep(0.2, 1, k));
+  const yaw = mix(o.yaw, o.flatYaw, sstep(0.15, 0.95, k)), pitch = o.pitch != null ? o.pitch : mix(0.36, o.flatPitch || 0.62, sstep(0.2, 1, k));
   const dist = (4.1 / o.zoom) * mix(1, o.flatDist || SHEET / 2.05, sstep(0.2, 1, k));
   const tgt = [0, o.tgtY != null ? o.tgtY : mix(0.62, 0.05, sstep(0.1, 1, k)), 0];
   const E = [tgt[0] + Math.sin(yaw) * Math.cos(pitch) * dist, tgt[1] + Math.sin(pitch) * dist, tgt[2] + Math.cos(yaw) * Math.cos(pitch) * dist];
@@ -1132,22 +1121,25 @@ Scene.prototype.draw = function (k, frame = 0) {
   // morph every layer on the CPU: staggered unfold, sway, a little lift while paper is in the air
   const sa = Math.sin(st * 1.35) * 0.075 * sw, sc = Math.cos(sa), ss = Math.sin(sa), lean = Math.sin(st * 1.35 - 0.7) * 0.045 * sw, breath = 1 + Math.sin(st * 2.7) * 0.012 * sw;
   let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
-  const KF = o.origami ? (o.foldAt || 0.45) : 2, useSheet = k > KF;
+  const useSheet = o.origami && k > 0.985, kB = o.origami ? sstep(0.5, 0.985, k) : 0, swB = sw * (1 - kB);
   for (const ly of this.layers) ly.act = useSheet ? (this.sg || (this.sg = new Geo(mesh('sheet')))) : ly.gc;
   if (o.time != null) for (const ly of this.layers) { const m = ly.m; if (!m.live) continue; for (let i = 0; i <= m.lnu; i++) for (let j = 0; j <= m.lnv; j++) m.fold.set(m.live(i / m.lnu, j / m.lnv, o.time), (i * (m.lnv + 1) + j) * 3); }
   for (const ly of this.layers) {
     const A = ly.act, m = A.m, P = A.pos, fold = m.fold, flat = m.flat;
-    if (useSheet) { // origami: the whole sheet folds along straight creases into the packet
-      const ff = 1 - (k - KF) / (1 - KF), q = [0, 0, 0];
-      for (let i = 0; i < m.nVtx; i++) { foldPoint(flat[i * 3], flat[i * 3 + 2], ff, q); P[i * 3] = q[0]; P[i * 3 + 1] = q[1]; P[i * 3 + 2] = q[2]; }
-    } else if (o.origami) { // the creature is shaped out of the packet: body first, then the limbs draw out of it
-      const pk = packetOf(m), qq = k / KF;
+    if (useSheet) { // the flat portrait sheet
+      P.set(flat);
+    } else if (o.origami) { // unfold: tip everything outward onto the ground, then spread it into the sheet
+      const U = unfoldOf(m), R = U.rect, kA = clamp(k / 0.62), bE = kB < 0.5 ? 4 * kB * kB * kB : 1 - Math.pow(-2 * kB + 2, 3) / 2;
+      const sa2 = Math.sin(st * 1.35) * 0.075 * swB, sc2 = Math.cos(sa2), ss2 = Math.sin(sa2), lean2 = lean * (1 - kB), br2 = 1 + (breath - 1) * (1 - kB);
       for (let i = 0; i < m.nVtx; i++) {
-        const d = m.dly[i], e = clamp(qq * 1.6 - (1 - d) * 0.6), ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2, i3 = i * 3;
+        const d = m.dly[i], e = clamp(kA * 1.5 - d * 0.5), ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2, i3 = i * 3;
         let fx = fold[i3], fy = fold[i3 + 1], fz = fold[i3 + 2];
         if (o.lift) fy *= 1 + o.lift;
-        if (sw) { const nx = fx * sc - fz * ss + lean * fy, nz = fx * ss + fz * sc; fy *= breath; fx = nx; fz = nz; }
-        P[i3] = fx + (pk[i3] - fx) * ee; P[i3 + 1] = fy + (pk[i3 + 1] - fy) * ee; P[i3 + 2] = fz + (pk[i3 + 2] - fz) * ee;
+        if (swB) { const nx = fx * sc2 - fz * ss2 + lean2 * fy, nz = fx * ss2 + fz * sc2; fy *= br2; fx = nx; fz = nz; }
+        const x = fx - U.cx, z = fz - U.cz, r = Math.hypot(x, z), ph = ee * Math.PI / 2, h = Math.max(0, fy), rr = r + 0.6 * h * Math.sin(ph), sc3 = r > 1e-6 ? rr / r : 0;
+        let px = U.cx + x * sc3, py = fy - h + h * Math.cos(ph), pz = U.cz + z * sc3;
+        if (r <= 1e-6) { const a = i * 2.39996; px = U.cx + Math.cos(a) * 0.6 * h * Math.sin(ph); pz = U.cz + Math.sin(a) * 0.6 * h * Math.sin(ph); }
+        P[i3] = px + (R[i3] - px) * bE; P[i3 + 1] = py * (1 - bE); P[i3 + 2] = pz + (R[i3 + 2] - pz) * bE;
       }
     } else for (let i = 0; i < m.nVtx; i++) {
       const d = m.dly[i], e = clamp(k * 1.45 - d * 0.45), ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2, i3 = i * 3;
@@ -1227,7 +1219,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   }
   gl.useProgram(G.main); cam(G.main); { const u = G.main.u;
     gl.uniform3fv(u.uL, L); gl.uniform3fv(u.uLC, LC); gl.uniform3fv(u.uLX, lx); gl.uniform3fv(u.uLY, ly_); gl.uniform1f(u.uLR, LR); gl.uniform1f(u.uSM_px, 1 / G.SM);
-    gl.uniform3fv(u.uBounce, o.bounce); gl.uniform3fv(u.uSky, o.sky); gl.uniform1f(u.uK, k); gl.uniform1f(u.uCalm, calm); gl.uniform1f(u.uBright, o.bright || 0); gl.uniform1f(u.uAO, o.ao); gl.uniform1f(u.uSheen, o.sheen);
+    gl.uniform3fv(u.uBounce, o.bounce); gl.uniform3fv(u.uSky, o.sky); gl.uniform1f(u.uK, k); gl.uniform1f(u.uCalm, calm); gl.uniform1f(u.uBright, o.bright || 0); gl.uniform1f(u.uAO, o.ao * (1 - sstep(0.2, 0.7, o.origami ? clamp(k / 0.62) : 0))); gl.uniform1f(u.uSheen, o.sheen); gl.uniform1f(u.uPlanar, useSheet ? 1 : kB < 0.5 ? 4 * kB * kB * kB : 1 - Math.pow(-2 * kB + 2, 3) / 2); gl.uniform2f(u.uSheet, SHEET_W, SHEET);
     gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, G.smTex); gl.uniform1i(u.uSM, 3); gl.uniform1i(u.uT0, 0); gl.uniform1i(u.uT1, 1); gl.uniform1i(u.uT2, 2); }
   const texMix = o.texMix || 0;
   for (const ly of this.layers) {
@@ -1260,7 +1252,7 @@ const HOLD = 1.5, DUR = 3.2, FLAT = 1.6, REFOLD = 3.2, SEG = HOLD + DUR + FLAT +
 const stage = document.getElementById('stage');
 const mobile = () => innerWidth <= 820;
 const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.6, fov: 1.25, flatDist: 1.9, centerX: 0.5, centerY: 0.62 } : { centerX: innerWidth < 1400 ? 0.74 : 0.72, centerY: 0.55, cx: innerWidth < 1400 ? 0.755 : 0.74, cy: 0.58, fov: innerWidth < 1400 ? 1.2 : 1.24, zoom: 1, flatDist: 1.95 };
-const scene = new Origami.Scene(stage, Object.assign({ creature: 'scorpion', form: 'PD7A', shadow: 'rgba(0,14,104,.55)', bounce: [0.66, 0.76, 1], yaw: -0.42, flatYaw: 0.22, origami: true }, heroOpt()));
+const scene = new Origami.Scene(stage, Object.assign({ creature: 'scorpion', form: 'PD7A', shadow: 'rgba(0,14,104,.55)', bounce: [0.66, 0.76, 1], yaw: -0.42, flatYaw: 0, flatPitch: 1.0, origami: true }, heroOpt()));
 let cur = -1, T = 0, playing = false, lastF = -1, prev = 0, loop = true, speed = 1;
 function show(t) {
   t = ((t % TOTAL) + TOTAL) % TOTAL;
@@ -1316,7 +1308,7 @@ if (reduce && !CLIP) rb.seek(0);
   pick(0);
   // lotus: one long, eased breath: opens flat, blooms, rests while turning slowly, then opens again
   const cam = () => mobile() ? { cx: 0.64, cy: 0.84, fov: 0.95 } : { cx: 0.72, cy: 0.8, fov: 1.05 };
-  const sc = new Origami.Scene(cv, Object.assign({ creature: 'lotus', form: 'T2125', shadow: 'rgba(40,20,90,.22)', bounce: [0.8, 0.76, 0.9], bright: 0.5, yaw: -0.3, flatYaw: -0.3, pitch: 1.0, tgtY: 0.12, light: [-0.55, 0.9, 0.6], fps: 60, sway: 0.5 }, cam()));
+  const sc = new Origami.Scene(cv, Object.assign({ creature: 'lotus', form: 'T2125', origami: true, shadow: 'rgba(40,20,90,.22)', bounce: [0.8, 0.76, 0.9], bright: 0.5, yaw: -0.3, flatYaw: -0.3, pitch: 1.0, tgtY: 0.12, light: [-0.55, 0.9, 0.6], fps: 60, sway: 0.5 }, cam()));
   const F = 1.4, B = 4.2, H = 7, U = 4.2, LOOP = F + B + H + U, ease = (x) => 0.5 - 0.5 * Math.cos(Math.PI * Math.max(0, Math.min(1, x)));
   const kAt = (t) => { t %= LOOP; if (t < F) return 1; if (t < F + B) return 1 - ease((t - F) / B); if (t < F + B + H) return 0; return ease((t - F - B - H) / U); };
   const SHAPES = ['lotus', 'lotus2', 'lotus3']; let shape = 'lotus';
