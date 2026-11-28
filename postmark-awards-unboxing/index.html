@@ -212,7 +212,10 @@ const STEM_P = STEM0.map((P, i) => { const S = STAMPS3[i], ext = 24 - STAMP_BACK
   return P.map((p) => { const along = (p[0] - S.cx) * S.d[0] + (p[1] - S.cy) * S.d[1], w = cl((along - S.l * 0.3) / (S.l * 0.7), 0, 1); return [p[0] + S.d[0] * ext * w * w * w, p[1] + S.d[1] * ext * w * w * w]; }); });
 const STEM_T = STEM_P.map((p) => triangulate(p));
 /* the quills taper in thickness too: full glass at the body, a thin rod where they run through the stamps */
-const STEM_HF = STEM0.map((P, i) => { const S = STAMPS3[i]; return (p) => { const along = (p[0] - S.cx) * S.d[0] + (p[1] - S.cy) * S.d[1], w = cl((along + S.l * 0.2) / (S.l * 1.1), 0, 1), e = w * w * (3 - 2 * w); return lerp(AT / 2, 2, e); }; });
+const STEM_HF = STEM0.map((P, i) => { const S = STAMPS3[i]; return (p) => { const along = (p[0] - S.cx) * S.d[0] + (p[1] - S.cy) * S.d[1], w = cl((along - S.l * 0.25) / (S.l * 0.95), 0, 1), e = w * w * (3 - 2 * w); return lerp(AT / 2, 2, e); }; });
+/* the part of each quill past its stamp, drawn again after the stamps so the tip always shows coming out through them */
+const STEM_TIP = STEM_P.map((P, i) => { const S = STAMPS3[i], cut = S.l - STAMP_BACK + 1, al = (p) => (p[0] - S.cx) * S.d[0] + (p[1] - S.cy) * S.d[1];
+  return { tris: STEM_T[i].filter((tr) => tr.every((p) => al(p) > cut)), edges: P.map((a, k) => [a, P[(k + 1) % P.length]]).filter(([a, b]) => al(a) > cut && al(b) > cut) }; });
 /* the cradle: a well the shape of the award and its stamps (a hull, so the leaning stamps clear the walls), deep enough for the stamps hanging below the glass,
    with a raised platform under the body that the glass rests on */
 const hull = (pts) => { const p = pts.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]), cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]), lo = [], up = [];
@@ -371,7 +374,7 @@ function currentP(t) {
 }
 let mode = 'auto', Pm = 0, Pshow = 0, tAuto = 0;
 const FWD = 15, SPIN = 7.5, HOLD = 2.5, BACK = 5, CYCLE = FWD + SPIN + HOLD + BACK, PMAX = 1.35; // P 1 to PMAX is the showcase spin; PMAX looks the same as 1
-function autoP(t) { const c = t % CYCLE; if (c < FWD) return c / FWD; if (c < FWD + SPIN) return 1 + (PMAX - 1) * (c - FWD) / SPIN; if (c < FWD + SPIN + HOLD) return 1; return 1 - ease((c - FWD - SPIN - HOLD) / BACK); }
+function autoP(t) { const c = t % CYCLE; if (c < FWD) return c / FWD; if (c < FWD + SPIN) return 1 + (PMAX - 1) * (c - FWD) / SPIN; if (c < FWD + SPIN + HOLD) return PMAX; return 1 - ease((c - FWD - SPIN - HOLD) / BACK); }
 const STAGES = [['01', 'The mailer', 0.0], ['02', 'Lid opens', 0.15], ['03', 'Box lifts out', 0.3], ['04', 'Sleeve slides off', 0.6], ['05', 'Lid lifts', 0.76], ['06', 'Award pulled', 0.98], ['07', 'Winner engraving', 1.17]];
 
 function drawScene(P, t) {
@@ -438,7 +441,7 @@ function drawScene(P, t) {
       F(BM, [[XM, ny, -nz], [X1, ty, -tz], [X1, q[1], -q[0]], [X0, q[1], -q[0]], [X0, ty, -tz]], RED); F(BM, [[XM, ny, -nz], [X0, ty, -tz], [X0, q[1], -q[0]], [X1, q[1], -q[0]], [X1, ty, -tz]], RED, 0.8); }
   }
   { // the award: the brand mascot in glass. Clear body, tinted glass stamps on the quill tips, a white eye; drawn in the glass pass
-    const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(0.4 * Math.sin(t * 0.8) * o.hold * (1 - o.show) + o.spin), RX(o.tilt));
+    const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(o.spin), RX(o.tilt));
     const C0 = xf(AM, [0, 0, 0]), upN = nrm([AM.r[1], AM.r[4], AM.r[7]]), topNear = dot(upN, sub(CAM, C0)) > 0, toW = (p, y) => [p[0], y, -p[1]];
     const solid = (tris, ring, y0, y1, col, aF, aS) => {
       const lite = col.map((v) => Math.min(255, v + 45)), face = (y) => tris.forEach((tr) => glassTri(AM, tr.map((p) => toW(p, y)), col, aF));
@@ -458,6 +461,9 @@ function drawScene(P, t) {
       const edges = () => S.poly.forEach((q, k) => { const n = S.poly[(k + 1) % S.poly.length], a = S.at(q, STAMP_T), b = S.at(n, STAMP_T), c = S.at(n, -STAMP_T), d = S.at(q, -STAMP_T); glassTri(AM, [a, b, c], lite, 0.95); glassTri(AM, [a, c, d], lite, 0.95); });
       if (fwd) { face(-STAMP_T); edges(); face(STAMP_T); } else { face(STAMP_T); edges(); face(-STAMP_T); }
     });
+    STEM_TIP.forEach((T, i) => { const hf = STEM_HF[i], col = [170, 210, 255], lite = [215, 255, 255];
+      T.edges.forEach(([a, b]) => { const q = [toW(a, hf(a)), toW(b, hf(b)), toW(b, -hf(b)), toW(a, -hf(a))]; glassTri(AM, [q[0], q[1], q[2]], lite, 0.7); glassTri(AM, [q[0], q[2], q[3]], lite, 0.7); });
+      T.tris.forEach((tr) => glassTri(AM, tr.map((p) => toW(p, (topNear ? 1 : -1) * hf(p))), col, 0.35)); });
     const fan = (P, y, col) => F(AM, [[0, y, 0]].concat(P.map((p) => toW(p, y))).concat([toW(P[0], y)]), col, 1.25);
     const ctr = (P) => [P.reduce((a, p) => a + p[0], 0) / P.length, P.reduce((a, p) => a + p[1], 0) / P.length];
     { const e = ctr(EYE_P), pu = ctr(PUPIL_P); F(AM, [[e[0], AT / 2 + 0.4, -e[1]]].concat(EYE_P.map((p) => toW(p, AT / 2 + 0.4))).concat([toW(EYE_P[0], AT / 2 + 0.4)]), [250, 250, 250], 1.2);
@@ -520,10 +526,7 @@ function triFlush() {
 }
 function glassDraw() {
   const gl = drawingContext; gl.depthMask(false);
-  if (GLS.length) { // back to front from the camera, so a quill tip in front of its stamp is drawn over it from any angle
-    const ord = []; for (let i = 0; i < GLS.length; i += 5) { const w = GLS[i], x = (w[0][0] + w[1][0] + w[2][0]) / 3 - CAM[0], y = (w[0][1] + w[1][1] + w[2][1]) / 3 - CAM[1], z = (w[0][2] + w[1][2] + w[2][2]) / 3 - CAM[2]; ord.push([x * x + y * y + z * z, i]); }
-    ord.sort((a, b) => b[0] - a[0]);
-    beginShape(TRIANGLES); for (const [, i] of ord) { const w = GLS[i]; fill(GLS[i + 1], GLS[i + 2], GLS[i + 3], GLS[i + 4] * 255); for (const p of w) vertex(p[0], -p[1], p[2]); } endShape(); }
+  if (GLS.length) { beginShape(TRIANGLES); for (let i = 0; i < GLS.length; i += 5) { const w = GLS[i]; fill(GLS[i + 1], GLS[i + 2], GLS[i + 3], GLS[i + 4] * 255); for (const p of w) vertex(p[0], -p[1], p[2]); } endShape(); }
   for (const q of GLT) { texture(q.tex); tint(255, 255, 255, q.a); beginShape(TRIANGLES); for (const [p, uv] of q.tris) vertex(p[0], -p[1], p[2], uv[0], uv[1]); endShape(); }
   tint(255, 255, 255, 255); gl.depthMask(true);
 }
