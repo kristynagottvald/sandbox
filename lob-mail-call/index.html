@@ -169,6 +169,14 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .st.h{flex-direction:row;gap:14px;text-align:left;justify-content:flex-start;padding:10px 16px}.st.h .stat{flex:none}.st.h .tc{padding-left:14px;border-left:var(--hl) solid var(--ink)}.st.h .hr{display:none}.st.h .stat{font-size:40px}
 .stat{font:300 46px/.95 var(--sf);font-variation-settings:"opsz" 144,"SOFT" 40;letter-spacing:-.03em}
 .st .hr{align-self:stretch;margin:8px 4px 7px}
+.dtk{--p:16px;--h:5px;background:var(--card);padding:10px 9px;display:flex}
+.dtk>.in{flex:1;display:grid;grid-template-columns:var(--cw,64px) minmax(0,1fr);border:var(--hl) solid var(--ink)}
+.dtk .cell{border-right:var(--hl) solid var(--ink);position:relative;min-height:62px}
+.dtk .cell>svg{position:absolute;inset:7px;width:calc(100% - 14px);height:calc(100% - 14px)}
+.dtk .txt{display:flex;align-items:center;justify-content:center;gap:12px;padding:8px 12px;text-align:center}
+.dtk.v .txt{flex-direction:column;gap:4px;padding:7px 8px}.dtk.v .tc{text-align:center}.dtk.v .stat{font-size:30px}
+.dtk .stat{font-size:38px;flex:none}
+.dtk .tc{font-size:9.5px;letter-spacing:.15em;line-height:1.35;text-align:left}
 .st .tc{font-size:10px;letter-spacing:.15em}
 .tb{display:grid;grid-template-columns:repeat(3,1fr)}
 .tbh{display:flex;justify-content:center;align-items:center;gap:12px;padding:9px 0 8px;margin:0 16px;border-bottom:var(--hl) solid var(--ink)}
@@ -290,9 +298,11 @@ function rosette(fill=PER){let d='';const N=14,R=27,a=2.6;for(let i=0;i<=180;i++
 const num=(n)=>`<div class="num">${rosette()}<span>${n}</span></div>`;
 /* text set around an arc (per letter, no ids) */
 function arcText(str,cx,cy,r,a0,a1,size,fill=ROY,out=1){const n=str.length;return [...str].map((ch,i)=>{const a=(a0+(a1-a0)*(n===1?.5:i/(n-1)))*Math.PI/180,x=cx+r*Math.cos(a),y=cy+r*Math.sin(a),rot=a*180/Math.PI+90*out;return `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" transform="rotate(${rot.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})" text-anchor="middle" dominant-baseline="middle" font-family="Instrument Sans,Arial,sans-serif" font-weight="600" font-size="${size}" fill="${fill}" stroke="none">${ch}</text>`}).join('')}
+/* even letter spacing along an arc: degrees a string needs at this size and radius */
+const arcSpan=(t,size,r)=>(t.length-1)*size*.82/r*180/Math.PI;
 /* the round rubber stamp ("dates uniques"): periwinkle disc, royal double ring, arc text, a big middle line */
 function rubber(top,mid,bot,rot=-16,label){return svg('0 0 160 160',`<g transform="rotate(${rot} 80 80)" filter="url(#pen)"><circle cx="80" cy="80" r="76" fill="${PER}"/><circle cx="80" cy="80" r="66" fill="none" stroke="${ROY}" stroke-width="4"/><circle cx="80" cy="80" r="44" fill="none" stroke="${ROY}" stroke-width="1.6" stroke-dasharray="3 3"/>
-${arcText(top,80,80,55,-150,-30,top.length>12?11:13)}${arcText(bot,80,80,55,148,32,12,ROY,-1)}<rect x="22" y="57" width="116" height="46" fill="${PER}"/><path d="M24 58H136M24 102H136" stroke="${ROY}" stroke-width="2.4"/>
+${arcText(top,80,80,55,-90-arcSpan(top,13,55)/2,-90+arcSpan(top,13,55)/2,13)}${arcText(bot,80,80,57,90+arcSpan(bot,12,57)/2,90-arcSpan(bot,12,57)/2,12,ROY,-1)}<rect x="22" y="57" width="116" height="46" fill="${PER}"/><path d="M24 58H136M24 102H136" stroke="${ROY}" stroke-width="2.4"/>
 <text x="80" y="95" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="400" font-size="40" fill="${ROY}">${mid}</text><circle cx="80" cy="18" r="3.4" fill="${ROY}"/><circle cx="80" cy="142" r="3.4" fill="${ROY}"/></g>`,label)}
 /* the triangle stamp: white, toothed edges, compass star, tracked caps */
 function triStamp(l1,l2){const A=[60,6],B=[114,100],C=[6,100];let c='';
@@ -320,6 +330,40 @@ function scene(){return svg('0 0 236 300',`
 ${at(flyingEnvelope(),40,8,150,70)}${at(mailboxChar(),6,118,140,150)}${at(parcelChar(),130,190,96,88)}${at(stackChar(),138,118,88,81)}<path d="M8 270H228" stroke="${INK}" stroke-width="1.2" opacity=".7"/>`,'A flying envelope, a mailbox, a parcel and a stack of mail')}
 function donut(p,sz=72){const r=36,C=2*Math.PI*r;return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}" aria-hidden="true"><circle cx="50" cy="50" r="${r}" fill="none" stroke="${PER}" stroke-width="12"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${ROY}" stroke-width="12" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="${r+8}" fill="none" stroke="${INK}" stroke-width="1"/><circle cx="50" cy="50" r="${r-8}" fill="none" stroke="${INK}" stroke-width="1"/></svg>`}
 function dots(n,of=10){let s='';for(let i=0;i<of;i++)s+=`<circle cx="${9+i*17}" cy="9" r="6.5" fill="${i<n?ROY:'none'}" stroke="${i<n?ROY:INK}" stroke-width="1.1"/>`;return `<svg viewBox="0 0 ${of*17} 18" width="100%" aria-hidden="true">${s}</svg>`}
+/* the route map: full bleed royal blue, pencil pines, a river, dotted highways with interstate shields,
+   faint state lines, and one white route from the print plant to the combine (commingling) hub to a front door */
+function routeMap(){
+  const DK='#14217a',DK2='#1b2d9c',LT2='#dfe7fc';
+  const pine=(x,y,s)=>`<path d="M${x} ${y-30*s}L${x+5*s} ${y-18*s}L${x+3*s} ${y-18*s}L${x+8*s} ${y-8*s}L${x+5*s} ${y-8*s}L${x+10*s} ${y}H${x-10*s}L${x-5*s} ${y-8*s}L${x-8*s} ${y-8*s}L${x-3*s} ${y-18*s}L${x-5*s} ${y-18*s}Z"/>`;
+  const grove=(x,y,n,s=1)=>{let g='';for(let i=0;i<n;i++)g+=pine(x+i*9*s+(i%2)*2,y+(i%2?3:0)*s,s*(i%3===1?1.25:i%3===2?.85:1));return g};
+  const shield=(x,y,n)=>`<g transform="translate(${x} ${y})"><path d="M-9 -10H9V2Q9 8 0 12Q-9 8 -9 2Z" fill="${DK}" stroke="${PER}" stroke-width=".7" opacity=".95"/><text x="0" y="3" text-anchor="middle" font-family="Instrument Sans,Arial,sans-serif" font-weight="600" font-size="8.5" fill="${PER}">${n}</text></g>`;
+  const dotted=(d)=>`<path d="${d}" fill="none" stroke="${DK}" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0 7"/>`;
+  const stop=(x,y)=>`<circle cx="${x}" cy="${y}" r="6.5" fill="${LT2}"/><circle cx="${x}" cy="${y}" r="2.4" fill="${INK}"/>`;
+  const lab=(x,y,t,sub,anchor='start')=>`<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="11.5" letter-spacing="2.2" fill="${CARD}">${t}</text><text x="${x}" y="${y+12}" text-anchor="${anchor}" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="7.5" letter-spacing="1.6" fill="${PER}">${sub}</text>`;
+  const state=(x,y,t)=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="9" letter-spacing="3.5" fill="${PER}" opacity=".55">${t}</text>`;
+  /* buildings in pencil: print plant with a sawtooth roof and stack, combine hub, a house with its mailbox */
+  const plant=`<g transform="translate(58 64)"><path d="M0 34V12L12 2V12L24 2V12L36 2V12L48 2V34Z"/><rect x="38" y="-14" width="6" height="18"/></g>`;
+  const hub=`<g transform="translate(330 26)"><path d="M0 34V10L30 0L60 10V34Z"/></g>`;
+  const house=`<g transform="translate(637 0)"><path d="M0 30V12L15 0L30 12V30Z"/><rect x="38" y="16" width="3" height="14"/><rect x="34" y="10" width="11" height="7" rx="3"/></g>`;
+  const win=`<g fill="${ROY}" opacity=".55"><rect x="64" y="84" width="6" height="8"/><rect x="76" y="84" width="6" height="8"/><rect x="88" y="84" width="6" height="8"/><rect x="338" y="42" width="12" height="18"/><rect x="354" y="42" width="12" height="18"/><rect x="370" y="42" width="12" height="18"/><rect x="648" y="20" width="7" height="10"/></g>`;
+  const river=`M-10 228C60 210 120 214 170 190S250 120 300 112 380 140 440 128 520 70 560 58 640 40 700 10 760 -6 790 -10`;
+  const route=`M82 106C110 114 132 110 158 100S206 82 232 90 290 104 316 90 342 74 360 72C384 70 398 80 422 76S462 62 486 66 524 70 552 56 608 40 652 38`;
+  return svg('0 0 760 200',`<rect x="-200" y="-200" width="1160" height="600" fill="${ROY}"/>
+<g filter="url(#pen)">
+ <path d="${river}" fill="none" stroke="${DK2}" stroke-width="22" stroke-linecap="round" opacity=".9"/><path d="${river}" fill="none" stroke="${DK}" stroke-width="9" stroke-linecap="round" opacity=".7" transform="translate(4 3)"/>
+ <path d="M-10 60C30 70 60 58 110 66S160 92 196 86" fill="none" stroke="${DK2}" stroke-width="7" stroke-linecap="round" opacity=".8"/>
+ <g fill="${DK}">${grove(150,64,4,.9)}${grove(20,206,5,1.1)}${grove(250,52,2,.8)}${grove(430,180,4,1)}${grove(470,44,3,.85)}${grove(560,196,5,1.1)}${grove(712,120,3,.9)}${grove(300,198,2,.9)}${pine(205,180,.9)}${pine(560,120,.8)}${pine(740,62,.8)}</g>
+ <g fill="${DK}">${plant}${hub}${house}</g>
+</g>
+${win}
+${dotted('M236 -10C232 40 248 80 240 120S228 180 236 220')}${dotted('M512 -10C506 40 520 90 510 140S500 190 506 220')}
+${dotted('M-10 112C60 104 120 100 180 104S300 118 360 110 480 110 540 120 680 132 780 128')}${dotted('M400 -10C396 40 408 80 398 130S392 180 396 220')}
+${shield(186,112,'74')}${shield(452,96,'65')}${shield(574,102,'70')}
+${state(150,52,'ILLINOIS')}${state(452,22,'INDIANA')}${state(592,20,'OHIO')}
+<path d="${route}" fill="none" stroke="${CARD}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)"/>
+${stop(82,106)}${stop(360,72)}${stop(652,38)}
+${lab(122,74,'PRINT','PRINTED &amp; ADDRESSED')}${lab(372,98,'COMBINE','PRESORTED WITH OTHER MAIL')}${lab(638,64,'DELIVERY','IN THE MAILBOX','end')}
+<g transform="translate(712 122)" filter="url(#pen)"><text x="0" y="0" text-anchor="end" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="9" letter-spacing="2.4" fill="${PER}">TO EVERY</text><text x="0" y="12" text-anchor="end" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="9" letter-spacing="2.4" fill="${PER}">MAILBOX</text><path d="M8 -10L40 1L8 12Z" fill="${PER}" opacity=".85"/><path d="M8 -10L22 1L8 12Z" fill="${LT2}" opacity=".6"/></g>`,'A pencil map of one mail route across Illinois, Indiana and Ohio: printed, combined with other mail, then delivered').replace('xMidYMid meet','xMidYMin slice')}
 function fatigue(){
   const cs=30,x0=4,y0=4,cols=14,rows=4,trail={'0,3':1,'1,3':1,'2,3':2,'2,2':1,'3,2':1,'4,2':2,'5,2':1,'5,1':1,'6,1':2,'7,1':1,'8,1':1,'8,0':2,'9,0':1,'10,0':2,'11,0':1,'12,0':1,'13,0':2};let s='';
   for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const t=trail[c+','+r],x=x0+c*cs,y=y0+r*cs;
@@ -343,6 +387,7 @@ const foot=(n,t)=>`<div class="folio"><span>The Mail Call · ${t}</span><span>lo
 const trys=(title,items,cls='panel')=>`<div class="${cls}"><div class="tbh tc">${title} ${arw()}</div><div class="tb">${items.map(t=>`<div><div class="ic">${icon(t[0])}</div><h4>${t[1]}</h4><div class="tx">${t[2]}</div></div>`).join('')}</div></div>`;
 const sec=(n,head)=>`<div class="sech">${num(n)}<div class="an">${head}</div></div>`;
 const stat=(big,lab,cls='rcard')=>`<div class="${cls} st"><div class="stat">${big}</div><div class="hr"></div><div class="tc">${lab}</div></div>`;
+const dtk=(art,big,lab,cw,v)=>`<div class="perf dtk${v?' v':''}"${cw?` style="--cw:${cw}px"`:''}><div class="in"><div class="cell">${art}</div><div class="txt"><div class="stat">${big}</div><div class="tc">${lab}</div></div></div></div>`;
 const tile=(art,big,cap,shape='scal')=>`<div class="fig"><div class="${shape} il">${art}</div><div class="fc">${big?`<b>${big}</b>`:''}${cap}</div></div>`;
 const PG=[
 /* 1 · front page */
@@ -398,18 +443,16 @@ ${foot(2,'Page two')}`,
 /* 3 · inside right */
 ()=>`
 <div class="tkt"><span class="tc" style="font-size:15px;letter-spacing:.3em">Keep Them Reading</span></div>
-<div class="sech">${num(2)}<div><div class="sf" style="font-size:28px;margin-bottom:6px">Give people a reason to</div><div class="an" style="font-size:86px;line-height:.86">Keep reading</div></div></div>
-<div class="rcard" style="padding:14px 16px 12px;display:flex;flex-direction:column"><div style="flex:1;min-height:68px;position:relative"><div style="position:absolute;inset:0">${fatigue()}</div></div><div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:9px;border-top:var(--hl) solid var(--ink)" class="tc"><span style="font-size:9.5px">Hundreds of digital messages a day</span><span style="font-size:9.5px">One piece of mail you can hold</span></div></div>
-<div class="band c3">
-  ${stat('27%','say mail stands out from digital ads','panel st h')}${stat('35%','more likely to notice and remember mail','rcard st h')}${stat('54%','toss mail that looks like a scam','panel st h')}
-</div>
+<div class="sech">${num(2)}<div style="display:flex;align-items:baseline;gap:14px;white-space:nowrap"><span class="sf" style="font-size:24px">Give people a reason to</span><span class="an" style="font-size:76px;line-height:.86">Keep reading</span></div></div>
+<div style="margin:0 -26px;display:flex;flex-direction:column"><div style="flex:1;position:relative;min-height:176px"><div style="position:absolute;inset:0">${routeMap()}</div><div class="tc" style="position:absolute;left:26px;top:12px;font-size:9px;color:var(--card);letter-spacing:.22em">One piece of mail · three stops</div></div><div class="band c3" style="padding:0 26px;margin-top:-40px;position:relative">${dtk(envelopeChar(),'27%','say mail stands out<br>from digital ads',52,1)}${dtk(icon('eye'),'35%','more likely to<br>remember mail',52,1)}${dtk(stackChar(),'54%','toss mail that<br>looks like a scam',52,1)}</div></div>
 <div class="tx cols2"><p>Today's consumers are bombarded with hundreds, even thousands, of digital messages a day. As digital fatigue grows, the tactile quality of direct mail becomes even more impactful.</p><p>${hi('45%')} of people are turned off by mail with no clear value, and nearly half are tired of pushy language and manufactured deadlines.</p></div>
 ${trys('Try this',[
 ['coin','Prove your value quickly','Make your mail something people actually want.'],
 ['clock','Skip the fake urgency','Give a real reason to act instead of just “act now” messaging.'],
 ['hello','Make it personal','Personalization can make or break ROI. Mail should feel personal and relevant.']])}
-<div style="display:grid;grid-template-columns:minmax(0,1fr) 178px;gap:var(--gc);align-items:center">${sec(3,'Design for more than<br>an immediate response')}${stat('33%','value mail they can return to later','panel st h')}</div>
-<div style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--gc)">
+${sec(3,'Design for more than an immediate response')}
+<div style="display:grid;grid-template-columns:330px minmax(0,1fr);gap:var(--gc);align-items:center">
+  ${dtk(pocketWatch(),'33%','value mail they can<br>return to later',76)}
   <div class="tx"><p>Useful mail is more likely to be read and held on to. Give yours a longer life by including information worth keeping: product comparisons, deadlines, pricing, checklists, special offers or discount codes turn mail into a resource people can return to when they're ready.</p></div>
 </div>
 ${trys('Try this',[
@@ -431,7 +474,7 @@ ${foot(3,'Page three')}`,
     <div style="display:flex;gap:12px;align-items:center">${num(4)}<div class="an" style="font-size:33px;line-height:.9">Connect with customers on their terms</div></div>
     <div class="tx s" style="margin-top:9px"><p>Direct mail thrives when you go beyond the mailbox. There's no single path from awareness to action to attribution: some people research the brand online, some head to the store, others scan a QR code or visit a PURL.</p></div>
   </div>
-  <div style="display:grid;place-items:center">${rubber('TOOK AN ONLINE ACTION','70%','AFTER DIRECT MAIL',-12,'Stamp: 70 percent took an online action after receiving direct mail')}</div>
+  <div style="display:grid;place-items:center">${rubber('WENT ONLINE','70%','AFTER MAIL',-12,'Stamp: 70 percent took an online action after receiving direct mail')}</div>
   ${[[qrChar(),'Scan a QR code','scal'],[phoneChar(),'Call a number','scal'],[storeChar(),'Go to the store','scal']].map(t=>tile(t[0],'',t[1],t[2])).join('')}
   <div class="tkt lt" style="grid-column:span 2;display:grid;grid-template-columns:92px minmax(0,1fr);gap:14px;align-items:center;justify-items:start;text-align:left;padding:12px 34px"><div style="height:62px">${vanChar()}</div>
     <div><div class="tc" style="font-size:11px;line-height:1.35;white-space:nowrap">Lob's Worldwide<br>Delivery Service</div><div class="tx s" style="margin-top:5px">Every mailbox. Every day. More than <b>80%</b> of people look daily.</div></div></div>
