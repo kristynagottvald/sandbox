@@ -98,11 +98,12 @@ input[type=text]:focus{outline:2px solid var(--yellow);outline-offset:0;border-c
 .insight b{display:inline-block;font:700 9.5px/1 var(--font);letter-spacing:.16em;text-transform:uppercase;background:var(--yellow);color:var(--ink);padding:5px 8px;border-radius:999px;margin-bottom:9px}
 .insight p{font:400 21px/1.15 var(--serif);color:var(--text)}
 .insight em{font-style:italic}
-.drops{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #333;margin-bottom:10px}
-.drops div{padding:8px 7px 9px;border-left:1px solid #333;font-size:11px;color:var(--muted);line-height:1.3}
-.drops div:first-child{border-left:0}
-.drops b{display:block;font:600 10px/1.2 var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:3px}
-.drops div.on{background:var(--yellow);color:#4a4630}.drops div.on b{color:var(--ink)}
+.drops{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.drop{border:1px solid #3a3a3a;background:transparent;border-radius:8px;padding:9px 10px 10px;text-align:left;cursor:pointer;font-size:12.5px;line-height:1.25}
+.drop:hover{border-color:#777}
+.drop b{display:block;font:700 9.5px/1 var(--font);letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:5px}
+.drop.on{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}.drop.on b{color:var(--ink)}
+.drop:last-child:nth-child(odd){grid-column:1/-1}
 :focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
 @media (max-width:900px){
   .app{grid-template-columns:1fr;height:auto}
@@ -155,7 +156,7 @@ input[type=text]:focus{outline:2px solid var(--yellow);outline-offset:0;border-c
     <section>
       <h2>Year-round drops</h2>
       <div class="drops" id="drops"></div>
-      <div class="hint">Each drop is the same modular film, cut again with the newest data. Figures in the film are sample numbers to be wired to the attendee data.</div>
+      <div class="hint">Pick a time of year: the same film is cut again for it, with the newest data. Figures in the film are sample numbers to be wired to the attendee data.</div>
     </section>
 
     <section>
@@ -308,12 +309,24 @@ const PHASES = [
   { id: 'after', name: 'After', sub: 'Within 48 hours', label: 'Your film' },
   { id: 'extra', name: 'Extra', sub: 'Monthly, all year', label: 'The replay edit' },
 ];
+/* the year: each drop re-cuts the film for that time of year */
+const DROPS = [
+  { id: 'mar', mon: 'Mar', name: 'Countdown', ph: 'extra' },
+  { id: 'before', mon: 'Apr', name: 'Doors open soon', ph: 'before' },
+  { id: 'during', mon: 'May', name: 'Conference days', ph: 'during' },
+  { id: 'after', mon: 'May', name: 'Your film', ph: 'after' },
+  { id: 'jun', mon: 'Jun', name: 'Replay edit', ph: 'extra' },
+  { id: 'sep', mon: 'Sep', name: 'Back to work', ph: 'extra' },
+  { id: 'dec', mon: 'Dec', name: 'Year in review', ph: 'extra' },
+];
+const dropOf = (id) => DROPS.find((d) => d.id === id) || DROPS[3];
+const defaultDrop = (ph) => ({ before: 'before', during: 'during', after: 'after', extra: 'jun' })[ph];
 const PEOPLE = {
   Dana: { name: 'Dana', years: 3, tracks: ['Lifecycle', 'Messaging'], sess: [0, 3, 5], taps: 9, qs: 3 },
   Marcus: { name: 'Marcus', years: 1, tracks: ['Growth'], sess: [1, 2], taps: 4, qs: 0 },
   Priya: { name: 'Priya', years: 2, tracks: ['Compliance', 'Messaging'], sess: [0, 4, 3, 1], taps: 12, qs: 6 },
 };
-const S = { ph: 'after', day: 2, auto: false, sig: { agenda: true, checkins: true, taps: true, qa: true }, ...JSON.parse(JSON.stringify(PEOPLE.Dana)) };
+const S = { ph: 'after', drop: 'after', day: 2, auto: false, sig: { agenda: true, checkins: true, taps: true, qa: true }, ...JSON.parse(JSON.stringify(PEOPLE.Dana)) };
 
 const fmt = (n) => n.toLocaleString('en-US');
 const ord = (n) => n + (['th', 'st', 'nd', 'rd'][(n % 100 > 10 && n % 100 < 14) ? 0 : Math.min(n % 10, 4) % 4] || 'th');
@@ -374,13 +387,31 @@ function build() {
     A.push({ type: 'cta', th: 'ink', name: 'Next', head: ['Your next', '*chapter*', 'awaits…'], btn: 'Save your seat', sub: 'Early access for people who were there.' });
   } else {
     const pick = TALKS.filter((t) => t.tr === 'All' || S.tracks.includes(t.tr)).sort((a, b) => (S.tracks.includes(b.tr) - S.tracks.includes(a.tr))).slice(0, 3);
-    const mins = pick.reduce((a, t) => a + t.min, 0);
-    A.push({ type: 'title', th: 'ink', name: 'Hello', kick: 'Thread 2026 · the replay edit', cap: cap1(), head: [n + ',', 'you missed it.', '*We did not.*'], sub: 'Three talks, cut for the way you work.' });
-    A.push(...insight('Picked for you', 'Picked for a', 'marketer', 'Based on the tracks you follow.'));
-    A.push({ type: 'list', th: 'yellow', name: 'Highlights', kick: 'Your highlight reel', head: ['Three talks,', '*just for you*'], rows: pick.map((t) => ({ k: (t.tr === 'All' ? 'Keynote' : t.tr) + ' · ' + t.min + ' min', h: t.t })) });
-    A.push({ type: 'stat', th: 'ink', name: 'Replays', kick: 'Watch time', text: String(mins), suf: ' min', label: ['of replays,', '*cut for you*'], sub: 'Short enough for a commute.' });
-    A.push(crowd('yellow', ['Join ' + fmt(CROWD), '*marketers*'], 'in the Thread community, all year round.'));
-    A.push({ type: 'cta', th: 'cream', name: 'Community', head: ['Come to', '*the next one*'], btn: 'Join the community', sub: 'Meetups, office hours and a very active group chat.' });
+    const mins = pick.reduce((a, t) => a + t.min, 0), dr = S.drop;
+    const hello = { jun: ['Thread 2026 · the replay edit', [n + ',', 'you missed it.', '*We did not.*'], 'Three talks, cut for the way you work.'],
+      sep: ['September · back to work', [n + ',', 'back to', '*the work.*'], 'A few ideas from Thread, ready for this quarter.'],
+      dec: ['December · your year', [n + ',', 'your Thread', '*year in review*'], 'Everything you did with Thread, in one film.'],
+      mar: ['March · almost time', [n + ',', 'New York is', '*closer.*'], 'A film that builds as the conference gets near.'] }[dr];
+    A.push({ type: 'title', th: 'ink', name: 'Hello', kick: hello[0], cap: cap1(), head: hello[1], sub: hello[2] });
+    A.push(...insight(dr === 'jun' ? 'Picked for you' : 'Still you', dr === 'jun' ? 'Picked for a' : 'You are a', 'marketer', 'Based on the tracks you follow.'));
+    if (dr === 'jun') {
+      A.push({ type: 'list', th: 'yellow', name: 'Highlights', kick: 'Your highlight reel', head: ['Three talks,', '*just for you*'], rows: pick.map((t) => ({ k: (t.tr === 'All' ? 'Keynote' : t.tr) + ' · ' + t.min + ' min', h: t.t })) });
+      A.push({ type: 'stat', th: 'ink', name: 'Replays', kick: 'Watch time', text: String(mins), suf: ' min', label: ['of replays,', '*cut for you*'], sub: 'Short enough for a commute.' });
+      A.push(crowd('yellow', ['Join ' + fmt(CROWD), '*marketers*'], 'in the Thread community, all year round.'));
+      A.push({ type: 'cta', th: 'cream', name: 'Community', head: ['Come to', '*the next one*'], btn: 'Join the community', sub: 'Meetups, office hours and a very active group chat.' });
+    } else if (dr === 'sep') {
+      A.push({ type: 'list', th: 'yellow', name: 'Try this', kick: 'Try this month', head: ['Three things', '*to try this month*'], rows: order.slice(0, 3).map((tr) => ({ k: tr, h: BLURB[tr] })) });
+      A.push(crowd('ink', ['Marketers like you,', '*back at it*'], 'Office hours are open every week.', 'Community'));
+      A.push({ type: 'cta', th: 'ink', name: 'Playbooks', head: ['Try one', '*this week*'], btn: 'See the playbooks', sub: 'Short guides for every track.' });
+    } else if (dr === 'dec') {
+      A.push({ type: 'stat', th: 'ink', name: 'Moments', kick: 'Your year', text: String(S.sess.length + S.taps + S.qs), label: ['moments you', '*made at Thread*'], sub: 'Sessions, stamps and questions in one place.' });
+      A.push(crowd('yellow', ['You and', '*' + fmt(CROWD - 1) + ' others*'], 'made Thread what it was.'));
+      A.push({ type: 'cta', th: 'cream', name: 'Early bird', head: ['See you', '*next May*'], btn: 'Get early bird', sub: 'First access for people who were there.' });
+    } else {
+      A.push({ type: 'stat', th: 'ink', name: 'Countdown', kick: 'Countdown', text: String(daysTo()), label: ['days until', '*New York*'], sub: 'We will text you the day before.' });
+      A.push(crowd('yellow', [fmt(CROWD) + ' marketers', '*are heading*', 'to New York'], 'Say hello. You already have the same favourite track.'));
+      A.push({ type: 'cta', th: 'ink', name: 'Tickets', head: ['Your seat', '*is waiting*'], btn: 'Get tickets', sub: 'May 12–14 · New York' });
+    }
   }
   A.forEach((s) => { s.dur = s.type === 'cta' ? 4.4 : s.type === 'list' ? 4.2 : 3.8; });
   return A;
@@ -547,7 +578,8 @@ function syncProgress() {
   const { i, lt } = sceneAt(TL, clock);
   document.querySelectorAll('.seg').forEach((b, k) => { b.classList.toggle('on', k === i); b.lastElementChild.style.width = (k < i ? 100 : k === i ? 100 * lt / TL.scenes[k].dur : 0) + '%'; });
 }
-function nextPhase() { const k = PHASES.findIndex((p) => p.id === S.ph); S.ph = PHASES[(k + 1) % PHASES.length].id; rebuild(false); }
+function setDrop(id) { S.drop = id; S.ph = dropOf(id).ph; rebuild(false); }
+function nextPhase() { const k = DROPS.findIndex((d) => d.id === S.drop); setDrop(DROPS[(k + 1) % DROPS.length].id); }
 
 function chips(sel, items, on, multi) { $(sel).innerHTML = items.map((x, i) => `<button class="chip${on(i) ? ' on' : ''}" data-i="${i}" aria-pressed="${!!on(i)}">${x}</button>`).join(''); }
 function syncUI() {
@@ -565,12 +597,13 @@ function syncUI() {
   $('#depthNote').textContent = d + ' of 5 signals · ' + TL.scenes.length + ' scenes in this film';
   $('#insight').innerHTML = insightLine();
   $('#auto').checked = S.auto;
-  $('#drops').innerHTML = PHASES.map((p) => `<div class="${p.id === S.ph ? 'on' : ''}"><b>${p.name}</b>${p.sub}</div>`).join('');
+  $('#drops').innerHTML = DROPS.map((d) => `<button class="drop${d.id === S.drop ? ' on' : ''}" data-id="${d.id}" aria-pressed="${d.id === S.drop}"><b>${d.mon}</b>${d.name}</button>`).join('');
   $('#play').setAttribute('aria-label', playing ? 'Pause' : 'Play'); $('#pi').setAttribute('d', playing ? 'M1 0h3.5v12H1zM7.5 0H11v12H7.5z' : 'M2 0l9 6-9 6z');
   writeHash();
 }
 const redo = (keep = true) => { rebuild(keep); };
-$('#phases').addEventListener('click', (e) => { const b = e.target.closest('[data-id]'); if (b) { S.ph = b.dataset.id; S.auto = false; redo(false); } });
+$('#drops').addEventListener('click', (e) => { const b = e.target.closest('[data-id]'); if (b) { S.auto = false; setDrop(b.dataset.id); } });
+$('#phases').addEventListener('click', (e) => { const b = e.target.closest('[data-id]'); if (b) { S.auto = false; setDrop(defaultDrop(b.dataset.id)); } });
 $('#dayRow').addEventListener('click', (e) => { const b = e.target.closest('[data-d]'); if (b) { S.day = +b.dataset.d; redo(); } });
 $('#people').addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (b) { Object.assign(S, JSON.parse(JSON.stringify(PEOPLE[Object.keys(PEOPLE)[+b.dataset.i]]))); redo(false); } });
 $('#years').addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (b) { S.years = [1, 2, 3][+b.dataset.i]; redo(); } });
@@ -588,7 +621,7 @@ cv.addEventListener('click', () => { playing = !playing; syncUI(); });
 /* a film is a link: the whole attendee state lives in the hash */
 function writeHash() {
   if (location.hash === '#clip') return;
-  const q = new URLSearchParams({ ph: S.ph, d: S.day, n: S.name, y: S.years, tr: S.tracks.map((t) => TRACKS.indexOf(t)).join(''), se: S.sess.join(''), tp: S.taps, q: S.qs, sg: Object.values(S.sig).map((v) => +v).join('') });
+  const q = new URLSearchParams({ ph: S.ph, dr: S.drop, d: S.day, n: S.name, y: S.years, tr: S.tracks.map((t) => TRACKS.indexOf(t)).join(''), se: S.sess.join(''), tp: S.taps, q: S.qs, sg: Object.values(S.sig).map((v) => +v).join('') });
   try { history.replaceState(null, '', '#' + q); } catch (e) {}
 }
 function readHash() {
@@ -596,6 +629,7 @@ function readHash() {
   if (h === 'clip') { S.auto = false; speed = 2.4; playing = false; return; }
   const q = new URLSearchParams(h);
   if (PHASES.some((p) => p.id === q.get('ph'))) S.ph = q.get('ph');
+  S.drop = DROPS.some((d) => d.id === q.get('dr') && d.ph === S.ph) ? q.get('dr') : defaultDrop(S.ph);
   if (q.has('d')) S.day = cl(+q.get('d') || 2, 1, 3);
   if (q.has('n')) S.name = q.get('n').replace(/[^\p{L}\p{M}' \-]/gu, '').slice(0, 14);
   if (q.has('y')) S.years = cl(+q.get('y') || 1, 1, 3);
@@ -610,7 +644,7 @@ function readHash() {
 /* export */
 const status = (m) => ($('#status').textContent = m);
 function download(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
-const slug = () => 'thread-film-' + nm().toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + S.ph;
+const slug = () => 'thread-film-' + nm().toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + S.drop;
 $('#png').addEventListener('click', () => {
   const oc = document.createElement('canvas'); oc.width = W; oc.height = H;
   try { render(oc.getContext('2d'), clock, false); oc.toBlob((b) => { if (!b) return status('Could not save a frame.'); download(b, slug() + '.png'); status('Saved a ' + W + ' × ' + H + ' frame.'); }, 'image/png'); } catch (e) { status('Could not save a frame here.'); }
