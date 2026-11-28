@@ -59,7 +59,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
     <button id="save" type="button" aria-label="Save the current view as a PNG">Save PNG</button>
   </div>
 </nav>
-<div id="stage" role="img" aria-label="A 3D low poly render of the Postmark Awards recipient box: a kraft mailer opens to a debossed insert holding a purple rigid box in a black die-cut slip sleeve, the sleeve slides off, the lid lifts, and the perforated stamp award is pulled out on a red ribbon"><div id="cap"><i>01</i><b>The mailer</b></div></div>
+<div id="stage" role="img" aria-label="A 3D low poly render of the Postmark Awards recipient box: a kraft mailer opens to a debossed insert holding a purple rigid box in a black slip sleeve with a white stamp, the sleeve slides off, the lid lifts, and the perforated stamp award is pulled out on a red ribbon"><div id="cap"><i>01</i><b>The mailer</b></div></div>
 <script>/* earcut 2.2.4 (ISC, Mapbox): polygon triangulation with holes, for the pocket, the box recess and the sleeve window */
 !function(e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):("undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this).earcut=e()}(function(){return function r(x,i,u){function f(n,e){if(!i[n]){if(!x[n]){var t="function"==typeof require&&require;if(!e&&t)return t(n,!0);if(o)return o(n,!0);throw(e=new Error("Cannot find module '"+n+"'")).code="MODULE_NOT_FOUND",e}t=i[n]={exports:{}},x[n][0].call(t.exports,function(e){return f(x[n][1][e]||e)},t,t.exports,r,x,i,u)}return i[n].exports}for(var o="function"==typeof require&&require,e=0;e<u.length;e++)f(u[e]);return f}({1:[function(e,n,t){"use strict";function r(e,n,t){t=t||2;var r,x,i,u,f,o=n&&n.length,v=o?n[0]*t:e.length,p=s(e,0,v,t,!0),y=[];if(p&&p.next!==p.prev){if(o&&(p=function(e,n,t,r){var x,i,u,f,o=[];for(x=0,i=n.length;x<i;x++)f=n[x]*r,u=x<i-1?n[x+1]*r:e.length,(f=s(e,f,u,r,!1))===f.next&&(f.steiner=!0),o.push(function(e){var n=e,t=e;for(;(n.x<t.x||n.x===t.x&&n.y<t.y)&&(t=n),n=n.next,n!==e;);return t}(f));for(o.sort(c),x=0;x<o.length;x++)t=function(e,n){var t=function(e,n){var t,r=n,x=e.x,i=e.y,u=-1/0;do{if(i<=r.y&&i>=r.next.y&&r.next.y!==r.y){var f=r.x+(i-r.y)*(r.next.x-r.x)/(r.next.y-r.y);if(f<=x&&u<f&&(u=f,t=r.x<r.next.x?r:r.next,f===x))return t}}while(r=r.next,r!==n);if(!t)return null;var o,v=t,p=t.x,y=t.y,a=1/0;r=t;for(;x>=r.x&&r.x>=p&&x!==r.x&&D(i<y?x:u,i,p,y,i<y?u:x,i,r.x,r.y)&&(o=Math.abs(i-r.y)/(x-r.x),_(r,e)&&(o<a||o===a&&(r.x>t.x||r.x===t.x&&function(e,n){return E(e.prev,e,n.prev)<0&&E(n.next,e,e.next)<0}(t,r)))&&(t=r,a=o)),r=r.next,r!==v;);return t}(e,n);if(!t)return n;n=j(t,e);return q(n,n.next),q(t,t.next)}(o[x],t);return t}(e,n,p,t)),e.length>80*t){for(var a=r=e[0],l=x=e[1],h=t;h<v;h+=t)(i=e[h])<a&&(a=i),(u=e[h+1])<l&&(l=u),r<i&&(r=i),x<u&&(x=u);f=0!==(f=Math.max(r-a,x-l))?32767/f:0}O(p,y,t,a,l,f,0)}return y}function s(e,n,t,r,x){var i,u;if(x===0<d(e,n,t,r))for(i=n;i<t;i+=r)u=f(i,e[i],e[i+1],u);else for(i=t-r;n<=i;i-=r)u=f(i,e[i],e[i+1],u);return u&&N(u,u.next)&&(C(u),u=u.next),u}function q(e,n){if(!e)return e;n=n||e;var t,r=e;do{if(t=!1,r.steiner||!N(r,r.next)&&0!==E(r.prev,r,r.next))r=r.next;else{if(C(r),(r=n=r.prev)===r.next)break;t=!0}}while(t||r!==n);return n}function O(e,n,t,r,x,i,u){if(e){if(!u&&i){for(var f=e,o=r,v=x,p=i,y=f;0===y.z&&(y.z=k(y.x,y.y,o,v,p)),y.prevZ=y.prev,y.nextZ=y.next,(y=y.next)!==f;);y.prevZ.nextZ=null,y.prevZ=null;var a,l,h,s,c,d,Z,g,w=y,M=1;do{for(l=w,c=w=null,d=0;l;){for(d++,h=l,a=Z=0;a<M&&(Z++,h=h.nextZ);a++);for(g=M;0<Z||0<g&&h;)0!==Z&&(0===g||!h||l.z<=h.z)?(l=(s=l).nextZ,Z--):(h=(s=h).nextZ,g--),c?c.nextZ=s:w=s,s.prevZ=c,c=s;l=h}}while(c.nextZ=null,M*=2,1<d)}for(var b,m,z=e;e.prev!==e.next;)if(b=e.prev,m=e.next,i?function(e,n,t,r){var x=e.prev,i=e,u=e.next;if(0<=E(x,i,u))return;var f=x.x,o=i.x,v=u.x,p=x.y,y=i.y,a=u.y,l=f<o?f<v?f:v:o<v?o:v,h=p<y?p<a?p:a:y<a?y:a,s=o<f?v<f?f:v:v<o?o:v,c=y<p?a<p?p:a:a<y?y:a,d=k(l,h,n,t,r),Z=k(s,c,n,t,r),g=e.prevZ,w=e.nextZ;for(;g&&g.z>=d&&w&&w.z<=Z;){if(g.x>=l&&g.x<=s&&g.y>=h&&g.y<=c&&g!==x&&g!==u&&D(f,p,o,y,v,a,g.x,g.y)&&0<=E(g.prev,g,g.next))return;if(g=g.prevZ,w.x>=l&&w.x<=s&&w.y>=h&&w.y<=c&&w!==x&&w!==u&&D(f,p,o,y,v,a,w.x,w.y)&&0<=E(w.prev,w,w.next))return;w=w.nextZ}for(;g&&g.z>=d;){if(g.x>=l&&g.x<=s&&g.y>=h&&g.y<=c&&g!==x&&g!==u&&D(f,p,o,y,v,a,g.x,g.y)&&0<=E(g.prev,g,g.next))return;g=g.prevZ}for(;w&&w.z<=Z;){if(w.x>=l&&w.x<=s&&w.y>=h&&w.y<=c&&w!==x&&w!==u&&D(f,p,o,y,v,a,w.x,w.y)&&0<=E(w.prev,w,w.next))return;w=w.nextZ}return 1}(e,r,x,i):function(e){var n=e.prev,t=e,e=e.next;if(0<=E(n,t,e))return;var r=n.x,x=t.x,i=e.x,u=n.y,f=t.y,o=e.y,v=r<x?r<i?r:i:x<i?x:i,p=u<f?u<o?u:o:f<o?f:o,y=x<r?i<r?r:i:i<x?x:i,a=f<u?o<u?u:o:o<f?f:o,l=e.next;for(;l!==n;){if(l.x>=v&&l.x<=y&&l.y>=p&&l.y<=a&&D(r,u,x,f,i,o,l.x,l.y)&&0<=E(l.prev,l,l.next))return;l=l.next}return 1}(e))n.push(b.i/t|0),n.push(e.i/t|0),n.push(m.i/t|0),C(e),e=m.next,z=m.next;else if((e=m)===z){u?1===u?O(e=function(e,n,t){var r=e;do{var x=r.prev,i=r.next.next}while(!N(x,i)&&U(x,r,r.next,i)&&_(x,i)&&_(i,x)&&(n.push(x.i/t|0),n.push(r.i/t|0),n.push(i.i/t|0),C(r),C(r.next),r=e=i),r=r.next,r!==e);return q(r)}(q(e),n,t),n,t,r,x,i,2):2===u&&function(e,n,t,r,x,i){var u=e;do{for(var f,o=u.next.next;o!==u.prev;){if(u.i!==o.i&&function(e,n){return e.next.i!==n.i&&e.prev.i!==n.i&&!function(e,n){var t=e;do{if(t.i!==e.i&&t.next.i!==e.i&&t.i!==n.i&&t.next.i!==n.i&&U(t,t.next,e,n))return 1}while(t=t.next,t!==e);return}(e,n)&&(_(e,n)&&_(n,e)&&function(e,n){var t=e,r=!1,x=(e.x+n.x)/2,i=(e.y+n.y)/2;for(;t.y>i!=t.next.y>i&&t.next.y!==t.y&&x<(t.next.x-t.x)*(i-t.y)/(t.next.y-t.y)+t.x&&(r=!r),t=t.next,t!==e;);return r}(e,n)&&(E(e.prev,e,n.prev)||E(e,n.prev,n))||N(e,n)&&0<E(e.prev,e,e.next)&&0<E(n.prev,n,n.next))}(u,o))return f=j(u,o),u=q(u,u.next),f=q(f,f.next),O(u,n,t,r,x,i,0),O(f,n,t,r,x,i,0);o=o.next}}while(u=u.next,u!==e)}(e,n,t,r,x,i):O(q(e),n,t,r,x,i,1);break}}}function c(e,n){return e.x-n.x}function k(e,n,t,r,x){return(e=1431655765&((e=858993459&((e=252645135&((e=16711935&((e=(e-t)*x|0)|e<<8))|e<<4))|e<<2))|e<<1))|(n=1431655765&((n=858993459&((n=252645135&((n=16711935&((n=(n-r)*x|0)|n<<8))|n<<4))|n<<2))|n<<1))<<1}function D(e,n,t,r,x,i,u,f){return(e-u)*(i-f)<=(x-u)*(n-f)&&(t-u)*(n-f)<=(e-u)*(r-f)&&(x-u)*(r-f)<=(t-u)*(i-f)}function E(e,n,t){return(n.y-e.y)*(t.x-n.x)-(n.x-e.x)*(t.y-n.y)}function N(e,n){return e.x===n.x&&e.y===n.y}function U(e,n,t,r){var x=v(E(e,n,t)),i=v(E(e,n,r)),u=v(E(t,r,e)),f=v(E(t,r,n));return x!==i&&u!==f||(0===x&&o(e,t,n)||(0===i&&o(e,r,n)||(0===u&&o(t,e,r)||!(0!==f||!o(t,n,r)))))}function o(e,n,t){return n.x<=Math.max(e.x,t.x)&&n.x>=Math.min(e.x,t.x)&&n.y<=Math.max(e.y,t.y)&&n.y>=Math.min(e.y,t.y)}function v(e){return 0<e?1:e<0?-1:0}function _(e,n){return E(e.prev,e,e.next)<0?0<=E(e,n,e.next)&&0<=E(e,e.prev,n):E(e,n,e.prev)<0||E(e,e.next,n)<0}function j(e,n){var t=new u(e.i,e.x,e.y),r=new u(n.i,n.x,n.y),x=e.next,i=n.prev;return(e.next=n).prev=e,(t.next=x).prev=t,(r.next=t).prev=r,(i.next=r).prev=i,r}function f(e,n,t,r){e=new u(e,n,t);return r?(e.next=r.next,(e.prev=r).next.prev=e,r.next=e):(e.prev=e).next=e,e}function C(e){e.next.prev=e.prev,e.prev.next=e.next,e.prevZ&&(e.prevZ.nextZ=e.nextZ),e.nextZ&&(e.nextZ.prevZ=e.prevZ)}function u(e,n,t){this.i=e,this.x=n,this.y=t,this.prev=null,this.next=null,this.z=0,this.prevZ=null,this.nextZ=null,this.steiner=!1}function d(e,n,t,r){for(var x=0,i=n,u=t-r;i<t;i+=r)x+=(e[u]-e[i])*(e[i+1]+e[u+1]),u=i;return x}n.exports=r,(n.exports.default=r).deviation=function(e,n,t,r){var x=n&&n.length,i=x?n[0]*t:e.length,u=Math.abs(d(e,0,i,t));if(x)for(var f=0,o=n.length;f<o;f++){var v=n[f]*t,p=f<o-1?n[f+1]*t:e.length;u-=Math.abs(d(e,v,p,t))}for(var y=0,f=0;f<r.length;f+=3){var a=r[f]*t,l=r[f+1]*t,h=r[f+2]*t;y+=Math.abs((e[a]-e[h])*(e[1+l]-e[1+a])-(e[a]-e[l])*(e[1+h]-e[1+a]))}return 0===u&&0===y?0:Math.abs((y-u)/u)},r.flatten=function(e){for(var n=e[0][0].length,t={vertices:[],holes:[],dimensions:n},r=0,x=0;x<e.length;x++){for(var i=0;i<e[x].length;i++)for(var u=0;u<n;u++)t.vertices.push(e[x][i][u]);0<x&&(r+=e[x-1].length,t.holes.push(r))}return t}},{}]},{},[1])(1)});
 </script>
@@ -182,30 +182,21 @@ const MW = 260, MH = 200, WT = 10;                 // mailer: half width/depth, 
 const INS_TOP = 190, REC_FLOOR = 96, REC_H = 175;  // debossed insert: top, recess floor, recess half size
 const BOXH = 166, LIDH = 171, BASE_H = 74, LID_BOT = 44, LID_TOP = 88; // award box: base half, lid half, heights
 const SL_T = 5, SL_XA = -130, SL_XB = 40;           // slip sleeve: thickness, x range on the box
-const AT = 20, PK = 0.29;                          // award: glass thickness, scale of the traced mascot
-const CRAD_TOP = 70, POCKET = 20;                  // black cradle inside the base, pocket depth
+const AT = 14, PK = 0.29;                          // award: glass thickness, scale of the traced mascot
+const CRAD_TOP = 70, POCKET = 14;                  // black cradle inside the base, pocket depth
 
 /* the brand mascot, traced (from the Postmark Awards brand visuals): body with its quills, the quill tips, and the stamps stuck on them (x, y, half width, half height, rotation, 0 purple / 1 red); y down, 1000 units wide */
 const PORC_BODY = [33,679,136,701,138,703,167,708,169,710,179,710,181,712,190,713,204,717,222,720,230,723,230,725,204,730,204,731,167,739,156,743,121,751,120,752,111,753,109,755,104,755,33,773,341,773,343,775,342,791,345,829,351,839,360,843,422,843,437,838,446,827,448,819,445,811,425,809,392,809,386,806,379,799,377,789,379,777,382,773,387,773,566,773,567,774,567,813,569,828,573,836,584,843,646,843,656,841,666,835,672,822,671,814,664,810,615,809,610,806,603,799,602,791,603,780,606,773,969,773,794,708,795,705,802,703,939,622,796,643,787,643,785,645,766,647,762,647,926,521,872,538,871,540,858,543,857,545,830,553,829,554,750,580,750,579,766,559,780,547,810,512,801,484,799,483,755,511,723,533,713,538,709,542,699,548,697,548,834,306,660,490,659,487,663,479,666,466,668,465,671,454,675,446,676,440,677,439,701,368,717,326,714,322,701,311,699,311,681,338,676,348,671,352,671,355,603,455,603,447,615,345,608,344,595,339,579,326,576,330,571,346,569,347,560,370,559,376,555,383,542,418,540,419,540,422,535,435,534,436,533,442,530,444,529,443,528,422,526,418,525,396,524,394,520,353,517,352,471,359,463,407,459,423,458,436,456,447,454,448,450,437,449,437,441,411,437,402,435,391,425,369,411,323,409,322,408,317,366,195,376,473,374,474,372,472,372,468,370,467,286,298,272,298,277,325,279,331,279,337,281,338,282,347,283,348,284,358,291,382,291,388,293,389,293,398,315,490,314,492,220,394,204,421,209,427,214,440,216,443,225,464,230,470,237,489,239,490,261,535,260,537,101,444,241,601,240,603,205,590,165,577,169,591,169,598,153,601,146,605,206,654];
 const PORC_STEMS = [[190,611,188,611,181,613,170,616,162,617,162,617,160,616,148,607,97,565,72,544,72,543,93,550,134,564,178,580,183,582,184,584,185,587,190,609],[232,408,230,413,225,421,218,434,214,440,214,440,179,369,167,343,162,334,162,332,168,338,232,406],[308,342,305,347,304,348,299,345,283,336,279,333,277,325,272,306,261,254,261,249,262,251,264,254,290,305,306,337,308,341],[522,369,520,370,473,377,468,377,468,370,489,249,498,196,501,182,503,175,504,188,507,212,521,356],[634,191,633,201,614,358,613,359,613,360,572,364,563,364,563,363,564,359,629,193,634,184],[743,250,740,259,735,274,717,326,713,338,712,338,710,337,705,332,694,323,692,322,692,321,695,317,732,261,740,249,742,248,743,248],[894,421,887,429,803,521,798,526,797,524,792,510,786,492,786,491,788,490,879,429,893,420,894,420]];
 const PORC_STAMPS = [[99,571,66,45,-0.227,0],[169,354,58,68,-1.065,1],[256,227,66,89,2.094,0],[495,294,58,65,-0.140,1],[610,260,56,86,-0.087,0],[755,263,70,53,-0.873,1],[875,444,84,59,-0.332,0]];
 const REC = recessPoly(REC_H, REC_H, 34), REC_TOP = triangulate(rectPts(250, 250), REC), REC_FLOOR_T = triangulate(REC);
-let WIN = [], WIN_TOP = []; // the sleeve window: cut to the exact outline of the purple stamp printed on the lid, set once the lid art is laid out
+const WIN_TOP = triangulate(rectPts((SL_XB - SL_XA) / 2, 173)); // the sleeve top: a plain card, no window
 const porcP = (x, y) => [(x - 501) * PK, -(y - 490) * PK];
 const pairs = (a) => { const o = []; for (let i = 0; i < a.length; i += 2) o.push(porcP(a[i], a[i + 1])); return o; };
 const BODY_P = pairs(PORC_BODY), BODY_T = triangulate(BODY_P);
 const STEM_P = PORC_STEMS.map(pairs), STEM_T = STEM_P.map((p) => triangulate(p));
 const STAMP_P = PORC_STAMPS.map(([x, y, hw, hh, rot, c]) => { const cs = Math.cos(rot), sn = Math.sin(rot), p = stampPoly(hw / hh, 0.62, 0.12, 4).map(([px, py]) => { const X = px * hh, Y = -py * hh; return porcP(x + X * cs - Y * sn, y + X * sn + Y * cs); }); return { p, t: triangulate(p), c: c ? RED : PURPLE }; });
 const ellipseP = (cx, cy, rx, ry) => Array.from({ length: 28 }, (_, i) => porcP(cx + rx * Math.cos(TAU * i / 28), cy + ry * Math.sin(TAU * i / 28)));
-/* a bevelled, domed solid from a flat outline: each ring is the outline moved inward along its corner bisectors and raised, so every quill becomes a faceted spike and the body a lens */
-function insetPoly(P, d) {
-  const n = P.length; let area = 0; for (let i = 0; i < n; i++) { const a = P[i], b = P[(i + 1) % n]; area += a[0] * b[1] - b[0] * a[1]; }
-  const sg = area > 0 ? 1 : -1, nm = (a, b) => { const x = b[0] - a[0], y = b[1] - a[1], l = Math.hypot(x, y) || 1; return [-y / l * sg, x / l * sg]; };
-  return P.map((v, i) => { const n1 = nm(P[(i + n - 1) % n], v), n2 = nm(v, P[(i + 1) % n]), k = Math.max(0.35, 1 + n1[0] * n2[0] + n1[1] * n2[1]); return [v[0] + (n1[0] + n2[0]) * d / k, v[1] + (n1[1] + n2[1]) * d / k]; });
-}
-const mkSolid = (P, layers) => { const rings = layers.map(([d]) => (d ? insetPoly(P, d) : P)); return { rings, layers, cap: triangulate(rings[rings.length - 1]) }; };
-const BODY_S = mkSolid(BODY_P, [[0, 4], [2.6, 7.4], [6.5, 9.4], [12, 10]]), STEM_S = STEM_P.map((p) => mkSolid(p, [[0, 4], [1.3, 7.4], [2.8, 9]]));
-const STAMP_S = STAMP_P.map((sp) => Object.assign(mkSolid(sp.p, [[0, 3], [1.8, 4.6], [3.6, 5.2]]), { c: sp.c }));
 const EYE_P = ellipseP(648, 692, 98, 38), PUPIL_P = ellipseP(673, 707, 24, 15);
 const POCK = BODY_P.map((p) => [p[0] * 1.045, p[1] * 1.045]), POCK_TOP = triangulate(rectPts(160, 160), POCK), POCK_FLOOR = triangulate(POCK);
 
@@ -287,14 +278,9 @@ function buildTextures() {
       [[0, 'rgba(0,0,0,.42)'], [0.22, 'rgba(255,255,255,.62)'], [0.4, 'rgba(0,0,0,.25)'], [0.58, 'rgba(255,255,255,.5)'], [0.78, 'rgba(0,0,0,.3)'], [1, 'rgba(255,255,255,.35)']].forEach(([p, col]) => gr.addColorStop(p, col));
       rx.fillStyle = gr; rx.fillRect(0, 0, W, W); const rg = rng(31 + r); for (let i = 0; i < 1500; i++) { rx.fillStyle = rg() < 0.5 ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.3)'; rx.fillRect(rg() * W, top + rg() * ch, 1 + rg() * 2, 1); }
       c.drawImage(rc, 0, 0); }
-    { // die cut register: the purple stamp is row 2; the window is that stamp's outline, in sleeve coordinates
-      const [aw, ah] = KINDS[2], R = 104 * k * ah / 3, cs = Math.cos(TILT[2]), sn = Math.sin(TILT[2]), zx = xs[1] / 3 - 171 - (SL_XA + SL_XB) / 2, zz = (y0 + 2 * ch + ch / 2) / 3 - 171;
-      WIN = stampPoly(aw / ah).map(([px, py]) => { const X = px * R, Y = -py * R; return [zx + X * cs - Y * sn, -zz - (X * sn + Y * cs)]; });
-      WIN_TOP = triangulate(rectPts((SL_XB - SL_XA) / 2, 173), WIN);
-    }
     T.lid = g;
   }
-  { // slip sleeve: matte black die-cut card. The window is a real hole; the deboss frames it
+  { // slip sleeve: matte black card with a small white Postmark stamp in the middle
     const w = 512, h = 1040, S = 3, g = G(w, h), c = g.drawingContext;
     c.fillStyle = 'rgb(' + SLV + ')'; c.fillRect(0, 0, w, h); grain(c, w, h, 2200, 17, 0.035);
     const cx = 85 * S, cz = 173 * S, shape = (ctx, col) => {
@@ -302,6 +288,7 @@ function buildTextures() {
       ctx.font = '700 ' + 6.5 * S + 'px ' + SANS; ctx.letterSpacing = 3 * S + 'px'; ctx.textAlign = 'center'; ctx.fillText('SLIDE TO OPEN', cx, 24 * S); ctx.fillText('←', cx, 38 * S);
     };
     deboss(c, w, h, shape, 2.2, 1.1);
+    ringShape(c, cx, cz, 22 * S, '#fff', 0.84, 1.2, -0.08); // the logo's perforated stamp, small and white, dead centre
     c.fillStyle = '#fff'; c.textAlign = 'center'; c.font = '700 ' + 7.5 * S + 'px ' + SANS; c.letterSpacing = 4 * S + 'px'; c.fillText('POSTMARK AWARDS', cx, 330 * S); c.fillStyle = '#7A4BFF'; c.fillText('2026', cx, 340 * S + 8);
     T.sleeveTop = g;
   }
@@ -337,6 +324,7 @@ function pose(P) {
   o.sx = SLIDE * ph(P, 0.54, 0.64);
   const lift = ph(P, 0.62, 0.72), side = ph(P, 0.68, 0.80), down = ph(P, 0.78, 0.90);
   o.lx = LID_X * side; o.ly = 200 * lift - 249 * down; o.lt = 0.3 * Math.sin(PI * ph(P, 0.62, 0.92)) * (side > 0 ? 1 : 0.4);
+  o.pull = ph(P, 0.66, 0.75); o.drop = ph(P, 0.79, 0.87, (x) => x * x); // the ribbon: pulled up as the award comes out, let go once it is free
   o.up = ph(P, 0.70, 0.88); o.tilt = ph(P, 0.74, 0.90) * 72 * PI / 180; o.hold = ph(P, 0.88, 1.0);
   return o;
 }
@@ -397,33 +385,36 @@ function drawScene(P, t) {
     POCK_TOP.forEach((t) => F(BM, t.map((p) => pt(p, top)), INK, 1));
     POCK.forEach((q, k) => { const n = POCK[(k + 1) % POCK.length]; F(BM, [pt(q, top), pt(n, top), pt(n, fl), pt(q, fl)], [74, 68, 92]); });
     POCK_FLOOR.forEach((t) => F(BM, t.map((p) => pt(p, fl)), [40, 37, 52]));
-    const ay = fl + 0.4;  // red pull tab on the pocket floor, between the legs, visible through the glass
-    F(BM, [[-9, ay + 0.6, -60], [13, ay + 0.6, -60], [13, ay + 0.6, 62], [2, ay + 0.6, 50], [-9, ay + 0.6, 62]], RED);
+    // red pull ribbon: one end tucked under the far wall, it runs under the award, and the near tail is pulled up out of the pocket;
+    // the middle rides up under the glass as it lifts, then the whole ribbon falls back slack once the award is free
+    const ay = fl + 1, rel = 1 - o.drop, hU = ay + Math.min(270 * o.up, 26) * rel;
+    const tip = [lerp(50, 40, o.pull * rel), ay + (24 + 92 * o.pull) * o.pull * rel + 3 * o.drop * o.pull];
+    let L = [[-60, ay], [-44, Math.max(ay, hU - 2)], [28, hU], [44, lerp(hU, (hU + tip[1]) / 2, o.pull)], tip];
+    for (let it = 0; it < 2; it++) { const N = [L[0]]; for (let i = 0; i < L.length - 1; i++) { const p = L[i], q = L[i + 1]; N.push([p[0] * 0.75 + q[0] * 0.25, p[1] * 0.75 + q[1] * 0.25], [p[0] * 0.25 + q[0] * 0.75, p[1] * 0.25 + q[1] * 0.75]); } N.push(L[L.length - 1]); L = N; }
+    const X0 = -9, X1 = 13, XM = 2, last = L.length - 1;
+    for (let i = 0; i < last; i++) { const p = L[i], q = L[i + 1]; F(BM, [[X0, p[1], -p[0]], [X1, p[1], -p[0]], [X1, q[1], -q[0]], [X0, q[1], -q[0]]], RED); F(BM, [[X0, q[1], -q[0]], [X1, q[1], -q[0]], [X1, p[1], -p[0]], [X0, p[1], -p[0]]], RED, 0.8); }
+    { const p = L[last - 1], q = L[last], dl = Math.hypot(q[0] - p[0], q[1] - p[1]) || 1, dz = (q[0] - p[0]) / dl, dy = (q[1] - p[1]) / dl; // swallowtail end, 12 long with a 10 deep notch
+      const tz = q[0] + dz * 12, ty = q[1] + dy * 12, nz = q[0] + dz * 2, ny = q[1] + dy * 2;
+      F(BM, [[XM, ny, -nz], [X1, ty, -tz], [X1, q[1], -q[0]], [X0, q[1], -q[0]], [X0, ty, -tz]], RED); F(BM, [[XM, ny, -nz], [X0, ty, -tz], [X0, q[1], -q[0]], [X1, q[1], -q[0]], [X1, ty, -tz]], RED, 0.8); }
   }
   { // the award: the brand mascot in glass. Clear body, tinted glass stamps on the quill tips, a white eye; drawn in the glass pass
     const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(0.4 * Math.sin(t * 0.8) * o.hold), RX(o.tilt));
     const C0 = xf(AM, [0, 0, 0]), upN = nrm([AM.r[1], AM.r[4], AM.r[7]]), topNear = dot(upN, sub(CAM, C0)) > 0, toW = (p, y) => [p[0], y, -p[1]];
-    const out = [], TOP = 10;
-    const glassW = (w, col, al) => { const n = facing(w), sh = 0.55 + 0.45 * shade(n), cx = (w[0][0] + w[1][0] + w[2][0]) / 3 - CAM[0], cy = (w[0][1] + w[1][1] + w[2][1]) / 3 - CAM[1], cz = (w[0][2] + w[1][2] + w[2][2]) / 3 - CAM[2]; out.push({ w, r: col[0] * sh, g: col[1] * sh, b: col[2] * sh, a: al, d: cx * cx + cy * cy + cz * cz }); };
-    const emit = (S, zc, col, al, alRim) => {
-      const R = S.rings, L = S.layers, n = R[0].length, lite = col.map((v) => Math.min(255, v + 50)), at = (p, z) => xf(AM, [p[0], zc + z, -p[1]]);
-      const top = R.map((r, i) => r.map((p) => at(p, L[i][1]))), bot = R.map((r, i) => r.map((p) => at(p, -L[i][1])));
-      const quad = (A, B, C, D, c, a) => { glassW([A, B, C], c, a); glassW([A, C, D], c, a); };
-      for (let i = 0; i < R.length - 1; i++) for (let j = 0; j < n; j++) { const j1 = (j + 1) % n; quad(top[i][j], top[i][j1], top[i + 1][j1], top[i + 1][j], col, al); quad(bot[i][j], bot[i][j1], bot[i + 1][j1], bot[i + 1][j], col, al); }
-      for (let j = 0; j < n; j++) { const j1 = (j + 1) % n; quad(top[0][j], top[0][j1], bot[0][j1], bot[0][j], lite, alRim); }
-      const zl = L[L.length - 1][1]; S.cap.forEach((tr) => { glassW(tr.map((p) => at(p, zl)), col, al); glassW(tr.map((p) => at(p, -zl)), col, al); });
+    const solid = (tris, ring, y0, y1, col, aF, aS) => {
+      const lite = col.map((v) => Math.min(255, v + 45)), face = (y) => tris.forEach((tr) => glassTri(AM, tr.map((p) => toW(p, y)), col, aF));
+      const sides = () => ring.forEach((a, i) => { const b = ring[(i + 1) % ring.length], q = [toW(a, y1), toW(b, y1), toW(b, y0), toW(a, y0)]; glassTri(AM, [q[0], q[1], q[2]], lite, aS); glassTri(AM, [q[0], q[2], q[3]], lite, aS); });
+      if (topNear) { face(y0); sides(); face(y1); } else { face(y1); sides(); face(y0); }
     };
-    emit(BODY_S, 0, [170, 210, 255], 0.3, 0.55);
-    STEM_S.forEach((S) => emit(S, 0, [170, 210, 255], 0.3, 0.55));
-    STAMP_S.forEach((S) => emit(S, 9, S.c, 0.7, 0.9));
-    out.sort((p, q) => q.d - p.d); out.forEach((q) => GLS.push(q.w, q.r, q.g, q.b, q.a));
+    solid(BODY_T, BODY_P, -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85);
+    STEM_T.forEach((tr, i) => solid(tr, STEM_P[i], -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85));
+    STAMP_P.forEach((sp) => solid(sp.t, sp.p, 0, AT / 2 + 5, sp.c, 0.72, 0.95));
     const fan = (P, y, col) => F(AM, [[0, y, 0]].concat(P.map((p) => toW(p, y))).concat([toW(P[0], y)]), col, 1.25);
     const ctr = (P) => [P.reduce((a, p) => a + p[0], 0) / P.length, P.reduce((a, p) => a + p[1], 0) / P.length];
-    { const e = ctr(EYE_P), pu = ctr(PUPIL_P); F(AM, [[e[0], TOP + 0.5, -e[1]]].concat(EYE_P.map((p) => toW(p, TOP + 0.5))).concat([toW(EYE_P[0], TOP + 0.5)]), [250, 250, 250], 1.2);
-      F(AM, [[pu[0], TOP + 0.9, -pu[1]]].concat(PUPIL_P.map((p) => toW(p, TOP + 0.9))).concat([toW(PUPIL_P[0], TOP + 0.9)]), INK, 1.2); }
-    // a diagonal streak of light across the near face of the dome
-    const yS = topNear ? TOP + 0.15 : -TOP - 0.15;
-    GLT.push({ tex: T.shine, a: 190, tris: BODY_S.cap.flatMap((tr) => tr.map((p) => [xf(AM, toW(p, yS)), [0.5 + p[0] / 300, 0.5 - p[1] / 220]])) });
+    { const e = ctr(EYE_P), pu = ctr(PUPIL_P); F(AM, [[e[0], AT / 2 + 0.4, -e[1]]].concat(EYE_P.map((p) => toW(p, AT / 2 + 0.4))).concat([toW(EYE_P[0], AT / 2 + 0.4)]), [250, 250, 250], 1.2);
+      F(AM, [[pu[0], AT / 2 + 0.8, -pu[1]]].concat(PUPIL_P.map((p) => toW(p, AT / 2 + 0.8))).concat([toW(PUPIL_P[0], AT / 2 + 0.8)]), INK, 1.2); }
+    // a diagonal streak of light across the near face
+    const yS = topNear ? AT / 2 + 0.1 : -AT / 2 - 0.1;
+    GLT.push({ tex: T.shine, a: 200, tris: BODY_T.flatMap((tr) => tr.map((p) => [xf(AM, toW(p, yS)), [0.5 + p[0] / 300, 0.5 - p[1] / 220]])) });
   }
   { // lid
     const LM = chain(BM, TR(o.lx, o.ly, 0), RZ(o.lt)), tp = LID_TOP, t0 = tp - 3;
@@ -431,11 +422,10 @@ function drawScene(P, t) {
     const sk = (x0, z0, x1, z1, outer, inner) => cub(LM, x0, LID_BOT, z0, x1, t0, z1, { [outer]: purple, [inner]: [26, 26, 30] });
     sk(-LIDH, LIDH - 3, LIDH, LIDH, 'pz', 'nz'); sk(-LIDH, -LIDH, LIDH, -LIDH + 3, 'nz', 'pz'); sk(-LIDH, -LIDH + 3, -LIDH + 3, LIDH - 3, 'nx', 'px'); sk(LIDH - 3, -LIDH + 3, LIDH, LIDH - 3, 'px', 'nx');
   }
-  { // slip sleeve: black die-cut card loop around the middle of the box, with a stamp shaped window
+  { // slip sleeve: black card loop around the middle of the box
     const SM = chain(BM, TR(o.sx, 0, 0)), xa = SL_XA, xb = SL_XB, yb = LID_TOP + 1, yt = yb + SL_T, zi = LIDH + 1, zo = zi + SL_T, hw = (xb - xa) / 2, cx = (xa + xb) / 2;
     const tris = []; WIN_TOP.forEach((t) => t.forEach((p) => tris.push([[cx + p[0], yt, -p[1]], [(p[0] + hw) / (2 * hw), (-p[1] + 173) / 346]])));
     TEXQ.push({ tex: T.sleeveTop, s: shade([0, 1, 0]), tris: tris.map(([p, uv]) => [xf(SM, p), uv]) });
-    WIN.forEach((q, k) => { const n = WIN[(k + 1) % WIN.length]; F(SM, [[cx + q[0], yt, -q[1]], [cx + n[0], yt, -n[1]], [cx + n[0], yb, -n[1]], [cx + q[0], yb, -q[1]]], [52, 52, 60]); });
     cub(SM, xa, -SL_T, -zo, xb, 0, zo, { py: SLV, ny: SLV });
     cub(SM, xa, -SL_T, zi, xb, yt, zo, { pz: TX(T.sleeveFront, 0, 0, 1, 1), nz: SLV, py: SLV });
     cub(SM, xa, -SL_T, -zo, xb, yt, -zi, { nz: SLV, pz: SLV, py: SLV });
