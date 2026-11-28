@@ -336,7 +336,7 @@ function pose(P) {
   o.sx = SLIDE * ph(P, 0.54, 0.64);
   const lift = ph(P, 0.62, 0.72), side = ph(P, 0.68, 0.80), down = ph(P, 0.78, 0.90);
   o.lx = LID_X * side; o.ly = 200 * lift - 249 * down; o.lt = 0.3 * Math.sin(PI * ph(P, 0.62, 0.92)) * (side > 0 ? 1 : 0.4);
-  o.pull = ph(P, 0.66, 0.75); o.drop = ph(P, 0.79, 0.87, (x) => x * x); // the ribbon: pulled up as the award comes out, let go once it is free
+  o.pull = ph(P, 0.66, 0.73); o.drop = ph(P, 0.74, 0.81, (x) => x * x); // the ribbon: pulled up as the award comes out, let go once it is free
   o.up = ph(P, 0.70, 0.88); o.tilt = ph(P, 0.74, 0.90) * 72 * PI / 180; o.hold = ph(P, 0.88, 1.0);
   return o;
 }
@@ -397,12 +397,13 @@ function drawScene(P, t) {
     POCK_TOP.forEach((t) => F(BM, t.map((p) => pt(p, top)), INK, 1));
     POCK.forEach((q, k) => { const n = POCK[(k + 1) % POCK.length]; F(BM, [pt(q, top), pt(n, top), pt(n, fl), pt(q, fl)], [74, 68, 92]); });
     POCK_FLOOR.forEach((t) => F(BM, t.map((p) => pt(p, fl)), [40, 37, 52]));
-    // red pull ribbon: one end tucked under the far wall, it runs under the award, and the near tail is pulled up out of the pocket;
-    // the middle rides up under the glass as it lifts, then the whole ribbon falls back slack once the award is free
-    const ay = fl + 1, rel = 1 - o.drop, hU = ay + Math.min(270 * o.up, 26) * rel;
-    const tip = [lerp(50, 40, o.pull * rel), ay + (24 + 92 * o.pull) * o.pull * rel + 3 * o.drop * o.pull];
-    let L = [[-60, ay], [-44, Math.max(ay, hU - 2)], [28, hU], [44, lerp(hU, (hU + tip[1]) / 2, o.pull)], tip];
-    for (let it = 0; it < 2; it++) { const N = [L[0]]; for (let i = 0; i < L.length - 1; i++) { const p = L[i], q = L[i + 1]; N.push([p[0] * 0.75 + q[0] * 0.25, p[1] * 0.75 + q[1] * 0.25], [p[0] * 0.25 + q[0] * 0.75, p[1] * 0.25 + q[1] * 0.75]); } N.push(L[L.length - 1]); L = N; }
+    // red pull ribbon: the far end lies on the pocket floor under the body, it runs out between the feet, up the straight pocket wall
+    // and over the top of the cradle. Pulled, the middle rides up under the glass and the tail lifts from outside the award's outline;
+    // let go, it settles back onto the stepped surface
+    const ay = fl + 0.6, tp = top + 0.6, WZ = -85.0, rel = 1 - o.drop, m = o.pull * rel, hU = ay + Math.min(270 * o.up, 26) * rel;
+    const REST = [[16, ay], [WZ + 6, ay], [WZ, ay], [WZ, tp], [WZ - 38, tp]];
+    const PULL = [[16, hU], [-64, hU], [-80, hU + 10], [-92, tp + 40], [-104, tp + 118]];
+    const L = REST.map((r, i) => [lerp(r[0], PULL[i][0], m), lerp(r[1], PULL[i][1], m)]);
     const X0 = -9, X1 = 13, XM = 2, last = L.length - 1;
     for (let i = 0; i < last; i++) { const p = L[i], q = L[i + 1]; F(BM, [[X0, p[1], -p[0]], [X1, p[1], -p[0]], [X1, q[1], -q[0]], [X0, q[1], -q[0]]], RED); F(BM, [[X0, q[1], -q[0]], [X1, q[1], -q[0]], [X1, p[1], -p[0]], [X0, p[1], -p[0]]], RED, 0.8); }
     { const p = L[last - 1], q = L[last], dl = Math.hypot(q[0] - p[0], q[1] - p[1]) || 1, dz = (q[0] - p[0]) / dl, dy = (q[1] - p[1]) / dl; // swallowtail end, 12 long with a 10 deep notch
