@@ -54,7 +54,7 @@ html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-p
 <nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><b>Postmark Awards Unboxing 3D</b>
   <div class="ctl">
     <button id="play" type="button" aria-label="Pause the unboxing">Pause</button>
-    <input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Unboxing progress">
+    <input id="scrub" type="range" min="0" max="1350" value="0" aria-label="Unboxing progress">
     <span class="chips" id="chips"></span>
     <button id="save" type="button" aria-label="Save the current view as a PNG">Save PNG</button>
   </div>
@@ -359,6 +359,8 @@ function pose(P) {
   o.lx = LID_X * side; o.ly = 200 * lift - 249 * down; o.lt = 0.3 * Math.sin(PI * ph(P, 0.62, 0.92)) * (side > 0 ? 1 : 0.4);
   o.pull = ph(P, 0.66, 0.73); o.drop = ph(P, 0.74, 0.81, (x) => x * x); // the ribbon: pulled up as the award comes out, let go once it is free
   o.up = ph(P, 0.70, 0.88); o.tilt = ph(P, 0.74, 0.90) * 72 * PI / 180; o.hold = ph(P, 0.88, 1.0);
+  // the showcase (P past 1): spin round to the back, zoom in on the engraving, then zoom out while spinning on round to the front
+  o.spin = PI * ph(P, 1.0, 1.12) + PI * ph(P, 1.22, 1.35); o.zoomIn = ph(P, 1.07, 1.15) * (1 - ph(P, 1.22, 1.33)); o.show = ph(P, 1.0, 1.04);
   return o;
 }
 let clock = 0, userAngle = 0, userElev = 0, userZoom = 0, lastInput = -99;
@@ -367,9 +369,9 @@ function currentP(t) {
   return null;
 }
 let mode = 'auto', Pm = 0, Pshow = 0, tAuto = 0;
-const FWD = 15, HOLD = 3.5, BACK = 5, CYCLE = FWD + HOLD + BACK;
-function autoP(t) { const c = t % CYCLE; if (c < FWD) return c / FWD; if (c < FWD + HOLD) return 1; return 1 - ease((c - FWD - HOLD) / BACK); }
-const STAGES = [['01', 'The mailer', 0.0], ['02', 'Lid opens', 0.15], ['03', 'Box lifts out', 0.3], ['04', 'Sleeve slides off', 0.6], ['05', 'Lid lifts', 0.76], ['06', 'Award pulled', 0.98]];
+const FWD = 15, SPIN = 7.5, HOLD = 2.5, BACK = 5, CYCLE = FWD + SPIN + HOLD + BACK, PMAX = 1.35; // P 1 to PMAX is the showcase spin; PMAX looks the same as 1
+function autoP(t) { const c = t % CYCLE; if (c < FWD) return c / FWD; if (c < FWD + SPIN) return 1 + (PMAX - 1) * (c - FWD) / SPIN; if (c < FWD + SPIN + HOLD) return 1; return 1 - ease((c - FWD - SPIN - HOLD) / BACK); }
+const STAGES = [['01', 'The mailer', 0.0], ['02', 'Lid opens', 0.15], ['03', 'Box lifts out', 0.3], ['04', 'Sleeve slides off', 0.6], ['05', 'Lid lifts', 0.76], ['06', 'Award pulled', 0.98], ['07', 'Winner engraving', 1.17]];
 
 function drawScene(P, t) {
   const o = pose(P), BM = TR(o.bx, o.by, o.bz);
@@ -435,7 +437,7 @@ function drawScene(P, t) {
       F(BM, [[XM, ny, -nz], [X1, ty, -tz], [X1, q[1], -q[0]], [X0, q[1], -q[0]], [X0, ty, -tz]], RED); F(BM, [[XM, ny, -nz], [X0, ty, -tz], [X0, q[1], -q[0]], [X1, q[1], -q[0]], [X1, ty, -tz]], RED, 0.8); }
   }
   { // the award: the brand mascot in glass. Clear body, tinted glass stamps on the quill tips, a white eye; drawn in the glass pass
-    const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(0.4 * Math.sin(t * 0.8) * o.hold), RX(o.tilt));
+    const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(0.4 * Math.sin(t * 0.8) * o.hold * (1 - o.show) + o.spin), RX(o.tilt));
     const C0 = xf(AM, [0, 0, 0]), upN = nrm([AM.r[1], AM.r[4], AM.r[7]]), topNear = dot(upN, sub(CAM, C0)) > 0, toW = (p, y) => [p[0], y, -p[1]];
     const solid = (tris, ring, y0, y1, col, aF, aS) => {
       const lite = col.map((v) => Math.min(255, v + 45)), face = (y) => tris.forEach((tr) => glassTri(AM, tr.map((p) => toW(p, y)), col, aF));
@@ -538,10 +540,13 @@ function draw() {
   const t = clock;
   /* camera follows the action: wide on the mailer, then its centre glides with the award box as it comes out and lands, and stays over it */
   const k1 = ph(P, 0.14, 0.34), k2 = ph(P, 0.4, 0.62), k3 = ph(P, 0.7, 0.95), kf = ph(P, 0.22, 0.52);
-  let tx = 0, ty = lerp(270, 200, k1) - 60 * k2, tz = lerp(lerp(0, 120, k1), LAND_Z, kf);
+  let zoomK = 0, tx = 0, ty = lerp(270, 200, k1) - 60 * k2, tz = lerp(lerp(0, 120, k1), LAND_Z, kf);
   { const o = pose(P), ka = ph(P, 0.68, 0.86); // as the award rises, the centre moves onto the porcupine and follows it up
-    tx = lerp(tx, o.bx, ka); ty = lerp(ty, o.by + CRAD_TOP - POCKET + AT / 2 + 270 * o.up, ka); tz = lerp(tz, o.bz, ka); }
-  let dist = lerp(1650, 1580, k1) - 330 * k2 - 60 * k3 + userZoom, elev = cl(0.4 + userElev - 0.05 * k2, 0.1, 1.2);
+    tx = lerp(tx, o.bx, ka); ty = lerp(ty, o.by + CRAD_TOP - POCKET + AT / 2 + 270 * o.up, ka); tz = lerp(tz, o.bz, ka);
+    if (o.zoomIn > 0) { // close in on the GROWTH AWARD / RAMP etching on the back
+      const AMc = chain(TR(o.bx, o.by, o.bz), TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(o.spin), RX(o.tilt)), eg = xf(AMc, [-22, -AT / 2, 50]);
+      tx = lerp(tx, eg[0], o.zoomIn); ty = lerp(ty, eg[1], o.zoomIn); tz = lerp(tz, eg[2], o.zoomIn); zoomK = o.zoomIn; } }
+  let dist = lerp(lerp(1650, 1580, k1) - 330 * k2 - 60 * k3, 430, zoomK) + userZoom, elev = cl(0.4 + userElev - 0.05 * k2, 0.1, 1.2);
   if (HP.has('d')) dist = +HP.get('d'); if (HP.has('e')) elev = +HP.get('e'); if (HP.has('tx')) { tx = +HP.get('tx'); ty = +HP.get('ty'); tz = +HP.get('tz'); }
   dist *= cl(Math.pow(1.7 / (width / height), 0.75), 1, 2.2);
   const sway = CLIP ? 0.3 * Math.sin(TAU * (clock - 0.5) / 6) : 0.3 * Math.sin(clock * 0.28), a = (HP.has('a') ? +HP.get('a') : 0.45 + sway) + userAngle, hz = dist * Math.cos(elev);
@@ -567,7 +572,7 @@ function bindUI() {
   const play = document.getElementById('play'), scrub = document.getElementById('scrub'), chips = document.getElementById('chips'), save = document.getElementById('save');
   if (CLIP) return;
   STAGES.forEach(([n, name, p]) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = n; b.title = name; b.setAttribute('aria-label', 'Show step ' + n + ', ' + name); b.onclick = () => { mode = 'manual'; Pm = p; play.textContent = 'Play'; play.setAttribute('aria-label', 'Play the unboxing'); }; chips.appendChild(b); });
-  play.onclick = () => { if (mode === 'auto') { mode = 'manual'; Pm = Pshow; play.textContent = 'Play'; play.setAttribute('aria-label', 'Play the unboxing'); } else { mode = 'auto'; tAuto = Pshow * FWD; play.textContent = 'Pause'; play.setAttribute('aria-label', 'Pause the unboxing'); } };
+  play.onclick = () => { if (mode === 'auto') { mode = 'manual'; Pm = Pshow; play.textContent = 'Play'; play.setAttribute('aria-label', 'Play the unboxing'); } else { mode = 'auto'; tAuto = Pshow <= 1 ? Pshow * FWD : FWD + (Pshow - 1) / (PMAX - 1) * SPIN; play.textContent = 'Pause'; play.setAttribute('aria-label', 'Pause the unboxing'); } };
   scrub.oninput = () => { mode = 'manual'; Pm = Pshow = scrub.value / 1000; play.textContent = 'Play'; };
   save.onclick = () => { wantSave = true; };
   /* drag to orbit, wheel / pinch to zoom */
