@@ -56,6 +56,7 @@ ICONS = {
     'clearco-terrain': ('#161616', L('M8 20V8H20M44 8H56V20M56 44V56H44M20 56H8V44', '#ffffff', 4)),
     'clearco-target-frame': ('#101010', R(29, 12, 6, 40, '#ffffff') + R(12, 29, 40, 6, '#ffffff')),
     'porcupine-glitch': ('#ffffff', P('M32 6L38 24L58 14L44 30L60 40L40 40L46 58L32 44L18 58L24 40L4 40L20 30L6 14L26 24Z', '#0a0a0a') + R(14, 44, 36, 6, '#ff2a1a')),
+    'postmark-awards-unboxing': ('#7a4bff', stamp('#7a4bff', '#ffffff') + R(24, 24, 16, 16, '#f2442e')),
     'postmark-awards-brand-visuals': ('#000000', stamp('#000000', '#ffd23f')),
     'postmark-awards-motion': ('#3b2cf0', R(8, 10, 48, 9, '#ffffff') + R(8, 24, 48, 9, '#ffffff') + R(8, 38, 48, 9, '#ffffff') + R(8, 52, 30, 6, '#ffffff')),
     'postmark-ribbon-engine': ('#6a3df0', P('M0 20L44 0H64L0 40Z', '#ff7a3d') + P('M0 44L64 12V32L0 64Z', '#ff7a3d') + P('M24 64L64 44V64Z', '#ff7a3d')),
