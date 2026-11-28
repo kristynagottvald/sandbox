@@ -191,6 +191,8 @@ const APPS = {
     await at(t0, 5300, () => k('.site .logo'));
   } },
   // the starting soon countdown, then the intro title, the audience question, the session title and the statement card, switched the way a visitor would with the screen chips
+  // the personal film plays on its own at 2.4x (hash #clip), so six seconds cover most of the scenes
+  'thread-always-on-reel': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1800, q: 55, run: async (p) => { const t0 = Date.now(); await at(t0, 700, () => p.evaluate(() => window.__reel.play())); await sleep(5600); } },
   'thread-live-session': { vp: [1280, 769], setup: cropOf('#cv'), ready: 1200, q: 50, run: async (p) => {
     const t0 = Date.now(), scr = (n) => domClick(p, '#layout button:nth-child(' + n + ')');
     await at(t0, 1500, () => scr(2));

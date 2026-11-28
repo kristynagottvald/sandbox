@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thread Always-On Reel</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%23141414%22/%3E%3Crect x=%2218%22 y=%226%22 width=%2228%22 height=%2252%22 fill=%22%23fff383%22/%3E%3Crect x=%2224%22 y=%2214%22 width=%2216%22 height=%223%22 fill=%22%23141414%22/%3E%3Crect x=%2224%22 y=%2238%22 width=%2216%22 height=%2212%22 fill=%22%23141414%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Pinyon+Script&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0e0e; --panel:#171717; --line:#2a2a2a; --text:#f3f2ea; --muted:#9a998d;
+  --yellow:#fff383; --ink:#141414;
+  --font:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --serif:"Instrument Serif",Georgia,serif;
+}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font:400 14px/1.4 var(--font);-webkit-font-smoothing:antialiased}
+button,input,textarea,select{font:inherit;color:inherit}
+/* ---------- Back nav (shared across all sandbox projects) ---------- */
+nav.back{box-sizing:border-box;flex:none;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+nav.back a{color:#8d8d8d;text-decoration:none}
+nav.back a:hover,nav.back a:focus-visible{color:#fff;text-decoration:underline;text-underline-offset:3px}
+nav.back span{color:#6e6e6e}
+nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:640px){nav.back{padding:0 16px}}
+/* sandbox project bar: the home page nav's 72px height, SANDBOX / PROJECT NAME in its all-caps label style, any controls on the right */
+html body nav.back{box-sizing:border-box;flex:none;align-self:stretch;width:auto;align-items:center;gap:10px;height:72px;min-height:72px;padding:0 30px;background:#181716;border-bottom:1px solid rgba(255,255,255,.1);color:#fff;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+html body nav.back>a,html body nav.back>span,html body nav.back>b{font:400 12px/1.3 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body nav.back>a{color:#989898;transition:color .2s}
+html body nav.back>a:hover,html body nav.back>a:focus-visible{color:#fff;text-decoration:none}
+html body nav.back>span{color:#6b6b6b}
+html body nav.back>b{font-weight:400;color:#fff;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html body nav.back:not(:has(>div))>b{display:block}
+html body nav.back>div{margin-left:auto}
+@media (min-width:641px){html body nav.back>b{display:block}}
+@media (max-width:640px){html body nav.back{padding:0 20px}}
+.app{display:grid;grid-template-columns:minmax(0,1fr) 400px;height:calc(100vh - 72px);height:calc(100dvh - 72px)}
+.stage{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px 24px;min-width:0;min-height:0;
+  background:radial-gradient(circle at 1px 1px,#262626 1px,transparent 0) 0 0/22px 22px,var(--bg)}
+#box{width:100%;flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+#cv{display:block;border-radius:4px;box-shadow:0 18px 60px rgba(0,0,0,.55);background:var(--yellow)}
+.tl{width:min(100%,560px);display:flex;align-items:center;gap:10px}
+.tl .play{flex:none;width:34px;height:34px;border-radius:50%;border:1px solid #444;background:#222;cursor:pointer;display:grid;place-items:center;padding:0}
+.tl .play:hover{border-color:#888}
+.tl .play svg{width:12px;height:12px;fill:#f3f2ea}
+.segs{flex:1;display:flex;gap:3px;min-width:0}
+.seg{position:relative;height:28px;border:0;border-bottom:3px solid #3a3a3a;background:none;cursor:pointer;padding:0;min-width:0;overflow:hidden;text-align:left}
+.seg span{display:block;font:600 8.5px/28px var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-left:2px;white-space:nowrap;overflow:hidden;text-overflow:clip}
+.seg i{position:absolute;left:0;bottom:-3px;height:3px;width:0;background:var(--yellow)}
+.seg.on span{color:var(--text)}
+.meta{font:500 11px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.panel{background:var(--panel);border-left:1px solid var(--line);overflow-y:auto;padding:20px 20px 48px}
+.brand h1{font:400 30px/1 var(--serif);letter-spacing:-.01em}
+.brand h1 em{font-style:italic}
+.brand p{color:var(--muted);font-size:12.5px;margin-top:6px}
+section{border-top:1px solid var(--line);padding:16px 0 4px;margin-top:16px}
+h2{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:10px}
+.row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{border:1px solid #3a3a3a;background:transparent;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:500;cursor:pointer;line-height:1.1}
+.chip:hover{border-color:#777}
+.chip.on{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
+.chip small{opacity:.6;font-weight:400;margin-left:4px}
+.phases{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.ph{border:1px solid #3a3a3a;background:transparent;border-radius:8px;padding:9px 10px;text-align:left;cursor:pointer;line-height:1.25}
+.ph:hover{border-color:#777}
+.ph b{display:block;font-size:13px;font-weight:600}
+.ph small{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.ph.on{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
+.ph.on small{color:#4a4630}
+label.f{display:block;margin-bottom:10px}
+label.f>span{display:block;font-size:11.5px;color:var(--muted);margin-bottom:4px}
+input[type=text]{width:100%;background:#0f0f0f;border:1px solid #333;border-radius:8px;padding:8px 10px;font-size:13.5px}
+input[type=text]:focus{outline:2px solid var(--yellow);outline-offset:0;border-color:transparent}
+.hide{display:none!important}
+.chk{display:flex;gap:8px;align-items:center;margin-bottom:9px;font-size:13px;cursor:pointer}
+.chk input{accent-color:var(--yellow);width:16px;height:16px;margin:0;flex:none}
+.chk small{color:var(--muted);font-size:11.5px;margin-left:auto;text-align:right}
+.rng{display:grid;grid-template-columns:96px 1fr 28px;gap:8px;align-items:center;margin-bottom:8px;font-size:12.5px;color:var(--muted)}
+.rng input{accent-color:var(--yellow);width:100%}
+.rng output{color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
+.btn{border:1px solid #444;background:#222;border-radius:8px;padding:9px 14px;font-weight:600;font-size:13px;cursor:pointer}
+.btn:hover{border-color:#888}
+.btn.pri{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:default}
+#status{font-size:12px;color:var(--muted);min-height:18px;margin-top:6px}
+.hint{font-size:11.5px;color:var(--muted);margin:-4px 0 10px}
+.depth{display:flex;gap:4px;margin:2px 0 8px}
+.depth i{flex:1;height:6px;background:#2d2d2d}
+.depth i.on{background:var(--yellow)}
+.insight{font:400 21px/1.1 var(--serif);margin:8px 0 12px;color:var(--text)}
+.insight em{font-style:italic}
+.drops{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #333;margin-bottom:10px}
+.drops div{padding:8px 7px 9px;border-left:1px solid #333;font-size:11px;color:var(--muted);line-height:1.3}
+.drops div:first-child{border-left:0}
+.drops b{display:block;font:600 10px/1.2 var(--font);letter-spacing:.1em;text-transform:uppercase;color:var(--text);margin-bottom:3px}
+.drops div.on{background:var(--yellow);color:#4a4630}.drops div.on b{color:var(--ink)}
+:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+@media (max-width:900px){
+  .app{grid-template-columns:1fr;height:auto}
+  .stage{padding:12px 16px;position:sticky;top:0;z-index:5;background:var(--bg)}
+  #box{height:46vh;flex:none}
+  .panel{border-left:0;border-top:1px solid var(--line);overflow:visible}
+}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><b>Thread Always-On Reel</b></nav>
+<div class="app">
+  <main class="stage">
+    <div id="box"><canvas id="cv" role="img" aria-label="A personal Thread conference film for one attendee, playing as a vertical reel"></canvas></div>
+    <div class="tl"><button class="play" id="play" aria-label="Pause"><svg viewBox="0 0 12 12" aria-hidden="true"><path id="pi" d="M1 0h3.5v12H1zM7.5 0H11v12H7.5z"/></svg></button><div class="segs" id="segs" role="group" aria-label="Scenes"></div></div>
+    <div class="meta"><span>9:16 · 1080 × 1920</span><span id="loopNote"></span></div>
+  </main>
+  <aside class="panel">
+    <div class="brand"><h1>Thread <em>always on</em></h1><p>One film per attendee, built from what they did at the conference and re-cut for every stage of the year. Change the person or the phase and the reel is re-assembled.</p></div>
+
+    <section>
+      <h2>Always-on phase</h2>
+      <div class="phases" id="phases"></div>
+      <label class="chk"><input type="checkbox" id="auto"> Always on: play every phase in turn</label>
+      <div class="row hide" id="dayRow"><span class="hint" style="margin:6px 4px 0 0">Conference day</span><button class="chip" data-d="1">Day 1</button><button class="chip" data-d="2">Day 2</button><button class="chip" data-d="3">Day 3</button></div>
+    </section>
+
+    <section>
+      <h2>Attendee</h2>
+      <label class="f"><span>First name</span><input type="text" id="name" maxlength="14" autocomplete="off"></label>
+      <div class="row" id="people"></div>
+      <div class="hint">Years at Thread</div>
+      <div class="row" id="years"></div>
+      <div class="hint">What they care about (pick any)</div>
+      <div class="row" id="tracks"></div>
+      <div class="hint">Sessions (saved before, attended after)</div>
+      <div class="row" id="sess"></div>
+      <div class="rng"><span>Booth taps</span><input type="range" id="taps" min="0" max="12" step="1"><output id="tapsO"></output></div>
+      <div class="rng"><span>Questions asked</span><input type="range" id="qs" min="0" max="8" step="1"><output id="qsO"></output></div>
+    </section>
+
+    <section>
+      <h2>Data signals</h2>
+      <div class="hint">The more they engage, the more personal the film. The ticket and favourite tracks are always there.</div>
+      <label class="chk"><input type="checkbox" data-sig="agenda"> Saved agenda <small>Before</small></label>
+      <label class="chk"><input type="checkbox" data-sig="checkins"> Session check-ins <small>During</small></label>
+      <label class="chk"><input type="checkbox" data-sig="taps"> Wristband and booth taps <small>During</small></label>
+      <label class="chk"><input type="checkbox" data-sig="qa"> Live Q&amp;A <small>During</small></label>
+      <div class="depth" id="depth" aria-hidden="true"></div>
+      <div class="hint" id="depthNote"></div>
+      <div class="insight" id="insight"></div>
+    </section>
+
+    <section>
+      <h2>Year-round drops</h2>
+      <div class="drops" id="drops"></div>
+      <div class="hint">Each drop is the same modular film, cut again with the newest data. Figures in the film are sample numbers to be wired to the attendee data.</div>
+    </section>
+
+    <section>
+      <h2>Share</h2>
+      <div class="row"><button class="btn pri" id="rec">Record film (WebM)</button><button class="btn" id="png">Download frame</button><button class="btn" id="link">Copy film link</button></div>
+      <div id="status" role="status"></div>
+    </section>
+  </aside>
+</div>
+
+<script>
+/* Thread Always-On Reel: a personal film per attendee, 1080 x 1920, drawn on one canvas in the Thread conference look
+   (yellow, ink and cream, stretched Instrument Serif, Pinyon capitals, hairline grid, calligraphy loops).
+   Structure follows the Boomtown Unboxed idea: data signals -> insights -> modular scenes -> one film, re-cut for Before / During / After / Extra. */
+const W = 1080, H = 1920, TAU = Math.PI * 2;
+let PERIOD = 30;
+const $ = (s, r = document) => r.querySelector(s);
+const cl = (v, a, b) => Math.max(a, Math.min(b, v));
+const ease = (u) => 0.5 - 0.5 * Math.cos(Math.PI * cl(u, 0, 1));
+const GX = 64, GY0 = 124, GY1 = H - 124, M = 124, CW = W - 2 * M;
+const THEMES = {
+  yellow: { id: 'yellow', bg: '#fff383', fg: '#141414', accent: '#fff383' },
+  ink:    { id: 'ink',    bg: '#141414', fg: '#fff383', accent: '#fff383' },
+  cream:  { id: 'cream',  bg: '#faf4de', fg: '#141414', accent: '#fff383' },
+};
+/* ===== logo artwork (from the Thread 2026 post) ===== */
+const LOGO_WORD = 'M1911.08 428.196C1921.72 392.888 1906.25 387.084 1878.19 387.084C1874.32 387.084 1872.87 386.116 1872.87 383.214C1872.87 380.312 1874.32 379.345 1878.19 379.345C1895.12 379.345 1918.82 381.763 1934.3 381.763H1944.94C1962.84 381.763 1988.95 379.345 2008.3 379.345C2012.65 379.345 2014.11 380.312 2014.11 383.214C2014.11 386.116 2012.65 387.084 2008.79 387.084C1976.38 387.084 1951.71 392.888 1941.07 428.196L1851.11 722.272C1840.47 757.581 1858.36 763.385 1890.28 763.385C1894.64 763.385 1896.09 764.352 1896.09 767.254C1896.09 770.156 1894.64 771.123 1889.8 771.123C1870.94 771.123 1844.33 768.705 1826.92 768.705H1815.8C1800.32 768.705 1777.1 771.123 1760.17 771.123C1756.31 771.123 1754.85 770.156 1754.85 767.254C1754.85 764.352 1756.31 763.385 1759.69 763.385C1788.23 763.385 1810.48 757.581 1821.6 722.272L1863.68 583.94C1867.07 573.783 1860.78 565.077 1850.14 565.077H1722.93C1712.29 565.077 1701.17 573.783 1697.78 583.94L1655.22 722.272C1644.58 757.581 1660.05 763.385 1688.59 763.385C1691.98 763.385 1693.43 764.352 1693.43 767.254C1693.43 770.156 1691.98 771.123 1688.11 771.123C1671.18 771.123 1647.96 768.705 1632.48 768.705H1621.36C1603.95 768.705 1577.34 771.123 1558.48 771.123C1553.64 771.123 1552.19 770.156 1552.19 767.254C1552.19 764.352 1553.64 763.385 1558 763.385C1589.92 763.385 1615.07 757.581 1625.71 722.272L1715.19 428.196C1726.32 392.888 1708.42 387.084 1676.02 387.084C1672.15 387.084 1670.21 386.116 1670.21 383.214C1670.21 380.312 1672.15 379.345 1676.5 379.345C1695.36 379.345 1721.96 381.763 1739.38 381.763H1750.5C1765.98 381.763 1789.2 379.345 1806.12 379.345C1810.48 379.345 1811.93 380.312 1811.93 383.214C1811.93 386.116 1810.48 387.084 1806.61 387.084C1778.07 387.084 1755.82 392.888 1745.18 428.196L1711.32 539.926C1707.94 550.083 1714.23 558.305 1724.87 558.305H1852.07C1862.71 558.305 1873.84 550.083 1877.22 539.926L1911.08 428.196ZM1960.6 768.705C1944.64 768.705 1919.97 771.123 1902.56 771.123C1898.21 771.123 1896.76 770.156 1896.76 767.254C1896.76 764.352 1898.21 763.385 1902.08 763.385C1931.58 763.385 1954.8 757.581 1965.44 722.272L2055.4 428.196C2066.04 392.888 2050.08 387.084 2020.09 387.084C2016.71 387.084 2014.77 386.116 2014.77 383.214C2014.77 380.312 2016.71 379.345 2020.58 379.345C2038.47 379.345 2062.66 381.763 2078.62 381.763H2146.82C2207.28 381.763 2236.3 404.98 2236.3 445.125C2236.3 484.303 2209.7 555.887 2120.22 573.299C2108.61 575.234 2102.32 582.489 2106.19 592.163C2118.77 628.922 2130.37 666.649 2139.56 711.631C2146.33 745.972 2156.01 763.385 2186.48 763.385C2189.87 763.385 2190.83 763.868 2190.83 765.803C2190.83 769.189 2187.93 771.123 2183.58 771.123C2122.63 770.64 2118.77 761.934 2110.54 720.821L2083.94 594.098C2081.04 579.587 2073.3 577.169 2061.69 577.169C2043.31 577.169 2038.47 580.555 2032.67 599.902L1995.43 722.272C1984.3 757.581 2000.75 763.385 2030.25 763.385C2034.12 763.385 2035.57 764.352 2035.57 767.254C2035.57 770.156 2034.12 771.123 2029.77 771.123C2012.36 771.123 1988.17 768.705 1971.73 768.705H1960.6ZM2050.57 540.893C2045.25 557.338 2049.12 571.848 2076.69 571.848C2166.17 571.848 2204.86 493.976 2204.86 448.027C2204.86 412.718 2181.64 389.018 2134.24 389.018C2107.64 389.018 2096.03 393.371 2088.29 418.523L2050.57 540.893ZM2408.98 771.123C2399.3 771.123 2389.14 768.705 2366.9 768.705H2242.59C2226.63 768.705 2201.96 771.123 2184.55 771.123C2180.2 771.123 2178.74 770.156 2178.74 767.254C2178.74 764.352 2180.2 763.385 2184.07 763.385C2213.57 763.385 2236.79 757.581 2247.43 722.272L2337.39 428.196C2348.03 392.888 2332.07 387.084 2302.08 387.084C2298.7 387.084 2296.76 386.116 2296.76 383.214C2296.76 380.312 2298.7 379.345 2302.57 379.345C2320.46 379.345 2344.65 381.763 2360.61 381.763H2483.46C2503.78 381.763 2515.38 379.345 2524.09 379.345C2532.31 379.345 2532.8 384.182 2530.38 391.92C2526.03 407.398 2521.19 422.392 2517.8 437.386C2514.9 452.38 2512.97 467.374 2510.55 486.721C2510.06 491.558 2508.13 494.46 2505.23 494.46C2502.33 494.46 2501.84 492.042 2502.33 487.205C2510.06 407.882 2504.74 388.535 2457.34 388.535H2400.27C2385.76 388.535 2376.57 396.757 2372.7 410.3L2331.59 544.279C2328.68 554.436 2334.49 563.142 2344.65 563.142L2398.33 562.658C2434.61 563.142 2447.67 541.377 2456.86 510.421C2458.31 506.552 2459.76 505.585 2462.18 506.068C2464.6 507.036 2465.08 508.97 2464.11 513.323C2458.79 530.252 2450.09 551.05 2444.28 568.946L2446.22 563.626C2440.9 581.038 2436.06 603.771 2431.22 620.7C2429.77 625.053 2428.32 626.504 2425.42 625.537C2423 625.053 2422.52 623.118 2423.97 619.249C2433.16 588.293 2432.68 569.43 2396.4 569.43H2343.2C2332.55 569.43 2321.43 577.652 2318.53 587.326L2274.03 732.913C2267.26 755.646 2269.19 761.934 2289.51 761.934H2346.1C2388.18 761.934 2407.04 745.489 2467.98 658.91C2471.37 654.074 2474.27 651.171 2476.21 651.171C2479.11 651.171 2479.11 654.074 2476.21 658.427C2467.5 673.421 2460.73 682.611 2449.6 700.99C2433.64 726.141 2428.81 739.684 2423 758.548C2420.58 766.287 2417.2 771.123 2408.98 771.123ZM2448.32 767.254C2448.32 764.352 2449.77 763.385 2452.67 763.385C2476.37 763.385 2498.14 759.032 2518.94 728.076L2753.52 376.443C2754.49 374.992 2756.42 374.024 2757.87 374.024H2762.23C2763.68 374.024 2764.64 374.992 2764.64 376.443L2753.52 719.854C2752.55 757.097 2767.55 763.385 2790.76 763.385C2793.67 763.385 2795.12 764.352 2795.12 767.254C2795.12 770.156 2793.67 771.123 2790.28 771.123C2776.74 771.123 2757.39 768.705 2744.81 768.705H2731.75C2715.31 768.705 2690.16 771.123 2671.78 771.123C2667.43 771.123 2665.97 770.156 2665.97 767.254C2665.97 764.352 2667.43 763.385 2671.29 763.385C2702.25 763.385 2723.05 757.097 2724.02 719.854L2726.43 655.041C2726.92 644.4 2718.21 635.694 2707.57 635.694H2608.42C2597.78 635.694 2584.23 642.949 2578.43 651.655L2527.64 728.076C2506.84 759.032 2519.9 763.385 2549.41 763.385C2553.28 763.385 2554.73 764.352 2554.73 767.254C2554.73 770.156 2553.28 771.123 2548.92 771.123C2532.96 771.123 2512.65 768.705 2495.72 768.705C2482.66 768.705 2466.22 771.123 2453.16 771.123C2449.77 771.123 2448.32 770.156 2448.32 767.254ZM2604.55 612.477C2598.26 621.667 2602.13 628.922 2612.77 628.922H2707.57C2718.21 628.922 2727.4 620.216 2727.89 609.575L2733.21 439.804C2733.69 429.164 2728.85 427.712 2723.05 436.902L2604.55 612.477ZM2844.11 768.705C2828.15 768.705 2803.48 771.123 2786.07 771.123C2781.71 771.123 2780.26 770.156 2780.26 767.254C2780.26 764.352 2781.71 763.385 2785.58 763.385C2815.09 763.385 2838.3 757.581 2848.94 722.272L2938.91 428.196C2949.55 392.888 2933.59 387.084 2903.6 387.084C2900.21 387.084 2898.28 386.116 2898.28 383.214C2898.28 380.312 2900.21 379.345 2904.08 379.345C2921.98 379.345 2946.16 381.763 2962.12 381.763H3020.17C3103.36 381.763 3158.01 425.294 3158.01 506.552C3158.01 605.222 3080.63 768.705 2905.05 768.705H2844.11ZM2874.1 745.005C2874.1 759.515 2884.74 761.45 2902.63 761.45C3044.83 761.45 3125.12 614.412 3125.12 509.454C3125.12 436.902 3085.46 389.018 3018.23 389.018C2991.15 389.018 2979.54 393.371 2971.8 419.006L2877 727.592C2875.06 734.848 2874.1 740.652 2874.1 745.005Z';
+
+const LOGO_ATT = 'M1285.3 95.0 L1279.0 98.7 L1272.0 101.7 L1265.0 103.7 L1255.3 105.0 L1247.3 105.0 L1238.0 103.7 L1228.3 100.7 L1222.0 97.7 L1218.7 95.3 L1217.7 95.3 L1217.3 96.3 L1217.3 309.7 L1218.0 310.3 L1285.3 310.0ZM1304.3 94.7 L1304.0 96.0 L1322.0 139.3 L1326.0 150.3 L1329.0 156.3 L1329.0 157.7 L1335.0 171.3 L1336.0 175.0 L1338.7 180.3 L1391.0 309.7 L1391.7 310.3 L1456.7 310.3 L1461.7 299.7 L1462.7 296.0 L1463.7 294.7 L1470.7 276.3 L1478.7 258.0 L1479.7 254.3 L1501.7 201.3 L1502.7 197.7 L1505.7 191.7 L1506.0 189.7 L1544.7 95.0 L1472.3 94.7 L1471.3 95.3 L1458.0 135.0 L1456.0 139.3 L1454.0 146.7 L1450.0 157.0 L1449.0 161.3 L1443.0 177.3 L1439.0 190.3 L1427.0 223.7 L1426.0 228.0 L1424.3 230.3 L1415.7 207.0 L1415.7 205.7 L1409.7 189.7 L1408.7 185.3 L1405.7 178.3 L1404.7 174.0 L1403.7 172.7 L1402.3 167.3 L1395.7 149.7 L1394.7 145.3 L1392.7 141.0 L1377.0 95.3 L1376.3 94.7ZM1613.0 95.7 L1599.7 100.7 L1590.0 105.7 L1580.3 112.0 L1570.7 120.0 L1561.0 130.3 L1555.0 138.3 L1550.0 146.3 L1546.0 154.3 L1541.0 167.0 L1538.0 178.7 L1536.0 190.0 L1535.3 201.0 L1536.0 219.0 L1539.3 235.7 L1543.0 247.0 L1547.0 255.7 L1553.3 266.3 L1559.3 274.3 L1570.0 285.3 L1577.3 291.3 L1587.7 298.0 L1596.0 302.3 L1605.7 306.3 L1623.7 311.3 L1639.0 313.3 L1653.7 313.7 L1662.0 313.3 L1677.7 311.3 L1690.3 308.3 L1699.3 305.3 L1700.7 304.3 L1702.0 304.3 L1715.0 298.0 L1729.3 288.3 L1737.7 280.7 L1743.0 274.7 L1744.0 272.7 L1693.0 249.3 L1686.0 254.3 L1679.3 257.7 L1665.3 261.7 L1657.3 262.7 L1647.0 262.7 L1635.3 260.7 L1629.3 258.7 L1621.7 255.0 L1612.7 248.0 L1609.0 243.7 L1604.7 236.0 L1602.7 230.3 L1602.3 227.0 L1603.0 226.0 L1756.3 226.0 L1758.7 218.3 L1759.7 210.7 L1760.0 192.0 L1757.7 173.3 L1752.7 156.7 L1745.3 141.7 L1739.3 132.7 L1734.3 126.7 L1726.7 119.0 L1718.0 112.0 L1708.0 105.7 L1700.0 101.7 L1687.0 96.7 L1679.7 94.7 L1665.7 92.0 L1654.3 91.0 L1639.3 91.0 L1625.0 92.7ZM1603.0 175.7 L1606.0 166.3 L1610.0 159.0 L1612.7 155.7 L1618.7 150.0 L1626.3 145.3 L1634.3 142.3 L1642.3 141.0 L1654.3 141.0 L1663.3 142.3 L1671.7 145.3 L1678.3 149.3 L1684.0 154.3 L1688.7 160.3 L1692.0 168.0 L1693.7 176.3 L1693.7 183.0 L1692.0 183.7 L1603.7 183.7 L1602.3 182.7ZM640.0 95.7 L631.3 98.7 L619.0 104.7 L610.3 110.0 L599.3 118.7 L595.0 122.7 L586.0 133.0 L579.3 142.7 L573.0 154.7 L569.0 164.7 L565.3 177.7 L563.3 189.3 L562.7 197.3 L562.7 211.7 L564.0 224.3 L567.0 237.7 L572.0 251.0 L576.0 259.0 L581.7 268.0 L589.3 277.7 L596.3 284.7 L607.3 293.3 L615.3 298.3 L623.0 302.3 L635.7 307.3 L646.3 310.3 L663.0 313.0 L673.3 313.7 L689.0 313.3 L709.3 310.3 L720.7 307.3 L734.3 302.0 L747.7 294.7 L756.3 288.3 L767.3 278.0 L771.3 272.7 L720.3 249.3 L714.3 253.7 L708.7 256.7 L702.0 259.3 L694.3 261.3 L684.3 262.7 L674.7 262.7 L666.7 261.7 L659.3 259.7 L654.0 257.7 L646.7 253.7 L638.3 246.3 L632.7 238.0 L629.3 227.0 L630.3 226.0 L783.3 226.0 L784.3 224.7 L785.3 220.7 L787.3 205.0 L786.7 185.0 L784.7 172.3 L782.7 165.0 L776.7 149.3 L771.3 139.7 L764.7 130.3 L752.3 117.7 L744.7 111.7 L737.0 106.7 L720.0 98.7 L710.7 95.7 L697.3 92.7 L681.3 91.0 L667.3 91.0 L658.7 91.7ZM630.7 174.0 L632.7 167.3 L635.7 161.3 L641.3 154.0 L646.7 149.3 L653.3 145.3 L661.3 142.3 L669.7 141.0 L681.7 141.0 L690.3 142.3 L698.7 145.3 L704.7 148.7 L710.0 153.0 L715.0 159.0 L719.0 167.3 L721.0 177.3 L721.0 182.7 L720.3 183.3 L630.7 183.7 L629.3 182.7ZM27.0 129.3 L19.0 139.3 L14.0 147.3 L9.0 157.3 L5.0 168.0 L2.0 179.7 L0.0 194.0 L0.0 217.7 L3.0 236.7 L8.0 252.3 L15.0 266.7 L21.3 276.3 L28.0 284.3 L36.7 292.7 L44.0 298.3 L53.3 304.0 L68.7 310.3 L76.3 312.3 L88.7 314.3 L105.7 314.3 L123.3 311.3 L132.0 308.3 L139.3 305.0 L145.0 301.7 L153.0 295.7 L161.7 287.0 L165.7 281.7 L167.0 281.0 L168.0 287.3 L169.0 309.7 L169.7 310.7 L234.3 310.3 L234.3 199.0 L232.7 184.7 L230.7 175.0 L227.7 164.7 L220.7 148.7 L210.7 133.3 L204.3 126.0 L197.0 119.0 L189.0 112.7 L178.0 105.7 L167.7 100.7 L157.0 96.7 L145.7 93.7 L134.0 91.7 L125.3 91.0 L111.3 91.0 L100.0 92.0 L86.3 94.7 L73.0 98.7 L65.7 101.7 L51.7 109.0 L41.3 116.0ZM111.3 150.3 L120.0 150.0 L131.0 151.7 L142.0 156.3 L147.3 160.0 L154.3 166.3 L160.0 173.7 L165.0 183.3 L168.0 194.3 L168.3 207.3 L167.7 213.0 L164.0 224.7 L158.0 235.0 L151.0 242.7 L143.7 248.3 L135.0 252.7 L128.7 254.7 L122.7 255.7 L113.7 255.7 L103.3 253.7 L95.3 250.7 L86.0 244.7 L77.7 236.0 L72.7 227.7 L69.7 219.7 L67.7 209.7 L67.7 195.7 L68.7 189.7 L71.7 180.0 L77.7 169.7 L84.0 162.7 L92.7 156.3 L101.7 152.3ZM1000.7 110.7 L995.0 106.0 L983.0 98.7 L969.3 93.7 L960.7 91.7 L951.0 90.7 L937.7 90.7 L929.7 91.7 L914.7 96.0 L906.7 99.7 L900.0 103.7 L890.7 111.0 L882.3 119.7 L878.3 125.7 L877.0 126.7 L876.3 125.7 L874.7 96.3 L874.3 95.0 L873.7 94.7 L809.3 95.0 L809.7 310.3 L876.3 310.3 L876.7 194.3 L878.7 185.0 L880.7 179.3 L885.7 170.3 L891.7 163.3 L895.7 159.7 L902.0 155.3 L908.3 152.3 L914.7 150.3 L921.7 149.3 L929.0 149.7 L937.3 151.3 L947.0 156.3 L952.3 161.3 L956.0 166.3 L958.7 171.3 L962.0 182.0 L963.0 191.7 L963.0 310.0 L1029.7 310.0 L1030.0 182.0 L1028.7 165.0 L1025.0 149.3 L1018.7 134.0 L1011.3 122.3ZM1789.0 81.7 L1789.0 116.0 L1790.0 116.7 L1797.7 116.3 L1797.7 105.0 L1798.3 104.3 L1802.3 104.3 L1805.0 107.3 L1810.3 116.3 L1819.7 116.7 L1820.3 116.0 L1812.0 103.7 L1812.0 103.0 L1815.7 99.7 L1817.7 95.0 L1817.7 90.0 L1816.0 86.0 L1812.3 82.7 L1806.3 81.0ZM1797.3 89.0 L1798.0 88.3 L1806.0 88.3 L1809.0 91.3 L1809.0 93.3 L1808.3 94.7 L1805.0 97.3 L1798.7 97.7 L1797.3 96.7ZM1793.3 65.7 L1786.7 67.7 L1780.3 71.0 L1775.0 75.7 L1771.0 81.3 L1769.0 85.7 L1767.0 94.3 L1767.0 102.7 L1769.0 111.7 L1772.0 118.0 L1775.0 122.0 L1781.3 127.3 L1787.3 130.3 L1793.0 132.0 L1799.0 132.7 L1808.7 132.3 L1814.3 131.0 L1822.3 127.3 L1825.0 125.3 L1831.7 118.0 L1835.7 108.7 L1836.7 102.7 L1836.7 95.0 L1835.7 88.7 L1831.7 79.3 L1825.0 72.0 L1821.7 69.7 L1815.0 66.7 L1811.0 65.7 L1804.3 65.0ZM1795.0 71.3 L1805.3 70.7 L1810.0 71.3 L1816.0 73.7 L1819.3 75.7 L1824.0 80.3 L1825.7 82.7 L1829.0 90.3 L1830.0 96.0 L1830.0 101.7 L1829.0 107.0 L1827.0 112.3 L1824.3 116.7 L1821.3 120.0 L1818.0 122.7 L1812.0 125.7 L1807.7 126.7 L1799.3 127.0 L1791.7 125.7 L1784.3 121.7 L1780.0 117.3 L1775.7 109.0 L1774.7 105.0 L1774.3 97.3 L1775.7 89.3 L1777.7 84.3 L1780.7 80.0 L1785.3 75.7 L1791.3 72.3ZM1058.3 31.0 L1058.0 109.7 L1058.7 156.0 L1058.7 247.3 L1060.0 259.0 L1062.3 268.0 L1065.0 275.0 L1069.0 282.7 L1075.3 291.3 L1081.3 297.3 L1092.7 305.3 L1099.0 308.3 L1107.7 311.3 L1117.7 313.3 L1125.3 314.0 L1146.7 313.3 L1167.0 310.3 L1178.3 307.3 L1186.3 304.3 L1188.7 302.7 L1188.7 250.0 L1187.7 249.7 L1181.3 252.7 L1170.3 255.7 L1156.7 257.0 L1147.3 256.7 L1142.7 255.7 L1136.7 252.3 L1131.7 247.3 L1127.7 240.0 L1126.0 232.7 L1126.0 150.0 L1126.7 149.3 L1186.7 149.3 L1187.0 95.0 L1186.3 94.3 L1127.7 94.7 L1126.0 94.0 L1125.7 39.7 L1125.0 31.0ZM420.0 31.0 L419.7 99.3 L420.3 249.0 L422.0 261.0 L426.0 273.7 L432.3 285.3 L437.0 291.3 L443.7 298.0 L454.3 305.3 L459.7 308.0 L469.3 311.3 L479.3 313.3 L486.3 314.0 L508.0 313.3 L524.0 311.3 L536.7 308.3 L548.0 304.3 L550.0 303.0 L550.0 250.0 L549.3 249.7 L542.7 252.7 L532.0 255.7 L518.0 257.0 L508.7 256.7 L504.3 255.7 L497.7 252.0 L491.7 245.3 L489.0 239.7 L487.3 230.0 L487.3 150.7 L488.3 149.3 L548.0 149.3 L548.7 95.3 L547.3 94.3 L488.7 94.7 L487.7 94.0 L487.0 32.0 L486.3 31.0ZM263.0 31.0 L262.3 32.0 L263.0 95.3 L263.0 246.3 L265.0 261.7 L270.0 276.0 L275.0 285.0 L279.0 290.3 L287.0 298.3 L295.3 304.3 L303.3 308.3 L315.0 312.0 L329.3 314.0 L354.3 313.0 L371.3 310.3 L382.7 307.3 L390.7 304.3 L393.0 302.7 L392.7 249.7 L385.7 252.7 L375.0 255.7 L361.3 257.0 L351.7 256.7 L346.3 255.3 L341.0 252.3 L335.0 246.0 L332.0 240.0 L330.3 231.0 L330.3 150.3 L331.3 149.3 L391.0 149.3 L391.3 94.7 L331.7 94.7 L330.7 94.0 L330.0 73.0 L330.0 35.0 L329.3 31.0ZM1233.7 3.0 L1227.0 6.3 L1221.3 10.7 L1216.0 16.7 L1212.0 24.3 L1210.0 31.3 L1209.7 42.0 L1211.0 49.0 L1214.7 57.7 L1220.0 64.7 L1226.3 70.0 L1233.3 73.7 L1241.7 76.3 L1246.3 77.0 L1256.3 77.0 L1266.3 75.0 L1275.0 71.0 L1279.3 68.0 L1285.3 62.0 L1288.7 57.0 L1291.7 50.0 L1292.7 45.7 L1293.3 36.0 L1291.7 26.3 L1288.7 19.3 L1284.3 13.3 L1279.3 8.7 L1275.0 5.7 L1265.3 1.7 L1257.0 0.0 L1246.3 0.0 L1241.7 0.7Z';
+const ATT_W = 1836.7, ATT_H = 314.3;
+
+const LOGO_SWASH = 'M1297.63 203.139L1295.37 199.379C1306.9 191.357 1320.94 185.09 1337.49 180.578C1354.03 175.564 1371.83 173.058 1390.88 173.058C1421.97 173.058 1447.28 178.071 1466.84 188.098C1486.89 198.126 1501.68 211.412 1511.21 227.957C1521.24 244.502 1526.25 262.3 1526.25 281.352C1526.25 299.401 1521.74 317.7 1512.71 336.251C1503.69 354.801 1490.4 371.847 1472.85 387.389C1455.81 402.932 1434.25 415.466 1408.18 424.991C1382.61 434.016 1352.78 438.528 1318.69 438.528C1264.54 438.528 1219.42 429.754 1183.32 412.207C1147.72 394.659 1120.9 371.596 1102.85 343.019C1084.8 313.94 1075.78 283.106 1075.78 250.518C1075.78 222.442 1082.54 194.115 1096.08 165.537C1109.62 136.458 1129.92 109.886 1157 85.8209C1184.57 61.7556 1219.17 42.4532 1260.78 27.9137C1302.89 12.8729 1352.53 5.35245 1409.68 5.35245C1448.29 5.35245 1486.39 10.6168 1523.99 21.1454C1562.1 31.6739 1599.95 45.2106 1637.55 61.7556C1675.15 77.7991 1712.76 95.0961 1750.36 113.646C1788.46 132.197 1826.31 149.744 1863.92 166.289C1901.52 182.333 1939.37 195.619 1977.47 206.147C2015.58 216.676 2053.68 221.94 2091.78 221.94C2133.9 221.94 2169.75 214.42 2199.33 199.379C2228.91 184.338 2247.71 164.033 2255.73 138.464L2260.99 139.216C2252.97 166.289 2233.67 187.597 2203.09 203.139C2173 218.681 2135.65 226.453 2091.03 226.453C2053.93 226.453 2017.08 221.94 1980.48 212.916C1943.88 203.39 1907.28 191.357 1870.68 176.818C1834.59 162.278 1797.99 146.987 1760.89 130.943C1723.79 114.398 1686.18 98.8562 1648.08 84.3168C1609.98 69.7773 1571.12 57.9954 1531.51 48.9709C1491.91 39.445 1451.3 34.6821 1409.68 34.6821C1362.55 34.6821 1318.94 40.4477 1278.83 51.979C1239.22 63.009 1204.63 78.5511 1175.05 98.6056C1145.47 118.66 1122.4 142.475 1105.86 170.049C1089.81 197.123 1081.79 226.954 1081.79 259.542C1081.79 293.134 1091.82 323.215 1111.87 349.787C1132.43 375.858 1160.51 396.414 1196.1 411.455C1232.2 426.495 1273.31 434.016 1319.44 434.016C1357.04 434.016 1391.13 427.248 1421.72 413.711C1452.3 400.174 1476.61 381.874 1494.66 358.812C1512.71 335.248 1521.74 309.428 1521.74 281.352C1521.74 249.766 1509.7 224.447 1485.64 205.395C1462.07 186.344 1430.49 176.818 1390.88 176.818C1372.33 176.818 1354.78 179.074 1338.24 183.586C1322.2 188.098 1308.66 194.616 1297.63 203.139ZM1093.83 749.873C1138.45 749.873 1180.31 743.105 1219.42 729.568C1258.52 715.53 1295.37 696.729 1329.97 673.165C1364.56 649.1 1397.4 622.026 1428.48 591.944C1459.57 561.863 1489.4 530.277 1517.98 497.187C1546.55 463.596 1574.38 430.506 1601.45 397.918C1628.53 364.828 1655.1 333.994 1681.17 305.417C1698.72 286.365 1716.77 270.071 1735.32 256.534C1753.87 242.997 1770.66 231.968 1785.7 223.444H1824.06C1812.02 225.951 1797.74 231.215 1781.19 239.237C1764.65 247.259 1747.85 257.286 1730.8 269.319C1714.26 281.352 1699.22 294.888 1685.68 309.929C1660.61 337.003 1637.8 365.831 1617.25 396.414C1597.19 426.997 1577.39 458.081 1557.83 489.667C1538.78 520.751 1518.23 551.334 1496.17 581.416C1474.61 611.498 1449.79 639.824 1421.72 666.397C1380.6 705.503 1332.47 734.832 1277.32 754.385C1222.68 774.44 1165.27 784.467 1105.11 784.467C1043.94 784.467 992.801 775.443 951.69 757.394C911.079 739.345 880.496 714.778 859.941 683.694C839.385 652.108 829.107 616.762 829.107 577.656C829.107 550.081 836.126 523.007 850.164 496.435C864.202 469.863 884.257 446.049 910.327 424.991C936.899 403.433 968.736 386.387 1005.84 373.853C1042.94 360.817 1084.3 354.3 1129.92 354.3C1176.55 354.3 1214.4 360.567 1243.48 373.101C1273.06 385.635 1294.87 401.929 1308.91 421.983C1322.95 441.536 1329.97 462.593 1329.97 485.155C1329.97 504.708 1324.7 524.511 1314.17 544.566C1304.15 564.119 1289.11 582.419 1269.05 599.465C1249 616.01 1224.43 629.296 1195.35 639.323C1166.27 649.35 1133.18 654.364 1096.08 654.364C1063.99 654.364 1038.42 650.604 1019.37 643.083C1000.32 635.062 986.534 625.034 978.011 613.002C969.488 600.468 965.226 587.683 965.226 574.648C965.226 558.604 973.248 541.808 989.292 524.261C1005.34 506.713 1029.4 491.923 1061.49 479.89C1094.08 467.356 1134.69 461.089 1183.32 461.089C1224.93 461.089 1263.29 466.103 1298.38 476.13C1333.98 485.656 1364.81 499.443 1390.88 517.492C1417.45 535.541 1438.01 556.849 1452.55 581.416C1467.59 605.983 1475.11 633.056 1475.11 662.636C1475.11 689.71 1468.09 718.287 1454.05 748.369C1440.52 778.952 1418.96 807.279 1389.38 833.35C1359.8 859.922 1321.69 881.48 1275.07 898.025C1228.94 914.57 1173.54 922.843 1108.87 922.843C1044.69 922.843 986.033 914.319 932.889 897.273C879.744 880.227 833.619 856.162 794.513 825.077C755.908 793.993 726.077 757.143 705.02 714.527C683.963 671.912 673.434 625.034 673.434 573.896C673.434 522.757 684.214 475.879 705.772 433.264C726.829 390.648 756.66 353.798 795.265 322.714C834.371 291.128 880.496 266.812 933.641 249.766C986.785 232.72 1045.19 224.196 1108.87 224.196C1135.94 224.196 1163.51 226.453 1191.59 230.965C1220.17 235.477 1247.49 242.747 1273.56 252.774C1299.63 262.3 1322.7 274.583 1342.75 289.624C1362.81 304.163 1378.1 321.962 1388.63 343.019L1384.11 344.523C1373.58 323.967 1358.54 306.42 1338.99 291.88C1319.44 277.341 1296.88 265.559 1271.31 256.534C1245.74 247.008 1218.91 239.989 1190.84 235.477C1163.26 230.965 1135.94 228.709 1108.87 228.709C1045.69 228.709 987.788 237.232 935.145 254.278C882.502 270.823 836.878 294.638 798.273 325.722C760.17 356.305 730.59 392.654 709.532 434.768C688.475 476.882 677.947 523.258 677.947 573.896C677.947 624.533 688.475 670.909 709.532 713.023C730.59 755.137 760.17 791.486 798.273 822.069C836.878 852.652 882.502 876.216 935.145 892.761C987.788 909.807 1045.69 918.33 1108.87 918.33C1173.04 918.33 1227.94 910.058 1273.56 893.513C1319.19 877.469 1356.54 856.412 1385.62 830.341C1414.7 804.271 1436 776.445 1449.54 746.865C1463.58 717.285 1470.6 689.208 1470.6 662.636C1470.6 633.557 1463.33 607.236 1448.79 583.672C1434.25 559.607 1413.69 538.8 1387.12 521.253C1361.05 503.705 1330.47 490.168 1295.37 480.642C1260.78 471.117 1223.18 466.354 1182.57 466.354C1134.94 466.354 1095.33 472.37 1063.74 484.403C1032.16 495.934 1008.59 509.972 993.052 526.517C977.51 543.062 969.739 558.855 969.739 573.896C969.739 586.43 973.75 598.462 981.771 609.993C990.294 621.525 1003.83 631.051 1022.38 638.571C1040.93 646.091 1065.5 649.852 1096.08 649.852C1132.18 649.852 1164.27 644.838 1192.34 634.811C1220.92 624.784 1244.99 611.748 1264.54 595.705C1284.59 579.661 1299.63 561.863 1309.66 542.31C1320.19 522.757 1325.45 503.705 1325.45 485.155C1325.45 463.095 1318.43 442.539 1304.4 423.487C1290.86 404.436 1269.55 388.893 1240.47 376.861C1211.9 364.828 1175.05 358.812 1129.92 358.812C1084.8 358.812 1043.94 365.329 1007.34 378.365C971.243 390.899 940.158 407.694 914.088 428.752C888.017 449.809 867.962 473.373 853.924 499.443C840.388 525.013 833.619 551.084 833.619 577.656C833.619 617.765 845.15 650.604 868.213 676.173C891.777 701.742 923.112 720.544 962.218 732.576C1001.83 744.107 1045.69 749.873 1093.83 749.873Z';
+const FDEFS = [
+  { w0: 15, w1: 3, taper: 0.45, pts: [[-20,200],[60,215],[200,238],[300,248],[370,270],[412,310],[405,350],[360,370],[320,350],[295,310]] },
+  { w0: 16, w1: 3, taper: 0.3, pts: [[-20,340],[100,360],[230,385],[380,415],[500,470],[570,540],[595,610],[570,670],[500,712],[430,700],[370,665],[310,600],[262,520],[228,420],[207,320],[203,230],[195,120],[165,55],[125,32],[92,60],[92,110],[130,150],[190,170],[260,172],[340,150],[405,117]] },
+  { w0: 13, w1: 3, taper: 0.3, pts: [[-20,432],[100,448],[200,468],[290,500],[360,550],[410,610],[425,665],[400,710],[340,745],[270,740],[245,712]] },
+  { w0: 14, w1: 3, taper: 0.45, pts: [[-20,535],[60,545],[140,568],[205,605],[238,660],[235,715],[195,745],[150,752],[115,730]] },
+  { w0: 3.5, w1: 3.5, taper: 1, pts: [[85,365],[100,450],[140,550],[215,680]] },
+  { w0: 3.5, w1: 3.5, taper: 1, pts: [[15,5],[32,50],[52,130],[68,230],[70,280]] },
+  { w0: 3, w1: 3, taper: 1, pts: [[-2,350],[8,430],[18,540]] },
+  { w0: 4, w1: 4, taper: 1, pts: [[5,650],[22,680],[20,715],[2,740]] },
+];
+const FN = 420, lerp = (a, b, t) => a + (b - a) * t;
+function buildStroke(def, fx, fy, fw) {
+  const p = def.pts, dense = [];
+  for (let i = 0; i < p.length - 1; i++) {
+    const P0 = p[Math.max(i - 1, 0)], P1 = p[i], P2 = p[i + 1], P3 = p[Math.min(i + 2, p.length - 1)];
+    const t0 = 0, t1 = t0 + Math.pow(Math.hypot(P1[0] - P0[0], P1[1] - P0[1]) || 1e-3, 0.5);
+    const t2 = t1 + Math.pow(Math.hypot(P2[0] - P1[0], P2[1] - P1[1]) || 1e-3, 0.5), t3 = t2 + Math.pow(Math.hypot(P3[0] - P2[0], P3[1] - P2[1]) || 1e-3, 0.5);
+    for (let k = 0; k < 24; k++) {
+      const t = lerp(t1, t2, k / 24), pt = [0, 0];
+      for (let d = 0; d < 2; d++) {
+        const A1 = ((t1 - t) * P0[d] + (t - t0) * P1[d]) / (t1 - t0), A2 = ((t2 - t) * P1[d] + (t - t1) * P2[d]) / (t2 - t1), A3 = ((t3 - t) * P2[d] + (t - t2) * P3[d]) / (t3 - t2);
+        const B1 = ((t2 - t) * A1 + (t - t0) * A2) / (t2 - t0), B2 = ((t3 - t) * A2 + (t - t1) * A3) / (t3 - t1);
+        pt[d] = ((t2 - t) * B1 + (t - t1) * B2) / (t2 - t1);
+      }
+      dense.push(pt);
+    }
+  }
+  dense.push(p[p.length - 1]);
+  const cum = [0];
+  for (let i = 1; i < dense.length; i++) cum.push(cum[i - 1] + Math.hypot(dense[i][0] - dense[i - 1][0], dense[i][1] - dense[i - 1][1]));
+  const total = cum[cum.length - 1], out = []; let j = 0;
+  for (let i = 0; i < FN; i++) {
+    const sd = (i / (FN - 1)) * total; while (j < cum.length - 2 && cum[j + 1] < sd) j++;
+    const u = (sd - cum[j]) / (cum[j + 1] - cum[j] || 1), t = i / (FN - 1), sm = cl(t / def.taper, 0, 1), k = sm * sm * (3 - 2 * sm);
+    out.push({ x: fx(lerp(dense[j][0], dense[j + 1][0], u)), y: fy(lerp(dense[j][1], dense[j + 1][1], u)), w: lerp(def.w0, def.w1, k) * fw });
+  }
+  return out;
+}
+function strokeSpan(i, t) { const u = ((((t + i * 0.55) % PERIOD) + PERIOD) % PERIOD) / PERIOD; return [ease((u - 0.72) / 0.26), ease(u / 0.4)]; }
+function drawStroke(ctx, pts, a, b, t) {
+  const i0 = Math.floor(a * (FN - 1)), i1 = Math.ceil(b * (FN - 1)); if (i1 - i0 < 1) return;
+  const Lp = [], Rp = [];
+  for (let i = i0; i <= i1; i++) {
+    const p = pts[i], q = pts[Math.min(i + 1, FN - 1)], o = pts[Math.max(i - 1, 0)];
+    let dx = q.x - o.x, dy = q.y - o.y; const m = Math.hypot(dx, dy) || 1; dx /= m; dy /= m;
+    const h = p.w * (1 + 0.06 * Math.sin(2 * TAU * t / PERIOD + i * 0.12)) / 2;
+    Lp.push(p.x - dy * h, p.y + dx * h); Rp.push(p.x + dy * h, p.y - dx * h);
+  }
+  ctx.beginPath(); ctx.moveTo(Lp[0], Lp[1]);
+  for (let k = 2; k < Lp.length; k += 2) ctx.lineTo(Lp[k], Lp[k + 1]);
+  for (let k = Rp.length - 2; k >= 0; k -= 2) ctx.lineTo(Rp[k], Rp[k + 1]);
+  ctx.closePath(); ctx.fill();
+  const e = pts[i1], st = pts[i0];
+  ctx.beginPath(); ctx.arc(e.x, e.y, e.w / 2, 0, TAU); ctx.fill(); ctx.beginPath(); ctx.arc(st.x, st.y, st.w / 2, 0, TAU); ctx.fill();
+}
+
+const pAtt = new Path2D(LOGO_ATT), pSwash = new Path2D(LOGO_SWASH), pWord = new Path2D(LOGO_WORD);
+function fillStroke(ctx, path, color, lw) { ctx.fillStyle = color; ctx.strokeStyle = color; ctx.lineJoin = 'round'; ctx.lineWidth = lw; ctx.fill(path); ctx.stroke(path); }
+/* swash T + wordmark, top-left at x,y, width 2485 k; the swash sways a hair */
+function drawLogo(ctx, x, y, k, color, rot) {
+  ctx.save(); ctx.translate(x - 673 * k, y - 5 * k); ctx.scale(k, k);
+  ctx.save(); ctx.translate(1466, 464); ctx.rotate(rot || 0); ctx.translate(-1466, -464); fillStroke(ctx, pSwash, color, 10.5); ctx.restore();
+  fillStroke(ctx, pWord, color, 10.2); ctx.restore();
+}
+function drawAttentive(ctx, x, y, w, color) { const k = w / ATT_W; ctx.save(); ctx.translate(x, y); ctx.scale(k, k); ctx.fillStyle = color; ctx.fill(pAtt, 'evenodd'); ctx.restore(); }
+
+/* ===== text ===== */
+const serifFont = (size, it) => (it ? 'italic ' : '') + size + "px 'Instrument Serif', Georgia, serif";
+const sansFont = (size, wt) => (wt || 600) + ' ' + size + "px Inter, 'Helvetica Neue', Arial, sans-serif";
+const setLS = (ctx, px) => { if ('letterSpacing' in ctx) ctx.letterSpacing = px + 'px'; };
+function parseLines(s, max) {
+  const out = String(s || '').split('\n').map((l) => l.trim()).filter(Boolean).slice(0, max || 5).map((l) => { const m = /^\*(.+)\*$/.exec(l); return m ? { s: m[1], it: true } : { s: l, it: false }; });
+  return out.length ? out : [{ s: ' ', it: false }];
+}
+/* the headline voice of the post: tight tracking, stretched 16% wide */
+function measureSlide(ctx, str, size, it) { ctx.save(); ctx.font = serifFont(size, it); setLS(ctx, -3 * size / 172); const w = ctx.measureText(str).width * 1.16; ctx.restore(); return w; }
+function slide(ctx, str, x, y, size, it, color) { ctx.save(); ctx.font = serifFont(size, it); ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = color; setLS(ctx, -3 * size / 172); ctx.translate(x, y); ctx.scale(1.16, 1); ctx.fillText(str, 0, 0); ctx.restore(); }
+const slideC = (ctx, str, cx, y, size, it, color) => slide(ctx, str, cx - measureSlide(ctx, str, size, it) / 2, y, size, it, color);
+function fitLines(ctx, lines, maxW, maxH, maxFs, lh) { let fs = maxFs; for (; fs > 20; fs *= 0.97) { if (Math.max(...lines.map((l) => measureSlide(ctx, l.s, fs, l.it))) <= maxW && lines.length * fs * lh <= maxH) break; } return fs; }
+function serifText(ctx, str, x, y, size, color, o = {}) { ctx.save(); ctx.font = serifFont(size, o.it); ctx.fillStyle = color; ctx.textAlign = o.align || 'left'; ctx.textBaseline = 'alphabetic'; setLS(ctx, o.ls || 0); ctx.fillText(str, x, y); ctx.restore(); }
+function sansText(ctx, str, x, y, size, color, o = {}) { ctx.save(); ctx.font = sansFont(size, o.wt); ctx.fillStyle = color; ctx.textAlign = o.align || 'left'; ctx.textBaseline = 'alphabetic'; setLS(ctx, o.ls || 0); ctx.fillText(str, x, y); ctx.restore(); }
+function sansW(ctx, str, size, wt, ls) { ctx.save(); ctx.font = sansFont(size, wt); setLS(ctx, ls || 0); const w = ctx.measureText(str).width - (ls || 0); ctx.restore(); return w; }
+function wrapText(ctx, str, maxW) { const out = []; let cur = ''; for (const w of str.split(/\s+/)) { const tt = cur ? cur + ' ' + w : w; if (ctx.measureText(tt).width > maxW && cur) { out.push(cur); cur = w; } else cur = tt; } if (cur) out.push(cur); return out; }
+function star(ctx, cx, cy, r) { ctx.beginPath(); for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * 0.42 : r; i ? ctx.lineTo(cx + rr * Math.cos(a), cy + rr * Math.sin(a)) : ctx.moveTo(cx + rr * Math.cos(a), cy + rr * Math.sin(a)); } ctx.closePath(); ctx.fill(); }
+/* the outlined REGISTER NOW button of the site: sharp corners, hairline stroke, tracked bold capitals. Returns its width. */
+function tag(ctx, str, x, y, h, fs, color, o = {}) {
+  const ls = o.ls != null ? o.ls : 4, pad = o.pad != null ? o.pad : h * 0.5, w = sansW(ctx, str, fs, 700, ls) + 2 * pad, x0 = o.center ? x - w / 2 : o.right ? x - w : x;
+  ctx.save(); if (o.fill) { ctx.fillStyle = o.fill; ctx.fillRect(x0, y, w, h); } ctx.strokeStyle = color; ctx.lineWidth = o.lw || 2; ctx.lineJoin = 'miter'; ctx.strokeRect(x0 + 1, y + 1, w - 2, h - 2); ctx.restore();
+  sansText(ctx, str, x0 + pad, y + h / 2 + fs * 0.36, fs, color, { wt: 700, ls }); return w;
+}
+
+/* ===== mirrored calligraphy: the left set anchored to the left edge of the box, the same set mirrored on the right, drawn in step ===== */
+const flourCache = new Map();
+function flourishPair(ctx, x, y, w, h, o) {
+  const s = o.s || h / 800, y0 = o.va === 'bottom' ? y + h - 770 * s : y + (h - 770 * s) / 2;
+  const key = [x, y, w, h, s, y0, o.fw].map((v) => Math.round(v * 100)).join('|'); let sets = flourCache.get(key);
+  if (!sets) { if (flourCache.size > 12) flourCache.clear(); sets = [FDEFS.map((d) => buildStroke(d, (px) => x + px * s, (py) => y0 + py * s, o.fw)), FDEFS.map((d) => buildStroke(d, (px) => x + w - px * s, (py) => y0 + py * s, o.fw))]; flourCache.set(key, sets); }
+  ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip(); ctx.fillStyle = o.color;
+  sets.forEach((set, side) => { if (o.side === 'R' && !side) return; set.forEach((pts, i) => { const [a, b] = o.still ? [0, 1] : strokeSpan(i, o.t + (o.off || 0)); drawStroke(ctx, pts, a, b, o.t); }); });
+  ctx.restore();
+}
+
+/* ===== the data: what an attendee did ===== */
+const TRACKS = ['Growth', 'Lifecycle', 'Messaging', 'Compliance'];
+const TALKS = [
+  { t: 'Thread keynote', tm: '10:00 AM', tr: 'All', min: 60 },
+  { t: 'Marketer keynote', tm: '11:00 AM', tr: 'All', min: 60 },
+  { t: 'Supercharge your list growth', tm: '1:00 PM', tr: 'Growth', min: 45 },
+  { t: 'What texting taught us about talking to customers', tm: '2:00 PM', tr: 'Messaging', min: 45 },
+  { t: 'Compliance without the headache', tm: '3:00 PM', tr: 'Compliance', min: 45 },
+  { t: 'Flows that feel like a text from a friend', tm: '4:00 PM', tr: 'Lifecycle', min: 45 },
+];
+const SHORT = ['Thread keynote', 'Marketer keynote', 'List growth', 'Texting lessons', 'Compliance', 'Friendly flows'];
+const CROWD = 3842;
+const PHASES = [
+  { id: 'before', name: 'Before', sub: 'From ticket to doors', label: 'Coming up' },
+  { id: 'during', name: 'During', sub: 'Every evening', label: 'Live' },
+  { id: 'after', name: 'After', sub: 'Within 48 hours', label: 'Your film' },
+  { id: 'extra', name: 'Extra', sub: 'Monthly, all year', label: 'The replay edit' },
+];
+const PEOPLE = {
+  Dana: { name: 'Dana', years: 3, tracks: ['Lifecycle', 'Messaging'], sess: [0, 3, 5], taps: 9, qs: 3 },
+  Marcus: { name: 'Marcus', years: 1, tracks: ['Growth'], sess: [1, 2], taps: 4, qs: 0 },
+  Priya: { name: 'Priya', years: 2, tracks: ['Compliance', 'Messaging'], sess: [0, 4, 3, 1], taps: 12, qs: 6 },
+};
+const S = { ph: 'after', day: 2, auto: false, sig: { agenda: true, checkins: true, taps: true, qa: true }, ...JSON.parse(JSON.stringify(PEOPLE.Dana)) };
+
+const fmt = (n) => n.toLocaleString('en-US');
+const ord = (n) => n + (['th', 'st', 'nd', 'rd'][(n % 100 > 10 && n % 100 < 14) ? 0 : Math.min(n % 10, 4) % 4] || 'th');
+const nm = () => (S.name.trim() || 'Friend');
+const cap1 = () => nm()[0].toUpperCase();
+const sessList = () => [...S.sess].sort((a, b) => a - b).map((i) => TALKS[i]);
+function favTrack() {
+  const sel = TRACKS.filter((t) => S.tracks.includes(t)); if (!sel.length) return TRACKS[0];
+  const n = (t) => S.sess.filter((i) => TALKS[i].tr === t).length;
+  return sel.slice().sort((a, b) => n(b) - n(a) || sel.indexOf(a) - sel.indexOf(b))[0];
+}
+const pct = () => Math.max(1, Math.round(30 / (S.qs + 1)));
+const daysTo = () => Math.max(1, Math.ceil((Date.UTC(2027, 4, 12, 13) - Date.now()) / 864e5));
+const depth = () => 1 + Object.values(S.sig).filter(Boolean).length;
+function insightLine() {
+  const f = favTrack(), day = ['', 'Monday', 'Tuesday', 'Wednesday'][S.day] || 'Tuesday';
+  if (S.sig.taps && S.taps > 0 && S.sig.checkins) return `<em>${day}</em> you went deep on <em>${f}</em>, collected <em>${S.taps} stamps</em>` + (S.sig.qa && S.qs ? ` and asked <em>${S.qs}</em>.` : '.');
+  if (S.sig.checkins && S.sess.length) return `You made it to <em>${S.sess.length} sessions</em>, mostly <em>${f}</em>.`;
+  return `You are a real <em>${f}</em> aficionado.`;
+}
+
+/* ===== story assembly: the modular scenes for each phase, chosen from the data that exists ===== */
+function build() {
+  const f = favTrack(), n = nm(), sl = sessList(), A = [], yrs = S.years, sg = S.sig;
+  const rows = (arr) => arr.slice(0, 4).map((x) => ({ k: x.tm, h: x.t }));
+  const loyal = yrs > 1
+    ? { type: 'stat', th: 'yellow', name: 'Loyal', kick: 'Back again', text: ord(yrs), label: ['You came back.', '*We loved it.*'], sub: 'Thank you for being part of Thread, year after year.' }
+    : { type: 'stat', th: 'yellow', name: 'First time', kick: 'First time', text: '1st', label: ['Welcome to', '*the community.*'], sub: 'Your first Thread. Not your last.' };
+  const insight = (kick, a, b, c) => ({ type: 'title', th: 'cream', name: 'Insight', kick, cap: f[0], head: [a, '*' + f + '*', b], sub: c });
+  const crowd = (th, head, sub, name) => ({ type: 'crowd', th, name: name || 'Together', head, sub });
+  if (S.ph === 'before') {
+    A.push({ type: 'title', th: 'ink', name: 'Hello', kick: 'Thread 2026 · coming up', cap: cap1(), head: [n + ',', 'your Thread', '*starts here.*'], sub: 'May 12–14, New York. A film that builds as you go.' });
+    A.push(insight('Picked for you', 'Built for a', 'marketer', 'Your tickets and favourite tracks shaped this.'));
+    if (sg.agenda && sl.length) A.push({ type: 'list', th: 'yellow', name: 'Lineup', kick: 'Your lineup', head: ['Your picks,', '*in order*'], rows: rows(sl) });
+    A.push({ type: 'stat', th: 'ink', name: 'Countdown', kick: 'Countdown', text: String(daysTo()), label: ['days until', '*New York*'], sub: 'We will text you the day before.' });
+    A.push(crowd('yellow', [fmt(CROWD) + ' marketers', '*are heading*', 'to New York'], 'Say hello. You already have the same favourite track.'));
+    A.push({ type: 'cta', th: 'cream', name: 'Calendar', head: ['Add it to', '*your calendar*'], btn: 'Add to calendar', sub: 'May 12–14 · New York' });
+  } else if (S.ph === 'during') {
+    A.push({ type: 'title', th: 'ink', name: 'Day ' + S.day, kick: 'Thread 2026 · live', cap: cap1(), head: ['Day ' + S.day + ' so far,', '*' + n + '.*'], sub: 'Your film is building while you are in the room.' });
+    if (sg.checkins && sl.length) A.push({ type: 'list', th: 'yellow', name: 'Sessions', kick: 'So far today', head: ['You have been to', '*' + sl.length + (sl.length === 1 ? ' session' : ' sessions') + '*'], rows: rows(sl) });
+    if (sg.taps && S.taps > 0) A.push({ type: 'stamps', th: 'ink', name: 'Stamps', head: ['You collected', '*' + S.taps + (S.taps === 1 ? ' stamp' : ' stamps') + '*'], sub: 'Booth and wristband taps so far.', n: S.taps });
+    if (sg.qa && S.qs > 0) A.push({ type: 'stat', th: 'cream', name: 'Questions', kick: 'Live Q&A', text: String(S.qs), label: [S.qs === 1 ? 'question in' : 'questions in', '*the live Q&A*'], sub: 'Asked out loud, in front of everyone.' });
+    const next = TALKS.filter((t, i) => !S.sess.includes(i) && (t.tr === 'All' || S.tracks.includes(t.tr)));
+    A.push({ type: 'list', th: 'yellow', name: 'Next up', kick: 'Next up for you', head: ['Do not miss', '*these*'], rows: rows(next.length ? next : TALKS.filter((t, i) => !S.sess.includes(i))) });
+    A.push({ type: 'cta', th: 'ink', name: 'Tomorrow', head: ['See you', '*' + (S.day < 3 ? 'tomorrow' : 'next year') + '*'], btn: S.day < 3 ? 'Plan day ' + (S.day + 1) : 'Get my film', sub: 'Every tap and session makes your film more yours.' });
+  } else if (S.ph === 'after') {
+    A.push({ type: 'title', th: 'ink', name: 'Hello', kick: 'Thread 2026 · your film', cap: cap1(), head: [n + ',', 'this is', '*your Thread.*'], sub: 'Made from the sessions you chose and the people you met.' });
+    A.push(loyal);
+    A.push(insight('You, in one line', 'You are a real', 'aficionado', 'Your tickets and favourite tracks said so.'));
+    if (sg.checkins && sl.length) A.push({ type: 'list', th: 'yellow', name: 'Sessions', kick: 'Where you showed up', head: ['You made it to', '*' + sl.length + (sl.length === 1 ? ' session' : ' sessions') + '*'], rows: rows(sl) });
+    if (sg.taps && S.taps > 0) A.push({ type: 'stamps', th: 'ink', name: 'Stamps', head: ['You collected', '*' + S.taps + (S.taps === 1 ? ' stamp' : ' stamps') + '*'], sub: 'Booth and wristband taps across three days.', n: S.taps });
+    if (sg.qa && S.qs > 0) A.push({ type: 'stat', th: 'cream', name: 'Asked', kick: 'Uniqueness', pre: 'Top ', suf: '%', from: 100, to: pct(), label: ['of askers in', '*the live Q&A*'], sub: 'You asked ' + S.qs + (S.qs === 1 ? ' question.' : ' questions.') });
+    A.push(crowd('yellow', ['Together with', '*' + fmt(CROWD - 1) + ' others*'], 'you filled the room, and the hallway.'));
+    A.push({ type: 'cta', th: 'ink', name: 'Next', head: ['Your next', '*chapter*', 'awaits…'], btn: 'Save your seat', sub: 'Early access for people who were there.' });
+  } else {
+    const pick = TALKS.filter((t) => t.tr === 'All' || S.tracks.includes(t.tr)).sort((a, b) => (S.tracks.includes(b.tr) - S.tracks.includes(a.tr))).slice(0, 3);
+    const mins = pick.reduce((a, t) => a + t.min, 0);
+    A.push({ type: 'title', th: 'ink', name: 'Hello', kick: 'Thread 2026 · the replay edit', cap: cap1(), head: [n + ',', 'you missed it.', '*We did not.*'], sub: 'Three talks, cut for the way you work.' });
+    A.push(insight('Picked for you', 'Picked for a', 'marketer', 'Based on the tracks you follow.'));
+    A.push({ type: 'list', th: 'yellow', name: 'Highlights', kick: 'Your highlight reel', head: ['Three talks,', '*just for you*'], rows: pick.map((t) => ({ k: (t.tr === 'All' ? 'Keynote' : t.tr) + ' · ' + t.min + ' min', h: t.t })) });
+    A.push({ type: 'stat', th: 'ink', name: 'Replays', kick: 'Watch time', text: String(mins), suf: ' min', label: ['of replays,', '*cut for you*'], sub: 'Short enough for a commute.' });
+    A.push(crowd('yellow', ['Join ' + fmt(CROWD), '*marketers*'], 'in the Thread community, all year round.'));
+    A.push({ type: 'cta', th: 'cream', name: 'Community', head: ['Come to', '*the next one*'], btn: 'Join the community', sub: 'Meetups, office hours and a very active group chat.' });
+  }
+  A.forEach((s) => { s.dur = s.type === 'cta' ? 4.4 : s.type === 'list' ? 4.2 : 3.8; });
+  return A;
+}
+
+/* ===== scene drawing ===== */
+const rise = (lt, d, dur = 0.8) => ease((lt - d) / dur);
+function fadeIn(ctx, p, fn, dy = 36) { ctx.save(); ctx.globalAlpha = cl(p, 0, 1); ctx.translate(0, (1 - p) * dy); fn(); ctx.restore(); }
+function para(ctx, str, x, y, size, color, maxW, lh = 1.35, max = 3) {
+  ctx.save(); ctx.font = sansFont(size, 500); const L = wrapText(ctx, str, maxW).slice(0, max); ctx.restore();
+  L.forEach((l, i) => sansText(ctx, l, x, y + i * size * lh, size, color, { wt: 500 })); return L.length;
+}
+function kicker(ctx, c, y) { const s = c.sc; fadeIn(ctx, rise(c.lt, 0.1, 0.6), () => tag(ctx, (s.kick || s.name).toUpperCase(), M, y, 60, 22, c.th.fg, { ls: 5 })); }
+function headline(ctx, c, lines, yTop, maxH, maxFs, d0, lh = 0.95) {
+  const fs = fitLines(ctx, lines, CW, maxH, maxFs, lh);
+  lines.forEach((l, i) => fadeIn(ctx, rise(c.lt, d0 + i * 0.12), () => slide(ctx, l.s, M, yTop + fs * 0.8 + i * fs * lh, fs, l.it, c.th.fg), fs * 0.25));
+  return yTop + lines.length * fs * lh;
+}
+/* the badge capital: a Pinyon Script letter stacked in stepped copies, as on the track tiles of the landing page */
+function capital(ctx, ch, cx, cy, size, th, p) {
+  ctx.save(); ctx.font = size + "px 'Pinyon Script', 'Instrument Serif', serif"; ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left'; setLS(ctx, 0);
+  const m = ctx.measureText(ch), mx = (m.actualBoundingBoxRight - m.actualBoundingBoxLeft) / 2, my = (m.actualBoundingBoxDescent - m.actualBoundingBoxAscent) / 2;
+  const d = 0.0133 * size * p, off = 7 * d, x = cx - mx - m.actualBoundingBoxLeft * 0 - off / 2, y = cy - my - off / 2;
+  const side = th.id === 'cream' ? '#fff383' : th.bg;
+  ctx.globalAlpha = cl(p * 1.4, 0, 1); ctx.lineJoin = 'round';
+  ctx.fillStyle = side; ctx.strokeStyle = th.fg; ctx.lineWidth = size * 0.0026;
+  for (let k = 7; k >= 1; k--) { ctx.fillText(ch, x + d * k, y + d * k); ctx.strokeText(ch, x + d * k, y + d * k); }
+  ctx.fillStyle = th.fg; ctx.lineWidth = size * 0.029; ctx.strokeText(ch, x, y); ctx.fillText(ch, x, y);
+  ctx.restore();
+}
+function sTitle(ctx, c) {
+  const s = c.sc; kicker(ctx, c, 300); let top = 420;
+  if (s.cap) { capital(ctx, s.cap, W / 2, 760, 600, c.th, rise(c.lt, 0.2, 1.1)); top = 1090; }
+  const end = headline(ctx, c, s.head.map((h) => { const m = /^\*(.+)\*$/.exec(h); return m ? { s: m[1], it: true } : { s: h, it: false }; }), top, s.cap ? 330 : 700, s.cap ? 150 : 230, 0.5);
+  if (s.sub) fadeIn(ctx, rise(c.lt, 1.5), () => para(ctx, s.sub, M, end + 70, 32, c.th.fg, CW, 1.35, 2));
+}
+function sStat(ctx, c) {
+  const s = c.sc; kicker(ctx, c, 300);
+  const full = (s.pre || '') + (s.to != null ? s.to : s.text) + (s.suf || '');
+  let fs = 700; while (fs > 120 && measureSlide(ctx, full, fs, false) > CW) fs *= 0.96;
+  const e = ease(c.lt / 1.7), v = s.to != null ? Math.round(s.from + (s.to - s.from) * e) : (/^\d+$/.test(s.text) ? Math.round(+s.text * e) : s.text);
+  const txt = (s.pre || '') + v + (s.suf || '');
+  ctx.save(); ctx.strokeStyle = c.th.fg; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(M, 520); ctx.lineTo(M + CW * ease(c.lt / 0.9), 520); ctx.stroke(); ctx.restore();
+  fadeIn(ctx, rise(c.lt, 0.15, 0.7), () => slide(ctx, txt, M, 560 + fs * 0.78, fs, false, c.th.fg), 50);
+  const L = s.label.map((h) => { const m = /^\*(.+)\*$/.exec(h); return m ? { s: m[1], it: true } : { s: h, it: false } });
+  const y0 = 560 + fs * 0.78 + 150;
+  L.forEach((l, i) => fadeIn(ctx, rise(c.lt, 0.9 + i * 0.12), () => slide(ctx, l.s, M, y0 + i * 112, 108, l.it, c.th.fg)));
+  if (s.sub) fadeIn(ctx, rise(c.lt, 1.8), () => para(ctx, s.sub, M, y0 + L.length * 112 + 40, 32, c.th.fg, CW, 1.35, 2));
+  flourishPair(ctx, 0, GY1 - 440, W, 440, { s: 0.4, va: 'bottom', fw: 1.7, color: c.th.fg, t: c.t, still: c.still, off: 0.4 });
+}
+const lineify = (a) => a.map((h) => { const m = /^\*(.+)\*$/.exec(h); return m ? { s: m[1], it: true } : { s: h, it: false }; });
+function sList(ctx, c) {
+  const s = c.sc; kicker(ctx, c, 300);
+  headline(ctx, c, lineify(s.head), 410, 300, 130, 0.4);
+  const RH = 176, n = s.rows.length, y0 = 860;
+  s.rows.forEach((r, i) => {
+    const d = 1.0 + i * 0.28, p = rise(c.lt, d, 0.8), y = y0 + i * RH;
+    ctx.save(); ctx.strokeStyle = c.th.fg; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(M, y); ctx.lineTo(M + CW * ease((c.lt - d + 0.2) / 0.7), y); ctx.stroke(); ctx.restore();
+    fadeIn(ctx, p, () => {
+      sansText(ctx, r.k.toUpperCase(), M, y + 52, 22, c.th.fg, { wt: 700, ls: 5 });
+      let fs = 72; while (fs > 34 && measureSlide(ctx, r.h, fs, false) > CW) fs *= 0.96;
+      slide(ctx, r.h, M, y + 52 + 18 + fs * 0.78, fs, false, c.th.fg);
+    }, 28);
+  });
+  const last = y0 + n * RH; ctx.save(); ctx.strokeStyle = c.th.fg; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(M, last); ctx.lineTo(M + CW * ease((c.lt - 1.0 - n * 0.28 + 0.2) / 0.7), last); ctx.stroke(); ctx.restore();
+}
+function sStamps(ctx, c) {
+  const s = c.sc, th = c.th; kicker(ctx, c, 300);
+  const end = headline(ctx, c, lineify(s.head), 410, 300, 130, 0.4);
+  const CELL = 188, GAP = 26, x0 = M + (CW - (4 * CELL + 3 * GAP)) / 2, y0 = 860;
+  for (let i = 0; i < 12; i++) {
+    const cx = x0 + (i % 4) * (CELL + GAP), cy = y0 + Math.floor(i / 4) * (CELL + GAP), on = i < s.n, p = on ? rise(c.lt, 0.9 + i * 0.14, 0.5) : 0;
+    ctx.save(); ctx.strokeStyle = th.fg; ctx.lineWidth = 3; ctx.strokeRect(cx + 1.5, cy + 1.5, CELL - 3, CELL - 3);
+    if (on) { ctx.globalAlpha = p; ctx.fillStyle = th.fg; ctx.fillRect(cx, cy, CELL, CELL); ctx.fillStyle = th.bg; const r = 56 * (0.7 + 0.3 * p); star(ctx, cx + CELL / 2, cy + CELL / 2, r); }
+    ctx.restore();
+  }
+  if (s.sub) fadeIn(ctx, rise(c.lt, 1.6), () => para(ctx, s.sub, M, y0 + 3 * (CELL + GAP) + 28, 32, th.fg, CW, 1.35, 2));
+}
+function sCrowd(ctx, c) {
+  const s = c.sc, th = c.th; kicker(ctx, c, 300);
+  const C = 22, R = 14, CELL = CW / C, y0 = 800, YC = 15, YR = 7;
+  for (let r = 0; r < R; r++) for (let q = 0; q < C; q++) {
+    const x = M + q * CELL, y = y0 + r * CELL, dist = (q + r * 1.2) / (C + R * 1.2), lit = c.lt > 0.5 + dist * 1.9;
+    const you = q === YC && r === YR, sz = CELL - 8;
+    ctx.save();
+    if (you) { const p = rise(c.lt, 2.4, 0.6); ctx.fillStyle = th.bg; ctx.strokeStyle = th.fg; ctx.lineWidth = 5; ctx.fillRect(x + 2, y + 2, CELL - 4, CELL - 4); ctx.strokeRect(x + 2, y + 2, CELL - 4, CELL - 4); ctx.globalAlpha = p; ctx.fillStyle = th.fg; ctx.fillRect(x + 11, y + 11, CELL - 22, CELL - 22); }
+    else if (lit) { ctx.fillStyle = th.fg; ctx.globalAlpha = 0.55 + 0.45 * ((q * 7 + r * 13) % 5) / 4; ctx.fillRect(x + 4, y + 4, sz, sz); }
+    else { ctx.strokeStyle = th.fg; ctx.globalAlpha = 0.28; ctx.lineWidth = 1.5; ctx.strokeRect(x + 4.75, y + 4.75, sz - 1.5, sz - 1.5); }
+    ctx.restore();
+  }
+  fadeIn(ctx, rise(c.lt, 2.4, 0.6), () => tag(ctx, 'YOU', M + YC * CELL + CELL / 2, y0 + YR * CELL - 74, 44, 18, th.fg, { ls: 4, center: true, fill: th.bg, pad: 18 }), 10);
+  const ytxt = y0 + R * CELL + 36, end = headline(ctx, c, lineify(s.head), ytxt, 260, 112, 0.4);
+  if (s.sub) fadeIn(ctx, rise(c.lt, 1.6), () => para(ctx, s.sub, M, end + 52, 30, th.fg, CW, 1.35, 2));
+}
+function sCta(ctx, c) {
+  const s = c.sc, th = c.th, pulse = Math.sin(TAU * c.lt / 3);
+  const lines = lineify(s.head); kicker(ctx, c, 300);
+  const end = headline(ctx, c, lines, 420, 560, 190, 0.4);
+  const by = Math.max(end + 60, 880), p = rise(c.lt, 1.4, 0.7);
+  fadeIn(ctx, p, () => { const h = 96, fs = 26, lab = s.btn.toUpperCase(), w = sansW(ctx, lab, fs, 700, 6) + 88; ctx.save(); ctx.fillStyle = th.id === 'yellow' ? th.fg : '#fff383'; ctx.fillRect(M, by, w, h); ctx.strokeStyle = th.id === 'ink' ? '#fff383' : th.fg; ctx.lineWidth = 3; ctx.strokeRect(M + 1.5, by + 1.5, w - 3, h - 3); ctx.restore(); sansText(ctx, lab, M + 44, by + h / 2 + fs * 0.36, fs, th.id === 'yellow' ? th.bg : '#141414', { wt: 700, ls: 6 }); ctx.save(); ctx.strokeStyle = th.fg; ctx.globalAlpha = 0.4 + 0.3 * pulse; ctx.lineWidth = 2; ctx.strokeRect(M - 8 - 4 * pulse, by - 8 - 4 * pulse, w + 16 + 8 * pulse, h + 16 + 8 * pulse); ctx.restore(); });
+  if (s.sub) fadeIn(ctx, rise(c.lt, 1.8), () => para(ctx, s.sub, M, by + 170, 30, th.fg, CW, 1.35, 2));
+  const lw = 520, k = lw / 2485; fadeIn(ctx, rise(c.lt, 2.0, 0.8), () => drawLogo(ctx, W / 2 - lw / 2, 1430, k, th.fg, c.still ? 0 : 0.03 * Math.sin(TAU * c.t / PERIOD * 2)), 20);
+  flourishPair(ctx, 0, GY1 - 640, W, 640, { s: 0.52, va: 'bottom', fw: 1.5, color: th.fg, t: c.t, still: c.still, off: 0 });
+}
+const SCENES = { title: sTitle, stat: sStat, list: sList, stamps: sStamps, crowd: sCrowd, cta: sCta };
+
+/* the hairline grid and the bands outside it, with a story-style progress bar */
+function chrome(ctx, c, T) {
+  const th = c.th, fg = th.fg, g = ease(c.lt / 0.9), fs = 19, ls = 4;
+  ctx.save(); ctx.strokeStyle = fg; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(GX, 0); ctx.lineTo(GX, H * g); ctx.moveTo(W - GX, H); ctx.lineTo(W - GX, H * (1 - g)); ctx.moveTo(0, GY0); ctx.lineTo(W * g, GY0); ctx.moveTo(W, GY1); ctx.lineTo(W * (1 - g), GY1); ctx.stroke(); ctx.restore();
+  const yT = 98, yB = GY1 + 76;
+  sansText(ctx, 'THREAD 2026', GX + 40, yT, fs, fg, { wt: 700, ls });
+  sansText(ctx, (PHASES.find((p) => p.id === S.ph).label + (S.ph === 'during' ? ' · day ' + S.day : '')).toUpperCase(), W - GX - 40, yT, fs, fg, { wt: 700, ls, align: 'right' });
+  sansText(ctx, 'THE SMS MARKETING CONFERENCE', GX + 40, yB, fs, fg, { wt: 700, ls });
+  sansText(ctx, 'MAY 12–14 · NEW YORK', W - GX - 40, yB, fs, fg, { wt: 700, ls, align: 'right' });
+  const n = T.scenes.length, gap = 8, bw = (W - 2 * GX - 80 - gap * (n - 1)) / n;
+  T.scenes.forEach((s, i) => { const x = GX + 40 + i * (bw + gap), f = i < c.idx ? 1 : i === c.idx ? cl(c.lt / s.dur, 0, 1) : 0; ctx.save(); ctx.globalAlpha = 0.28; ctx.fillStyle = fg; ctx.fillRect(x, 38, bw, 5); ctx.globalAlpha = 1; ctx.fillRect(x, 38, bw * f, 5); ctx.restore(); });
+}
+
+/* ===== timeline ===== */
+let TL = null;
+function timeline() {
+  const scenes = build(); let acc = 0; scenes.forEach((s) => { s.t0 = acc; acc += s.dur; });
+  return { scenes, total: acc };
+}
+const WIPE = 0.7;
+function sceneAt(T, t) { t = ((t % T.total) + T.total) % T.total; let i = T.scenes.length - 1; while (i > 0 && T.scenes[i].t0 > t) i--; return { i, lt: t - T.scenes[i].t0 }; }
+function drawScene(ctx, T, i, lt, t, still) {
+  const sc = T.scenes[i], th = THEMES[sc.th], c = { t, lt, th, sc, idx: i, still };
+  ctx.fillStyle = th.bg; ctx.fillRect(0, 0, W, H); SCENES[sc.type](ctx, c); chrome(ctx, c, T);
+}
+function render(ctx, t, still) {
+  const T = TL, { i, lt } = sceneAt(T, t), n = T.scenes.length;
+  ctx.save();
+  if (!still && n > 1 && lt < WIPE) {
+    const j = (i + n - 1) % n; drawScene(ctx, T, j, T.scenes[j].dur, t, still);
+    const p = ease(lt / WIPE), y = H * (1 - p);
+    ctx.save(); ctx.beginPath(); ctx.rect(0, y, W, H - y); ctx.clip(); drawScene(ctx, T, i, lt, t, still); ctx.restore();
+    ctx.fillStyle = THEMES[T.scenes[i].th].fg; ctx.fillRect(0, y - 2, W, 4);
+  } else drawScene(ctx, T, i, still ? Math.max(lt, 3.2) : lt, t, still);
+  ctx.restore();
+}
+
+/* ===== UI ===== */
+const cv = $('#cv'), cx2 = cv.getContext('2d');
+let scalePx = 1, dirty = true, playing = true, T0 = performance.now(), clock = 0, speed = 1, last = performance.now(), recording = false;
+const REDUCE = matchMedia('(prefers-reduced-motion:reduce)').matches;
+if (REDUCE) playing = false;
+function fit() {
+  const box = $('#box'), aw = box.clientWidth, ah = Math.max(240, box.clientHeight);
+  let w = aw, h = aw * H / W; if (h > ah) { h = ah; w = ah * W / H; }
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.style.width = w + 'px'; cv.style.height = h + 'px'; cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); scalePx = cv.width / W; dirty = true;
+}
+function rebuild(keepTime) {
+  TL = timeline(); PERIOD = TL.total; flourCache.clear();
+  if (!keepTime) clock = 0; else clock = clock % TL.total;
+  $('#segs').innerHTML = TL.scenes.map((s, i) => `<button class="seg" data-i="${i}" style="flex:${s.dur}" title="${s.name}"><span>${s.name}</span><i></i></button>`).join('');
+  $('#loopNote').textContent = Math.round(TL.total) + ' s film · ' + TL.scenes.length + ' scenes';
+  syncUI(); dirty = true;
+}
+function frame(now) {
+  const dt = Math.min(0.1, (now - last) / 1000); last = now;
+  if (playing && !recording) { clock += dt * speed; if (clock >= TL.total) { clock -= TL.total; if (S.auto) nextPhase(); } dirty = true; }
+  if (dirty) { cx2.setTransform(scalePx, 0, 0, scalePx, 0, 0); render(cx2, clock, REDUCE && !playing && false); dirty = false; syncProgress(); }
+  requestAnimationFrame(frame);
+}
+function syncProgress() {
+  const { i, lt } = sceneAt(TL, clock);
+  document.querySelectorAll('.seg').forEach((b, k) => { b.classList.toggle('on', k === i); b.lastElementChild.style.width = (k < i ? 100 : k === i ? 100 * lt / TL.scenes[k].dur : 0) + '%'; });
+}
+function nextPhase() { const k = PHASES.findIndex((p) => p.id === S.ph); S.ph = PHASES[(k + 1) % PHASES.length].id; rebuild(false); }
+
+function chips(sel, items, on, multi) { $(sel).innerHTML = items.map((x, i) => `<button class="chip${on(i) ? ' on' : ''}" data-i="${i}" aria-pressed="${!!on(i)}">${x}</button>`).join(''); }
+function syncUI() {
+  $('#phases').innerHTML = PHASES.map((p) => `<button class="ph${p.id === S.ph ? ' on' : ''}" data-id="${p.id}" aria-pressed="${p.id === S.ph}"><b>${p.name}</b><small>${p.sub}</small></button>`).join('');
+  $('#dayRow').classList.toggle('hide', S.ph !== 'during');
+  document.querySelectorAll('#dayRow [data-d]').forEach((b) => b.classList.toggle('on', +b.dataset.d === S.day));
+  if ($('#name') !== document.activeElement) $('#name').value = S.name;
+  chips('#people', Object.keys(PEOPLE), (i) => PEOPLE[Object.keys(PEOPLE)[i]].name === S.name);
+  chips('#years', ['First time', 'Returning', 'Loyal, 3+'], (i) => (S.years > 2 ? 2 : S.years - 1) === i);
+  chips('#tracks', TRACKS, (i) => S.tracks.includes(TRACKS[i]));
+  chips('#sess', SHORT, (i) => S.sess.includes(i));
+  $('#taps').value = S.taps; $('#tapsO').textContent = S.taps; $('#qs').value = S.qs; $('#qsO').textContent = S.qs;
+  document.querySelectorAll('[data-sig]').forEach((b) => (b.checked = S.sig[b.dataset.sig]));
+  const d = depth(); $('#depth').innerHTML = Array.from({ length: 5 }, (_, i) => `<i class="${i < d ? 'on' : ''}"></i>`).join('');
+  $('#depthNote').textContent = d + ' of 5 signals · ' + TL.scenes.length + ' scenes in this film';
+  $('#insight').innerHTML = insightLine();
+  $('#auto').checked = S.auto;
+  $('#drops').innerHTML = PHASES.map((p) => `<div class="${p.id === S.ph ? 'on' : ''}"><b>${p.name}</b>${p.sub}</div>`).join('');
+  $('#play').setAttribute('aria-label', playing ? 'Pause' : 'Play'); $('#pi').setAttribute('d', playing ? 'M1 0h3.5v12H1zM7.5 0H11v12H7.5z' : 'M2 0l9 6-9 6z');
+  writeHash();
+}
+const redo = (keep = true) => { rebuild(keep); };
+$('#phases').addEventListener('click', (e) => { const b = e.target.closest('[data-id]'); if (b) { S.ph = b.dataset.id; S.auto = false; redo(false); } });
+$('#dayRow').addEventListener('click', (e) => { const b = e.target.closest('[data-d]'); if (b) { S.day = +b.dataset.d; redo(); } });
+$('#people').addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (b) { Object.assign(S, JSON.parse(JSON.stringify(PEOPLE[Object.keys(PEOPLE)[+b.dataset.i]]))); redo(false); } });
+$('#years').addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (b) { S.years = [1, 2, 3][+b.dataset.i]; redo(); } });
+$('#tracks').addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (!b) return; const t = TRACKS[+b.dataset.i], k = S.tracks.indexOf(t); if (k >= 0) { if (S.tracks.length > 1) S.tracks.splice(k, 1); } else S.tracks.push(t); redo(); });
+$('#sess').addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (!b) return; const i = +b.dataset.i, k = S.sess.indexOf(i); if (k >= 0) S.sess.splice(k, 1); else S.sess.push(i); redo(); });
+$('#name').addEventListener('input', (e) => { S.name = e.target.value.replace(/[^\p{L}\p{M}' \-]/gu, '').slice(0, 14); redo(); });
+$('#taps').addEventListener('input', (e) => { S.taps = +e.target.value; redo(); });
+$('#qs').addEventListener('input', (e) => { S.qs = +e.target.value; redo(); });
+document.querySelectorAll('[data-sig]').forEach((b) => b.addEventListener('change', () => { S.sig[b.dataset.sig] = b.checked; redo(); }));
+$('#auto').addEventListener('change', (e) => { S.auto = e.target.checked; if (S.auto && !playing) playing = true; syncUI(); });
+$('#segs').addEventListener('click', (e) => { const b = e.target.closest('[data-i]'); if (b) { clock = TL.scenes[+b.dataset.i].t0 + WIPE + 0.2; dirty = true; } });
+$('#play').addEventListener('click', () => { playing = !playing; syncUI(); });
+cv.addEventListener('click', () => { playing = !playing; syncUI(); });
+
+/* a film is a link: the whole attendee state lives in the hash */
+function writeHash() {
+  if (location.hash === '#clip') return;
+  const q = new URLSearchParams({ ph: S.ph, d: S.day, n: S.name, y: S.years, tr: S.tracks.map((t) => TRACKS.indexOf(t)).join(''), se: S.sess.join(''), tp: S.taps, q: S.qs, sg: Object.values(S.sig).map((v) => +v).join('') });
+  try { history.replaceState(null, '', '#' + q); } catch (e) {}
+}
+function readHash() {
+  const h = location.hash.slice(1); if (!h) return;
+  if (h === 'clip') { S.auto = false; speed = 2.4; playing = false; return; }
+  const q = new URLSearchParams(h);
+  if (PHASES.some((p) => p.id === q.get('ph'))) S.ph = q.get('ph');
+  if (q.has('d')) S.day = cl(+q.get('d') || 2, 1, 3);
+  if (q.has('n')) S.name = q.get('n').replace(/[^\p{L}\p{M}' \-]/gu, '').slice(0, 14);
+  if (q.has('y')) S.years = cl(+q.get('y') || 1, 1, 3);
+  if (q.has('tr')) { const t = [...q.get('tr')].map((c) => TRACKS[+c]).filter(Boolean); if (t.length) S.tracks = [...new Set(t)]; }
+  if (q.has('se')) S.sess = [...new Set([...q.get('se')].map(Number).filter((i) => TALKS[i]))];
+  if (q.has('tp')) S.taps = cl(+q.get('tp') || 0, 0, 12);
+  if (q.has('q')) S.qs = cl(+q.get('q') || 0, 0, 8);
+  if (q.has('sg') && q.get('sg').length === 4) [...q.get('sg')].forEach((v, i) => (S.sig[Object.keys(S.sig)[i]] = v === '1'));
+  if (q.has('t')) { playing = false; clock = +q.get('t') || 0; }
+}
+
+/* export */
+const status = (m) => ($('#status').textContent = m);
+function download(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
+const slug = () => 'thread-film-' + nm().toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + S.ph;
+$('#png').addEventListener('click', () => {
+  const oc = document.createElement('canvas'); oc.width = W; oc.height = H;
+  try { render(oc.getContext('2d'), clock, false); oc.toBlob((b) => { if (!b) return status('Could not save a frame.'); download(b, slug() + '.png'); status('Saved a ' + W + ' × ' + H + ' frame.'); }, 'image/png'); } catch (e) { status('Could not save a frame here.'); }
+});
+$('#link').addEventListener('click', async () => {
+  const url = location.href.split('#')[0] + '#' + new URLSearchParams(location.hash.slice(1));
+  try { await navigator.clipboard.writeText(url); status('Film link copied. It opens this exact film.'); } catch (e) { status('Copy this address: ' + url); }
+});
+$('#rec').addEventListener('click', () => {
+  if (recording) return;
+  if (!window.MediaRecorder || !HTMLCanvasElement.prototype.captureStream) { status('This browser cannot record video from a canvas. Use the frame export.'); return; }
+  const rc = document.createElement('canvas'); rc.width = W; rc.height = H;
+  const rx = rc.getContext('2d'), stream = rc.captureStream(30), chunks = [], mt = ['video/mp4', 'video/webm;codecs=vp9', 'video/webm'].find((m) => MediaRecorder.isTypeSupported(m));
+  const mr = new MediaRecorder(stream, mt ? { mimeType: mt, videoBitsPerSecond: 8e6 } : undefined), ext = mt && mt.startsWith('video/mp4') ? 'mp4' : 'webm', total = TL.total, resume = playing;
+  mr.ondataavailable = (e) => e.data.size && chunks.push(e.data);
+  mr.onstop = () => { recording = false; $('#rec').disabled = false; playing = resume; download(new Blob(chunks, { type: ext === 'mp4' ? 'video/mp4' : 'video/webm' }), slug() + '.' + ext); status('Saved the ' + Math.round(total) + ' s film.'); syncUI(); };
+  recording = true; $('#rec').disabled = true; const start = performance.now(); mr.start();
+  const step = () => { try { const t = (performance.now() - start) / 1000; rx.setTransform(1, 0, 0, 1, 0, 0); render(rx, Math.min(t, total - 0.001), false); status('Recording… ' + Math.min(total, Math.ceil(t)) + ' / ' + Math.round(total) + ' s'); if (t < total + 0.5) requestAnimationFrame(step); else mr.stop(); } catch (e) { mr.stop(); status('Recording stopped.'); } };
+  step();
+});
+
+/* clip hooks for tools/record-clips.js */
+window.__reel = { play() { playing = true; syncUI(); }, pause() { playing = false; syncUI(); }, seek(s) { clock = s; dirty = true; } };
+readHash();
+addEventListener('resize', fit);
+Promise.all([document.fonts.load("172px 'Instrument Serif'"), document.fonts.load("italic 60px 'Instrument Serif'"), document.fonts.load("300px 'Pinyon Script'"), document.fonts.load('500 40px Inter'), document.fonts.load('700 40px Inter')]).catch(() => {}).then(() => { dirty = true; });
+rebuild(true); if (location.hash === '#clip') clock = 1.3; fit(); requestAnimationFrame(frame);
+</script>
+</body>
+</html>

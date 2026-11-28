@@ -1,5 +1,14 @@
 [
   {
+    "id": "thread-always-on-reel",
+    "title": "Thread Always-On Reel",
+    "category": "Interactive Engine",
+    "url": "thread-always-on-reel/",
+    "thumbnail": "thread-always-on-reel/thumb.png",
+    "preview": "thread-always-on-reel/thumb.webp",
+    "alt": "A vertical personal conference film for one Thread attendee, built from their ticket, saved sessions, booth taps and live Q&A in yellow, ink and cream with stretched Instrument Serif headlines and a hairline grid: it opens on a stepped calligraphy capital with their name, counts up how many years they came back, picks out the track they are a real aficionado of, lists the sessions they attended, fills a grid of booth stamps and a crowd of dots with them in it, then ends on a Save your seat call to action, beside controls to switch the film between Before, During, After and Extra phases and change the attendee."
+  },
+  {
     "id": "lob-mail-call",
     "title": "Lob Mail Call",
     "category": "Mockup",
