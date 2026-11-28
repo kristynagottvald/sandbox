@@ -46,6 +46,7 @@ ICONS = {
     'lob-unwrapped': ('#3b2cf0', stamp('#3b2cf0', '#ffffff')),
     'lob-unwrapped-reel': ('#000000', stamp('#000000', '#8b5cf6')),
     'wave-file-without-fear': ('#0041ff', P('M8 44L26 14L34 34Z', '#ffffff') + P('M26 14L44 10L34 34Z', '#c9d2e6') + P('M34 34L56 30L46 48L18 50Z', '#f6f3ec') + P('M8 44L34 34L18 50Z', '#e8aaff')),
+    'wave-tax-landing-origami': ('#0041ff', P('M8 44L26 14L34 34Z', '#ffffff') + P('M26 14L44 10L34 34Z', '#c9d2e6') + P('M34 34L56 30L46 48L18 50Z', '#f6f3ec') + P('M8 44L34 34L18 50Z', '#e8aaff')),
     'lob-get-started': ('#12143a', R(8, 10, 34, 24, '#e4ee5c') + R(16, 20, 34, 24, '#d045dc') + R(24, 30, 34, 24, '#4131f1')),
     'lob-integrations-hero': ('#14163f', ''.join(P('M32 6L38 12H46L48 20L56 26L52 34L56 42L48 48L46 56H38L32 62L26 56H18L16 48L8 42L12 34L8 26L16 20L18 12H26Z', '#5b45f5') for _ in [0]) + C(32, 34, 13, '#14163f') + R(29, 22, 6, 24, '#ffffff')),
     'brand-guidelines-settings': ('#10102a', R(10, 10, 20, 20, '#ffffff') + R(34, 10, 20, 20, '#4a3df0') + R(10, 34, 20, 20, '#4a3df0') + R(34, 34, 20, 20, '#22225a')),
