@@ -89,7 +89,7 @@ html.clip .arr,html.clip #hint,html.clip #cap,html.clip #pill{display:none}
 
 /* ---------- the printed pages: 760 x 1040 on cream stock, royal blue + periwinkle + deep ink, set like a Christmas market ticket sheet:
    perforated tickets, scalloped tiles, hairline schedule panels, tracked caps, a light serif, pencil grain drawings, Anton kept for the tall headlines ---------- */
-.pg{--paper:#bdd6fd;--ink:#1a1450;--royal:#1a1450;--peri:#f4efe2;--card:#fffdf8;--hl:1.3px;
+.pg{--paper:#bdd6fd;--ink:#1a1450;--royal:#1a1450;--peri:#3b55c8;--card:#fffdf8;--hl:1.3px;
  --an:"Anton",Impact,"Arial Narrow",sans-serif;--sn:"Instrument Sans","Helvetica Neue",Arial,sans-serif;--sf:"Fraunces",Georgia,serif;
  --rg:10px;--bg:10px;--gc:16px;width:760px;height:1040px;position:relative;overflow:hidden;background:var(--paper);color:var(--ink);padding:22px 26px 16px;display:grid;grid-template-columns:minmax(0,1fr);row-gap:var(--rg);font:400 12px/1.42 var(--sn)}
 .pg>*{min-width:0;min-height:0}
@@ -129,14 +129,16 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
   radial-gradient(circle var(--h) at 0 50%,#0000 95%,#000) 0 0/100% var(--p) round,radial-gradient(circle var(--h) at 100% 50%,#0000 95%,#000) 0 0/100% var(--p) round;mask-composite:intersect}
 .tkt::before,.tkt::after{content:"";position:absolute;top:22%;bottom:22%;width:var(--hl);background:currentColor;opacity:.9}
 .tkt::before{left:20px}.tkt::after{right:20px}
-.tkt.lt{background:var(--peri);color:var(--ink)}
+.tkt.lt{background:var(--peri);color:#d2e0fd}
 .tkt.wt{background:var(--card);color:var(--ink)}
 .perf{--p:14px;--h:4.2px;background:var(--card);mask:radial-gradient(circle var(--h) at 50% 0,#0000 95%,#000) 0 0/var(--p) 100% round,radial-gradient(circle var(--h) at 50% 100%,#0000 95%,#000) 0 0/var(--p) 100% round;mask-composite:intersect}
 .stp{--p:12px;--h:3.6px;background:var(--peri);mask:radial-gradient(circle var(--h) at 50% 0,#0000 95%,#000) 0 0/var(--p) 100% round,radial-gradient(circle var(--h) at 50% 100%,#0000 95%,#000) 0 0/var(--p) 100% round,
   radial-gradient(circle var(--h) at 0 50%,#0000 95%,#000) 0 0/100% var(--p) round,radial-gradient(circle var(--h) at 100% 50%,#0000 95%,#000) 0 0/100% var(--p) round;mask-composite:intersect}
 /* stamp edge: straight sides with spaced round bites and notched corners (the old scallop is gone) */
 .scal{--p:24px;--h:5.5px;--n:9px;background:var(--peri);mask:radial-gradient(circle var(--n) at 0 0,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 0,#0000 97%,#000),radial-gradient(circle var(--n) at 0 100%,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 100%,#0000 97%,#000),radial-gradient(circle var(--h) at 50% 0,#0000 95%,#000) 50% 0/var(--p) 100% round,radial-gradient(circle var(--h) at 50% 100%,#0000 95%,#000) 50% 0/var(--p) 100% round,radial-gradient(circle var(--h) at 0 50%,#0000 95%,#000) 0 50%/100% var(--p) round,radial-gradient(circle var(--h) at 100% 50%,#0000 95%,#000) 0 50%/100% var(--p) round;mask-composite:intersect}
-.cloud{--s:22px;background:var(--peri);mask:linear-gradient(#000 0 0) 50% 50%/calc(100% - var(--s)) 100% no-repeat,radial-gradient(circle closest-side,#000 96%,#0000) 0 0/var(--s) var(--s) round}
+/* drawings on royal blue tiles are lifted toward periwinkle so they read like the light type on the tickets */
+.scal.il>svg,.tkt.lt svg[role=img]{filter:brightness(1.6) saturate(.8)}
+.cloud{--s:22px;background:var(--peri);mask:linear-gradient(#000 0 0) 50% 50%/calc(100% - var(--s)) 100% no-repeat,radial-gradient(circle closest-side,#000 96%,#0000) 0 0/var(--s) var(--s) round;color:#d2e0fd}
 .notch{--n:10px;mask:radial-gradient(circle var(--n) at 0 0,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 0,#0000 97%,#000),radial-gradient(circle var(--n) at 0 100%,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 100%,#0000 97%,#000);mask-composite:intersect}
 .panel{background:transparent;border:var(--hl) solid var(--ink)}
 .rcard{background:var(--card);border:var(--hl) solid var(--ink);border-radius:14px}
@@ -161,7 +163,7 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .sech{display:flex;gap:14px;align-items:center}.sech .an{font-size:46px;line-height:.9}
 .num{flex:none;width:58px;height:58px;position:relative;display:grid;place-items:center}
 .num>svg{position:absolute;inset:0;width:100%;height:100%}
-.num>span{position:relative;font:400 28px/1 var(--sf);font-variation-settings:"opsz" 72}
+.num>span{position:relative;color:#d2e0fd;font:400 28px/1 var(--sf);font-variation-settings:"opsz" 72}
 .ic{width:42px;height:42px;flex:none}
 .fig{display:flex;flex-direction:column;gap:7px}
 .fig>.il{flex:1;position:relative;min-height:72px}
@@ -235,7 +237,7 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 <script>
 /* ---------- pencil drawings (inline svg, every call makes its own ids so the flat page and the 3D copies never share a mask) ----------
    two pencil tones, a soft mid lilac and the deep ink, meeting along an edge that dissolves into graphite grain; everything goes through #pen */
-const INK='#1a1450',ROY='#1a1450',PER='#f4efe2',PAP='#bdd6fd',CARD='#fffdf8',MNT='#6f78bd',WH='#f3f5fe',MAPB='#2b45b5',MAPL='#c3d6fb';
+const INK='#1a1450',ROY='#1a1450',PER='#3b55c8',LB='#d2e0fd',PAP='#bdd6fd',CARD='#fffdf8',MNT='#6f78bd',WH='#f3f5fe',MAPB='#2b45b5',MAPL='#c3d6fb';
 const sk=(w=2.6)=>`stroke="${INK}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
 const svg=(vb,body,label)=>`<svg viewBox="${vb}" width="100%" height="100%" role="img" aria-label="${label}" preserveAspectRatio="xMidYMid meet">${body}</svg>`;
 const line=(x1,y1,x2,y2,w=1.6)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" ${sk(w)}/>`;
@@ -254,7 +256,7 @@ function obj(W,H,sil,feat,o={}){
    `<filter id="${id}w" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="${sd}"/><feDisplacementMap in="SourceGraphic" scale="${o.wob||4.6}" xChannelSelector="R" yChannelSelector="G"/></filter>`+
    `<filter id="${id}v" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="${sd+5}"/><feDisplacementMap in="SourceGraphic" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>`;
   const f=feat||'',ln=o.line||'',bare=sil.replace(/ fill="[^"]*"/g,'').replace(/ stroke-width="[^"]*"/g,'');
-  const gy=H-3,body=`<g filter="url(#pen)">${o.ground===false?'':`<g filter="url(#${id}v)" opacity=".55"><ellipse cx="${W/2}" cy="${gy}" rx="${W*.42}" ry="2.6" fill="url(#${id}h)"/><path d="M${W*.12} ${gy+1}Q${W/2} ${gy+4} ${W*.88} ${gy}" fill="none" stroke="${INK}" stroke-width=".8"/></g>`}<g filter="url(#${id}w)">`+
+  const gy=H-3,body=`${o.solid?`<g fill="${o.solid}" stroke="${o.solid}" stroke-width="2" stroke-linejoin="round">${sil}</g>`:''}<g filter="url(#pen)">${o.ground===false?'':`<g filter="url(#${id}v)" opacity=".55"><ellipse cx="${W/2}" cy="${gy}" rx="${W*.42}" ry="2.6" fill="url(#${id}h)"/><path d="M${W*.12} ${gy+1}Q${W/2} ${gy+4} ${W*.88} ${gy}" fill="none" stroke="${INK}" stroke-width=".8"/></g>`}<g filter="url(#${id}w)">`+
    `<g fill="url(#${id}r)" stroke="url(#${id}r)" stroke-linejoin="round">${sil}</g>`+
    `<g mask="url(#${id}m)" fill="#1f1b58" stroke="#1f1b58" stroke-linejoin="round" opacity=".55">${sil}</g>`+
    `<g mask="url(#${id}m)" fill="url(#${id}h)" stroke="none">${sil.replace(/ fill="none"/g,'')}</g><g mask="url(#${id}m)" fill="url(#${id}k)" stroke="none" opacity=".6">${sil.replace(/ fill="none"/g,'')}</g>`+
@@ -321,9 +323,9 @@ function arcText(str,cx,cy,r,a0,a1,size,fill=ROY,out=1){const n=str.length;retur
 /* even letter spacing along an arc: degrees a string needs at this size and radius */
 const arcSpan=(t,size,r)=>(t.length-1)*size*.82/r*180/Math.PI;
 /* the round rubber stamp ("dates uniques"): periwinkle disc, royal double ring, arc text, a big middle line */
-function rubber(top,mid,bot,rot=-16,label){return svg('0 0 160 160',`<g transform="rotate(${rot} 80 80)" filter="url(#pen)"><circle cx="80" cy="80" r="76" fill="${PER}"/><circle cx="80" cy="80" r="66" fill="none" stroke="${ROY}" stroke-width="4"/><circle cx="80" cy="80" r="44" fill="none" stroke="${ROY}" stroke-width="1.6" stroke-dasharray="3 3"/>
-${arcText(top,80,80,55,-90-arcSpan(top,13,55)/2,-90+arcSpan(top,13,55)/2,13)}${arcText(bot,80,80,57,90+arcSpan(bot,12,57)/2,90-arcSpan(bot,12,57)/2,12,ROY,-1)}<rect x="22" y="57" width="116" height="46" fill="${PER}"/><path d="M24 58H136M24 102H136" stroke="${ROY}" stroke-width="2.4"/>
-<text x="80" y="95" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="400" font-size="40" fill="${ROY}">${mid}</text><circle cx="80" cy="18" r="3.4" fill="${ROY}"/><circle cx="80" cy="142" r="3.4" fill="${ROY}"/></g>`,label)}
+function rubber(top,mid,bot,rot=-16,label){return svg('0 0 160 160',`<g transform="rotate(${rot} 80 80)" filter="url(#pen)"><circle cx="80" cy="80" r="76" fill="${PER}"/><circle cx="80" cy="80" r="66" fill="none" stroke="${LB}" stroke-width="4"/><circle cx="80" cy="80" r="44" fill="none" stroke="${LB}" stroke-width="1.6" stroke-dasharray="3 3"/>
+${arcText(top,80,80,55,-90-arcSpan(top,13,55)/2,-90+arcSpan(top,13,55)/2,13,LB)}${arcText(bot,80,80,57,90+arcSpan(bot,12,57)/2,90-arcSpan(bot,12,57)/2,12,LB,-1)}<rect x="22" y="57" width="116" height="46" fill="${PER}"/><path d="M24 58H136M24 102H136" stroke="${LB}" stroke-width="2.4"/>
+<text x="80" y="95" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="400" font-size="40" fill="${LB}">${mid}</text><circle cx="80" cy="18" r="3.4" fill="${LB}"/><circle cx="80" cy="142" r="3.4" fill="${LB}"/></g>`,label)}
 /* the triangle stamp: white, toothed edges, compass star, tracked caps */
 function triStamp(l1,l2){const A=[60,6],B=[114,100],C=[6,100];let c='';
   [[A,B],[B,C],[C,A]].forEach(([p,q])=>{const L=Math.hypot(q[0]-p[0],q[1]-p[1]),n=Math.round(L/8.5);for(let i=1;i<n;i++){const t=i/n;c+=`<circle cx="${(p[0]+(q[0]-p[0])*t).toFixed(1)}" cy="${(p[1]+(q[1]-p[1])*t).toFixed(1)}" r="3.3"/>`}});
@@ -333,7 +335,7 @@ function triStamp(l1,l2){const A=[60,6],B=[114,100],C=[6,100];let c='';
 <text x="60" y="86" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="400" font-size="17" fill="${INK}">${l2}</text>`,l1+' '+l2)}
 /* square perforated stamp with the M monogram in a notched hairline frame */
 function monoStamp(){const w=62,r=5,o=12;const fr=`M${o+r} ${o}H${o+w-r}A${r} ${r} 0 0 0 ${o+w} ${o+r}V${o+w-r}A${r} ${r} 0 0 0 ${o+w-r} ${o+w}H${o+r}A${r} ${r} 0 0 0 ${o} ${o+w-r}V${o+r}A${r} ${r} 0 0 0 ${o+r} ${o}Z`;
-  return `<div class="stp" style="width:86px;height:86px"><svg viewBox="0 0 86 86" width="86" height="86" aria-label="M monogram stamp"><path d="${fr}" fill="none" stroke="${INK}" stroke-width="1.1"/><text x="43" y="61" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="500" font-size="48" fill="${INK}" style="font-variation-settings:'opsz' 144,'SOFT' 100">M</text></svg></div>`}
+  return `<div class="stp" style="width:86px;height:86px"><svg viewBox="0 0 86 86" width="86" height="86" aria-label="M monogram stamp"><path d="${fr}" fill="none" stroke="${LB}" stroke-width="1.1"/><text x="43" y="61" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="500" font-size="48" fill="${LB}" style="font-variation-settings:'opsz' 144,'SOFT' 100">M</text></svg></div>`}
 /* the framed drop cap: scalloped hairline frame, inner rule, diamond, a big graphite serif letter */
 function scallopPath(x,y,w,h,r){const seg=(x0,y0,x1,y1)=>{const L=Math.hypot(x1-x0,y1-y0),n=Math.max(1,Math.round(L/(2*r)));let d='';for(let i=1;i<=n;i++)d+=`A${(L/n/2).toFixed(2)} ${(L/n/2).toFixed(2)} 0 0 1 ${(x0+(x1-x0)*i/n).toFixed(2)} ${(y0+(y1-y0)*i/n).toFixed(2)}`;return d};
   return `M${x} ${y}`+seg(x,y,x+w,y)+seg(x+w,y,x+w,y+h)+seg(x+w,y+h,x,y+h)+seg(x,y+h,x,y)+'Z'}
@@ -359,14 +361,14 @@ const hi=(t)=>{const k=++_hi,r=n=>{const x=Math.sin(k*12.9898+n*78.233)*43758.54
 /* front facing houses: a one storey ranch with a hipped roof, and a two storey house with its gable to the street */
 function ranchHouse(){return obj(124,84,`<path d="M3 38L26 12H98L121 38Z"/><rect x="8" y="36" width="108" height="46"/><rect x="88" y="4" width="10" height="18"/>`,
   `<rect x="16" y="48" width="26" height="18" ${F}/><rect x="82" y="48" width="26" height="18" ${F}/><rect x="54" y="50" width="16" height="32" ${F}/>`,
-  {g:[40,0,118,30],s:61,label:'A one storey house',line:`<path d="M29 48V66M16 57H42M95 48V66M82 57H108" stroke-width="1.4"/><path d="M46 82H78" stroke-width="2"/>`})}
+  {g:[40,0,118,30],s:61,solid:'#e6ebfb',label:'A one storey house',line:`<path d="M29 48V66M16 57H42M95 48V66M82 57H108" stroke-width="1.4"/><path d="M46 82H78" stroke-width="2"/>`})}
 function twoStoryHouse(){return obj(112,152,`<path d="M4 62L56 10L108 62Z"/><rect x="12" y="58" width="88" height="92"/><rect x="78" y="14" width="12" height="34"/>`,
   `<circle cx="56" cy="42" r="8" ${F}/><rect x="22" y="72" width="22" height="26" ${F}/><rect x="68" y="72" width="22" height="26" ${F}/><rect x="22" y="112" width="22" height="26" ${F}/><rect x="66" y="108" width="22" height="42" ${F}/>`,
-  {g:[44,0,108,40],s:73,label:'A two storey house',line:`<path d="M33 72V98M22 85H44M79 72V98M68 85H90M33 112V138M22 125H44M56 34V50M48 42H64" stroke-width="1.4"/><path d="M8 104H104" stroke-width="2"/><circle cx="82" cy="130" r="1.8" fill="${INK}"/>`})}
+  {g:[44,0,108,40],s:73,solid:'#e6ebfb',label:'A two storey house',line:`<path d="M33 72V98M22 85H44M79 72V98M68 85H90M33 112V138M22 125H44M56 34V50M48 42H64" stroke-width="1.4"/><path d="M8 104H104" stroke-width="2"/><circle cx="82" cy="130" r="1.8" fill="${INK}"/>`})}
 /* a boxy mail delivery truck, side on: tall cargo body, short sloped hood, stripe along the side, no logo */
 function mailTruck(){return obj(124,84,`<path d="M30 8H118V66H30Z"/><path d="M30 20H14L6 40V66H30Z"/><circle cx="26" cy="70" r="11"/><circle cx="98" cy="70" r="11"/>`,
   `<path d="M28 24H17L11 39H28Z" ${F}/><rect x="30" y="44" width="88" height="5" ${F}/><rect x="40" y="14" width="30" height="20" ${F}/><circle cx="26" cy="70" r="4.5" ${F}/><circle cx="98" cy="70" r="4.5" ${F}/>`,
-  {g:[40,0,120,20],s:83,label:'A mail delivery truck',line:`<path d="M30 8V66M78 14V62" stroke-width="1.3"/><path d="M60 52H70" stroke-width="2"/><rect x="2" y="56" width="6" height="5" stroke-width="1.2"/>`})}
+  {g:[40,0,120,20],s:83,solid:'#e6ebfb',label:'A mail delivery truck',line:`<path d="M30 8V66M78 14V62" stroke-width="1.3"/><path d="M60 52H70" stroke-width="2"/><rect x="2" y="56" width="6" height="5" stroke-width="1.2"/>`})}
 /* sketched pines: jagged branch tiers drawn in dark graphite, a little lopsided each */
 function pineSil(cx,base,h,w,n){let L=[],R=[];const top=base-h*.96;for(let i=1;i<=n;i++){const y=top+(h*.92)*i/n,ww=w*(.25+.75*i/n)/2,j=((i*37)%5-2)*.6;
   L.push(`${(cx-ww+j).toFixed(1)},${y.toFixed(1)} ${(cx-ww*.42).toFixed(1)},${(y-2).toFixed(1)}`);R.unshift(`${(cx+ww*.42).toFixed(1)},${(y-2).toFixed(1)} ${(cx+ww-j).toFixed(1)},${y.toFixed(1)}`)}
@@ -384,7 +386,7 @@ function coinChar(){let m='';for(let k=0;k<24;k++){const a=k*Math.PI/12;m+=`M${(
 /* the front page picture: mail objects in front of a big pale 80 */
 const at=(s,x,y,w,h)=>s.replace('width="100%" height="100%"',`x="${x}" y="${y}" width="${w}" height="${h}"`);
 function scene(){return svg('0 0 236 430',`
-<text x="118" y="300" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="300" font-size="236" fill="#bdd6fd" stroke="none" letter-spacing="-10">80</text>
+<text x="118" y="300" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="300" font-size="236" fill="#5a74db" stroke="none" letter-spacing="-10">80</text>
 ${at(pinesChar([[20,150,146,38,9],[44,150,120,34,8],[64,150,78,24,6]],80,152,97),94,268,80,152)}${at(pinesChar([[16,110,104,30,8],[36,110,70,22,6]],50,112,103),-4,306,50,112)}${at(twoStoryHouse(),126,262,110,150)}${at(ranchHouse(),0,330,108,73)}<svg x="44" y="350" width="108" height="73" viewBox="0 0 124 84" preserveAspectRatio="xMidYMid meet"><g fill="${PER}" stroke="${PER}" stroke-width="7" stroke-linejoin="round"><path d="M30 8H118V66H30Z"/><path d="M30 20H14L6 40V66H30Z"/><circle cx="26" cy="70" r="11"/><circle cx="98" cy="70" r="11"/></g></svg>${at(mailTruck(),44,350,108,73)}<path d="M2 420H234" stroke="${INK}" stroke-width="1.2" opacity=".7"/>`,'A flying envelope over a street with a one storey house, a two storey house and a mail truck').replace('xMidYMid meet','xMidYMax meet')}
 function donut(p,sz=72){const r=36,C=2*Math.PI*r;return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}" aria-hidden="true"><circle cx="50" cy="50" r="${r}" fill="none" stroke="${PER}" stroke-width="12"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${ROY}" stroke-width="12" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="${r+8}" fill="none" stroke="${INK}" stroke-width="1"/><circle cx="50" cy="50" r="${r-8}" fill="none" stroke="${INK}" stroke-width="1"/></svg>`}
 function dots(n,of=10){let s='';for(let i=0;i<of;i++)s+=`<circle cx="${9+i*17}" cy="9" r="6.5" fill="${i<n?ROY:'none'}" stroke="${i<n?ROY:INK}" stroke-width="1.1"/>`;return `<svg viewBox="0 0 ${of*17} 18" width="100%" aria-hidden="true">${s}</svg>`}
@@ -462,7 +464,7 @@ const PG=[
     <div class="toc" style="margin-top:auto;padding-top:14px"><div class="tc" style="font-size:9.5px;padding:0 0 9px;border-bottom:var(--hl) solid var(--ink)">In this issue</div>${[['02','Mail is a daily ritual'],['03','Keep them reading'],['04','Classifieds &amp; a crossword']].map(r=>`<div class="tocr"><span>${r[0]}</span><span>—</span><span>${r[1]}</span></div>`).join('')}</div>
   </div>
   <div class="fl" style="gap:12px">
-    <div style="flex:1;position:relative;display:flex"><div class="scal" style="--p:28px;--h:6.5px;--n:11px;flex:1;padding:26px 14px 16px">${scene()}</div><div class="callout tc" style="right:22px;top:26px;font-size:10.5px;line-height:1.55;letter-spacing:.2em;text-align:left">First class<br>mail<br>2026 edition</div><div class="callout" style="left:-30px;top:-22px;width:148px;height:148px">${rubber('MAIL DAY','80%','EVERY DAY',-14,'Stamp: 80 percent check daily')}</div></div>
+    <div style="flex:1;position:relative;display:flex"><div class="scal" style="--p:28px;--h:6.5px;--n:11px;flex:1;padding:26px 14px 16px">${scene()}</div><div class="callout tc" style="color:#d2e0fd;right:22px;top:26px;font-size:10.5px;line-height:1.55;letter-spacing:.2em;text-align:left">8 in 10 people<br>check mail<br>every day</div><div class="callout" style="left:-30px;top:-22px;width:148px;height:148px">${rubber('MAIL DAY','80%','EVERY DAY',-14,'Stamp: 80 percent check daily')}</div></div>
     <div class="tkt" style="padding:13px 30px"><span class="tc" style="font-size:11px;letter-spacing:.22em;white-space:nowrap">87% read it same day</span></div>
   </div>
 </div>
@@ -533,7 +535,7 @@ ${foot(3,'Page three')}`,
     <div style="display:flex;gap:12px;align-items:center"><div style="width:46px;height:46px;flex:none;display:grid">${num(4).replace('class="num"','class="num" style="width:46px;height:46px"')}</div><div class="an c4h" style="font-size:28px;line-height:.92;white-space:nowrap">Connect with customers<br>on their terms</div></div>
     <div class="tx s" style="margin-top:9px"><p>Direct mail thrives when you go beyond the mailbox. There's no single path from awareness to action to attribution: some people research the brand online, some head to the store, others scan a QR code or visit a PURL.</p></div>
   </div>
-  <div style="display:grid;place-items:center">${rubber('WENT ONLINE','70%','AFTER MAIL',-12,'Stamp: 70 percent took an online action after receiving direct mail')}</div>
+  <div style="display:grid;place-items:center;position:relative;z-index:2;margin-left:-30px">${rubber('WENT ONLINE','70%','AFTER MAIL',-12,'Stamp: 70 percent took an online action after receiving direct mail')}</div>
   ${[[qrChar(),'Scan a QR code','scal'],[phoneChar(),'Call a number','scal'],[storeChar(),'Go to the store','scal']].map(t=>tile(t[0],'',t[1],t[2])).join('')}
   <div class="tkt lt" style="grid-column:span 2;display:grid;grid-template-columns:92px minmax(0,1fr);gap:14px;align-items:center;justify-items:start;text-align:left;padding:12px 34px"><div style="height:72px">${ruralMailbox()}</div>
     <div><div class="tc" style="font-size:11px;line-height:1.35;white-space:nowrap">Lob's Worldwide<br>Delivery Service</div><div class="tx s" style="margin-top:5px">Every mailbox. Every day. More than <b>80%</b> of people look daily.</div></div></div>
