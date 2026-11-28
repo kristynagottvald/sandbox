@@ -17,7 +17,7 @@ nav.back{box-sizing:border-box;display:flex;align-items:center;gap:8px;height:49
 nav.back a{color:#8d8d8d;text-decoration:none}
 nav.back span{color:#6e6e6e}
 nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
-#stage{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;background:#7A4BFF}
+#stage{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;background:#3E2094}
 #stage.drag{cursor:grabbing}
 #stage canvas{display:block;width:100%!important;height:100%!important}
 #cap{position:absolute;left:clamp(14px,2.4vw,34px);bottom:clamp(14px,2.4vw,30px);display:flex;align-items:stretch;gap:0;pointer-events:none;font:700 clamp(11px,1vw,14px)/1.2 "Archivo","Inter",Helvetica,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
@@ -194,23 +194,36 @@ const WIN_TOP = triangulate(rectPts((SL_XB - SL_XA) / 2, 173)); // the sleeve to
 const porcP = (x, y) => [(x - 501) * PK, -(y - 490) * PK];
 const pairs = (a) => { const o = []; for (let i = 0; i < a.length; i += 2) o.push(porcP(a[i], a[i + 1])); return o; };
 const BODY_P = pairs(PORC_BODY), BODY_T = triangulate(BODY_P);
-/* pierced stamps: each quill is lengthened so its tip runs through its stamp and pokes out past the far edge */
-const stampTrace = ([x, y, hw, hh, rot]) => { const cs = Math.cos(rot), sn = Math.sin(rot); return stampPoly(hw / hh, 0.62, 0.12, 4).map(([px, py]) => { const X = px * hh, Y = -py * hh; return [x + X * cs - Y * sn, y + X * sn + Y * cs]; }); };
-const inPoly = (P, x, y) => { let c = false; for (let i = 0, j = P.length - 1; i < P.length; j = i++) { const a = P[i], b = P[j]; if ((a[1] > y) !== (b[1] > y) && x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0]) c = !c; } return c; };
-const STEM_P = PORC_STEMS.map((flat) => {
-  const pts = []; for (let i = 0; i < flat.length; i += 2) pts.push([flat[i], flat[i + 1]]);
-  const cx = pts.reduce((a, p) => a + p[0], 0) / pts.length, cy = pts.reduce((a, p) => a + p[1], 0) / pts.length;
-  const tip = pts.reduce((m, p) => (Math.hypot(p[0] - cx, p[1] - cy) > Math.hypot(m[0] - cx, m[1] - cy) ? p : m));
-  const st = PORC_STAMPS.reduce((m, q) => (Math.hypot(q[0] - tip[0], q[1] - tip[1]) < Math.hypot(m[0] - tip[0], m[1] - tip[1]) ? q : m)), SP = stampTrace(st);
-  const l = Math.hypot(tip[0] - cx, tip[1] - cy), dx = (tip[0] - cx) / l, dy = (tip[1] - cy) / l;
-  let k = 0; while (k < 400 && inPoly(SP, tip[0] + dx * k, tip[1] + dy * k)) k += 2;  // walk out of the stamp
-  const ext = k + 34; // and poke this far beyond it
-  return pts.map((p) => { const along = (p[0] - cx) * dx + (p[1] - cy) * dy, w = cl((along - l * 0.35) / (l * 0.65), 0, 1); return porcP(p[0] + dx * ext * w * w, p[1] + dy * ext * w * w); });
-}), STEM_T = STEM_P.map((p) => triangulate(p));
-const STAMP_P = PORC_STAMPS.map(([x, y, hw, hh, rot, c]) => { const cs = Math.cos(rot), sn = Math.sin(rot), p = stampPoly(hw / hh, 0.62, 0.12, 4).map(([px, py]) => { const X = px * hh, Y = -py * hh; return porcP(x + X * cs - Y * sn, y + X * sn + Y * cs); }); return { p, t: triangulate(p), c: c ? RED : PURPLE }; });
+const STEM_P = PORC_STEMS.map(pairs), STEM_T = STEM_P.map((p) => triangulate(p));
+/* pierced stamps: each stamp is skewered on its quill a little below the tip, leaning off square to the quill, so the tip pokes out through its face.
+   Award local space: x = p[0], y = out of the glass, z = -p[1]. Each stamp: centre, across (in the glass plane, square to the quill), up, and its face normal. */
+const STAMP_TILT = [1.0, -1.08, 0.95, -1.05, 1.1, -0.98, 1.04], STAMP_K = 0.85, STAMP_BACK = 10, STAMP_T = 2.2; // tilt from square-to-the-quill toward lying in the glass
+const STAMPS3 = PORC_STAMPS.map(([, , hw, hh, , c], i) => {
+  const P = STEM_P[i], cx = P.reduce((a, p) => a + p[0], 0) / P.length, cy = P.reduce((a, p) => a + p[1], 0) / P.length;
+  const tip = P.reduce((m, p) => (Math.hypot(p[0] - cx, p[1] - cy) > Math.hypot(m[0] - cx, m[1] - cy) ? p : m)), l = Math.hypot(tip[0] - cx, tip[1] - cy), d = [(tip[0] - cx) / l, (tip[1] - cy) / l];
+  const C = [tip[0] - d[0] * STAMP_BACK, 0, -(tip[1] - d[1] * STAMP_BACK)], D = [d[0], 0, -d[1]], A = [-d[1], 0, -d[0]], t = STAMP_TILT[i];
+  const N = [D[0] * Math.cos(t), Math.sin(t), D[2] * Math.cos(t)], U = nrm([N[1] * A[2] - N[2] * A[1], N[2] * A[0] - N[0] * A[2], N[0] * A[1] - N[1] * A[0]]);
+  const R = Math.min(hw, hh) * PK * STAMP_K, poly = stampPoly(Math.max(hw, hh) / Math.min(hw, hh), 0.62, 0.12, 4); // long side across the quill
+  const at = (q, off) => [C[0] + A[0] * q[0] * R + U[0] * q[1] * R + N[0] * off, C[1] + A[1] * q[0] * R + U[1] * q[1] * R + N[1] * off, C[2] + A[2] * q[0] * R + U[2] * q[1] * R + N[2] * off];
+  return { C, N, poly, tris: triangulate(poly), at, c: c ? RED : PURPLE };
+});
+/* the cradle: a well the shape of the award and its stamps (a hull, so the leaning stamps clear the walls), deep enough for the stamps hanging below the glass,
+   with a raised platform under the body that the glass rests on */
+const hull = (pts) => { const p = pts.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]), cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]), lo = [], up = [];
+  for (const q of p) { while (lo.length > 1 && cr(lo[lo.length - 2], lo[lo.length - 1], q) <= 0) lo.pop(); lo.push(q); }
+  for (const q of p.reverse()) { while (up.length > 1 && cr(up[up.length - 2], up[up.length - 1], q) <= 0) up.pop(); up.push(q); }
+  return lo.slice(0, -1).concat(up.slice(0, -1)); };
+const STAMP_FOOT = []; let STAMP_LOW = 0;
+STAMPS3.forEach((S) => S.poly.forEach((q) => [-STAMP_T, STAMP_T].forEach((off) => { const w = S.at(q, off); STAMP_FOOT.push([w[0], -w[2]]); STAMP_LOW = Math.min(STAMP_LOW, w[1]); })));
+const WELL = (() => { const H = hull(BODY_P.concat(STAMP_FOOT)), cx = H.reduce((a, p) => a + p[0], 0) / H.length, cy = H.reduce((a, p) => a + p[1], 0) / H.length;
+  return H.map((p) => { const dx = p[0] - cx, dy = p[1] - cy, l = Math.hypot(dx, dy) || 1; return [cl(p[0] + dx / l * 6, -156, 156), cl(p[1] + dy / l * 6, -156, 156)]; }); })();
+const WELL_DEEP = Math.ceil(-STAMP_LOW - AT / 2 + 4);           // how far the well floor drops below the glass's resting face
+const PLAT = Array.from({ length: 40 }, (_, i) => [-8 + 104 * Math.cos(TAU * i / 40), -52 + 27 * Math.sin(TAU * i / 40)]);
+const WELL_TOP = triangulate(rectPts(160, 160), WELL), WELL_FLOOR = triangulate(WELL, PLAT), PLAT_T = triangulate(PLAT);
+const crossX = (P, x, pick) => { const h = []; P.forEach((a, k) => { const b = P[(k + 1) % P.length]; if ((a[0] - x) * (b[0] - x) < 0) h.push(a[1] + (x - a[0]) / (b[0] - a[0]) * (b[1] - a[1])); }); return pick(...h); };
+const PLAT_EDGE = crossX(PLAT, 2, Math.min), WELL_EDGE = crossX(WELL, 2, Math.min); // where the ribbon steps down and up, along x = 2 toward the feet
 const ellipseP = (cx, cy, rx, ry) => Array.from({ length: 28 }, (_, i) => porcP(cx + rx * Math.cos(TAU * i / 28), cy + ry * Math.sin(TAU * i / 28)));
 const EYE_P = ellipseP(648, 692, 98, 38), PUPIL_P = ellipseP(673, 707, 24, 15);
-const POCK = BODY_P.map((p) => [p[0] * 1.045, p[1] * 1.045]), POCK_TOP = triangulate(rectPts(160, 160), POCK), POCK_FLOOR = triangulate(POCK);
 
 /* ============================================================================================
    Textures: flat colour, a little grain, tone on tone deboss. Built once with the brand fonts.
@@ -318,7 +331,7 @@ function buildTextures() {
   { const g = G(256, 256), c = g.drawingContext; c.shadowColor = '#000'; c.shadowBlur = 36; c.fillStyle = '#000'; c.shadowOffsetX = 400; c.fillRect(-400 + 70, 70, 116, 116); T.shRect = g; }
   { const g = G(128, 128), c = g.drawingContext, gr = c.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.12, 'rgba(255,255,255,.55)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); c.fillStyle = gr; c.fillRect(0, 0, 128, 128);
     c.fillStyle = '#fff'; c.beginPath(); c.moveTo(64, 0); c.quadraticCurveTo(68, 60, 128, 64); c.quadraticCurveTo(68, 68, 64, 128); c.quadraticCurveTo(60, 68, 0, 64); c.quadraticCurveTo(60, 60, 64, 0); c.fill(); T.spark = g; }
-  { const g = G(512, 512), c = g.drawingContext, gr = c.createRadialGradient(256, 256, 0, 256, 256, 256); gr.addColorStop(0, 'rgb(150,114,255)'); gr.addColorStop(0.25, 'rgb(140,100,255)'); gr.addColorStop(0.6, 'rgb(126,80,255)'); gr.addColorStop(0.85, 'rgb(122,75,255)'); gr.addColorStop(1, 'rgb(122,75,255)'); /* brand purple, a touch lighter under the box */ c.fillStyle = gr; c.fillRect(0, 0, 512, 512); T.floor = g; }
+  { const g = G(512, 512), c = g.drawingContext, gr = c.createRadialGradient(256, 256, 0, 256, 256, 256); gr.addColorStop(0, 'rgb(92,56,200)'); gr.addColorStop(0.25, 'rgb(84,48,186)'); gr.addColorStop(0.6, 'rgb(70,38,162)'); gr.addColorStop(0.85, 'rgb(62,32,148)'); gr.addColorStop(1, 'rgb(62,32,148)'); /* deep brand purple, a touch lighter under the box, dark enough for the kraft to stand out */ c.fillStyle = gr; c.fillRect(0, 0, 512, 512); T.floor = g; }
   for (const k in T) { const g = T[k]; T[k] = g.get(); g.remove(); } // static images: p5 uploads a Graphics to the GPU every frame, an image only once
   texReady = true;
 }
@@ -394,15 +407,18 @@ function drawScene(P, t) {
   base(-BOXH, BOXH - 6, BOXH, BOXH, 'pz', 'nz'); base(-BOXH, -BOXH, BOXH, -BOXH + 6, 'nz', 'pz'); base(-BOXH, -BOXH + 6, -BOXH + 6, BOXH - 6, 'nx', 'px'); base(BOXH - 6, -BOXH + 6, BOXH, BOXH - 6, 'px', 'nx');
   { // black cradle: a real pocket in the shape of the award, with a thumb scoop; the ribbon pull lies under the award
     const top = CRAD_TOP, fl = CRAD_TOP - POCKET, pt = (p, y) => [p[0], y, -p[1]];
-    POCK_TOP.forEach((t) => F(BM, t.map((p) => pt(p, top)), INK, 1));
-    POCK.forEach((q, k) => { const n = POCK[(k + 1) % POCK.length]; F(BM, [pt(q, top), pt(n, top), pt(n, fl), pt(q, fl)], [74, 68, 92]); });
-    POCK_FLOOR.forEach((t) => F(BM, t.map((p) => pt(p, fl)), [40, 37, 52]));
-    // red pull ribbon: the far end lies on the pocket floor under the body, it runs out between the feet, up the straight pocket wall
+    const dn = fl - WELL_DEEP;
+    WELL_TOP.forEach((t) => F(BM, t.map((p) => pt(p, top)), INK, 1));
+    WELL.forEach((q, k) => { const n = WELL[(k + 1) % WELL.length]; F(BM, [pt(q, top), pt(n, top), pt(n, dn), pt(q, dn)], [74, 68, 92]); });
+    WELL_FLOOR.forEach((t) => F(BM, t.map((p) => pt(p, dn)), [34, 31, 44]));
+    PLAT.forEach((q, k) => { const n = PLAT[(k + 1) % PLAT.length]; F(BM, [pt(q, fl), pt(n, fl), pt(n, dn), pt(q, dn)], [62, 57, 78]); });
+    PLAT_T.forEach((t) => F(BM, t.map((p) => pt(p, fl)), [44, 40, 56]));
+    // red pull ribbon: one end on the platform under the body, it runs out between the feet, steps down onto the well floor, up the well wall
     // and over the top of the cradle. Pulled, the middle rides up under the glass and the tail lifts from outside the award's outline;
-    // let go, it settles back onto the stepped surface
-    const ay = fl + 0.6, tp = top + 0.6, WZ = -85.0, rel = 1 - o.drop, m = o.pull * rel, hU = ay + Math.min(270 * o.up, 26) * rel;
-    const REST = [[16, ay], [WZ + 6, ay], [WZ, ay], [WZ, tp], [WZ - 38, tp]];
-    const PULL = [[16, hU], [-64, hU], [-80, hU + 10], [-92, tp + 40], [-104, tp + 118]];
+    // let go, it settles back onto the steps
+    const ay = fl + 0.6, by = dn + 0.6, tp = top + 0.6, PE = PLAT_EDGE - 0.8, WE = WELL_EDGE + 0.8, rel = 1 - o.drop, m = o.pull * rel, hU = ay + Math.min(270 * o.up, 26) * rel;
+    const REST = [[-34, ay], [PE, ay], [PE, by], [WE, by], [WE, tp], [WE - 34, tp]];
+    const PULL = [[-34, hU], [-64, hU], [-76, hU + 4], [-84, hU + 14], [-94, tp + 40], [-106, tp + 118]];
     const L = REST.map((r, i) => [lerp(r[0], PULL[i][0], m), lerp(r[1], PULL[i][1], m)]);
     const X0 = -9, X1 = 13, XM = 2, last = L.length - 1;
     for (let i = 0; i < last; i++) { const p = L[i], q = L[i + 1]; F(BM, [[X0, p[1], -p[0]], [X1, p[1], -p[0]], [X1, q[1], -q[0]], [X0, q[1], -q[0]]], RED); F(BM, [[X0, q[1], -q[0]], [X1, q[1], -q[0]], [X1, p[1], -p[0]], [X0, p[1], -p[0]]], RED, 0.8); }
@@ -420,7 +436,12 @@ function drawScene(P, t) {
     };
     solid(BODY_T, BODY_P, -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85);
     STEM_T.forEach((tr, i) => solid(tr, STEM_P[i], -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85));
-    STAMP_P.forEach((sp) => solid(sp.t, sp.p, -AT / 2 - 2.5, AT / 2 + 2.5, sp.c, 0.72, 0.95)); // threaded on the quill: through both faces of the glass
+    STAMPS3.forEach((S) => { // skewered on the quill: back face, edges, then the face toward the camera
+      const fwd = dot(sub(xf(AM, S.at([0, 0], 1)), xf(AM, S.at([0, 0], 0))), sub(CAM, xf(AM, S.C))) > 0, lite = S.c.map((v) => Math.min(255, v + 45));
+      const face = (off) => S.tris.forEach((tr) => glassTri(AM, tr.map((q) => S.at(q, off)), S.c, 0.72));
+      const edges = () => S.poly.forEach((q, k) => { const n = S.poly[(k + 1) % S.poly.length], a = S.at(q, STAMP_T), b = S.at(n, STAMP_T), c = S.at(n, -STAMP_T), d = S.at(q, -STAMP_T); glassTri(AM, [a, b, c], lite, 0.95); glassTri(AM, [a, c, d], lite, 0.95); });
+      if (fwd) { face(-STAMP_T); edges(); face(STAMP_T); } else { face(STAMP_T); edges(); face(-STAMP_T); }
+    });
     const fan = (P, y, col) => F(AM, [[0, y, 0]].concat(P.map((p) => toW(p, y))).concat([toW(P[0], y)]), col, 1.25);
     const ctr = (P) => [P.reduce((a, p) => a + p[0], 0) / P.length, P.reduce((a, p) => a + p[1], 0) / P.length];
     { const e = ctr(EYE_P), pu = ctr(PUPIL_P); F(AM, [[e[0], AT / 2 + 0.4, -e[1]]].concat(EYE_P.map((p) => toW(p, AT / 2 + 0.4))).concat([toW(EYE_P[0], AT / 2 + 0.4)]), [250, 250, 250], 1.2);
@@ -489,7 +510,7 @@ function ovDraw(list, additive) {
   if (additive) blendMode(BLEND); gl.depthMask(true); tint(255, 255, 255, 255);
 }
 function draw() {
-  background(122, 75, 255); // brand purple #7A4BFF
+  background(62, 32, 148); // deep brand purple #3E2094
   if (!texReady) return;
   const dt = Math.min(0.1, deltaTime / 1000);
   if (CLIP) clock = (window.__clock != null ? window.__clock : clock + dt); else if (!reduce) clock += dt;
