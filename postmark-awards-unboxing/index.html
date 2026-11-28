@@ -17,7 +17,7 @@ nav.back{box-sizing:border-box;display:flex;align-items:center;gap:8px;height:49
 nav.back a{color:#8d8d8d;text-decoration:none}
 nav.back span{color:#6e6e6e}
 nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
-#stage{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;background:#3E2094}
+#stage{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;background:#2A1568}
 #stage.drag{cursor:grabbing}
 #stage canvas{display:block;width:100%!important;height:100%!important}
 #cap{position:absolute;left:clamp(14px,2.4vw,34px);bottom:clamp(14px,2.4vw,30px);display:flex;align-items:stretch;gap:0;pointer-events:none;font:700 clamp(11px,1vw,14px)/1.2 "Archivo","Inter",Helvetica,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
@@ -182,8 +182,8 @@ const MW = 260, MH = 200, WT = 10;                 // mailer: half width/depth, 
 const INS_TOP = 190, REC_FLOOR = 96, REC_H = 175;  // debossed insert: top, recess floor, recess half size
 const BOXH = 166, LIDH = 171, BASE_H = 74, LID_BOT = 44, LID_TOP = 88; // award box: base half, lid half, heights
 const SL_T = 5, SL_XA = -130, SL_XB = 40;           // slip sleeve: thickness, x range on the box
-const AT = 14, PK = 0.29;                          // award: glass thickness, scale of the traced mascot
-const CRAD_TOP = 70, POCKET = 14;                  // black cradle inside the base, pocket depth
+const AT = 26, PK = 0.29;                          // award: glass thickness (thick enough to stand), scale of the traced mascot
+const CRAD_TOP = 70, POCKET = 26;                  // black cradle inside the base, pocket depth
 
 /* the brand mascot, traced (from the Postmark Awards brand visuals): body with its quills, the quill tips, and the stamps stuck on them (x, y, half width, half height, rotation, 0 purple / 1 red); y down, 1000 units wide */
 const PORC_BODY = [33,679,136,701,138,703,167,708,169,710,179,710,181,712,190,713,204,717,222,720,230,723,230,725,204,730,204,731,167,739,156,743,121,751,120,752,111,753,109,755,104,755,33,773,341,773,343,775,342,791,345,829,351,839,360,843,422,843,437,838,446,827,448,819,445,811,425,809,392,809,386,806,379,799,377,789,379,777,382,773,387,773,566,773,567,774,567,813,569,828,573,836,584,843,646,843,656,841,666,835,672,822,671,814,664,810,615,809,610,806,603,799,602,791,603,780,606,773,969,773,794,708,795,705,802,703,939,622,796,643,787,643,785,645,766,647,762,647,926,521,872,538,871,540,858,543,857,545,830,553,829,554,750,580,750,579,766,559,780,547,810,512,801,484,799,483,755,511,723,533,713,538,709,542,699,548,697,548,834,306,660,490,659,487,663,479,666,466,668,465,671,454,675,446,676,440,677,439,701,368,717,326,714,322,701,311,699,311,681,338,676,348,671,352,671,355,603,455,603,447,615,345,608,344,595,339,579,326,576,330,571,346,569,347,560,370,559,376,555,383,542,418,540,419,540,422,535,435,534,436,533,442,530,444,529,443,528,422,526,418,525,396,524,394,520,353,517,352,471,359,463,407,459,423,458,436,456,447,454,448,450,437,449,437,441,411,437,402,435,391,425,369,411,323,409,322,408,317,366,195,376,473,374,474,372,472,372,468,370,467,286,298,272,298,277,325,279,331,279,337,281,338,282,347,283,348,284,358,291,382,291,388,293,389,293,398,315,490,314,492,220,394,204,421,209,427,214,440,216,443,225,464,230,470,237,489,239,490,261,535,260,537,101,444,241,601,240,603,205,590,165,577,169,591,169,598,153,601,146,605,206,654];
@@ -197,7 +197,7 @@ const BODY_P = pairs(PORC_BODY), BODY_T = triangulate(BODY_P);
 const STEM0 = PORC_STEMS.map(pairs); // the traced quills; the drawn ones (STEM_P) are lengthened below so their tips come out through the stamps
 /* pierced stamps: each stamp is skewered on its quill a little below the tip, leaning off square to the quill, so the tip pokes out through its face.
    Award local space: x = p[0], y = out of the glass, z = -p[1]. Each stamp: centre, across (in the glass plane, square to the quill), up, and its face normal. */
-const STAMP_TILT = [1.0, -1.08, 0.95, -1.05, 1.1, -0.98, 1.04], STAMP_K = 0.85, STAMP_BACK = 10, STAMP_T = 2.2; // tilt from square-to-the-quill toward lying in the glass
+const STAMP_TILT = [0.16, -0.2, 0.14, -0.18, 0.2, -0.15, 0.18], STAMP_K = 0.85, STAMP_BACK = 12, STAMP_T = 2.2; // stamps sit almost square across their quill, a slight lean each way, the quill through the middle
 const STAMPS3 = PORC_STAMPS.map(([, , hw, hh, , c], i) => {
   const P = STEM0[i], cx = P.reduce((a, p) => a + p[0], 0) / P.length, cy = P.reduce((a, p) => a + p[1], 0) / P.length;
   const tip = P.reduce((m, p) => (Math.hypot(p[0] - cx, p[1] - cy) > Math.hypot(m[0] - cx, m[1] - cy) ? p : m)), l = Math.hypot(tip[0] - cx, tip[1] - cy), d = [(tip[0] - cx) / l, (tip[1] - cy) / l];
@@ -208,9 +208,11 @@ const STAMPS3 = PORC_STAMPS.map(([, , hw, hh, , c], i) => {
   return { C, N, R, d, tip, cx, cy, l, poly, tris: triangulate(poly), at, c: c ? RED : PURPLE };
 });
 /* each quill grows past its stamp: a thin, tapering tip comes out through the stamp's face and ends well beyond its edge */
-const STEM_P = STEM0.map((P, i) => { const S = STAMPS3[i], ext = S.R + 12 - STAMP_BACK + 4;
+const STEM_P = STEM0.map((P, i) => { const S = STAMPS3[i], ext = 18 - STAMP_BACK + S.R * Math.abs(Math.sin(STAMP_TILT[i]));
   return P.map((p) => { const along = (p[0] - S.cx) * S.d[0] + (p[1] - S.cy) * S.d[1], w = cl((along - S.l * 0.3) / (S.l * 0.7), 0, 1); return [p[0] + S.d[0] * ext * w * w * w, p[1] + S.d[1] * ext * w * w * w]; }); });
 const STEM_T = STEM_P.map((p) => triangulate(p));
+/* the quills taper in thickness too: full glass at the body, a thin rod where they run through the stamps */
+const STEM_HF = STEM0.map((P, i) => { const S = STAMPS3[i]; return (p) => { const along = (p[0] - S.cx) * S.d[0] + (p[1] - S.cy) * S.d[1], w = cl((along + S.l * 0.2) / (S.l * 1.1), 0, 1), e = w * w * (3 - 2 * w); return lerp(AT / 2, 2, e); }; });
 /* the cradle: a well the shape of the award and its stamps (a hull, so the leaning stamps clear the walls), deep enough for the stamps hanging below the glass,
    with a raised platform under the body that the glass rests on */
 const hull = (pts) => { const p = pts.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]), cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]), lo = [], up = [];
@@ -329,13 +331,15 @@ function buildTextures() {
   }
   { const g = G(256, 256), c = g.drawingContext, gr = c.createLinearGradient(0, 0, 256, 190);
     [[0, 0], [0.18, 0], [0.26, 0.5], [0.34, 0], [0.46, 0], [0.5, 0.22], [0.56, 0], [1, 0]].forEach(([p, a]) => gr.addColorStop(p, 'rgba(255,255,255,' + a + ')')); c.fillStyle = gr; c.fillRect(0, 0, 256, 256); T.shine = g; }
+  { const g = G(1024, 330), c = g.drawingContext; c.clearRect(0, 0, 1024, 330); c.fillStyle = 'rgba(255,255,255,0.95)'; c.textAlign = 'center'; c.textBaseline = 'middle'; // the etching on the back of the award
+    c.font = '600 78px ' + SANS; c.letterSpacing = '22px'; c.fillText('GROWTH AWARD', 512 + 11, 84); c.font = '700 92px ' + SANS; c.letterSpacing = '34px'; c.fillText('RAMP', 512 + 17, 246); T.etch = g; }
   /* light: soft shadows, glows, a four point sparkle, the studio floor */
   const radial = (s, rgb, aIn, aOut, pw = 1.6) => { const g = G(s, s), c = g.drawingContext; for (let r = s / 2; r > 0; r -= 1) { const k = 1 - r / (s / 2); c.fillStyle = 'rgba(' + rgb + ',' + (aOut + (aIn - aOut) * Math.pow(k, pw)) / 255 + ')'; c.beginPath(); c.arc(s / 2, s / 2, r, 0, TAU); c.fill(); } return g; };
   T.shRad = radial(256, '0,0,0', 255, 0, 1.3); T.halo = radial(256, '170,120,255', 255, 0, 1.6); T.haloW = radial(256, '255,255,255', 255, 0, 2.2);
   { const g = G(256, 256), c = g.drawingContext; c.shadowColor = '#000'; c.shadowBlur = 36; c.fillStyle = '#000'; c.shadowOffsetX = 400; c.fillRect(-400 + 70, 70, 116, 116); T.shRect = g; }
   { const g = G(128, 128), c = g.drawingContext, gr = c.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.12, 'rgba(255,255,255,.55)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); c.fillStyle = gr; c.fillRect(0, 0, 128, 128);
     c.fillStyle = '#fff'; c.beginPath(); c.moveTo(64, 0); c.quadraticCurveTo(68, 60, 128, 64); c.quadraticCurveTo(68, 68, 64, 128); c.quadraticCurveTo(60, 68, 0, 64); c.quadraticCurveTo(60, 60, 64, 0); c.fill(); T.spark = g; }
-  { const g = G(512, 512), c = g.drawingContext, gr = c.createRadialGradient(256, 256, 0, 256, 256, 256); gr.addColorStop(0, 'rgb(92,56,200)'); gr.addColorStop(0.25, 'rgb(84,48,186)'); gr.addColorStop(0.6, 'rgb(70,38,162)'); gr.addColorStop(0.85, 'rgb(62,32,148)'); gr.addColorStop(1, 'rgb(62,32,148)'); /* deep brand purple, a touch lighter under the box, dark enough for the kraft to stand out */ c.fillStyle = gr; c.fillRect(0, 0, 512, 512); T.floor = g; }
+  { const g = G(512, 512), c = g.drawingContext, gr = c.createRadialGradient(256, 256, 0, 256, 256, 256); gr.addColorStop(0, 'rgb(42,21,104)'); gr.addColorStop(1, 'rgb(42,21,104)'); /* flat deep brand purple, no spotlight */ c.fillStyle = gr; c.fillRect(0, 0, 512, 512); T.floor = g; }
   for (const k in T) { const g = T[k]; T[k] = g.get(); g.remove(); } // static images: p5 uploads a Graphics to the GPU every frame, an image only once
   texReady = true;
 }
@@ -438,8 +442,13 @@ function drawScene(P, t) {
       const sides = () => ring.forEach((a, i) => { const b = ring[(i + 1) % ring.length], q = [toW(a, y1), toW(b, y1), toW(b, y0), toW(a, y0)]; glassTri(AM, [q[0], q[1], q[2]], lite, aS); glassTri(AM, [q[0], q[2], q[3]], lite, aS); });
       if (topNear) { face(y0); sides(); face(y1); } else { face(y1); sides(); face(y0); }
     };
+    const solidV = (tris, ring, hf, col, aF, aS) => { // like solid, with the half thickness set per point
+      const lite = col.map((v) => Math.min(255, v + 45)), face = (sg) => tris.forEach((tr) => glassTri(AM, tr.map((p) => toW(p, sg * hf(p))), col, aF));
+      const sides = () => ring.forEach((a, i) => { const b = ring[(i + 1) % ring.length], q = [toW(a, hf(a)), toW(b, hf(b)), toW(b, -hf(b)), toW(a, -hf(a))]; glassTri(AM, [q[0], q[1], q[2]], lite, aS); glassTri(AM, [q[0], q[2], q[3]], lite, aS); });
+      if (topNear) { face(-1); sides(); face(1); } else { face(1); sides(); face(-1); }
+    };
+    STEM_T.forEach((tr, i) => solidV(tr, STEM_P[i], STEM_HF[i], [170, 210, 255], 0.4, 0.85));
     solid(BODY_T, BODY_P, -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85);
-    STEM_T.forEach((tr, i) => solid(tr, STEM_P[i], -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85));
     STAMPS3.forEach((S) => { // skewered on the quill: back face, edges, then the face toward the camera
       const fwd = dot(sub(xf(AM, S.at([0, 0], 1)), xf(AM, S.at([0, 0], 0))), sub(CAM, xf(AM, S.C))) > 0, lite = S.c.map((v) => Math.min(255, v + 45));
       const face = (off) => S.tris.forEach((tr) => glassTri(AM, tr.map((q) => S.at(q, off)), S.c, 0.72));
@@ -452,6 +461,9 @@ function drawScene(P, t) {
       F(AM, [[pu[0], AT / 2 + 0.8, -pu[1]]].concat(PUPIL_P.map((p) => toW(p, AT / 2 + 0.8))).concat([toW(PUPIL_P[0], AT / 2 + 0.8)]), INK, 1.2); }
     // a diagonal streak of light across the near face
     const yS = topNear ? AT / 2 + 0.1 : -AT / 2 - 0.1;
+    // GROWTH AWARD / RAMP etched into the back face, frosted
+    { const y = -AT / 2 - 0.25, x0 = -92, x1 = -8, z0 = -65, z1 = -35, q = [[x1, z1, 0, 0], [x0, z1, 1, 0], [x0, z0, 1, 1], [x1, z0, 0, 1]].map(([x, z, u, v]) => [xf(AM, toW([x, z], y)), [u, v]]);
+      GLT.push({ tex: T.etch, a: 175, tris: [q[0], q[1], q[2], q[0], q[2], q[3]] }); }
     GLT.push({ tex: T.shine, a: 200, tris: BODY_T.flatMap((tr) => tr.map((p) => [xf(AM, toW(p, yS)), [0.5 + p[0] / 300, 0.5 - p[1] / 220]])) });
   }
   { // lid
@@ -514,7 +526,7 @@ function ovDraw(list, additive) {
   if (additive) blendMode(BLEND); gl.depthMask(true); tint(255, 255, 255, 255);
 }
 function draw() {
-  background(62, 32, 148); // deep brand purple #3E2094
+  background(42, 21, 104); // deep brand purple #2A1568
   if (!texReady) return;
   const dt = Math.min(0.1, deltaTime / 1000);
   if (CLIP) clock = (window.__clock != null ? window.__clock : clock + dt); else if (!reduce) clock += dt;
