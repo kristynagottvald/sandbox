@@ -400,8 +400,6 @@ function drawScene(P, t) {
     POCK_TOP.forEach((t) => F(BM, t.map((p) => pt(p, top)), INK, 1));
     POCK.forEach((q, k) => { const n = POCK[(k + 1) % POCK.length]; F(BM, [pt(q, top), pt(n, top), pt(n, fl), pt(q, fl)], [74, 68, 92]); });
     POCK_FLOOR.forEach((t) => F(BM, t.map((p) => pt(p, fl)), [40, 37, 52]));
-    const ay = fl + 0.4;  // red pull tab on the pocket floor, between the legs, visible through the glass
-    F(BM, [[-9, ay + 0.6, -60], [13, ay + 0.6, -60], [13, ay + 0.6, 62], [2, ay + 0.6, 50], [-9, ay + 0.6, 62]], RED);
   }
   { // the award: the brand mascot in glass. Clear body, tinted glass stamps on the quill tips, a white eye; drawn in the glass pass
     const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(0.4 * Math.sin(t * 0.8) * o.hold), RX(o.tilt));
