@@ -424,7 +424,7 @@ function crossword(){
   const g={};let r0=99,c0=99,r1=0,c1=0;
   W.forEach(([w,r,c,d])=>[...w].forEach((ch,i)=>{const rr=r+(d==='d'?i:0),cc=c+(d==='a'?i:0);g[rr+','+cc]=ch;r0=Math.min(r0,rr);r1=Math.max(r1,rr);c0=Math.min(c0,cc);c1=Math.max(c1,cc)}));
   const starts={};W.slice().sort((a,b)=>a[1]-b[1]||a[2]-b[2]).forEach((w,i)=>starts[w[1]+','+w[2]]=i+1);
-  let cells='';for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++){const ch=g[r+','+c];cells+=ch?`<i class="cw">${starts[r+','+c]?`<u>${starts[r+','+c]}</u>`:''}${ch}</i>`:`<i class="cb2"></i>`}
+  let cells='';for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++){const ch=g[r+','+c];cells+=ch?`<i class="cw">${starts[r+','+c]?`<u>${starts[r+','+c]}</u>`:''}</i>`:`<i class="cb2"></i>`}
   return `<div class="cwg" style="grid-template-columns:repeat(${c1-c0+1},1fr);aspect-ratio:${c1-c0+1}/${r1-r0+1}">${cells}</div>`}
 
 /* ---------- the four pages (Lob's State of Direct Mail 2026 article) ----------
@@ -446,7 +446,7 @@ const PG=[
     <div class="an" style="font-size:128px;line-height:.84;letter-spacing:.004em">Mailbox<br>Moment</div>
     <div class="sf dk" style="font-size:24px;line-height:1.14;margin-top:16px;white-space:nowrap">More than 80% still check the mail daily.<br>Here are four ways to be worth the trip.</div>
     <div class="tc" style="font-size:9.5px;margin-top:12px">By the Lob Newsletter</div>
-    <div class="toc" style="margin-top:auto;padding-top:14px"><div class="tc" style="font-size:9.5px;padding:0 0 9px;border-bottom:var(--hl) solid var(--ink)">In this issue</div>${[['02','Mail is a daily ritual'],['03','Keep them reading'],['04','Classifieds &amp; the crossword']].map(r=>`<div class="tocr"><span>${r[0]}</span><span>—</span><span>${r[1]}</span></div>`).join('')}</div>
+    <div class="toc" style="margin-top:auto;padding-top:14px"><div class="tc" style="font-size:9.5px;padding:0 0 9px;border-bottom:var(--hl) solid var(--ink)">In this issue</div>${[['02','Mail is a daily ritual'],['03','Keep them reading'],['04','Classifieds &amp; a crossword']].map(r=>`<div class="tocr"><span>${r[0]}</span><span>—</span><span>${r[1]}</span></div>`).join('')}</div>
   </div>
   <div class="fl" style="gap:12px">
     <div style="flex:1;position:relative;display:flex"><div class="scal" style="--p:28px;--h:6.5px;--n:11px;flex:1;padding:26px 14px 16px">${scene()}</div><div class="callout" style="left:-30px;top:-22px;width:148px;height:148px">${rubber('MAIL DAY','80%','EVERY DAY',-14,'Stamp: 80 percent check daily')}</div></div>
@@ -464,7 +464,7 @@ ${foot(1,'Front page')}`,
 /* 2 · inside left */
 ()=>`
 <div class="tkt"><span class="tc" style="font-size:15px;letter-spacing:.3em">The Mailbox Moment</span></div>
-<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span class="sf" style="font-size:32px">Mail is a</span><span class="cloud tc" style="--s:20px;padding:6px 30px;font-size:10px;text-align:center;line-height:1.3">Every<br>single day</span></div><div class="an" style="font-size:128px;line-height:.84;white-space:nowrap">Daily ritual</div></div>
+<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span class="sf" style="font-size:32px">Mail is a</span><span class="cloud tc" style="--s:20px;padding:6px 30px;font-size:10px;text-align:center;line-height:1.3;position:relative;z-index:2;transform:translate(6px,34px) rotate(-5deg)">Every<br>single day</span></div><div class="an" style="font-size:128px;line-height:.84;white-space:nowrap">Daily ritual</div></div>
 <div style="display:grid;grid-template-columns:minmax(0,1fr) 262px;gap:var(--gc);align-items:start">
   <div class="tx cols2"><p><b>Going to the mailbox is routine.</b> Mail doesn't interrupt. Instead, it seamlessly blends into everyday life. It is a daily habit shared across demographics, geographies and generations.</p><p>People check for mail, sort through the stack and, in just a few seconds, decide whether it's worth opening, reading or keeping. That is the moment you are designing for.</p></div>
   <div class="perf c" style="padding:13px 16px 14px;display:flex;flex-direction:column;align-items:center;gap:6px">${star8(20)}<div class="sf" style="font-size:16px;line-height:1.2">“Your customers are already showing up to the mailbox. So give them something worth saving.”</div></div>
@@ -530,7 +530,7 @@ ${foot(3,'Page three')}`,
 ['chain','Omnichannel, aligned','Continue the journey your mail started with continuity across digital and physical touchpoints.'],
 ['chart','Track multiple signals','It isn’t only direct response. Use direct and indirect metrics to remove blind spots.']])}</div>
   <div class="panel" style="grid-column:span 3;display:flex;flex-direction:column;padding:0 0 10px"><div class="tc" style="font-size:10px;padding:10px 16px 9px;background:var(--ink);color:#bdd6fd">How people say they'd follow up · illustrative, see the report</div><div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:6px 16px 0">${chartBars([['Scan a QR code',44],['Go to their store location',36],['Follow a personalized URL',30],['Call a phone number',24],['Follow a general URL',19],['Search the brand themselves',15]])}</div></div>
-  <div class="panel" style="padding:7px 18px 9px;display:flex;flex-direction:column;align-items:center"><div class="tc c" style="font-size:10px;padding-bottom:6px;margin-bottom:6px;border-bottom:var(--hl) solid var(--ink);align-self:stretch">Puzzle · solved</div><div style="align-self:stretch">${crossword()}</div></div>
+  <div class="panel" style="padding:7px 18px 9px;display:flex;flex-direction:column;align-items:center"><div class="tc c" style="font-size:10px;padding-bottom:6px;margin-bottom:6px;border-bottom:var(--hl) solid var(--ink);align-self:stretch">Mailbox crossword</div><div style="align-self:stretch">${crossword()}</div></div>
   <div style="grid-column:span 4;display:grid;grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr);align-items:center;gap:0;border-top:var(--hl) solid var(--ink);border-bottom:var(--hl) solid var(--ink)">
     <div class="tc c" style="padding:15px 8px;font-size:11.5px;display:flex;justify-content:center;gap:10px;align-items:center">For all direct mail dilemmas ${arw()}</div>
     <div style="height:52px;border-left:var(--hl) solid var(--ink);border-right:var(--hl) solid var(--ink);padding:6px 10px">${flyingEnvelope()}</div>
