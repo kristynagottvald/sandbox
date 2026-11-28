@@ -647,6 +647,18 @@ function domeP(c, r, o = {}) {
     },
   };
 }
+// faceted ellipsoid laid out so the print around texture point (sc, tc) sits on the side facing C, reading left to right and upright
+function domeT(c, r, o) {
+  const C = V.norm(o.C), U = V.norm(V.sub([0, 1, 0], V.mul(C, C[1]))), R = V.cross(U, C), thc = Math.PI * o.sc, phc = TAU * o.tc;
+  const A = V.sub(V.mul(C, Math.cos(thc)), V.mul(R, Math.sin(thc))), ec = V.add(V.mul(C, Math.sin(thc)), V.mul(R, Math.cos(thc)));
+  return {
+    keep: true, nu: o.lats || 6, nv: o.longs || 10, name: o.name, d0: o.d0 || 0, d1: o.d1 == null ? (o.d0 || 0) : o.d1,
+    f(s, t) {
+      const th = Math.PI * s, dp = TAU * t - phc, e = V.sub(V.mul(ec, Math.cos(dp)), V.mul(U, Math.sin(dp))), d = V.add(V.mul(A, Math.cos(th)), V.mul(e, Math.sin(th)));
+      return [c[0] + r[0] * d[0], c[1] + r[1] * d[1], c[2] + r[2] * d[2]];
+    },
+  };
+}
 // flat panel through four corners (a b c d going round); fold = ridge along the middle of s, tfold = along t
 function quadP(a, b, c, d, o = {}) {
   const nrm = V.norm(V.cross(V.sub(c, a), V.sub(d, b)));
@@ -725,9 +737,11 @@ MODELS.scorpion = () => {
   return P;
 };
 
+const SPIDER_TITLE_DIR = [-0.1, -0.06, 1];
 MODELS.spider = () => {
   const P = [];
-  P.push(domeP([0.34, 0.62, 0], [0.46, 0.38, 0.36], { lats: 6, longs: 10, d0: 0, d1: 0.1 }));
+  // abdomen: the form's title (top left of the sheet) runs along the side that faces the hero camera
+  P.push(domeT([0.34, 0.62, 0], [0.46, 0.38, 0.36], { lats: 6, longs: 10, sc: 0.25, tc: 0.13, C: SPIDER_TITLE_DIR, d0: 0, d1: 0.1 }));
   P.push(domeP([-0.12, 0.6, 0], [0.3, 0.22, 0.27], { lats: 5, longs: 8, d0: 0, d1: 0.1 }));
   P.push(domeP([-0.42, 0.56, 0], [0.13, 0.11, 0.15], { lats: 4, longs: 6, d0: 0.1, d1: 0.15 }));
   for (const sd of [1, -1]) P.push(frustum([-0.5, 0.5, 0.05 * sd], [-0.56, 0.3, 0.045 * sd], 0.035, 0.008, { sides: 3, d0: 0.15, d1: 0.2 }));
@@ -784,11 +798,32 @@ MODELS.lotus3 = lotusModel([[12, 0.26, 0.02, 40, 20, 1.15, 0.2, 0, 0.35], [12, 0
 // sheets lying flat then curling up (closing CTA); one fixed patch so the print stays whole
 [[1.3, 0.5, 0.0, [0, 0, 0.0]], [0.9, 0.42, 0.3, [0.03, 0.01, 0.14]], [0.7, 0.34, 0.55, [0.06, 0.02, 0.3]]].forEach(([R0, start, tmax, off], n) => {
   MODELS['curl' + n] = () => [{
-    fixed: true, uvFlip: true, nu: 30, nv: 14, d0: 0, d1: 0,
-    f(u, v) { const L = 2.4, s0 = start * L, sa = u * L, x = (v - 0.5) * 1.7; let y = 0, z = sa; if (sa > s0) { const th = Math.min((sa - s0) / R0, tmax), rem = Math.max(0, (sa - s0) - th * R0); y = R0 * (1 - Math.cos(th)) + rem * Math.sin(th); z = s0 + R0 * Math.sin(th) + rem * Math.cos(th); } return [x + off[0], y + off[1], -(z - L / 2) + off[2]]; },
+    fixed: true, portrait: true, nu: 30, nv: 14, d0: 0, d1: 0,
+    // live: the curl breathes with time (bends, never stretches: arc length is kept)
+    live: (u, v, tm) => { const w = Math.sin(tm * 0.9 + n * 2.1) * 0.5 + 0.5; return MODELS['curl' + n].fn(u, v, tmax + 0.12 + 0.16 * w, start - 0.04 * w); },
+    f(u, v) { return MODELS['curl' + n].fn(u, v, tmax, start); },
   }];
+  MODELS['curl' + n].fn = (u, v, tmax, start) => { const L = 2.4, s0 = start * L, sa = u * L, x = (v - 0.5) * 1.7; let y = 0, z = sa; if (sa > s0) { const th = Math.min((sa - s0) / R0, tmax), rem = Math.max(0, (sa - s0) - th * R0); y = R0 * (1 - Math.cos(th)) + rem * Math.sin(th); z = s0 + R0 * Math.sin(th) + rem * Math.cos(th); } return [x + off[0], y + off[1], -(z - L / 2) + off[2]]; };
 });
 
+// the plain sheet, finely gridded so it can fold along any of the crease lines below
+MODELS.sheet = () => [{ fixed: true, nu: 64, nv: 64, d0: 0, d1: 0, f: (u, v) => [(u - 0.5) * SHEET, 0, (v - 0.5) * SHEET] }];
+/* origami folds: the sheet is folded in half four times (book, cupboard, book, cupboard) into a small square packet.
+   f: 0 = flat, 1 = packet. Each fold turns the paper beyond the crease over the top of the stack. */
+const FOLD_G = 0.006;
+const FOLDS = [[0, 0], [2, 0], [0, -0.25], [2, -0.25]];
+const foldEase = (x) => { x = clamp(x); return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; };
+function foldPoint(x, z, f, out) {
+  let p = [x, 0, z], H = 0, sx = 0, sz = 0;
+  for (let i = 0; i < FOLDS.length; i++) {
+    const e = foldEase(f * FOLDS.length - i), [ax, hf] = FOLDS[i], h = hf * SHEET, ya = H + FOLD_G / 2;
+    if (e > 0 && p[ax] > h) { const th = Math.PI * e, dc = p[ax] - h, dy = p[1] - ya; p[ax] = h + dc * Math.cos(th) - dy * Math.sin(th); p[1] = ya + dc * Math.sin(th) + dy * Math.cos(th); }
+    H = 2 * H + FOLD_G;
+    const sh = (i < 2 ? 0.25 : 0.125) * SHEET * e; if (ax === 0) sx += sh; else sz += sh;
+  }
+  out[0] = p[0] + sx; out[1] = p[1]; out[2] = p[2] + sz;
+  return out;
+}
 /* ---------- patches -> one mesh: split long patches, lay all patches out on the sheet by area, weld, find creases ---------- */
 const SHEET = 3.3;
 function measure(p) {
@@ -808,7 +843,7 @@ function measure(p) {
   return { area, ls: Math.max(ls, 1e-4), lt: Math.max(lt, 1e-4), flip: sgn < 0 };
 }
 function splitPatch(p, maxAspect = 2.2) {
-  if (p.fixed) return [p];
+  if (p.fixed || p.keep) return [p];
   const m = measure(p);
   const nS = Math.max(1, Math.min(p.nu, Math.ceil(m.ls / m.lt / maxAspect - 0.15))), nT = Math.max(1, Math.min(p.nv, Math.ceil(m.lt / m.ls / maxAspect - 0.15)));
   const out = [];
@@ -830,7 +865,7 @@ const wkey = (p) => Math.round(p[0] * 2000) + ',' + Math.round(p[1] * 2000) + ',
 const smooth01 = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 function buildMesh(patches) {
   const list = [];
-  patches.forEach((p) => { const flip = p.fixed ? !!p.flip : measure(p).flip; splitPatch(p).forEach((c) => { c.flip = flip; list.push(c); }); });
+  patches.forEach((p) => { const flip = p.fixed ? !!p.flip : measure(p).flip; splitPatch(p).forEach((c) => { c.flip = flip; c.keep = p.keep; list.push(c); }); });
   list.forEach((p) => { const m = measure(p); p.area = m.area; p.ls = m.ls; p.lt = m.lt; });
   // lay every patch out on the unit sheet in proportion to its paper area, so the print has the same scale everywhere
   if (list.length === 1) list[0].rect = [0, 0, 1, 1]; else {
@@ -839,12 +874,13 @@ function buildMesh(patches) {
   }
   const V0 = [], FLAT = [], UV = [], DL = [], WELD = [], TRI = [], SGN = [], wmap = new Map();
   list.forEach((p) => {
-    const [x, y, w, h] = p.rect, asp = p.ls / p.lt, swap = !p.fixed && Math.abs(Math.log(asp * (w / h))) < Math.abs(Math.log(asp / (w / h)));
+    const [x, y, w, h] = p.rect, asp = p.ls / p.lt, swap = !p.fixed && !p.keep && Math.abs(Math.log(asp * (w / h))) < Math.abs(Math.log(asp / (w / h)));
     const base = V0.length, nu = p.nu, nv = p.nv, id = (i, j) => base + i * (nv + 1) + j;
     for (let i = 0; i <= nu; i++) for (let j = 0; j <= nv; j++) {
       const s = i / nu, t = j / nv, f = p.f(s, t);
       let a, b; if (swap) { a = x + w * t; b = y + h * s; } else { a = x + w * s; b = y + h * t; }
       if (p.uvFlip) { a = 1 - a; b = 1 - b; }
+      if (p.portrait) { const a2 = 1 - t, b2 = 1 - s; a = a2; b = b2; }
       V0.push(f); UV.push([a, b]); FLAT.push([(a - 0.5) * SHEET, 0, (b - 0.5) * SHEET]); DL.push(p.d0 + (p.d1 - p.d0) * s);
       const k = wkey(f); let wi = wmap.get(k); if (wi == null) { wi = wmap.size; wmap.set(k, wi); } WELD.push(wi);
     }
@@ -877,7 +913,7 @@ function buildMesh(patches) {
     const conc = V.dot(fn[t1], V.sub(ctr[t2], ctr[t1])) > 0 ? 1 : -1;
     M.crease[t1 * 3 + k1] = M.crease[t2 * 3 + k2] = st * conc;
   });
-  M.adj = adj; M.fn = fn;
+  M.adj = adj; M.fn = fn; if (patches.length === 1 && patches[0].portrait) M.asp = 2.4 / 1.7; if (patches.length === 1 && patches[0].live) { M.live = patches[0].live; M.lnu = patches[0].nu; M.lnv = patches[0].nv; }
   return M;
 }
 
@@ -897,13 +933,13 @@ const FORMS = {
 const texCache = {};
 const FILL = ['Amount from line above', 'Subtotal (add lines above)', 'Total of the lines above', 'Enter on the next page', 'Adjustments, if applicable', 'Other income (specify)', 'Carried forward from last year', 'Eligible amount', 'Net of credits claimed', 'Percentage of the total', 'Balance', 'Instalments paid', 'Refund or balance owing', 'Amount from schedule 1', 'Business-use-of-home expenses', 'Add lines 1 and 2', 'Subtract line 3 from line 2', 'Multiply line 4 by the rate'];
 const PARTS = ['Part 2 – Adjustments and deductions', 'Part 3 – Credits and carryovers', 'Part 4 – Tax payable', 'Part 5 – Summary of amounts', 'Part 6 – Certification'];
-function formTexture(kind, S = 2048, page = 1) {
-  const key = kind + page + S; if (texCache[key]) return texCache[key];
-  const F = FORMS[kind] || FORMS.T1, c = document.createElement('canvas'); c.width = c.height = S;
+function formTexture(kind, S = 2048, page = 1, asp = 1) {
+  const key = kind + page + S + '/' + asp; if (texCache[key]) return texCache[key];
+  const F = FORMS[kind] || FORMS.T1, c = document.createElement('canvas'); c.width = S; c.height = Math.round(S * asp); const LH = 1024 * asp;
   const g = c.getContext('2d'), r = rng(kind.length * 977 + 13 + page * 31), k = S / 1024;
   if (page === 2) { g.translate(S, 0); g.scale(-1, 1); }
-  g.fillStyle = '#f7f4ee'; g.fillRect(0, 0, S, S);
-  for (let n = 0; n < 5000; n++) { g.fillStyle = `rgba(${r() < 0.5 ? '120,110,90' : '255,255,255'},${0.03 + r() * 0.05})`; g.fillRect(r() * S, r() * S, 1 + r() * 1.6 * k, 1 + r() * 1.6 * k); }
+  g.fillStyle = '#f7f4ee'; g.fillRect(0, 0, S, c.height);
+  for (let n = 0; n < 5000 * asp; n++) { g.fillStyle = `rgba(${r() < 0.5 ? '120,110,90' : '255,255,255'},${0.03 + r() * 0.05})`; g.fillRect(r() * S, r() * c.height, 1 + r() * 1.6 * k, 1 + r() * 1.6 * k); }
   const ink = '#1f2124', mid = '#5f6368', rule = '#34363a', tint = '#e2e4df', red = '#d52b1e', sans = '"Helvetica Neue",Arial,sans-serif';
   g.save(); g.scale(k, k);
   const flag = (x, y, h) => {
@@ -932,7 +968,7 @@ function formTexture(kind, S = 2048, page = 1) {
     let y = 178, rowInSec = 0;
     const band = (txt) => { g.fillStyle = tint; g.fillRect(cx, y - 9, CW, 12); g.fillStyle = ink; g.font = `700 7.4px ${sans}`; g.fillText(txt, cx + 4, y); y += 16; rowInSec = 0; };
     band(ci === 0 ? F.sub : PARTS[part++ % PARTS.length]);
-    while (y < 992) {
+    while (y < LH - 32) {
       if (rowInSec === 9) band(PARTS[part++ % PARTS.length]);
       const row = n < base.length ? base[n] : [r() < 0.7 ? String(100 + Math.floor(r() * 900) + (r() < 0.4 ? 1000 * (1 + Math.floor(r() * 8)) : 0)) : '', FILL[(n * 5 + ci * 3) % FILL.length]];
       const [code, txt] = row; n++; rowInSec++;
@@ -945,7 +981,7 @@ function formTexture(kind, S = 2048, page = 1) {
       y += pitch;
     }
   });
-  g.fillStyle = mid; g.font = `400 6px ${sans}`; g.fillText('See the privacy notice on your return.   Do not use this area.', 30, 1008); g.font = `700 6.4px ${sans}`; g.fillText(`Page ${page} of 8`, 940, 1008);
+  g.fillStyle = mid; g.font = `400 6px ${sans}`; g.fillText('See the privacy notice on your return.   Do not use this area.', 30, LH - 16); g.font = `700 6.4px ${sans}`; g.fillText(`Page ${page} of 8`, 940, LH - 16);
   g.restore();
   return (texCache[key] = c);
 }
@@ -1053,7 +1089,22 @@ const SMOOTH_COS = Math.cos(24 * Math.PI / 180);
 const meshCache = {};
 const mesh = (k) => meshCache[k] || (meshCache[k] = (() => { const m = buildMesh(MODELS[k]()); m.name = k; return m; })());
 const BARY = new Float32Array([1, 0, 0, 0, 1, 0, 0, 0, 1]);
-function Layer(creature, form, tint) { this.creature = creature; this.form = form; this.tint = tint || null; this.m = mesh(creature); this.tex = formTexture(form, 2048); this.texB = formTexture(form, 2048, 2); this.tex2 = null; const n = this.m.nT * 3; this.buf = new Float32Array(n * 14); this.pos = new Float32Array(this.m.nVtx * 3); this.fnr = new Float32Array(this.m.nT * 3); this.vbo = null; this.n = n; }
+function Geo(m) { this.m = m; this.n = m.nT * 3; this.buf = new Float32Array(this.n * 14); this.pos = new Float32Array(m.nVtx * 3); this.fnr = new Float32Array(m.nT * 3); this.vbo = null; }
+function Layer(creature, form, tint) { this.creature = creature; this.form = form; this.tint = tint || null; this.m = mesh(creature); this.gc = new Geo(this.m); this.act = this.gc; const asp = this.m.asp || 1; this.tex = formTexture(form, 2048, 1, asp); this.texB = formTexture(form, 2048, 2, asp); this.tex2 = null; }
+// where each corner of a creature's sheet ends up inside the folded packet
+// the creature pressed flat into the packet's square: the body flattens in place, the legs fold in to the packet's edges
+let PKT = null;
+function packetBox() { if (PKT) return PKT; const q = [0, 0, 0]; let x0 = 1e9, x1 = -1e9, z0 = 1e9, z1 = -1e9, y1 = 0; for (let a = 0; a <= 8; a++) for (let b = 0; b <= 8; b++) { foldPoint((a / 8 - 0.5) * SHEET, (b / 8 - 0.5) * SHEET, 1, q); x0 = Math.min(x0, q[0]); x1 = Math.max(x1, q[0]); z0 = Math.min(z0, q[2]); z1 = Math.max(z1, q[2]); y1 = Math.max(y1, q[1]); } return (PKT = { cx: (x0 + x1) / 2, cz: (z0 + z1) / 2, h: Math.min(x1 - x0, z1 - z0) / 2, top: y1 }); }
+function packetOf(m) {
+  if (m.pk) return m.pk; const B = packetBox(), pk = new Float32Array(m.nVtx * 3);
+  let cx = 0, cz = 0; for (let i = 0; i < m.nVtx; i++) { cx += m.fold[i * 3]; cz += m.fold[i * 3 + 2]; } cx /= m.nVtx; cz /= m.nVtx;
+  let rmax = 1e-6; for (let i = 0; i < m.nVtx; i++) rmax = Math.max(rmax, Math.hypot(m.fold[i * 3] - cx, m.fold[i * 3 + 2] - cz));
+  for (let i = 0; i < m.nVtx; i++) {
+    const x = m.fold[i * 3] - cx, z = m.fold[i * 3 + 2] - cz, r = Math.max(Math.abs(x), Math.abs(z)) || 1e-6, rho = Math.hypot(x, z) / rmax, sc = (B.h * 0.98 * Math.pow(rho, 0.55)) / r;
+    pk[i * 3] = B.cx + x * sc; pk[i * 3 + 1] = B.top * (0.35 + 0.65 * clamp(m.fold[i * 3 + 1] / 1.2)) + 0.002; pk[i * 3 + 2] = B.cz + z * sc;
+  }
+  return (m.pk = pk);
+}
 function Scene(canvas, opt = {}) {
   this.c = canvas; this.g = canvas.getContext('2d');
   this.o = Object.assign({ creature: 'dragon', form: 'T1', fov: 1.25, yaw: -0.5, flatYaw: 0.5, cx: 0.5, cy: 0.56, zoom: 1, shadow: null, light: [-0.5, 0.85, 0.5], fps: 30, sway: 1, ao: 1, sheen: 0.05, bounce: [0.62, 0.7, 0.92], sky: [1, 0.99, 0.97] }, opt);
@@ -1081,9 +1132,24 @@ Scene.prototype.draw = function (k, frame = 0) {
   // morph every layer on the CPU: staggered unfold, sway, a little lift while paper is in the air
   const sa = Math.sin(st * 1.35) * 0.075 * sw, sc = Math.cos(sa), ss = Math.sin(sa), lean = Math.sin(st * 1.35 - 0.7) * 0.045 * sw, breath = 1 + Math.sin(st * 2.7) * 0.012 * sw;
   let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+  const KF = o.origami ? (o.foldAt || 0.45) : 2, useSheet = k > KF;
+  for (const ly of this.layers) ly.act = useSheet ? (this.sg || (this.sg = new Geo(mesh('sheet')))) : ly.gc;
+  if (o.time != null) for (const ly of this.layers) { const m = ly.m; if (!m.live) continue; for (let i = 0; i <= m.lnu; i++) for (let j = 0; j <= m.lnv; j++) m.fold.set(m.live(i / m.lnu, j / m.lnv, o.time), (i * (m.lnv + 1) + j) * 3); }
   for (const ly of this.layers) {
-    const m = ly.m, P = ly.pos, fold = m.fold, flat = m.flat;
-    for (let i = 0; i < m.nVtx; i++) {
+    const A = ly.act, m = A.m, P = A.pos, fold = m.fold, flat = m.flat;
+    if (useSheet) { // origami: the whole sheet folds along straight creases into the packet
+      const ff = 1 - (k - KF) / (1 - KF), q = [0, 0, 0];
+      for (let i = 0; i < m.nVtx; i++) { foldPoint(flat[i * 3], flat[i * 3 + 2], ff, q); P[i * 3] = q[0]; P[i * 3 + 1] = q[1]; P[i * 3 + 2] = q[2]; }
+    } else if (o.origami) { // the creature is shaped out of the packet: body first, then the limbs draw out of it
+      const pk = packetOf(m), qq = k / KF;
+      for (let i = 0; i < m.nVtx; i++) {
+        const d = m.dly[i], e = clamp(qq * 1.6 - (1 - d) * 0.6), ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2, i3 = i * 3;
+        let fx = fold[i3], fy = fold[i3 + 1], fz = fold[i3 + 2];
+        if (o.lift) fy *= 1 + o.lift;
+        if (sw) { const nx = fx * sc - fz * ss + lean * fy, nz = fx * ss + fz * sc; fy *= breath; fx = nx; fz = nz; }
+        P[i3] = fx + (pk[i3] - fx) * ee; P[i3 + 1] = fy + (pk[i3 + 1] - fy) * ee; P[i3 + 2] = fz + (pk[i3 + 2] - fz) * ee;
+      }
+    } else for (let i = 0; i < m.nVtx; i++) {
       const d = m.dly[i], e = clamp(k * 1.45 - d * 0.45), ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2, i3 = i * 3;
       let fx = fold[i3], fy = fold[i3 + 1], fz = fold[i3 + 2];
       if (o.lift) fy *= 1 + o.lift;
@@ -1097,7 +1163,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   if (o.center) { const ca = o.centerAmt == null ? 1 : o.centerAmt; ox += (W * (o.centerX || 0.5) - (x0 + x1) / 2) * ca; oy += (H * (o.centerY || 0.5) - (y0 + y1) / 2) * ca; }
   // face normals, then per-corner normals smoothed only across shallow angles so folds stay crisp
   for (const ly of this.layers) {
-    const m = ly.m, P = ly.pos, tri = m.tri, B = ly.buf, fnr = ly.fnr;
+    const A = ly.act, m = A.m, P = A.pos, tri = m.tri, B = A.buf, fnr = A.fnr;
     for (let t = 0; t < m.nT; t++) {
       const a = tri[t * 3] * 3, b = tri[t * 3 + 1] * 3, c = tri[t * 3 + 2] * 3, ux = P[b] - P[a], uy = P[b + 1] - P[a + 1], uz = P[b + 2] - P[a + 2], vx = P[c] - P[a], vy = P[c + 1] - P[a + 1], vz = P[c + 2] - P[a + 2];
       const s = m.sgn[t]; fnr[t * 3] = (uy * vz - uz * vy) * s; fnr[t * 3 + 1] = (uz * vx - ux * vz) * s; fnr[t * 3 + 2] = (ux * vy - uy * vx) * s;
@@ -1121,9 +1187,9 @@ Scene.prototype.draw = function (k, frame = 0) {
   const cv = G.cv; if (cv.width < W || cv.height < H) { cv.width = Math.max(cv.width, W); cv.height = Math.max(cv.height, H); }
   ensureFB(G, W, H);
   gl.bindVertexArray(G.vao);
-  for (const ly of this.layers) { if (!ly.vbo) ly.vbo = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, ly.vbo); gl.bufferData(gl.ARRAY_BUFFER, ly.buf, gl.DYNAMIC_DRAW); }
+  for (const ly of this.layers) { const A = ly.act; if (!A.vbo) A.vbo = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, A.vbo); gl.bufferData(gl.ARRAY_BUFFER, A.buf, gl.DYNAMIC_DRAW); }
   const attr = (ly, full) => {
-    gl.bindBuffer(gl.ARRAY_BUFFER, ly.vbo); const S = 56;
+    gl.bindBuffer(gl.ARRAY_BUFFER, ly.act.vbo); const S = 56;
     gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, S, 0);
     for (const i of [1, 2, 3, 4]) { if (full) { gl.enableVertexAttribArray(i); } else gl.disableVertexAttribArray(i); }
     if (full) { gl.vertexAttribPointer(1, 3, gl.FLOAT, false, S, 12); gl.vertexAttribPointer(2, 2, gl.FLOAT, false, S, 24); gl.vertexAttribPointer(3, 3, gl.FLOAT, false, S, 32); gl.vertexAttribPointer(4, 3, gl.FLOAT, false, S, 44); }
@@ -1136,7 +1202,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   gl.bindFramebuffer(gl.FRAMEBUFFER, G.smFbo); gl.viewport(0, 0, G.SM, G.SM); gl.colorMask(false, false, false, false); gl.depthMask(true); gl.clearDepth(1); gl.clear(gl.DEPTH_BUFFER_BIT);
   gl.useProgram(G.depth); { const u = G.depth.u; gl.uniform3fv(u.uLC, LC); gl.uniform3fv(u.uLX, lx); gl.uniform3fv(u.uLY, ly_); gl.uniform3fv(u.uL, L); gl.uniform1f(u.uLR, LR); }
   gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1.5, 2);
-  for (const ly of this.layers) { attr(ly, false); gl.drawArrays(gl.TRIANGLES, 0, ly.n); }
+  for (const ly of this.layers) { attr(ly, false); gl.drawArrays(gl.TRIANGLES, 0, ly.act.n); }
   gl.disable(gl.POLYGON_OFFSET_FILL); gl.colorMask(true, true, true, true);
   // 2. ground shadow: projected silhouette (R) and contact term (G), blurred
   const sc4 = parseCol(o.shadow);
@@ -1145,7 +1211,7 @@ Scene.prototype.draw = function (k, frame = 0) {
     gl.bindFramebuffer(gl.FRAMEBUFFER, A.fbo); gl.viewport(0, 0, W, H); gl.disable(gl.DEPTH_TEST); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
     gl.enable(gl.BLEND); gl.blendEquation(gl.MAX); gl.blendFunc(gl.ONE, gl.ONE);
     gl.useProgram(G.gnd); cam(G.gnd); gl.uniform3fv(G.gnd.u.uL, L); gl.uniform1f(G.gnd.u.uCon, 5);
-    for (const ly of this.layers) { attr(ly, false); gl.drawArrays(gl.TRIANGLES, 0, ly.n); }
+    for (const ly of this.layers) { attr(ly, false); gl.drawArrays(gl.TRIANGLES, 0, ly.act.n); }
     gl.blendEquation(gl.FUNC_ADD); gl.disable(gl.BLEND);
     const blur = (src, dst, dir, rw, rc) => { gl.bindFramebuffer(gl.FRAMEBUFFER, dst.fbo); gl.viewport(0, 0, W, H); gl.useProgram(G.blur); gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, src.tex); gl.uniform1i(G.blur.u.uT, 0); gl.uniform2f(G.blur.u.uDir, dir[0], dir[1]); gl.uniform2f(G.blur.u.uR, rw, rc); gl.uniform2f(G.blur.u.uSz, G.fw, G.fh); gl.drawArrays(gl.TRIANGLES, 0, 3); };
     const bw = (o.shadowBlur || W / 70), bc = bw * 0.28;
@@ -1168,7 +1234,7 @@ Scene.prototype.draw = function (k, frame = 0) {
     const u = G.main.u; gl.uniform3fv(u.uTint, ly.tint ? parseCol(ly.tint).slice(0, 3) : [1, 1, 1]);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texFor(G, ly.tex)); gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, texFor(G, ly.texB));
     gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, texFor(G, ly.tex2 || ly.tex)); gl.uniform1f(u.uMix, ly.tex2 ? texMix : 0);
-    attr(ly, true); gl.drawArrays(gl.TRIANGLES, 0, ly.n);
+    attr(ly, true); gl.drawArrays(gl.TRIANGLES, 0, ly.act.n);
   }
   // copy into this scene's canvas
   const g2 = this.g; g2.clearRect(0, 0, W, H); g2.drawImage(G.cv, 0, G.cv.height - H, W, H, 0, 0, W, H);
@@ -1187,21 +1253,21 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const SEQ = [
   { c: 'scorpion', z: 0.74, f: 'PD7A', name: 'The payroll scorpion', form: 'PD7A Statement of Account for Current Source Deductions' },
   { c: 'dragon', z: 0.72, f: 'T2', name: 'The T2 dragon', form: 'T2 Corporation Income Tax Return' },
-  { c: 'spider', z: 0.74, f: 'T5018', name: 'The T5018 spider', form: 'T5018 Summary of Contract Payments' },
+  { c: 'spider', z: 0.74, yaw: -0.62, f: 'T5018', name: 'The T5018 spider', form: 'T5018 Summary of Contract Payments' },
   { c: 'snake', z: 0.95, f: 'T2125', name: 'The T2125 cobra', form: 'Statement of Business or Professional Activities' },
 ];
-const HOLD = 1.5, DUR = 2.6, FLAT = 1.6, REFOLD = 2.6, SEG = HOLD + DUR + FLAT + REFOLD, TOTAL = SEG * SEQ.length;
+const HOLD = 1.5, DUR = 3.2, FLAT = 1.6, REFOLD = 3.2, SEG = HOLD + DUR + FLAT + REFOLD, TOTAL = SEG * SEQ.length;
 const stage = document.getElementById('stage');
 const mobile = () => innerWidth <= 820;
 const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.6, fov: 1.25, flatDist: 1.9, centerX: 0.5, centerY: 0.62 } : { centerX: innerWidth < 1400 ? 0.74 : 0.72, centerY: 0.55, cx: innerWidth < 1400 ? 0.755 : 0.74, cy: 0.58, fov: innerWidth < 1400 ? 1.2 : 1.24, zoom: 1, flatDist: 1.95 };
-const scene = new Origami.Scene(stage, Object.assign({ creature: 'scorpion', form: 'PD7A', shadow: 'rgba(0,14,104,.55)', bounce: [0.66, 0.76, 1], yaw: -0.42, flatYaw: 0.22 }, heroOpt()));
+const scene = new Origami.Scene(stage, Object.assign({ creature: 'scorpion', form: 'PD7A', shadow: 'rgba(0,14,104,.55)', bounce: [0.66, 0.76, 1], yaw: -0.42, flatYaw: 0.22, origami: true }, heroOpt()));
 let cur = -1, T = 0, playing = false, lastF = -1, prev = 0, loop = true, speed = 1;
 function show(t) {
   t = ((t % TOTAL) + TOTAL) % TOTAL;
   const i = Math.floor(t / SEG), lt = t - i * SEG, n = (i + 1) % SEQ.length;
   const T1 = HOLD, T2 = T1 + DUR, T3 = T2 + FLAT;
   const refold = lt >= T3, key = refold ? n + 100 : i;
-  if (key !== cur) { cur = key; const c = refold ? SEQ[n] : SEQ[i]; scene.set(c.c, c.f); scene.o.zoom = c.z || 1; scene.next(refold ? null : SEQ[n].f); stage.setAttribute('aria-label', `Paper animation: ${c.name}, folded from a CRA ${c.form}, unfolds into a flat sheet and refolds into the next creature`); }
+  if (key !== cur) { cur = key; const c = refold ? SEQ[n] : SEQ[i]; scene.set(c.c, c.f); scene.o.zoom = c.z || 1; scene.o.yaw = c.yaw || -0.42; scene.next(refold ? null : SEQ[n].f); stage.setAttribute('aria-label', `Paper animation: ${c.name}, folded from a CRA ${c.form}, unfolds into a flat sheet and refolds into the next creature`); }
   const k = lt < T1 ? 0 : lt < T2 ? (lt - T1) / DUR : lt < T3 ? 1 : 1 - (lt - T3) / REFOLD;
   scene.o.texMix = refold ? 0 : Math.max(0, Math.min(1, (lt - T2 - 0.35) / (FLAT - 0.7)));
   const fr = Math.floor(t * 30);
@@ -1278,11 +1344,12 @@ if (reduce && !CLIP) rb.seek(0);
     if (getComputedStyle(cv).display === 'none') return;
     const r = cv.getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.width * dpr), h = Math.round(r.height * dpr);
     if (cv.width !== w || cv.height !== h) { cv.width = w; cv.height = h; }
-    sc.draw(0, 0); // the sheets just lie there: no breathing, so the top edges never stretch upward
+    sc.o.time = t; sc.draw(0, 0); // the curls slowly lift and settle; no sway or breathing, so the edges never stretch
   };
   let vis = false, t0 = performance.now();
   const step = (now) => { if (!vis) return; draw((now - t0) / 1000); requestAnimationFrame(step); };
-  draw(0); addEventListener('resize', () => draw(0)); document.fonts && document.fonts.ready.then(() => draw(0));
+  const now0 = () => (performance.now() - t0) / 1000;
+  draw(0); addEventListener('resize', () => draw(now0())); document.fonts && document.fonts.ready.then(() => draw(now0()));
   new IntersectionObserver((es) => es.forEach((e) => { if (reduce || CLIP) return; const was = vis; vis = e.isIntersecting; if (vis && !was) requestAnimationFrame(step); }), { threshold: 0.1 }).observe(cv);
   window.__ft = { seek: draw };
 })();
