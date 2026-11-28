@@ -56,9 +56,13 @@ html body nav.back>div{margin-left:auto}
 .brand h1{font:400 30px/1 var(--serif);letter-spacing:-.01em}
 .brand h1 em{font-style:italic}
 .brand p{color:var(--muted);font-size:12.5px;margin-top:6px}
-section{border-top:1px solid var(--line);padding:16px 0 4px;margin-top:16px}
-h2{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:10px}
-.row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+section{border-top:1px solid var(--line);padding:22px 0 8px;margin-top:26px}
+h2{font-size:10.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--yellow);margin-bottom:16px}
+.grp{margin-bottom:22px}
+.grp>.row{margin-bottom:0}
+.lbl{display:block;font-size:11.5px;font-weight:600;letter-spacing:.04em;color:var(--text);margin-bottom:9px}
+.lbl small{font-weight:400;color:var(--muted);margin-left:6px;letter-spacing:0}
+.row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
 .chip{border:1px solid #3a3a3a;background:transparent;border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:500;cursor:pointer;line-height:1.1}
 .chip:hover{border-color:#777}
 .chip.on{background:var(--yellow);border-color:var(--yellow);color:var(--ink)}
@@ -78,7 +82,7 @@ input[type=text]:focus{outline:2px solid var(--yellow);outline-offset:0;border-c
 .chk{display:flex;gap:8px;align-items:center;margin-bottom:9px;font-size:13px;cursor:pointer}
 .chk input{accent-color:var(--yellow);width:16px;height:16px;margin:0;flex:none}
 .chk small{color:var(--muted);font-size:11.5px;margin-left:auto;text-align:right}
-.rng{display:grid;grid-template-columns:96px 1fr 28px;gap:8px;align-items:center;margin-bottom:8px;font-size:12.5px;color:var(--muted)}
+.rng{display:grid;grid-template-columns:112px 1fr 28px;gap:10px;align-items:center;margin-bottom:10px;font-size:12.5px;color:var(--muted)}
 .rng input{accent-color:var(--yellow);width:100%}
 .rng output{color:var(--text);text-align:right;font-variant-numeric:tabular-nums}
 .btn{border:1px solid #444;background:#222;border-radius:8px;padding:9px 14px;font-weight:600;font-size:13px;cursor:pointer}
@@ -87,10 +91,10 @@ input[type=text]:focus{outline:2px solid var(--yellow);outline-offset:0;border-c
 .btn:disabled{opacity:.5;cursor:default}
 #status{font-size:12px;color:var(--muted);min-height:18px;margin-top:6px}
 .hint{font-size:11.5px;color:var(--muted);margin:-4px 0 10px}
-.depth{display:flex;gap:4px;margin:2px 0 8px}
+.depth{display:flex;gap:4px;margin:16px 0 8px}
 .depth i{flex:1;height:6px;background:#2d2d2d}
 .depth i.on{background:var(--yellow)}
-.insight{font:400 21px/1.1 var(--serif);margin:8px 0 12px;color:var(--text)}
+.insight{font:400 21px/1.15 var(--serif);margin:16px 0 18px;color:var(--text)}
 .insight em{font-style:italic}
 .drops{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #333;margin-bottom:10px}
 .drops div{padding:8px 7px 9px;border-left:1px solid #333;font-size:11px;color:var(--muted);line-height:1.3}
@@ -125,16 +129,13 @@ input[type=text]:focus{outline:2px solid var(--yellow);outline-offset:0;border-c
 
     <section>
       <h2>Attendee</h2>
-      <label class="f"><span>First name</span><input type="text" id="name" maxlength="14" autocomplete="off"></label>
-      <div class="row" id="people"></div>
-      <div class="hint">Years at Thread</div>
-      <div class="row" id="years"></div>
-      <div class="hint">What they care about (pick any)</div>
-      <div class="row" id="tracks"></div>
-      <div class="hint">Sessions (saved before, attended after)</div>
-      <div class="row" id="sess"></div>
-      <div class="rng"><span>Booth taps</span><input type="range" id="taps" min="0" max="12" step="1"><output id="tapsO"></output></div>
-      <div class="rng"><span>Questions asked</span><input type="range" id="qs" min="0" max="8" step="1"><output id="qsO"></output></div>
+      <div class="grp"><label class="lbl" for="name">First name</label><input type="text" id="name" maxlength="14" autocomplete="off"><div class="row" id="people" style="margin:10px 0 0"></div></div>
+      <div class="grp"><div class="lbl">Years at Thread</div><div class="row" id="years"></div></div>
+      <div class="grp"><div class="lbl">What they care about <small>pick any</small></div><div class="row" id="tracks"></div></div>
+      <div class="grp"><div class="lbl">Sessions <small>saved before, attended after</small></div><div class="row" id="sess"></div></div>
+      <div class="grp"><div class="lbl">Activity</div>
+        <div class="rng"><span>Booth taps</span><input type="range" id="taps" min="0" max="12" step="1" aria-label="Booth taps"><output id="tapsO"></output></div>
+        <div class="rng"><span>Questions asked</span><input type="range" id="qs" min="0" max="8" step="1" aria-label="Questions asked"><output id="qsO"></output></div></div>
     </section>
 
     <section>
