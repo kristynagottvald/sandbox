@@ -677,44 +677,78 @@ const triP = (apex, p0, p1, o) => quadP(apex, apex, p1, p0, o);
 const lin = (pts, sub = 6) => { const o = []; for (let i = 0; i < pts.length - 1; i++) for (let k = 0; k < sub; k++) o.push(V.lerp(pts[i], pts[i + 1], k / sub)); o.push(pts[pts.length - 1]); return o; };
 const MODELS = {};
 
-// after the Figma reference: a compact four-legged dragon, short neck, boxy open-jawed head with swept horns,
-// two big pleated triangular wings raised over the back and a tail rising to a point. heads: 1 (dragon) or 3 (hydra).
+// after the Figma reference: a heavy, low four-legged dragon. Deep pleated barrel, thick segmented neck, a boxy head with an open jaw,
+// teeth, swept horns and a spiked crest, big pleated wings, short thick legs ending in claws, a dorsal row of spikes and a pointed tail.
+// heads: 1 (dragon) or 3 (hydra).
+function spikeRow(P, sp, rn, s0, s1, n, h, d) { // little triangular fins standing on top of a tube
+  for (let k = 0; k < n; k++) {
+    const s = s0 + (s1 - s0) * (k + 0.5) / n, fr = sp.at(s), r = rn(s), top = V.add(fr.p, V.mul(fr.n, r * 0.92)), L = (s1 - s0) * sp.length / n * 0.55;
+    const a = V.sub(top, V.mul(fr.t, L)), b = V.add(top, V.mul(fr.t, L * 0.6)), apex = V.add(V.add(top, V.mul(fr.n, h * (0.7 + 0.3 * Math.sin(k * 1.7)))), V.mul(fr.t, L * 1.1));
+    P.push(triP(apex, a, b, { nu: 1, nv: 1, d0: d, d1: d + 0.05 }));
+  }
+}
+function dragonHead(P, top, fwd, sc, o, d) {
+  const f = V.norm(fwd), w = V.norm(V.cross(f, [0, 1, 0])), u = V.cross(w, f), at = (a, h, z = 0) => V.add(top, V.add(V.mul(f, a * sc), V.add(V.mul(u, h * sc), V.mul(w, z * sc))));
+  const R = [0.16, 0.155, 0.125, 0.075], N = [0.15, 0.15, 0.115, 0.06], pick = (A, s) => A[Math.min(3, Math.round(s * 3))] * sc;
+  P.push(tubeP(spine([at(-0.1, 0.03), at(0.06, 0.05), at(0.2, 0.03), at(0.34, 0.0)], u, 40), { sides: 4, rings: 3, rb: (s) => pick(R, s), rn: (s) => pick(N, s), rot: Math.PI / 4, ridge: 0.25, d0: d, d1: d + 0.08 }));
+  // nose ridge and brow plates
+  for (const z of [1, -1]) P.push(triP(at(-0.06, 0.2, 0.05 * z), at(0.12, 0.1, 0.11 * z), at(-0.1, 0.08, 0.13 * z), { nu: 1, nv: 1, d0: d + 0.08, d1: d + 0.1 }));
+  // open lower jaw and teeth
+  P.push(frustum(at(-0.04, -0.08), at(0.3, -0.24), [0.13, 0.06], [0.06, 0.02], { sides: 4, up: u, d0: d + 0.05, d1: d + 0.1 }));
+  for (const z of [1, -1]) for (let k = 0; k < 2; k++) {
+    P.push(frustum(at(0.2 + k * 0.08, -0.05, 0.06 * z), at(0.21 + k * 0.08, -0.1, 0.055 * z), 0.018 * sc, 0.002, { sides: 3, d0: d + 0.1, d1: d + 0.12 }));
+    P.push(frustum(at(0.14 + k * 0.08, -0.13 - k * 0.04, 0.05 * z), at(0.15 + k * 0.08, -0.08 - k * 0.04, 0.045 * z), 0.016 * sc, 0.002, { sides: 3, d0: d + 0.1, d1: d + 0.12 }));
+  }
+  // horns or a crest of spikes fanning back
+  for (const z of [1, -1]) {
+    if (o.horns) P.push(frustum(at(-0.02, 0.1, 0.07 * z), at(-0.34, 0.4, 0.14 * z), [0.06, 0.045], 0.006, { sides: 3, d0: d + 0.1, d1: d + 0.15 }), frustum(at(-0.06, 0.06, 0.1 * z), at(-0.24, 0.16, 0.24 * z), [0.04, 0.03], 0.005, { sides: 3, d0: d + 0.1, d1: d + 0.15 }));
+    for (let k = 0; k < (o.crest || 0); k++) { const q = k / Math.max(1, o.crest - 1), b0 = at(-0.02 - q * 0.1, 0.12 - q * 0.06, 0.07 * z), b1 = at(-0.1 - q * 0.1, 0.1 - q * 0.08, (0.09 + q * 0.03) * z); P.push(triP(at(-0.24 - q * 0.14, 0.3 - q * 0.26, (0.12 + q * 0.18) * z), b0, b1, { nu: 1, nv: 1, d0: d + 0.1, d1: d + 0.15 })); }
+  }
+}
 function dragonModel(heads) {
-  const P = [];
-  const body = spine([[-0.36, 0.6, 0], [-0.1, 0.62, 0], [0.18, 0.6, 0], [0.42, 0.56, 0]], [0, 1, 0], 100);
-  P.push(tubeP(body, { sides: 6, rings: 6, rb: (s) => 0.24 + 0.05 * Math.sin(Math.PI * s), rn: (s) => 0.28 + 0.04 * Math.sin(Math.PI * s) - 0.05 * s, ridge: 0.2, d0: 0, d1: 0.1 }));
-  // a neck and boxy head; the head is a 4-sided wedge, the lower jaw hangs open below it, two horns sweep back
-  const headOn = (base, top, fwd, z0, d) => {
-    const neck = spine([base, V.lerp(base, top, 0.45).map((v, k) => v + (k === 0 ? 0.06 : 0)), V.lerp(base, top, 0.8).map((v, k) => v + (k === 0 ? -0.04 : 0)), top], [1, 0, 0], 80);
-    P.push(tubeP(neck, { sides: 4, rings: 6, rb: (s) => mix(0.17, 0.12, s), rn: (s) => mix(0.16, 0.11, s), rot: Math.PI / 4, ridge: 0.25, d0: d, d1: d + 0.15 }));
-    const f = V.norm(fwd), up = [0, 1, 0], at = (a, h, w = 0) => V.add(top, V.add(V.mul(f, a), [0, h, w]));
-    const head = spine([at(-0.06, 0.03), at(0.12, 0.04), at(0.28, 0.0), at(0.4, -0.03)], [0, 1, 0], 40);
-    P.push(tubeP(head, { sides: 4, rings: 3, rb: (s) => mix(0.15, 0.065, s), rn: (s) => mix(0.13, 0.055, s), rot: Math.PI / 4, ridge: 0.2, d0: d + 0.15, d1: d + 0.25 }));
-    P.push(frustum(at(0.04, -0.09), at(0.34, -0.2), [0.1, 0.035], [0.025, 0.012], { sides: 4, d0: d + 0.2, d1: d + 0.28 }));
-    for (const o of [1, -1]) P.push(frustum(at(-0.02, 0.07, 0.05 * o), at(-0.2, 0.3, 0.1 * o), [0.05, 0.04], 0.006, { sides: 3, d0: d + 0.25, d1: d + 0.3 }), frustum(at(0.02, 0.06, 0.07 * o), at(-0.08, 0.2, 0.15 * o), [0.035, 0.03], 0.005, { sides: 3, d0: d + 0.25, d1: d + 0.3 }));
+  const P = [], hy = heads === 3;
+  // body: a deep, low barrel, chest deeper than the hips, folded into pleated bands
+  const body = spine([[-0.4, 0.5, 0], [-0.12, 0.54, 0], [0.16, 0.52, 0], [0.44, 0.48, 0]], [0, 1, 0], 100);
+  const bR = (s) => 0.25 + 0.05 * Math.sin(Math.PI * s), bN = (s) => 0.3 - 0.08 * s + 0.03 * Math.sin(Math.PI * s);
+  P.push(tubeP(body, { sides: 6, rings: 8, rb: bR, rn: bN, pleat: 0.05, ridge: 0.18, d0: 0, d1: 0.1 }));
+  spikeRow(P, body, bN, 0.15, 0.95, 6, 0.12, 0.12);
+  // necks: thick, pleated, rising in an S to the heads
+  const neck = (base, top, fwd, d, sc) => {
+    const m1 = V.lerp(base, top, 0.4), m2 = V.lerp(base, top, 0.75), sp = spine([base, [m1[0] + 0.08, m1[1], m1[2]], [m2[0] - 0.05, m2[1], m2[2]], top], [1, 0, 0], 100), nR = (s) => mix(0.17, 0.12, s) * sc;
+    P.push(tubeP(sp, { sides: 4, rings: Math.round(5 + sp.length * 6), rb: nR, rn: nR, pleat: 0.09, rot: Math.PI / 4, ridge: 0.18, d0: d, d1: d + 0.15 }));
+    if (hy) spikeRow(P, sp, nR, 0.15, 0.9, 4, 0.08, d + 0.1);
+    dragonHead(P, top, fwd, sc, hy ? { crest: 5 } : { horns: true, crest: 2 }, d + 0.15);
   };
-  if (heads === 3) {
-    headOn([-0.3, 0.76, 0.04], [-0.52, 1.72, 0.12], [-1, 0.12, 0.3], 0, 0.1);
-    headOn([-0.32, 0.7, 0.16], [-1.06, 1.28, 0.36], [-1, 0, 0.3], 0, 0.12);
-    headOn([-0.18, 0.76, -0.12], [0.16, 1.46, -0.2], [-0.6, 0.05, 0.5], 0, 0.12);
-  } else headOn([-0.3, 0.74, 0], [-0.5, 1.16, 0], [-1, 0.05, 0], 0, 0.1);
-  // wings: a strong leading spar, then big pleated triangular panels fanning back from the shoulder
+  if (hy) {
+    neck([-0.32, 0.66, 0.04], [-0.48, 1.62, 0.1], [-1, 0.15, 0.3], 0.1, 0.9);
+    neck([-0.34, 0.6, 0.16], [-1.02, 1.2, 0.36], [-1, 0.05, 0.25], 0.12, 0.9);
+    neck([-0.2, 0.66, -0.12], [0.1, 1.38, -0.22], [-0.6, 0.1, 0.55], 0.12, 0.9);
+  } else neck([-0.34, 0.64, 0], [-0.5, 1.26, 0], [-1, 0.08, 0], 0.1, 1.05);
+  // wings: leading spar and five pleated triangular panels fanning back from the shoulder
   for (const sd of [1, -1]) {
-    const S = [-0.04, 0.86, 0.18 * sd], W = heads === 3 ? 0.62 : 1;
-    const T = [[-0.12, 1.55, 0.5], [0.22, 1.32, 0.56], [0.86, 1.36, 0.64], [0.52, 0.96, 0.42]].map(([x, y, z]) => V.add(S, V.mul(V.sub([x, y, z * sd], S), W)));
-    P.push(frustum(S, T[0], 0.05, 0.012, { sides: 4, d0: 0.3, d1: 0.45 }));
-    for (let i = 0; i < T.length - 1; i++) P.push(triP(S, T[i], T[i + 1], { nu: 3, nv: 2, fold: (i % 2 ? -1 : 1) * 0.1 * sd, d0: 0.4, d1: 0.6 }));
+    const S = [-0.06, 0.8, 0.2 * sd], W = hy ? 0.62 : 1;
+    const T = [[-0.14, 1.56, 0.46], [0.18, 1.38, 0.54], [0.52, 1.44, 0.6], [0.92, 1.36, 0.64], [0.76, 1.1, 0.5], [0.5, 0.9, 0.4]].map(([x, y, z]) => V.add(S, V.mul(V.sub([x, y, z * sd], S), W)));
+    P.push(frustum(S, T[0], 0.055, 0.012, { sides: 4, d0: 0.3, d1: 0.45 }), frustum(S, T[2], 0.035, 0.008, { sides: 3, d0: 0.35, d1: 0.5 }));
+    for (let i = 0; i < T.length - 1; i++) P.push(triP(S, T[i], T[i + 1], { nu: 3, nv: 2, fold: (i % 2 ? -1 : 1) * 0.09 * sd, d0: 0.4, d1: 0.6 }));
   }
-  // legs: straight front legs, deep hind haunches, small pointed feet
+  // legs: short and thick, big triangular haunches, each foot with three claws and a dewclaw
+  const claws = (ank, dir, sd, d) => { for (const o of [-1, 0, 1]) P.push(frustum(ank, [ank[0] + dir * 0.16, 0.006, ank[2] + o * 0.075 * sd + 0.02 * sd], [0.045, 0.035], 0.004, { sides: 3, d0: d, d1: d + 0.05 })); P.push(frustum(ank, [ank[0] - dir * 0.08, 0.01, ank[2]], [0.03, 0.025], 0.004, { sides: 3, d0: d, d1: d + 0.05 })); };
   for (const sd of [1, -1]) {
-    const f0 = [-0.24, 0.46, 0.16 * sd], f1 = [-0.27, 0.2, 0.2 * sd], f2 = [-0.3, 0.02, 0.21 * sd];
-    P.push(frustum(f0, f1, [0.12, 0.11], [0.085, 0.08], { sides: 4, d0: 0.3, d1: 0.35 }), frustum(f1, f2, [0.085, 0.08], [0.065, 0.06], { sides: 4, d0: 0.35, d1: 0.4 }), frustum(f2, [-0.48, 0.01, 0.23 * sd], [0.07, 0.035], 0.008, { sides: 3, d0: 0.4, d1: 0.45 }));
-    const h0 = [0.28, 0.56, 0.18 * sd], h1 = [0.38, 0.26, 0.23 * sd], h2 = [0.28, 0.02, 0.23 * sd];
-    P.push(frustum(h0, h1, [0.2, 0.17], [0.09, 0.085], { sides: 4, d0: 0.3, d1: 0.35 }), frustum(h1, h2, [0.085, 0.08], [0.065, 0.06], { sides: 4, d0: 0.35, d1: 0.4 }), frustum(h2, [0.1, 0.01, 0.24 * sd], [0.07, 0.035], 0.008, { sides: 3, d0: 0.4, d1: 0.45 }));
+    const s0 = [-0.26, 0.44, 0.22 * sd], e = [-0.2, 0.22, 0.3 * sd], wr = [-0.28, 0.05, 0.3 * sd];
+    P.push(frustum(s0, e, [0.18, 0.15], [0.1, 0.095], { sides: 4, d0: 0.3, d1: 0.35 }), frustum(e, wr, [0.1, 0.095], [0.075, 0.07], { sides: 4, d0: 0.35, d1: 0.4 }));
+    claws(wr, -1, sd, 0.4);
+    const h0 = [0.3, 0.42, 0.26 * sd], k = [0.12, 0.22, 0.36 * sd], an = [0.34, 0.1, 0.34 * sd], ft = [0.28, 0.05, 0.34 * sd];
+    P.push(frustum(h0, k, [0.27, 0.22], [0.12, 0.11], { sides: 4, d0: 0.3, d1: 0.35 }), frustum(k, an, [0.12, 0.11], [0.075, 0.07], { sides: 4, d0: 0.35, d1: 0.4 }), frustum(an, ft, [0.065, 0.06], [0.06, 0.055], { sides: 4, d0: 0.4, d1: 0.42 }));
+    claws(ft, -1, sd, 0.42);
   }
-  // tail: back and up to a flat point (the hydra's curls up higher)
-  const tp = heads === 3 ? [[0.4, 0.56, 0], [0.74, 0.5, 0], [1.0, 0.62, 0], [1.12, 0.9, 0], [1.06, 1.12, 0], [0.94, 1.2, 0]] : [[0.4, 0.56, 0], [0.7, 0.6, 0], [0.94, 0.76, 0], [1.14, 1.02, 0]];
-  P.push(tubeP(spine(tp, [0, 0, 1], 120), { sides: 4, rings: 8, rb: (s) => 0.13 * Math.pow(1 - s, 0.9) + 0.006, rn: (s) => 0.06 * Math.pow(1 - s, 0.9) + 0.004, rot: 0, ridge: 0.3, d0: 0.2, d1: 1 }));
+  // tail: pleated, rising to a point (the hydra's sweeps out and curls up to an arrowhead)
+  const tp = hy ? [[0.42, 0.5, 0], [0.76, 0.4, 0], [1.06, 0.48, 0], [1.22, 0.76, 0], [1.18, 1.04, 0], [1.04, 1.16, 0]] : [[0.42, 0.5, 0], [0.72, 0.52, 0], [0.98, 0.7, 0], [1.2, 1.0, 0]];
+  const tail = spine(tp, [0, 1, 0], 140), tR = (s) => 0.15 * Math.pow(1 - s, 0.85) + 0.012, tN = (s) => 0.12 * Math.pow(1 - s, 0.85) + 0.01;
+  P.push(tubeP(tail, { sides: 4, rings: hy ? 14 : 9, rb: tR, rn: tN, pleat: 0.1, rot: Math.PI / 4, ridge: 0.3, d0: 0.2, d1: 1 }));
+  spikeRow(P, tail, tN, 0.05, 0.85, hy ? 8 : 5, 0.07, 0.6);
+  const e1 = tail.at(1), e0 = tail.at(0.96), side = V.norm(V.cross(e1.t, [0, 0, 1]));
+  P.push(triP(V.add(e1.p, V.mul(e1.t, 0.16)), V.add(e0.p, V.mul(side, 0.12)), V.add(e0.p, V.mul(side, -0.12)), { nu: 2, nv: 1, d0: 0.95, d1: 1 }));
+  P.printScale = 0.62;
   return P;
 }
 MODELS.dragon = () => dragonModel(1);
@@ -726,18 +760,19 @@ MODELS.scorpion = () => {
   const bw = (s) => (s < 0.28 ? mix(0.2, 0.36, Math.sin(s / 0.28 * Math.PI / 2)) : mix(0.36, 0.17, Math.pow((s - 0.28) / 0.72, 1.3)));
   P.push(tubeP(body, { sides: 8, rings: 9, rb: bw, rn: (s) => bw(s) * 0.58, pleat: 0.06, rot: Math.PI / 2, ridge: 0.22, d0: 0, d1: 0.15 }));
   const tail = spine([[0.5, 0.36, 0], [0.76, 0.46, 0], [0.94, 0.66, 0], [0.95, 0.9, 0], [0.82, 1.06, 0], [0.6, 1.1, 0], [0.47, 1.0, 0]], [0, 0, 1], 220);
-  P.push(tubeP(tail, { sides: 6, rings: 10, rb: (s) => mix(0.15, 0.1, s), rn: (s) => mix(0.13, 0.095, s), pleat: 0.16, ridge: 0.18, d0: 0.15, d1: 0.9 }));
+  P.push(tubeP(tail, { sides: 6, rings: 10, rb: (s) => mix(0.2, 0.13, s), rn: (s) => mix(0.17, 0.12, s), pleat: 0.16, ridge: 0.18, d0: 0.15, d1: 0.9 }));
   P.push(frustum([0.47, 1.0, 0], [0.4, 0.8, 0], [0.09, 0.08], [0.012, 0.01], { sides: 4, up: [0, 0, 1], d0: 0.9, d1: 1 }));
   for (const sd of [1, -1]) {
     const a = [-0.5, 0.28, 0.16 * sd], b = [-0.74, 0.32, 0.4 * sd], c = [-0.98, 0.26, 0.5 * sd], h = [-1.2, 0.22, 0.55 * sd];
     P.push(frustum(a, b, [0.08, 0.07], [0.07, 0.065], { sides: 4, d0: 0.25, d1: 0.35 }), frustum(b, c, [0.075, 0.065], [0.1, 0.07], { sides: 4, d0: 0.35, d1: 0.42 }));
-    P.push(frustum(c, h, [0.19, 0.08], [0.17, 0.07], { sides: 4, rot: Math.PI / 4, d0: 0.42, d1: 0.48 }));
-    P.push(frustum(h, [-1.56, 0.17, 0.46 * sd], [0.08, 0.05], [0.008, 0.008], { sides: 4, rot: Math.PI / 4, d0: 0.48, d1: 0.56 }), frustum([h[0] + 0.03, h[1], h[2] + 0.07 * sd], [-1.48, 0.16, 0.68 * sd], [0.06, 0.04], [0.008, 0.008], { sides: 4, rot: Math.PI / 4, d0: 0.48, d1: 0.56 }));
+    P.push(frustum(c, h, [0.25, 0.11], [0.22, 0.1], { sides: 4, rot: Math.PI / 4, d0: 0.42, d1: 0.48 }));
+    P.push(frustum(h, [-1.56, 0.17, 0.46 * sd], [0.12, 0.07], [0.01, 0.01], { sides: 4, rot: Math.PI / 4, d0: 0.48, d1: 0.56 }), frustum([h[0] + 0.03, h[1], h[2] + 0.07 * sd], [-1.48, 0.16, 0.7 * sd], [0.1, 0.06], [0.01, 0.01], { sides: 4, rot: Math.PI / 4, d0: 0.48, d1: 0.56 }));
     for (let n = 0; n < 4; n++) {
       const x = -0.3 + n * 0.17, root = [x, 0.27, 0.22 * sd], knee = [x - 0.02 + (n - 1.5) * 0.05, 0.42, 0.46 * sd], foot = [x - 0.08 + (n - 1.5) * 0.13, 0.01, 0.66 * sd];
       P.push(frustum(root, knee, [0.075, 0.065], [0.06, 0.055], { sides: 4, d0: 0.25, d1: 0.3 }), frustum(knee, foot, [0.06, 0.055], 0.012, { sides: 4, d0: 0.3, d1: 0.4 }));
     }
   }
+  P.printScale = 0.62;
   return P;
 };
 
@@ -753,9 +788,13 @@ MODELS.spider = () => {
   for (const sd of [1, -1]) ang.forEach((a, n) => {
     const A = a * D2R, dir = [-Math.sin(A), 0, Math.cos(A) * sd], root = [-0.3 + 0.12 * n, 0.48, 0.2 * sd];
     const at = (d, h) => V.add(root, [dir[0] * d, h, dir[2] * d]);
-    const p0 = at(0, 0), p1 = at(0.26, 0.3), p2 = at(0.56, 0.16), p3 = at(0.78 + n * 0.02, -0.47);
-    P.push(frustum(p0, p1, [0.08, 0.07], [0.068, 0.06], { sides: 4, up: [0, 1, 0], d0: 0.2, d1: 0.3 }), frustum(p1, p2, [0.068, 0.06], [0.055, 0.05], { sides: 4, d0: 0.3, d1: 0.6 }), frustum(p2, p3, [0.055, 0.05], [0.012, 0.012], { sides: 4, d0: 0.6, d1: 0.9 }));
+    // four segments, each folded with a joint block: femur rises, patella turns, tibia drops, a thin tarsus to the point
+    const p0 = at(0, 0), p1 = at(0.26, 0.32), p2 = at(0.4, 0.3), p3 = at(0.66, -0.12), p4 = at(0.8 + n * 0.02, -0.47);
+    P.push(frustum(p0, p1, [0.085, 0.075], [0.07, 0.062], { sides: 4, up: [0, 1, 0], d0: 0.2, d1: 0.3 }), frustum(p1, p2, [0.075, 0.068], [0.065, 0.06], { sides: 4, d0: 0.3, d1: 0.4 }));
+    P.push(frustum(p2, p3, [0.062, 0.056], [0.045, 0.04], { sides: 4, d0: 0.4, d1: 0.65 }), frustum(p3, p4, [0.042, 0.038], [0.008, 0.008], { sides: 4, d0: 0.65, d1: 0.9 }));
+    for (const j of [p1, p2, p3]) P.push(domeP(j, [0.06, 0.055, 0.06], { lats: 3, longs: 5, d0: 0.3, d1: 0.4 }));
   });
+  P.printScale = 0.62;
   return P;
 };
 
@@ -764,14 +803,16 @@ function cobraPatches(sp, o = {}) {
   const Lg = sp.length, hood = o.hood == null ? 0.2 : o.hood, tail = o.tailFrom == null ? 1e9 : o.tailFrom;
   const lat = (a) => { if (a < 0.05) return mix(0.03, 0.07, a / 0.05); if (a < 0.17) return 0.075; if (a < 0.86) return 0.09 + hood * Math.pow(Math.sin(Math.PI * Math.pow((a - 0.17) / 0.69, 0.75)), 0.9); if (a < 1.2) return mix(0.09, 0.105, (a - 0.86) / 0.34); return a < tail ? 0.105 : mix(0.105, 0.008, Math.pow(Math.min(1, (a - tail) / (Lg - tail)), 0.9)); };
   const thk = (a) => { if (a < 0.05) return mix(0.025, 0.055, a / 0.05); if (a < 0.17) return 0.058; if (a < 0.86) return mix(0.058, 0.04, Math.sin(Math.PI * (a - 0.17) / 0.69)); return lat(a) * 0.95; };
-  return [tubeP(sp, { sides: 6, rings: Math.ceil(Lg / 0.085), rb: (s) => thk(s * Lg), rn: (s) => lat(s * Lg), rot: Math.PI / 2, d0: o.d0 || 0, d1: o.d1 == null ? 1 : o.d1 })];
+  const K = o.thick || 1;
+  return [tubeP(sp, { sides: 6, rings: Math.ceil(Lg / 0.085), rb: (s) => thk(s * Lg) * K, rn: (s) => lat(s * Lg) * K, rot: Math.PI / 2, d0: o.d0 || 0, d1: o.d1 == null ? 1 : o.d1 })];
 }
 MODELS.snake = () => {
   // faces the viewer with its hood spread, neck dropping into a flat coil
-  const pts = [[-0.22, 1.24, 0.62], [-0.14, 1.28, 0.44], [-0.1, 1.24, 0.27], [-0.06, 1.0, 0.14], [-0.04, 0.68, 0.06], [0.0, 0.4, 0.0], [0.1, 0.3, -0.04]];
+  const pts = [[-0.2, 1.42, 0.5], [-0.12, 1.48, 0.34], [-0.08, 1.42, 0.2], [-0.02, 1.14, 0.1], [0.02, 0.8, 0.12], [0.0, 0.48, 0.04], [0.1, 0.32, -0.04]];
   const c = [0.08, 0, -0.1];
-  for (let k = 0; k <= 22; k++) { const q = k / 22, th = 0.9 + q * Math.PI * 2 * 1.55, r = 0.24 + q * 0.7; pts.push([c[0] + Math.cos(th) * r, 0.11 + (1 - q) * 0.18, c[2] + Math.sin(th) * r * 0.8]); }
-  return cobraPatches(spine(pts, [1, 0, 0], 400), { tailFrom: 2.3 });
+  for (let k = 0; k <= 22; k++) { const q = k / 22, th = 0.9 + q * Math.PI * 2 * 1.25, r = 0.34 + q * 0.06; pts.push([c[0] + Math.cos(th) * r, 0.13 + (1 - q) * 0.2, c[2] + Math.sin(th) * r]); }
+  { const e = pts[pts.length - 1], th = 0.9 + Math.PI * 2 * 1.25 + 0.4; for (let k = 1; k <= 3; k++) pts.push([e[0] + Math.cos(th) * 0.2 * k, 0.1 + k * 0.03, e[2] + Math.sin(th) * 0.2 * k]); }
+  const P = cobraPatches(spine(pts, [1, 0, 0], 400), { tailFrom: 4.3, thick: 1.6, hood: 0.07 }); P.printScale = 0.62; return P;
 };
 MODELS.hydra = () => dragonModel(3);
 
@@ -854,7 +895,7 @@ function buildMesh(patches) {
   // lay every patch out on the unit sheet in proportion to its paper area, so the print has the same scale everywhere
   if (list.length === 1) list[0].rect = [0, 0, 1, 1]; else {
     const items = list.map((p, id) => ({ id, w: Math.max(p.area, 0.0008) })).sort((a, b) => b.w - a.w), R = {};
-    const PS = patches.printScale || 0.5; treemap(items, 0, 0, PS, PS * FORM_ASP, R); list.forEach((p, id) => { const [x, y, w, h] = R[id]; p.rect = [x, y / FORM_ASP, w, h / FORM_ASP]; });
+    const PS = patches.printScale || 0.4; treemap(items, 0, 0, PS, PS * FORM_ASP, R); list.forEach((p, id) => { const [x, y, w, h] = R[id]; p.rect = [x, y / FORM_ASP, w, h / FORM_ASP]; });
   }
   const V0 = [], FLAT = [], UV = [], DL = [], WELD = [], TRI = [], SGN = [], wmap = new Map();
   list.forEach((p) => {
@@ -958,13 +999,16 @@ function formTexture(kind, S = 2048, page = 1, asp = 1) {
       const [code, txt] = row; n++; rowInSec++;
       g.fillStyle = ink; g.font = `400 7.6px ${sans}`; const t = txt.length > 56 ? txt.slice(0, 56) : txt; g.fillText(t, cx + 4, y);
       const tw = g.measureText(t).width; g.fillStyle = '#9a9c98'; for (let x = cx + 8 + tw; x < cx + 316; x += 5) g.fillRect(x, y - 2, 1.1, 1.1);
-      if (code) { g.fillStyle = ink; g.font = `700 7.4px ${sans}`; g.fillText(code, cx + 322, y); }
-      g.strokeStyle = rule; g.lineWidth = 0.7; g.strokeRect(cx + 352, y - 9, CW - 352, 12);
+      if (code) { g.fillStyle = ink; g.font = `700 8.4px ${sans}`; g.fillText(code, cx + 318, y); }
+      g.fillStyle = '#3a3c40'; g.fillRect(cx + 312, y - 9, 0.9, 12.2);
+      g.fillStyle = '#3a3c40'; g.fillRect(cx, y + 3.2, CW, 0.9);
+      g.strokeStyle = rule; g.lineWidth = 1; g.strokeRect(cx + 352, y - 9, CW - 352, 12);
       g.beginPath(); g.moveTo(cx + CW - 28, y - 9); g.lineTo(cx + CW - 28, y + 3); g.stroke();
       if (r() < 0.22) { g.fillStyle = ink; g.font = `400 7px ${sans}`; g.textAlign = 'right'; g.fillText(String(Math.floor(r() * 90000) / 100).replace(/(\.\d)$/, '$10'), cx + CW - 31, y); g.textAlign = 'left'; }
       y += pitch;
     }
   });
+  g.fillStyle = rule; g.fillRect(cols[1] - 12, 170, 1.2, LH - 210);
   g.fillStyle = mid; g.font = `400 6px ${sans}`; g.fillText('See the privacy notice on your return.   Do not use this area.', 30, LH - 16); g.font = `700 6.4px ${sans}`; g.fillText(`Page ${page} of 8`, 940, LH - 16);
   g.restore();
   return (texCache[key] = c);
@@ -1219,7 +1263,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   }
   gl.useProgram(G.main); cam(G.main); { const u = G.main.u;
     gl.uniform3fv(u.uL, L); gl.uniform3fv(u.uLC, LC); gl.uniform3fv(u.uLX, lx); gl.uniform3fv(u.uLY, ly_); gl.uniform1f(u.uLR, LR); gl.uniform1f(u.uSM_px, 1 / G.SM);
-    gl.uniform3fv(u.uBounce, o.bounce); gl.uniform3fv(u.uSky, o.sky); gl.uniform1f(u.uK, k); gl.uniform1f(u.uCalm, calm); gl.uniform1f(u.uBright, o.bright || 0); gl.uniform1f(u.uAO, o.ao * (1 - sstep(0.2, 0.7, o.origami ? clamp(k / 0.62) : 0))); gl.uniform1f(u.uSheen, o.sheen); gl.uniform1f(u.uAmb, o.amb == null ? 0.45 : o.amb); gl.uniform1f(u.uKey, o.key == null ? 0.4 : o.key); gl.uniform1f(u.uPlanar, useSheet ? 1 : kB < 0.5 ? 4 * kB * kB * kB : 1 - Math.pow(-2 * kB + 2, 3) / 2); gl.uniform2f(u.uSheet, SHEET_W, SHEET);
+    gl.uniform3fv(u.uBounce, o.bounce); gl.uniform3fv(u.uSky, o.sky); gl.uniform1f(u.uK, k); gl.uniform1f(u.uCalm, calm); gl.uniform1f(u.uBright, o.bright || 0); gl.uniform1f(u.uAO, o.ao * (1 - sstep(0.2, 0.7, o.origami ? clamp(k / 0.62) : 0))); gl.uniform1f(u.uSheen, o.sheen); gl.uniform1f(u.uAmb, o.amb == null ? 0.52 : o.amb); gl.uniform1f(u.uKey, o.key == null ? 0.46 : o.key); gl.uniform1f(u.uPlanar, useSheet ? 1 : kB < 0.5 ? 4 * kB * kB * kB : 1 - Math.pow(-2 * kB + 2, 3) / 2); gl.uniform2f(u.uSheet, SHEET_W, SHEET);
     gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, G.smTex); gl.uniform1i(u.uSM, 3); gl.uniform1i(u.uT0, 0); gl.uniform1i(u.uT1, 1); gl.uniform1i(u.uT2, 2); }
   const texMix = o.texMix || 0;
   for (const ly of this.layers) {
