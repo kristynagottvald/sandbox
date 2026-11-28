@@ -258,14 +258,11 @@ function buildTextures() {
   T.kraft = kraftTex(1024, 1024, KRAFT, 11, 0); T.kraftD = kraftTex(1024, 1024, KRAFT_D, 12, 0);
   T.purpleSide = flatTex(512, 128, BOXK, 3, 1100); T.ink = flatTex(128, 128, INK, 5, 800);
 
-  { // mailer lid, outside: kraft with a worn black postmark and a stamp sticker
+  { // mailer lid, outside: kraft with the logotype stamped bottom right in black ink
     const g = kraftTex(1024, 1024, KRAFT, 21, 0), c = g.drawingContext, r = rng(9);
-    const ink = cv2(1024, 1024), ic = ink.getContext('2d'); ic.fillStyle = ic.strokeStyle = 'rgb(24,20,22)';
-    ic.save(); ic.translate(690, 700); ic.rotate(-0.2); ic.lineWidth = 9; ic.beginPath(); ic.arc(0, 0, 150, 0, TAU); ic.stroke(); ic.lineWidth = 4; ic.beginPath(); ic.arc(0, 0, 118, 0, TAU); ic.stroke();
-    ic.font = '700 40px ' + SANS; arcText(ic, 'POSTMARK AWARDS', 0, 0, 128, -PI * 0.62, 5); ic.font = '700 34px ' + SANS; arcText(ic, '2026 • SENT WITH CARE', 0, 0, 100, PI * 0.40 + 0.05, 1);
-    ic.font = '400 62px ' + BLACKFACE; ic.textAlign = 'center'; ic.fillText('2026', 0, 16); ic.restore();
-    ic.lineWidth = 7; for (let i = 0; i < 5; i++) { ic.beginPath(); for (let x = 330; x <= 560; x += 6) { const y = 600 + i * 40 + Math.sin(x * 0.045 + i) * 14; x === 330 ? ic.moveTo(x, y) : ic.lineTo(x, y); } ic.stroke(); }
-    ic.globalCompositeOperation = 'destination-out'; for (let i = 0; i < 2600; i++) { ic.fillStyle = 'rgba(0,0,0,' + (0.2 + r() * 0.7) + ')'; ic.fillRect(300 + r() * 520, 520 + r() * 360, 1 + r() * 3, 1 + r() * 3); }
+    const ink = cv2(1024, 1024), ic = ink.getContext('2d'), INKC = 'rgb(24,20,22)';
+    ic.save(); ic.translate(1024 - 70, 1024 - 70); ic.rotate(-0.05); ic.translate(-330, -176); logoBlock(ic, 0, 0, 330, INKC, { ring: INKC, year: INKC, top: 0, rot: -0.08 }); ic.restore(); // the logotype, in stamp ink black, bottom right
+    ic.globalCompositeOperation = 'destination-out'; for (let i = 0; i < 3200; i++) { ic.fillStyle = 'rgba(0,0,0,' + (0.2 + r() * 0.7) + ')'; ic.fillRect(600 + r() * 380, 760 + r() * 240, 1 + r() * 3, 1 + r() * 3); }
     c.globalAlpha = 0.82; c.drawImage(ink, 0, 0); c.globalAlpha = 1;
     T.mailerLidOut = g;
   }
@@ -387,7 +384,7 @@ function drawScene(P, t) {
     REC_FLOOR_T.forEach((t) => F(M0, t.map((p) => [p[0], REC_FLOOR, -p[1]]), KRAFT_D, 0.85));
   }
   { // mailer lid on its back hinge, with the front tuck lip
-    const LM = chain(TR(0, MH, -MW), RX(-o.lidAng));
+    const LM = chain(TR(0, MH + 0.8, -MW), RX(-o.lidAng));
     cub(LM, -MW, 0, 0, MW, 6, 2 * MW, { py: TX(T.mailerLidOut, 0, 0, 1, 1), ny: TX(T.mailerLidIn, 0, 0, 1, 1), px: KRAFT_L, nx: KRAFT_L, pz: KRAFT_L, nz: KRAFT_L });
     cub(LM, -MW, -62, 2 * MW, MW, 6, 2 * MW + 3, { pz: TX(T.kraft, 0, 0.1, 1, 0.22), nz: TX(T.kraftD, 0, 0.1, 1, 0.22), nx: KRAFT_L, px: KRAFT_L, ny: KRAFT_L });
   }
@@ -400,6 +397,8 @@ function drawScene(P, t) {
     POCK_TOP.forEach((t) => F(BM, t.map((p) => pt(p, top)), INK, 1));
     POCK.forEach((q, k) => { const n = POCK[(k + 1) % POCK.length]; F(BM, [pt(q, top), pt(n, top), pt(n, fl), pt(q, fl)], [74, 68, 92]); });
     POCK_FLOOR.forEach((t) => F(BM, t.map((p) => pt(p, fl)), [40, 37, 52]));
+    const ay = fl + 0.4;  // red pull tab on the pocket floor, between the legs, visible through the glass
+    F(BM, [[-9, ay + 0.6, -60], [13, ay + 0.6, -60], [13, ay + 0.6, 62], [2, ay + 0.6, 50], [-9, ay + 0.6, 62]], RED);
   }
   { // the award: the brand mascot in glass. Clear body, tinted glass stamps on the quill tips, a white eye; drawn in the glass pass
     const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(0.4 * Math.sin(t * 0.8) * o.hold), RX(o.tilt));
