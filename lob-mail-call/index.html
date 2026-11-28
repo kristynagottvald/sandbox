@@ -8,7 +8,7 @@
 <meta name="description" content="Mail Call, a four page printed newspaper about Lob's State of Direct Mail 2026, set like a Christmas market ticket sheet: read it page by page on screen, or drag it around as a folded 3D paper from the outside pages to the inner spread.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Anton&family=Instrument+Sans:wdth,wght@75..100,400..700&family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Anton&family=Instrument+Sans:wdth,wght@75..100,400..700&family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Caveat:wght@500..700&display=swap">
 <style>
 :root{--paper:#ece8dd;--ink:#1c2170;--blue:var(--ink);--pink:color-mix(in srgb,var(--ink) 14%,var(--paper));--mag:color-mix(in srgb,var(--ink) 34%,var(--paper));--lime:color-mix(in srgb,var(--ink) 22%,var(--paper));--navy:color-mix(in srgb,var(--ink) 72%,var(--paper));--bg:#1f3496;
 --sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--serif:"Newsreader",Georgia,"Times New Roman",serif}
@@ -138,7 +138,7 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .scal{--p:24px;--h:5.5px;--n:9px;background:var(--peri);mask:radial-gradient(circle var(--n) at 0 0,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 0,#0000 97%,#000),radial-gradient(circle var(--n) at 0 100%,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 100%,#0000 97%,#000),radial-gradient(circle var(--h) at 50% 0,#0000 95%,#000) 50% 0/var(--p) 100% round,radial-gradient(circle var(--h) at 50% 100%,#0000 95%,#000) 50% 0/var(--p) 100% round,radial-gradient(circle var(--h) at 0 50%,#0000 95%,#000) 0 50%/100% var(--p) round,radial-gradient(circle var(--h) at 100% 50%,#0000 95%,#000) 0 50%/100% var(--p) round;mask-composite:intersect}
 .cloud{--s:22px;background:var(--peri);mask:linear-gradient(#000 0 0) 50% 50%/calc(100% - var(--s)) 100% no-repeat,radial-gradient(circle closest-side,#000 96%,#0000) 0 0/var(--s) var(--s) round}
 .notch{--n:10px;mask:radial-gradient(circle var(--n) at 0 0,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 0,#0000 97%,#000),radial-gradient(circle var(--n) at 0 100%,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 100%,#0000 97%,#000);mask-composite:intersect}
-.panel{background:var(--peri);border:var(--hl) solid var(--ink)}
+.panel{background:transparent;border:var(--hl) solid var(--ink)}
 .rcard{background:var(--card);border:var(--hl) solid var(--ink);border-radius:14px}
 .pin{position:relative;display:inline-grid;place-items:center;background:var(--royal);color:var(--card);padding:13px 26px;margin-bottom:14px}
 .pin::before,.pin::after{content:"";position:absolute;left:18px;right:18px;height:var(--hl);background:currentColor;opacity:.75}
@@ -194,7 +194,9 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .drop{float:left;width:94px;height:108px;margin:2px 12px 2px 0;position:relative}
 .drop>svg{position:absolute;inset:0;width:100%;height:100%}
 .cb{display:grid;grid-template-columns:200px 1fr;gap:10px;align-items:center;margin:5px 0;font:500 10px/1 var(--sn);text-transform:uppercase;letter-spacing:.14em}
-.cb i{display:block;height:13px;background:var(--royal);border-radius:99px}.cb:nth-child(even) i{background:var(--peri);border:var(--hl) solid var(--ink)}
+.cb .bw{display:flex;align-items:center;gap:8px;min-width:0}
+.cb em{font:600 21px/1 "Caveat",cursive;font-style:normal;letter-spacing:0;text-transform:none;color:var(--ink);filter:url(#pen);flex:none;margin-top:-2px}
+.cb i{display:block;height:13px;background:var(--royal);border-radius:99px;flex:none}.cb:nth-child(even) i{background:transparent;border:var(--hl) solid var(--ink)}
 .cwg{display:grid;gap:0;border:var(--hl) solid var(--ink);width:100%;background:var(--ink)}
 .cw{background:var(--card);color:var(--ink);display:grid;place-items:center;font:500 10px/1 var(--sn);position:relative;aspect-ratio:1;outline:.6px solid var(--ink)}
 .cw u{position:absolute;left:1.5px;top:1px;font:500 5.5px/1 var(--sn);text-decoration:none}
@@ -357,6 +359,11 @@ function pineSil(cx,base,h,w,n){let L=[],R=[];const top=base-h*.96;for(let i=1;i
   L.push(`${(cx-ww+j).toFixed(1)},${y.toFixed(1)} ${(cx-ww*.42).toFixed(1)},${(y-2).toFixed(1)}`);R.unshift(`${(cx+ww*.42).toFixed(1)},${(y-2).toFixed(1)} ${(cx+ww-j).toFixed(1)},${y.toFixed(1)}`)}
   return `<polygon points="${cx},${top.toFixed(1)} ${L.join(' ')} ${R.join(' ')}"/><rect x="${cx-1.6}" y="${(base-h*.06).toFixed(1)}" width="3.2" height="${(h*.06).toFixed(1)}"/>`}
 function pinesChar(spec,W,H,sd){return obj(W,H,spec.map(t=>pineSil(...t)).join(''),'',{g:[0,0,W,0],b:[.05,.7],lo:.02,hi:.6,s:sd,dark:1,wob:3,label:'Pine trees',ground:false})}
+/* a rural mailbox at three quarters: rounded front, long side, post, and a striped flag raised */
+function ruralMailbox(){let st='';for(let i=0;i<6;i++)st+=`<path d="M86 ${14+i*9}l6 -4v5l-6 4Z" ${F}/>`;
+  return obj(112,132,`<path d="M30 30L88 24A16 16 0 0 1 104 40V70L46 76V44A16 16 0 0 0 30 30Z"/><path d="M8 78V46A19 19 0 0 1 46 46V78Z"/><rect x="40" y="74" width="14" height="56"/><path d="M84 8h8v62h-8Z"/>`,
+  `<path d="M12 76V47A15 15 0 0 1 42 47V76Z" ${F} opacity=".55"/><path d="M50 32L86 28" ${FS(2.4)}/>${st}`,
+  {g:[30,0,108,30],s:29,label:'A mailbox with its flag up',line:`<path d="M20 60H32" stroke-width="2"/><path d="M27 33A16 16 0 0 1 44 32" stroke-width="1.2"/>`})}
 /* the front page picture: mail objects in front of a big pale 80 */
 const at=(s,x,y,w,h)=>s.replace('width="100%" height="100%"',`x="${x}" y="${y}" width="${w}" height="${h}"`);
 function scene(){return svg('0 0 236 430',`
@@ -406,7 +413,8 @@ function fatigue(){
      line(560,34,654,34,1.2)+line(560,50,646,50,1.2)+line(560,66,650,66,1.2)+line(560,82,628,82,1.2)+
      `<rect x="610" y="92" width="46" height="26" fill="${PER}" stroke="${ROY}" stroke-width="1.4" stroke-dasharray="3 2.4"/></g>`;
   return svg('0 0 680 140',s,'A hairline grid of digital messages with a trail of lit cells leading to one printed postcard')}
-function chartBars(rows){return rows.map(r=>`<div class="cb"><span>${r[0]}</span><i style="width:${r[1]}%"></i></div>`).join('')}
+/* bars with a hand written percentage at the end of each, every one tilted a little differently */
+function chartBars(rows){const mx=Math.max(...rows.map(r=>r[1]));return rows.map((r,i)=>`<div class="cb"><span>${r[0]}</span><div class="bw"><i style="width:${(r[1]/mx*78).toFixed(1)}%"></i><em style="transform:rotate(${[-4,3,-2,5,-3,2][i%6]}deg)">${r[1]}%</em></div></div>`).join('')}
 function crossword(){
   const W=[['POSTCARD',3,1,'a'],['LETTER',1,4,'d'],['ROUTE',2,2,'d'],['MAILBOX',2,6,'d'],['DIGITAL',3,8,'d']];
   const g={};let r0=99,c0=99,r1=0,c1=0;
@@ -492,7 +500,7 @@ ${sec(3,'Design for more than an immediate response')}
 ${trys('Try this',[
 ['mark','Add staying power','Value that works now and later: reference guides, product details, incentives.'],
 ['book','Make room to read','Letters and catalogs give you room to tell the story first glances miss.'],
-['star','Make it memorable','Distinctive creative and inventive printing invite interaction on and offline.']],'rcard')}
+['star','Make it memorable','Distinctive creative and inventive printing invite interaction on and offline.']])}
 ${foot(3,'Page three')}`,
 
 /* 4 · back page: the classifieds (one 4 column grid, 10px gutters) */
@@ -510,14 +518,14 @@ ${foot(3,'Page three')}`,
   </div>
   <div style="display:grid;place-items:center">${rubber('WENT ONLINE','70%','AFTER MAIL',-12,'Stamp: 70 percent took an online action after receiving direct mail')}</div>
   ${[[qrChar(),'Scan a QR code','scal'],[phoneChar(),'Call a number','scal'],[storeChar(),'Go to the store','scal']].map(t=>tile(t[0],'',t[1],t[2])).join('')}
-  <div class="tkt lt" style="grid-column:span 2;display:grid;grid-template-columns:92px minmax(0,1fr);gap:14px;align-items:center;justify-items:start;text-align:left;padding:12px 34px"><div style="height:62px">${vanChar()}</div>
+  <div class="tkt lt" style="grid-column:span 2;display:grid;grid-template-columns:92px minmax(0,1fr);gap:14px;align-items:center;justify-items:start;text-align:left;padding:12px 34px"><div style="height:72px">${ruralMailbox()}</div>
     <div><div class="tc" style="font-size:11px;line-height:1.35;white-space:nowrap">Lob's Worldwide<br>Delivery Service</div><div class="tx s" style="margin-top:5px">Every mailbox. Every day. More than <b>80%</b> of people look daily.</div></div></div>
   <div class="rcard" style="grid-column:span 2;display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:12px;align-items:center;padding:12px 16px"><div><div class="tc" style="font-size:12px">Free · the full report</div><div class="tx s" style="margin-top:4px">More consumer insights in the 2026 State of Direct Mail webinar and report.</div><div class="lnk tc" style="margin-top:8px;padding:7px 0;font-size:10px;justify-content:flex-start">Read the report ${arw(1)}</div></div><div style="height:66px">${rubberStamp()}</div></div>
   <div style="grid-column:span 4">${trys('Try this in your next campaign',[
 [mailTruck,'Flexible response paths','Let people engage in their preferred format. More entry points means more conversion opportunities.'],
 ['chain','Omnichannel, aligned','Continue the journey your mail started with continuity across digital and physical touchpoints.'],
 ['chart','Track multiple signals','It isn’t only direct response. Use direct and indirect metrics to remove blind spots.']])}</div>
-  <div class="rcard" style="grid-column:span 3;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:12px 16px"><div class="tc" style="font-size:10px;padding-bottom:8px;border-bottom:var(--hl) solid var(--ink)">How people say they'd follow up · illustrative, see the report</div><div style="padding-top:4px">${chartBars([['Scan a QR code',100],['Go to their store location',82],['Follow a personalized URL',68],['Call a phone number',54],['Follow a general URL',44],['Search the brand themselves',34]])}</div></div>
+  <div class="panel" style="grid-column:span 3;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:12px 16px"><div class="tc" style="font-size:10px;padding-bottom:8px;border-bottom:var(--hl) solid var(--ink)">How people say they'd follow up · illustrative, see the report</div><div style="padding-top:4px">${chartBars([['Scan a QR code',44],['Go to their store location',36],['Follow a personalized URL',30],['Call a phone number',24],['Follow a general URL',19],['Search the brand themselves',15]])}</div></div>
   <div class="panel" style="padding:9px 12px 10px;display:flex;flex-direction:column;align-items:center"><div class="tc c" style="font-size:10px;padding-bottom:7px;margin-bottom:8px;border-bottom:var(--hl) solid var(--ink);align-self:stretch">Puzzle · solved</div><div style="width:138px">${crossword()}</div></div>
   <div style="grid-column:span 4;display:grid;grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr);align-items:center;gap:0;border-top:var(--hl) solid var(--ink);border-bottom:var(--hl) solid var(--ink)">
     <div class="tc c" style="padding:15px 8px;font-size:11.5px;display:flex;justify-content:center;gap:10px;align-items:center">For all direct mail dilemmas ${arw()}</div>
