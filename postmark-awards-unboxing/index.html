@@ -194,19 +194,23 @@ const WIN_TOP = triangulate(rectPts((SL_XB - SL_XA) / 2, 173)); // the sleeve to
 const porcP = (x, y) => [(x - 501) * PK, -(y - 490) * PK];
 const pairs = (a) => { const o = []; for (let i = 0; i < a.length; i += 2) o.push(porcP(a[i], a[i + 1])); return o; };
 const BODY_P = pairs(PORC_BODY), BODY_T = triangulate(BODY_P);
-const STEM_P = PORC_STEMS.map(pairs), STEM_T = STEM_P.map((p) => triangulate(p));
+const STEM0 = PORC_STEMS.map(pairs); // the traced quills; the drawn ones (STEM_P) are lengthened below so their tips come out through the stamps
 /* pierced stamps: each stamp is skewered on its quill a little below the tip, leaning off square to the quill, so the tip pokes out through its face.
    Award local space: x = p[0], y = out of the glass, z = -p[1]. Each stamp: centre, across (in the glass plane, square to the quill), up, and its face normal. */
 const STAMP_TILT = [1.0, -1.08, 0.95, -1.05, 1.1, -0.98, 1.04], STAMP_K = 0.85, STAMP_BACK = 10, STAMP_T = 2.2; // tilt from square-to-the-quill toward lying in the glass
 const STAMPS3 = PORC_STAMPS.map(([, , hw, hh, , c], i) => {
-  const P = STEM_P[i], cx = P.reduce((a, p) => a + p[0], 0) / P.length, cy = P.reduce((a, p) => a + p[1], 0) / P.length;
+  const P = STEM0[i], cx = P.reduce((a, p) => a + p[0], 0) / P.length, cy = P.reduce((a, p) => a + p[1], 0) / P.length;
   const tip = P.reduce((m, p) => (Math.hypot(p[0] - cx, p[1] - cy) > Math.hypot(m[0] - cx, m[1] - cy) ? p : m)), l = Math.hypot(tip[0] - cx, tip[1] - cy), d = [(tip[0] - cx) / l, (tip[1] - cy) / l];
   const C = [tip[0] - d[0] * STAMP_BACK, 0, -(tip[1] - d[1] * STAMP_BACK)], D = [d[0], 0, -d[1]], A = [-d[1], 0, -d[0]], t = STAMP_TILT[i];
   const N = [D[0] * Math.cos(t), Math.sin(t), D[2] * Math.cos(t)], U = nrm([N[1] * A[2] - N[2] * A[1], N[2] * A[0] - N[0] * A[2], N[0] * A[1] - N[1] * A[0]]);
   const R = Math.min(hw, hh) * PK * STAMP_K, poly = stampPoly(Math.max(hw, hh) / Math.min(hw, hh), 0.62, 0.12, 4); // long side across the quill
   const at = (q, off) => [C[0] + A[0] * q[0] * R + U[0] * q[1] * R + N[0] * off, C[1] + A[1] * q[0] * R + U[1] * q[1] * R + N[1] * off, C[2] + A[2] * q[0] * R + U[2] * q[1] * R + N[2] * off];
-  return { C, N, poly, tris: triangulate(poly), at, c: c ? RED : PURPLE };
+  return { C, N, R, d, tip, cx, cy, l, poly, tris: triangulate(poly), at, c: c ? RED : PURPLE };
 });
+/* each quill grows past its stamp: a thin, tapering tip comes out through the stamp's face and ends well beyond its edge */
+const STEM_P = STEM0.map((P, i) => { const S = STAMPS3[i], ext = S.R + 12 - STAMP_BACK + 4;
+  return P.map((p) => { const along = (p[0] - S.cx) * S.d[0] + (p[1] - S.cy) * S.d[1], w = cl((along - S.l * 0.3) / (S.l * 0.7), 0, 1); return [p[0] + S.d[0] * ext * w * w * w, p[1] + S.d[1] * ext * w * w * w]; }); });
+const STEM_T = STEM_P.map((p) => triangulate(p));
 /* the cradle: a well the shape of the award and its stamps (a hull, so the leaning stamps clear the walls), deep enough for the stamps hanging below the glass,
    with a raised platform under the body that the glass rests on */
 const hull = (pts) => { const p = pts.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]), cr = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]), lo = [], up = [];
@@ -215,7 +219,7 @@ const hull = (pts) => { const p = pts.slice().sort((a, b) => a[0] - b[0] || a[1]
   return lo.slice(0, -1).concat(up.slice(0, -1)); };
 const STAMP_FOOT = []; let STAMP_LOW = 0;
 STAMPS3.forEach((S) => S.poly.forEach((q) => [-STAMP_T, STAMP_T].forEach((off) => { const w = S.at(q, off); STAMP_FOOT.push([w[0], -w[2]]); STAMP_LOW = Math.min(STAMP_LOW, w[1]); })));
-const WELL = (() => { const H = hull(BODY_P.concat(STAMP_FOOT)), cx = H.reduce((a, p) => a + p[0], 0) / H.length, cy = H.reduce((a, p) => a + p[1], 0) / H.length;
+const WELL = (() => { const H = hull(BODY_P.concat(STAMP_FOOT, ...STEM_P)), cx = H.reduce((a, p) => a + p[0], 0) / H.length, cy = H.reduce((a, p) => a + p[1], 0) / H.length;
   return H.map((p) => { const dx = p[0] - cx, dy = p[1] - cy, l = Math.hypot(dx, dy) || 1; return [cl(p[0] + dx / l * 6, -156, 156), cl(p[1] + dy / l * 6, -156, 156)]; }); })();
 const WELL_DEEP = Math.ceil(-STAMP_LOW - AT / 2 + 4);           // how far the well floor drops below the glass's resting face
 const PLAT = Array.from({ length: 40 }, (_, i) => [-8 + 104 * Math.cos(TAU * i / 40), -52 + 27 * Math.sin(TAU * i / 40)]);
