@@ -423,7 +423,7 @@ function sStat(ctx, c) {
   const y0 = 560 + fs * 0.78 + 150;
   L.forEach((l, i) => fadeIn(ctx, rise(c.lt, 0.9 + i * 0.12), () => slide(ctx, l.s, M, y0 + i * 112, 108, l.it, c.th.fg)));
   if (s.sub) fadeIn(ctx, rise(c.lt, 1.8), () => para(ctx, s.sub, M, y0 + L.length * 112 + 40, 32, c.th.fg, CW, 1.35, 2));
-  flourishPair(ctx, 0, GY1 - 440, W, 440, { s: 0.4, va: 'bottom', fw: 1.7, color: c.th.fg, t: c.t, still: c.still, off: 0.4 });
+  flourishPair(ctx, 0, GY1 - 440, W, 440, { s: 0.5, va: 'bottom', fw: 0.52, color: c.th.fg, t: c.t, still: c.still, off: 0.4 });
 }
 const lineify = (a) => a.map((h) => { const m = /^\*(.+)\*$/.exec(h); return m ? { s: m[1], it: true } : { s: h, it: false }; });
 function sList(ctx, c) {
@@ -476,7 +476,7 @@ function sCta(ctx, c) {
   fadeIn(ctx, p, () => { const h = 96, fs = 26, lab = s.btn.toUpperCase(), w = sansW(ctx, lab, fs, 700, 6) + 88; ctx.save(); ctx.fillStyle = th.id === 'yellow' ? th.fg : '#fff383'; ctx.fillRect(M, by, w, h); ctx.strokeStyle = th.id === 'ink' ? '#fff383' : th.fg; ctx.lineWidth = 3; ctx.strokeRect(M + 1.5, by + 1.5, w - 3, h - 3); ctx.restore(); sansText(ctx, lab, M + 44, by + h / 2 + fs * 0.36, fs, th.id === 'yellow' ? th.bg : '#141414', { wt: 700, ls: 6 }); ctx.save(); ctx.strokeStyle = th.fg; ctx.globalAlpha = 0.4 + 0.3 * pulse; ctx.lineWidth = 2; ctx.strokeRect(M - 8 - 4 * pulse, by - 8 - 4 * pulse, w + 16 + 8 * pulse, h + 16 + 8 * pulse); ctx.restore(); });
   if (s.sub) fadeIn(ctx, rise(c.lt, 1.8), () => para(ctx, s.sub, M, by + 170, 30, th.fg, CW, 1.35, 2));
   const lw = 520, k = lw / 2485; fadeIn(ctx, rise(c.lt, 2.0, 0.8), () => drawLogo(ctx, W / 2 - lw / 2, 1430, k, th.fg, c.still ? 0 : 0.03 * Math.sin(TAU * c.t / PERIOD * 2)), 20);
-  flourishPair(ctx, 0, GY1 - 640, W, 640, { s: 0.52, va: 'bottom', fw: 1.5, color: th.fg, t: c.t, still: c.still, off: 0 });
+  flourishPair(ctx, 0, GY1 - 640, W, 640, { s: 0.56, va: 'bottom', fw: 0.58, color: th.fg, t: c.t, still: c.still, off: 0 });
 }
 const SCENES = { title: sTitle, stat: sStat, list: sList, stamps: sStamps, crowd: sCrowd, cta: sCta };
 
@@ -527,7 +527,7 @@ function fit() {
   cv.style.width = w + 'px'; cv.style.height = h + 'px'; cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); scalePx = cv.width / W; dirty = true;
 }
 function rebuild(keepTime) {
-  TL = timeline(); PERIOD = TL.total; flourCache.clear();
+  TL = timeline(); PERIOD = TL.total / Math.max(1, Math.round(TL.total / 8)); flourCache.clear();
   if (!keepTime) clock = 0; else clock = clock % TL.total;
   $('#segs').innerHTML = TL.scenes.map((s, i) => `<button class="seg" data-i="${i}" style="flex:${s.dur}" title="${s.name}"><span>${s.name}</span><i></i></button>`).join('');
   $('#loopNote').textContent = Math.round(TL.total) + ' s film · ' + TL.scenes.length + ' scenes';
