@@ -535,7 +535,7 @@ ${foot(3,'Page three')}`,
     <div style="display:flex;gap:12px;align-items:center"><div style="width:46px;height:46px;flex:none;display:grid">${num(4).replace('class="num"','class="num" style="width:46px;height:46px"')}</div><div class="an c4h" style="font-size:28px;line-height:.92;white-space:nowrap">Connect with customers<br>on their terms</div></div>
     <div class="tx s" style="margin-top:9px"><p>Direct mail thrives when you go beyond the mailbox. There's no single path from awareness to action to attribution: some people research the brand online, some head to the store, others scan a QR code or visit a PURL.</p></div>
   </div>
-  <div style="display:grid;place-items:center">${rubber('WENT ONLINE','70%','AFTER MAIL',-12,'Stamp: 70 percent took an online action after receiving direct mail')}</div>
+  <div style="display:grid;place-items:center;position:relative;z-index:2;margin-left:-30px">${rubber('WENT ONLINE','70%','AFTER MAIL',-12,'Stamp: 70 percent took an online action after receiving direct mail')}</div>
   ${[[qrChar(),'Scan a QR code','scal'],[phoneChar(),'Call a number','scal'],[storeChar(),'Go to the store','scal']].map(t=>tile(t[0],'',t[1],t[2])).join('')}
   <div class="tkt lt" style="grid-column:span 2;display:grid;grid-template-columns:92px minmax(0,1fr);gap:14px;align-items:center;justify-items:start;text-align:left;padding:12px 34px"><div style="height:72px">${ruralMailbox()}</div>
     <div><div class="tc" style="font-size:11px;line-height:1.35;white-space:nowrap">Lob's Worldwide<br>Delivery Service</div><div class="tx s" style="margin-top:5px">Every mailbox. Every day. More than <b>80%</b> of people look daily.</div></div></div>
