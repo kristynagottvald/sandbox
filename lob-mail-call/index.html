@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Lob Mail Call</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%232b45b5%22/%3E%3Crect x=%228%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23f7f4ea%22/%3E%3Crect x=%2234%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23f7f4ea%22/%3E%3Crect x=%2211%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%232b45b5%22/%3E%3Crect x=%2237%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%232b45b5%22/%3E%3Crect x=%2211%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23c3d6fb%22/%3E%3Crect x=%2237%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23c3d6fb%22/%3E%3Crect x=%2230%22 y=%2210%22 width=%224%22 height=%2244%22 fill=%22%231a1450%22/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%23bdd6fd%22/%3E%3Crect x=%228%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23fffdf8%22/%3E%3Crect x=%2234%22 y=%2210%22 width=%2222%22 height=%2244%22 fill=%22%23f4efe2%22/%3E%3Crect x=%2211%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%231a1450%22/%3E%3Crect x=%2237%22 y=%2214%22 width=%2216%22 height=%225%22 fill=%22%231a1450%22/%3E%3Crect x=%2211%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23bdd6fd%22/%3E%3Crect x=%2237%22 y=%2224%22 width=%2216%22 height=%2214%22 fill=%22%23bdd6fd%22/%3E%3Crect x=%2230%22 y=%2210%22 width=%224%22 height=%2244%22 fill=%22%231a1450%22/%3E%3C/svg%3E">
 <meta name="description" content="Mail Call, a four page printed newspaper about Lob's State of Direct Mail 2026, set like a Christmas market ticket sheet: read it page by page on screen, or drag it around as a folded 3D paper from the outside pages to the inner spread.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,7 +89,7 @@ html.clip .arr,html.clip #hint,html.clip #cap,html.clip #pill{display:none}
 
 /* ---------- the printed pages: 760 x 1040 on cream stock, royal blue + periwinkle + deep ink, set like a Christmas market ticket sheet:
    perforated tickets, scalloped tiles, hairline schedule panels, tracked caps, a light serif, pencil grain drawings, Anton kept for the tall headlines ---------- */
-.pg{--paper:#f7f4ea;--ink:#1a1450;--royal:#2b45b5;--peri:#c3d6fb;--card:#fffdf8;--hl:1.3px;
+.pg{--paper:#bdd6fd;--ink:#1a1450;--royal:#1a1450;--peri:#f4efe2;--card:#fffdf8;--hl:1.3px;
  --an:"Anton",Impact,"Arial Narrow",sans-serif;--sn:"Instrument Sans","Helvetica Neue",Arial,sans-serif;--sf:"Fraunces",Georgia,serif;
  --rg:10px;--bg:10px;--gc:16px;width:760px;height:1040px;position:relative;overflow:hidden;background:var(--paper);color:var(--ink);padding:22px 26px 16px;display:grid;grid-template-columns:minmax(0,1fr);row-gap:var(--rg);font:400 12px/1.42 var(--sn)}
 .pg>*{min-width:0;min-height:0}
@@ -98,9 +98,9 @@ html.clip .arr,html.clip #hint,html.clip #cap,html.clip #pill{display:none}
 .pg[data-n="3"]{grid-template-rows:auto auto minmax(0,1fr) auto auto auto auto auto auto auto auto}
 .pg[data-n="4"]{grid-template-rows:auto minmax(0,1fr) auto}
 .pg::before{content:"";position:absolute;inset:0;z-index:20;pointer-events:none;background:
- linear-gradient(to bottom,transparent 49.6%,rgba(26,20,80,.08) 50%,rgba(255,255,255,.55) 50.3%,transparent 50.9%),
+ linear-gradient(to bottom,transparent 49.6%,rgba(26,20,80,.08) 50%,rgba(255,255,255,.4) 50.3%,transparent 50.9%),
  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .25 0 0 0 0 .22 0 0 0 0 .3 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E")}
-html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgba(26,20,80,.08) 50%,rgba(255,255,255,.55) 50.3%,transparent 50.9%)}
+html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgba(26,20,80,.08) 50%,rgba(255,255,255,.4) 50.3%,transparent 50.9%)}
 .pg::after{content:"";position:absolute;top:0;bottom:0;width:46px;z-index:21;pointer-events:none}
 .pg.l::after{right:0;background:linear-gradient(to left,rgba(26,20,80,.18),rgba(26,20,80,.05) 40%,transparent)}
 .pg.r::after{left:0;background:linear-gradient(to right,rgba(26,20,80,.18),rgba(26,20,80,.05) 40%,transparent)}
@@ -137,7 +137,7 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .notch{--n:10px;mask:radial-gradient(circle var(--n) at 0 0,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 0,#0000 97%,#000),radial-gradient(circle var(--n) at 0 100%,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 100%,#0000 97%,#000);mask-composite:intersect}
 .panel{background:var(--peri);border:var(--hl) solid var(--ink)}
 .rcard{background:var(--card);border:var(--hl) solid var(--ink);border-radius:14px}
-.pin{position:relative;display:inline-grid;place-items:center;background:var(--royal);color:var(--card);padding:13px 26px;margin-bottom:22px}
+.pin{position:relative;display:inline-grid;place-items:center;background:var(--royal);color:var(--card);padding:13px 26px;margin-bottom:14px}
 .pin::before,.pin::after{content:"";position:absolute;left:18px;right:18px;height:var(--hl);background:currentColor;opacity:.75}
 .pin::before{top:6px}.pin::after{bottom:6px}
 .pin>svg{position:absolute;left:50%;top:100%;width:30px;height:24px;margin-left:-15px}
@@ -162,7 +162,7 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .ic{width:42px;height:42px;flex:none}
 .fig{display:flex;flex-direction:column;gap:7px}
 .fig>.il{flex:1;position:relative;min-height:72px}
-.il>svg{position:absolute;left:18px;top:13px;width:calc(100% - 36px);height:calc(100% - 26px)}
+.il>svg{position:absolute;left:14px;top:9px;width:calc(100% - 28px);height:calc(100% - 18px)}
 .fig>.fc{text-align:center;font:500 10px/1.25 var(--sn);letter-spacing:.17em;text-transform:uppercase}
 .fig>.fc b{display:block;font:300 25px/1 var(--sf);font-variation-settings:"opsz" 72;letter-spacing:-.01em;text-transform:none;margin-bottom:3px}
 .st{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px 14px 12px}
@@ -230,22 +230,33 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 <script>
 /* ---------- pencil drawings (inline svg, every call makes its own ids so the flat page and the 3D copies never share a mask) ----------
    two pencil tones, a soft mid lilac and the deep ink, meeting along an edge that dissolves into graphite grain; everything goes through #pen */
-const INK='#1a1450',ROY='#2b45b5',PER='#c3d6fb',PAP='#f7f4ea',CARD='#fffdf8',MNT='#6f78bd',WH='#e9eefc';
+const INK='#1a1450',ROY='#1a1450',PER='#f4efe2',PAP='#bdd6fd',CARD='#fffdf8',MNT='#6f78bd',WH='#f3f5fe',MAPB='#2b45b5',MAPL='#c3d6fb';
 const sk=(w=2.6)=>`stroke="${INK}" stroke-width="${w}" stroke-linejoin="round" stroke-linecap="round"`;
 const svg=(vb,body,label)=>`<svg viewBox="${vb}" width="100%" height="100%" role="img" aria-label="${label}" preserveAspectRatio="xMidYMid meet">${body}</svg>`;
 const line=(x1,y1,x2,y2,w=1.6)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" ${sk(w)}/>`;
 let _u=0;
 const gs=v=>{const h=Math.round(v*255).toString(16).padStart(2,'0');return '#'+h+h+h};
 function obj(W,H,sil,feat,o={}){
-  const id='o'+(++_u),g=o.g||[0,0,W,0],b=o.b||[.14,.9],lo=o.lo==null?.05:o.lo,hi=o.hi==null?.97:o.hi;
+  /* hand sketched graphite: a wobbled silhouette shaded round from a top-left light, pencil hatching and a darker wash
+     on the shadow side (the old two-tone mask, softened), pale highlights, and two loose, slightly offset outlines */
+  const id='o'+(++_u),sd=o.s||_u*7,g=o.g||[0,0,W,0],b=o.b||[.14,.9],lo=o.lo==null?.05:o.lo,hi=o.hi==null?.97:o.hi;
+  const R=Math.max(W,H);
   const defs=`<linearGradient id="${id}g" gradientUnits="userSpaceOnUse" x1="${g[0]}" y1="${g[1]}" x2="${g[2]}" y2="${g[3]}"><stop offset="0" stop-color="#000"/><stop offset="${b[0]}" stop-color="${gs(lo)}"/><stop offset="${b[1]}" stop-color="${gs(hi)}"/><stop offset="1" stop-color="#fff"/></linearGradient>`+
-   `<filter id="${id}f" x="0" y="0" width="${W}" height="${H}" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="${o.s||_u*7}" result="n"/><feColorMatrix in="n" type="matrix" values="1 0 0 0 0  1 0 0 0 0  1 0 0 0 0  0 0 0 0 1" result="g"/><feComposite in="SourceGraphic" in2="g" operator="arithmetic" k1="0" k2="1" k3="1" k4="-.5"/><feComponentTransfer><feFuncR type="linear" slope="4" intercept="-1.5"/><feFuncG type="linear" slope="4" intercept="-1.5"/><feFuncB type="linear" slope="4" intercept="-1.5"/></feComponentTransfer></filter>`+
-   `<mask id="${id}m" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><rect width="${W}" height="${H}" fill="url(#${id}g)" filter="url(#${id}f)"/></mask>`;
-  const f=feat||'',ln=o.line||'';
-  const body=`<g filter="url(#pen)"><g fill="${MNT}" stroke="${MNT}" stroke-linejoin="round">${sil}</g><g mask="url(#${id}m)" fill="${INK}" stroke="${INK}" stroke-linejoin="round">${sil}</g>`+
-   `<g fill="${WH}" stroke="none">${f}</g><g mask="url(#${id}m)" fill="${MNT}" stroke="none">${f.split(WH).join(MNT)}</g>`+
-   (ln?`<g fill="none" stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">${ln}</g>`:'')+
-   `<g fill="none" stroke="${INK}" stroke-width="1.1" stroke-linejoin="round" opacity=".75">${sil.replace(/ fill="[^"]*"/g,'')}</g></g>`;
+   `<filter id="${id}f" x="0" y="0" width="${W}" height="${H}" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="${sd}" result="n"/><feColorMatrix in="n" type="matrix" values="1 0 0 0 0  1 0 0 0 0  1 0 0 0 0  0 0 0 0 1" result="g"/><feComposite in="SourceGraphic" in2="g" operator="arithmetic" k1="0" k2="1" k3="1" k4="-.5"/><feComponentTransfer><feFuncR type="linear" slope="2.6" intercept="-.8"/><feFuncG type="linear" slope="2.6" intercept="-.8"/><feFuncB type="linear" slope="2.6" intercept="-.8"/></feComponentTransfer></filter>`+
+   `<mask id="${id}m" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><rect width="${W}" height="${H}" fill="url(#${id}g)" filter="url(#${id}f)"/></mask>`+
+   `<radialGradient id="${id}r" gradientUnits="userSpaceOnUse" cx="${(W*.3).toFixed(1)}" cy="${(H*.2).toFixed(1)}" r="${(R*.95).toFixed(1)}"><stop offset="0" stop-color="#f1f3fd"/><stop offset=".3" stop-color="#9aa2d8"/><stop offset=".62" stop-color="#4b5199"/><stop offset=".9" stop-color="#1f1b58"/></radialGradient>`+
+   `<pattern id="${id}h" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-36)"><path d="M.4 0V3" stroke="${INK}" stroke-width=".85"/></pattern><pattern id="${id}k" width="4.2" height="4.2" patternUnits="userSpaceOnUse" patternTransform="rotate(52)"><path d="M.4 0V4.2" stroke="${INK}" stroke-width=".7"/></pattern>`+
+   `<filter id="${id}w" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="${sd}"/><feDisplacementMap in="SourceGraphic" scale="${o.wob||4.6}" xChannelSelector="R" yChannelSelector="G"/></filter>`+
+   `<filter id="${id}v" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="${sd+5}"/><feDisplacementMap in="SourceGraphic" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>`;
+  const f=feat||'',ln=o.line||'',bare=sil.replace(/ fill="[^"]*"/g,'').replace(/ stroke-width="[^"]*"/g,'');
+  const gy=H-3,body=`<g filter="url(#pen)">${o.ground===false?'':`<g filter="url(#${id}v)" opacity=".55"><ellipse cx="${W/2}" cy="${gy}" rx="${W*.42}" ry="2.6" fill="url(#${id}h)"/><path d="M${W*.12} ${gy+1}Q${W/2} ${gy+4} ${W*.88} ${gy}" fill="none" stroke="${INK}" stroke-width=".8"/></g>`}<g filter="url(#${id}w)">`+
+   `<g fill="url(#${id}r)" stroke="url(#${id}r)" stroke-linejoin="round">${sil}</g>`+
+   `<g mask="url(#${id}m)" fill="#1f1b58" stroke="#1f1b58" stroke-linejoin="round" opacity=".55">${sil}</g>`+
+   `<g mask="url(#${id}m)" fill="url(#${id}h)" stroke="none">${sil.replace(/ fill="none"/g,'')}</g><g mask="url(#${id}m)" fill="url(#${id}k)" stroke="none" opacity=".6">${sil.replace(/ fill="none"/g,'')}</g>`+
+   `<g fill="${WH}" stroke="none" opacity=".92">${f}</g><g mask="url(#${id}m)" fill="${MNT}" stroke="none" opacity=".85">${f.split(WH).join(MNT)}</g>`+
+   (ln?`<g fill="none" stroke="${INK}" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" opacity=".9">${ln}</g>`:'')+
+   `</g><g fill="none" stroke="${INK}" stroke-width="1.15" stroke-linejoin="round" opacity=".8" filter="url(#${id}v)">${bare}</g>`+
+   `<g fill="none" stroke="${INK}" stroke-width=".6" stroke-linejoin="round" opacity=".45" filter="url(#${id}w)" transform="translate(1.2 -.8)">${bare}</g></g>`;
   return svg(`0 0 ${W} ${H}`,`<defs>${defs}</defs>${body}`,o.label||'Illustration')}
 const F=`fill="${WH}" stroke="none"`,FS=(w)=>`fill="none" stroke="${WH}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"`;
 function mailboxChar(){return obj(116,124,`<rect x="48" y="74" width="14" height="44"/><rect x="34" y="114" width="42" height="8" rx="2"/><path d="M14 78V46a28 28 0 0 1 28-28H68a28 28 0 0 1 28 28V78Z"/><rect x="92" y="26" width="5" height="38"/><rect x="97" y="26" width="15" height="12"/>`,
@@ -253,7 +264,7 @@ function mailboxChar(){return obj(116,124,`<rect x="48" y="74" width="14" height
 function envelopeChar(){return obj(110,96,`<rect x="6" y="14" width="98" height="68" rx="4"/>`,
   `<path d="M6 18L55 56L104 18" ${FS(4)}/><rect x="76" y="52" width="20" height="20" ${F}/><rect x="14" y="58" width="30" height="4" ${F}/><rect x="14" y="68" width="22" height="4" ${F}/>`,{g:[30,0,96,30],s:23,label:'An envelope'})}
 /* the envelope in flight, with pencil speed lines (the routedenoel sheet's little mail icon) */
-function flyingEnvelope(){return obj(150,70,`<path d="M70 12L136 8L140 56L74 60Z"/>`,`<path d="M71 13L104 38L137 9" ${FS(3.4)}/>`,{g:[80,0,140,0],s:5,label:'A flying envelope',line:`<path d="M6 22H58M14 34H60M2 46H62" stroke-width="2" opacity=".55"/>`})}
+function flyingEnvelope(){return obj(150,70,`<path d="M70 12L136 8L140 56L74 60Z"/>`,`<path d="M71 13L104 38L137 9" ${FS(3.4)}/>`,{g:[80,0,140,0],s:5,ground:false,label:'A flying envelope',line:`<path d="M6 22H58M14 34H60M2 46H62" stroke-width="2" opacity=".55"/>`})}
 function parcelChar(){return obj(110,100,`<rect x="8" y="22" width="94" height="72"/>`,
   `<rect x="46" y="22" width="18" height="72" ${F}/><rect x="8" y="35" width="94" height="3" ${F}/><rect x="72" y="58" width="24" height="24" ${F}/>`,{g:[30,0,96,24],s:31,label:'A parcel'})}
 function stackChar(){return obj(120,110,`<rect x="10" y="82" width="100" height="18" rx="3"/><rect x="16" y="60" width="88" height="18" rx="3"/><rect x="8" y="38" width="104" height="18" rx="3"/>`,
@@ -268,7 +279,7 @@ function storeChar(){let st='';for(let i=1;i<6;i++)st+=`<rect x="${6+i*18.7}" y=
 function qrChar(){let s='';const n=11;const f=(x,y)=>(x<4&&y<4)||(x>6&&y<4)||(x<4&&y>6);
   for(let y=0;y<n;y++)for(let x=0;x<n;x++){const fin=f(x,y);const on=fin?false:((x*7+y*13+x*y)%5<2);if(on)s+=`<rect x="${6+x*8}" y="${6+y*8}" width="8" height="8"/>`}
   [[0,0],[7,0],[0,7]].forEach(([a,b])=>{s+=`<path d="M${6+a*8} ${6+b*8}h32v32h-32ZM${10+a*8} ${10+b*8}v24h24v-24Z" fill-rule="evenodd"/><rect x="${14+a*8}" y="${14+b*8}" width="16" height="16"/>`});
-  return obj(100,100,s,'',{g:[20,0,90,50],s:91,label:'A QR code'})}
+  return obj(100,100,s,'',{g:[20,0,90,50],s:91,ground:false,label:'A QR code'})}
 /* a rubber stamp on its handle, and a pocket watch: the pencil props from the ticket sheet */
 function rubberStamp(){return obj(90,110,`<circle cx="45" cy="22" r="15"/><path d="M38 34h14l4 40H34Z"/><rect x="14" y="74" width="62" height="16" rx="3"/><rect x="10" y="90" width="70" height="12" rx="2"/>`,
   `<ellipse cx="40" cy="17" rx="5" ry="7" ${F}/><rect x="18" y="78" width="20" height="4" ${F}/>`,{g:[30,0,80,10],s:13,label:'A rubber stamp'})}
@@ -320,14 +331,21 @@ function scallopPath(x,y,w,h,r){const seg=(x0,y0,x1,y1)=>{const L=Math.hypot(x1-
 function dropCap(L){return `<div class="drop">${svg('0 0 94 108',`<path d="${scallopPath(6,6,82,96,4.2)}" fill="none" stroke="${INK}" stroke-width=".9" opacity=".8"/><rect x="11" y="11" width="72" height="86" fill="none" stroke="${INK}" stroke-width=".9"/><path d="M47 11L83 54L47 97L11 54Z" fill="none" stroke="${INK}" stroke-width=".8"/>
 <text x="47" y="88" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="600" font-size="88" fill="${INK}" style="font-variation-settings:'opsz' 144,'SOFT' 0" filter="url(#lead)">${L}</text>`,'Drop cap '+L)}</div>`}
 /* the drop pin label (le marché de noël) */
-const pin=(t,fs=12)=>`<div class="pin"><span class="tc" style="font-size:${fs}px">${t}</span><svg viewBox="0 0 30 24" aria-hidden="true"><path d="M0 0H30C21 0 16.5 6 16 24H14C13.5 6 9 0 0 0Z" fill="${ROY}"/><circle cx="15" cy="5" r="2.3" fill="${PER}"/></svg></div>`;
+const pin=(t,fs=12)=>`<div class="pin"><span class="tc" style="font-size:${fs}px">${t}</span></div>`;
 const arw=(ne)=>`<svg class="arw" viewBox="0 0 14 14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${ne?'<path d="M3 11L11 3M5 3H11V9"/>':'<path d="M1 7H12M8 3L12 7L8 11"/>'}</svg>`;
 const hi=(t)=>`<span class="hi">${t}</span>`;
+/* front facing houses: a one storey ranch with a hipped roof, and a two storey house with its gable to the street */
+function ranchHouse(){return obj(124,84,`<path d="M3 38L26 12H98L121 38Z"/><rect x="8" y="36" width="108" height="46"/><rect x="88" y="4" width="10" height="18"/>`,
+  `<rect x="16" y="48" width="26" height="18" ${F}/><rect x="82" y="48" width="26" height="18" ${F}/><rect x="54" y="50" width="16" height="32" ${F}/>`,
+  {g:[40,0,118,30],s:61,label:'A one storey house',line:`<path d="M29 48V66M16 57H42M95 48V66M82 57H108" stroke-width="1.4"/><path d="M46 82H78" stroke-width="2"/>`})}
+function twoStoryHouse(){return obj(112,152,`<path d="M4 62L56 10L108 62Z"/><rect x="12" y="58" width="88" height="92"/><rect x="78" y="14" width="12" height="34"/>`,
+  `<circle cx="56" cy="42" r="8" ${F}/><rect x="22" y="72" width="22" height="26" ${F}/><rect x="68" y="72" width="22" height="26" ${F}/><rect x="22" y="112" width="22" height="26" ${F}/><rect x="66" y="108" width="22" height="42" ${F}/>`,
+  {g:[44,0,108,40],s:73,label:'A two storey house',line:`<path d="M33 72V98M22 85H44M79 72V98M68 85H90M33 112V138M22 125H44M56 34V50M48 42H64" stroke-width="1.4"/><path d="M8 104H104" stroke-width="2"/><circle cx="82" cy="130" r="1.8" fill="${INK}"/>`})}
 /* the front page picture: mail objects in front of a big pale 80 */
 const at=(s,x,y,w,h)=>s.replace('width="100%" height="100%"',`x="${x}" y="${y}" width="${w}" height="${h}"`);
-function scene(){return svg('0 0 236 300',`
-<text x="118" y="232" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="300" font-size="232" fill="#a5bdf2" stroke="none" letter-spacing="-10">80</text>
-${at(flyingEnvelope(),40,8,150,70)}${at(mailboxChar(),6,118,140,150)}${at(parcelChar(),130,190,96,88)}${at(stackChar(),138,118,88,81)}<path d="M8 270H228" stroke="${INK}" stroke-width="1.2" opacity=".7"/>`,'A flying envelope, a mailbox, a parcel and a stack of mail')}
+function scene(){return svg('0 0 236 430',`
+<text x="118" y="300" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="300" font-size="236" fill="#bdd6fd" stroke="none" letter-spacing="-10">80</text>
+${at(flyingEnvelope(),30,64,160,75)}${at(twoStoryHouse(),126,262,110,150)}${at(ranchHouse(),0,330,108,73)}${at(mailboxChar(),96,372,42,46)}<path d="M2 420H234" stroke="${INK}" stroke-width="1.2" opacity=".7"/>`,'A flying envelope over a street with a one storey house, a two storey house and a mailbox').replace('xMidYMid meet','xMidYMax meet')}
 function donut(p,sz=72){const r=36,C=2*Math.PI*r;return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}" aria-hidden="true"><circle cx="50" cy="50" r="${r}" fill="none" stroke="${PER}" stroke-width="12"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${ROY}" stroke-width="12" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="${r+8}" fill="none" stroke="${INK}" stroke-width="1"/><circle cx="50" cy="50" r="${r-8}" fill="none" stroke="${INK}" stroke-width="1"/></svg>`}
 function dots(n,of=10){let s='';for(let i=0;i<of;i++)s+=`<circle cx="${9+i*17}" cy="9" r="6.5" fill="${i<n?ROY:'none'}" stroke="${i<n?ROY:INK}" stroke-width="1.1"/>`;return `<svg viewBox="0 0 ${of*17} 18" width="100%" aria-hidden="true">${s}</svg>`}
 /* the route map: full bleed royal blue, pencil pines, a river, dotted highways with interstate shields,
@@ -336,19 +354,19 @@ function routeMap(){
   const DK='#14217a',DK2='#1b2d9c',LT2='#dfe7fc';
   const pine=(x,y,s)=>`<path d="M${x} ${y-30*s}L${x+5*s} ${y-18*s}L${x+3*s} ${y-18*s}L${x+8*s} ${y-8*s}L${x+5*s} ${y-8*s}L${x+10*s} ${y}H${x-10*s}L${x-5*s} ${y-8*s}L${x-8*s} ${y-8*s}L${x-3*s} ${y-18*s}L${x-5*s} ${y-18*s}Z"/>`;
   const grove=(x,y,n,s=1)=>{let g='';for(let i=0;i<n;i++)g+=pine(x+i*9*s+(i%2)*2,y+(i%2?3:0)*s,s*(i%3===1?1.25:i%3===2?.85:1));return g};
-  const shield=(x,y,n)=>`<g transform="translate(${x} ${y})"><path d="M-9 -10H9V2Q9 8 0 12Q-9 8 -9 2Z" fill="${DK}" stroke="${PER}" stroke-width=".7" opacity=".95"/><text x="0" y="3" text-anchor="middle" font-family="Instrument Sans,Arial,sans-serif" font-weight="600" font-size="8.5" fill="${PER}">${n}</text></g>`;
+  const shield=(x,y,n)=>`<g transform="translate(${x} ${y})"><path d="M-9 -10H9V2Q9 8 0 12Q-9 8 -9 2Z" fill="${DK}" stroke="${MAPL}" stroke-width=".7" opacity=".95"/><text x="0" y="3" text-anchor="middle" font-family="Instrument Sans,Arial,sans-serif" font-weight="600" font-size="8.5" fill="${MAPL}">${n}</text></g>`;
   const dotted=(d)=>`<path d="${d}" fill="none" stroke="${DK}" stroke-width="2.6" stroke-linecap="round" stroke-dasharray="0 7"/>`;
   const stop=(x,y)=>`<circle cx="${x}" cy="${y}" r="6.5" fill="${LT2}"/><circle cx="${x}" cy="${y}" r="2.4" fill="${INK}"/>`;
-  const lab=(x,y,t,sub,anchor='start')=>`<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="11.5" letter-spacing="2.2" fill="${CARD}">${t}</text><text x="${x}" y="${y+12}" text-anchor="${anchor}" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="7.5" letter-spacing="1.6" fill="${PER}">${sub}</text>`;
-  const state=(x,y,t)=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="9" letter-spacing="3.5" fill="${PER}" opacity=".55">${t}</text>`;
+  const lab=(x,y,t,sub,anchor='start')=>`<text x="${x}" y="${y}" text-anchor="${anchor}" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="11.5" letter-spacing="2.2" fill="${CARD}">${t}</text><text x="${x}" y="${y+12}" text-anchor="${anchor}" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="7.5" letter-spacing="1.6" fill="${MAPL}">${sub}</text>`;
+  const state=(x,y,t)=>`<text x="${x}" y="${y}" text-anchor="middle" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="9" letter-spacing="3.5" fill="${MAPL}" opacity=".55">${t}</text>`;
   /* buildings in pencil: print plant with a sawtooth roof and stack, combine hub, a house with its mailbox */
   const plant=`<g transform="translate(58 64)"><path d="M0 34V12L12 2V12L24 2V12L36 2V12L48 2V34Z"/><rect x="38" y="-14" width="6" height="18"/></g>`;
   const hub=`<g transform="translate(330 26)"><path d="M0 34V10L30 0L60 10V34Z"/></g>`;
   const house=`<g transform="translate(637 0)"><path d="M0 30V12L15 0L30 12V30Z"/><rect x="38" y="16" width="3" height="14"/><rect x="34" y="10" width="11" height="7" rx="3"/></g>`;
-  const win=`<g fill="${ROY}" opacity=".55"><rect x="64" y="84" width="6" height="8"/><rect x="76" y="84" width="6" height="8"/><rect x="88" y="84" width="6" height="8"/><rect x="338" y="42" width="12" height="18"/><rect x="354" y="42" width="12" height="18"/><rect x="370" y="42" width="12" height="18"/><rect x="648" y="20" width="7" height="10"/></g>`;
+  const win=`<g fill="${MAPB}" opacity=".55"><rect x="64" y="84" width="6" height="8"/><rect x="76" y="84" width="6" height="8"/><rect x="88" y="84" width="6" height="8"/><rect x="338" y="42" width="12" height="18"/><rect x="354" y="42" width="12" height="18"/><rect x="370" y="42" width="12" height="18"/><rect x="648" y="20" width="7" height="10"/></g>`;
   const river=`M-10 228C60 210 120 214 170 190S250 120 300 112 380 140 440 128 520 70 560 58 640 40 700 10 760 -6 790 -10`;
   const route=`M82 106C110 114 132 110 158 100S206 82 232 90 290 104 316 90 342 74 360 72C384 70 398 80 422 76S462 62 486 66 524 70 552 56 608 40 652 38`;
-  return svg('0 0 760 200',`<rect x="-200" y="-200" width="1160" height="600" fill="${ROY}"/>
+  return svg('0 0 760 200',`<rect x="-200" y="-200" width="1160" height="600" fill="${MAPB}"/>
 <g filter="url(#pen)">
  <path d="${river}" fill="none" stroke="${DK2}" stroke-width="22" stroke-linecap="round" opacity=".9"/><path d="${river}" fill="none" stroke="${DK}" stroke-width="9" stroke-linecap="round" opacity=".7" transform="translate(4 3)"/>
  <path d="M-10 60C30 70 60 58 110 66S160 92 196 86" fill="none" stroke="${DK2}" stroke-width="7" stroke-linecap="round" opacity=".8"/>
@@ -363,7 +381,7 @@ ${state(150,52,'ILLINOIS')}${state(452,22,'INDIANA')}${state(592,20,'OHIO')}
 <path d="${route}" fill="none" stroke="${CARD}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)"/>
 ${stop(82,106)}${stop(360,72)}${stop(652,38)}
 ${lab(122,74,'PRINT','PRINTED &amp; ADDRESSED')}${lab(372,98,'COMBINE','PRESORTED WITH OTHER MAIL')}${lab(638,64,'DELIVERY','IN THE MAILBOX','end')}
-<g transform="translate(712 122)" filter="url(#pen)"><text x="0" y="0" text-anchor="end" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="9" letter-spacing="2.4" fill="${PER}">TO EVERY</text><text x="0" y="12" text-anchor="end" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="9" letter-spacing="2.4" fill="${PER}">MAILBOX</text><path d="M8 -10L40 1L8 12Z" fill="${PER}" opacity=".85"/><path d="M8 -10L22 1L8 12Z" fill="${LT2}" opacity=".6"/></g>`,'A pencil map of one mail route across Illinois, Indiana and Ohio: printed, combined with other mail, then delivered').replace('xMidYMid meet','xMidYMin slice')}
+<g transform="translate(712 122)" filter="url(#pen)"><text x="0" y="0" text-anchor="end" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="9" letter-spacing="2.4" fill="${MAPL}">TO EVERY</text><text x="0" y="12" text-anchor="end" font-family="Instrument Sans,Arial,sans-serif" font-weight="500" font-size="9" letter-spacing="2.4" fill="${MAPL}">MAILBOX</text><path d="M8 -10L40 1L8 12Z" fill="${MAPL}" opacity=".85"/><path d="M8 -10L22 1L8 12Z" fill="${LT2}" opacity=".6"/></g>`,'A pencil map of one mail route across Illinois, Indiana and Ohio: printed, combined with other mail, then delivered').replace('xMidYMid meet','xMidYMin slice')}
 function fatigue(){
   const cs=30,x0=4,y0=4,cols=14,rows=4,trail={'0,3':1,'1,3':1,'2,3':2,'2,2':1,'3,2':1,'4,2':2,'5,2':1,'5,1':1,'6,1':2,'7,1':1,'8,1':1,'8,0':2,'9,0':1,'10,0':2,'11,0':1,'12,0':1,'13,0':2};let s='';
   for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const t=trail[c+','+r],x=x0+c*cs,y=y0+r*cs;
