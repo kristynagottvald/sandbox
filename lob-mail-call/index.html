@@ -8,7 +8,7 @@
 <meta name="description" content="Mail Call, a four page printed newspaper about Lob's State of Direct Mail 2026, set like a Christmas market ticket sheet: read it page by page on screen, or drag it around as a folded 3D paper from the outside pages to the inner spread.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Anton&family=Instrument+Sans:wdth,wght@75..100,400..700&family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Anton&family=Instrument+Sans:wdth,wght@75..100,400..700&family=Fraunces:opsz,wght,SOFT@9..144,300..700,0..100&family=Caveat:wght@500..700&display=swap">
 <style>
 :root{--paper:#ece8dd;--ink:#1c2170;--blue:var(--ink);--pink:color-mix(in srgb,var(--ink) 14%,var(--paper));--mag:color-mix(in srgb,var(--ink) 34%,var(--paper));--lime:color-mix(in srgb,var(--ink) 22%,var(--paper));--navy:color-mix(in srgb,var(--ink) 72%,var(--paper));--bg:#1f3496;
 --sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;--serif:"Newsreader",Georgia,"Times New Roman",serif}
@@ -138,7 +138,7 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .scal{--p:24px;--h:5.5px;--n:9px;background:var(--peri);mask:radial-gradient(circle var(--n) at 0 0,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 0,#0000 97%,#000),radial-gradient(circle var(--n) at 0 100%,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 100%,#0000 97%,#000),radial-gradient(circle var(--h) at 50% 0,#0000 95%,#000) 50% 0/var(--p) 100% round,radial-gradient(circle var(--h) at 50% 100%,#0000 95%,#000) 50% 0/var(--p) 100% round,radial-gradient(circle var(--h) at 0 50%,#0000 95%,#000) 0 50%/100% var(--p) round,radial-gradient(circle var(--h) at 100% 50%,#0000 95%,#000) 0 50%/100% var(--p) round;mask-composite:intersect}
 .cloud{--s:22px;background:var(--peri);mask:linear-gradient(#000 0 0) 50% 50%/calc(100% - var(--s)) 100% no-repeat,radial-gradient(circle closest-side,#000 96%,#0000) 0 0/var(--s) var(--s) round}
 .notch{--n:10px;mask:radial-gradient(circle var(--n) at 0 0,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 0,#0000 97%,#000),radial-gradient(circle var(--n) at 0 100%,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 100%,#0000 97%,#000);mask-composite:intersect}
-.panel{background:var(--peri);border:var(--hl) solid var(--ink)}
+.panel{background:transparent;border:var(--hl) solid var(--ink)}
 .rcard{background:var(--card);border:var(--hl) solid var(--ink);border-radius:14px}
 .pin{position:relative;display:inline-grid;place-items:center;background:var(--royal);color:var(--card);padding:13px 26px;margin-bottom:14px}
 .pin::before,.pin::after{content:"";position:absolute;left:18px;right:18px;height:var(--hl);background:currentColor;opacity:.75}
@@ -193,8 +193,10 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .tocr{display:grid;grid-template-columns:34px 26px minmax(0,1fr);align-items:baseline;border-bottom:var(--hl) solid var(--ink);padding:8px 0 7px;font:500 12.5px/1.1 var(--sn);letter-spacing:.15em;text-transform:uppercase}
 .drop{float:left;width:94px;height:108px;margin:2px 12px 2px 0;position:relative}
 .drop>svg{position:absolute;inset:0;width:100%;height:100%}
-.cb{display:grid;grid-template-columns:200px 1fr;gap:10px;align-items:center;margin:5px 0;font:500 10px/1 var(--sn);text-transform:uppercase;letter-spacing:.14em}
-.cb i{display:block;height:13px;background:var(--royal);border-radius:99px}.cb:nth-child(even) i{background:var(--peri);border:var(--hl) solid var(--ink)}
+.cb{display:grid;grid-template-columns:200px 1fr;gap:10px;align-items:center;margin:4px 0;font:500 10px/1 var(--sn);text-transform:uppercase;letter-spacing:.14em}
+.cb .bw{display:flex;align-items:center;gap:8px;min-width:0}
+.cb em{font:600 21px/.6 "Caveat",cursive;font-style:normal;letter-spacing:0;text-transform:none;color:var(--ink);filter:url(#pen);flex:none;margin-top:-2px}
+.cb i{display:block;height:13px;background:var(--royal);border-radius:0;flex:none}.cb:nth-child(even) i{background:transparent;border:var(--hl) solid var(--ink)}
 .cwg{display:grid;gap:0;border:var(--hl) solid var(--ink);width:100%;background:var(--ink)}
 .cw{background:var(--card);color:var(--ink);display:grid;place-items:center;font:500 10px/1 var(--sn);position:relative;aspect-ratio:1;outline:.6px solid var(--ink)}
 .cw u{position:absolute;left:1.5px;top:1px;font:500 5.5px/1 var(--sn);text-decoration:none}
@@ -272,8 +274,12 @@ function parcelChar(){return obj(110,100,`<rect x="8" y="22" width="94" height="
   `<rect x="46" y="22" width="18" height="72" ${F}/><rect x="8" y="35" width="94" height="3" ${F}/><rect x="72" y="58" width="24" height="24" ${F}/>`,{g:[30,0,96,24],s:31,label:'A parcel'})}
 function stackChar(){return obj(120,110,`<rect x="10" y="82" width="100" height="18" rx="3"/><rect x="16" y="60" width="88" height="18" rx="3"/><rect x="8" y="38" width="104" height="18" rx="3"/>`,
   `<rect x="24" y="87" width="30" height="5" ${F}/><rect x="30" y="65" width="28" height="5" ${F}/><rect x="22" y="43" width="30" height="5" ${F}/>`,{g:[30,0,100,20],s:43,label:'A stack of mail',line:`<rect x="20" y="16" width="80" height="18" rx="3"/>`})}
-function phoneChar(){return obj(120,100,`<path d="M10 84L26 50H94L110 84Z"/><path d="M16 46Q60 6 104 46" fill="none" stroke-width="14" stroke-linecap="round"/>`,
-  `<circle cx="60" cy="68" r="14" ${F}/>`,{g:[34,0,100,14],s:55,label:'A telephone',line:`<circle cx="60" cy="68" r="4" fill="${INK}"/>`})}
+/* an antique desk telephone: stepped square base, a box with a rotary dial, a cradle post holding the handset across the top, a coiled cord */
+function phoneChar(){let holes='';for(let k=0;k<10;k++){const a=(-60+k*28)*Math.PI/180;holes+=`<circle cx="${(60+15*Math.cos(a)).toFixed(1)}" cy="${(78+15*Math.sin(a)).toFixed(1)}" r="3.2" ${F}/>`}
+  let coil='';for(let k=0;k<9;k++)coil+=`<ellipse cx="${(12+(k%2)*2).toFixed(1)}" cy="${40+k*6.5}" rx="5" ry="3.2"/>`;
+  return obj(120,124,`<rect x="26" y="112" width="68" height="9"/><rect x="31" y="104" width="58" height="10"/><rect x="34" y="56" width="52" height="50"/><rect x="29" y="50" width="62" height="8"/><path d="M53 50V40H67V50Z"/><rect x="57" y="26" width="6" height="16"/><rect x="18" y="12" width="84" height="14" rx="7"/><path d="M14 8h12v22h-12Z"/><path d="M96 8h12v22h-12Z"/>`,
+  `<circle cx="60" cy="78" r="20" ${F}/><circle cx="60" cy="78" r="7" fill="${INK}" stroke="none"/>${holes}<rect x="38" y="60" width="44" height="3" ${F}/><rect x="40" y="16" width="40" height="4" rx="2" ${F}/>`,
+  {g:[40,0,116,30],s:55,label:'An antique telephone with a rotary dial',line:`<g stroke-width="1.4">${coil}</g><path d="M14 30C10 34 8 36 12 40M14 96C18 104 24 108 30 108" stroke-width="1.4"/><circle cx="60" cy="78" r="20" stroke-width="1.2"/><path d="M73 90l7 6" stroke-width="2"/>`})}
 function vanChar(){return obj(156,112,`<rect x="6" y="20" width="94" height="62" rx="4"/><path d="M100 38h26l22 24v20h-48Z"/><circle cx="34" cy="88" r="15"/><circle cx="124" cy="88" r="15"/>`,
   `<circle cx="34" cy="88" r="6" ${F}/><circle cx="124" cy="88" r="6" ${F}/><path d="M108 44h16l14 18h-30Z" ${F}/><rect x="18" y="32" width="48" height="30" ${F}/>`,{g:[50,0,140,10],s:67,label:'A delivery van'})}
 function storeChar(){let st='';for(let i=1;i<6;i++)st+=`<rect x="${6+i*18.7}" y="14" width="3" height="30" ${F}/>`;
@@ -357,11 +363,16 @@ function pineSil(cx,base,h,w,n){let L=[],R=[];const top=base-h*.96;for(let i=1;i
   L.push(`${(cx-ww+j).toFixed(1)},${y.toFixed(1)} ${(cx-ww*.42).toFixed(1)},${(y-2).toFixed(1)}`);R.unshift(`${(cx+ww*.42).toFixed(1)},${(y-2).toFixed(1)} ${(cx+ww-j).toFixed(1)},${y.toFixed(1)}`)}
   return `<polygon points="${cx},${top.toFixed(1)} ${L.join(' ')} ${R.join(' ')}"/><rect x="${cx-1.6}" y="${(base-h*.06).toFixed(1)}" width="3.2" height="${(h*.06).toFixed(1)}"/>`}
 function pinesChar(spec,W,H,sd){return obj(W,H,spec.map(t=>pineSil(...t)).join(''),'',{g:[0,0,W,0],b:[.05,.7],lo:.02,hi:.6,s:sd,dark:1,wob:3,label:'Pine trees',ground:false})}
+/* a rural mailbox at three quarters: rounded front, long side, post, and a striped flag raised */
+function ruralMailbox(){let st='';for(let i=0;i<6;i++)st+=`<path d="M86 ${14+i*9}l6 -4v5l-6 4Z" ${F}/>`;
+  return obj(112,132,`<path d="M30 30L88 24A16 16 0 0 1 104 40V70L46 76V44A16 16 0 0 0 30 30Z"/><path d="M8 78V46A19 19 0 0 1 46 46V78Z"/><rect x="40" y="74" width="14" height="56"/><path d="M84 8h8v62h-8Z"/>`,
+  `<path d="M12 76V47A15 15 0 0 1 42 47V76Z" ${F} opacity=".55"/><path d="M50 32L86 28" ${FS(2.4)}/>${st}`,
+  {g:[30,0,108,30],s:29,label:'A mailbox with its flag up',line:`<path d="M20 60H32" stroke-width="2"/><path d="M27 33A16 16 0 0 1 44 32" stroke-width="1.2"/>`})}
 /* the front page picture: mail objects in front of a big pale 80 */
 const at=(s,x,y,w,h)=>s.replace('width="100%" height="100%"',`x="${x}" y="${y}" width="${w}" height="${h}"`);
 function scene(){return svg('0 0 236 430',`
 <text x="118" y="300" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="300" font-size="236" fill="#bdd6fd" stroke="none" letter-spacing="-10">80</text>
-${at(flyingEnvelope(),30,64,160,75)}${at(pinesChar([[20,150,146,38,9],[44,150,120,34,8],[64,150,78,24,6]],80,152,97),94,268,80,152)}${at(pinesChar([[16,110,104,30,8],[36,110,70,22,6]],50,112,103),-4,306,50,112)}${at(twoStoryHouse(),126,262,110,150)}${at(ranchHouse(),0,330,108,73)}<svg x="44" y="350" width="108" height="73" viewBox="0 0 124 84" preserveAspectRatio="xMidYMid meet"><g fill="${PER}" stroke="${PER}" stroke-width="7" stroke-linejoin="round"><path d="M30 8H118V66H30Z"/><path d="M30 20H14L6 40V66H30Z"/><circle cx="26" cy="70" r="11"/><circle cx="98" cy="70" r="11"/></g></svg>${at(mailTruck(),44,350,108,73)}<path d="M2 420H234" stroke="${INK}" stroke-width="1.2" opacity=".7"/>`,'A flying envelope over a street with a one storey house, a two storey house and a mail truck').replace('xMidYMid meet','xMidYMax meet')}
+${at(pinesChar([[20,150,146,38,9],[44,150,120,34,8],[64,150,78,24,6]],80,152,97),94,268,80,152)}${at(pinesChar([[16,110,104,30,8],[36,110,70,22,6]],50,112,103),-4,306,50,112)}${at(twoStoryHouse(),126,262,110,150)}${at(ranchHouse(),0,330,108,73)}<svg x="44" y="350" width="108" height="73" viewBox="0 0 124 84" preserveAspectRatio="xMidYMid meet"><g fill="${PER}" stroke="${PER}" stroke-width="7" stroke-linejoin="round"><path d="M30 8H118V66H30Z"/><path d="M30 20H14L6 40V66H30Z"/><circle cx="26" cy="70" r="11"/><circle cx="98" cy="70" r="11"/></g></svg>${at(mailTruck(),44,350,108,73)}<path d="M2 420H234" stroke="${INK}" stroke-width="1.2" opacity=".7"/>`,'A flying envelope over a street with a one storey house, a two storey house and a mail truck').replace('xMidYMid meet','xMidYMax meet')}
 function donut(p,sz=72){const r=36,C=2*Math.PI*r;return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}" aria-hidden="true"><circle cx="50" cy="50" r="${r}" fill="none" stroke="${PER}" stroke-width="12"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${ROY}" stroke-width="12" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="${r+8}" fill="none" stroke="${INK}" stroke-width="1"/><circle cx="50" cy="50" r="${r-8}" fill="none" stroke="${INK}" stroke-width="1"/></svg>`}
 function dots(n,of=10){let s='';for(let i=0;i<of;i++)s+=`<circle cx="${9+i*17}" cy="9" r="6.5" fill="${i<n?ROY:'none'}" stroke="${i<n?ROY:INK}" stroke-width="1.1"/>`;return `<svg viewBox="0 0 ${of*17} 18" width="100%" aria-hidden="true">${s}</svg>`}
 /* the route map: full bleed royal blue, pencil pines, a river, dotted highways with interstate shields,
@@ -392,7 +403,7 @@ function routeMap(){
 ${win}
 ${dotted('M236 -10C232 40 248 80 240 120S228 180 236 220')}${dotted('M512 -10C506 40 520 90 510 140S500 190 506 220')}
 ${dotted('M-10 112C60 104 120 100 180 104S300 118 360 110 480 110 540 120 680 132 780 128')}${dotted('M400 -10C396 40 408 80 398 130S392 180 396 220')}
-${shield(186,112,'74')}${shield(452,96,'65')}${shield(574,102,'70')}
+
 ${state(150,52,'ILLINOIS')}${state(452,22,'INDIANA')}${state(592,20,'OHIO')}
 <path d="${route}" fill="none" stroke="${CARD}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" filter="url(#pen)"/>
 ${stop(82,106)}${stop(360,72)}${stop(652,38)}
@@ -406,19 +417,20 @@ function fatigue(){
      line(560,34,654,34,1.2)+line(560,50,646,50,1.2)+line(560,66,650,66,1.2)+line(560,82,628,82,1.2)+
      `<rect x="610" y="92" width="46" height="26" fill="${PER}" stroke="${ROY}" stroke-width="1.4" stroke-dasharray="3 2.4"/></g>`;
   return svg('0 0 680 140',s,'A hairline grid of digital messages with a trail of lit cells leading to one printed postcard')}
-function chartBars(rows){return rows.map(r=>`<div class="cb"><span>${r[0]}</span><i style="width:${r[1]}%"></i></div>`).join('')}
+/* bars with a hand written percentage at the end of each, every one tilted a little differently */
+function chartBars(rows){const mx=Math.max(...rows.map(r=>r[1]));return rows.map((r,i)=>`<div class="cb"><span>${r[0]}</span><div class="bw"><i style="width:${(r[1]/mx*78).toFixed(1)}%"></i><em style="transform:rotate(${[-4,3,-2,5,-3,2][i%6]}deg)">${r[1]}%</em></div></div>`).join('')}
 function crossword(){
   const W=[['POSTCARD',3,1,'a'],['LETTER',1,4,'d'],['ROUTE',2,2,'d'],['MAILBOX',2,6,'d'],['DIGITAL',3,8,'d']];
   const g={};let r0=99,c0=99,r1=0,c1=0;
   W.forEach(([w,r,c,d])=>[...w].forEach((ch,i)=>{const rr=r+(d==='d'?i:0),cc=c+(d==='a'?i:0);g[rr+','+cc]=ch;r0=Math.min(r0,rr);r1=Math.max(r1,rr);c0=Math.min(c0,cc);c1=Math.max(c1,cc)}));
   const starts={};W.slice().sort((a,b)=>a[1]-b[1]||a[2]-b[2]).forEach((w,i)=>starts[w[1]+','+w[2]]=i+1);
-  let cells='';for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++){const ch=g[r+','+c];cells+=ch?`<i class="cw">${starts[r+','+c]?`<u>${starts[r+','+c]}</u>`:''}${ch}</i>`:`<i class="cb2"></i>`}
+  let cells='';for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++){const ch=g[r+','+c];cells+=ch?`<i class="cw">${starts[r+','+c]?`<u>${starts[r+','+c]}</u>`:''}</i>`:`<i class="cb2"></i>`}
   return `<div class="cwg" style="grid-template-columns:repeat(${c1-c0+1},1fr);aspect-ratio:${c1-c0+1}/${r1-r0+1}">${cells}</div>`}
 
 /* ---------- the four pages (Lob's State of Direct Mail 2026 article) ----------
    Every page is a grid: 12px between bands, 10px between boxes, 16px between columns, one 1.3px hairline, one row that absorbs the slack. */
 const foot=(n,t)=>`<div class="folio"><span>The Mail Call · ${t}</span><span>lob.com</span><span>${String(n).padStart(2,'0')}</span></div>`;
-const trys=(title,items,cls='panel')=>`<div class="${cls}"><div class="tbh tc">${title} ${arw()}</div><div class="tb">${items.map(t=>`<div><div class="ic">${icon(t[0])}</div><h4>${t[1]}</h4><div class="tx">${t[2]}</div></div>`).join('')}</div></div>`;
+const trys=(title,items,cls='panel')=>`<div class="${cls}"><div class="tbh tc">${title} ${arw()}</div><div class="tb">${items.map(t=>`<div><div class="ic">${typeof t[0]=='function'?t[0]():icon(t[0])}</div><h4>${t[1]}</h4><div class="tx">${t[2]}</div></div>`).join('')}</div></div>`;
 const sec=(n,head)=>`<div class="sech">${num(n)}<div class="an">${head}</div></div>`;
 const stat=(big,lab,cls='rcard')=>`<div class="${cls} st"><div class="stat">${big}</div><div class="hr"></div><div class="tc">${lab}</div></div>`;
 const dtk=(art,big,lab,cw,v)=>`<div class="perf dtk${v?' v':''}"${cw?` style="--cw:${cw}px"`:''}><div class="in"><div class="cell">${art}</div><div class="txt"><div class="stat">${big}</div><div class="tc">${lab}</div></div></div></div>`;
@@ -432,13 +444,13 @@ const PG=[
   <div class="fl">
     <div>${pin('What the 2026 State of Direct Mail says about the',10.5)}</div>
     <div class="an" style="font-size:128px;line-height:.84;letter-spacing:.004em">Mailbox<br>Moment</div>
-    <div class="sf" style="font-size:25px;line-height:1.14;margin-top:16px">More than 80% still check the mail daily. Here are four ways to be worth the trip.</div>
+    <div class="sf dk" style="font-size:24px;line-height:1.14;margin-top:16px;white-space:nowrap">More than 80% still check the mail daily.<br>Here are four ways to be worth the trip.</div>
     <div class="tc" style="font-size:9.5px;margin-top:12px">By the Lob Newsletter</div>
-    <div class="toc" style="margin-top:auto;padding-top:14px"><div class="tc" style="font-size:9.5px;padding:0 0 9px;border-bottom:var(--hl) solid var(--ink)">In this issue</div>${[['02','Mail is a daily ritual'],['03','Keep them reading'],['04','Classifieds &amp; the crossword']].map(r=>`<div class="tocr"><span>${r[0]}</span><span>—</span><span>${r[1]}</span></div>`).join('')}</div>
+    <div class="toc" style="margin-top:auto;padding-top:14px"><div class="tc" style="font-size:9.5px;padding:0 0 9px;border-bottom:var(--hl) solid var(--ink)">In this issue</div>${[['02','Mail is a daily ritual'],['03','Keep them reading'],['04','Classifieds &amp; a crossword']].map(r=>`<div class="tocr"><span>${r[0]}</span><span>—</span><span>${r[1]}</span></div>`).join('')}</div>
   </div>
   <div class="fl" style="gap:12px">
-    <div style="flex:1;position:relative;display:flex"><div class="scal" style="--p:28px;--h:6.5px;--n:11px;flex:1;padding:26px 14px 16px">${scene()}</div><div class="callout" style="left:-22px;top:-16px;width:100px;height:100px">${rubber('MAIL DAY','80%','EVERY DAY',-14,'Stamp: 80 percent check daily')}</div></div>
-    <div class="tkt" style="padding:13px 30px"><span class="tc" style="font-size:11px;letter-spacing:.22em;white-space:nowrap">Main St. · mail day</span></div>
+    <div style="flex:1;position:relative;display:flex"><div class="scal" style="--p:28px;--h:6.5px;--n:11px;flex:1;padding:26px 14px 16px">${scene()}</div><div class="callout" style="left:-30px;top:-22px;width:148px;height:148px">${rubber('MAIL DAY','80%','EVERY DAY',-14,'Stamp: 80 percent check daily')}</div></div>
+    <div class="tkt" style="padding:13px 30px"><span class="tc" style="font-size:11px;letter-spacing:.22em;white-space:nowrap">87% read it same day</span></div>
   </div>
 </div>
 <div class="tx cols3" style="font-size:12.6px">${dropCap('D')}<p>irect mail is one of the few marketing touchpoints that feels native. According to Lob's State of Direct Mail 2026: Consumer Insights, ${hi('more than 80%')} of consumers collect their mail daily or nearly daily, and ${hi('87%')} read direct mail the same day they bring it in.</p>
@@ -452,7 +464,7 @@ ${foot(1,'Front page')}`,
 /* 2 · inside left */
 ()=>`
 <div class="tkt"><span class="tc" style="font-size:15px;letter-spacing:.3em">The Mailbox Moment</span></div>
-<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span class="sf" style="font-size:32px">Mail is a</span><span class="cloud tc" style="--s:20px;padding:6px 30px;font-size:10px;text-align:center;line-height:1.3">Every<br>single day</span></div><div class="an" style="font-size:128px;line-height:.84;white-space:nowrap">Daily ritual</div></div>
+<div><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span class="sf" style="font-size:32px">Mail is a</span><span class="cloud tc" style="--s:20px;padding:6px 30px;font-size:10px;text-align:center;line-height:1.3;position:relative;z-index:2;transform:translate(6px,34px) rotate(-5deg)">Every<br>single day</span></div><div class="an" style="font-size:128px;line-height:.84;white-space:nowrap">Daily ritual</div></div>
 <div style="display:grid;grid-template-columns:minmax(0,1fr) 262px;gap:var(--gc);align-items:start">
   <div class="tx cols2"><p><b>Going to the mailbox is routine.</b> Mail doesn't interrupt. Instead, it seamlessly blends into everyday life. It is a daily habit shared across demographics, geographies and generations.</p><p>People check for mail, sort through the stack and, in just a few seconds, decide whether it's worth opening, reading or keeping. That is the moment you are designing for.</p></div>
   <div class="perf c" style="padding:13px 16px 14px;display:flex;flex-direction:column;align-items:center;gap:6px">${star8(20)}<div class="sf" style="font-size:16px;line-height:1.2">“Your customers are already showing up to the mailbox. So give them something worth saving.”</div></div>
@@ -476,8 +488,8 @@ ${foot(2,'Page two')}`,
 
 /* 3 · inside right */
 ()=>`
-<div class="tkt"><span class="tc" style="font-size:15px;letter-spacing:.3em">Keep Them Reading</span></div>
-<div class="sech">${num(2)}<div style="display:flex;align-items:baseline;gap:14px;white-space:nowrap"><span class="sf" style="font-size:24px">Give people a reason to</span><span class="an" style="font-size:76px;line-height:.86">Keep reading</span></div></div>
+<div class="tkt"><span class="tc" style="font-size:15px;letter-spacing:.3em">Digital Fatigue</span></div>
+<div class="sech">${num(2)}<div style="display:flex;align-items:flex-end;gap:16px;white-space:nowrap"><span class="sf" style="font-size:30px;line-height:1.02;padding-bottom:3px">Give people<br>a reason to</span><span class="an" style="font-size:84px;line-height:.86">Keep reading</span></div></div>
 <div style="margin:0 -26px;display:flex;flex-direction:column"><div style="flex:1;position:relative;min-height:176px"><div style="position:absolute;inset:0">${routeMap()}</div><div class="tc" style="position:absolute;left:26px;top:12px;font-size:9px;color:var(--card);letter-spacing:.22em">One piece of mail · three stops</div></div><div class="band c3" style="padding:0 26px;margin-top:-40px;position:relative">${dtk(envelopeChar(),'27%','say mail stands out<br>from digital ads',52,1)}${dtk(icon('eye'),'35%','more likely to<br>remember mail',52,1)}${dtk(stackChar(),'54%','toss mail that<br>looks like a scam',52,1)}</div></div>
 <div class="tx cols2"><p>Today's consumers are bombarded with hundreds, even thousands, of digital messages a day. As digital fatigue grows, the tactile quality of direct mail becomes even more impactful.</p><p>${hi('45%')} of people are turned off by mail with no clear value, and nearly half are tired of pushy language and manufactured deadlines.</p></div>
 ${trys('Try this',[
@@ -487,12 +499,12 @@ ${trys('Try this',[
 ${sec(3,'Design for more than an immediate response')}
 <div style="display:grid;grid-template-columns:330px minmax(0,1fr);gap:var(--gc);align-items:center">
   ${dtk(pocketWatch(),'33%','value mail they can<br>return to later',76)}
-  <div class="tx"><p>Useful mail is more likely to be read and held on to. Give yours a longer life by including information worth keeping: product comparisons, deadlines, pricing, checklists, special offers or discount codes turn mail into a resource people can return to when they're ready.</p></div>
+  <div class="tx"><p>Useful mail is more likely to be read and kept. Give yours a longer life with information worth keeping: comparisons, deadlines, pricing, checklists, offers or discount codes turn mail into a resource people come back to.</p></div>
 </div>
 ${trys('Try this',[
 ['mark','Add staying power','Value that works now and later: reference guides, product details, incentives.'],
 ['book','Make room to read','Letters and catalogs give you room to tell the story first glances miss.'],
-['star','Make it memorable','Distinctive creative and inventive printing invite interaction on and offline.']],'rcard')}
+['star','Make it memorable','Distinctive creative and inventive printing invite interaction on and offline.']])}
 ${foot(3,'Page three')}`,
 
 /* 4 · back page: the classifieds (one 4 column grid, 10px gutters) */
@@ -505,20 +517,20 @@ ${foot(3,'Page three')}`,
     ${['QR code','Store visit','Personalized URL','Phone call','General URL','Search the brand'].map((t,i)=>`<span class="pill ${i%2?'':'f'}">${t}</span>`).join('')}
   </div>
   <div class="perf" style="grid-column:span 2;padding:16px 18px 14px">
-    <div style="display:flex;gap:12px;align-items:center">${num(4)}<div class="an" style="font-size:33px;line-height:.9">Connect with customers on their terms</div></div>
+    <div style="display:flex;gap:12px;align-items:center"><div style="width:46px;height:46px;flex:none;display:grid">${num(4).replace('class="num"','class="num" style="width:46px;height:46px"')}</div><div class="an c4h" style="font-size:28px;line-height:.92;white-space:nowrap">Connect with customers<br>on their terms</div></div>
     <div class="tx s" style="margin-top:9px"><p>Direct mail thrives when you go beyond the mailbox. There's no single path from awareness to action to attribution: some people research the brand online, some head to the store, others scan a QR code or visit a PURL.</p></div>
   </div>
   <div style="display:grid;place-items:center">${rubber('WENT ONLINE','70%','AFTER MAIL',-12,'Stamp: 70 percent took an online action after receiving direct mail')}</div>
   ${[[qrChar(),'Scan a QR code','scal'],[phoneChar(),'Call a number','scal'],[storeChar(),'Go to the store','scal']].map(t=>tile(t[0],'',t[1],t[2])).join('')}
-  <div class="tkt lt" style="grid-column:span 2;display:grid;grid-template-columns:92px minmax(0,1fr);gap:14px;align-items:center;justify-items:start;text-align:left;padding:12px 34px"><div style="height:62px">${vanChar()}</div>
+  <div class="tkt lt" style="grid-column:span 2;display:grid;grid-template-columns:92px minmax(0,1fr);gap:14px;align-items:center;justify-items:start;text-align:left;padding:12px 34px"><div style="height:72px">${ruralMailbox()}</div>
     <div><div class="tc" style="font-size:11px;line-height:1.35;white-space:nowrap">Lob's Worldwide<br>Delivery Service</div><div class="tx s" style="margin-top:5px">Every mailbox. Every day. More than <b>80%</b> of people look daily.</div></div></div>
   <div class="rcard" style="grid-column:span 2;display:grid;grid-template-columns:minmax(0,1fr) 62px;gap:12px;align-items:center;padding:12px 16px"><div><div class="tc" style="font-size:12px">Free · the full report</div><div class="tx s" style="margin-top:4px">More consumer insights in the 2026 State of Direct Mail webinar and report.</div><div class="lnk tc" style="margin-top:8px;padding:7px 0;font-size:10px;justify-content:flex-start">Read the report ${arw(1)}</div></div><div style="height:66px">${rubberStamp()}</div></div>
   <div style="grid-column:span 4">${trys('Try this in your next campaign',[
-['paths','Flexible response paths','Let people engage in their preferred format. More entry points means more conversion opportunities.'],
+[mailTruck,'Flexible response paths','Let people engage in their preferred format. More entry points means more conversion opportunities.'],
 ['chain','Omnichannel, aligned','Continue the journey your mail started with continuity across digital and physical touchpoints.'],
 ['chart','Track multiple signals','It isn’t only direct response. Use direct and indirect metrics to remove blind spots.']])}</div>
-  <div class="rcard" style="grid-column:span 3;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:12px 16px"><div class="tc" style="font-size:10px;padding-bottom:8px;border-bottom:var(--hl) solid var(--ink)">How people say they'd follow up · illustrative, see the report</div><div style="padding-top:4px">${chartBars([['Scan a QR code',100],['Go to their store location',82],['Follow a personalized URL',68],['Call a phone number',54],['Follow a general URL',44],['Search the brand themselves',34]])}</div></div>
-  <div class="panel" style="padding:9px 12px 10px;display:flex;flex-direction:column;align-items:center"><div class="tc c" style="font-size:10px;padding-bottom:7px;margin-bottom:8px;border-bottom:var(--hl) solid var(--ink);align-self:stretch">Puzzle · solved</div><div style="width:138px">${crossword()}</div></div>
+  <div class="panel" style="grid-column:span 3;display:flex;flex-direction:column;padding:0 0 10px"><div class="tc" style="font-size:10px;padding:10px 16px 9px;background:var(--ink);color:#bdd6fd">How people say they'd follow up · illustrative, see the report</div><div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:6px 16px 0">${chartBars([['Scan a QR code',44],['Go to their store location',36],['Follow a personalized URL',30],['Call a phone number',24],['Follow a general URL',19],['Search the brand themselves',15]])}</div></div>
+  <div class="panel" style="padding:7px 18px 9px;display:flex;flex-direction:column;align-items:center"><div class="tc c" style="font-size:10px;padding-bottom:6px;margin-bottom:6px;border-bottom:var(--hl) solid var(--ink);align-self:stretch">Mailbox crossword</div><div style="align-self:stretch">${crossword()}</div></div>
   <div style="grid-column:span 4;display:grid;grid-template-columns:minmax(0,1fr) 150px minmax(0,1fr);align-items:center;gap:0;border-top:var(--hl) solid var(--ink);border-bottom:var(--hl) solid var(--ink)">
     <div class="tc c" style="padding:15px 8px;font-size:11.5px;display:flex;justify-content:center;gap:10px;align-items:center">For all direct mail dilemmas ${arw()}</div>
     <div style="height:52px;border-left:var(--hl) solid var(--ink);border-right:var(--hl) solid var(--ink);padding:6px 10px">${flyingEnvelope()}</div>
