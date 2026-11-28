@@ -79,7 +79,7 @@ const easeOut = (u) => 1 - Math.pow(1 - cl(u, 0, 1), 3);
 const ph = (P, a, b, f = ease) => f(cl((P - a) / (b - a), 0, 1));
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const SANS = '"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif', BLACKFACE = '"Archivo Black","Arial Black","Helvetica Neue",Arial,sans-serif';
-const PURPLE = [122, 75, 255], RED = [242, 68, 46], INK = [20, 20, 24];
+const PURPLE = [122, 75, 255], RED = [242, 68, 46], INK = [20, 20, 24], BOXK = [14, 14, 17], SLV = [44, 44, 51];
 const KRAFT = [186, 146, 100], KRAFT_D = [140, 103, 66], KRAFT_L = [208, 172, 124];
 
 /* ---------- tiny affine transforms: chain(A, B, C) applies C first ---------- */
@@ -102,7 +102,8 @@ let CAM = [0, 500, 1500], GLOW = { p: [0, 100, 450], k: 0 };
 const shade = (n) => Math.min(1, 0.5 + 0.58 * Math.max(0, dot(n, L1)) + 0.18 * Math.max(0, dot(n, L2)));
 
 /* ---------- per frame draw lists ---------- */
-let FLAT = [], TEXQ = [], OVF = [], OVG = [];
+let FLAT = [], TEXQ = [], OVF = [], OVG = [], GLS = [], GLT = [];
+function glassTri(M, pts, col, a) { const w = wp(M, pts), s = 0.62 + 0.38 * shade(facing(w)); GLS.push(w, col[0] * s, col[1] * s, col[2] * s, a); }
 const wp = (M, pts) => pts.map((p) => xf(M, p));
 function facing(w) { let n = nrm(crs(sub(w[1], w[0]), sub(w[2], w[0]))); if (dot(n, sub(CAM, w[0])) < 0) n = [-n[0], -n[1], -n[2]]; return n; }
 function F(M, pts, col, amt = 1) { // flat colour polygon, fan from pts[0]
@@ -181,13 +182,23 @@ const MW = 260, MH = 200, WT = 10;                 // mailer: half width/depth, 
 const INS_TOP = 190, REC_FLOOR = 96, REC_H = 175;  // debossed insert: top, recess floor, recess half size
 const BOXH = 166, LIDH = 171, BASE_H = 74, LID_BOT = 44, LID_TOP = 88; // award box: base half, lid half, heights
 const SL_T = 5, SL_XA = -130, SL_XB = 40;           // slip sleeve: thickness, x range on the box
-const AW = 0.84, AR = 105, AT = 16;                // award: stamp aspect, half height, thickness
+const AT = 14, PK = 0.29;                          // award: glass thickness, scale of the traced mascot
 const CRAD_TOP = 70, POCKET = 14;                  // black cradle inside the base, pocket depth
 
-const POCK = pocketPoly(AW, AR, 1.05, 0.26, 24), POCK_TOP = triangulate(rectPts(160, 160), POCK), POCK_FLOOR = triangulate(POCK);
+/* the brand mascot, traced (from the Postmark Awards brand visuals): body with its quills, the quill tips, and the stamps stuck on them (x, y, half width, half height, rotation, 0 purple / 1 red); y down, 1000 units wide */
+const PORC_BODY = [33,679,136,701,138,703,167,708,169,710,179,710,181,712,190,713,204,717,222,720,230,723,230,725,204,730,204,731,167,739,156,743,121,751,120,752,111,753,109,755,104,755,33,773,341,773,343,775,342,791,345,829,351,839,360,843,422,843,437,838,446,827,448,819,445,811,425,809,392,809,386,806,379,799,377,789,379,777,382,773,387,773,566,773,567,774,567,813,569,828,573,836,584,843,646,843,656,841,666,835,672,822,671,814,664,810,615,809,610,806,603,799,602,791,603,780,606,773,969,773,794,708,795,705,802,703,939,622,796,643,787,643,785,645,766,647,762,647,926,521,872,538,871,540,858,543,857,545,830,553,829,554,750,580,750,579,766,559,780,547,810,512,801,484,799,483,755,511,723,533,713,538,709,542,699,548,697,548,834,306,660,490,659,487,663,479,666,466,668,465,671,454,675,446,676,440,677,439,701,368,717,326,714,322,701,311,699,311,681,338,676,348,671,352,671,355,603,455,603,447,615,345,608,344,595,339,579,326,576,330,571,346,569,347,560,370,559,376,555,383,542,418,540,419,540,422,535,435,534,436,533,442,530,444,529,443,528,422,526,418,525,396,524,394,520,353,517,352,471,359,463,407,459,423,458,436,456,447,454,448,450,437,449,437,441,411,437,402,435,391,425,369,411,323,409,322,408,317,366,195,376,473,374,474,372,472,372,468,370,467,286,298,272,298,277,325,279,331,279,337,281,338,282,347,283,348,284,358,291,382,291,388,293,389,293,398,315,490,314,492,220,394,204,421,209,427,214,440,216,443,225,464,230,470,237,489,239,490,261,535,260,537,101,444,241,601,240,603,205,590,165,577,169,591,169,598,153,601,146,605,206,654];
+const PORC_STEMS = [[190,611,188,611,181,613,170,616,162,617,162,617,160,616,148,607,97,565,72,544,72,543,93,550,134,564,178,580,183,582,184,584,185,587,190,609],[232,408,230,413,225,421,218,434,214,440,214,440,179,369,167,343,162,334,162,332,168,338,232,406],[308,342,305,347,304,348,299,345,283,336,279,333,277,325,272,306,261,254,261,249,262,251,264,254,290,305,306,337,308,341],[522,369,520,370,473,377,468,377,468,370,489,249,498,196,501,182,503,175,504,188,507,212,521,356],[634,191,633,201,614,358,613,359,613,360,572,364,563,364,563,363,564,359,629,193,634,184],[743,250,740,259,735,274,717,326,713,338,712,338,710,337,705,332,694,323,692,322,692,321,695,317,732,261,740,249,742,248,743,248],[894,421,887,429,803,521,798,526,797,524,792,510,786,492,786,491,788,490,879,429,893,420,894,420]];
+const PORC_STAMPS = [[99,571,66,45,-0.227,0],[169,354,58,68,-1.065,1],[256,227,66,89,2.094,0],[495,294,58,65,-0.140,1],[610,260,56,86,-0.087,0],[755,263,70,53,-0.873,1],[875,444,84,59,-0.332,0]];
 const REC = recessPoly(REC_H, REC_H, 34), REC_TOP = triangulate(rectPts(250, 250), REC), REC_FLOOR_T = triangulate(REC);
 const WIN_HH = 80, WIN = stampPoly(0.7).map((p) => [p[0] * WIN_HH, p[1] * WIN_HH]), WIN_TOP = triangulate(rectPts((SL_XB - SL_XA) / 2, 173), WIN);
-const AWARD_PTS = stampPoly(AW).map((p) => [p[0] * AR, p[1] * AR]);
+const porcP = (x, y) => [(x - 501) * PK, -(y - 490) * PK];
+const pairs = (a) => { const o = []; for (let i = 0; i < a.length; i += 2) o.push(porcP(a[i], a[i + 1])); return o; };
+const BODY_P = pairs(PORC_BODY), BODY_T = triangulate(BODY_P);
+const STEM_P = PORC_STEMS.map(pairs), STEM_T = STEM_P.map((p) => triangulate(p));
+const STAMP_P = PORC_STAMPS.map(([x, y, hw, hh, rot, c]) => { const cs = Math.cos(rot), sn = Math.sin(rot), p = stampPoly(hw / hh, 0.62, 0.12, 4).map(([px, py]) => { const X = px * hh, Y = -py * hh; return porcP(x + X * cs - Y * sn, y + X * sn + Y * cs); }); return { p, t: triangulate(p), c: c ? RED : PURPLE }; });
+const ellipseP = (cx, cy, rx, ry) => Array.from({ length: 28 }, (_, i) => porcP(cx + rx * Math.cos(TAU * i / 28), cy + ry * Math.sin(TAU * i / 28)));
+const EYE_P = ellipseP(648, 692, 98, 38), PUPIL_P = ellipseP(673, 707, 24, 15);
+const POCK = BODY_P.map((p) => [p[0] * 1.045, p[1] * 1.045]), POCK_TOP = triangulate(rectPts(160, 160), POCK), POCK_FLOOR = triangulate(POCK);
 
 /* ============================================================================================
    Textures: flat colour, a little grain, tone on tone deboss. Built once with the brand fonts.
@@ -235,7 +246,7 @@ function arcText(c, str, cx, cy, r, a0, spacing) { c.save(); c.translate(cx, cy)
 function buildTextures() {
   /* kraft: outside, inside (darker, corrugation showing), the mailer lid underside with its printed message */
   T.kraft = kraftTex(1024, 1024, KRAFT, 11, 0); T.kraftD = kraftTex(1024, 1024, KRAFT_D, 12, 0);
-  T.purpleSide = flatTex(512, 128, PURPLE, 3, 900); T.ink = flatTex(128, 128, INK, 5, 800);
+  T.purpleSide = flatTex(512, 128, BOXK, 3, 1100); T.ink = flatTex(128, 128, INK, 5, 800);
 
   { // mailer lid, outside: kraft with a worn black postmark and a stamp sticker
     const g = kraftTex(1024, 1024, KRAFT, 21, 0), c = g.drawingContext, r = rng(9);
@@ -267,24 +278,28 @@ function buildTextures() {
     };
     deboss(c, W, W, shape, 3, 1.15); T.insert = g;
   }
-  { // award box lid: purple card, tone on tone deboss, red ring stamp that sits in the sleeve window
-    const W = 1026, S = 3, g = G(W, W), c = g.drawingContext, px = (x) => (x + 171) * S, pz = (z) => (z + 171) * S;
-    c.fillStyle = 'rgb(' + PURPLE + ')'; c.fillRect(0, 0, W, W); grain(c, W, W, 9000, 7, 0.09);
-    ringShape(c, px(-45), pz(0), 66 * S, '#F2442E', 0.7, 1.3);
-    const shape = (ctx, col) => {
-      ctx.save(); ctx.translate(px(105), pz(0)); ctx.rotate(-PI / 2); ctx.translate(-pz(0) + 0, 0);
-      ctx.restore();
-      ctx.save(); ctx.translate(px(108), pz(0) + 0); ctx.rotate(-PI / 2); // text reads upward along the right strip, like the reference
-      const fit = 292 * S; ctx.translate(-fit / 2, -34 * S); logoBlock(ctx, 0, 0, fit, col); ctx.restore();
-      ctx.fillStyle = col; ctx.font = '700 ' + 13 * S + 'px ' + SANS; ctx.letterSpacing = '1px'; ctx.textBaseline = 'alphabetic'; ctx.fillText('2026', px(-166), pz(-150));
-    };
-    deboss(c, W, W, shape, 3, 1.4); T.lid = g;
+  { // award box lid: soft black card with the stacked 2026 debossed into it, the outlines and the stamp zeros in metallic foil
+    const W = 1026, k = W / 1000, g = G(W, W), c = g.drawingContext, ch = 186 * k, y0 = (W - ch * 4) / 2, GAP = 12 * k, ZW = 196 * k, DIG = ['2', '0', '2', '6'];
+    const FOIL = [[242, 68, 46], [232, 232, 240], [122, 75, 255], [232, 232, 240]], TILT = [-0.2, 0.15, -0.1, 0.22], KINDS = [[0.84, 1], [1, 1], [1, 0.86], [0.7, 1]];
+    c.fillStyle = 'rgb(' + BOXK + ')'; c.fillRect(0, 0, W, W); grain(c, W, W, 9000, 7, 0.05);
+    c.font = '400 ' + 240 * k + 'px ' + BLACKFACE;
+    const ws = DIG.map((d) => { if (d === '0') return ZW; const m = c.measureText(d); return m.actualBoundingBoxLeft + m.actualBoundingBoxRight; }), xs = []; let acc = (W - (ws.reduce((a, b) => a + b, 0) + GAP * 3)) / 2; ws.forEach((w) => { xs.push(acc + w / 2); acc += w + GAP; });
+    const row = (ctx, r, col) => { const cy = y0 + r * ch + ch / 2; ctx.font = '400 ' + 240 * k + 'px ' + BLACKFACE; ctx.lineWidth = 8 * k; ctx.lineJoin = 'round'; ctx.strokeStyle = ctx.fillStyle = col;
+      DIG.forEach((d, i) => { if (d === '0') { const [aw, ah] = KINDS[r]; ringShape(ctx, xs[i], cy, 104 * k * ah, col, aw / ah, 1, TILT[r]); } else { const mm = ctx.measureText(d), w = mm.actualBoundingBoxLeft + mm.actualBoundingBoxRight, h = mm.actualBoundingBoxAscent; ctx.strokeText(d, xs[i] - w / 2 + mm.actualBoundingBoxLeft, cy + h / 2); } }); };
+    deboss(c, W, W, (ctx, col) => { for (let r = 0; r < 4; r++) row(ctx, r, col); }, 3, 1.9);
+    for (let r = 0; r < 4; r++) { // foil: the row's colour with bands of light and dark across it, so it reads as metal
+      const rc = cv2(W, W), rx = rc.getContext('2d'), fc = FOIL[r]; row(rx, r, 'rgb(' + fc + ')'); rx.globalCompositeOperation = 'source-atop';
+      const top = y0 + r * ch, gr = rx.createLinearGradient(W * 0.1, top - ch * 0.4, W * 0.9, top + ch * 1.4);
+      [[0, 'rgba(0,0,0,.42)'], [0.22, 'rgba(255,255,255,.62)'], [0.4, 'rgba(0,0,0,.25)'], [0.58, 'rgba(255,255,255,.5)'], [0.78, 'rgba(0,0,0,.3)'], [1, 'rgba(255,255,255,.35)']].forEach(([p, col]) => gr.addColorStop(p, col));
+      rx.fillStyle = gr; rx.fillRect(0, 0, W, W); const rg = rng(31 + r); for (let i = 0; i < 1500; i++) { rx.fillStyle = rg() < 0.5 ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.3)'; rx.fillRect(rg() * W, top + rg() * ch, 1 + rg() * 2, 1); }
+      c.drawImage(rc, 0, 0); }
+    T.lid = g;
   }
   { // slip sleeve: matte black die-cut card. The window is a real hole; the deboss frames it
     const w = 512, h = 1040, S = 3, g = G(w, h), c = g.drawingContext;
-    c.fillStyle = 'rgb(' + INK + ')'; c.fillRect(0, 0, w, h); grain(c, w, h, 2200, 17, 0.035);
+    c.fillStyle = 'rgb(' + SLV + ')'; c.fillRect(0, 0, w, h); grain(c, w, h, 2200, 17, 0.035);
     const cx = 85 * S, cz = 173 * S, shape = (ctx, col) => {
-      ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 3.2; ctx.beginPath(); stampPath(ctx, stampPoly(0.7), cx, cz, 96 * S); ctx.stroke();
+      ctx.fillStyle = col;
       ctx.font = '700 ' + 6.5 * S + 'px ' + SANS; ctx.letterSpacing = 3 * S + 'px'; ctx.textAlign = 'center'; ctx.fillText('SLIDE TO OPEN', cx, 24 * S); ctx.fillText('←', cx, 38 * S);
     };
     deboss(c, w, h, shape, 2.2, 1.1);
@@ -293,21 +308,13 @@ function buildTextures() {
   }
   { // sleeve front: printed white, with the stamp O in red
     const w = 512, h = 300, g = G(w, h), c = g.drawingContext;
-    c.fillStyle = 'rgb(' + INK + ')'; c.fillRect(0, 0, w, h); grain(c, w, h, 1200, 19, 0.035);
+    c.fillStyle = 'rgb(' + SLV + ')'; c.fillRect(0, 0, w, h); grain(c, w, h, 1200, 19, 0.035);
     c.fillStyle = '#fff'; logoBlock(c, 42, 144, w - 84, '#fff'); ringShape(c, 456, 54, 22, '#F2442E', 0.84, 1.2);
     c.fillStyle = '#7A4BFF'; c.font = '700 40px ' + SANS; c.letterSpacing = '2px'; c.fillText('2026', 42, 244);
     T.sleeveFront = g;
   }
-  { // the award: white stamp, red O, black wordmark, purple year, acrylic gloss
-    const w = 424, h = 504, g = G(w, h), c = g.drawingContext, cx = w / 2;
-    c.fillStyle = '#F7F4EE'; c.fillRect(0, 0, w, h); grain(c, w, h, 2200, 23, 0.04);
-    c.strokeStyle = '#0B0B0B'; c.lineWidth = 3; c.beginPath(); stampPath(c, stampPoly(0.84).map((p) => [p[0] * 0.9, p[1] * 0.9]), cx, h / 2, h / 2 - 2); c.stroke();
-    ringShape(c, cx, 190, 100, '#F2442E', 0.84, 1.18);
-    c.fillStyle = '#0B0B0B'; c.font = '700 60px ' + SANS; c.letterSpacing = '-2px'; c.textAlign = 'center'; c.fillText('POSTMARK', cx, 366); c.fillText('AWARDS', cx, 424);
-    c.fillStyle = '#7A4BFF'; c.font = '400 38px ' + BLACKFACE; c.letterSpacing = '4px'; c.fillText('2026', cx, 472);
-    const gl = c.createLinearGradient(0, 0, w, h * 0.7); gl.addColorStop(0, 'rgba(255,255,255,.55)'); gl.addColorStop(0.32, 'rgba(255,255,255,.12)'); gl.addColorStop(0.34, 'rgba(255,255,255,0)'); c.fillStyle = gl; c.fillRect(0, 0, w, h);
-    T.award = g;
-  }
+  { const g = G(256, 256), c = g.drawingContext, gr = c.createLinearGradient(0, 0, 256, 190);
+    [[0, 0], [0.18, 0], [0.26, 0.5], [0.34, 0], [0.46, 0], [0.5, 0.22], [0.56, 0], [1, 0]].forEach(([p, a]) => gr.addColorStop(p, 'rgba(255,255,255,' + a + ')')); c.fillStyle = gr; c.fillRect(0, 0, 256, 256); T.shine = g; }
   /* light: soft shadows, glows, a four point sparkle, the studio floor */
   const radial = (s, rgb, aIn, aOut, pw = 1.6) => { const g = G(s, s), c = g.drawingContext; for (let r = s / 2; r > 0; r -= 1) { const k = 1 - r / (s / 2); c.fillStyle = 'rgba(' + rgb + ',' + (aOut + (aIn - aOut) * Math.pow(k, pw)) / 255 + ')'; c.beginPath(); c.arc(s / 2, s / 2, r, 0, TAU); c.fill(); } return g; };
   T.shRad = radial(256, '0,0,0', 255, 0, 1.3); T.halo = radial(256, '170,120,255', 255, 0, 1.6); T.haloW = radial(256, '255,255,255', 255, 0, 2.2);
@@ -332,7 +339,7 @@ function pose(P) {
   o.sx = SLIDE * ph(P, 0.54, 0.64);
   const lift = ph(P, 0.62, 0.72), side = ph(P, 0.68, 0.80), down = ph(P, 0.78, 0.90);
   o.lx = LID_X * side; o.ly = 200 * lift - 249 * down; o.lt = 0.3 * Math.sin(PI * ph(P, 0.62, 0.92)) * (side > 0 ? 1 : 0.4);
-  o.up = ph(P, 0.70, 0.88); o.tilt = ph(P, 0.74, 0.90) * 62 * PI / 180; o.hold = ph(P, 0.88, 1.0);
+  o.up = ph(P, 0.70, 0.88); o.tilt = ph(P, 0.74, 0.90) * 72 * PI / 180; o.hold = ph(P, 0.88, 1.0);
   return o;
 }
 let clock = 0, userAngle = 0, userElev = 0, userZoom = 0, lastInput = -99;
@@ -347,7 +354,7 @@ const STAGES = [['01', 'The mailer', 0.0], ['02', 'Lid opens', 0.15], ['03', 'Bo
 
 function drawScene(P, t) {
   const o = pose(P), BM = TR(o.bx, o.by, o.bz);
-  FLAT = []; TEXQ = []; OVF = []; OVG = [];
+  FLAT = []; TEXQ = []; OVF = []; OVG = []; GLS = []; GLT = [];
   const awardCenter = xf(chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0)), [0, 0, 0]);
   GLOW = { p: [awardCenter[0], awardCenter[1], awardCenter[2]], k: 0.9 * o.up * (0.88 + 0.12 * Math.sin(t * 2)) };
 
@@ -385,38 +392,50 @@ function drawScene(P, t) {
   }
 
   /* ----- the award box ----- */
-  const purple = TX(T.purpleSide, 0, 0, 1, 1), base = (x0, z0, x1, z1, outer, inner) => cub(BM, x0, 0, z0, x1, BASE_H, z1, { [outer]: purple, [inner]: INK, py: PURPLE });
+  const purple = TX(T.purpleSide, 0, 0, 1, 1), base = (x0, z0, x1, z1, outer, inner) => cub(BM, x0, 0, z0, x1, BASE_H, z1, { [outer]: purple, [inner]: INK, py: [34, 34, 40] });
   base(-BOXH, BOXH - 6, BOXH, BOXH, 'pz', 'nz'); base(-BOXH, -BOXH, BOXH, -BOXH + 6, 'nz', 'pz'); base(-BOXH, -BOXH + 6, -BOXH + 6, BOXH - 6, 'nx', 'px'); base(BOXH - 6, -BOXH + 6, BOXH, BOXH - 6, 'px', 'nx');
   { // black cradle: a real pocket in the shape of the award, with a thumb scoop; the ribbon pull lies under the award
     const top = CRAD_TOP, fl = CRAD_TOP - POCKET, pt = (p, y) => [p[0], y, -p[1]];
     POCK_TOP.forEach((t) => F(BM, t.map((p) => pt(p, top)), INK, 1));
     POCK.forEach((q, k) => { const n = POCK[(k + 1) % POCK.length]; F(BM, [pt(q, top), pt(n, top), pt(n, fl), pt(q, fl)], [74, 68, 92]); });
     POCK_FLOOR.forEach((t) => F(BM, t.map((p) => pt(p, fl)), [40, 37, 52]));
-    const rz = POCK[0] && AR * 1.05 + 24, rs = fl + 0.5, ay = fl + 0.4;  // ribbon: flat under the award, up out of the scoop, then along the cradle
-    F(BM, [[-16, ay + 0.6, -40], [16, ay + 0.6, -40], [16, ay + 0.6, rz - 18], [0, ay + 0.6, rz - 36], [-16, ay + 0.6, rz - 18]], RED);   // pull tab with a swallow tail
+    const ay = fl + 0.4;  // red pull tab on the pocket floor, between the legs, visible through the glass
+    F(BM, [[-9, ay + 0.6, -60], [13, ay + 0.6, -60], [13, ay + 0.6, 62], [2, ay + 0.6, 50], [-9, ay + 0.6, 62]], RED);
   }
-  { // award, extruded stamp
-    const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(0.4 * Math.sin(t * 0.8) * o.hold + 0.5 * o.up * (1 - o.hold) * 0 ), RX(o.tilt));
-    const toW = (p, y) => [p[0], y, -p[1]], n = AWARD_PTS.length;
-    const fan = (y, back) => { const pts = [[0, y, 0]].concat(AWARD_PTS.map((p) => toW(p, y))).concat([toW(AWARD_PTS[0], y)]); if (back) F(AM, pts, [24, 24, 30]); else QT(AM, pts, [[0.5, 0.5]].concat(AWARD_PTS.map((p) => [0.5 + p[0] / (2 * AW * AR), 0.5 - p[1] / (2 * AR)])).concat([[0.5 + AWARD_PTS[0][0] / (2 * AW * AR), 0.5 - AWARD_PTS[0][1] / (2 * AR)]]), T.award); };
-    fan(AT / 2, false); fan(-AT / 2, true);
-    for (let i = 0; i < n; i++) { const a = AWARD_PTS[i], b = AWARD_PTS[(i + 1) % n]; F(AM, [toW(a, AT / 2), toW(b, AT / 2), toW(b, -AT / 2), toW(a, -AT / 2)], [240, 238, 232]); }
+  { // the award: the brand mascot in glass. Clear body, tinted glass stamps on the quill tips, a white eye; drawn in the glass pass
+    const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(0.4 * Math.sin(t * 0.8) * o.hold), RX(o.tilt));
+    const C0 = xf(AM, [0, 0, 0]), upN = nrm([AM.r[1], AM.r[4], AM.r[7]]), topNear = dot(upN, sub(CAM, C0)) > 0, toW = (p, y) => [p[0], y, -p[1]];
+    const solid = (tris, ring, y0, y1, col, aF, aS) => {
+      const lite = col.map((v) => Math.min(255, v + 45)), face = (y) => tris.forEach((tr) => glassTri(AM, tr.map((p) => toW(p, y)), col, aF));
+      const sides = () => ring.forEach((a, i) => { const b = ring[(i + 1) % ring.length], q = [toW(a, y1), toW(b, y1), toW(b, y0), toW(a, y0)]; glassTri(AM, [q[0], q[1], q[2]], lite, aS); glassTri(AM, [q[0], q[2], q[3]], lite, aS); });
+      if (topNear) { face(y0); sides(); face(y1); } else { face(y1); sides(); face(y0); }
+    };
+    solid(BODY_T, BODY_P, -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85);
+    STEM_T.forEach((tr, i) => solid(tr, STEM_P[i], -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85));
+    STAMP_P.forEach((sp) => solid(sp.t, sp.p, 0, AT / 2 + 5, sp.c, 0.72, 0.95));
+    const fan = (P, y, col) => F(AM, [[0, y, 0]].concat(P.map((p) => toW(p, y))).concat([toW(P[0], y)]), col, 1.25);
+    const ctr = (P) => [P.reduce((a, p) => a + p[0], 0) / P.length, P.reduce((a, p) => a + p[1], 0) / P.length];
+    { const e = ctr(EYE_P), pu = ctr(PUPIL_P); F(AM, [[e[0], AT / 2 + 0.4, -e[1]]].concat(EYE_P.map((p) => toW(p, AT / 2 + 0.4))).concat([toW(EYE_P[0], AT / 2 + 0.4)]), [250, 250, 250], 1.2);
+      F(AM, [[pu[0], AT / 2 + 0.8, -pu[1]]].concat(PUPIL_P.map((p) => toW(p, AT / 2 + 0.8))).concat([toW(PUPIL_P[0], AT / 2 + 0.8)]), INK, 1.2); }
+    // a diagonal streak of light across the near face
+    const yS = topNear ? AT / 2 + 0.1 : -AT / 2 - 0.1;
+    GLT.push({ tex: T.shine, a: 200, tris: BODY_T.flatMap((tr) => tr.map((p) => [xf(AM, toW(p, yS)), [0.5 + p[0] / 300, 0.5 - p[1] / 220]])) });
   }
   { // lid
     const LM = chain(BM, TR(o.lx, o.ly, 0), RZ(o.lt)), tp = LID_TOP, t0 = tp - 3;
     cub(LM, -LIDH, t0, -LIDH, LIDH, tp, LIDH, { py: TX(T.lid, 0, 0, 1, 1), ny: INK, px: purple, nx: purple, pz: purple, nz: purple });
-    const sk = (x0, z0, x1, z1, outer, inner) => cub(LM, x0, LID_BOT, z0, x1, t0, z1, { [outer]: purple, [inner]: [74, 44, 160] });
+    const sk = (x0, z0, x1, z1, outer, inner) => cub(LM, x0, LID_BOT, z0, x1, t0, z1, { [outer]: purple, [inner]: [26, 26, 30] });
     sk(-LIDH, LIDH - 3, LIDH, LIDH, 'pz', 'nz'); sk(-LIDH, -LIDH, LIDH, -LIDH + 3, 'nz', 'pz'); sk(-LIDH, -LIDH + 3, -LIDH + 3, LIDH - 3, 'nx', 'px'); sk(LIDH - 3, -LIDH + 3, LIDH, LIDH - 3, 'px', 'nx');
   }
   { // slip sleeve: black die-cut card loop around the middle of the box, with a stamp shaped window
     const SM = chain(BM, TR(o.sx, 0, 0)), xa = SL_XA, xb = SL_XB, yb = LID_TOP + 1, yt = yb + SL_T, zi = LIDH + 1, zo = zi + SL_T, hw = (xb - xa) / 2, cx = (xa + xb) / 2;
     const tris = []; WIN_TOP.forEach((t) => t.forEach((p) => tris.push([[cx + p[0], yt, -p[1]], [(p[0] + hw) / (2 * hw), (-p[1] + 173) / 346]])));
     TEXQ.push({ tex: T.sleeveTop, s: shade([0, 1, 0]), tris: tris.map(([p, uv]) => [xf(SM, p), uv]) });
-    WIN.forEach((q, k) => { const n = WIN[(k + 1) % WIN.length]; F(SM, [[cx + q[0], yt, -q[1]], [cx + n[0], yt, -n[1]], [cx + n[0], yb, -n[1]], [cx + q[0], yb, -q[1]]], [36, 36, 42]); });
-    cub(SM, xa, -SL_T, -zo, xb, 0, zo, { py: INK, ny: INK });
-    cub(SM, xa, -SL_T, zi, xb, yt, zo, { pz: TX(T.sleeveFront, 0, 0, 1, 1), nz: INK, py: INK });
-    cub(SM, xa, -SL_T, -zo, xb, yt, -zi, { nz: INK, pz: INK, py: INK });
-    cub(SM, xa, -SL_T, -zo, xa, yt, zo, { nx: [40, 40, 48] }); cub(SM, xb, -SL_T, -zo, xb, yt, zo, { px: [40, 40, 48] });
+    WIN.forEach((q, k) => { const n = WIN[(k + 1) % WIN.length]; F(SM, [[cx + q[0], yt, -q[1]], [cx + n[0], yt, -n[1]], [cx + n[0], yb, -n[1]], [cx + q[0], yb, -q[1]]], [52, 52, 60]); });
+    cub(SM, xa, -SL_T, -zo, xb, 0, zo, { py: SLV, ny: SLV });
+    cub(SM, xa, -SL_T, zi, xb, yt, zo, { pz: TX(T.sleeveFront, 0, 0, 1, 1), nz: SLV, py: SLV });
+    cub(SM, xa, -SL_T, -zo, xb, yt, -zi, { nz: SLV, pz: SLV, py: SLV });
+    cub(SM, xa, -SL_T, -zo, xa, yt, zo, { nx: [58, 58, 66] }); cub(SM, xb, -SL_T, -zo, xb, yt, zo, { px: [58, 58, 66] });
   }
   /* sparkles and the award's own light, after the solid scene */
   if (o.up > 0.05) {
@@ -451,6 +470,12 @@ function triFlush() {
   for (let i = 0; i < FLAT.length; i += 6) { fill(FLAT[i + 3], FLAT[i + 4], FLAT[i + 5]); const a = FLAT[i], b = FLAT[i + 1], c = FLAT[i + 2]; vertex(a[0], -a[1], a[2]); vertex(b[0], -b[1], b[2]); vertex(c[0], -c[1], c[2]); }
   endShape();
 }
+function glassDraw() {
+  const gl = drawingContext; gl.depthMask(false);
+  if (GLS.length) { beginShape(TRIANGLES); for (let i = 0; i < GLS.length; i += 5) { const w = GLS[i]; fill(GLS[i + 1], GLS[i + 2], GLS[i + 3], GLS[i + 4] * 255); for (const p of w) vertex(p[0], -p[1], p[2]); } endShape(); }
+  for (const q of GLT) { texture(q.tex); tint(255, 255, 255, q.a); beginShape(TRIANGLES); for (const [p, uv] of q.tris) vertex(p[0], -p[1], p[2], uv[0], uv[1]); endShape(); }
+  tint(255, 255, 255, 255); gl.depthMask(true);
+}
 function ovDraw(list, additive) {
   const gl = drawingContext; gl.depthMask(false); if (additive) blendMode(ADD);
   for (const q of list) { texture(q.tex); tint(q.rgb[0], q.rgb[1], q.rgb[2], q.a); beginShape(TRIANGLES); const c = q.c, uv = [[0, 0], [1, 0], [1, 1], [0, 1]]; for (const i of [0, 1, 2, 0, 2, 3]) vertex(c[i][0], -c[i][1], c[i][2], uv[i][0], uv[i][1]); endShape(); }
@@ -482,7 +507,8 @@ function draw() {
   triFlush();
   for (const q of TEXQ) { texture(q.tex); const v = Math.min(255, 255 * q.s); tint(v, v, v); beginShape(TRIANGLES); for (const [p, uv] of q.tris) vertex(p[0], -p[1], p[2], uv[0], uv[1]); endShape(); }
   tint(255, 255, 255, 255);
-  ovDraw(OVG.filter((q) => true), true);
+  glassDraw();
+  ovDraw(OVG, true);
   if (wantSave) { wantSave = false; drawingContext.canvas.toBlob((bl) => { const a = document.createElement('a'); a.href = URL.createObjectURL(bl); a.download = 'postmark-awards-unboxing.png'; document.body.appendChild(a); a.click(); setTimeout(() => { a.remove(); URL.revokeObjectURL(a.href); }, 4000); }, 'image/png'); }
   uiTick(P);
 }
