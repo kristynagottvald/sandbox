@@ -35,9 +35,9 @@ const APPS = {
   // Wave File Without Fear, a Wave tax-season landing page: on full-bleed blue, a paper dragon folded from a CRA T1 form holds, then unfolds in 12 fps stop motion into a flat creased sheet (starts on the folded dragon)
   // Wave Tax Landing Origami, the same tax-season landing page with higher fidelity paper creatures: a dragon folded from a CRA T2 form with pleated wings, lit and casting a soft shadow on full-bleed blue, unfolds in stop motion into a flat printed sheet.
   'wave-tax-landing-origami': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 2500, q: 44, run: async (p) => {
-    await p.evaluate(() => window.__rb.seek(9.6));
+    await p.evaluate(() => window.__rb.seek(12.4));
     await sleep(700);
-    await p.evaluate(() => window.__rb.play({ from: 9.6, speed: 1.05, loop: false, to: 15.55 }));
+    await p.evaluate(() => window.__rb.play({ from: 12.4, speed: 1.05, loop: false, to: 18.35 }));
     await sleep(5800);
   } },
   'wave-file-without-fear': { vp: [1280, 792], crop: [0, 72, 1280, 720], hash: '#clip', ready: 1200, q: 44, run: async (p) => {

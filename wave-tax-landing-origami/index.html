@@ -848,7 +848,30 @@ MODELS.lotus3 = lotusModel([[12, 0.26, 0.02, 40, 20, 1.15, 0.2, 0, 0.35], [12, 0
 });
 
 // the plain sheet: a portrait CRA form (8.5 x 11)
-MODELS.sheet = () => [{ fixed: true, nu: 40, nv: 52, d0: 0, d1: 0, f: (u, v) => [(u - 0.5) * SHEET_W, 0, (v - 0.5) * SHEET] }];
+MODELS.sheet = () => [{ fixed: true, nu: 80, nv: 104, d0: 0, d1: 0, f: (u, v) => [(u - 0.5) * SHEET_W, 0, (v - 0.5) * SHEET] }];
+/* the flattened creature is a folded packet of the form; it opens flap by flap.
+   Folding order (unfolding runs it backwards): top band, bottom band, left band, right band, then the four corners together.
+   Each flap turns over its crease line on top of the stack. f: 1 = packet, 0 = flat. */
+const PK_X = 0.45, PK_Z = 0.5;
+function sheetFolds() {
+  const W = SHEET_W / 2, H = SHEET / 2, px = W * PK_X, pz = H * PK_Z, c = 0.3;
+  const corner = (sx, sz) => { const n = V.norm([sx, 0, sz]); return { p: [sx * px - n[0] * c, sz * pz - n[2] * c], n: [n[0], n[2]] }; };
+  return [[{ p: [0, -pz], n: [0, -1] }], [{ p: [0, pz], n: [0, 1] }], [{ p: [-px, 0], n: [-1, 0] }], [{ p: [px, 0], n: [1, 0] }], [corner(-1, -1), corner(1, -1), corner(-1, 1), corner(1, 1)]];
+}
+let SF = null;
+function sheetFoldPoint(x, z, f, out) {
+  SF = SF || sheetFolds(); const N = SF.length, t = f * N; let px = x, py = 0, pz = z;
+  for (let i = 0; i < N; i++) {
+    const e = clamp((t - i * 0.8) / 1.8), ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2; if (ee <= 0) continue;
+    const ya = 0.003 * (i + 1), th = Math.PI * ee;
+    for (const F of SF[i]) {
+      const dc = (px - F.p[0]) * F.n[0] + (pz - F.p[1]) * F.n[1]; if (dc <= 0) continue;
+      const dy = py - ya, nd = dc * Math.cos(th) - dy * Math.sin(th), ny = dc * Math.sin(th) + dy * Math.cos(th);
+      px += F.n[0] * (nd - dc); pz += F.n[1] * (nd - dc); py = ya + ny;
+    }
+  }
+  out[0] = px; out[1] = py; out[2] = pz; return out;
+}
 /* ---------- patches -> one mesh: split long patches, lay all patches out on the sheet by area, weld, find creases ---------- */
 const SHEET = 3.3, FORM_ASP = 11 / 8.5, SHEET_W = SHEET / FORM_ASP;
 function measure(p) {
@@ -1133,7 +1156,7 @@ function unfoldOf(m) {
   const rect = new Float32Array(n * 3); let rmin = 1e9; for (let i = 0; i < n; i++) rmin = Math.min(rmin, rho[i]); rmin *= 0.97;
   for (let i = 0; i < n; i++) {
     const a = ang[i], c = Math.cos(a), s2 = Math.sin(a), bf = (a + Math.PI) / TAU * NB - 0.5, b0 = ((Math.floor(bf) % NB) + NB) % NB, t = bf - Math.floor(bf), R = mix(sm[b0], sm[(b0 + 1) % NB], t) || 1;
-    const bd = Math.min(SHEET_W / 2 / Math.max(1e-6, Math.abs(c)), SHEET / 2 / Math.max(1e-6, Math.abs(s2))), q = Math.min(1, Math.pow(Math.max(0, rho[i] - rmin) / Math.max(1e-6, R - rmin), 0.85)) * bd;
+    const bd = Math.min(SHEET_W / 2 * PK_X * 0.84 / Math.max(1e-6, Math.abs(c)), SHEET / 2 * PK_Z * 0.84 / Math.max(1e-6, Math.abs(s2))), q = Math.min(1, Math.pow(Math.max(0, rho[i] - rmin) / Math.max(1e-6, R - rmin), 0.85)) * bd;
     rect[i * 3] = c * q; rect[i * 3 + 1] = 0; rect[i * 3 + 2] = s2 * q;
   }
   return (m.uf = { cx, cz, rect });
@@ -1165,16 +1188,24 @@ Scene.prototype.draw = function (k, frame = 0) {
   // morph every layer on the CPU: staggered unfold, sway, a little lift while paper is in the air
   const sa = Math.sin(st * 1.35) * 0.075 * sw, sc = Math.cos(sa), ss = Math.sin(sa), lean = Math.sin(st * 1.35 - 0.7) * 0.045 * sw, breath = 1 + Math.sin(st * 2.7) * 0.012 * sw;
   let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
-  const useSheet = o.origami && k > 0.985, kB = o.origami ? sstep(0.5, 0.985, k) : 0, swB = sw * (1 - kB);
-  for (const ly of this.layers) ly.act = useSheet ? (this.sg || (this.sg = new Geo(mesh('sheet')))) : ly.gc;
-  if (o.time != null) for (const ly of this.layers) { const m = ly.m; if (!m.live) continue; for (let i = 0; i <= m.lnu; i++) for (let j = 0; j <= m.lnv; j++) m.fold.set(m.live(i / m.lnu, j / m.lnv, o.time), (i * (m.lnv + 1) + j) * 3); }
-  for (const ly of this.layers) {
+  const KS = 0.5, useSheet = o.origami && k > KS, kB = o.origami ? sstep(0.3, KS, k) : 0, swB = sw * (1 - kB);
+  // while the creature presses flat, the folded packet grows in underneath it, so the creature settles onto the packet before it opens
+  let LY = this.layers;
+  if (o.origami && k > 0.38 && k <= KS) { const l0 = this.layers[0]; this.pg = this.pg || new Geo(mesh('sheet')); LY = this.layers.concat([{ act: this.pg, packet: sstep(0.38, KS, k), tex: l0.tex, texB: l0.texB, tex2: null, tint: l0.tint }]); }
+  for (const ly of LY) if (ly.packet == null) ly.act = useSheet ? (this.sg || (this.sg = new Geo(mesh('sheet')))) : ly.gc;
+  if (o.time != null) for (const ly of LY) { const m = ly.m; if (!m.live) continue; for (let i = 0; i <= m.lnu; i++) for (let j = 0; j <= m.lnv; j++) m.fold.set(m.live(i / m.lnu, j / m.lnv, o.time), (i * (m.lnv + 1) + j) * 3); }
+  for (const ly of LY) {
     const A = ly.act, m = A.m, P = A.pos, fold = m.fold, flat = m.flat;
-    if (useSheet) { // the flat portrait sheet
-      P.set(flat);
+    if (ly.packet != null) { // the closed packet, growing in under the creature
+      const g = mix(0.55, 1, ly.packet), q = [0, 0, 0];
+      for (let i = 0; i < m.nVtx; i++) { sheetFoldPoint(flat[i * 3], flat[i * 3 + 2], 1, q); P[i * 3] = q[0] * g; P[i * 3 + 1] = q[1] * g - 0.03 * (1 - ly.packet) - 0.002; P[i * 3 + 2] = q[2] * g; }
+    } else if (useSheet) { // the packet opens flap by flap into the flat portrait form
+      const ff = 1 - (k - KS) / (1 - KS), q = [0, 0, 0];
+      for (let i = 0; i < m.nVtx; i++) { sheetFoldPoint(flat[i * 3], flat[i * 3 + 2], ff, q); P[i * 3] = q[0]; P[i * 3 + 1] = q[1]; P[i * 3 + 2] = q[2]; }
     } else if (o.origami) { // unfold: tip everything outward onto the ground, then spread it into the sheet
-      const U = unfoldOf(m), R = U.rect, kA = clamp(k / 0.62), bE = kB < 0.5 ? 4 * kB * kB * kB : 1 - Math.pow(-2 * kB + 2, 3) / 2;
+      const U = unfoldOf(m), R = U.rect, kA = clamp(k / 0.4), bE = kB < 0.5 ? 4 * kB * kB * kB : 1 - Math.pow(-2 * kB + 2, 3) / 2;
       const sa2 = Math.sin(st * 1.35) * 0.075 * swB, sc2 = Math.cos(sa2), ss2 = Math.sin(sa2), lean2 = lean * (1 - kB), br2 = 1 + (breath - 1) * (1 - kB);
+      const gP = mix(0.55, 1, sstep(0.38, KS, k)), yP = 0.024 - 0.05 * sstep(0.46, KS, k);
       for (let i = 0; i < m.nVtx; i++) {
         const d = m.dly[i], e = clamp(kA * 1.5 - d * 0.5), ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2, i3 = i * 3;
         let fx = fold[i3], fy = fold[i3 + 1], fz = fold[i3 + 2];
@@ -1183,7 +1214,7 @@ Scene.prototype.draw = function (k, frame = 0) {
         const x = fx - U.cx, z = fz - U.cz, r = Math.hypot(x, z), ph = ee * Math.PI / 2, h = Math.max(0, fy), rr = r + 0.6 * h * Math.sin(ph), sc3 = r > 1e-6 ? rr / r : 0;
         let px = U.cx + x * sc3, py = fy - h + h * Math.cos(ph), pz = U.cz + z * sc3;
         if (r <= 1e-6) { const a = i * 2.39996; px = U.cx + Math.cos(a) * 0.6 * h * Math.sin(ph); pz = U.cz + Math.sin(a) * 0.6 * h * Math.sin(ph); }
-        P[i3] = px + (R[i3] - px) * bE; P[i3 + 1] = py * (1 - bE); P[i3 + 2] = pz + (R[i3 + 2] - pz) * bE;
+        P[i3] = px + (R[i3] * gP - px) * bE; P[i3 + 1] = py * (1 - bE) + yP * bE; P[i3 + 2] = pz + (R[i3 + 2] * gP - pz) * bE;
       }
     } else for (let i = 0; i < m.nVtx; i++) {
       const d = m.dly[i], e = clamp(k * 1.45 - d * 0.45), ee = e < 0.5 ? 4 * e * e * e : 1 - Math.pow(-2 * e + 2, 3) / 2, i3 = i * 3;
@@ -1198,7 +1229,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   }
   if (o.center) { const ca = o.centerAmt == null ? 1 : o.centerAmt; ox += (W * (o.centerX || 0.5) - (x0 + x1) / 2) * ca; oy += (H * (o.centerY || 0.5) - (y0 + y1) / 2) * ca; }
   // face normals, then per-corner normals smoothed only across shallow angles so folds stay crisp
-  for (const ly of this.layers) {
+  for (const ly of LY) {
     const A = ly.act, m = A.m, P = A.pos, tri = m.tri, B = A.buf, fnr = A.fnr;
     for (let t = 0; t < m.nT; t++) {
       const a = tri[t * 3] * 3, b = tri[t * 3 + 1] * 3, c = tri[t * 3 + 2] * 3, ux = P[b] - P[a], uy = P[b + 1] - P[a + 1], uz = P[b + 2] - P[a + 2], vx = P[c] - P[a], vy = P[c + 1] - P[a + 1], vz = P[c + 2] - P[a + 2];
@@ -1223,7 +1254,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   const cv = G.cv; if (cv.width < W || cv.height < H) { cv.width = Math.max(cv.width, W); cv.height = Math.max(cv.height, H); }
   ensureFB(G, W, H);
   gl.bindVertexArray(G.vao);
-  for (const ly of this.layers) { const A = ly.act; if (!A.vbo) A.vbo = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, A.vbo); gl.bufferData(gl.ARRAY_BUFFER, A.buf, gl.DYNAMIC_DRAW); }
+  for (const ly of LY) { const A = ly.act; if (!A.vbo) A.vbo = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, A.vbo); gl.bufferData(gl.ARRAY_BUFFER, A.buf, gl.DYNAMIC_DRAW); }
   const attr = (ly, full) => {
     gl.bindBuffer(gl.ARRAY_BUFFER, ly.act.vbo); const S = 56;
     gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, S, 0);
@@ -1238,7 +1269,7 @@ Scene.prototype.draw = function (k, frame = 0) {
   gl.bindFramebuffer(gl.FRAMEBUFFER, G.smFbo); gl.viewport(0, 0, G.SM, G.SM); gl.colorMask(false, false, false, false); gl.depthMask(true); gl.clearDepth(1); gl.clear(gl.DEPTH_BUFFER_BIT);
   gl.useProgram(G.depth); { const u = G.depth.u; gl.uniform3fv(u.uLC, LC); gl.uniform3fv(u.uLX, lx); gl.uniform3fv(u.uLY, ly_); gl.uniform3fv(u.uL, L); gl.uniform1f(u.uLR, LR); }
   gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1.5, 2);
-  for (const ly of this.layers) { attr(ly, false); gl.drawArrays(gl.TRIANGLES, 0, ly.act.n); }
+  for (const ly of LY) { attr(ly, false); gl.drawArrays(gl.TRIANGLES, 0, ly.act.n); }
   gl.disable(gl.POLYGON_OFFSET_FILL); gl.colorMask(true, true, true, true);
   // 2. ground shadow: projected silhouette (R) and contact term (G), blurred
   const sc4 = parseCol(o.shadow);
@@ -1247,7 +1278,7 @@ Scene.prototype.draw = function (k, frame = 0) {
     gl.bindFramebuffer(gl.FRAMEBUFFER, A.fbo); gl.viewport(0, 0, W, H); gl.disable(gl.DEPTH_TEST); gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
     gl.enable(gl.BLEND); gl.blendEquation(gl.MAX); gl.blendFunc(gl.ONE, gl.ONE);
     gl.useProgram(G.gnd); cam(G.gnd); gl.uniform3fv(G.gnd.u.uL, L); gl.uniform1f(G.gnd.u.uCon, 5);
-    for (const ly of this.layers) { attr(ly, false); gl.drawArrays(gl.TRIANGLES, 0, ly.act.n); }
+    for (const ly of LY) { attr(ly, false); gl.drawArrays(gl.TRIANGLES, 0, ly.act.n); }
     gl.blendEquation(gl.FUNC_ADD); gl.disable(gl.BLEND);
     const blur = (src, dst, dir, rw, rc) => { gl.bindFramebuffer(gl.FRAMEBUFFER, dst.fbo); gl.viewport(0, 0, W, H); gl.useProgram(G.blur); gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, src.tex); gl.uniform1i(G.blur.u.uT, 0); gl.uniform2f(G.blur.u.uDir, dir[0], dir[1]); gl.uniform2f(G.blur.u.uR, rw, rc); gl.uniform2f(G.blur.u.uSz, G.fw, G.fh); gl.drawArrays(gl.TRIANGLES, 0, 3); };
     const bw = (o.shadowBlur || W / 70), bc = bw * 0.28;
@@ -1263,10 +1294,10 @@ Scene.prototype.draw = function (k, frame = 0) {
   }
   gl.useProgram(G.main); cam(G.main); { const u = G.main.u;
     gl.uniform3fv(u.uL, L); gl.uniform3fv(u.uLC, LC); gl.uniform3fv(u.uLX, lx); gl.uniform3fv(u.uLY, ly_); gl.uniform1f(u.uLR, LR); gl.uniform1f(u.uSM_px, 1 / G.SM);
-    gl.uniform3fv(u.uBounce, o.bounce); gl.uniform3fv(u.uSky, o.sky); gl.uniform1f(u.uK, k); gl.uniform1f(u.uCalm, calm); gl.uniform1f(u.uBright, o.bright || 0); gl.uniform1f(u.uAO, o.ao * (1 - sstep(0.2, 0.7, o.origami ? clamp(k / 0.62) : 0))); gl.uniform1f(u.uSheen, o.sheen); gl.uniform1f(u.uAmb, o.amb == null ? 0.52 : o.amb); gl.uniform1f(u.uKey, o.key == null ? 0.46 : o.key); gl.uniform1f(u.uPlanar, useSheet ? 1 : kB < 0.5 ? 4 * kB * kB * kB : 1 - Math.pow(-2 * kB + 2, 3) / 2); gl.uniform2f(u.uSheet, SHEET_W, SHEET);
+    gl.uniform3fv(u.uBounce, o.bounce); gl.uniform3fv(u.uSky, o.sky); gl.uniform1f(u.uK, k); gl.uniform1f(u.uCalm, calm); gl.uniform1f(u.uBright, o.bright || 0); gl.uniform1f(u.uAO, o.ao * (1 - sstep(0.2, 0.7, o.origami ? clamp(k / 0.4) : 0))); gl.uniform1f(u.uSheen, o.sheen); gl.uniform1f(u.uAmb, o.amb == null ? 0.52 : o.amb); gl.uniform1f(u.uKey, o.key == null ? 0.46 : o.key); gl.uniform1f(u.uPlanar, 0); gl.uniform2f(u.uSheet, SHEET_W, SHEET);
     gl.activeTexture(gl.TEXTURE3); gl.bindTexture(gl.TEXTURE_2D, G.smTex); gl.uniform1i(u.uSM, 3); gl.uniform1i(u.uT0, 0); gl.uniform1i(u.uT1, 1); gl.uniform1i(u.uT2, 2); }
   const texMix = o.texMix || 0;
-  for (const ly of this.layers) {
+  for (const ly of LY) {
     const u = G.main.u; gl.uniform3fv(u.uTint, ly.tint ? parseCol(ly.tint).slice(0, 3) : [1, 1, 1]);
     gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texFor(G, ly.tex)); gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, texFor(G, ly.texB));
     gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, texFor(G, ly.tex2 || ly.tex)); gl.uniform1f(u.uMix, ly.tex2 ? texMix : 0);
@@ -1292,7 +1323,7 @@ const SEQ = [
   { c: 'spider', z: 0.74, yaw: -0.62, f: 'T5018', name: 'The T5018 spider', form: 'T5018 Summary of Contract Payments' },
   { c: 'snake', z: 0.95, f: 'T2125', name: 'The T2125 cobra', form: 'Statement of Business or Professional Activities' },
 ];
-const HOLD = 1.5, DUR = 3.2, FLAT = 1.6, REFOLD = 3.2, SEG = HOLD + DUR + FLAT + REFOLD, TOTAL = SEG * SEQ.length;
+const HOLD = 1.5, DUR = 4.4, FLAT = 1.4, REFOLD = 4.4, SEG = HOLD + DUR + FLAT + REFOLD, TOTAL = SEG * SEQ.length;
 const stage = document.getElementById('stage');
 const mobile = () => innerWidth <= 820;
 const heroOpt = () => mobile() ? { cx: 0.5, cy: 0.6, fov: 1.25, flatDist: 1.9, centerX: 0.5, centerY: 0.62 } : { centerX: innerWidth < 1400 ? 0.74 : 0.72, centerY: 0.55, cx: innerWidth < 1400 ? 0.755 : 0.74, cy: 0.58, fov: innerWidth < 1400 ? 1.2 : 1.24, zoom: 1, flatDist: 1.95 };
