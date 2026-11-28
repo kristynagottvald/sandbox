@@ -368,6 +368,10 @@ function ruralMailbox(){let st='';for(let i=0;i<6;i++)st+=`<path d="M86 ${14+i*9
   return obj(112,132,`<path d="M30 30L88 24A16 16 0 0 1 104 40V70L46 76V44A16 16 0 0 0 30 30Z"/><path d="M8 78V46A19 19 0 0 1 46 46V78Z"/><rect x="40" y="74" width="14" height="56"/><path d="M84 8h8v62h-8Z"/>`,
   `<path d="M12 76V47A15 15 0 0 1 42 47V76Z" ${F} opacity=".55"/><path d="M50 32L86 28" ${FS(2.4)}/>${st}`,
   {g:[30,0,108,30],s:29,label:'A mailbox with its flag up',line:`<path d="M20 60H32" stroke-width="2"/><path d="M27 33A16 16 0 0 1 44 32" stroke-width="1.2"/>`})}
+/* a hand drawn coin, a little tilted, with a milled edge and a pencilled dollar sign */
+function coinChar(){let m='';for(let k=0;k<24;k++){const a=k*Math.PI/12;m+=`M${(40+29*Math.cos(a)).toFixed(1)} ${(38+27*Math.sin(a)).toFixed(1)}L${(40+33*Math.cos(a)).toFixed(1)} ${(38+31*Math.sin(a)).toFixed(1)}`}
+  return obj(80,78,`<ellipse cx="42" cy="41" rx="34" ry="32"/><ellipse cx="40" cy="38" rx="34" ry="32"/>`,`<ellipse cx="40" cy="38" rx="23" ry="21" ${F} opacity=".7"/>`,
+  {g:[20,0,76,40],s:47,ground:false,label:'A coin',line:`<path d="${m}" stroke-width="1"/><path d="M49 29C46 24 33 24 32 31S48 38 48 45 34 53 30 46M40 21V55" stroke-width="2.6"/>`})}
 /* the front page picture: mail objects in front of a big pale 80 */
 const at=(s,x,y,w,h)=>s.replace('width="100%" height="100%"',`x="${x}" y="${y}" width="${w}" height="${h}"`);
 function scene(){return svg('0 0 236 430',`
@@ -493,7 +497,7 @@ ${foot(2,'Page two')}`,
 <div style="margin:0 -26px;display:flex;flex-direction:column"><div style="flex:1;position:relative;min-height:176px"><div style="position:absolute;inset:0">${routeMap()}</div><div class="tc" style="position:absolute;left:26px;top:12px;font-size:9px;color:var(--card);letter-spacing:.22em">One piece of mail · three stops</div></div><div class="band c3" style="padding:0 26px;margin-top:-40px;position:relative">${dtk(envelopeChar(),'27%','say mail stands out<br>from digital ads',52,1)}${dtk(icon('eye'),'35%','more likely to<br>remember mail',52,1)}${dtk(stackChar(),'54%','toss mail that<br>looks like a scam',52,1)}</div></div>
 <div class="tx cols2"><p>Today's consumers are bombarded with hundreds, even thousands, of digital messages a day. As digital fatigue grows, the tactile quality of direct mail becomes even more impactful.</p><p>${hi('45%')} of people are turned off by mail with no clear value, and nearly half are tired of pushy language and manufactured deadlines.</p></div>
 ${trys('Try this',[
-['coin','Prove your value quickly','Make your mail something people actually want.'],
+[coinChar,'Prove your value quickly','Make your mail something people actually want.'],
 ['clock','Skip the fake urgency','Give a real reason to act instead of just “act now” messaging.'],
 ['hello','Make it personal','Personalization can make or break ROI. Mail should feel personal and relevant.']])}
 ${sec(3,'Design for more than an immediate response')}
