@@ -17,7 +17,7 @@ nav.back{box-sizing:border-box;display:flex;align-items:center;gap:8px;height:49
 nav.back a{color:#8d8d8d;text-decoration:none}
 nav.back span{color:#6e6e6e}
 nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
-#stage{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;background:#14141a}
+#stage{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;background:#7A4BFF}
 #stage.drag{cursor:grabbing}
 #stage canvas{display:block;width:100%!important;height:100%!important}
 #cap{position:absolute;left:clamp(14px,2.4vw,34px);bottom:clamp(14px,2.4vw,30px);display:flex;align-items:stretch;gap:0;pointer-events:none;font:700 clamp(11px,1vw,14px)/1.2 "Archivo","Inter",Helvetica,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
@@ -194,7 +194,19 @@ const WIN_TOP = triangulate(rectPts((SL_XB - SL_XA) / 2, 173)); // the sleeve to
 const porcP = (x, y) => [(x - 501) * PK, -(y - 490) * PK];
 const pairs = (a) => { const o = []; for (let i = 0; i < a.length; i += 2) o.push(porcP(a[i], a[i + 1])); return o; };
 const BODY_P = pairs(PORC_BODY), BODY_T = triangulate(BODY_P);
-const STEM_P = PORC_STEMS.map(pairs), STEM_T = STEM_P.map((p) => triangulate(p));
+/* pierced stamps: each quill is lengthened so its tip runs through its stamp and pokes out past the far edge */
+const stampTrace = ([x, y, hw, hh, rot]) => { const cs = Math.cos(rot), sn = Math.sin(rot); return stampPoly(hw / hh, 0.62, 0.12, 4).map(([px, py]) => { const X = px * hh, Y = -py * hh; return [x + X * cs - Y * sn, y + X * sn + Y * cs]; }); };
+const inPoly = (P, x, y) => { let c = false; for (let i = 0, j = P.length - 1; i < P.length; j = i++) { const a = P[i], b = P[j]; if ((a[1] > y) !== (b[1] > y) && x < (b[0] - a[0]) * (y - a[1]) / (b[1] - a[1]) + a[0]) c = !c; } return c; };
+const STEM_P = PORC_STEMS.map((flat) => {
+  const pts = []; for (let i = 0; i < flat.length; i += 2) pts.push([flat[i], flat[i + 1]]);
+  const cx = pts.reduce((a, p) => a + p[0], 0) / pts.length, cy = pts.reduce((a, p) => a + p[1], 0) / pts.length;
+  const tip = pts.reduce((m, p) => (Math.hypot(p[0] - cx, p[1] - cy) > Math.hypot(m[0] - cx, m[1] - cy) ? p : m));
+  const st = PORC_STAMPS.reduce((m, q) => (Math.hypot(q[0] - tip[0], q[1] - tip[1]) < Math.hypot(m[0] - tip[0], m[1] - tip[1]) ? q : m)), SP = stampTrace(st);
+  const l = Math.hypot(tip[0] - cx, tip[1] - cy), dx = (tip[0] - cx) / l, dy = (tip[1] - cy) / l;
+  let k = 0; while (k < 400 && inPoly(SP, tip[0] + dx * k, tip[1] + dy * k)) k += 2;  // walk out of the stamp
+  const ext = k + 34; // and poke this far beyond it
+  return pts.map((p) => { const along = (p[0] - cx) * dx + (p[1] - cy) * dy, w = cl((along - l * 0.35) / (l * 0.65), 0, 1); return porcP(p[0] + dx * ext * w * w, p[1] + dy * ext * w * w); });
+}), STEM_T = STEM_P.map((p) => triangulate(p));
 const STAMP_P = PORC_STAMPS.map(([x, y, hw, hh, rot, c]) => { const cs = Math.cos(rot), sn = Math.sin(rot), p = stampPoly(hw / hh, 0.62, 0.12, 4).map(([px, py]) => { const X = px * hh, Y = -py * hh; return porcP(x + X * cs - Y * sn, y + X * sn + Y * cs); }); return { p, t: triangulate(p), c: c ? RED : PURPLE }; });
 const ellipseP = (cx, cy, rx, ry) => Array.from({ length: 28 }, (_, i) => porcP(cx + rx * Math.cos(TAU * i / 28), cy + ry * Math.sin(TAU * i / 28)));
 const EYE_P = ellipseP(648, 692, 98, 38), PUPIL_P = ellipseP(673, 707, 24, 15);
@@ -258,7 +270,9 @@ function buildTextures() {
     T.mailerLidOut = g;
   }
   { // mailer lid, inside: plain darker kraft
-    T.mailerLidIn = kraftTex(1024, 1024, KRAFT_D, 31, 0);
+    const g = kraftTex(1024, 1024, KRAFT_D, 31, 0), c = g.drawingContext; // printed white in the sleeve's spaced caps
+    c.fillStyle = '#fff'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = '600 34px ' + SANS; c.letterSpacing = '18px'; c.fillText('CONGRATULATIONS', 512 + 9, 512);
+    T.mailerLidIn = g;
   }
   { // the kraft insert: plain, the box recess is the deboss
     T.insert = kraftTex(1024, 1024, KRAFT, 41, 0);
@@ -304,7 +318,7 @@ function buildTextures() {
   { const g = G(256, 256), c = g.drawingContext; c.shadowColor = '#000'; c.shadowBlur = 36; c.fillStyle = '#000'; c.shadowOffsetX = 400; c.fillRect(-400 + 70, 70, 116, 116); T.shRect = g; }
   { const g = G(128, 128), c = g.drawingContext, gr = c.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.12, 'rgba(255,255,255,.55)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); c.fillStyle = gr; c.fillRect(0, 0, 128, 128);
     c.fillStyle = '#fff'; c.beginPath(); c.moveTo(64, 0); c.quadraticCurveTo(68, 60, 128, 64); c.quadraticCurveTo(68, 68, 64, 128); c.quadraticCurveTo(60, 68, 0, 64); c.quadraticCurveTo(60, 60, 64, 0); c.fill(); T.spark = g; }
-  { const g = G(512, 512), c = g.drawingContext, gr = c.createRadialGradient(256, 256, 0, 256, 256, 256); gr.addColorStop(0, 'rgb(236,234,242)'); gr.addColorStop(0.2, 'rgb(226,224,234)'); gr.addColorStop(0.5, 'rgb(150,148,164)'); gr.addColorStop(0.8, 'rgb(46,46,56)'); gr.addColorStop(1, 'rgb(20,20,24)'); c.fillStyle = gr; c.fillRect(0, 0, 512, 512); T.floor = g; }
+  { const g = G(512, 512), c = g.drawingContext, gr = c.createRadialGradient(256, 256, 0, 256, 256, 256); gr.addColorStop(0, 'rgb(150,114,255)'); gr.addColorStop(0.25, 'rgb(140,100,255)'); gr.addColorStop(0.6, 'rgb(126,80,255)'); gr.addColorStop(0.85, 'rgb(122,75,255)'); gr.addColorStop(1, 'rgb(122,75,255)'); /* brand purple, a touch lighter under the box */ c.fillStyle = gr; c.fillRect(0, 0, 512, 512); T.floor = g; }
   for (const k in T) { const g = T[k]; T[k] = g.get(); g.remove(); } // static images: p5 uploads a Graphics to the GPU every frame, an image only once
   texReady = true;
 }
@@ -322,7 +336,7 @@ function pose(P) {
   o.sx = SLIDE * ph(P, 0.54, 0.64);
   const lift = ph(P, 0.62, 0.72), side = ph(P, 0.68, 0.80), down = ph(P, 0.78, 0.90);
   o.lx = LID_X * side; o.ly = 200 * lift - 249 * down; o.lt = 0.3 * Math.sin(PI * ph(P, 0.62, 0.92)) * (side > 0 ? 1 : 0.4);
-  o.pull = ph(P, 0.66, 0.75); o.drop = ph(P, 0.79, 0.87, (x) => x * x); // the ribbon: pulled up as the award comes out, let go once it is free
+  o.pull = ph(P, 0.66, 0.73); o.drop = ph(P, 0.74, 0.81, (x) => x * x); // the ribbon: pulled up as the award comes out, let go once it is free
   o.up = ph(P, 0.70, 0.88); o.tilt = ph(P, 0.74, 0.90) * 72 * PI / 180; o.hold = ph(P, 0.88, 1.0);
   return o;
 }
@@ -383,12 +397,13 @@ function drawScene(P, t) {
     POCK_TOP.forEach((t) => F(BM, t.map((p) => pt(p, top)), INK, 1));
     POCK.forEach((q, k) => { const n = POCK[(k + 1) % POCK.length]; F(BM, [pt(q, top), pt(n, top), pt(n, fl), pt(q, fl)], [74, 68, 92]); });
     POCK_FLOOR.forEach((t) => F(BM, t.map((p) => pt(p, fl)), [40, 37, 52]));
-    // red pull ribbon: one end tucked under the far wall, it runs under the award, and the near tail is pulled up out of the pocket;
-    // the middle rides up under the glass as it lifts, then the whole ribbon falls back slack once the award is free
-    const ay = fl + 1, rel = 1 - o.drop, hU = ay + Math.min(270 * o.up, 26) * rel;
-    const tip = [lerp(50, 40, o.pull * rel), ay + (24 + 92 * o.pull) * o.pull * rel + 3 * o.drop * o.pull];
-    let L = [[-60, ay], [-44, Math.max(ay, hU - 2)], [28, hU], [44, lerp(hU, (hU + tip[1]) / 2, o.pull)], tip];
-    for (let it = 0; it < 2; it++) { const N = [L[0]]; for (let i = 0; i < L.length - 1; i++) { const p = L[i], q = L[i + 1]; N.push([p[0] * 0.75 + q[0] * 0.25, p[1] * 0.75 + q[1] * 0.25], [p[0] * 0.25 + q[0] * 0.75, p[1] * 0.25 + q[1] * 0.75]); } N.push(L[L.length - 1]); L = N; }
+    // red pull ribbon: the far end lies on the pocket floor under the body, it runs out between the feet, up the straight pocket wall
+    // and over the top of the cradle. Pulled, the middle rides up under the glass and the tail lifts from outside the award's outline;
+    // let go, it settles back onto the stepped surface
+    const ay = fl + 0.6, tp = top + 0.6, WZ = -85.0, rel = 1 - o.drop, m = o.pull * rel, hU = ay + Math.min(270 * o.up, 26) * rel;
+    const REST = [[16, ay], [WZ + 6, ay], [WZ, ay], [WZ, tp], [WZ - 38, tp]];
+    const PULL = [[16, hU], [-64, hU], [-80, hU + 10], [-92, tp + 40], [-104, tp + 118]];
+    const L = REST.map((r, i) => [lerp(r[0], PULL[i][0], m), lerp(r[1], PULL[i][1], m)]);
     const X0 = -9, X1 = 13, XM = 2, last = L.length - 1;
     for (let i = 0; i < last; i++) { const p = L[i], q = L[i + 1]; F(BM, [[X0, p[1], -p[0]], [X1, p[1], -p[0]], [X1, q[1], -q[0]], [X0, q[1], -q[0]]], RED); F(BM, [[X0, q[1], -q[0]], [X1, q[1], -q[0]], [X1, p[1], -p[0]], [X0, p[1], -p[0]]], RED, 0.8); }
     { const p = L[last - 1], q = L[last], dl = Math.hypot(q[0] - p[0], q[1] - p[1]) || 1, dz = (q[0] - p[0]) / dl, dy = (q[1] - p[1]) / dl; // swallowtail end, 12 long with a 10 deep notch
@@ -405,7 +420,7 @@ function drawScene(P, t) {
     };
     solid(BODY_T, BODY_P, -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85);
     STEM_T.forEach((tr, i) => solid(tr, STEM_P[i], -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85));
-    STAMP_P.forEach((sp) => solid(sp.t, sp.p, 0, AT / 2 + 5, sp.c, 0.72, 0.95));
+    STAMP_P.forEach((sp) => solid(sp.t, sp.p, -AT / 2 - 2.5, AT / 2 + 2.5, sp.c, 0.72, 0.95)); // threaded on the quill: through both faces of the glass
     const fan = (P, y, col) => F(AM, [[0, y, 0]].concat(P.map((p) => toW(p, y))).concat([toW(P[0], y)]), col, 1.25);
     const ctr = (P) => [P.reduce((a, p) => a + p[0], 0) / P.length, P.reduce((a, p) => a + p[1], 0) / P.length];
     { const e = ctr(EYE_P), pu = ctr(PUPIL_P); F(AM, [[e[0], AT / 2 + 0.4, -e[1]]].concat(EYE_P.map((p) => toW(p, AT / 2 + 0.4))).concat([toW(EYE_P[0], AT / 2 + 0.4)]), [250, 250, 250], 1.2);
@@ -474,16 +489,18 @@ function ovDraw(list, additive) {
   if (additive) blendMode(BLEND); gl.depthMask(true); tint(255, 255, 255, 255);
 }
 function draw() {
-  background(20, 20, 24);
+  background(122, 75, 255); // brand purple #7A4BFF
   if (!texReady) return;
   const dt = Math.min(0.1, deltaTime / 1000);
   if (CLIP) clock = (window.__clock != null ? window.__clock : clock + dt); else if (!reduce) clock += dt;
   let P;
   if (CLIP) P = currentP(clock); else if (mode === 'auto') { tAuto += reduce ? 0 : dt; P = autoP(tAuto); Pshow = P; } else { Pshow += (Pm - Pshow) * Math.min(1, dt * 5); P = Pshow; }
   const t = clock;
-  /* camera follows the action: wide on the mailer, then pulls toward the box and the award */
-  const k1 = ph(P, 0.14, 0.34), k2 = ph(P, 0.4, 0.62), k3 = ph(P, 0.7, 0.95);
-  let tx = lerp(0, 20, k2), ty = lerp(270, 200, k1) + 30 * k3, tz = lerp(0, 120, k1) + 230 * k2;
+  /* camera follows the action: wide on the mailer, then its centre glides with the award box as it comes out and lands, and stays over it */
+  const k1 = ph(P, 0.14, 0.34), k2 = ph(P, 0.4, 0.62), k3 = ph(P, 0.7, 0.95), kf = ph(P, 0.22, 0.52);
+  let tx = 0, ty = lerp(270, 200, k1) - 60 * k2, tz = lerp(lerp(0, 120, k1), LAND_Z, kf);
+  { const o = pose(P), ka = ph(P, 0.68, 0.86); // as the award rises, the centre moves onto the porcupine and follows it up
+    tx = lerp(tx, o.bx, ka); ty = lerp(ty, o.by + CRAD_TOP - POCKET + AT / 2 + 270 * o.up, ka); tz = lerp(tz, o.bz, ka); }
   let dist = lerp(1650, 1580, k1) - 330 * k2 - 60 * k3 + userZoom, elev = cl(0.4 + userElev - 0.05 * k2, 0.1, 1.2);
   if (HP.has('d')) dist = +HP.get('d'); if (HP.has('e')) elev = +HP.get('e'); if (HP.has('tx')) { tx = +HP.get('tx'); ty = +HP.get('ty'); tz = +HP.get('tz'); }
   dist *= cl(Math.pow(1.7 / (width / height), 0.75), 1, 2.2);
@@ -517,7 +534,7 @@ function bindUI() {
   let drag = null; holder.addEventListener('pointerdown', (e) => { drag = [e.clientX, e.clientY]; holder.classList.add('drag'); holder.setPointerCapture(e.pointerId); });
   holder.addEventListener('pointermove', (e) => { if (!drag) return; userAngle -= (e.clientX - drag[0]) * 0.006; userElev = cl(userElev + (e.clientY - drag[1]) * 0.004, -0.3, 0.8); drag = [e.clientX, e.clientY]; });
   const up = () => { drag = null; holder.classList.remove('drag'); }; holder.addEventListener('pointerup', up); holder.addEventListener('pointercancel', up);
-  holder.addEventListener('wheel', (e) => { e.preventDefault(); userZoom = cl(userZoom + e.deltaY * 0.8, -600, 1300); }, { passive: false });
+  holder.addEventListener('wheel', (e) => { e.preventDefault(); userZoom = cl(userZoom + e.deltaY * 0.8, -780, 1300); }, { passive: false });
   window.__unbox = { setP(p) { mode = 'manual'; Pm = Pshow = p; }, play() { mode = 'auto'; } };
 }
 let lastStage = -1, wantSave = false;
