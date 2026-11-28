@@ -309,32 +309,8 @@ function crossword(){
   let cells='';for(let r=r0;r<=r1;r++)for(let c=c0;c<=c1;c++){const ch=g[r+','+c];cells+=ch?`<i class="cw">${starts[r+','+c]?`<u>${starts[r+','+c]}</u>`:''}${ch}</i>`:`<i class="cb2"></i>`}
   return `<div class="cwg" style="grid-template-columns:repeat(${c1-c0+1},1fr);aspect-ratio:${c1-c0+1}/${r1-r0+1}">${cells}</div>`}
 
-/* ---------- Thread conference accents: the calligraphy flourish (ported from the Thread brand guidelines: hand-set control points,
-   Catmull-Rom spline, a pen that starts thick and thins out), five-point stars for dividers ---------- */
+/* ---------- Thread conference accents: five-point stars for dividers ---------- */
 const starP=(cx,cy,r)=>{let p='';for(let i=0;i<10;i++){const a=i*Math.PI/5-Math.PI/2,rr=i%2?r*.42:r;p+=(cx+rr*Math.cos(a)).toFixed(1)+','+(cy+rr*Math.sin(a)).toFixed(1)+' '}return `<polygon points="${p}" fill="${INK}"/>`};
-const FDEFS=[
- {w0:15,w1:3,taper:.45,pts:[[-20,200],[60,215],[200,238],[300,248],[370,270],[412,310],[405,350],[360,370],[320,350],[295,310]]},
- {w0:16,w1:3,taper:.3,pts:[[-20,340],[100,360],[230,385],[380,415],[500,470],[570,540],[595,610],[570,670],[500,712],[430,700],[370,665],[310,600],[262,520],[228,420],[207,320],[203,230],[195,120],[165,55],[125,32],[92,60],[92,110],[130,150],[190,170],[260,172],[340,150],[405,117]]},
- {w0:13,w1:3,taper:.3,pts:[[-20,432],[100,448],[200,468],[290,500],[360,550],[410,610],[425,665],[400,710],[340,745],[270,740],[245,712]]},
- {w0:14,w1:3,taper:.45,pts:[[-20,535],[60,545],[140,568],[205,605],[238,660],[235,715],[195,745],[150,752],[115,730]]},
- {w0:3.5,w1:3.5,taper:1,pts:[[85,365],[100,450],[140,550],[215,680]]},
- {w0:3.5,w1:3.5,taper:1,pts:[[15,5],[32,50],[52,130],[68,230],[70,280]]},
- {w0:3,w1:3,taper:1,pts:[[-2,350],[8,430],[18,540]]},
- {w0:4,w1:4,taper:1,pts:[[5,650],[22,680],[20,715],[2,740]]}];
-const FLOUR=(()=>{const lerp=(a,b,t)=>a+(b-a)*t,cl=(v,a,b)=>Math.max(a,Math.min(b,v));let d='',caps='';
-  FDEFS.forEach(def=>{const p=def.pts,dense=[];
-    for(let i=0;i<p.length-1;i++){const P0=p[Math.max(i-1,0)],P1=p[i],P2=p[i+1],P3=p[Math.min(i+2,p.length-1)];
-      const t0=0,t1=t0+Math.pow(Math.hypot(P1[0]-P0[0],P1[1]-P0[1])||1e-3,.5),t2=t1+Math.pow(Math.hypot(P2[0]-P1[0],P2[1]-P1[1])||1e-3,.5),t3=t2+Math.pow(Math.hypot(P3[0]-P2[0],P3[1]-P2[1])||1e-3,.5);
-      for(let k=0;k<20;k++){const t=lerp(t1,t2,k/20),pt=[0,0];for(let q=0;q<2;q++){const A1=((t1-t)*P0[q]+(t-t0)*P1[q])/(t1-t0),A2=((t2-t)*P1[q]+(t-t1)*P2[q])/(t2-t1),A3=((t3-t)*P2[q]+(t-t2)*P3[q])/(t3-t2);const B1=((t2-t)*A1+(t-t0)*A2)/(t2-t0),B2=((t3-t)*A2+(t-t1)*A3)/(t3-t1);pt[q]=((t2-t)*B1+(t-t1)*B2)/(t2-t1)}dense.push(pt)}}
-    dense.push(p[p.length-1]);const cum=[0];for(let i=1;i<dense.length;i++)cum.push(cum[i-1]+Math.hypot(dense[i][0]-dense[i-1][0],dense[i][1]-dense[i-1][1]));
-    const total=cum[cum.length-1],N=140,out=[];let j=0;
-    for(let i=0;i<N;i++){const sd=i/(N-1)*total;while(j<cum.length-2&&cum[j+1]<sd)j++;const u=(sd-cum[j])/(cum[j+1]-cum[j]||1),t=i/(N-1),sm=cl(t/def.taper,0,1),k=sm*sm*(3-2*sm);out.push({x:lerp(dense[j][0],dense[j+1][0],u),y:lerp(dense[j][1],dense[j+1][1],u),w:lerp(def.w0,def.w1,k)})}
-    const L=[],R=[];for(let i=0;i<N;i++){const q=out[Math.min(i+1,N-1)],o=out[Math.max(i-1,0)];let dx=q.x-o.x,dy=q.y-o.y;const m=Math.hypot(dx,dy)||1;dx/=m;dy/=m;const h=out[i].w/2;L.push([out[i].x-dy*h,out[i].y+dx*h]);R.push([out[i].x+dy*h,out[i].y-dx*h])}
-    d+='M'+L.map(v=>v[0].toFixed(1)+' '+v[1].toFixed(1)).join('L')+'L'+R.reverse().map(v=>v[0].toFixed(1)+' '+v[1].toFixed(1)).join('L')+'Z';
-    const e=out[N-1],s0=out[0];caps+=`<circle cx="${e.x.toFixed(1)}" cy="${e.y.toFixed(1)}" r="${(e.w/2).toFixed(1)}"/><circle cx="${s0.x.toFixed(1)}" cy="${s0.y.toFixed(1)}" r="${(s0.w/2).toFixed(1)}"/>`});
-  return {d,caps}})();
-/* crop = [x,y,w,h] window onto the 620 x 760 flourish; mirror flips it to the right edge, like the Thread connect card */
-function flourish(crop,o={}){return `<svg class="fl-s" viewBox="${crop.join(' ')}" preserveAspectRatio="xMinYMin slice" aria-hidden="true" style="${o.mirror?'transform:scaleX(-1);':''}"><g fill="${o.color||INK}" stroke="${o.color||INK}" stroke-width="${o.bold==null?4:o.bold}" stroke-linejoin="round"><path d="${FLOUR.d}"/>${FLOUR.caps}</g></svg>`}
 /* ---------- the four pages (Lob's State of Direct Mail 2026 article, set like a community newspaper) ----------
    Every page is a grid: 10px between bands, 8px between boxes, 14px between columns, one 2.6px border, one row that absorbs the slack. */
 const foot=(n,t)=>`<div class="folio"><span>The Mail Call · ${t}</span><span>lob.com</span><span>${n}</span></div>`;
@@ -360,7 +336,7 @@ const PG=[
     <div style="font:700 10px/1 var(--nar);letter-spacing:.16em;text-transform:uppercase;margin-top:10px">By the Lob Newsletter</div>
     <div class="toc" style="margin-top:auto"><div class="toch">In this issue</div>${[['Mail is a daily ritual','2'],['Keep them reading','3'],['Classifieds and the mailbox crossword','4']].map(r=>`<div class="tocr"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}</div>
   </div>
-  <div class="bx np gridbg">${scene()}<div class="callout" style="left:0;top:0;width:150px;height:150px">${flourish([-20,190,430,420])}</div><div class="callout scr" style="right:12px;top:30px;font-size:38px;transform:rotate(-6deg);text-align:right">worth<br>the trip</div></div>
+  <div class="bx np gridbg">${scene()}<div class="callout scr" style="right:12px;top:30px;font-size:38px;transform:rotate(-6deg);text-align:right">worth<br>the trip</div></div>
 </div>
 <div class="tx cols3" style="font-size:13.4px">
 <p>Direct mail is one of the few marketing touchpoints that feels native. According to Lob's State of Direct Mail 2026: Consumer Insights, ${hi('more than 80%')} of consumers collect their mail daily or nearly daily, and ${hi('87%')} read direct mail the same day they bring it in.</p>
@@ -433,7 +409,7 @@ ${foot(3,'Page three')}`,
   </div>
   <div class="bx" style="grid-column:span 2">
     <div style="display:flex;gap:10px;align-items:center"><div class="num">4</div><div class="an" style="font-size:34px;line-height:.9">Connect with customers on their terms</div></div>
-    <div class="callout" style="right:0;bottom:0;width:210px;height:78px">${flourish([-20,420,640,330],{mirror:true})}</div><div class="tx s" style="margin-top:8px;position:relative;z-index:1"><p>Direct mail campaigns thrive when you go beyond the mailbox. There's no single path from awareness to action to attribution. Some consumers may research the brand online. Another may head to the store. Others prefer to scan a QR code or visit a PURL.</p></div>
+    <div class="tx s" style="margin-top:8px;position:relative;z-index:1"><p>Direct mail campaigns thrive when you go beyond the mailbox. There's no single path from awareness to action to attribution. Some consumers may research the brand online. Another may head to the store. Others prefer to scan a QR code or visit a PURL.</p></div>
   </div>
   <div>${arcBadge('TOOK AN ONLINE ACTION','70%',['AFTER RECEIVING','DIRECT MAIL'])}</div>
   ${[[qrChar(),'Scan a QR code','ht'],[phoneChar(),'Call a number',''],[storeChar(),'Go to the store','ht']].map(t=>`<div class="bx np fig ${t[2]}"><div class="il">${t[0]}</div><div class="cap" style="font-size:15px">${t[1]}</div></div>`).join('')}
