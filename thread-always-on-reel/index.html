@@ -112,7 +112,6 @@ input[type=text]:focus{outline:2px solid var(--yellow);outline-offset:0;border-c
   <main class="stage">
     <div id="box"><canvas id="cv" role="img" aria-label="A personal Thread conference film for one attendee, playing as a vertical reel"></canvas></div>
     <div class="tl"><button class="play" id="play" aria-label="Pause"><svg viewBox="0 0 12 12" aria-hidden="true"><path id="pi" d="M1 0h3.5v12H1zM7.5 0H11v12H7.5z"/></svg></button><div class="segs" id="segs" role="group" aria-label="Scenes"></div></div>
-    <div class="meta"><span>9:16 · 1080 × 1920</span><span id="loopNote"></span></div>
   </main>
   <aside class="panel">
     <div class="brand"><h1>Thread <em>always on</em></h1><p>One film per attendee, built from what they did at the conference and re-cut for every stage of the year. Change the person or the phase and the reel is re-assembled.</p></div>
@@ -529,7 +528,6 @@ function rebuild(keepTime) {
   TL = timeline(); PERIOD = TL.total / Math.max(1, Math.round(TL.total / 8)); flourCache.clear();
   if (!keepTime) clock = 0; else clock = clock % TL.total;
   $('#segs').innerHTML = TL.scenes.map((s, i) => `<button class="seg" data-i="${i}" style="flex:${s.dur}" title="${s.name}"><span>${s.name}</span><i></i></button>`).join('');
-  $('#loopNote').textContent = Math.round(TL.total) + ' s film · ' + TL.scenes.length + ' scenes';
   syncUI(); dirty = true;
 }
 function frame(now) {
