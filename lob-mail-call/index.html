@@ -132,7 +132,8 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .perf{--p:14px;--h:4.2px;background:var(--card);mask:radial-gradient(circle var(--h) at 50% 0,#0000 95%,#000) 0 0/var(--p) 100% round,radial-gradient(circle var(--h) at 50% 100%,#0000 95%,#000) 0 0/var(--p) 100% round;mask-composite:intersect}
 .stp{--p:12px;--h:3.6px;background:var(--peri);mask:radial-gradient(circle var(--h) at 50% 0,#0000 95%,#000) 0 0/var(--p) 100% round,radial-gradient(circle var(--h) at 50% 100%,#0000 95%,#000) 0 0/var(--p) 100% round,
   radial-gradient(circle var(--h) at 0 50%,#0000 95%,#000) 0 0/100% var(--p) round,radial-gradient(circle var(--h) at 100% 50%,#0000 95%,#000) 0 0/100% var(--p) round;mask-composite:intersect}
-.scal{--s:20px;background:var(--peri);mask:linear-gradient(#000 0 0) 50% 50%/calc(100% - var(--s)) calc(100% - var(--s)) no-repeat,radial-gradient(circle closest-side,#000 96%,#0000) 0 0/var(--s) var(--s) round}
+/* stamp edge: straight sides with spaced round bites and notched corners (the old scallop is gone) */
+.scal{--p:24px;--h:5.5px;--n:9px;background:var(--peri);mask:radial-gradient(circle var(--n) at 0 0,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 0,#0000 97%,#000),radial-gradient(circle var(--n) at 0 100%,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 100%,#0000 97%,#000),radial-gradient(circle var(--h) at 50% 0,#0000 95%,#000) 50% 0/var(--p) 100% round,radial-gradient(circle var(--h) at 50% 100%,#0000 95%,#000) 50% 0/var(--p) 100% round,radial-gradient(circle var(--h) at 0 50%,#0000 95%,#000) 0 50%/100% var(--p) round,radial-gradient(circle var(--h) at 100% 50%,#0000 95%,#000) 0 50%/100% var(--p) round;mask-composite:intersect}
 .cloud{--s:22px;background:var(--peri);mask:linear-gradient(#000 0 0) 50% 50%/calc(100% - var(--s)) 100% no-repeat,radial-gradient(circle closest-side,#000 96%,#0000) 0 0/var(--s) var(--s) round}
 .notch{--n:10px;mask:radial-gradient(circle var(--n) at 0 0,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 0,#0000 97%,#000),radial-gradient(circle var(--n) at 0 100%,#0000 97%,#000),radial-gradient(circle var(--n) at 100% 100%,#0000 97%,#000);mask-composite:intersect}
 .panel{background:var(--peri);border:var(--hl) solid var(--ink)}
@@ -421,7 +422,7 @@ const PG=[
     <div class="toc" style="margin-top:auto;padding-top:14px"><div class="tc" style="font-size:9.5px;padding:0 0 9px;border-bottom:var(--hl) solid var(--ink)">In this issue</div>${[['02','Mail is a daily ritual'],['03','Keep them reading'],['04','Classifieds &amp; the crossword']].map(r=>`<div class="tocr"><span>${r[0]}</span><span>—</span><span>${r[1]}</span></div>`).join('')}</div>
   </div>
   <div class="fl" style="gap:12px">
-    <div style="flex:1;position:relative;display:flex"><div class="scal" style="--s:30px;flex:1;padding:26px 14px 16px">${scene()}</div><div class="callout" style="left:-22px;top:-16px;width:100px;height:100px">${rubber('MAIL DAY','80%','EVERY DAY',-14,'Stamp: 80 percent check daily')}</div></div>
+    <div style="flex:1;position:relative;display:flex"><div class="scal" style="--p:28px;--h:6.5px;--n:11px;flex:1;padding:26px 14px 16px">${scene()}</div><div class="callout" style="left:-22px;top:-16px;width:100px;height:100px">${rubber('MAIL DAY','80%','EVERY DAY',-14,'Stamp: 80 percent check daily')}</div></div>
     <div class="tkt" style="padding:13px 30px"><span class="tc" style="font-size:11px;letter-spacing:.22em;white-space:nowrap">Main St. · mail day</span></div>
   </div>
 </div>
