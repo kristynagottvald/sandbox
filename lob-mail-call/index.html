@@ -117,7 +117,9 @@ html.clip .pg::before{background:linear-gradient(to bottom,transparent 49.6%,rgb
 .tx p+p{margin-top:.55em}
 .cols2{columns:2;column-gap:22px;column-rule:var(--hl) solid var(--ink)}
 .cols3{columns:3;column-gap:20px;column-rule:var(--hl) solid var(--ink)}
-.hi{background:var(--peri);border-radius:99px;padding:0 .4em;margin:0 -.1em;white-space:nowrap;font-weight:600}
+.hi{position:relative;display:inline-block;white-space:nowrap;font-weight:600}
+.pg .hi svg{position:absolute;left:-14%;top:-30%;width:128%;height:160%;overflow:visible;pointer-events:none;display:block}
+.hi svg path{fill:none;stroke:var(--ink);stroke-width:1;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
 .hr{height:var(--hl);background:var(--ink)}
 .c{text-align:center}
 
@@ -245,7 +247,7 @@ function obj(W,H,sil,feat,o={}){
   const defs=`<linearGradient id="${id}g" gradientUnits="userSpaceOnUse" x1="${g[0]}" y1="${g[1]}" x2="${g[2]}" y2="${g[3]}"><stop offset="0" stop-color="#000"/><stop offset="${b[0]}" stop-color="${gs(lo)}"/><stop offset="${b[1]}" stop-color="${gs(hi)}"/><stop offset="1" stop-color="#fff"/></linearGradient>`+
    `<filter id="${id}f" x="0" y="0" width="${W}" height="${H}" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="${sd}" result="n"/><feColorMatrix in="n" type="matrix" values="1 0 0 0 0  1 0 0 0 0  1 0 0 0 0  0 0 0 0 1" result="g"/><feComposite in="SourceGraphic" in2="g" operator="arithmetic" k1="0" k2="1" k3="1" k4="-.5"/><feComponentTransfer><feFuncR type="linear" slope="2.6" intercept="-.8"/><feFuncG type="linear" slope="2.6" intercept="-.8"/><feFuncB type="linear" slope="2.6" intercept="-.8"/></feComponentTransfer></filter>`+
    `<mask id="${id}m" maskUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><rect width="${W}" height="${H}" fill="url(#${id}g)" filter="url(#${id}f)"/></mask>`+
-   `<radialGradient id="${id}r" gradientUnits="userSpaceOnUse" cx="${(W*.3).toFixed(1)}" cy="${(H*.2).toFixed(1)}" r="${(R*.95).toFixed(1)}"><stop offset="0" stop-color="#f1f3fd"/><stop offset=".3" stop-color="#9aa2d8"/><stop offset=".62" stop-color="#4b5199"/><stop offset=".9" stop-color="#1f1b58"/></radialGradient>`+
+   `<radialGradient id="${id}r" gradientUnits="userSpaceOnUse" cx="${(W*.3).toFixed(1)}" cy="${(H*.2).toFixed(1)}" r="${(R*.95).toFixed(1)}">${o.dark?'<stop offset="0" stop-color="#8f97d0"/><stop offset=".35" stop-color="#3d4290"/><stop offset=".8" stop-color="#1a1450"/>':'<stop offset="0" stop-color="#f1f3fd"/><stop offset=".3" stop-color="#9aa2d8"/><stop offset=".62" stop-color="#4b5199"/><stop offset=".9" stop-color="#1f1b58"/>'}</radialGradient>`+
    `<pattern id="${id}h" width="3" height="3" patternUnits="userSpaceOnUse" patternTransform="rotate(-36)"><path d="M.4 0V3" stroke="${INK}" stroke-width=".85"/></pattern><pattern id="${id}k" width="4.2" height="4.2" patternUnits="userSpaceOnUse" patternTransform="rotate(52)"><path d="M.4 0V4.2" stroke="${INK}" stroke-width=".7"/></pattern>`+
    `<filter id="${id}w" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="${sd}"/><feDisplacementMap in="SourceGraphic" scale="${o.wob||4.6}" xChannelSelector="R" yChannelSelector="G"/></filter>`+
    `<filter id="${id}v" x="-8%" y="-8%" width="116%" height="116%"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="${sd+5}"/><feDisplacementMap in="SourceGraphic" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>`;
@@ -334,7 +336,11 @@ function dropCap(L){return `<div class="drop">${svg('0 0 94 108',`<path d="${sca
 /* the drop pin label (le marché de noël) */
 const pin=(t,fs=12)=>`<div class="pin"><span class="tc" style="font-size:${fs}px">${t}</span></div>`;
 const arw=(ne)=>`<svg class="arw" viewBox="0 0 14 14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">${ne?'<path d="M3 11L11 3M5 3H11V9"/>':'<path d="M1 7H12M8 3L12 7L8 11"/>'}</svg>`;
-const hi=(t)=>`<span class="hi">${t}</span>`;
+/* hand drawn hairline loop around a phrase: an overshooting ellipse, different on every call (seeded by the call count) */
+let _hi=0;
+const hi=(t)=>{const k=++_hi,r=n=>{const x=Math.sin(k*12.9898+n*78.233)*43758.5453;return x-Math.floor(x)},j=(v,a)=>(v+(r(v)-.5)*a).toFixed(1);
+  const d=`M${j(10,6)} ${j(14,6)}C${j(30,8)} ${j(2,4)} ${j(78,8)} ${j(1,4)} ${j(94,4)} ${j(14,6)}S${j(88,6)} ${j(39,3)} ${j(50,6)} ${j(38,3)}${' '}${j(3,4)} ${j(30,6)} ${j(6,4)} ${j(16,6)}${' '}${j(34,10)} ${j(4,4)} ${j(62,10)} ${j(6,4)}`;
+  return `<span class="hi">${t}<svg viewBox="0 0 100 40" preserveAspectRatio="none" aria-hidden="true" style="transform:rotate(${((r(9)-.5)*4).toFixed(1)}deg)"><path d="${d}"/></svg></span>`};
 /* front facing houses: a one storey ranch with a hipped roof, and a two storey house with its gable to the street */
 function ranchHouse(){return obj(124,84,`<path d="M3 38L26 12H98L121 38Z"/><rect x="8" y="36" width="108" height="46"/><rect x="88" y="4" width="10" height="18"/>`,
   `<rect x="16" y="48" width="26" height="18" ${F}/><rect x="82" y="48" width="26" height="18" ${F}/><rect x="54" y="50" width="16" height="32" ${F}/>`,
@@ -342,11 +348,20 @@ function ranchHouse(){return obj(124,84,`<path d="M3 38L26 12H98L121 38Z"/><rect
 function twoStoryHouse(){return obj(112,152,`<path d="M4 62L56 10L108 62Z"/><rect x="12" y="58" width="88" height="92"/><rect x="78" y="14" width="12" height="34"/>`,
   `<circle cx="56" cy="42" r="8" ${F}/><rect x="22" y="72" width="22" height="26" ${F}/><rect x="68" y="72" width="22" height="26" ${F}/><rect x="22" y="112" width="22" height="26" ${F}/><rect x="66" y="108" width="22" height="42" ${F}/>`,
   {g:[44,0,108,40],s:73,label:'A two storey house',line:`<path d="M33 72V98M22 85H44M79 72V98M68 85H90M33 112V138M22 125H44M56 34V50M48 42H64" stroke-width="1.4"/><path d="M8 104H104" stroke-width="2"/><circle cx="82" cy="130" r="1.8" fill="${INK}"/>`})}
+/* a boxy mail delivery truck, side on: tall cargo body, short sloped hood, stripe along the side, no logo */
+function mailTruck(){return obj(124,84,`<path d="M30 8H118V66H30Z"/><path d="M30 20H14L6 40V66H30Z"/><circle cx="26" cy="70" r="11"/><circle cx="98" cy="70" r="11"/>`,
+  `<path d="M28 24H17L11 39H28Z" ${F}/><rect x="30" y="44" width="88" height="5" ${F}/><rect x="40" y="14" width="30" height="20" ${F}/><circle cx="26" cy="70" r="4.5" ${F}/><circle cx="98" cy="70" r="4.5" ${F}/>`,
+  {g:[40,0,120,20],s:83,label:'A mail delivery truck',line:`<path d="M30 8V66M78 14V62" stroke-width="1.3"/><path d="M60 52H70" stroke-width="2"/><rect x="2" y="56" width="6" height="5" stroke-width="1.2"/>`})}
+/* sketched pines: jagged branch tiers drawn in dark graphite, a little lopsided each */
+function pineSil(cx,base,h,w,n){let L=[],R=[];const top=base-h*.96;for(let i=1;i<=n;i++){const y=top+(h*.92)*i/n,ww=w*(.25+.75*i/n)/2,j=((i*37)%5-2)*.6;
+  L.push(`${(cx-ww+j).toFixed(1)},${y.toFixed(1)} ${(cx-ww*.42).toFixed(1)},${(y-2).toFixed(1)}`);R.unshift(`${(cx+ww*.42).toFixed(1)},${(y-2).toFixed(1)} ${(cx+ww-j).toFixed(1)},${y.toFixed(1)}`)}
+  return `<polygon points="${cx},${top.toFixed(1)} ${L.join(' ')} ${R.join(' ')}"/><rect x="${cx-1.6}" y="${(base-h*.06).toFixed(1)}" width="3.2" height="${(h*.06).toFixed(1)}"/>`}
+function pinesChar(spec,W,H,sd){return obj(W,H,spec.map(t=>pineSil(...t)).join(''),'',{g:[0,0,W,0],b:[.05,.7],lo:.02,hi:.6,s:sd,dark:1,wob:3,label:'Pine trees',ground:false})}
 /* the front page picture: mail objects in front of a big pale 80 */
 const at=(s,x,y,w,h)=>s.replace('width="100%" height="100%"',`x="${x}" y="${y}" width="${w}" height="${h}"`);
 function scene(){return svg('0 0 236 430',`
 <text x="118" y="300" text-anchor="middle" font-family="Fraunces,Georgia,serif" font-weight="300" font-size="236" fill="#bdd6fd" stroke="none" letter-spacing="-10">80</text>
-${at(flyingEnvelope(),30,64,160,75)}${at(twoStoryHouse(),126,262,110,150)}${at(ranchHouse(),0,330,108,73)}${at(mailboxChar(),96,372,42,46)}<path d="M2 420H234" stroke="${INK}" stroke-width="1.2" opacity=".7"/>`,'A flying envelope over a street with a one storey house, a two storey house and a mailbox').replace('xMidYMid meet','xMidYMax meet')}
+${at(flyingEnvelope(),30,64,160,75)}${at(pinesChar([[20,150,146,38,9],[44,150,120,34,8],[64,150,78,24,6]],80,152,97),94,268,80,152)}${at(pinesChar([[16,110,104,30,8],[36,110,70,22,6]],50,112,103),-4,306,50,112)}${at(twoStoryHouse(),126,262,110,150)}${at(ranchHouse(),0,330,108,73)}<svg x="44" y="350" width="108" height="73" viewBox="0 0 124 84" preserveAspectRatio="xMidYMid meet"><g fill="${PER}" stroke="${PER}" stroke-width="7" stroke-linejoin="round"><path d="M30 8H118V66H30Z"/><path d="M30 20H14L6 40V66H30Z"/><circle cx="26" cy="70" r="11"/><circle cx="98" cy="70" r="11"/></g></svg>${at(mailTruck(),44,350,108,73)}<path d="M2 420H234" stroke="${INK}" stroke-width="1.2" opacity=".7"/>`,'A flying envelope over a street with a one storey house, a two storey house and a mail truck').replace('xMidYMid meet','xMidYMax meet')}
 function donut(p,sz=72){const r=36,C=2*Math.PI*r;return `<svg viewBox="0 0 100 100" width="${sz}" height="${sz}" aria-hidden="true"><circle cx="50" cy="50" r="${r}" fill="none" stroke="${PER}" stroke-width="12"/><circle cx="50" cy="50" r="${r}" fill="none" stroke="${ROY}" stroke-width="12" stroke-dasharray="${(C*p/100).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 50 50)"/><circle cx="50" cy="50" r="${r+8}" fill="none" stroke="${INK}" stroke-width="1"/><circle cx="50" cy="50" r="${r-8}" fill="none" stroke="${INK}" stroke-width="1"/></svg>`}
 function dots(n,of=10){let s='';for(let i=0;i<of;i++)s+=`<circle cx="${9+i*17}" cy="9" r="6.5" fill="${i<n?ROY:'none'}" stroke="${i<n?ROY:INK}" stroke-width="1.1"/>`;return `<svg viewBox="0 0 ${of*17} 18" width="100%" aria-hidden="true">${s}</svg>`}
 /* the route map: full bleed royal blue, pencil pines, a river, dotted highways with interstate shields,
