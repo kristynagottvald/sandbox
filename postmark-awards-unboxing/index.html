@@ -258,7 +258,9 @@ function buildTextures() {
     T.mailerLidOut = g;
   }
   { // mailer lid, inside: plain darker kraft
-    T.mailerLidIn = kraftTex(1024, 1024, KRAFT_D, 31, 0);
+    const g = kraftTex(1024, 1024, KRAFT_D, 31, 0), c = g.drawingContext; // printed white in the sleeve's spaced caps
+    c.fillStyle = '#fff'; c.textAlign = 'center'; c.textBaseline = 'middle'; c.font = '600 34px ' + SANS; c.letterSpacing = '18px'; c.fillText('CONGRATULATIONS', 512 + 9, 512);
+    T.mailerLidIn = g;
   }
   { // the kraft insert: plain, the box recess is the deboss
     T.insert = kraftTex(1024, 1024, KRAFT, 41, 0);
@@ -481,9 +483,11 @@ function draw() {
   let P;
   if (CLIP) P = currentP(clock); else if (mode === 'auto') { tAuto += reduce ? 0 : dt; P = autoP(tAuto); Pshow = P; } else { Pshow += (Pm - Pshow) * Math.min(1, dt * 5); P = Pshow; }
   const t = clock;
-  /* camera follows the action: wide on the mailer, then pulls toward the box and the award */
-  const k1 = ph(P, 0.14, 0.34), k2 = ph(P, 0.4, 0.62), k3 = ph(P, 0.7, 0.95);
-  let tx = lerp(0, 20, k2), ty = lerp(270, 200, k1) + 30 * k3, tz = lerp(0, 120, k1) + 230 * k2;
+  /* camera follows the action: wide on the mailer, then its centre glides with the award box as it comes out and lands, and stays over it */
+  const k1 = ph(P, 0.14, 0.34), k2 = ph(P, 0.4, 0.62), k3 = ph(P, 0.7, 0.95), kf = ph(P, 0.22, 0.52);
+  let tx = 0, ty = lerp(270, 200, k1) - 60 * k2, tz = lerp(lerp(0, 120, k1), LAND_Z, kf);
+  { const o = pose(P), ka = ph(P, 0.68, 0.86); // as the award rises, the centre moves onto the porcupine and follows it up
+    tx = lerp(tx, o.bx, ka); ty = lerp(ty, o.by + CRAD_TOP - POCKET + AT / 2 + 270 * o.up, ka); tz = lerp(tz, o.bz, ka); }
   let dist = lerp(1650, 1580, k1) - 330 * k2 - 60 * k3 + userZoom, elev = cl(0.4 + userElev - 0.05 * k2, 0.1, 1.2);
   if (HP.has('d')) dist = +HP.get('d'); if (HP.has('e')) elev = +HP.get('e'); if (HP.has('tx')) { tx = +HP.get('tx'); ty = +HP.get('ty'); tz = +HP.get('tz'); }
   dist *= cl(Math.pow(1.7 / (width / height), 0.75), 1, 2.2);
@@ -517,7 +521,7 @@ function bindUI() {
   let drag = null; holder.addEventListener('pointerdown', (e) => { drag = [e.clientX, e.clientY]; holder.classList.add('drag'); holder.setPointerCapture(e.pointerId); });
   holder.addEventListener('pointermove', (e) => { if (!drag) return; userAngle -= (e.clientX - drag[0]) * 0.006; userElev = cl(userElev + (e.clientY - drag[1]) * 0.004, -0.3, 0.8); drag = [e.clientX, e.clientY]; });
   const up = () => { drag = null; holder.classList.remove('drag'); }; holder.addEventListener('pointerup', up); holder.addEventListener('pointercancel', up);
-  holder.addEventListener('wheel', (e) => { e.preventDefault(); userZoom = cl(userZoom + e.deltaY * 0.8, -600, 1300); }, { passive: false });
+  holder.addEventListener('wheel', (e) => { e.preventDefault(); userZoom = cl(userZoom + e.deltaY * 0.8, -780, 1300); }, { passive: false });
   window.__unbox = { setP(p) { mode = 'manual'; Pm = Pshow = p; }, play() { mode = 'auto'; } };
 }
 let lastStage = -1, wantSave = false;
