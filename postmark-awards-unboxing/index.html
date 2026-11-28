@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Postmark Awards Unboxing 3D</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%237a4bff%22/%3E%3Crect x=%228%22 y=%228%22 width=%2248%22 height=%2248%22 fill=%22%23ffffff%22/%3E%3Ccircle cx=%2214%22 cy=%2210%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2214%22 cy=%2254%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2222%22 cy=%2210%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2222%22 cy=%2254%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2230%22 cy=%2210%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2230%22 cy=%2254%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2238%22 cy=%2210%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2238%22 cy=%2254%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2246%22 cy=%2210%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2246%22 cy=%2254%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2210%22 cy=%2214%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2254%22 cy=%2214%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2210%22 cy=%2222%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2254%22 cy=%2222%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2210%22 cy=%2230%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2254%22 cy=%2230%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2210%22 cy=%2238%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2254%22 cy=%2238%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2210%22 cy=%2246%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2254%22 cy=%2246%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Crect x=%2216%22 y=%2216%22 width=%2232%22 height=%2232%22 fill=%22%237a4bff%22/%3E%3Crect x=%2224%22 y=%2224%22 width=%2216%22 height=%2216%22 fill=%22%23ffffff%22/%3E%3Crect x=%2224%22 y=%2224%22 width=%2216%22 height=%2216%22 fill=%22%23f2442e%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
+<style>
+:root{--purple:#7A4BFF;--red:#F2442E;--black:#0B0B0B;--white:#fff}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:#0B0B0B;color:#f2f2f2}
+body{display:flex;flex-direction:column;font:400 16px/1.4 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+nav.back{box-sizing:border-box;display:flex;align-items:center;gap:8px;height:49px;padding:0 20px;background:#000;border-bottom:1px solid #1c1c1c;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif}
+nav.back a{color:#8d8d8d;text-decoration:none}
+nav.back span{color:#6e6e6e}
+nav.back b{font-weight:500;color:#fff;overflow:hidden;text-overflow:ellipsis}
+#stage{position:relative;flex:1;min-height:0;overflow:hidden;cursor:grab;touch-action:none;background:#14141a}
+#stage.drag{cursor:grabbing}
+#stage canvas{display:block;width:100%!important;height:100%!important}
+#cap{position:absolute;left:clamp(14px,2.4vw,34px);bottom:clamp(14px,2.4vw,30px);display:flex;align-items:stretch;gap:0;pointer-events:none;font:700 clamp(11px,1vw,14px)/1.2 "Archivo","Inter",Helvetica,Arial,sans-serif;letter-spacing:.2em;text-transform:uppercase}
+#cap i{font-style:normal;background:var(--red);color:#fff;padding:12px 14px}
+#cap b{background:#fff;color:#0B0B0B;padding:12px 18px;font-weight:700;min-width:15em}
+body.clip #cap{display:none}
+.ctl{display:flex;align-items:center;gap:8px}
+.ctl button{appearance:none;border:1px solid rgba(255,255,255,.22);background:transparent;color:#fff;font:400 11px/1 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;padding:9px 12px;border-radius:0;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
+.ctl button:hover,.ctl button:focus-visible{border-color:#fff}
+.ctl button.on{background:#fff;color:#0B0B0B;border-color:#fff}
+.ctl input[type=range]{width:min(18vw,220px);accent-color:#7A4BFF}
+.ctl .chips{display:flex;gap:4px}
+@media (max-width:1180px){.ctl .chips{display:none}}
+@media (max-width:640px){.ctl input[type=range]{width:100%;flex:1 1 140px}}
+
+/* sandbox project bar: the home page nav's 72px height, SANDBOX / PROJECT NAME in its all-caps label style, any controls on the right */
+html body nav.back{box-sizing:border-box;flex:none;align-self:stretch;width:auto;align-items:center;gap:10px;height:72px;min-height:72px;padding:0 30px;background:#181716;border-bottom:1px solid rgba(255,255,255,.1);color:#fff;font:400 13px/1.35 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;white-space:nowrap;overflow:hidden}
+html body nav.back>a,html body nav.back>span,html body nav.back>b{font:400 12px/1.3 "Inter","Helvetica Neue",Helvetica,Arial,sans-serif;letter-spacing:.1em;text-transform:uppercase;text-decoration:none}
+html body nav.back>a{color:#989898;transition:color .2s}
+html body nav.back>a:hover,html body nav.back>a:focus-visible{color:#fff;text-decoration:none}
+html body nav.back>span{color:#6b6b6b}
+html body nav.back>b{font-weight:400;color:#fff;min-width:0;overflow:hidden;text-overflow:ellipsis}
+html body nav.back:not(:has(>div))>b{display:block}
+html body nav.back>div{margin-left:auto}
+@media (min-width:641px){html body nav.back>b{display:block}}
+@media (max-width:640px){html body nav.back{padding:0 20px}}
+/* phones: the bar's controls move to a panel (also a nav.back, so the page's own control styles still apply) under the visual */
+html body nav.back.sb-panel{position:static;height:auto;min-height:0;padding:12px 20px;justify-content:center;flex-wrap:wrap;border-bottom:0;border-top:1px solid rgba(255,255,255,.1);white-space:normal;overflow:visible;z-index:auto}
+html body nav.back.sb-panel>div{margin:0;flex:0 1 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:8px;max-width:100%;min-width:0}
+html body nav.back:not(.sb-panel):not(:has(>div))>a,html body nav.back:not(.sb-panel):not(:has(>div))>span{display:block}
+</style>
+</head>
+<body>
+<nav class="back" aria-label="Sandbox"><a href="../">Sandbox</a><span>/</span><b>Postmark Awards Unboxing 3D</b>
+  <div class="ctl">
+    <button id="play" type="button" aria-label="Pause the unboxing">Pause</button>
+    <input id="scrub" type="range" min="0" max="1000" value="0" aria-label="Unboxing progress">
+    <span class="chips" id="chips"></span>
+    <button id="save" type="button" aria-label="Save the current view as a PNG">Save PNG</button>
+  </div>
+</nav>
+<div id="stage" role="img" aria-label="A 3D low poly render of the Postmark Awards recipient box: a kraft mailer opens to a debossed insert holding a purple rigid box in a black die-cut slip sleeve, the sleeve slides off, the lid lifts, and the perforated stamp award is pulled out on a red ribbon"><div id="cap"><i>01</i><b>The mailer</b></div></div>
+<script>/* earcut 2.2.4 (ISC, Mapbox): polygon triangulation with holes, for the pocket, the box recess and the sleeve window */
+!function(e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define([],e):("undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this).earcut=e()}(function(){return function r(x,i,u){function f(n,e){if(!i[n]){if(!x[n]){var t="function"==typeof require&&require;if(!e&&t)return t(n,!0);if(o)return o(n,!0);throw(e=new Error("Cannot find module '"+n+"'")).code="MODULE_NOT_FOUND",e}t=i[n]={exports:{}},x[n][0].call(t.exports,function(e){return f(x[n][1][e]||e)},t,t.exports,r,x,i,u)}return i[n].exports}for(var o="function"==typeof require&&require,e=0;e<u.length;e++)f(u[e]);return f}({1:[function(e,n,t){"use strict";function r(e,n,t){t=t||2;var r,x,i,u,f,o=n&&n.length,v=o?n[0]*t:e.length,p=s(e,0,v,t,!0),y=[];if(p&&p.next!==p.prev){if(o&&(p=function(e,n,t,r){var x,i,u,f,o=[];for(x=0,i=n.length;x<i;x++)f=n[x]*r,u=x<i-1?n[x+1]*r:e.length,(f=s(e,f,u,r,!1))===f.next&&(f.steiner=!0),o.push(function(e){var n=e,t=e;for(;(n.x<t.x||n.x===t.x&&n.y<t.y)&&(t=n),n=n.next,n!==e;);return t}(f));for(o.sort(c),x=0;x<o.length;x++)t=function(e,n){var t=function(e,n){var t,r=n,x=e.x,i=e.y,u=-1/0;do{if(i<=r.y&&i>=r.next.y&&r.next.y!==r.y){var f=r.x+(i-r.y)*(r.next.x-r.x)/(r.next.y-r.y);if(f<=x&&u<f&&(u=f,t=r.x<r.next.x?r:r.next,f===x))return t}}while(r=r.next,r!==n);if(!t)return null;var o,v=t,p=t.x,y=t.y,a=1/0;r=t;for(;x>=r.x&&r.x>=p&&x!==r.x&&D(i<y?x:u,i,p,y,i<y?u:x,i,r.x,r.y)&&(o=Math.abs(i-r.y)/(x-r.x),_(r,e)&&(o<a||o===a&&(r.x>t.x||r.x===t.x&&function(e,n){return E(e.prev,e,n.prev)<0&&E(n.next,e,e.next)<0}(t,r)))&&(t=r,a=o)),r=r.next,r!==v;);return t}(e,n);if(!t)return n;n=j(t,e);return q(n,n.next),q(t,t.next)}(o[x],t);return t}(e,n,p,t)),e.length>80*t){for(var a=r=e[0],l=x=e[1],h=t;h<v;h+=t)(i=e[h])<a&&(a=i),(u=e[h+1])<l&&(l=u),r<i&&(r=i),x<u&&(x=u);f=0!==(f=Math.max(r-a,x-l))?32767/f:0}O(p,y,t,a,l,f,0)}return y}function s(e,n,t,r,x){var i,u;if(x===0<d(e,n,t,r))for(i=n;i<t;i+=r)u=f(i,e[i],e[i+1],u);else for(i=t-r;n<=i;i-=r)u=f(i,e[i],e[i+1],u);return u&&N(u,u.next)&&(C(u),u=u.next),u}function q(e,n){if(!e)return e;n=n||e;var t,r=e;do{if(t=!1,r.steiner||!N(r,r.next)&&0!==E(r.prev,r,r.next))r=r.next;else{if(C(r),(r=n=r.prev)===r.next)break;t=!0}}while(t||r!==n);return n}function O(e,n,t,r,x,i,u){if(e){if(!u&&i){for(var f=e,o=r,v=x,p=i,y=f;0===y.z&&(y.z=k(y.x,y.y,o,v,p)),y.prevZ=y.prev,y.nextZ=y.next,(y=y.next)!==f;);y.prevZ.nextZ=null,y.prevZ=null;var a,l,h,s,c,d,Z,g,w=y,M=1;do{for(l=w,c=w=null,d=0;l;){for(d++,h=l,a=Z=0;a<M&&(Z++,h=h.nextZ);a++);for(g=M;0<Z||0<g&&h;)0!==Z&&(0===g||!h||l.z<=h.z)?(l=(s=l).nextZ,Z--):(h=(s=h).nextZ,g--),c?c.nextZ=s:w=s,s.prevZ=c,c=s;l=h}}while(c.nextZ=null,M*=2,1<d)}for(var b,m,z=e;e.prev!==e.next;)if(b=e.prev,m=e.next,i?function(e,n,t,r){var x=e.prev,i=e,u=e.next;if(0<=E(x,i,u))return;var f=x.x,o=i.x,v=u.x,p=x.y,y=i.y,a=u.y,l=f<o?f<v?f:v:o<v?o:v,h=p<y?p<a?p:a:y<a?y:a,s=o<f?v<f?f:v:v<o?o:v,c=y<p?a<p?p:a:a<y?y:a,d=k(l,h,n,t,r),Z=k(s,c,n,t,r),g=e.prevZ,w=e.nextZ;for(;g&&g.z>=d&&w&&w.z<=Z;){if(g.x>=l&&g.x<=s&&g.y>=h&&g.y<=c&&g!==x&&g!==u&&D(f,p,o,y,v,a,g.x,g.y)&&0<=E(g.prev,g,g.next))return;if(g=g.prevZ,w.x>=l&&w.x<=s&&w.y>=h&&w.y<=c&&w!==x&&w!==u&&D(f,p,o,y,v,a,w.x,w.y)&&0<=E(w.prev,w,w.next))return;w=w.nextZ}for(;g&&g.z>=d;){if(g.x>=l&&g.x<=s&&g.y>=h&&g.y<=c&&g!==x&&g!==u&&D(f,p,o,y,v,a,g.x,g.y)&&0<=E(g.prev,g,g.next))return;g=g.prevZ}for(;w&&w.z<=Z;){if(w.x>=l&&w.x<=s&&w.y>=h&&w.y<=c&&w!==x&&w!==u&&D(f,p,o,y,v,a,w.x,w.y)&&0<=E(w.prev,w,w.next))return;w=w.nextZ}return 1}(e,r,x,i):function(e){var n=e.prev,t=e,e=e.next;if(0<=E(n,t,e))return;var r=n.x,x=t.x,i=e.x,u=n.y,f=t.y,o=e.y,v=r<x?r<i?r:i:x<i?x:i,p=u<f?u<o?u:o:f<o?f:o,y=x<r?i<r?r:i:i<x?x:i,a=f<u?o<u?u:o:o<f?f:o,l=e.next;for(;l!==n;){if(l.x>=v&&l.x<=y&&l.y>=p&&l.y<=a&&D(r,u,x,f,i,o,l.x,l.y)&&0<=E(l.prev,l,l.next))return;l=l.next}return 1}(e))n.push(b.i/t|0),n.push(e.i/t|0),n.push(m.i/t|0),C(e),e=m.next,z=m.next;else if((e=m)===z){u?1===u?O(e=function(e,n,t){var r=e;do{var x=r.prev,i=r.next.next}while(!N(x,i)&&U(x,r,r.next,i)&&_(x,i)&&_(i,x)&&(n.push(x.i/t|0),n.push(r.i/t|0),n.push(i.i/t|0),C(r),C(r.next),r=e=i),r=r.next,r!==e);return q(r)}(q(e),n,t),n,t,r,x,i,2):2===u&&function(e,n,t,r,x,i){var u=e;do{for(var f,o=u.next.next;o!==u.prev;){if(u.i!==o.i&&function(e,n){return e.next.i!==n.i&&e.prev.i!==n.i&&!function(e,n){var t=e;do{if(t.i!==e.i&&t.next.i!==e.i&&t.i!==n.i&&t.next.i!==n.i&&U(t,t.next,e,n))return 1}while(t=t.next,t!==e);return}(e,n)&&(_(e,n)&&_(n,e)&&function(e,n){var t=e,r=!1,x=(e.x+n.x)/2,i=(e.y+n.y)/2;for(;t.y>i!=t.next.y>i&&t.next.y!==t.y&&x<(t.next.x-t.x)*(i-t.y)/(t.next.y-t.y)+t.x&&(r=!r),t=t.next,t!==e;);return r}(e,n)&&(E(e.prev,e,n.prev)||E(e,n.prev,n))||N(e,n)&&0<E(e.prev,e,e.next)&&0<E(n.prev,n,n.next))}(u,o))return f=j(u,o),u=q(u,u.next),f=q(f,f.next),O(u,n,t,r,x,i,0),O(f,n,t,r,x,i,0);o=o.next}}while(u=u.next,u!==e)}(e,n,t,r,x,i):O(q(e),n,t,r,x,i,1);break}}}function c(e,n){return e.x-n.x}function k(e,n,t,r,x){return(e=1431655765&((e=858993459&((e=252645135&((e=16711935&((e=(e-t)*x|0)|e<<8))|e<<4))|e<<2))|e<<1))|(n=1431655765&((n=858993459&((n=252645135&((n=16711935&((n=(n-r)*x|0)|n<<8))|n<<4))|n<<2))|n<<1))<<1}function D(e,n,t,r,x,i,u,f){return(e-u)*(i-f)<=(x-u)*(n-f)&&(t-u)*(n-f)<=(e-u)*(r-f)&&(x-u)*(r-f)<=(t-u)*(i-f)}function E(e,n,t){return(n.y-e.y)*(t.x-n.x)-(n.x-e.x)*(t.y-n.y)}function N(e,n){return e.x===n.x&&e.y===n.y}function U(e,n,t,r){var x=v(E(e,n,t)),i=v(E(e,n,r)),u=v(E(t,r,e)),f=v(E(t,r,n));return x!==i&&u!==f||(0===x&&o(e,t,n)||(0===i&&o(e,r,n)||(0===u&&o(t,e,r)||!(0!==f||!o(t,n,r)))))}function o(e,n,t){return n.x<=Math.max(e.x,t.x)&&n.x>=Math.min(e.x,t.x)&&n.y<=Math.max(e.y,t.y)&&n.y>=Math.min(e.y,t.y)}function v(e){return 0<e?1:e<0?-1:0}function _(e,n){return E(e.prev,e,e.next)<0?0<=E(e,n,e.next)&&0<=E(e,e.prev,n):E(e,n,e.prev)<0||E(e,e.next,n)<0}function j(e,n){var t=new u(e.i,e.x,e.y),r=new u(n.i,n.x,n.y),x=e.next,i=n.prev;return(e.next=n).prev=e,(t.next=x).prev=t,(r.next=t).prev=r,(i.next=r).prev=i,r}function f(e,n,t,r){e=new u(e,n,t);return r?(e.next=r.next,(e.prev=r).next.prev=e,r.next=e):(e.prev=e).next=e,e}function C(e){e.next.prev=e.prev,e.prev.next=e.next,e.prevZ&&(e.prevZ.nextZ=e.nextZ),e.nextZ&&(e.nextZ.prevZ=e.prevZ)}function u(e,n,t){this.i=e,this.x=n,this.y=t,this.prev=null,this.next=null,this.z=0,this.prevZ=null,this.nextZ=null,this.steiner=!1}function d(e,n,t,r){for(var x=0,i=n,u=t-r;i<t;i+=r)x+=(e[u]-e[i])*(e[i+1]+e[u+1]),u=i;return x}n.exports=r,(n.exports.default=r).deviation=function(e,n,t,r){var x=n&&n.length,i=x?n[0]*t:e.length,u=Math.abs(d(e,0,i,t));if(x)for(var f=0,o=n.length;f<o;f++){var v=n[f]*t,p=f<o-1?n[f+1]*t:e.length;u-=Math.abs(d(e,v,p,t))}for(var y=0,f=0;f<r.length;f+=3){var a=r[f]*t,l=r[f+1]*t,h=r[f+2]*t;y+=Math.abs((e[a]-e[h])*(e[1+l]-e[1+a])-(e[a]-e[l])*(e[1+h]-e[1+a]))}return 0===u&&0===y?0:Math.abs((y-u)/u)},r.flatten=function(e){for(var n=e[0][0].length,t={vertices:[],holes:[],dimensions:n},r=0,x=0;x<e.length;x++){for(var i=0;i<e[x].length;i++)for(var u=0;u<n;u++)t.vertices.push(e[x][i][u]);0<x&&(r+=e[x-1].length,t.holes.push(r))}return t}},{}]},{},[1])(1)});
+</script>
+<script>
+/* ============================================================================================
+   Postmark Awards recipient box, unboxed. p5 WEBGL, low poly, flat textures and light effects.
+   Everything is lit and sorted by hand (flat shading per face), so the look is the same on every GPU.
+   Authoring axes: X right, Y up, Z toward the viewer; the floor is y = 0.
+   ============================================================================================ */
+const CLIP = /clip/.test(location.hash), HP = new URLSearchParams(location.hash.slice(1));
+if (CLIP) document.body.classList.add('clip');
+const TAU = Math.PI * 2, PI = Math.PI;
+const cl = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, m) => a + (b - a) * m;
+const ease = (u) => 0.5 - 0.5 * Math.cos(PI * cl(u, 0, 1));
+const easeOut = (u) => 1 - Math.pow(1 - cl(u, 0, 1), 3);
+const ph = (P, a, b, f = ease) => f(cl((P - a) / (b - a), 0, 1));
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SANS = '"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif', BLACKFACE = '"Archivo Black","Arial Black","Helvetica Neue",Arial,sans-serif';
+const PURPLE = [122, 75, 255], RED = [242, 68, 46], INK = [20, 20, 24];
+const KRAFT = [186, 146, 100], KRAFT_D = [140, 103, 66], KRAFT_L = [208, 172, 124];
+
+/* ---------- tiny affine transforms: chain(A, B, C) applies C first ---------- */
+const mmul = (A, B) => { const a = A.r, b = B.r, r = new Array(9); for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) r[i * 3 + j] = a[i * 3] * b[j] + a[i * 3 + 1] * b[3 + j] + a[i * 3 + 2] * b[6 + j]; return { r, t: [a[0] * B.t[0] + a[1] * B.t[1] + a[2] * B.t[2] + A.t[0], a[3] * B.t[0] + a[4] * B.t[1] + a[5] * B.t[2] + A.t[1], a[6] * B.t[0] + a[7] * B.t[1] + a[8] * B.t[2] + A.t[2]] }; };
+const chain = (...m) => m.reduce(mmul);
+const ID = { r: [1, 0, 0, 0, 1, 0, 0, 0, 1], t: [0, 0, 0] };
+const TR = (x, y, z) => ({ r: ID.r, t: [x, y, z] });
+const RX = (a) => { const c = Math.cos(a), s = Math.sin(a); return { r: [1, 0, 0, 0, c, -s, 0, s, c], t: [0, 0, 0] }; };
+const RY = (a) => { const c = Math.cos(a), s = Math.sin(a); return { r: [c, 0, s, 0, 1, 0, -s, 0, c], t: [0, 0, 0] }; };
+const RZ = (a) => { const c = Math.cos(a), s = Math.sin(a); return { r: [c, -s, 0, s, c, 0, 0, 0, 1], t: [0, 0, 0] }; };
+const xf = (M, p) => [M.r[0] * p[0] + M.r[1] * p[1] + M.r[2] * p[2] + M.t[0], M.r[3] * p[0] + M.r[4] * p[1] + M.r[5] * p[2] + M.t[1], M.r[6] * p[0] + M.r[7] * p[1] + M.r[8] * p[2] + M.t[2]];
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const crs = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const nrm = (a) => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; };
+
+/* ---------- lights (flat shading per face) ---------- */
+const L1 = nrm([-0.45, 0.85, 0.55]), L2 = nrm([0.8, 0.2, -0.4]);
+let CAM = [0, 500, 1500], GLOW = { p: [0, 100, 450], k: 0 };
+const shade = (n) => Math.min(1, 0.5 + 0.58 * Math.max(0, dot(n, L1)) + 0.18 * Math.max(0, dot(n, L2)));
+
+/* ---------- per frame draw lists ---------- */
+let FLAT = [], TEXQ = [], OVF = [], OVG = [];
+const wp = (M, pts) => pts.map((p) => xf(M, p));
+function facing(w) { let n = nrm(crs(sub(w[1], w[0]), sub(w[2], w[0]))); if (dot(n, sub(CAM, w[0])) < 0) n = [-n[0], -n[1], -n[2]]; return n; }
+function F(M, pts, col, amt = 1) { // flat colour polygon, fan from pts[0]
+  const w = wp(M, pts), n = facing(w), s = shade(n) * amt;
+  let r = col[0] * s, g = col[1] * s, b = col[2] * s;
+  if (GLOW.k > 0.001) { const c = [(w[0][0] + w[w.length - 1][0]) / 2, (w[0][1] + w[w.length - 1][1]) / 2, (w[0][2] + w[w.length - 1][2]) / 2], d = Math.hypot(c[0] - GLOW.p[0], c[1] - GLOW.p[1], c[2] - GLOW.p[2]), f = GLOW.k / (1 + (d / 170) * (d / 170)) * (0.55 + 0.45 * Math.max(0, dot(n, nrm(sub(GLOW.p, c))))); r += 150 * f * 0.55; g += 110 * f * 0.55; b += 255 * f * 0.55; }
+  r = Math.min(255, r); g = Math.min(255, g); b = Math.min(255, b);
+  for (let i = 1; i < w.length - 1; i++) FLAT.push(w[0], w[i], w[i + 1], r, g, b);
+}
+function QT(M, pts, uv, tex, amt = 1) { // textured polygon with uv per point
+  const w = wp(M, pts), n = facing(w), s = shade(n) * amt, tris = [];
+  for (let i = 1; i < w.length - 1; i++) tris.push([w[0], uv[0]], [w[i], uv[i]], [w[i + 1], uv[i + 1]]);
+  TEXQ.push({ tex, s, tris });
+}
+const UV4 = (u0, v0, u1, v1) => [[u0, v0], [u1, v0], [u1, v1], [u0, v1]];
+function cub(M, x0, y0, z0, x1, y1, z1, faces) { // faces: colour array or {tex,u0,v0,u1,v1}
+  const C = { pz: [[x0, y1, z1], [x1, y1, z1], [x1, y0, z1], [x0, y0, z1]], nz: [[x1, y1, z0], [x0, y1, z0], [x0, y0, z0], [x1, y0, z0]], px: [[x1, y1, z1], [x1, y1, z0], [x1, y0, z0], [x1, y0, z1]], nx: [[x0, y1, z0], [x0, y1, z1], [x0, y0, z1], [x0, y0, z0]], py: [[x0, y1, z0], [x1, y1, z0], [x1, y1, z1], [x0, y1, z1]], ny: [[x0, y0, z1], [x1, y0, z1], [x1, y0, z0], [x0, y0, z0]] };
+  for (const k in faces) { const f = faces[k]; if (!f) continue; if (Array.isArray(f)) F(M, C[k], f); else QT(M, C[k], UV4(f.u0 ?? 0, f.v0 ?? 0, f.u1 ?? 1, f.v1 ?? 1), f.tex, f.amt || 1); }
+}
+const TX = (tex, u0, v0, u1, v1) => ({ tex, u0, v0, u1, v1 });
+
+/* overlays: soft shadows and glows lie on top of the lit scene, drawn after it with no depth writes */
+function OV(list, tex, c, a, rgb) { list.push({ tex, c, a, rgb }); }
+const floorQuad = (x, z, w, d, y = 0.5) => [[x - w / 2, y, z - d / 2], [x + w / 2, y, z - d / 2], [x + w / 2, y, z + d / 2], [x - w / 2, y, z + d / 2]];
+let RIGHT = [1, 0, 0];
+const bill = (p, s) => [[p[0] - RIGHT[0] * s, p[1] - s, p[2] - RIGHT[2] * s], [p[0] + RIGHT[0] * s, p[1] - s, p[2] + RIGHT[2] * s], [p[0] + RIGHT[0] * s, p[1] + s, p[2] + RIGHT[2] * s], [p[0] - RIGHT[0] * s, p[1] + s, p[2] - RIGHT[2] * s]];
+
+/* ============================================================================================
+   Stamp geometry. Every perforated stamp is the brand's shape: scalloped bites along four edges.
+   ============================================================================================ */
+const SPC = {};
+function stampPoly(aw, pitch = 0.62, rb = 0.12, segs = 8) { // clockwise from the top left, y up, half height 1
+  const k = aw + '/' + pitch + '/' + rb; if (SPC[k]) return SPC[k];
+  const pts = [], edges = [[-aw, 1, aw, 1], [aw, 1, aw, -1], [aw, -1, -aw, -1], [-aw, -1, -aw, 1]];
+  for (const [x0, y0, x1, y1] of edges) {
+    const len = Math.hypot(x1 - x0, y1 - y0), n = Math.max(2, Math.round(len / pitch)), p = len / n, ux = (x1 - x0) / len, uy = (y1 - y0) / len, nx = uy, ny = -ux;
+    for (let i = 0; i < n; i++) {
+      const a = i * p, m = a + p / 2, at = (s, d = 0) => [x0 + ux * s + nx * d, y0 + uy * s + ny * d];
+      pts.push(at(a));
+      for (let q = 0; q <= segs; q++) { const th = PI * q / segs; pts.push(at(m - rb * Math.cos(th), rb * Math.sin(th))); }
+    }
+  }
+  return (SPC[k] = pts);
+}
+function holePoly(hs = 1, n = 72) { const a = 0.29 * hs, b = 0.42 * hs, e = 2.6, out = []; for (let i = 0; i < n; i++) { const th = TAU * i / n, c = Math.cos(th), s = Math.sin(th), r = Math.pow(Math.pow(Math.abs(c / a), e) + Math.pow(Math.abs(s / b), e), -1 / e); out.push([c * r, s * r]); } return out; }
+/* a flat face with a hole cut through it: earcut triangulates the outer rectangle and the hole into triangles of [x, y] points */
+function triangulate(outer, hole) {
+  const flat = [], holes = []; outer.forEach((p) => flat.push(p[0], p[1]));
+  if (hole) { holes.push(outer.length); hole.forEach((p) => flat.push(p[0], p[1])); }
+  const idx = earcut(flat, holes), pts = outer.concat(hole || []), out = [];
+  for (let i = 0; i < idx.length; i += 3) out.push([pts[idx[i]], pts[idx[i + 1]], pts[idx[i + 2]]]);
+  return out;
+}
+const rectPts = (hw, hh) => [[-hw, hh], [hw, hh], [hw, -hh], [-hw, -hh]];
+/* the pocket for the award: its own stamp, a touch larger, with a thumb scoop at the bottom edge to pull it out by (points stay in boundary order) */
+function pocketPoly(aw, R, grow, scoopW, scoopD) {
+  const out = []; let done = false;
+  for (const p of stampPoly(aw)) {
+    if (p[1] < -0.5 && Math.abs(p[0]) < scoopW + 0.1) { if (!done) { done = true; for (let q = 0; q <= 14; q++) { const th = PI * q / 14; out.push([scoopW * R * Math.cos(th), -R * grow - scoopD * Math.sin(th)]); } } continue; }
+    out.push([p[0] * R * grow, p[1] * R * grow]);
+  }
+  return out;
+}
+function recessPoly(hw, hh, r) { // square recess for the box with a half-round finger notch on the left and the right
+  const pts = [[-hw, hh], [hw, hh]];
+  for (let q = 0; q <= 16; q++) { const a = PI / 2 - PI * q / 16; pts.push([hw + r * Math.cos(a), r * Math.sin(a)]); }
+  pts.push([hw, -hh], [-hw, -hh]);
+  for (let q = 0; q <= 16; q++) { const a = -PI / 2 + PI * q / 16; pts.push([-hw - r * Math.cos(a), r * Math.sin(a)]); }
+  return pts;
+}
+
+/* ============================================================================================
+   Dimensions (units are roughly millimetres)
+   ============================================================================================ */
+const MW = 260, MH = 200, WT = 10;                 // mailer: half width/depth, height, wall
+const INS_TOP = 190, REC_FLOOR = 96, REC_H = 175;  // debossed insert: top, recess floor, recess half size
+const BOXH = 166, LIDH = 171, BASE_H = 74, LID_BOT = 44, LID_TOP = 88; // award box: base half, lid half, heights
+const SL_T = 5, SL_XA = -130, SL_XB = 40;           // slip sleeve: thickness, x range on the box
+const AW = 0.84, AR = 105, AT = 16;                // award: stamp aspect, half height, thickness
+const CRAD_TOP = 70, POCKET = 14;                  // black cradle inside the base, pocket depth
+
+const POCK = pocketPoly(AW, AR, 1.05, 0.26, 24), POCK_TOP = triangulate(rectPts(160, 160), POCK), POCK_FLOOR = triangulate(POCK);
+const REC = recessPoly(REC_H, REC_H, 34), REC_TOP = triangulate(rectPts(250, 250), REC), REC_FLOOR_T = triangulate(REC);
+const WIN_HH = 80, WIN = stampPoly(0.7).map((p) => [p[0] * WIN_HH, p[1] * WIN_HH]), WIN_TOP = triangulate(rectPts((SL_XB - SL_XA) / 2, 173), WIN);
+const AWARD_PTS = stampPoly(AW).map((p) => [p[0] * AR, p[1] * AR]);
+
+/* ============================================================================================
+   Textures: flat colour, a little grain, tone on tone deboss. Built once with the brand fonts.
+   ============================================================================================ */
+let T = {}, texReady = false;
+const rng = (seed) => () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
+function G(w, h) { const g = createGraphics(w, h); g.pixelDensity(1); return g; }
+const cv2 = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; return c; };
+function grain(c, w, h, n, seed, a1 = 0.1) { const r = rng(seed); for (let i = 0; i < n; i++) { c.fillStyle = r() < 0.5 ? 'rgba(255,255,255,' + (0.02 + r() * a1) + ')' : 'rgba(0,0,0,' + (0.03 + r() * a1) + ')'; c.fillRect(r() * w, r() * h, 1 + r() * 2, 1 + r() * 2); } }
+function kraftTex(w, h, base, seed, corr, lineA = 0.07) {
+  const g = G(w, h), c = g.drawingContext, r = rng(seed);
+  c.fillStyle = 'rgb(' + base + ')'; c.fillRect(0, 0, w, h);
+  for (let i = 0; i < 60; i++) { const x = r() * w, y = r() * h, rad = 60 + r() * 160, gr = c.createRadialGradient(x, y, 0, x, y, rad); gr.addColorStop(0, r() < 0.5 ? 'rgba(70,40,10,.07)' : 'rgba(255,225,170,.07)'); gr.addColorStop(1, 'rgba(0,0,0,0)'); c.fillStyle = gr; c.fillRect(x - rad, y - rad, rad * 2, rad * 2); }
+  if (corr) for (let y = 0; y < h; y += corr) { c.fillStyle = 'rgba(60,35,10,' + lineA + ')'; c.fillRect(0, y, w, 1); c.fillStyle = 'rgba(255,230,180,' + lineA * 0.8 + ')'; c.fillRect(0, y + 1, w, 1); }
+  for (let i = 0; i < w * h / 360; i++) { c.fillStyle = r() < 0.5 ? 'rgba(90,55,20,.2)' : 'rgba(255,235,190,.2)'; c.fillRect(r() * w, r() * h, 2 + r() * 7, 1); }
+  return g;
+}
+function flatTex(w, h, rgb, seed, n = 5000) { const g = G(w, h), c = g.drawingContext; c.fillStyle = 'rgb(' + rgb + ')'; c.fillRect(0, 0, w, h); grain(c, w, h, n, seed, 0.09); return g; }
+/* stamp outlines as canvas paths (y up inside, y down on the canvas) */
+function stampPath(c, pts, cx, cy, R, rot = 0) { const cs = Math.cos(rot), sn = Math.sin(rot); pts.forEach(([x, y], i) => { const X = x * R, Y = -y * R, px = cx + X * cs - Y * sn, py = cy + X * sn + Y * cs; i ? c.lineTo(px, py) : c.moveTo(px, py); }); c.closePath(); }
+function ringShape(c, cx, cy, R, color, aw = 0.84, hs = 1, rot = 0) { c.beginPath(); stampPath(c, stampPoly(aw), cx, cy, R, rot); stampPath(c, holePoly(hs), cx, cy, R, rot); c.fillStyle = color; c.fill('evenodd'); }
+function stampFill(c, cx, cy, R, color, aw = 0.84) { c.beginPath(); stampPath(c, stampPoly(aw), cx, cy, R); c.fillStyle = color; c.fill(); }
+/* the logotype, as the brand page draws it: P, the stamp O, STMARK, then AWARDS under it */
+function logoBlock(c, x0, base, fitW, color) {
+  c.font = '700 100px ' + SANS; c.letterSpacing = '-3px'; c.textBaseline = 'alphabetic';
+  const m = (s) => c.measureText(s).width, cap100 = c.measureText('H').actualBoundingBoxAscent, ow100 = cap100 * 1.06, g100 = cap100 * 0.03, total = m('P') + ow100 + 2 * g100 + m('STMARK');
+  const k = fitW / total, fs = 100 * k, cap = cap100 * k;
+  c.font = '700 ' + fs + 'px ' + SANS; c.letterSpacing = (-3 * k) + 'px';
+  const lh = cap * 1.14, g = g100 * k, ow = ow100 * k; c.fillStyle = color;
+  c.fillText('P', x0, base); const sx = x0 + c.measureText('P').width + g;
+  c.fillText('STMARK', sx + ow + g, base); c.fillText('AWARDS', x0, base + lh);
+  ringShape(c, sx + ow / 2, base - cap / 2, cap * 0.6, color, 0.84, 1.28);
+  return { cap, lh, w: fitW };
+}
+/* a debossed mark: darker face, a shadow inside the top left edge, a catch of light on the bottom right */
+function deboss(ctx, w, h, shape, d = 2.4, k = 1) {
+  const a = cv2(w, h), ac = a.getContext('2d'); shape(ac, '#000');
+  const mk = (dx, dy, col) => { const t = cv2(w, h), tc = t.getContext('2d'); tc.drawImage(a, 0, 0); tc.globalCompositeOperation = 'destination-out'; tc.drawImage(a, dx, dy); tc.globalCompositeOperation = 'source-in'; tc.fillStyle = col; tc.fillRect(0, 0, w, h); return t; };
+  ctx.save(); ctx.globalAlpha = 0.17 * k; ctx.drawImage(a, 0, 0);
+  ctx.globalAlpha = 0.5 * k; ctx.drawImage(mk(d, d, '#000'), 0, 0);
+  ctx.globalAlpha = 0.5 * k; ctx.drawImage(mk(-d, -d, '#fff'), 0, 0); ctx.restore();
+}
+function arcText(c, str, cx, cy, r, a0, spacing) { c.save(); c.translate(cx, cy); let a = a0; for (const ch of str) { const w = c.measureText(ch).width; c.save(); c.rotate(a + (w / 2) / r); c.translate(0, -r); c.fillText(ch, -w / 2, 0); c.restore(); a += (w + spacing) / r; } c.restore(); }
+
+function buildTextures() {
+  /* kraft: outside, inside (darker, corrugation showing), the mailer lid underside with its printed message */
+  T.kraft = kraftTex(1024, 1024, KRAFT, 11, 0); T.kraftD = kraftTex(1024, 1024, KRAFT_D, 12, 0);
+  T.purpleSide = flatTex(512, 128, PURPLE, 3, 900); T.ink = flatTex(128, 128, INK, 5, 800);
+
+  { // mailer lid, outside: kraft with a worn black postmark and a stamp sticker
+    const g = kraftTex(1024, 1024, KRAFT, 21, 0), c = g.drawingContext, r = rng(9);
+    const ink = cv2(1024, 1024), ic = ink.getContext('2d'); ic.fillStyle = ic.strokeStyle = 'rgb(24,20,22)';
+    ic.save(); ic.translate(690, 700); ic.rotate(-0.2); ic.lineWidth = 9; ic.beginPath(); ic.arc(0, 0, 150, 0, TAU); ic.stroke(); ic.lineWidth = 4; ic.beginPath(); ic.arc(0, 0, 118, 0, TAU); ic.stroke();
+    ic.font = '700 40px ' + SANS; arcText(ic, 'POSTMARK AWARDS', 0, 0, 128, -PI * 0.62, 5); ic.font = '700 34px ' + SANS; arcText(ic, '2026 • SENT WITH CARE', 0, 0, 100, PI * 0.40 + 0.05, 1);
+    ic.font = '400 62px ' + BLACKFACE; ic.textAlign = 'center'; ic.fillText('2026', 0, 16); ic.restore();
+    ic.lineWidth = 7; for (let i = 0; i < 5; i++) { ic.beginPath(); for (let x = 330; x <= 560; x += 6) { const y = 600 + i * 40 + Math.sin(x * 0.045 + i) * 14; x === 330 ? ic.moveTo(x, y) : ic.lineTo(x, y); } ic.stroke(); }
+    ic.globalCompositeOperation = 'destination-out'; for (let i = 0; i < 2600; i++) { ic.fillStyle = 'rgba(0,0,0,' + (0.2 + r() * 0.7) + ')'; ic.fillRect(300 + r() * 520, 520 + r() * 360, 1 + r() * 3, 1 + r() * 3); }
+    c.globalAlpha = 0.82; c.drawImage(ink, 0, 0); c.globalAlpha = 1;
+    // purple stamp sticker, perforated, white paper border
+    c.save(); c.shadowColor = 'rgba(0,0,0,.3)'; c.shadowBlur = 10; c.shadowOffsetY = 4; stampFill(c, 250, 250, 150, '#fff', 0.84); c.restore();
+    c.fillStyle = '#7A4BFF'; c.fillRect(250 - 108, 250 - 124, 216, 248); ringShape(c, 250, 232, 78, '#fff', 0.84, 1.2); c.fillStyle = '#fff'; c.font = '700 38px ' + SANS; c.textAlign = 'center'; c.letterSpacing = '2px'; c.fillText('2026', 250, 340); c.textAlign = 'left';
+    T.mailerLidOut = g;
+  }
+  { // mailer lid, inside: the printed message, white on kraft, with an arrow down into the box
+    const g = kraftTex(1024, 1024, KRAFT_D, 31, 0), c = g.drawingContext;
+    c.fillStyle = '#fff'; c.font = '700 150px ' + SANS; c.letterSpacing = '-5px'; c.textBaseline = 'alphabetic'; c.save(); c.translate(300, 330); c.rotate(-0.1); c.fillText('Award', 0, 0); c.fillText('earned.', 20, 150);
+    c.lineWidth = 17; c.lineCap = 'butt'; c.strokeStyle = '#fff'; c.beginPath(); c.moveTo(60, 250); c.lineTo(60, 410); c.stroke(); c.beginPath(); c.moveTo(14, 366); c.lineTo(60, 414); c.lineTo(108, 366); c.stroke(); c.restore();
+    T.mailerLidIn = g;
+  }
+  { // debossed kraft insert: perforated stamps in the corners and the wordmark on every side
+    const g = kraftTex(1024, 1024, KRAFT, 41, 0), c = g.drawingContext, W = 1024, S = 1024 / 500, shape = (ctx, col) => {
+      ctx.fillStyle = col; ctx.strokeStyle = col;
+      [[1, 1], [-1, 1], [-1, -1], [1, -1]].forEach(([sx, sy], i) => { const cx = W / 2 + sx * 206 * S, cy = W / 2 + sy * 206 * S; ctx.save(); ctx.lineWidth = 3.5; ctx.beginPath(); stampPath(ctx, stampPoly(0.84, 0.62, 0.12), cx, cy, 30 * S, (i % 2 ? 0.14 : -0.14)); ctx.stroke(); ctx.restore(); ringShape(ctx, cx, cy, 22 * S, col, 0.84, 0.95, (i % 2 ? 0.14 : -0.14)); });
+      ctx.font = '700 ' + 17 * S + 'px ' + SANS; ctx.letterSpacing = 6 * S + 'px'; ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
+      ctx.fillText('POSTMARK AWARDS 2026', W / 2, 36 * S); ctx.save(); ctx.translate(W / 2, W - 36 * S); ctx.fillText('POSTMARK AWARDS 2026', 0, 0); ctx.restore();
+      ctx.save(); ctx.translate(36 * S, W / 2); ctx.rotate(-PI / 2); ctx.fillText('LIFT FROM EITHER SIDE', 0, 0); ctx.restore(); ctx.save(); ctx.translate(W - 36 * S, W / 2); ctx.rotate(PI / 2); ctx.fillText('LIFT FROM EITHER SIDE', 0, 0); ctx.restore();
+    };
+    deboss(c, W, W, shape, 3, 1.15); T.insert = g;
+  }
+  { // award box lid: purple card, tone on tone deboss, red ring stamp that sits in the sleeve window
+    const W = 1026, S = 3, g = G(W, W), c = g.drawingContext, px = (x) => (x + 171) * S, pz = (z) => (z + 171) * S;
+    c.fillStyle = 'rgb(' + PURPLE + ')'; c.fillRect(0, 0, W, W); grain(c, W, W, 9000, 7, 0.09);
+    ringShape(c, px(-45), pz(0), 66 * S, '#F2442E', 0.7, 1.3);
+    const shape = (ctx, col) => {
+      ctx.save(); ctx.translate(px(105), pz(0)); ctx.rotate(-PI / 2); ctx.translate(-pz(0) + 0, 0);
+      ctx.restore();
+      ctx.save(); ctx.translate(px(108), pz(0) + 0); ctx.rotate(-PI / 2); // text reads upward along the right strip, like the reference
+      const fit = 292 * S; ctx.translate(-fit / 2, -34 * S); logoBlock(ctx, 0, 0, fit, col); ctx.restore();
+      ctx.fillStyle = col; ctx.font = '700 ' + 13 * S + 'px ' + SANS; ctx.letterSpacing = '1px'; ctx.textBaseline = 'alphabetic'; ctx.fillText('2026', px(-166), pz(-150));
+    };
+    deboss(c, W, W, shape, 3, 1.4); T.lid = g;
+  }
+  { // slip sleeve: matte black die-cut card. The window is a real hole; the deboss frames it
+    const w = 512, h = 1040, S = 3, g = G(w, h), c = g.drawingContext;
+    c.fillStyle = 'rgb(' + INK + ')'; c.fillRect(0, 0, w, h); grain(c, w, h, 2200, 17, 0.035);
+    const cx = 85 * S, cz = 173 * S, shape = (ctx, col) => {
+      ctx.strokeStyle = col; ctx.fillStyle = col; ctx.lineWidth = 3.2; ctx.beginPath(); stampPath(ctx, stampPoly(0.7), cx, cz, 96 * S); ctx.stroke();
+      ctx.font = '700 ' + 6.5 * S + 'px ' + SANS; ctx.letterSpacing = 3 * S + 'px'; ctx.textAlign = 'center'; ctx.fillText('SLIDE TO OPEN', cx, 24 * S); ctx.fillText('←', cx, 38 * S);
+    };
+    deboss(c, w, h, shape, 2.2, 1.1);
+    c.fillStyle = '#fff'; c.textAlign = 'center'; c.font = '700 ' + 7.5 * S + 'px ' + SANS; c.letterSpacing = 4 * S + 'px'; c.fillText('POSTMARK AWARDS', cx, 330 * S); c.fillStyle = '#7A4BFF'; c.fillText('2026', cx, 340 * S + 8);
+    T.sleeveTop = g;
+  }
+  { // sleeve front: printed white, with the stamp O in red
+    const w = 512, h = 300, g = G(w, h), c = g.drawingContext;
+    c.fillStyle = 'rgb(' + INK + ')'; c.fillRect(0, 0, w, h); grain(c, w, h, 1200, 19, 0.035);
+    c.fillStyle = '#fff'; logoBlock(c, 42, 144, w - 84, '#fff'); ringShape(c, 456, 54, 22, '#F2442E', 0.84, 1.2);
+    c.fillStyle = '#7A4BFF'; c.font = '700 40px ' + SANS; c.letterSpacing = '2px'; c.fillText('2026', 42, 244);
+    T.sleeveFront = g;
+  }
+  { // the award: white stamp, red O, black wordmark, purple year, acrylic gloss
+    const w = 424, h = 504, g = G(w, h), c = g.drawingContext, cx = w / 2;
+    c.fillStyle = '#F7F4EE'; c.fillRect(0, 0, w, h); grain(c, w, h, 2200, 23, 0.04);
+    c.strokeStyle = '#0B0B0B'; c.lineWidth = 3; c.beginPath(); stampPath(c, stampPoly(0.84).map((p) => [p[0] * 0.9, p[1] * 0.9]), cx, h / 2, h / 2 - 2); c.stroke();
+    ringShape(c, cx, 190, 100, '#F2442E', 0.84, 1.18);
+    c.fillStyle = '#0B0B0B'; c.font = '700 60px ' + SANS; c.letterSpacing = '-2px'; c.textAlign = 'center'; c.fillText('POSTMARK', cx, 366); c.fillText('AWARDS', cx, 424);
+    c.fillStyle = '#7A4BFF'; c.font = '400 38px ' + BLACKFACE; c.letterSpacing = '4px'; c.fillText('2026', cx, 472);
+    const gl = c.createLinearGradient(0, 0, w, h * 0.7); gl.addColorStop(0, 'rgba(255,255,255,.55)'); gl.addColorStop(0.32, 'rgba(255,255,255,.12)'); gl.addColorStop(0.34, 'rgba(255,255,255,0)'); c.fillStyle = gl; c.fillRect(0, 0, w, h);
+    T.award = g;
+  }
+  /* light: soft shadows, glows, a four point sparkle, the studio floor */
+  const radial = (s, rgb, aIn, aOut, pw = 1.6) => { const g = G(s, s), c = g.drawingContext; for (let r = s / 2; r > 0; r -= 1) { const k = 1 - r / (s / 2); c.fillStyle = 'rgba(' + rgb + ',' + (aOut + (aIn - aOut) * Math.pow(k, pw)) / 255 + ')'; c.beginPath(); c.arc(s / 2, s / 2, r, 0, TAU); c.fill(); } return g; };
+  T.shRad = radial(256, '0,0,0', 255, 0, 1.3); T.halo = radial(256, '170,120,255', 255, 0, 1.6); T.haloW = radial(256, '255,255,255', 255, 0, 2.2);
+  { const g = G(256, 256), c = g.drawingContext; c.shadowColor = '#000'; c.shadowBlur = 36; c.fillStyle = '#000'; c.shadowOffsetX = 400; c.fillRect(-400 + 70, 70, 116, 116); T.shRect = g; }
+  { const g = G(128, 128), c = g.drawingContext, gr = c.createRadialGradient(64, 64, 0, 64, 64, 64); gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(0.12, 'rgba(255,255,255,.55)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); c.fillStyle = gr; c.fillRect(0, 0, 128, 128);
+    c.fillStyle = '#fff'; c.beginPath(); c.moveTo(64, 0); c.quadraticCurveTo(68, 60, 128, 64); c.quadraticCurveTo(68, 68, 64, 128); c.quadraticCurveTo(60, 68, 0, 64); c.quadraticCurveTo(60, 60, 64, 0); c.fill(); T.spark = g; }
+  { const g = G(512, 512), c = g.drawingContext, gr = c.createRadialGradient(256, 256, 0, 256, 256, 256); gr.addColorStop(0, 'rgb(236,234,242)'); gr.addColorStop(0.2, 'rgb(226,224,234)'); gr.addColorStop(0.5, 'rgb(150,148,164)'); gr.addColorStop(0.8, 'rgb(46,46,56)'); gr.addColorStop(1, 'rgb(20,20,24)'); c.fillStyle = gr; c.fillRect(0, 0, 512, 512); T.floor = g; }
+  for (const k in T) { const g = T[k]; T[k] = g.get(); g.remove(); } // static images: p5 uploads a Graphics to the GPU every frame, an image only once
+  texReady = true;
+}
+
+/* ============================================================================================
+   Scene
+   ============================================================================================ */
+const lidAngleMax = 112 * PI / 180, SLIDE = -330, LAND_Z = 470, HOVER = 190, LID_X = 360;
+function pose(P) {
+  const o = {};
+  o.lidAng = ph(P, 0.0, 0.15) * lidAngleMax;
+  const rise = ph(P, 0.16, 0.30), glide = ph(P, 0.30, 0.44), land = ph(P, 0.42, 0.54);
+  o.bx = 0; o.bz = LAND_Z * glide; o.by = lerp(REC_FLOOR + SL_T + HOVER * rise, SL_T, land);
+  o.boxOut = rise;
+  o.sx = SLIDE * ph(P, 0.54, 0.64);
+  const lift = ph(P, 0.62, 0.72), side = ph(P, 0.68, 0.80), down = ph(P, 0.78, 0.90);
+  o.lx = LID_X * side; o.ly = 200 * lift - 249 * down; o.lt = 0.3 * Math.sin(PI * ph(P, 0.62, 0.92)) * (side > 0 ? 1 : 0.4);
+  o.up = ph(P, 0.70, 0.88); o.tilt = ph(P, 0.74, 0.90) * 62 * PI / 180; o.hold = ph(P, 0.88, 1.0);
+  return o;
+}
+let clock = 0, userAngle = 0, userElev = 0, userZoom = 0, lastInput = -99;
+function currentP(t) {
+  if (CLIP) { const u = (((t - 0.5) % 6) + 6) % 6; if (u < 0.4) return 0.15; if (u < 3.3) return lerp(0.15, 1, ease((u - 0.4) / 2.9)); if (u < 4.4) return 1; if (u < 5.8) return lerp(1, 0.15, ease((u - 4.4) / 1.4)); return 0.15; }
+  return null;
+}
+let mode = 'auto', Pm = 0, Pshow = 0, tAuto = 0;
+const FWD = 15, HOLD = 3.5, BACK = 5, CYCLE = FWD + HOLD + BACK;
+function autoP(t) { const c = t % CYCLE; if (c < FWD) return c / FWD; if (c < FWD + HOLD) return 1; return 1 - ease((c - FWD - HOLD) / BACK); }
+const STAGES = [['01', 'The mailer', 0.0], ['02', 'Lid opens', 0.15], ['03', 'Box lifts out', 0.3], ['04', 'Sleeve slides off', 0.6], ['05', 'Lid lifts', 0.76], ['06', 'Award pulled', 0.98]];
+
+function drawScene(P, t) {
+  const o = pose(P), BM = TR(o.bx, o.by, o.bz);
+  FLAT = []; TEXQ = []; OVF = []; OVG = [];
+  const awardCenter = xf(chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0)), [0, 0, 0]);
+  GLOW = { p: [awardCenter[0], awardCenter[1], awardCenter[2]], k: 0.9 * o.up * (0.88 + 0.12 * Math.sin(t * 2)) };
+
+  /* ----- floor shadows and glow pools ----- */
+  OV(OVF, T.shRect, floorQuad(26, -26, 1080, 1080), 120, [255, 255, 255]);
+  const hgt = Math.max(0, o.by - SL_T), fade = 1 / (1 + hgt / 160);
+  if (o.bz > 120 || hgt < 0.1) {
+    OV(OVF, T.shRect, floorQuad(o.bx + 14, o.bz - 12, 700 + hgt * 0.8, 700 + hgt * 0.8, 0.6), 150 * fade, [255, 255, 255]);
+    OV(OVF, T.shRect, floorQuad(o.bx + 14 + o.sx, o.bz - 12, 420, 760, 0.7), 110 * fade * ph(P, 0.5, 0.6), [255, 255, 255]);
+  }
+  { const lh = 49 + o.ly - 49 * 0 + (o.by - SL_T); if (o.lx > 5) OV(OVF, T.shRect, floorQuad(o.bx + o.lx + 12, o.bz - 12, 720 + o.ly * 0.4, 720 + o.ly * 0.4, 0.8), 140 / (1 + Math.max(0, o.ly + 49) / 150), [255, 255, 255]); }
+  if (o.up > 0.01) OV(OVF, T.shRad, floorQuad(awardCenter[0] + 20, awardCenter[2] - 10, 380, 380, 0.9), 150 / (1 + awardCenter[1] / 140) * o.up, [255, 255, 255]);
+  const pulse = 0.5 + 0.5 * Math.sin(t * 2.1);
+  OV(OVG, T.halo, floorQuad(o.bx, o.bz, 1100, 1100, 1.1), (30 + 36 * pulse) * ph(P, 0.46, 0.6) + 18 * ph(P, 0.1, 0.16) * (1 - ph(P, 0.16, 0.3)), [150, 100, 255]);
+
+  /* ----- mailer ----- */
+  const M0 = ID, wall = (x0, z0, x1, z1, face, inner, ou, iu) => {
+    cub(M0, x0, 0, z0, x1, MH, z1, { py: KRAFT_L });
+    const o2 = { [face]: TX(T.kraft, ...ou), [inner]: TX(T.kraftD, ...iu) }; cub(M0, x0, 0, z0, x1, MH, z1, o2);
+  };
+  wall(-MW, MW - WT, MW, MW, 'pz', 'nz', [0, 0.1, 1, 0.1 + MH / 520], [0, 0.4, 1, 0.4 + MH / 520]);
+  wall(-MW, -MW, MW, -MW + WT, 'nz', 'pz', [0, 0.5, 1, 0.5 + MH / 520], [0, 0.2, 1, 0.2 + MH / 520]);
+  wall(-MW, -MW + WT, -MW + WT, MW - WT, 'nx', 'px', [0, 0.3, 1, 0.3 + MH / 520], [0, 0.6, 1, 0.6 + MH / 520]);
+  wall(MW - WT, -MW + WT, MW, MW - WT, 'px', 'nx', [0, 0.7, 1, 0.7 + MH / 520], [0, 0.05, 1, 0.05 + MH / 520]);
+  { // the debossed insert, its top face a real ring with the box recess cut through it
+    const tris = []; REC_TOP.forEach((t) => t.forEach((p) => tris.push([[p[0], INS_TOP, -p[1]], [(p[0] + 250) / 500, (-p[1] + 250) / 500]])));
+    TEXQ.push({ tex: T.insert, s: shade([0, 1, 0]), tris: tris.map(([p, uv]) => [xf(M0, p), uv]) });
+    REC.forEach((q, k) => { const n = REC[(k + 1) % REC.length]; F(M0, [[q[0], INS_TOP, -q[1]], [n[0], INS_TOP, -n[1]], [n[0], REC_FLOOR, -n[1]], [q[0], REC_FLOOR, -q[1]]], KRAFT_D); });
+    REC_FLOOR_T.forEach((t) => F(M0, t.map((p) => [p[0], REC_FLOOR, -p[1]]), KRAFT_D, 0.85));
+  }
+  { // mailer lid on its back hinge, with the front tuck lip
+    const LM = chain(TR(0, MH, -MW), RX(-o.lidAng));
+    cub(LM, -MW, 0, 0, MW, 6, 2 * MW, { py: TX(T.mailerLidOut, 0, 0, 1, 1), ny: TX(T.mailerLidIn, 0, 0, 1, 1), px: KRAFT_L, nx: KRAFT_L, pz: KRAFT_L, nz: KRAFT_L });
+    cub(LM, -MW, -62, 2 * MW, MW, 6, 2 * MW + 3, { pz: TX(T.kraft, 0, 0.1, 1, 0.22), nz: TX(T.kraftD, 0, 0.1, 1, 0.22), nx: KRAFT_L, px: KRAFT_L, ny: KRAFT_L });
+  }
+
+  /* ----- the award box ----- */
+  const purple = TX(T.purpleSide, 0, 0, 1, 1), base = (x0, z0, x1, z1, outer, inner) => cub(BM, x0, 0, z0, x1, BASE_H, z1, { [outer]: purple, [inner]: INK, py: PURPLE });
+  base(-BOXH, BOXH - 6, BOXH, BOXH, 'pz', 'nz'); base(-BOXH, -BOXH, BOXH, -BOXH + 6, 'nz', 'pz'); base(-BOXH, -BOXH + 6, -BOXH + 6, BOXH - 6, 'nx', 'px'); base(BOXH - 6, -BOXH + 6, BOXH, BOXH - 6, 'px', 'nx');
+  { // black cradle: a real pocket in the shape of the award, with a thumb scoop; the ribbon pull lies under the award
+    const top = CRAD_TOP, fl = CRAD_TOP - POCKET, pt = (p, y) => [p[0], y, -p[1]];
+    POCK_TOP.forEach((t) => F(BM, t.map((p) => pt(p, top)), INK, 1));
+    POCK.forEach((q, k) => { const n = POCK[(k + 1) % POCK.length]; F(BM, [pt(q, top), pt(n, top), pt(n, fl), pt(q, fl)], [74, 68, 92]); });
+    POCK_FLOOR.forEach((t) => F(BM, t.map((p) => pt(p, fl)), [40, 37, 52]));
+    const rz = POCK[0] && AR * 1.05 + 24, rs = fl + 0.5, ay = fl + 0.4;  // ribbon: flat under the award, up out of the scoop, then along the cradle
+    F(BM, [[-16, ay + 0.6, -40], [16, ay + 0.6, -40], [16, ay + 0.6, rz - 18], [0, ay + 0.6, rz - 36], [-16, ay + 0.6, rz - 18]], RED);   // pull tab with a swallow tail
+  }
+  { // award, extruded stamp
+    const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(0.4 * Math.sin(t * 0.8) * o.hold + 0.5 * o.up * (1 - o.hold) * 0 ), RX(o.tilt));
+    const toW = (p, y) => [p[0], y, -p[1]], n = AWARD_PTS.length;
+    const fan = (y, back) => { const pts = [[0, y, 0]].concat(AWARD_PTS.map((p) => toW(p, y))).concat([toW(AWARD_PTS[0], y)]); if (back) F(AM, pts, [24, 24, 30]); else QT(AM, pts, [[0.5, 0.5]].concat(AWARD_PTS.map((p) => [0.5 + p[0] / (2 * AW * AR), 0.5 - p[1] / (2 * AR)])).concat([[0.5 + AWARD_PTS[0][0] / (2 * AW * AR), 0.5 - AWARD_PTS[0][1] / (2 * AR)]]), T.award); };
+    fan(AT / 2, false); fan(-AT / 2, true);
+    for (let i = 0; i < n; i++) { const a = AWARD_PTS[i], b = AWARD_PTS[(i + 1) % n]; F(AM, [toW(a, AT / 2), toW(b, AT / 2), toW(b, -AT / 2), toW(a, -AT / 2)], [240, 238, 232]); }
+  }
+  { // lid
+    const LM = chain(BM, TR(o.lx, o.ly, 0), RZ(o.lt)), tp = LID_TOP, t0 = tp - 3;
+    cub(LM, -LIDH, t0, -LIDH, LIDH, tp, LIDH, { py: TX(T.lid, 0, 0, 1, 1), ny: INK, px: purple, nx: purple, pz: purple, nz: purple });
+    const sk = (x0, z0, x1, z1, outer, inner) => cub(LM, x0, LID_BOT, z0, x1, t0, z1, { [outer]: purple, [inner]: [74, 44, 160] });
+    sk(-LIDH, LIDH - 3, LIDH, LIDH, 'pz', 'nz'); sk(-LIDH, -LIDH, LIDH, -LIDH + 3, 'nz', 'pz'); sk(-LIDH, -LIDH + 3, -LIDH + 3, LIDH - 3, 'nx', 'px'); sk(LIDH - 3, -LIDH + 3, LIDH, LIDH - 3, 'px', 'nx');
+  }
+  { // slip sleeve: black die-cut card loop around the middle of the box, with a stamp shaped window
+    const SM = chain(BM, TR(o.sx, 0, 0)), xa = SL_XA, xb = SL_XB, yb = LID_TOP + 1, yt = yb + SL_T, zi = LIDH + 1, zo = zi + SL_T, hw = (xb - xa) / 2, cx = (xa + xb) / 2;
+    const tris = []; WIN_TOP.forEach((t) => t.forEach((p) => tris.push([[cx + p[0], yt, -p[1]], [(p[0] + hw) / (2 * hw), (-p[1] + 173) / 346]])));
+    TEXQ.push({ tex: T.sleeveTop, s: shade([0, 1, 0]), tris: tris.map(([p, uv]) => [xf(SM, p), uv]) });
+    WIN.forEach((q, k) => { const n = WIN[(k + 1) % WIN.length]; F(SM, [[cx + q[0], yt, -q[1]], [cx + n[0], yt, -n[1]], [cx + n[0], yb, -n[1]], [cx + q[0], yb, -q[1]]], [36, 36, 42]); });
+    cub(SM, xa, -SL_T, -zo, xb, 0, zo, { py: INK, ny: INK });
+    cub(SM, xa, -SL_T, zi, xb, yt, zo, { pz: TX(T.sleeveFront, 0, 0, 1, 1), nz: INK, py: INK });
+    cub(SM, xa, -SL_T, -zo, xb, yt, -zi, { nz: INK, pz: INK, py: INK });
+    cub(SM, xa, -SL_T, -zo, xa, yt, zo, { nx: [40, 40, 48] }); cub(SM, xb, -SL_T, -zo, xb, yt, zo, { px: [40, 40, 48] });
+  }
+  /* sparkles and the award's own light, after the solid scene */
+  if (o.up > 0.05) {
+    const dirC = nrm(sub(CAM, awardCenter)), behind = [awardCenter[0] - dirC[0] * 90, awardCenter[1] - dirC[1] * 90, awardCenter[2] - dirC[2] * 90];
+    OV(OVG, T.halo, bill(behind, 330 + 50 * pulse), (30 + 20 * pulse) * o.up, [170, 120, 255]);
+    OV(OVG, T.haloW, bill(behind, 150), 26 * o.up, [255, 255, 255]);
+    const r = rng(77); for (let i = 0; i < 14; i++) { const a = r() * TAU, d = 150 + r() * 190, hgt2 = (r() - 0.5) * 300, tw = 0.5 + 0.5 * Math.sin(t * (1.6 + r() * 2) + r() * 6), s = (10 + r() * 20) * (0.4 + tw);
+      OV(OVG, T.spark, bill([awardCenter[0] + Math.cos(a + t * 0.2) * d * RIGHT[0] + Math.sin(a + t * 0.2) * d * 0.3, awardCenter[1] + hgt2, awardCenter[2] + Math.cos(a + t * 0.2) * d * RIGHT[2] + 20], s), 230 * tw * o.hold * (1 - (i % 3 === 0 ? 0 : 0.2)) + 40 * o.up, i % 4 === 0 ? [255, 120, 100] : i % 4 === 1 ? [180, 150, 255] : [255, 255, 255]); }
+  }
+  return o;
+}
+
+/* ============================================================================================
+   p5 glue: camera, drawing the lists, interaction
+   ============================================================================================ */
+let holder;
+function setup() {
+  holder = document.getElementById('stage');
+  createCanvas(holder.clientWidth, holder.clientHeight, WEBGL);
+  setAttributes('antialias', !CLIP); // this swaps in a new canvas, so it is parented afterwards
+  holder.prepend(drawingContext.canvas); pixelDensity(Math.min(devicePixelRatio || 1, 2));
+  noStroke(); textureMode(NORMAL); frameRate(60);
+  const fonts = ['700 40px Archivo', '400 40px "Archivo Black"'].map((f) => document.fonts.load(f).catch(() => {}));
+  Promise.race([Promise.all(fonts), new Promise((ok) => setTimeout(ok, 2500))]).then(() => { buildTextures(); document.body.dataset.ready = '1'; });
+  if (HP.has('p')) { mode = 'manual'; Pm = Pshow = +HP.get('p'); }
+  new ResizeObserver(() => resizeCanvas(holder.clientWidth, holder.clientHeight)).observe(holder);
+  bindUI();
+}
+function triFlush() {
+  if (!FLAT.length) return;
+  beginShape(TRIANGLES);
+  for (let i = 0; i < FLAT.length; i += 6) { fill(FLAT[i + 3], FLAT[i + 4], FLAT[i + 5]); const a = FLAT[i], b = FLAT[i + 1], c = FLAT[i + 2]; vertex(a[0], -a[1], a[2]); vertex(b[0], -b[1], b[2]); vertex(c[0], -c[1], c[2]); }
+  endShape();
+}
+function ovDraw(list, additive) {
+  const gl = drawingContext; gl.depthMask(false); if (additive) blendMode(ADD);
+  for (const q of list) { texture(q.tex); tint(q.rgb[0], q.rgb[1], q.rgb[2], q.a); beginShape(TRIANGLES); const c = q.c, uv = [[0, 0], [1, 0], [1, 1], [0, 1]]; for (const i of [0, 1, 2, 0, 2, 3]) vertex(c[i][0], -c[i][1], c[i][2], uv[i][0], uv[i][1]); endShape(); }
+  if (additive) blendMode(BLEND); gl.depthMask(true); tint(255, 255, 255, 255);
+}
+function draw() {
+  background(20, 20, 24);
+  if (!texReady) return;
+  const dt = Math.min(0.1, deltaTime / 1000);
+  if (CLIP) clock = (window.__clock != null ? window.__clock : clock + dt); else if (!reduce) clock += dt;
+  let P;
+  if (CLIP) P = currentP(clock); else if (mode === 'auto') { tAuto += reduce ? 0 : dt; P = autoP(tAuto); Pshow = P; } else { Pshow += (Pm - Pshow) * Math.min(1, dt * 5); P = Pshow; }
+  const t = clock;
+  /* camera follows the action: wide on the mailer, then pulls toward the box and the award */
+  const k1 = ph(P, 0.14, 0.34), k2 = ph(P, 0.4, 0.62), k3 = ph(P, 0.7, 0.95);
+  let tx = lerp(0, 20, k2), ty = lerp(270, 200, k1) + 30 * k3, tz = lerp(0, 120, k1) + 230 * k2;
+  let dist = lerp(1650, 1580, k1) - 330 * k2 - 60 * k3 + userZoom, elev = cl(0.4 + userElev - 0.05 * k2, 0.1, 1.2);
+  if (HP.has('d')) dist = +HP.get('d'); if (HP.has('e')) elev = +HP.get('e'); if (HP.has('tx')) { tx = +HP.get('tx'); ty = +HP.get('ty'); tz = +HP.get('tz'); }
+  dist *= cl(Math.pow(1.7 / (width / height), 0.75), 1, 2.2);
+  const sway = CLIP ? 0.3 * Math.sin(TAU * (clock - 0.5) / 6) : 0.3 * Math.sin(clock * 0.28), a = (HP.has('a') ? +HP.get('a') : 0.45 + sway) + userAngle, hz = dist * Math.cos(elev);
+  const cx = tx + Math.sin(a) * hz, cy = ty + dist * Math.sin(elev), cz = tz + Math.cos(a) * hz;
+  CAM = [cx, cy, cz]; RIGHT = [Math.cos(a), 0, -Math.sin(a)];
+  perspective(PI / 4.2, width / height, 40, 9000); camera(cx, -cy, cz, tx, -ty, tz, 0, 1, 0);
+  noLights(); noStroke();
+  /* floor */
+  texture(T.floor); tint(255, 255, 255, 255); beginShape(TRIANGLES); [[-3200, -3200, 0, 0], [3200, -3200, 1, 0], [3200, 3200, 1, 1], [-3200, -3200, 0, 0], [3200, 3200, 1, 1], [-3200, 3200, 0, 1]].forEach((v) => vertex(v[0], 0, v[1], v[2], v[3])); endShape();
+  const o = drawScene(P, t);
+  ovDraw(OVF, false);
+  triFlush();
+  for (const q of TEXQ) { texture(q.tex); const v = Math.min(255, 255 * q.s); tint(v, v, v); beginShape(TRIANGLES); for (const [p, uv] of q.tris) vertex(p[0], -p[1], p[2], uv[0], uv[1]); endShape(); }
+  tint(255, 255, 255, 255);
+  ovDraw(OVG.filter((q) => true), true);
+  if (wantSave) { wantSave = false; drawingContext.canvas.toBlob((bl) => { const a = document.createElement('a'); a.href = URL.createObjectURL(bl); a.download = 'postmark-awards-unboxing.png'; document.body.appendChild(a); a.click(); setTimeout(() => { a.remove(); URL.revokeObjectURL(a.href); }, 4000); }, 'image/png'); }
+  uiTick(P);
+}
+
+/* ---------- UI ---------- */
+function bindUI() {
+  const play = document.getElementById('play'), scrub = document.getElementById('scrub'), chips = document.getElementById('chips'), save = document.getElementById('save');
+  if (CLIP) return;
+  STAGES.forEach(([n, name, p]) => { const b = document.createElement('button'); b.type = 'button'; b.textContent = n; b.title = name; b.setAttribute('aria-label', 'Show step ' + n + ', ' + name); b.onclick = () => { mode = 'manual'; Pm = p; play.textContent = 'Play'; play.setAttribute('aria-label', 'Play the unboxing'); }; chips.appendChild(b); });
+  play.onclick = () => { if (mode === 'auto') { mode = 'manual'; Pm = Pshow; play.textContent = 'Play'; play.setAttribute('aria-label', 'Play the unboxing'); } else { mode = 'auto'; tAuto = Pshow * FWD; play.textContent = 'Pause'; play.setAttribute('aria-label', 'Pause the unboxing'); } };
+  scrub.oninput = () => { mode = 'manual'; Pm = Pshow = scrub.value / 1000; play.textContent = 'Play'; };
+  save.onclick = () => { wantSave = true; };
+  /* drag to orbit, wheel / pinch to zoom */
+  let drag = null; holder.addEventListener('pointerdown', (e) => { drag = [e.clientX, e.clientY]; holder.classList.add('drag'); holder.setPointerCapture(e.pointerId); });
+  holder.addEventListener('pointermove', (e) => { if (!drag) return; userAngle -= (e.clientX - drag[0]) * 0.006; userElev = cl(userElev + (e.clientY - drag[1]) * 0.004, -0.3, 0.8); drag = [e.clientX, e.clientY]; });
+  const up = () => { drag = null; holder.classList.remove('drag'); }; holder.addEventListener('pointerup', up); holder.addEventListener('pointercancel', up);
+  holder.addEventListener('wheel', (e) => { e.preventDefault(); userZoom = cl(userZoom + e.deltaY * 0.8, -600, 1300); }, { passive: false });
+  window.__unbox = { setP(p) { mode = 'manual'; Pm = Pshow = p; }, play() { mode = 'auto'; } };
+}
+let lastStage = -1, wantSave = false;
+function uiTick(P) {
+  if (CLIP) return;
+  let s = 0; STAGES.forEach((st, i) => { if (P >= st[2] - 0.001) s = i; });
+  if (s !== lastStage) { lastStage = s; const cap = document.getElementById('cap'); cap.querySelector('i').textContent = STAGES[s][0]; cap.querySelector('b').textContent = STAGES[s][1]; [...document.getElementById('chips').children].forEach((b, i) => b.classList.toggle('on', i === s)); }
+  const sc = document.getElementById('scrub'); if (document.activeElement !== sc) sc.value = Math.round(P * 1000);
+}
+window.__rewind = () => { clock = 0; };
+window.__unbox = window.__unbox || { setP(p) { mode = 'manual'; Pm = Pshow = p; } };
+</script>
+<script>/* sandbox project bar: on phones its controls move to a panel under the visual */
+(function(){var nav=document.querySelector('nav.back'),c=nav&&nav.querySelector(':scope>div');if(!c)return;var mq=matchMedia('(max-width:640px)'),p=document.createElement('nav');p.className='back sb-panel';p.setAttribute('aria-label','Controls');var at=(nav.dataset.panelAfter&&document.querySelector(nav.dataset.panelAfter))||nav.nextElementSibling;at.after(p);function put(){(mq.matches?p:nav).appendChild(c);p.style.display=mq.matches?'':'none'}put();mq.addEventListener('change',put)})();
+</script>
+</body>
+</html>
