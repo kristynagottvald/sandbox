@@ -342,11 +342,15 @@ function build() {
   const loyal = yrs > 1
     ? { type: 'stat', th: 'yellow', name: 'Loyal', kick: 'Back again', text: ord(yrs), label: ['You came back.', '*We loved it.*'], sub: 'Thank you for being part of Thread, year after year.' }
     : { type: 'stat', th: 'yellow', name: 'First time', kick: 'First time', text: '1st', label: ['Welcome to', '*the community.*'], sub: 'Your first Thread. Not your last.' };
-  const insight = (kick, a, b, c) => ({ type: 'title', th: 'cream', name: 'Insight', kick, cap: f[0], head: [a, '*' + f + '*', b], sub: c });
+  const BLURB = { Growth: 'Grow a compliant list and turn first texts into first orders.', Lifecycle: 'Flows, triggers and timing that feel like a text from a friend.', Messaging: 'Copy, MMS and short links that earn a reply.', Compliance: 'Consent, carriers and the rules, in plain English.' };
+  const order = [f, ...TRACKS.filter((x) => S.tracks.includes(x) && x !== f)];
+  const insight = (kick, a, b, c) => order.map((tr, i) => i === 0
+    ? { type: 'title', th: 'cream', name: i ? tr : 'Insight', kick, cap: tr[0], head: [a, '*' + tr + '*', b], sub: c }
+    : { type: 'title', th: i % 2 ? 'yellow' : 'cream', name: tr, kick: 'And also', cap: tr[0], head: ['Plus a love of', '*' + tr + '*'], sub: BLURB[tr] });
   const crowd = (th, head, sub, name) => ({ type: 'crowd', th, name: name || 'Together', head, sub });
   if (S.ph === 'before') {
     A.push({ type: 'title', th: 'ink', name: 'Hello', kick: 'Thread 2026 · coming up', cap: cap1(), head: [n + ',', 'your Thread', '*starts here.*'], sub: 'May 12–14, New York. A film that builds as you go.' });
-    A.push(insight('Picked for you', 'Built for a', 'marketer', 'Your tickets and favourite tracks shaped this.'));
+    A.push(...insight('Picked for you', 'Built for a', 'marketer', 'Your tickets and favourite tracks shaped this.'));
     if (sg.agenda && sl.length) A.push({ type: 'list', th: 'yellow', name: 'Lineup', kick: 'Your lineup', head: ['Your picks,', '*in order*'], rows: rows(sl) });
     A.push({ type: 'stat', th: 'ink', name: 'Countdown', kick: 'Countdown', text: String(daysTo()), label: ['days until', '*New York*'], sub: 'We will text you the day before.' });
     A.push(crowd('yellow', [fmt(CROWD) + ' marketers', '*are heading*', 'to New York'], 'Say hello. You already have the same favourite track.'));
@@ -362,7 +366,7 @@ function build() {
   } else if (S.ph === 'after') {
     A.push({ type: 'title', th: 'ink', name: 'Hello', kick: 'Thread 2026 · your film', cap: cap1(), head: [n + ',', 'this is', '*your Thread.*'], sub: 'Made from the sessions you chose and the people you met.' });
     A.push(loyal);
-    A.push(insight('You, in one line', 'You are a real', 'aficionado', 'Your tickets and favourite tracks said so.'));
+    A.push(...insight('You, in one line', 'You are a real', 'aficionado', 'Your tickets and favourite tracks said so.'));
     if (sg.checkins && sl.length) A.push({ type: 'list', th: 'yellow', name: 'Sessions', kick: 'Where you showed up', head: ['You made it to', '*' + sl.length + (sl.length === 1 ? ' session' : ' sessions') + '*'], rows: rows(sl) });
     if (sg.taps && S.taps > 0) A.push({ type: 'stamps', th: 'ink', name: 'Stamps', head: ['You collected', '*' + S.taps + (S.taps === 1 ? ' stamp' : ' stamps') + '*'], sub: 'Booth and wristband taps across three days.', n: S.taps });
     if (sg.qa && S.qs > 0) A.push({ type: 'stat', th: 'cream', name: 'Asked', kick: 'Uniqueness', pre: 'Top ', suf: '%', from: 100, to: pct(), label: ['of askers in', '*the live Q&A*'], sub: 'You asked ' + S.qs + (S.qs === 1 ? ' question.' : ' questions.') });
@@ -372,7 +376,7 @@ function build() {
     const pick = TALKS.filter((t) => t.tr === 'All' || S.tracks.includes(t.tr)).sort((a, b) => (S.tracks.includes(b.tr) - S.tracks.includes(a.tr))).slice(0, 3);
     const mins = pick.reduce((a, t) => a + t.min, 0);
     A.push({ type: 'title', th: 'ink', name: 'Hello', kick: 'Thread 2026 · the replay edit', cap: cap1(), head: [n + ',', 'you missed it.', '*We did not.*'], sub: 'Three talks, cut for the way you work.' });
-    A.push(insight('Picked for you', 'Picked for a', 'marketer', 'Based on the tracks you follow.'));
+    A.push(...insight('Picked for you', 'Picked for a', 'marketer', 'Based on the tracks you follow.'));
     A.push({ type: 'list', th: 'yellow', name: 'Highlights', kick: 'Your highlight reel', head: ['Three talks,', '*just for you*'], rows: pick.map((t) => ({ k: (t.tr === 'All' ? 'Keynote' : t.tr) + ' · ' + t.min + ' min', h: t.t })) });
     A.push({ type: 'stat', th: 'ink', name: 'Replays', kick: 'Watch time', text: String(mins), suf: ' min', label: ['of replays,', '*cut for you*'], sub: 'Short enough for a commute.' });
     A.push(crowd('yellow', ['Join ' + fmt(CROWD), '*marketers*'], 'in the Thread community, all year round.'));
