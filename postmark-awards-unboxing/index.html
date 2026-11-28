@@ -6,7 +6,7 @@
 <title>Postmark Awards Unboxing 3D</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect width=%2264%22 height=%2264%22 fill=%22%237a4bff%22/%3E%3Crect x=%228%22 y=%228%22 width=%2248%22 height=%2248%22 fill=%22%23ffffff%22/%3E%3Ccircle cx=%2214%22 cy=%2210%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2214%22 cy=%2254%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2222%22 cy=%2210%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2222%22 cy=%2254%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2230%22 cy=%2210%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2230%22 cy=%2254%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2238%22 cy=%2210%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2238%22 cy=%2254%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2246%22 cy=%2210%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2246%22 cy=%2254%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2210%22 cy=%2214%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2254%22 cy=%2214%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2210%22 cy=%2222%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2254%22 cy=%2222%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2210%22 cy=%2230%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2254%22 cy=%2230%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2210%22 cy=%2238%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2254%22 cy=%2238%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2210%22 cy=%2246%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Ccircle cx=%2254%22 cy=%2246%22 r=%223%22 fill=%22%237a4bff%22/%3E%3Crect x=%2216%22 y=%2216%22 width=%2232%22 height=%2232%22 fill=%22%237a4bff%22/%3E%3Crect x=%2224%22 y=%2224%22 width=%2216%22 height=%2216%22 fill=%22%23ffffff%22/%3E%3Crect x=%2224%22 y=%2224%22 width=%2216%22 height=%2216%22 fill=%22%23f2442e%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700&family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700&family=Archivo+Black&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.4/p5.min.js"></script>
 <style>
 :root{--purple:#7A4BFF;--red:#F2442E;--black:#0B0B0B;--white:#fff}
@@ -280,16 +280,14 @@ function buildTextures() {
       c.drawImage(rc, 0, 0); }
     T.lid = g;
   }
-  { // slip sleeve: matte black card with a small white Postmark stamp in the middle
+  { // slip sleeve: matte black card, printed white: slide to open, a small Postmark stamp in the middle, the wordmark
     const w = 512, h = 1040, S = 3, g = G(w, h), c = g.drawingContext;
     c.fillStyle = 'rgb(' + SLV + ')'; c.fillRect(0, 0, w, h); grain(c, w, h, 2200, 17, 0.035);
-    const cx = 85 * S, cz = 173 * S, shape = (ctx, col) => {
-      ctx.fillStyle = col;
-      ctx.font = '700 ' + 6.5 * S + 'px ' + SANS; ctx.letterSpacing = 3 * S + 'px'; ctx.textAlign = 'center'; ctx.fillText('SLIDE TO OPEN', cx, 24 * S); ctx.fillText('←', cx, 38 * S);
-    };
-    deboss(c, w, h, shape, 2.2, 1.1);
+    const cx = 85 * S, cz = 173 * S;
+    c.fillStyle = '#fff'; c.textAlign = 'center'; c.font = '600 ' + 7.5 * S + 'px ' + SANS; c.letterSpacing = 4 * S + 'px'; // printed white, same as the POSTMARK AWARDS line
+    c.fillText('SLIDE TO OPEN', cx, 24 * S); c.fillText('←', cx, 38 * S);
     ringShape(c, cx, cz, 22 * S, '#fff', 0.84, 1.2, 0); // the logo's perforated stamp, small and white, dead centre, square to the sleeve
-    c.fillStyle = '#fff'; c.textAlign = 'center'; c.font = '700 ' + 7.5 * S + 'px ' + SANS; c.letterSpacing = 4 * S + 'px'; c.fillText('POSTMARK AWARDS', cx, 330 * S); c.fillStyle = '#7A4BFF'; c.fillText('2026', cx, 340 * S + 8);
+    c.fillStyle = '#fff'; c.textAlign = 'center'; c.font = '600 ' + 7.5 * S + 'px ' + SANS; c.letterSpacing = 4 * S + 'px'; c.fillText('POSTMARK AWARDS', cx, 334 * S);
     T.sleeveTop = g;
   }
   { // sleeve front: printed white, with the stamp O in red
@@ -452,7 +450,7 @@ function setup() {
   setAttributes('antialias', !CLIP); // this swaps in a new canvas, so it is parented afterwards
   holder.prepend(drawingContext.canvas); pixelDensity(Math.min(devicePixelRatio || 1, 2));
   noStroke(); textureMode(NORMAL); frameRate(60);
-  const fonts = ['700 40px Archivo', '400 40px "Archivo Black"'].map((f) => document.fonts.load(f).catch(() => {}));
+  const fonts = ['700 40px Archivo', '600 40px Archivo', '400 40px "Archivo Black"'].map((f) => document.fonts.load(f).catch(() => {}));
   Promise.race([Promise.all(fonts), new Promise((ok) => setTimeout(ok, 2500))]).then(() => { buildTextures(); document.body.dataset.ready = '1'; });
   if (HP.has('p')) { mode = 'manual'; Pm = Pshow = +HP.get('p'); }
   new ResizeObserver(() => resizeCanvas(holder.clientWidth, holder.clientHeight)).observe(holder);
