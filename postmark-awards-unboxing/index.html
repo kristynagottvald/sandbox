@@ -182,21 +182,30 @@ const MW = 260, MH = 200, WT = 10;                 // mailer: half width/depth, 
 const INS_TOP = 190, REC_FLOOR = 96, REC_H = 175;  // debossed insert: top, recess floor, recess half size
 const BOXH = 166, LIDH = 171, BASE_H = 74, LID_BOT = 44, LID_TOP = 88; // award box: base half, lid half, heights
 const SL_T = 5, SL_XA = -130, SL_XB = 40;           // slip sleeve: thickness, x range on the box
-const AT = 14, PK = 0.29;                          // award: glass thickness, scale of the traced mascot
-const CRAD_TOP = 70, POCKET = 14;                  // black cradle inside the base, pocket depth
+const AT = 20, PK = 0.29;                          // award: glass thickness, scale of the traced mascot
+const CRAD_TOP = 70, POCKET = 20;                  // black cradle inside the base, pocket depth
 
 /* the brand mascot, traced (from the Postmark Awards brand visuals): body with its quills, the quill tips, and the stamps stuck on them (x, y, half width, half height, rotation, 0 purple / 1 red); y down, 1000 units wide */
 const PORC_BODY = [33,679,136,701,138,703,167,708,169,710,179,710,181,712,190,713,204,717,222,720,230,723,230,725,204,730,204,731,167,739,156,743,121,751,120,752,111,753,109,755,104,755,33,773,341,773,343,775,342,791,345,829,351,839,360,843,422,843,437,838,446,827,448,819,445,811,425,809,392,809,386,806,379,799,377,789,379,777,382,773,387,773,566,773,567,774,567,813,569,828,573,836,584,843,646,843,656,841,666,835,672,822,671,814,664,810,615,809,610,806,603,799,602,791,603,780,606,773,969,773,794,708,795,705,802,703,939,622,796,643,787,643,785,645,766,647,762,647,926,521,872,538,871,540,858,543,857,545,830,553,829,554,750,580,750,579,766,559,780,547,810,512,801,484,799,483,755,511,723,533,713,538,709,542,699,548,697,548,834,306,660,490,659,487,663,479,666,466,668,465,671,454,675,446,676,440,677,439,701,368,717,326,714,322,701,311,699,311,681,338,676,348,671,352,671,355,603,455,603,447,615,345,608,344,595,339,579,326,576,330,571,346,569,347,560,370,559,376,555,383,542,418,540,419,540,422,535,435,534,436,533,442,530,444,529,443,528,422,526,418,525,396,524,394,520,353,517,352,471,359,463,407,459,423,458,436,456,447,454,448,450,437,449,437,441,411,437,402,435,391,425,369,411,323,409,322,408,317,366,195,376,473,374,474,372,472,372,468,370,467,286,298,272,298,277,325,279,331,279,337,281,338,282,347,283,348,284,358,291,382,291,388,293,389,293,398,315,490,314,492,220,394,204,421,209,427,214,440,216,443,225,464,230,470,237,489,239,490,261,535,260,537,101,444,241,601,240,603,205,590,165,577,169,591,169,598,153,601,146,605,206,654];
 const PORC_STEMS = [[190,611,188,611,181,613,170,616,162,617,162,617,160,616,148,607,97,565,72,544,72,543,93,550,134,564,178,580,183,582,184,584,185,587,190,609],[232,408,230,413,225,421,218,434,214,440,214,440,179,369,167,343,162,334,162,332,168,338,232,406],[308,342,305,347,304,348,299,345,283,336,279,333,277,325,272,306,261,254,261,249,262,251,264,254,290,305,306,337,308,341],[522,369,520,370,473,377,468,377,468,370,489,249,498,196,501,182,503,175,504,188,507,212,521,356],[634,191,633,201,614,358,613,359,613,360,572,364,563,364,563,363,564,359,629,193,634,184],[743,250,740,259,735,274,717,326,713,338,712,338,710,337,705,332,694,323,692,322,692,321,695,317,732,261,740,249,742,248,743,248],[894,421,887,429,803,521,798,526,797,524,792,510,786,492,786,491,788,490,879,429,893,420,894,420]];
 const PORC_STAMPS = [[99,571,66,45,-0.227,0],[169,354,58,68,-1.065,1],[256,227,66,89,2.094,0],[495,294,58,65,-0.140,1],[610,260,56,86,-0.087,0],[755,263,70,53,-0.873,1],[875,444,84,59,-0.332,0]];
 const REC = recessPoly(REC_H, REC_H, 34), REC_TOP = triangulate(rectPts(250, 250), REC), REC_FLOOR_T = triangulate(REC);
-const WIN_HH = 80, WIN = stampPoly(0.7).map((p) => [p[0] * WIN_HH, p[1] * WIN_HH]), WIN_TOP = triangulate(rectPts((SL_XB - SL_XA) / 2, 173), WIN);
+let WIN = [], WIN_TOP = []; // the sleeve window: cut to the exact outline of the purple stamp printed on the lid, set once the lid art is laid out
 const porcP = (x, y) => [(x - 501) * PK, -(y - 490) * PK];
 const pairs = (a) => { const o = []; for (let i = 0; i < a.length; i += 2) o.push(porcP(a[i], a[i + 1])); return o; };
 const BODY_P = pairs(PORC_BODY), BODY_T = triangulate(BODY_P);
 const STEM_P = PORC_STEMS.map(pairs), STEM_T = STEM_P.map((p) => triangulate(p));
 const STAMP_P = PORC_STAMPS.map(([x, y, hw, hh, rot, c]) => { const cs = Math.cos(rot), sn = Math.sin(rot), p = stampPoly(hw / hh, 0.62, 0.12, 4).map(([px, py]) => { const X = px * hh, Y = -py * hh; return porcP(x + X * cs - Y * sn, y + X * sn + Y * cs); }); return { p, t: triangulate(p), c: c ? RED : PURPLE }; });
 const ellipseP = (cx, cy, rx, ry) => Array.from({ length: 28 }, (_, i) => porcP(cx + rx * Math.cos(TAU * i / 28), cy + ry * Math.sin(TAU * i / 28)));
+/* a bevelled, domed solid from a flat outline: each ring is the outline moved inward along its corner bisectors and raised, so every quill becomes a faceted spike and the body a lens */
+function insetPoly(P, d) {
+  const n = P.length; let area = 0; for (let i = 0; i < n; i++) { const a = P[i], b = P[(i + 1) % n]; area += a[0] * b[1] - b[0] * a[1]; }
+  const sg = area > 0 ? 1 : -1, nm = (a, b) => { const x = b[0] - a[0], y = b[1] - a[1], l = Math.hypot(x, y) || 1; return [-y / l * sg, x / l * sg]; };
+  return P.map((v, i) => { const n1 = nm(P[(i + n - 1) % n], v), n2 = nm(v, P[(i + 1) % n]), k = Math.max(0.35, 1 + n1[0] * n2[0] + n1[1] * n2[1]); return [v[0] + (n1[0] + n2[0]) * d / k, v[1] + (n1[1] + n2[1]) * d / k]; });
+}
+const mkSolid = (P, layers) => { const rings = layers.map(([d]) => (d ? insetPoly(P, d) : P)); return { rings, layers, cap: triangulate(rings[rings.length - 1]) }; };
+const BODY_S = mkSolid(BODY_P, [[0, 4], [2.6, 7.4], [6.5, 9.4], [12, 10]]), STEM_S = STEM_P.map((p) => mkSolid(p, [[0, 4], [1.3, 7.4], [2.8, 9]]));
+const STAMP_S = STAMP_P.map((sp) => Object.assign(mkSolid(sp.p, [[0, 3], [1.8, 4.6], [3.6, 5.2]]), { c: sp.c }));
 const EYE_P = ellipseP(648, 692, 98, 38), PUPIL_P = ellipseP(673, 707, 24, 15);
 const POCK = BODY_P.map((p) => [p[0] * 1.045, p[1] * 1.045]), POCK_TOP = triangulate(rectPts(160, 160), POCK), POCK_FLOOR = triangulate(POCK);
 
@@ -222,15 +231,16 @@ function stampPath(c, pts, cx, cy, R, rot = 0) { const cs = Math.cos(rot), sn = 
 function ringShape(c, cx, cy, R, color, aw = 0.84, hs = 1, rot = 0) { c.beginPath(); stampPath(c, stampPoly(aw), cx, cy, R, rot); stampPath(c, holePoly(hs), cx, cy, R, rot); c.fillStyle = color; c.fill('evenodd'); }
 function stampFill(c, cx, cy, R, color, aw = 0.84) { c.beginPath(); stampPath(c, stampPoly(aw), cx, cy, R); c.fillStyle = color; c.fill(); }
 /* the logotype, as the brand page draws it: P, the stamp O, STMARK, then AWARDS under it */
-function logoBlock(c, x0, base, fitW, color) {
+function logoBlock(c, x0, base, fitW, color, opt = {}) {
   c.font = '700 100px ' + SANS; c.letterSpacing = '-3px'; c.textBaseline = 'alphabetic';
   const m = (s) => c.measureText(s).width, cap100 = c.measureText('H').actualBoundingBoxAscent, ow100 = cap100 * 1.06, g100 = cap100 * 0.03, total = m('P') + ow100 + 2 * g100 + m('STMARK');
   const k = fitW / total, fs = 100 * k, cap = cap100 * k;
   c.font = '700 ' + fs + 'px ' + SANS; c.letterSpacing = (-3 * k) + 'px';
-  const lh = cap * 1.14, g = g100 * k, ow = ow100 * k; c.fillStyle = color;
+  if (opt.top != null) base = opt.top + cap; const lh = cap * 1.14, g = g100 * k, ow = ow100 * k; c.fillStyle = color;
   c.fillText('P', x0, base); const sx = x0 + c.measureText('P').width + g;
   c.fillText('STMARK', sx + ow + g, base); c.fillText('AWARDS', x0, base + lh);
-  ringShape(c, sx + ow / 2, base - cap / 2, cap * 0.6, color, 0.84, 1.28);
+  ringShape(c, sx + ow / 2, base - cap / 2, cap * 0.6, opt.ring || color, 0.84, 1.28, opt.rot || 0);
+  if (opt.year) { c.fillStyle = opt.year; c.fillText('2026', x0, base + 2 * lh); }
   return { cap, lh, w: fitW };
 }
 /* a debossed mark: darker face, a shadow inside the top left edge, a catch of light on the bottom right */
@@ -257,26 +267,13 @@ function buildTextures() {
     ic.lineWidth = 7; for (let i = 0; i < 5; i++) { ic.beginPath(); for (let x = 330; x <= 560; x += 6) { const y = 600 + i * 40 + Math.sin(x * 0.045 + i) * 14; x === 330 ? ic.moveTo(x, y) : ic.lineTo(x, y); } ic.stroke(); }
     ic.globalCompositeOperation = 'destination-out'; for (let i = 0; i < 2600; i++) { ic.fillStyle = 'rgba(0,0,0,' + (0.2 + r() * 0.7) + ')'; ic.fillRect(300 + r() * 520, 520 + r() * 360, 1 + r() * 3, 1 + r() * 3); }
     c.globalAlpha = 0.82; c.drawImage(ink, 0, 0); c.globalAlpha = 1;
-    // purple stamp sticker, perforated, white paper border
-    c.save(); c.shadowColor = 'rgba(0,0,0,.3)'; c.shadowBlur = 10; c.shadowOffsetY = 4; stampFill(c, 250, 250, 150, '#fff', 0.84); c.restore();
-    c.fillStyle = '#7A4BFF'; c.fillRect(250 - 108, 250 - 124, 216, 248); ringShape(c, 250, 232, 78, '#fff', 0.84, 1.2); c.fillStyle = '#fff'; c.font = '700 38px ' + SANS; c.textAlign = 'center'; c.letterSpacing = '2px'; c.fillText('2026', 250, 340); c.textAlign = 'left';
     T.mailerLidOut = g;
   }
-  { // mailer lid, inside: the printed message, white on kraft, with an arrow down into the box
-    const g = kraftTex(1024, 1024, KRAFT_D, 31, 0), c = g.drawingContext;
-    c.fillStyle = '#fff'; c.font = '700 150px ' + SANS; c.letterSpacing = '-5px'; c.textBaseline = 'alphabetic'; c.save(); c.translate(300, 330); c.rotate(-0.1); c.fillText('Award', 0, 0); c.fillText('earned.', 20, 150);
-    c.lineWidth = 17; c.lineCap = 'butt'; c.strokeStyle = '#fff'; c.beginPath(); c.moveTo(60, 250); c.lineTo(60, 410); c.stroke(); c.beginPath(); c.moveTo(14, 366); c.lineTo(60, 414); c.lineTo(108, 366); c.stroke(); c.restore();
-    T.mailerLidIn = g;
+  { // mailer lid, inside: plain darker kraft
+    T.mailerLidIn = kraftTex(1024, 1024, KRAFT_D, 31, 0);
   }
-  { // debossed kraft insert: perforated stamps in the corners and the wordmark on every side
-    const g = kraftTex(1024, 1024, KRAFT, 41, 0), c = g.drawingContext, W = 1024, S = 1024 / 500, shape = (ctx, col) => {
-      ctx.fillStyle = col; ctx.strokeStyle = col;
-      [[1, 1], [-1, 1], [-1, -1], [1, -1]].forEach(([sx, sy], i) => { const cx = W / 2 + sx * 206 * S, cy = W / 2 + sy * 206 * S; ctx.save(); ctx.lineWidth = 3.5; ctx.beginPath(); stampPath(ctx, stampPoly(0.84, 0.62, 0.12), cx, cy, 30 * S, (i % 2 ? 0.14 : -0.14)); ctx.stroke(); ctx.restore(); ringShape(ctx, cx, cy, 22 * S, col, 0.84, 0.95, (i % 2 ? 0.14 : -0.14)); });
-      ctx.font = '700 ' + 17 * S + 'px ' + SANS; ctx.letterSpacing = 6 * S + 'px'; ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
-      ctx.fillText('POSTMARK AWARDS 2026', W / 2, 36 * S); ctx.save(); ctx.translate(W / 2, W - 36 * S); ctx.fillText('POSTMARK AWARDS 2026', 0, 0); ctx.restore();
-      ctx.save(); ctx.translate(36 * S, W / 2); ctx.rotate(-PI / 2); ctx.fillText('LIFT FROM EITHER SIDE', 0, 0); ctx.restore(); ctx.save(); ctx.translate(W - 36 * S, W / 2); ctx.rotate(PI / 2); ctx.fillText('LIFT FROM EITHER SIDE', 0, 0); ctx.restore();
-    };
-    deboss(c, W, W, shape, 3, 1.15); T.insert = g;
+  { // the kraft insert: plain, the box recess is the deboss
+    T.insert = kraftTex(1024, 1024, KRAFT, 41, 0);
   }
   { // award box lid: soft black card with the stacked 2026 debossed into it, the outlines and the stamp zeros in metallic foil
     const W = 1026, k = W / 1000, g = G(W, W), c = g.drawingContext, ch = 186 * k, y0 = (W - ch * 4) / 2, GAP = 12 * k, ZW = 196 * k, DIG = ['2', '0', '2', '6'];
@@ -287,12 +284,17 @@ function buildTextures() {
     const row = (ctx, r, col) => { const cy = y0 + r * ch + ch / 2; ctx.font = '400 ' + 240 * k + 'px ' + BLACKFACE; ctx.lineWidth = 8 * k; ctx.lineJoin = 'round'; ctx.strokeStyle = ctx.fillStyle = col;
       DIG.forEach((d, i) => { if (d === '0') { const [aw, ah] = KINDS[r]; ringShape(ctx, xs[i], cy, 104 * k * ah, col, aw / ah, 1, TILT[r]); } else { const mm = ctx.measureText(d), w = mm.actualBoundingBoxLeft + mm.actualBoundingBoxRight, h = mm.actualBoundingBoxAscent; ctx.strokeText(d, xs[i] - w / 2 + mm.actualBoundingBoxLeft, cy + h / 2); } }); };
     deboss(c, W, W, (ctx, col) => { for (let r = 0; r < 4; r++) row(ctx, r, col); }, 3, 1.9);
-    for (let r = 0; r < 4; r++) { // foil: the row's colour with bands of light and dark across it, so it reads as metal
+    for (const r of [0, 1, 3, 2]) { // foil (purple last, so its stamp is whole under the window): the row's colour with bands of light and dark across it, so it reads as metal
       const rc = cv2(W, W), rx = rc.getContext('2d'), fc = FOIL[r]; row(rx, r, 'rgb(' + fc + ')'); rx.globalCompositeOperation = 'source-atop';
       const top = y0 + r * ch, gr = rx.createLinearGradient(W * 0.1, top - ch * 0.4, W * 0.9, top + ch * 1.4);
       [[0, 'rgba(0,0,0,.42)'], [0.22, 'rgba(255,255,255,.62)'], [0.4, 'rgba(0,0,0,.25)'], [0.58, 'rgba(255,255,255,.5)'], [0.78, 'rgba(0,0,0,.3)'], [1, 'rgba(255,255,255,.35)']].forEach(([p, col]) => gr.addColorStop(p, col));
       rx.fillStyle = gr; rx.fillRect(0, 0, W, W); const rg = rng(31 + r); for (let i = 0; i < 1500; i++) { rx.fillStyle = rg() < 0.5 ? 'rgba(255,255,255,.35)' : 'rgba(0,0,0,.3)'; rx.fillRect(rg() * W, top + rg() * ch, 1 + rg() * 2, 1); }
       c.drawImage(rc, 0, 0); }
+    { // die cut register: the purple stamp is row 2; the window is that stamp's outline, in sleeve coordinates
+      const [aw, ah] = KINDS[2], R = 104 * k * ah / 3, cs = Math.cos(TILT[2]), sn = Math.sin(TILT[2]), zx = xs[1] / 3 - 171 - (SL_XA + SL_XB) / 2, zz = (y0 + 2 * ch + ch / 2) / 3 - 171;
+      WIN = stampPoly(aw / ah).map(([px, py]) => { const X = px * R, Y = -py * R; return [zx + X * cs - Y * sn, -zz - (X * sn + Y * cs)]; });
+      WIN_TOP = triangulate(rectPts((SL_XB - SL_XA) / 2, 173), WIN);
+    }
     T.lid = g;
   }
   { // slip sleeve: matte black die-cut card. The window is a real hole; the deboss frames it
@@ -309,8 +311,7 @@ function buildTextures() {
   { // sleeve front: printed white, with the stamp O in red
     const w = 512, h = 300, g = G(w, h), c = g.drawingContext;
     c.fillStyle = 'rgb(' + SLV + ')'; c.fillRect(0, 0, w, h); grain(c, w, h, 1200, 19, 0.035);
-    c.fillStyle = '#fff'; logoBlock(c, 42, 144, w - 84, '#fff'); ringShape(c, 456, 54, 22, '#F2442E', 0.84, 1.2);
-    c.fillStyle = '#7A4BFF'; c.font = '700 40px ' + SANS; c.letterSpacing = '2px'; c.fillText('2026', 42, 244);
+    logoBlock(c, 30, 0, 440, '#fff', { ring: '#F2442E', year: '#7A4BFF', top: 30, rot: -0.08 }); // the logotype exactly as on the brand page, set toward the top left
     T.sleeveFront = g;
   }
   { const g = G(256, 256), c = g.drawingContext, gr = c.createLinearGradient(0, 0, 256, 190);
@@ -405,21 +406,27 @@ function drawScene(P, t) {
   { // the award: the brand mascot in glass. Clear body, tinted glass stamps on the quill tips, a white eye; drawn in the glass pass
     const AM = chain(BM, TR(0, CRAD_TOP - POCKET + AT / 2 + 270 * o.up, 0), RY(0.4 * Math.sin(t * 0.8) * o.hold), RX(o.tilt));
     const C0 = xf(AM, [0, 0, 0]), upN = nrm([AM.r[1], AM.r[4], AM.r[7]]), topNear = dot(upN, sub(CAM, C0)) > 0, toW = (p, y) => [p[0], y, -p[1]];
-    const solid = (tris, ring, y0, y1, col, aF, aS) => {
-      const lite = col.map((v) => Math.min(255, v + 45)), face = (y) => tris.forEach((tr) => glassTri(AM, tr.map((p) => toW(p, y)), col, aF));
-      const sides = () => ring.forEach((a, i) => { const b = ring[(i + 1) % ring.length], q = [toW(a, y1), toW(b, y1), toW(b, y0), toW(a, y0)]; glassTri(AM, [q[0], q[1], q[2]], lite, aS); glassTri(AM, [q[0], q[2], q[3]], lite, aS); });
-      if (topNear) { face(y0); sides(); face(y1); } else { face(y1); sides(); face(y0); }
+    const out = [], TOP = 10;
+    const glassW = (w, col, al) => { const n = facing(w), sh = 0.55 + 0.45 * shade(n), cx = (w[0][0] + w[1][0] + w[2][0]) / 3 - CAM[0], cy = (w[0][1] + w[1][1] + w[2][1]) / 3 - CAM[1], cz = (w[0][2] + w[1][2] + w[2][2]) / 3 - CAM[2]; out.push({ w, r: col[0] * sh, g: col[1] * sh, b: col[2] * sh, a: al, d: cx * cx + cy * cy + cz * cz }); };
+    const emit = (S, zc, col, al, alRim) => {
+      const R = S.rings, L = S.layers, n = R[0].length, lite = col.map((v) => Math.min(255, v + 50)), at = (p, z) => xf(AM, [p[0], zc + z, -p[1]]);
+      const top = R.map((r, i) => r.map((p) => at(p, L[i][1]))), bot = R.map((r, i) => r.map((p) => at(p, -L[i][1])));
+      const quad = (A, B, C, D, c, a) => { glassW([A, B, C], c, a); glassW([A, C, D], c, a); };
+      for (let i = 0; i < R.length - 1; i++) for (let j = 0; j < n; j++) { const j1 = (j + 1) % n; quad(top[i][j], top[i][j1], top[i + 1][j1], top[i + 1][j], col, al); quad(bot[i][j], bot[i][j1], bot[i + 1][j1], bot[i + 1][j], col, al); }
+      for (let j = 0; j < n; j++) { const j1 = (j + 1) % n; quad(top[0][j], top[0][j1], bot[0][j1], bot[0][j], lite, alRim); }
+      const zl = L[L.length - 1][1]; S.cap.forEach((tr) => { glassW(tr.map((p) => at(p, zl)), col, al); glassW(tr.map((p) => at(p, -zl)), col, al); });
     };
-    solid(BODY_T, BODY_P, -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85);
-    STEM_T.forEach((tr, i) => solid(tr, STEM_P[i], -AT / 2, AT / 2, [170, 210, 255], 0.4, 0.85));
-    STAMP_P.forEach((sp) => solid(sp.t, sp.p, 0, AT / 2 + 5, sp.c, 0.72, 0.95));
+    emit(BODY_S, 0, [170, 210, 255], 0.3, 0.55);
+    STEM_S.forEach((S) => emit(S, 0, [170, 210, 255], 0.3, 0.55));
+    STAMP_S.forEach((S) => emit(S, 9, S.c, 0.7, 0.9));
+    out.sort((p, q) => q.d - p.d); out.forEach((q) => GLS.push(q.w, q.r, q.g, q.b, q.a));
     const fan = (P, y, col) => F(AM, [[0, y, 0]].concat(P.map((p) => toW(p, y))).concat([toW(P[0], y)]), col, 1.25);
     const ctr = (P) => [P.reduce((a, p) => a + p[0], 0) / P.length, P.reduce((a, p) => a + p[1], 0) / P.length];
-    { const e = ctr(EYE_P), pu = ctr(PUPIL_P); F(AM, [[e[0], AT / 2 + 0.4, -e[1]]].concat(EYE_P.map((p) => toW(p, AT / 2 + 0.4))).concat([toW(EYE_P[0], AT / 2 + 0.4)]), [250, 250, 250], 1.2);
-      F(AM, [[pu[0], AT / 2 + 0.8, -pu[1]]].concat(PUPIL_P.map((p) => toW(p, AT / 2 + 0.8))).concat([toW(PUPIL_P[0], AT / 2 + 0.8)]), INK, 1.2); }
-    // a diagonal streak of light across the near face
-    const yS = topNear ? AT / 2 + 0.1 : -AT / 2 - 0.1;
-    GLT.push({ tex: T.shine, a: 200, tris: BODY_T.flatMap((tr) => tr.map((p) => [xf(AM, toW(p, yS)), [0.5 + p[0] / 300, 0.5 - p[1] / 220]])) });
+    { const e = ctr(EYE_P), pu = ctr(PUPIL_P); F(AM, [[e[0], TOP + 0.5, -e[1]]].concat(EYE_P.map((p) => toW(p, TOP + 0.5))).concat([toW(EYE_P[0], TOP + 0.5)]), [250, 250, 250], 1.2);
+      F(AM, [[pu[0], TOP + 0.9, -pu[1]]].concat(PUPIL_P.map((p) => toW(p, TOP + 0.9))).concat([toW(PUPIL_P[0], TOP + 0.9)]), INK, 1.2); }
+    // a diagonal streak of light across the near face of the dome
+    const yS = topNear ? TOP + 0.15 : -TOP - 0.15;
+    GLT.push({ tex: T.shine, a: 190, tris: BODY_S.cap.flatMap((tr) => tr.map((p) => [xf(AM, toW(p, yS)), [0.5 + p[0] / 300, 0.5 - p[1] / 220]])) });
   }
   { // lid
     const LM = chain(BM, TR(o.lx, o.ly, 0), RZ(o.lt)), tp = LID_TOP, t0 = tp - 3;
