@@ -94,7 +94,9 @@ input[type=text]:focus{outline:2px solid var(--yellow);outline-offset:0;border-c
 .depth{display:flex;gap:4px;margin:16px 0 8px}
 .depth i{flex:1;height:6px;background:#2d2d2d}
 .depth i.on{background:var(--yellow)}
-.insight{font:400 21px/1.15 var(--serif);margin:16px 0 18px;color:var(--text)}
+.insight{margin:16px 0 18px;padding:12px 14px 14px;border:1px solid var(--yellow);background:rgba(255,243,131,.08);border-radius:10px}
+.insight b{display:inline-block;font:700 9.5px/1 var(--font);letter-spacing:.16em;text-transform:uppercase;background:var(--yellow);color:var(--ink);padding:5px 8px;border-radius:999px;margin-bottom:9px}
+.insight p{font:400 21px/1.15 var(--serif);color:var(--text)}
 .insight em{font-style:italic}
 .drops{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #333;margin-bottom:10px}
 .drops div{padding:8px 7px 9px;border-left:1px solid #333;font-size:11px;color:var(--muted);line-height:1.3}
@@ -147,7 +149,7 @@ input[type=text]:focus{outline:2px solid var(--yellow);outline-offset:0;border-c
       <label class="chk"><input type="checkbox" data-sig="qa"> Live Q&amp;A <small>During</small></label>
       <div class="depth" id="depth" aria-hidden="true"></div>
       <div class="hint" id="depthNote"></div>
-      <div class="insight" id="insight"></div>
+      <div class="insight"><b>Insight</b><p id="insight"></p></div>
     </section>
 
     <section>
